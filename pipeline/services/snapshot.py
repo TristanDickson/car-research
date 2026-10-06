@@ -346,7 +346,8 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         c["specs"] = [{"spec_key": sp["spec_key"], "provider": sp["provider"], "variant": sp.get("variant"),
                        "flags": sp.get("flags"), "features": len(sp.get("features") or []), "options": len(sp.get("options") or []),
                        "numbers": sp.get("numbers"), "last_seen_at": sp.get("last_seen_at")} for sp in mine]
-        c["spec_check"] = spec_check(c, mine)
+        # A generated car's fields come from its spec, so there is nothing to cross-check.
+        c["spec_check"] = {"rows": [], "disagreements": 0} if c.get("auto") else spec_check(c, mine)
         c["image"] = car_image(root, c, next((sp for sp in mine if sp.get("image_url")), None)) or fallback_image(c, renders)
 
     states: dict[str, int] = {}

@@ -58,6 +58,86 @@ def store_artifact(conn: sqlite3.Connection, source: str, cap: Capability, targe
     return new_id, True
 
 
+def _ingest(conn: sqlite3.Connection, provider: Provider, art_id: int, parsed: list, url: str, now: str,
+            records: dict[str, list]) -> tuple[int, int]:
+    """Silver rows for one artifact's records, each offer / spec resolved to a car.
+    Returns (records, unmapped)."""
+    n_rec = n_unmapped = 0
+    # Re-parsing an existing artifact replaces its Silver rows (idempotent).
+    conn.execute("DELETE FROM source_rows WHERE artifact_id=?", (art_id,))
+    for rec in parsed:
+        conn.execute(
+            "INSERT INTO source_rows (artifact_id, source, kind, source_key, row, parsed_at) VALUES (?,?,?,?,?,?)",
+            (art_id, provider.name, rec.kind, rec.key, json.dumps(rec.row, ensure_ascii=False, sort_keys=True), now),
+        )
+        n_rec += 1
+        if rec.kind == "offer" and not rec.row.get("car_id"):
+            ref = dict(rec.row.get("car_ref") or {}, provider=provider.name)
+            car_id, status = gold.resolve_car(conn, ref.get("source", provider.name), ref.get("key", ""),
+                                              ref.get("label"), url, now, ref=ref)
+            if car_id is None:
+                n_unmapped += int(status == "unmapped")
+                continue
+            rec.row["car_id"] = car_id
+        elif rec.kind == "spec" and not rec.row.get("car_id"):
+            # Specs for every variant are kept; a miss is not a mapping task.
+            ref = rec.row.get("car_ref") or {}
+            car_id, _ = gold.resolve_car(conn, ref.get("source", provider.name), ref.get("key", ""),
+                                         ref.get("label"), url, now, record_miss=False)
+            rec.row["car_id"] = car_id
+        records.setdefault(rec.kind, []).append((art_id, rec))
+    return n_rec, n_unmapped
+
+
+def reparse(conn: sqlite3.Connection, provider: Provider, capability: str | None = None,
+            ctx: Context | None = None) -> RunResult:
+    """Run the parser again over the latest stored page of each of the
+    capability's targets, no network: for a parser fix, or a better trim
+    resolution, without waiting for the next scrape. Same Silver → Gold path."""
+    cap = provider.capability_for(capability)
+    if ctx is None:
+        from pipeline.db import ROOT
+        ctx = Context(root=ROOT)
+    ctx.extras.setdefault("db", conn)
+    cur = conn.execute(
+        "INSERT INTO runs (source, capability, target, started_at, status) VALUES (?,?,?,?,'running')",
+        (provider.name, cap.name, "reparse", _now()),
+    )
+    run_id = int(cur.lastrowid)
+    n_art = n_rec = n_unmapped = 0
+    records: dict[str, list] = {}
+    failures: list[str] = []
+    try:
+        for t in cap.discover(Target(identifier="all"), ctx):
+            art = conn.execute(
+                """SELECT id, url, body FROM artifacts WHERE source=? AND capability=? AND target=? AND superseded_by IS NULL
+                     ORDER BY fetched_at DESC, id DESC LIMIT 1""", (provider.name, cap.name, t.identifier),
+            ).fetchone()
+            if not art:
+                continue
+            try:
+                parsed = list(cap.parse(art["body"], t))
+            except Exception as e:  # noqa: BLE001
+                failures.append(f"{t.identifier}: {e}")
+                continue
+            n_art += 1
+            r, u = _ingest(conn, provider, int(art["id"]), parsed, art["url"], _now(), records)
+            n_rec += r
+            n_unmapped += u
+        n_gold = gold.write(conn, provider.name, cap.kinds, records, run_id)
+        conn.execute(
+            "UPDATE runs SET finished_at=?, status='ok', artifacts=?, records=?, unmapped=?, errors=?, error=? WHERE id=?",
+            (_now(), n_art, n_rec, n_unmapped, len(failures), "\n".join(failures) or None, run_id),
+        )
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        conn.execute("UPDATE runs SET finished_at=?, status='error', error=? WHERE id=?", (_now(), traceback.format_exc(), run_id))
+        conn.commit()
+        raise
+    return RunResult(run_id, provider.name, cap.name, n_art, 0, n_rec, n_gold, n_unmapped, len(failures))
+
+
 def run(conn: sqlite3.Connection, provider: Provider, capability: str | None = None,
         target: str = "all", ctx: Context | None = None) -> RunResult:
     cap = provider.capability_for(capability)
@@ -99,29 +179,9 @@ def run(conn: sqlite3.Connection, provider: Provider, capability: str | None = N
             art_id, is_new = store_artifact(conn, provider.name, cap, t, fetched, now)
             n_art += 1
             n_new += int(is_new)
-            # Re-parsing an existing artifact replaces its Silver rows (idempotent).
-            conn.execute("DELETE FROM source_rows WHERE artifact_id=?", (art_id,))
-            for rec in parsed:
-                conn.execute(
-                    "INSERT INTO source_rows (artifact_id, source, kind, source_key, row, parsed_at) VALUES (?,?,?,?,?,?)",
-                    (art_id, provider.name, rec.kind, rec.key, json.dumps(rec.row, ensure_ascii=False, sort_keys=True), now),
-                )
-                n_rec += 1
-                if rec.kind == "offer" and not rec.row.get("car_id"):
-                    ref = dict(rec.row.get("car_ref") or {}, provider=provider.name)
-                    car_id, status = gold.resolve_car(conn, ref.get("source", provider.name), ref.get("key", ""),
-                                                      ref.get("label"), fetched.url, now, ref=ref)
-                    if car_id is None:
-                        n_unmapped += int(status == "unmapped")
-                        continue
-                    rec.row["car_id"] = car_id
-                elif rec.kind == "spec" and not rec.row.get("car_id"):
-                    # Specs for every variant are kept; a miss is not a mapping task.
-                    ref = rec.row.get("car_ref") or {}
-                    car_id, _ = gold.resolve_car(conn, ref.get("source", provider.name), ref.get("key", ""),
-                                                 ref.get("label"), fetched.url, now, record_miss=False)
-                    rec.row["car_id"] = car_id
-                records.setdefault(rec.kind, []).append((art_id, rec))
+            r, u = _ingest(conn, provider, art_id, parsed, fetched.url, now, records)
+            n_rec += r
+            n_unmapped += u
         n_gold = gold.write(conn, provider.name, cap.kinds, records, run_id)
         status = "ok" if (n_art or not failures) else "error"
         conn.execute(

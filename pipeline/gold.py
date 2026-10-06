@@ -47,11 +47,13 @@ def _touch_trim_map(conn: sqlite3.Connection, site: str, key: str, car_id: str |
     )
 
 
-_MODEL_NOISE = {"electric", "hatchback", "estate", "saloon", "suv", "mpv", "coupe", "ev", "e-tech", "hatch", "5dr", "4dr"}
+_MODEL_NOISE = {"electric", "electrified", "hatchback", "estate", "saloon", "suv", "mpv", "coupe", "ev", "e-tech", "hatch",
+                "5dr", "4dr", "sportback", "fastback", "gran", "tourer", "touring", "shooting", "brake", "cabrio", "convertible"}
 
 
 def _model_norm(s: str | None) -> str:
-    words = [w for w in (s or "").lower().replace("-", " ").split() if w not in _MODEL_NOISE]
+    words = [w.lstrip("0") or "0" if w.isdigit() else w   # 'Ora 03' is 'Ora 3'
+             for w in (s or "").lower().replace("-", " ").split() if w not in _MODEL_NOISE]
     return " ".join(words)
 
 

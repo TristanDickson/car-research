@@ -121,8 +121,11 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str, mak
                 continue
             seen.add(cap)
             e = dict(engines.get(engine, {}))
-            if not e.get("battery_kwh") and not model_facts.get("battery_kwh"):
-                e["battery_kwh"] = _num(engine, "kWh")  # most pages only print it in the engine name
+            # Engine facts win over model facts, but never with a blank; the battery
+            # is usually only printed in the engine name ('108kW 42kWh Auto').
+            numbers = dict(model_facts)
+            numbers.update({k: v for k, v in e.items() if k != "raw" and v is not None})
+            numbers["battery_kwh"] = e.get("battery_kwh") or _num(engine, "kWh") or model_facts.get("battery_kwh")
             rows.append({
                 "spec_key": f"{SITE}:{cap}", "source": "Carwow specifications", "source_url": url,
                 "observed_at": observed_at, "make": make_name, "make_slug": make, "model": model_name, "model_slug": model,
@@ -134,7 +137,7 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str, mak
                              f"https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D={cap}&filter%5Bsize%5D=800",
                 "description": text(desc.group(1)) if desc else None,
                 "features": items, "options": [], "flags": flags_for(items, []),
-                "numbers": {**model_facts, **{k: v for k, v in e.items() if k != "raw"}},
+                "numbers": numbers,
                 "raw_numbers": e.get("raw", {}),
             })
     return rows

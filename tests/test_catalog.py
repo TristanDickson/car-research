@@ -237,6 +237,22 @@ class DerivativeMatcher(unittest.TestCase):
         self.assertEqual(match.best("150kW GT-Line S 81.4kWh 5dr Auto [Heat Pump]", self.CARS)["id"], "d")
         self.assertEqual(match.best("150kW GT-Line 81.4kWh 5dr Auto", self.CARS)["id"], "c")
 
+    def test_option_pack_twins_go_to_the_base_derivative_and_plus_trims_stay_apart(self):
+        twins = [
+            {"id": "p1", "trim": "Black Edition · 210kW Performance 82kWh Auto", "variant": "210kW Performance 82kWh Auto", "list_price_gbp": 52210.0},
+            {"id": "p2", "trim": "Black Edition · 210kW Perf 82kWh Auto", "variant": "210kW Perf 82kWh Auto", "list_price_gbp": 54110.0},
+            {"id": "s1", "trim": "Sport · 210kW Performance 82kWh Auto", "variant": "210kW Performance 82kWh Auto", "list_price_gbp": 46260.0},
+        ]
+        # The broker omits 'Performance'; both Black Edition derivatives fit and the cheaper one takes the price.
+        self.assertEqual(match.best("210kW 45 82kWh Black Edition 5dr Auto [5 seat]", twins)["id"], "p1")
+        plus = [
+            {"id": "gt", "trim": "GT · 130kW 52kWh Auto", "variant": "130kW 52kWh Auto", "list_price_gbp": 33500.0},
+            {"id": "gt+", "trim": "GT+ · 130kW 52kWh Auto", "variant": "130kW 52kWh Auto", "list_price_gbp": 33995.0},
+        ]
+        self.assertEqual(match.best("130kW GT 52kWh 5dr Auto", plus)["id"], "gt")
+        self.assertEqual(match.best("130kW GT+ 52kWh 5dr Auto", plus)["id"], "gt+")
+        self.assertIsNone(match.best("130kW GT Premiere 52kWh 5dr Auto", [plus[1]]), "'GT+' is not in the text")
+
     def test_contradiction_or_tie_is_a_miss(self):
         self.assertIsNone(match.best("150kW Air 64kWh 5dr Auto", self.CARS), "no 64kWh EV3")
         self.assertIsNone(match.best("150kW 81.4kWh 5dr Auto", self.CARS[1:3]), "Air or GT-Line? not ours to guess")

@@ -61,6 +61,27 @@ def cmd_run(args) -> int:
     return 0
 
 
+def cmd_reparse(args) -> int:
+    """Parse the stored pages again (no network) and rewrite history + snapshot."""
+    from pipeline.providers import PROVIDERS
+    from pipeline.runner import reparse
+    from pipeline.services.snapshot import export_snapshot
+
+    conn = _open()
+    only = set(args.only.split(",")) if args.only else None
+    for name, provider in PROVIDERS.items():
+        if only and name not in only:
+            continue
+        for cap in provider.capabilities:
+            if cap == "backfill":
+                continue
+            _print_run(reparse(conn, provider, cap))
+    _write_history(conn)
+    manifest = export_snapshot(conn, args.out, generated_at=args.generated_at)
+    print(f"snapshot -> {args.out}: {json.dumps(manifest['counts'])}")
+    return 0
+
+
 def cmd_import_seed(args) -> int:
     args.provider, args.capability, args.target = "manual_seed", None, "all"
     return cmd_run(args)
@@ -234,6 +255,12 @@ def main(argv=None) -> int:
     r.set_defaults(func=cmd_run)
 
     sub.add_parser("import-seed", help="Import data/seed/*.json (the manual_seed provider).").set_defaults(func=cmd_import_seed)
+
+    rp = sub.add_parser("reparse", help="Re-run the parsers over the stored pages (no network), e.g. after a parser or matcher fix.")
+    rp.add_argument("--only", help="Comma-separated provider names.")
+    rp.add_argument("--out", default=str(DEFAULT_OUT))
+    rp.add_argument("--generated-at")
+    rp.set_defaults(func=cmd_reparse)
 
     e = sub.add_parser("export-snapshot", help="Write the static JSON snapshot.")
     e.add_argument("--out", default=str(DEFAULT_OUT))

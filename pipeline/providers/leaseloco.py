@@ -65,8 +65,12 @@ def parse_page(page: str, url: str, observed_at: str) -> list[dict]:
         v, p = d.get("vehicle") or {}, d.get("vehiclePrice") or {}
         if not v or not p or p.get("monthlyPayment") is None:
             continue
-        # The Kona Electric page also lists petrol and hybrid Konas.
-        if (v.get("fuelTypeName") or "").lower() != "electric" and "kw" not in (v.get("derivativeName") or "").lower():
+        # The Kona Electric page also lists petrol and hybrid Konas (and a plug-in's
+        # '22.3 kWh' is not an EV): the fuel type decides when the page gives one.
+        fuel = (v.get("fuelTypeName") or "").lower()
+        if fuel and fuel != "electric":
+            continue
+        if not fuel and not re.search(r"\d\s*kw(?!h)", (v.get("derivativeName") or "").lower()):
             continue
         monthly = round(float(p["monthlyPayment"]) * VAT, 2)
         init_months = int(p.get("initialPaymentInMonths") or 1)
