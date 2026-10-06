@@ -70,6 +70,8 @@ class Provider:
     name: str
     default_capability: str
     capabilities: dict[str, Capability]
+    # live providers fetch the web; CI replays history with --offline and skips them.
+    live: bool = False
 
     def capability_for(self, name: str | None) -> Capability:
         if name is None:

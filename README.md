@@ -61,53 +61,88 @@ Test-drive shortlist: Ioniq 3 Ultimate EV Pack and PV5 Elite 7-seat, Inster as t
 ## How it fits together
 
 ```
-data/seed/*.json ────────┐
-data/pastes/carwow/*.txt ┼─▶ pipeline (Python) ─▶ SQLite ─▶ web/public/data/*.json (committed)
-scrapers (todo) ─────────┘     bronze/silver/gold           offers = latest sighting + maths + freshness
-                               trim map resolves each       push main ─▶ Pages ─▶ SPA
-                               source's trim naming         SPA loads JSON into IndexedDB
+data/seed/*.json ─────────────┐
+data/pastes/carwow/*.txt ─────┼─▶ pipeline (Python) ─▶ SQLite ─▶ web/public/data/*.json (committed)
+live scrapers (5 sites) ──────┘     bronze/silver/gold           offers = latest sighting + maths + freshness
+data/history/observations.jsonl ┘   trim map resolves each       push main ─▶ Pages ─▶ SPA
+   (committed sighting log,         source's trim naming         SPA loads JSON into IndexedDB
+    replayed so CI needs no network)
 ```
 
 Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
 
+## Where the prices come from
+
+| Provider | What it reads | What it yields | Offline? |
+| --- | --- | --- | --- |
+| `manual_seed` | `data/seed/*.json` | cars, requirements, trim map, 29 hand-captured offers | yes |
+| `carwow_paste` | `data/pastes/carwow/*.txt` | dealer PCP quotes from the logged-in Carwow account (4 so far) | yes |
+| `carwow_deals` | carwow.co.uk public `<make>/<model>/deals` pages | Carwow's best cash price per derivative (CAP id), Kia's separate "PCP finance" price, the model-level representative PCP example | scrapes |
+| `hyundai_offers` | hyundai.com/uk per-model offer pages | Hyundai Finance's full national PCP example per model (deposit, contribution, APR, GFV, validity dates) | scrapes |
+| `ncd` | new-car-discount.com model listings | broker all-in cash price per derivative | scrapes |
+| `leaseloco` | leaseloco.com model pages | best personal-lease deal per derivative and profile, VAT added | scrapes |
+| `rrg` | rrg-group.com Kia PV5 offers | the dealer's PCP example for the PV5 7-seat | scrapes |
+
+Every scrape is an observation: the body is kept (Bronze), parsed (Silver), resolved to one of
+our 19 trims through the trim map and written as a sighting (Gold). Re-seeing the same price
+extends the sighting; a changed price is a new row; a price not seen for 14 days is stale and
+drops out of the best-price summaries. Kia's own quote widget currently returns "No quote
+available" for every car, so Kia Finance examples are hand-captured for now; Richmond and
+cars2buy block automated reads and stay as pastes.
+
 ## Repo layout
 
 ```
-pipeline/               Python package: providers, SQLite medallion, snapshot exporter, CLI
-  providers/            manual_seed (data/seed → gold), carwow_paste (pasted pages → offers); scrapers go here
+pipeline/               Python package: providers, SQLite medallion, snapshot exporter, history, CLI
+  providers/            manual_seed, carwow_paste, and the live scrapers (carwow_deals, hyundai_offers, ncd, leaseloco, rrg)
+                        http.py (polite fetch: UA, per-host delay, retry) and parse.py (money/pct/text/key helpers)
   services/snapshot.py  Gold → web/public/data: offers with metrics + freshness, requirement checks, data page
+  history.py            offer_observations ⇄ data/history/observations.jsonl (so CI and a fresh clone replay the past)
 model/deal_math.py      PCP / PCH / cash normalisation (pinned by tests/test_deal_math.py)
-data/seed/              hand-captured cars (19), offers (29), requirements, trim map
+data/seed/              hand-captured cars (19), offers (29), requirements, trim map (50 mapped, the rest ignored on purpose)
 data/pastes/            pasted source pages, one file each (carwow: 4, richmond: 2)
-web/                    Next.js static SPA: overview, cars, car detail with price board, offers, requirements, data
+data/history/           the committed sighting log, appended by every refresh
+web/                    Next.js static SPA: pick, compare, cars, car detail with price board, offers, requirements, data
   public/data/          the committed snapshot the SPA reads
 docs/                   requirements, research notes, architecture, generated deal table,
   transcripts/          raw source conversations (contact details redacted)
-tests/                  Python unit tests (deal maths, import/export)
-.github/workflows/      pages-deploy, web-ci, pipeline-ci (fails if the snapshot is stale)
+tests/                  Python unit tests; tests/fixtures holds one real page per scraper
+.github/workflows/      pages-deploy, web-ci, pipeline-ci (offline replay; fails if the snapshot is stale), scrape (nightly)
 ```
 
 ## Working on it
 
 ```
-make snapshot      # import seed → SQLite → web/public/data   (run after editing data/seed)
+make snapshot      # run every provider (live scrape) → SQLite → data/history + web/public/data
+make snapshot-offline   # same without the network: seed + pastes + replayed history
 make test          # python unittest + web lint/typecheck/vitest
 make web-dev       # http://localhost:3001
 python3 -m pipeline deal-table > docs/deal-comparison.md
+python3 -m pipeline trims        # anything scraped that is not yet in the trim map
 ```
 
 Python ≥ 3.11 with no third-party packages; Node 22 (`cd web && npm install`).
 
+**Nightly:** `.github/workflows/scrape.yml` runs every provider at 03:17 UTC, commits
+`data/history`, `web/public/data` and `docs/deal-comparison.md` when anything changed, and
+redeploys the app. A site that changes its layout shows up as a provider with 0 records in the
+run and its offers going stale a fortnight later; fix the parser against a fresh fixture.
+
 **To add a Carwow quote:** copy the dealer-offer page text from your logged-in browser into
 `data/pastes/carwow/<date>_<dealid>.txt`, first line `# captured_at: 2026-10-07T09:00:00Z`,
-then `make snapshot`. If the trim is new, `python3 -m pipeline trims` tells you what to add to
-`data/seed/trim_map.json`. Re-pasting the same offer on a later date records a new sighting
-(and any price change) rather than overwriting.
+then `make snapshot-offline`. If the trim is new, `python3 -m pipeline trims` tells you what to
+add to `data/seed/trim_map.json`. Re-pasting the same offer on a later date records a new
+sighting (and any price change) rather than overwriting.
 
 **To add any other offer or a car:** edit `data/seed/deals.json` or `cars.json` following the
 existing entries (every offer has `captured_at`, `status`, `verification`, a `source`, and prices
-net of discount and grant), run `make snapshot`, commit the seed and the regenerated snapshot
-together. CI rejects a seed change without its snapshot, and rejects unmapped trims.
+net of discount and grant), run `make snapshot-offline`, commit the seed and the regenerated
+snapshot together. CI rejects a seed change without its snapshot, and rejects unmapped trims.
+
+**When a scraper meets a new derivative:** `python3 -m pipeline trims` prints it with the label
+as the site printed it. Add a row to `data/seed/trim_map.json` with the `car_id` it is, or with
+`"status": "ignored"` and a note if it is a derivative we do not track (wrong pack, no heat
+pump, 5-seat). Nothing is ever attached to a guessed car.
 
 ## Deploy
 
@@ -129,6 +164,11 @@ repo: **Settings → Pages → Source = "GitHub Actions"**.
 
 ## Context log
 
+- **2026-10-06** Live scrapers: Carwow public deals pages, Hyundai UK offer pages, New Car
+  Discount, LeaseLoco and RRG, each pinned to a real captured page in `tests/fixtures`. Sightings
+  are logged to `data/history/observations.jsonl` and replayed so CI and fresh clones need no
+  network. Nightly scrape workflow. 80 offers across 19 trims after the first live run; the trim
+  map carries 50 mapped derivatives and ~150 deliberately ignored ones.
 - **2026-10-06** Offers became observations: offer keys, sighting history, freshness (stale after
   14 days, gone, auto-expiry), a trim map with an unmapped queue, and a Carwow paste provider
   with the four real pages from the transcript as fixtures. SPA gained Offers and Data pages.
@@ -141,10 +181,12 @@ repo: **Settings → Pages → Source = "GitHub Actions"**.
 
 ## Next steps
 
-1. Confirm the three cash leads are like-for-like and available for December (Kona Ultimate
-   £26,966, EV2 £29,666, EV3 £37,263) using the enquiry script in `docs/research-notes.md`.
+1. Confirm the cash leads are like-for-like and available for December using the enquiry
+   script in `docs/research-notes.md`; the scraped NCD and Carwow prices are leads, not quotes.
 2. Get the Ioniq 3 Premium EV Pack GFV so a ~£400 PCP alternative can be priced properly.
-3. First scraper: Carwow dealer offers (full PCP representative examples), then Cars2buy
-   derivative prices for cash benchmarks, then manufacturer offer pages for campaign terms.
-4. Intrinsic-value model: start with £/kWh, £/mile of range and £/kg against segment, then
+3. Kia Finance examples: the `kiaofferscalculator.co.uk` quote API answers "No quote available"
+   for every parameter set today (the live widget too); revisit, else keep hand-capturing.
+4. Richmond paste parser (two pages saved under `data/pastes/richmond/`), and a used-market
+   provider once a source that allows automated reads is found.
+5. Intrinsic-value model: start with £/kWh, £/mile of range and £/kg against segment, then
    residual-value evidence from used listings.

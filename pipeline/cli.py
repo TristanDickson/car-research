@@ -51,16 +51,50 @@ def cmd_export_snapshot(args) -> int:
 
 
 def cmd_refresh(args) -> int:
+    """seed → replay history → (file + live providers) → write history → snapshot.
+
+    A failing provider is reported and skipped; the snapshot is still written from
+    whatever succeeded plus the replayed history."""
+    from pipeline.history import export_history, import_history
     from pipeline.providers import PROVIDERS
     from pipeline.runner import run
     from pipeline.services.snapshot import export_snapshot
 
     conn = _open()
-    for provider in PROVIDERS.values():
+    only = set(args.only.split(",")) if args.only else None
+    failed = []
+    for name, provider in PROVIDERS.items():
+        if only and name not in only:
+            continue
+        if args.offline and provider.live:
+            continue
         for cap in provider.capabilities:
-            _print_run(run(conn, provider, cap))
+            try:
+                _print_run(run(conn, provider, cap))
+            except Exception as e:  # noqa: BLE001
+                failed.append(f"{name}/{cap}: {e}")
+                print(f"{name}/{cap}: FAILED ({e})")
+        if name == "manual_seed":
+            n = import_history(conn)
+            print(f"history: {n} observations replayed from data/history")
+    n = export_history(conn)
+    print(f"history: {n} observations written to data/history")
     manifest = export_snapshot(conn, args.out, generated_at=args.generated_at)
     print(f"snapshot -> {args.out}: {json.dumps(manifest['counts'])}")
+    if failed:
+        print("providers that failed:", *failed, sep="\n  ")
+    return 0
+
+
+def cmd_export_history(args) -> int:
+    from pipeline.history import export_history
+    print(f"history: {export_history(_open())} observations written")
+    return 0
+
+
+def cmd_import_history(args) -> int:
+    from pipeline.history import import_history
+    print(f"history: {import_history(_open())} observations replayed")
     return 0
 
 
@@ -71,7 +105,7 @@ def cmd_status(args) -> int:
         print(f"{table:19s} {n}")
     for r in conn.execute("SELECT * FROM runs ORDER BY id DESC LIMIT 5"):
         print(f"run {r['id']} {r['source']}/{r['capability']} {r['status']} {r['finished_at']} "
-              f"records={r['records']} unmapped={r['unmapped']}")
+              f"records={r['records']} unmapped={r['unmapped']} errors={r['errors']}")
     return 0
 
 
@@ -120,7 +154,12 @@ def main(argv=None) -> int:
     f = sub.add_parser("refresh", help="Run every provider in order, then export the snapshot.")
     f.add_argument("--out", default=str(DEFAULT_OUT))
     f.add_argument("--generated-at", help="Pin the snapshot timestamp (CI uses the committed one to diff deterministically).")
+    f.add_argument("--offline", action="store_true", help="Skip live providers; replay data/history only.")
+    f.add_argument("--only", help="Comma-separated provider names to run (manual_seed always recommended first).")
     f.set_defaults(func=cmd_refresh)
+
+    sub.add_parser("export-history", help="Write offer observations to data/history/observations.jsonl.").set_defaults(func=cmd_export_history)
+    sub.add_parser("import-history", help="Replay data/history/observations.jsonl into the DB.").set_defaults(func=cmd_import_history)
 
     sub.add_parser("status", help="Row counts and recent runs.").set_defaults(func=cmd_status)
     sub.add_parser("trims", help="List source trims that are not mapped to a car (exit 1 if any).").set_defaults(func=cmd_trims)

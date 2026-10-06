@@ -14,6 +14,7 @@
    "history": [
     {
      "apr": 0.0,
+     "confirmed_at": "2026-10-04",
      "gfv": 24000,
      "monthly_payment": 540,
      "observed_at": "2026-10-04",
@@ -82,6 +83,7 @@
    "first_seen_at": "2026-10-04",
    "history": [
     {
+     "confirmed_at": "2026-10-04",
      "initial_rental": 3000,
      "monthly_rental": 279,
      "observed_at": "2026-10-04",
@@ -140,6 +142,7 @@
    "history": [
     {
      "apr": 0.0,
+     "confirmed_at": "2026-10-04",
      "gfv": 12069,
      "monthly_payment": 359.19,
      "observed_at": "2026-10-04",
@@ -161,14 +164,19 @@
   "list_price": 35000,
   "manufacturer_contribution": 0,
   "metrics": {
+   "acquisition_penalty_vs_cash": 4412.0,
    "amount_of_credit": 25000,
    "apr_implied": 0.0,
    "apr_stated": 0.0,
+   "best_cash_deal_id": "ncd:/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-advance-65kwh-5dr-auto/23/",
+   "best_cash_price": 23588.0,
    "cost_of_credit": 0.0,
    "customer_deposit": 3000,
    "derived_fields": [],
    "effective_monthly_hand_back": 430.57,
+   "effective_rate_vs_cash": 0.0904,
    "finance_vs_own_cash_price": 0.0,
+   "funding_premium_vs_cash": 4412.0,
    "gfv": 12069,
    "gfv_pct_of_list": 0.345,
    "gfv_pct_of_price": 0.431,
@@ -217,6 +225,7 @@
    "history": [
     {
      "apr": 0.0,
+     "confirmed_at": "2026-10-04",
      "gfv": 12069,
      "monthly_payment": 430.58,
      "observed_at": "2026-10-04",
@@ -238,14 +247,19 @@
   "list_price": 35000,
   "manufacturer_contribution": 0,
   "metrics": {
+   "acquisition_penalty_vs_cash": 4412.0,
    "amount_of_credit": 27570,
    "apr_implied": 0.0,
    "apr_stated": 0.0,
+   "best_cash_deal_id": "ncd:/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-advance-65kwh-5dr-auto/23/",
+   "best_cash_price": 23588.0,
    "cost_of_credit": 0.0,
    "customer_deposit": 430,
    "derived_fields": [],
    "effective_monthly_hand_back": 430.57,
+   "effective_rate_vs_cash": 0.0835,
    "finance_vs_own_cash_price": 0.0,
+   "funding_premium_vs_cash": 4412.0,
    "gfv": 12069,
    "gfv_pct_of_list": 0.345,
    "gfv_pct_of_price": 0.431,
@@ -289,6 +303,7 @@
    "history": [
     {
      "apr": 0.039,
+     "confirmed_at": "2026-10-04",
      "gfv": 17370,
      "monthly_payment": 419,
      "observed_at": "2026-10-04",
@@ -310,14 +325,19 @@
   "list_price": 36995,
   "manufacturer_contribution": 0,
   "metrics": {
+   "acquisition_penalty_vs_cash": 1456.0,
    "amount_of_credit": 29696,
    "apr_implied": 0.0385,
    "apr_stated": 0.039,
+   "best_cash_deal_id": "ncd:/car/kia/pv5-electric-estate/mpv/electric/automatic/120kw-essential-long-range-71kwh-5dr-auto-7-seat/26/",
+   "best_cash_price": 32739.0,
    "cost_of_credit": 2758.0,
    "customer_deposit": 4499,
    "derived_fields": [],
    "effective_monthly_hand_back": 529.27,
+   "effective_rate_vs_cash": 0.0613,
    "finance_vs_own_cash_price": 2758.0,
+   "funding_premium_vs_cash": 4214.0,
    "gfv": 17370,
    "gfv_pct_of_list": 0.47,
    "gfv_pct_of_price": 0.508,
@@ -354,6 +374,7 @@
    "first_seen_at": "2026-10-04",
    "history": [
     {
+     "confirmed_at": "2026-10-04",
      "observed_at": "2026-10-04",
      "present": true,
      "source": "manual_seed",
@@ -396,6 +417,7 @@
    "first_seen_at": "2026-10-04",
    "history": [
     {
+     "confirmed_at": "2026-10-04",
      "initial_rental": 5006.76,
      "monthly_rental": 417.23,
      "observed_at": "2026-10-04",
@@ -445,6 +467,7 @@
    "first_seen_at": "2026-10-04",
    "history": [
     {
+     "confirmed_at": "2026-10-04",
      "initial_rental": 2505.6,
      "monthly_rental": 417.6,
      "observed_at": "2026-10-04",
@@ -488,6 +511,7 @@
    "history": [
     {
      "apr": 0.029,
+     "confirmed_at": "2026-10-04",
      "observed_at": "2026-10-04",
      "present": true,
      "source": "manual_seed"
@@ -531,6 +555,7 @@
    "history": [
     {
      "apr": 0.039,
+     "confirmed_at": "2026-10-04",
      "observed_at": "2026-10-04",
      "present": true,
      "source": "manual_seed"
@@ -575,6 +600,7 @@
    "first_seen_at": "2026-10-04",
    "history": [
     {
+     "confirmed_at": "2026-10-04",
      "initial_rental": 3750,
      "monthly_rental": 319,
      "observed_at": "2026-10-04",
@@ -628,6 +654,7 @@
    "history": [
     {
      "apr": 0.039,
+     "confirmed_at": "2026-10-05",
      "gfv": 20063.14,
      "observed_at": "2026-10-05",
      "present": true,
@@ -703,6 +730,7 @@
    "history": [
     {
      "apr": 0.039,
+     "confirmed_at": "2026-10-05",
      "observed_at": "2026-10-05",
      "present": true,
      "source": "manual_seed",
@@ -743,6 +771,7 @@
    "first_seen_at": "2026-10-05",
    "history": [
     {
+     "confirmed_at": "2026-10-05",
      "observed_at": "2026-10-05",
      "present": true,
      "source": "manual_seed",
@@ -789,6 +818,7 @@
    "history": [
     {
      "apr": 0.039,
+     "confirmed_at": "2026-10-05",
      "gfv": 18661.5,
      "observed_at": "2026-10-05",
      "present": true,
@@ -809,16 +839,21 @@
   "list_price": 41975,
   "manufacturer_contribution": 0,
   "metrics": {
+   "acquisition_penalty_vs_cash": 1758.0,
    "amount_of_credit": 40330,
    "apr_implied": 0.039,
    "apr_stated": 0.039,
+   "best_cash_deal_id": "ncd:/car/kia/pv5-electric-estate/mpv/electric/automatic/120kw-elite-long-range-71kwh-5dr-auto-7-seat/26/",
+   "best_cash_price": 38572.0,
    "cost_of_credit": 3505.36,
    "customer_deposit": 0.0,
    "derived_fields": [
     "monthly_payment"
    ],
    "effective_monthly_hand_back": 680.37,
+   "effective_rate_vs_cash": 0.0608,
    "finance_vs_own_cash_price": 3505.36,
+   "funding_premium_vs_cash": 5263.36,
    "gfv": 18661.5,
    "gfv_pct_of_list": 0.445,
    "gfv_pct_of_price": 0.463,
@@ -856,6 +891,7 @@
    "first_seen_at": "2026-10-05",
    "history": [
     {
+     "confirmed_at": "2026-10-05",
      "observed_at": "2026-10-05",
      "present": true,
      "source": "manual_seed",
@@ -899,6 +935,7 @@
    "first_seen_at": "2026-10-05",
    "history": [
     {
+     "confirmed_at": "2026-10-05",
      "initial_rental": 4098,
      "monthly_rental": 342,
      "observed_at": "2026-10-05",
@@ -950,6 +987,7 @@
    "first_seen_at": "2026-10-05",
    "history": [
     {
+     "confirmed_at": "2026-10-05",
      "initial_rental": 6521.04,
      "monthly_rental": 543.42,
      "observed_at": "2026-10-05",
@@ -997,6 +1035,7 @@
    "first_seen_at": "2026-10-05",
    "history": [
     {
+     "confirmed_at": "2026-10-05",
      "observed_at": "2026-10-05",
      "present": true,
      "source": "manual_seed",
@@ -1038,6 +1077,7 @@
    "first_seen_at": "2026-10-05",
    "history": [
     {
+     "confirmed_at": "2026-10-05",
      "observed_at": "2026-10-05",
      "present": true,
      "source": "manual_seed",
@@ -1084,6 +1124,7 @@
    "history": [
     {
      "apr": 0.039,
+     "confirmed_at": "2026-10-05",
      "gfv": 18661.5,
      "monthly_payment": 467.98,
      "observed_at": "2026-10-05",
@@ -1105,14 +1146,19 @@
   "list_price": 41975,
   "manufacturer_contribution": 0,
   "metrics": {
+   "acquisition_penalty_vs_cash": 1903.0,
    "amount_of_credit": 32476,
    "apr_implied": 0.039,
    "apr_stated": 0.039,
+   "best_cash_deal_id": "ncd:/car/kia/pv5-electric-estate/mpv/electric/automatic/120kw-elite-long-range-71kwh-5dr-auto-7-seat/26/",
+   "best_cash_price": 38572.0,
    "cost_of_credit": 3032.78,
    "customer_deposit": 7999,
    "derived_fields": [],
    "effective_monthly_hand_back": 671.52,
+   "effective_rate_vs_cash": 0.0666,
    "finance_vs_own_cash_price": 3032.78,
+   "funding_premium_vs_cash": 4935.78,
    "gfv": 18661.5,
    "gfv_pct_of_list": 0.445,
    "gfv_pct_of_price": 0.461,
@@ -1152,6 +1198,7 @@
    "first_seen_at": "2026-10-05",
    "history": [
     {
+     "confirmed_at": "2026-10-05",
      "initial_rental": 4198.01,
      "monthly_rental": 466.45,
      "observed_at": "2026-10-05",
@@ -1202,6 +1249,7 @@
    "history": [
     {
      "apr": 0.0,
+     "confirmed_at": "2026-10-05",
      "observed_at": "2026-10-05",
      "present": true,
      "source": "manual_seed"
@@ -1244,6 +1292,7 @@
    "history": [
     {
      "apr": 0.089,
+     "confirmed_at": "2026-10-05",
      "gfv": 10289.63,
      "monthly_payment": 354.72,
      "observed_at": "2026-10-05",
@@ -1264,9 +1313,12 @@
   "list_price": null,
   "manufacturer_contribution": 0,
   "metrics": {
+   "acquisition_penalty_vs_cash": 1498.18,
    "amount_of_credit": 21640.18,
    "apr_implied": 0.089,
    "apr_stated": 0.089,
+   "best_cash_deal_id": "carwow:cash:110664",
+   "best_cash_price": 20497.0,
    "cost_of_credit": 5676.01,
    "customer_deposit": 355,
    "derived_fields": [
@@ -1274,7 +1326,9 @@
     "vehicle_price"
    ],
    "effective_monthly_hand_back": 354.73,
+   "effective_rate_vs_cash": 0.1192,
    "finance_vs_own_cash_price": 5676.01,
+   "funding_premium_vs_cash": 7174.19,
    "gfv": 10289.63,
    "gfv_pct_of_list": null,
    "gfv_pct_of_price": 0.468,
@@ -1314,6 +1368,7 @@
    "history": [
     {
      "apr": 0.089,
+     "confirmed_at": "2026-10-05",
      "observed_at": "2026-10-05",
      "present": true,
      "source": "manual_seed"
@@ -1357,6 +1412,7 @@
    "history": [
     {
      "apr": 0.0,
+     "confirmed_at": "2026-10-05",
      "observed_at": "2026-10-05",
      "present": true,
      "source": "manual_seed"
@@ -1397,6 +1453,7 @@
    "history": [
     {
      "apr": 0.039,
+     "confirmed_at": "2026-10-05",
      "observed_at": "2026-10-05",
      "present": true,
      "source": "manual_seed"
@@ -1438,6 +1495,7 @@
    "history": [
     {
      "apr": 0.039,
+     "confirmed_at": "2026-10-05",
      "observed_at": "2026-10-05",
      "present": true,
      "source": "manual_seed"
@@ -1504,6 +1562,7 @@
    "history": [
     {
      "apr": 0.028999999999999998,
+     "confirmed_at": "2026-10-05T15:26:50Z",
      "gfv": 14157.65,
      "monthly_payment": 546.64,
      "observed_at": "2026-10-05T15:26:50Z",
@@ -1604,6 +1663,7 @@
    "history": [
     {
      "apr": 0.08900000000000001,
+     "confirmed_at": "2026-10-05T15:26:50Z",
      "gfv": 14039.28,
      "monthly_payment": 526.07,
      "observed_at": "2026-10-05T15:26:50Z",
@@ -1625,19 +1685,19 @@
   "location": "Surrey",
   "manufacturer_contribution": 0.0,
   "metrics": {
-   "acquisition_penalty_vs_cash": 0.0,
+   "acquisition_penalty_vs_cash": 1825.0,
    "amount_of_credit": 27445.0,
    "apr_implied": 0.089,
    "apr_stated": 0.08900000000000001,
-   "best_cash_deal_id": "2026-10-05_carwow_ioniq3-61-ultimate-evpack_cash",
-   "best_cash_price": 27445,
+   "best_cash_deal_id": "carwow:cash:111015",
+   "best_cash_price": 25620.0,
    "cost_of_credit": 5532.8,
    "customer_deposit": 0.0,
    "derived_fields": [],
    "effective_monthly_hand_back": 511.85,
-   "effective_rate_vs_cash": 0.089,
+   "effective_rate_vs_cash": 0.1254,
    "finance_vs_own_cash_price": 5532.8,
-   "funding_premium_vs_cash": 5532.8,
+   "funding_premium_vs_cash": 7357.8,
    "gfv": 14039.28,
    "gfv_pct_of_list": 0.45,
    "gfv_pct_of_price": 0.512,
@@ -1704,6 +1764,7 @@
    "history": [
     {
      "apr": 0.0,
+     "confirmed_at": "2026-10-05T15:31:49Z",
      "gfv": 11112.3,
      "monthly_payment": 324.62,
      "observed_at": "2026-10-05T15:31:49Z",
@@ -1725,14 +1786,19 @@
   "location": "Surrey",
   "manufacturer_contribution": 3000.0,
   "metrics": {
+   "acquisition_penalty_vs_cash": 1983.75,
    "amount_of_credit": 22798.75,
    "apr_implied": -0.0,
    "apr_stated": 0.0,
+   "best_cash_deal_id": "ncd:/car/hyundai/inster-electric-hatchback/hatchback/electric/automatic/85kw-02-49kwh-5dr-auto/24/",
+   "best_cash_price": 20815.0,
    "cost_of_credit": -0.13,
    "customer_deposit": 0.0,
    "derived_fields": [],
    "effective_monthly_hand_back": 315.85,
+   "effective_rate_vs_cash": 0.0409,
    "finance_vs_own_cash_price": -3000.13,
+   "funding_premium_vs_cash": 1983.62,
    "gfv": 11112.3,
    "gfv_pct_of_list": 0.41,
    "gfv_pct_of_price": 0.431,
@@ -1800,6 +1866,7 @@
    "history": [
     {
      "apr": 0.0,
+     "confirmed_at": "2026-10-05T15:55:03Z",
      "gfv": 17528.97,
      "monthly_payment": 651.89,
      "observed_at": "2026-10-05T15:55:03Z",
@@ -1821,14 +1888,19 @@
   "location": "Surrey",
   "manufacturer_contribution": 3000.0,
   "metrics": {
+   "acquisition_penalty_vs_cash": 6617.1,
    "amount_of_credit": 40997.1,
    "apr_implied": -0.0,
    "apr_stated": 0.0,
+   "best_cash_deal_id": "ncd:/car/hyundai/ioniq-5-electric-hatchback/hatchback/electric/automatic/168kw-premium-84-kwh-5dr-auto/24/",
+   "best_cash_price": 34380.0,
    "cost_of_credit": -0.09,
    "customer_deposit": 0.0,
    "derived_fields": [],
    "effective_monthly_hand_back": 634.27,
+   "effective_rate_vs_cash": 0.085,
    "finance_vs_own_cash_price": -3000.09,
+   "funding_premium_vs_cash": 6617.01,
    "gfv": 17528.97,
    "gfv_pct_of_list": 0.375,
    "gfv_pct_of_price": 0.398,
@@ -1869,6 +1941,7 @@
    "first_seen_at": "2026-10-06",
    "history": [
     {
+     "confirmed_at": "2026-10-06",
      "observed_at": "2026-10-06",
      "present": true,
      "source": "manual_seed",
@@ -1900,5 +1973,2645 @@
   "status": "lead",
   "vehicle_price": 26966,
   "verification": "cited"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-ioniq3-61-advance",
+  "car_ref": {
+   "key": "110664",
+   "label": "Hyundai Ioniq 3 99kW 61kWh Auto · Advance · RRP £25,745",
+   "source": "carwow-cap"
+  },
+  "carwow_title": "Ioniq 3 99kW 61kWh Auto",
+  "carwow_trim": "Advance",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:04+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:19+00:00",
+     "observed_at": "2026-10-06T17:16:04+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 20497.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:19+00:00",
+   "last_seen_at": "2026-10-06T17:20:19+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:110664",
+  "indicative_basis": "[1] Representative APR 8.9%. Based on 36 months, £3,441.00 deposit, 8,000 annual mileage",
+  "list_price": 25745.0,
+  "metrics": {
+   "discount_vs_list": 5248.0,
+   "list_price": 25745.0,
+   "vehicle_price": 20497.0
+  },
+  "monthly_from_indicative": 241.0,
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-06T17:16:04+00:00",
+  "offer_key": "carwow:cash:110664",
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 5248.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 110664 / car_110664_2026-10-01",
+  "source_url": "https://www.carwow.co.uk/hyundai/ioniq-3/deals",
+  "status": "lead",
+  "vehicle_price": 20497.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-ioniq3-61-premium-evpack",
+  "car_ref": {
+   "key": "111014",
+   "label": "Hyundai Ioniq 3 99kW 61kWh Auto · Premium · RRP £28,695",
+   "source": "carwow-cap"
+  },
+  "carwow_title": "Ioniq 3 99kW 61kWh Auto",
+  "carwow_trim": "Premium",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:04+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:19+00:00",
+     "observed_at": "2026-10-06T17:16:04+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 23270.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:19+00:00",
+   "last_seen_at": "2026-10-06T17:20:19+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:111014",
+  "indicative_basis": "[1] Representative APR 8.9%. Based on 36 months, £3,441.00 deposit, 8,000 annual mileage",
+  "list_price": 28695.0,
+  "metrics": {
+   "discount_vs_list": 5425.0,
+   "list_price": 28695.0,
+   "vehicle_price": 23270.0
+  },
+  "monthly_from_indicative": 282.0,
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-06T17:16:04+00:00",
+  "offer_key": "carwow:cash:111014",
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 5425.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 111014 / car_111014_2026-10-01",
+  "source_url": "https://www.carwow.co.uk/hyundai/ioniq-3/deals",
+  "status": "lead",
+  "vehicle_price": 23270.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-ioniq3-61-ultimate-evpack",
+  "car_ref": {
+   "key": "111015",
+   "label": "Hyundai Ioniq 3 99kW 61kWh Auto · Ultimate · RRP £31,195",
+   "source": "carwow-cap"
+  },
+  "carwow_title": "Ioniq 3 99kW 61kWh Auto",
+  "carwow_trim": "Ultimate",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:04+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:19+00:00",
+     "observed_at": "2026-10-06T17:16:04+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 25620.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:19+00:00",
+   "last_seen_at": "2026-10-06T17:20:19+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:111015",
+  "indicative_basis": "[1] Representative APR 8.9%. Based on 36 months, £3,441.00 deposit, 8,000 annual mileage",
+  "list_price": 31195.0,
+  "metrics": {
+   "discount_vs_list": 5575.0,
+   "list_price": 31195.0,
+   "vehicle_price": 25620.0
+  },
+  "monthly_from_indicative": 317.0,
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-06T17:16:04+00:00",
+  "offer_key": "carwow:cash:111015",
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 5575.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 111015 / car_111015_2026-10-01",
+  "source_url": "https://www.carwow.co.uk/hyundai/ioniq-3/deals",
+  "status": "lead",
+  "vehicle_price": 25620.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-ioniq3-61-ultimate-comfort-design-evpack",
+  "car_ref": {
+   "key": "111021",
+   "label": "Hyundai Ioniq 3 99kW 61kWh Auto · Ultimate · RRP £35,195",
+   "source": "carwow-cap"
+  },
+  "carwow_title": "Ioniq 3 99kW 61kWh Auto",
+  "carwow_trim": "Ultimate",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:04+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:19+00:00",
+     "observed_at": "2026-10-06T17:16:04+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 29380.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:19+00:00",
+   "last_seen_at": "2026-10-06T17:20:19+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:111021",
+  "indicative_basis": "[1] Representative APR 8.9%. Based on 36 months, £3,441.00 deposit, 8,000 annual mileage",
+  "list_price": 35195.0,
+  "metrics": {
+   "discount_vs_list": 5815.0,
+   "list_price": 35195.0,
+   "vehicle_price": 29380.0
+  },
+  "monthly_from_indicative": 391.0,
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-06T17:16:04+00:00",
+  "offer_key": "carwow:cash:111021",
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 5815.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 111021 / car_111021_2026-10-01",
+  "source_url": "https://www.carwow.co.uk/hyundai/ioniq-3/deals",
+  "status": "lead",
+  "vehicle_price": 29380.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-kona-65-advance",
+  "car_ref": {
+   "key": "103322",
+   "label": "Hyundai Kona Electric 160kW 65kWh Auto · Advance · RRP £35,000",
+   "source": "carwow-cap"
+  },
+  "carwow_title": "Kona Electric 160kW 65kWh Auto",
+  "carwow_trim": "Advance",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:06+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:21+00:00",
+     "observed_at": "2026-10-06T17:16:06+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 27794.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:21+00:00",
+   "last_seen_at": "2026-10-06T17:20:21+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:103322",
+  "indicative_basis": "[1] Representative APR 2.9%. Based on 36 months, £5,558.00 deposit, 8,000 annual mileage",
+  "list_price": 35000.0,
+  "metrics": {
+   "discount_vs_list": 7206.0,
+   "list_price": 35000.0,
+   "vehicle_price": 27794.0
+  },
+  "monthly_from_indicative": 285.0,
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-06T17:16:06+00:00",
+  "offer_key": "carwow:cash:103322",
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 7206.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 103322 / car_103322_2026-10-01",
+  "source_url": "https://www.carwow.co.uk/hyundai/kona-electric/deals",
+  "status": "lead",
+  "vehicle_price": 27794.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-kona-65-nline",
+  "car_ref": {
+   "key": "103324",
+   "label": "Hyundai Kona Electric 160kW 65kWh Auto · N Line · RRP £37,135",
+   "source": "carwow-cap"
+  },
+  "carwow_title": "Kona Electric 160kW 65kWh Auto",
+  "carwow_trim": "N Line",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:06+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:21+00:00",
+     "observed_at": "2026-10-06T17:16:06+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 29714.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:21+00:00",
+   "last_seen_at": "2026-10-06T17:20:21+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:103324",
+  "indicative_basis": "[1] Representative APR 2.9%. Based on 36 months, £5,558.00 deposit, 8,000 annual mileage",
+  "list_price": 37135.0,
+  "metrics": {
+   "discount_vs_list": 7421.0,
+   "list_price": 37135.0,
+   "vehicle_price": 29714.0
+  },
+  "monthly_from_indicative": 297.0,
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-06T17:16:06+00:00",
+  "offer_key": "carwow:cash:103324",
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 7421.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 103324 / car_103324_2026-10-01",
+  "source_url": "https://www.carwow.co.uk/hyundai/kona-electric/deals",
+  "status": "lead",
+  "vehicle_price": 29714.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-kona-65-ultimate",
+  "car_ref": {
+   "key": "103325",
+   "label": "Hyundai Kona Electric 160kW 65kWh Auto · Ultimate · RRP £39,630",
+   "source": "carwow-cap"
+  },
+  "carwow_title": "Kona Electric 160kW 65kWh Auto",
+  "carwow_trim": "Ultimate",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:06+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:21+00:00",
+     "observed_at": "2026-10-06T17:16:06+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 31957.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:21+00:00",
+   "last_seen_at": "2026-10-06T17:20:21+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:103325",
+  "indicative_basis": "[1] Representative APR 2.9%. Based on 36 months, £5,558.00 deposit, 8,000 annual mileage",
+  "list_price": 39630.0,
+  "metrics": {
+   "discount_vs_list": 7673.0,
+   "list_price": 39630.0,
+   "vehicle_price": 31957.0
+  },
+  "monthly_from_indicative": 327.0,
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-06T17:16:06+00:00",
+  "offer_key": "carwow:cash:103325",
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 7673.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 103325 / car_103325_2026-10-01",
+  "source_url": "https://www.carwow.co.uk/hyundai/kona-electric/deals",
+  "status": "lead",
+  "vehicle_price": 31957.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-kona-65-nlines",
+  "car_ref": {
+   "key": "103326",
+   "label": "Hyundai Kona Electric 160kW 65kWh Auto · N Line S · RRP £39,720",
+   "source": "carwow-cap"
+  },
+  "carwow_title": "Kona Electric 160kW 65kWh Auto",
+  "carwow_trim": "N Line S",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:06+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:21+00:00",
+     "observed_at": "2026-10-06T17:16:06+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 32038.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:21+00:00",
+   "last_seen_at": "2026-10-06T17:20:21+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:103326",
+  "indicative_basis": "[1] Representative APR 2.9%. Based on 36 months, £5,558.00 deposit, 8,000 annual mileage",
+  "list_price": 39720.0,
+  "metrics": {
+   "discount_vs_list": 7682.0,
+   "list_price": 39720.0,
+   "vehicle_price": 32038.0
+  },
+  "monthly_from_indicative": 317.0,
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-06T17:16:06+00:00",
+  "offer_key": "carwow:cash:103326",
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 7682.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 103326 / car_103326_2026-10-01",
+  "source_url": "https://www.carwow.co.uk/hyundai/kona-electric/deals",
+  "status": "lead",
+  "vehicle_price": 32038.0,
+  "verification": "scraped"
+ },
+ {
+  "amount_of_credit": 20487.0,
+  "annual_mileage": 8000,
+  "apr": 0.028999999999999998,
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-kona-65-advance",
+  "car_ref": {
+   "key": "103322",
+   "label": "Hyundai Kona Electric 160kW 65kWh Auto · Advance",
+   "source": "carwow-cap"
+  },
+  "cost_of_credit_stated": 1424.0,
+  "customer_deposit": 5558.0,
+  "excess_mileage_ppm": 9.0,
+  "finance_type": "pcp",
+  "fixed_rate_pa": 0.0149,
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:06+00:00",
+   "history": [
+    {
+     "apr": 0.028999999999999998,
+     "confirmed_at": "2026-10-06T17:20:21+00:00",
+     "gfv": 11676.51,
+     "monthly_payment": 285.0,
+     "observed_at": "2026-10-06T17:16:06+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 27795.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:21+00:00",
+   "last_seen_at": "2026-10-06T17:20:21+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "illustrative"
+  },
+  "gfv": 11676.51,
+  "id": "carwow:rep:103322",
+  "list_price": 35000.0,
+  "manufacturer_contribution": 1750.0,
+  "metrics": {
+   "acquisition_penalty_vs_cash": 2457.0,
+   "amount_of_credit": 20487.0,
+   "apr_implied": 0.0295,
+   "apr_stated": 0.028999999999999998,
+   "best_cash_deal_id": "ncd:/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-advance-65kwh-5dr-auto/23/",
+   "best_cash_price": 23588.0,
+   "cost_of_credit": 1449.51,
+   "customer_deposit": 5558.0,
+   "derived_fields": [],
+   "effective_monthly_hand_back": 439.39,
+   "effective_rate_vs_cash": 0.0882,
+   "finance_vs_own_cash_price": -300.49,
+   "funding_premium_vs_cash": 3906.51,
+   "gfv": 11676.51,
+   "gfv_pct_of_list": 0.334,
+   "gfv_pct_of_price": 0.42,
+   "interest_per_month": 40.26,
+   "list_price": 35000.0,
+   "manufacturer_contribution": 1750.0,
+   "monthly_at_0pct_same_gfv": 244.74,
+   "monthly_payment": 285.0,
+   "num_payments": 36,
+   "paid_if_bought": 27494.51,
+   "paid_if_handed_back": 15818.0,
+   "term_months": 36,
+   "vehicle_price": 27795.0
+  },
+  "monthly_payment": 285.0,
+  "notes": "Carwow's model-level representative example ('purely illustrative'); basis: [1] Representative APR 2.9%. Based on 36 months, £5,558.00 deposit, 8,000 annual mileage",
+  "num_payments": 36,
+  "observed_at": "2026-10-06T17:16:06+00:00",
+  "offer_key": "carwow:rep:103322",
+  "present": 1,
+  "provider": "carwow_deals",
+  "source": "Carwow representative PCP example",
+  "source_ref": "CAP 103322",
+  "source_url": "https://www.carwow.co.uk/hyundai/kona-electric/deals",
+  "status": "illustrative",
+  "term_months": 36,
+  "total_payable_stated": 29219.0,
+  "vehicle_price": 27795.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-inster-49-02",
+  "car_ref": {
+   "key": "106646",
+   "label": "Hyundai Inster 85kW 49kWh Auto · 02 · RRP £27,115",
+   "source": "carwow-cap"
+  },
+  "carwow_title": "Inster 85kW 49kWh Auto",
+  "carwow_trim": "02",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:23+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:23+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 22865.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:23+00:00",
+   "last_seen_at": "2026-10-06T17:20:23+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:106646",
+  "indicative_basis": "[1] Representative APR 0.0%. Based on 36 months, £4,247.00 deposit, 8,000 annual mileage",
+  "list_price": 27115.0,
+  "metrics": {
+   "discount_vs_list": 4250.0,
+   "list_price": 27115.0,
+   "vehicle_price": 22865.0
+  },
+  "monthly_from_indicative": 174.0,
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-06T17:20:23+00:00",
+  "offer_key": "carwow:cash:106646",
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 4250.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 106646 / car_106646_2026-10-01",
+  "source_url": "https://www.carwow.co.uk/hyundai/inster/deals",
+  "status": "lead",
+  "vehicle_price": 22865.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-ioniq5-84-advance-rwd",
+  "car_ref": {
+   "key": "105816",
+   "label": "Hyundai Ioniq 5 168kW 84 kWh Auto · Advance · RRP £44,195",
+   "source": "carwow-cap"
+  },
+  "carwow_title": "Ioniq 5 168kW 84 kWh Auto",
+  "carwow_trim": "Advance",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:26+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:26+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 39854.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:26+00:00",
+   "last_seen_at": "2026-10-06T17:20:26+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:105816",
+  "indicative_basis": "[1] Representative APR 0.0%. Based on 36 months, £7,340.00 deposit, 8,000 annual mileage",
+  "list_price": 44195.0,
+  "metrics": {
+   "discount_vs_list": 4341.0,
+   "list_price": 44195.0,
+   "vehicle_price": 39854.0
+  },
+  "monthly_from_indicative": 357.0,
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-06T17:20:26+00:00",
+  "offer_key": "carwow:cash:105816",
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 4341.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 105816 / car_105816_2026-10-01",
+  "source_url": "https://www.carwow.co.uk/hyundai/ioniq-5/deals",
+  "status": "lead",
+  "vehicle_price": 39854.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-ioniq5-84-premium-rwd",
+  "car_ref": {
+   "key": "105817",
+   "label": "Hyundai Ioniq 5 168kW 84 kWh Auto · Premium · RRP £46,755",
+   "source": "carwow-cap"
+  },
+  "carwow_title": "Ioniq 5 168kW 84 kWh Auto",
+  "carwow_trim": "Premium",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:26+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:26+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 42158.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:26+00:00",
+   "last_seen_at": "2026-10-06T17:20:26+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:105817",
+  "indicative_basis": "[1] Representative APR 0.0%. Based on 36 months, £7,340.00 deposit, 8,000 annual mileage",
+  "list_price": 46755.0,
+  "metrics": {
+   "discount_vs_list": 4597.0,
+   "list_price": 46755.0,
+   "vehicle_price": 42158.0
+  },
+  "monthly_from_indicative": 382.0,
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-06T17:20:26+00:00",
+  "offer_key": "carwow:cash:105817",
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 4597.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 105817 / car_105817_2026-10-01",
+  "source_url": "https://www.carwow.co.uk/hyundai/ioniq-5/deals",
+  "status": "lead",
+  "vehicle_price": 42158.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "kia-pv5-passenger-71-essential-7seat",
+  "car_ref": {
+   "key": "110973",
+   "label": "Kia PV5 Passenger 120kW Long Range 71kWh Auto · Essential · RRP £36,995",
+   "source": "carwow-cap"
+  },
+  "carwow_title": "PV5 Passenger 120kW Long Range 71kWh Auto",
+  "carwow_trim": "Essential",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:13+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:28+00:00",
+     "observed_at": "2026-10-06T17:16:13+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 35187.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:28+00:00",
+   "last_seen_at": "2026-10-06T17:20:28+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:110973",
+  "list_price": 36995.0,
+  "metrics": {
+   "discount_vs_list": 1808.0,
+   "list_price": 36995.0,
+   "vehicle_price": 35187.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-06T17:16:13+00:00",
+  "offer_key": "carwow:cash:110973",
+  "pcp_finance_price": 35188.0,
+  "pcp_finance_price_delta": 1.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 1808.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 110973 / car_110973_2026-06-01",
+  "source_url": "https://www.carwow.co.uk/kia/pv5-passenger/deals",
+  "status": "lead",
+  "vehicle_price": 35187.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "kia-pv5-passenger-71-plus-7seat",
+  "car_ref": {
+   "key": "110974",
+   "label": "Kia PV5 Passenger 120kW Long Range 71kWh Auto · Plus · RRP £40,275",
+   "source": "carwow-cap"
+  },
+  "carwow_title": "PV5 Passenger 120kW Long Range 71kWh Auto",
+  "carwow_trim": "Plus",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:13+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:28+00:00",
+     "observed_at": "2026-10-06T17:16:13+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 38303.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:28+00:00",
+   "last_seen_at": "2026-10-06T17:20:28+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:110974",
+  "list_price": 40275.0,
+  "metrics": {
+   "discount_vs_list": 1972.0,
+   "list_price": 40275.0,
+   "vehicle_price": 38303.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-06T17:16:13+00:00",
+  "offer_key": "carwow:cash:110974",
+  "pcp_finance_price": 38304.0,
+  "pcp_finance_price_delta": 1.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 1972.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 110974 / car_110974_2026-06-01",
+  "source_url": "https://www.carwow.co.uk/kia/pv5-passenger/deals",
+  "status": "lead",
+  "vehicle_price": 38303.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "kia-pv5-passenger-71-elite-7seat",
+  "car_ref": {
+   "key": "110975",
+   "label": "Kia PV5 Passenger 120kW Long Range 71kWh Auto · Elite · RRP £41,975",
+   "source": "carwow-cap"
+  },
+  "carwow_title": "PV5 Passenger 120kW Long Range 71kWh Auto",
+  "carwow_trim": "Elite",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:28+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:28+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 39918.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:28+00:00",
+   "last_seen_at": "2026-10-06T17:20:28+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:110975",
+  "list_price": 41975.0,
+  "metrics": {
+   "discount_vs_list": 2057.0,
+   "list_price": 41975.0,
+   "vehicle_price": 39918.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-06T17:20:28+00:00",
+  "offer_key": "carwow:cash:110975",
+  "pcp_finance_price": 39919.0,
+  "pcp_finance_price_delta": 1.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 2057.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 110975 / car_110975_2026-06-01",
+  "source_url": "https://www.carwow.co.uk/kia/pv5-passenger/deals",
+  "status": "lead",
+  "vehicle_price": 39918.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "kia-ev2-61-gtlines-hp",
+  "car_ref": {
+   "key": "109891",
+   "label": "Kia EV2 99kW 61kWh Auto · GT-Line S · RRP £37,045",
+   "source": "carwow-cap"
+  },
+  "carwow_title": "EV2 99kW 61kWh Auto",
+  "carwow_trim": "GT-Line S",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:31+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:31+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 30760.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:31+00:00",
+   "last_seen_at": "2026-10-06T17:20:31+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:109891",
+  "list_price": 37045.0,
+  "metrics": {
+   "discount_vs_list": 6285.0,
+   "list_price": 37045.0,
+   "vehicle_price": 30760.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-06T17:20:31+00:00",
+  "offer_key": "carwow:cash:109891",
+  "pcp_finance_price": 30761.0,
+  "pcp_finance_price_delta": 1.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 6285.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 109891 / car_109891_2026-04-01",
+  "source_url": "https://www.carwow.co.uk/kia/ev2/deals",
+  "status": "lead",
+  "vehicle_price": 30760.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "kia-ev3-81-gtlines-hp",
+  "car_ref": {
+   "key": "110993",
+   "label": "Kia EV3 150kW 81.4kWh Auto · GT-Line S · RRP £43,955",
+   "source": "carwow-cap"
+  },
+  "carwow_title": "EV3 150kW 81.4kWh Auto",
+  "carwow_trim": "GT-Line S",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:18+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:33+00:00",
+     "observed_at": "2026-10-06T17:16:18+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 40936.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:33+00:00",
+   "last_seen_at": "2026-10-06T17:20:33+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:110993",
+  "list_price": 43955.0,
+  "metrics": {
+   "discount_vs_list": 3019.0,
+   "list_price": 43955.0,
+   "vehicle_price": 40936.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-06T17:16:18+00:00",
+  "offer_key": "carwow:cash:110993",
+  "pcp_finance_price": 37937.0,
+  "pcp_finance_price_delta": -2999.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 3019.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 110993 / car_110993_2026-09-01",
+  "source_url": "https://www.carwow.co.uk/kia/ev3/deals",
+  "status": "lead",
+  "vehicle_price": 40936.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "kia-ev6-84-gtlines-rwd-hp",
+  "car_ref": {
+   "key": "106619",
+   "label": "Kia EV6 168kW 84kWh Auto · GT Line S · RRP £53,735",
+   "source": "carwow-cap"
+  },
+  "carwow_title": "EV6 168kW 84kWh Auto",
+  "carwow_trim": "GT Line S",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:36+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:36+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 48445.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:36+00:00",
+   "last_seen_at": "2026-10-06T17:20:36+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:106619",
+  "list_price": 53735.0,
+  "metrics": {
+   "discount_vs_list": 5290.0,
+   "list_price": 53735.0,
+   "vehicle_price": 48445.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-06T17:20:36+00:00",
+  "offer_key": "carwow:cash:106619",
+  "pcp_finance_price": 46946.0,
+  "pcp_finance_price_delta": -1499.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 5290.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 106619 / car_106619_2025-12-17",
+  "source_url": "https://www.carwow.co.uk/kia/ev6/deals",
+  "status": "lead",
+  "vehicle_price": 48445.0,
+  "verification": "scraped"
+ },
+ {
+  "amount_of_credit": 26000.0,
+  "annual_mileage": 10000,
+  "apr": 0.028999999999999998,
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-kona-65-advance",
+  "car_ref": {
+   "key": "hykn00ade5he a 2",
+   "label": "KONA Electric 65kWh 218PS Advance (CAP HYKN00ADE5HE A 2)",
+   "source": "hyundai-cap"
+  },
+  "configurator_url": "https://www.hyundai.com/uk/en/models/kona-electric/configurator.html#/share-code/FSC!7FW5ZHZ7ZGG0VH+MID!7F|W5||+EXTID!T2P-0+INTID!NNB|0+CID!uk+LID!en+HWFID!finance+HWPRID!KNC|pcp+HWMLG!10000+HWMTHS!37+HWLOANDOWNP!3500+HO!true",
+  "cost_of_credit_stated": 1653.54,
+  "customer_deposit": 3500.0,
+  "dealer": "Hyundai Finance (national offer)",
+  "excess_mileage_ppm": 9.0,
+  "finance_type": "pcp",
+  "fixed_rate_pa": 0.0149,
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:21+00:00",
+   "history": [
+    {
+     "apr": 0.028999999999999998,
+     "confirmed_at": "2026-10-06T17:20:36+00:00",
+     "gfv": 11292.98,
+     "monthly_payment": 454.46,
+     "observed_at": "2026-10-06T17:16:21+00:00",
+     "present": true,
+     "source": "hyundai_offers",
+     "vehicle_price": 31250.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:36+00:00",
+   "last_seen_at": "2026-10-06T17:20:36+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "live"
+  },
+  "gfv": 11292.98,
+  "grant_gbp": 3750.0,
+  "heat_pump_listed": true,
+  "id": "hyundai:PCP_15_7FW5ZHZ7ZGG0VH",
+  "list_price": 35000.0,
+  "manufacturer_contribution": 1750.0,
+  "metrics": {
+   "acquisition_penalty_vs_cash": 5912.0,
+   "amount_of_credit": 26000.0,
+   "apr_implied": 0.029,
+   "apr_stated": 0.028999999999999998,
+   "best_cash_deal_id": "ncd:/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-advance-65kwh-5dr-auto/23/",
+   "best_cash_price": 23588.0,
+   "cost_of_credit": 1653.54,
+   "customer_deposit": 3500.0,
+   "derived_fields": [],
+   "effective_monthly_hand_back": 536.77,
+   "effective_rate_vs_cash": 0.1652,
+   "finance_vs_own_cash_price": -96.46,
+   "funding_premium_vs_cash": 7565.54,
+   "gfv": 11292.98,
+   "gfv_pct_of_list": 0.323,
+   "gfv_pct_of_price": 0.361,
+   "interest_per_month": 45.93,
+   "list_price": 35000.0,
+   "manufacturer_contribution": 1750.0,
+   "monthly_at_0pct_same_gfv": 408.53,
+   "monthly_payment": 454.46,
+   "num_payments": 36,
+   "paid_if_bought": 31153.54,
+   "paid_if_handed_back": 19860.56,
+   "term_months": 37,
+   "vehicle_price": 31250.0
+  },
+  "monthly_payment": 454.46,
+  "notes": "Hyundai's national representative example; the deposit is Hyundai's example, not £0. 2.9% APR Representative and £1,750 towards your deposit* Includes £3,750 Electric Car Grant**",
+  "num_payments": 36,
+  "observed_at": "2026-10-06T17:16:21+00:00",
+  "offer_key": "hyundai:PCP_15_7FW5ZHZ7ZGG0VH",
+  "offer_strapline": "2.9% APR Representative and £1,750 towards your deposit* Includes £3,750 Electric Car Grant**",
+  "present": 1,
+  "provider": "hyundai_offers",
+  "source": "Hyundai UK offer page",
+  "source_ref": "PCP_15_7FW5ZHZ7ZGG0VH",
+  "source_url": "https://www.hyundai.com/uk/en/offers/new-cars/model/offer.kona_electric.html",
+  "status": "live",
+  "term_months": 37,
+  "total_payable_stated": 32903.54,
+  "valid_from": "2026-10-01",
+  "valid_to": "2027-01-04",
+  "vehicle_price": 31250.0,
+  "verification": "scraped"
+ },
+ {
+  "amount_of_credit": 22875.0,
+  "annual_mileage": 10000,
+  "apr": 0.0,
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-inster-49-02",
+  "car_ref": {
+   "key": "hyir0002 5he a",
+   "label": "INSTER 49kWh Battery 115PS Motor 02 (CAP HYIR0002 5HE A)",
+   "source": "hyundai-cap"
+  },
+  "configurator_url": "https://www.hyundai.com/uk/en/models/inster/configurator.html#/share-code/FSC!6XS5ZDZ7ZHH596+MID!6X|*||GI+EXTID!SAW-370+INTID!NNB|0+CID!uk+LID!en+HWFID!finance+HWPRID!KNC|pcp+HWMLG!10000+HWMTHS!49+HWLOANDOWNP!1500+HO!true",
+  "cost_of_credit_stated": 0.0,
+  "customer_deposit": 1500.0,
+  "dealer": "Hyundai Finance (national offer)",
+  "excess_mileage_ppm": 9.0,
+  "finance_type": "pcp",
+  "fixed_rate_pa": 0.0,
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:38+00:00",
+   "history": [
+    {
+     "apr": 0.0,
+     "confirmed_at": null,
+     "gfv": 8923.88,
+     "monthly_payment": 290.65,
+     "observed_at": "2026-10-06T17:20:38+00:00",
+     "present": true,
+     "source": "hyundai_offers",
+     "vehicle_price": 27375.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:38+00:00",
+   "last_seen_at": "2026-10-06T17:20:38+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "live"
+  },
+  "gfv": 8923.88,
+  "grant_gbp": 0.0,
+  "heat_pump_listed": false,
+  "id": "hyundai:PCP_3_6XS5ZDZ7ZHH596",
+  "list_price": 27005.0,
+  "manufacturer_contribution": 3000.0,
+  "metrics": {
+   "acquisition_penalty_vs_cash": 3560.0,
+   "amount_of_credit": 22875.0,
+   "apr_implied": 0.0,
+   "apr_stated": 0.0,
+   "best_cash_deal_id": "ncd:/car/hyundai/inster-electric-hatchback/hatchback/electric/automatic/85kw-02-49kwh-5dr-auto/24/",
+   "best_cash_price": 20815.0,
+   "cost_of_credit": 0.08,
+   "customer_deposit": 1500.0,
+   "derived_fields": [],
+   "effective_monthly_hand_back": 315.33,
+   "effective_rate_vs_cash": 0.0627,
+   "finance_vs_own_cash_price": -2999.92,
+   "funding_premium_vs_cash": 3560.08,
+   "gfv": 8923.88,
+   "gfv_pct_of_list": 0.33,
+   "gfv_pct_of_price": 0.326,
+   "interest_per_month": 0.0,
+   "list_price": 27005.0,
+   "manufacturer_contribution": 3000.0,
+   "monthly_at_0pct_same_gfv": 290.65,
+   "monthly_payment": 290.65,
+   "num_payments": 48,
+   "paid_if_bought": 24375.08,
+   "paid_if_handed_back": 15451.2,
+   "term_months": 49,
+   "vehicle_price": 27375.0
+  },
+  "monthly_payment": 290.65,
+  "notes": "Hyundai's national representative example; the deposit is Hyundai's example, not £0. 0% APR Available and £3,000 towards your deposit*",
+  "num_payments": 48,
+  "observed_at": "2026-10-06T17:20:38+00:00",
+  "offer_key": "hyundai:PCP_3_6XS5ZDZ7ZHH596",
+  "offer_strapline": "0% APR Available and £3,000 towards your deposit*",
+  "present": 1,
+  "provider": "hyundai_offers",
+  "source": "Hyundai UK offer page",
+  "source_ref": "PCP_3_6XS5ZDZ7ZHH596",
+  "source_url": "https://www.hyundai.com/uk/en/offers/new-cars/model/offer.inster.html",
+  "status": "live",
+  "term_months": 49,
+  "total_payable_stated": 27375.0,
+  "valid_from": "2026-10-01",
+  "valid_to": "2027-01-04",
+  "vehicle_price": 27375.0,
+  "verification": "scraped"
+ },
+ {
+  "amount_of_credit": 21640.0,
+  "annual_mileage": 6000,
+  "apr": 0.08900000000000001,
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-ioniq3-61-advance",
+  "car_ref": {
+   "key": "hy3i004ad5he a",
+   "label": "All-new IONIQ 3 61kWh 135PS FWD ADVANCE (CAP HY3I004AD5HE A)",
+   "source": "hyundai-cap"
+  },
+  "configurator_url": "https://www.hyundai.com/uk/en/models/ioniq3/configurator.html#/share-code/FSC!6JW5ZFZ7ZDD008+MID!6J|W5||NG+EXTID!SRF-0+INTID!NNB|1+CID!uk+LID!en+HWFID!finance+HWPRID!KNC|pcp+HWMLG!6000+HWMTHS!49+HWLOANDOWNP!355+HO!true",
+  "cost_of_credit_stated": 5675.72,
+  "customer_deposit": 355.0,
+  "dealer": "Hyundai Finance (national offer)",
+  "excess_mileage_ppm": 9.0,
+  "finance_type": "pcp",
+  "fixed_rate_pa": 0.0461,
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:42+00:00",
+   "history": [
+    {
+     "apr": 0.08900000000000001,
+     "confirmed_at": null,
+     "gfv": 10289.16,
+     "monthly_payment": 354.72,
+     "observed_at": "2026-10-06T17:20:42+00:00",
+     "present": true,
+     "source": "hyundai_offers",
+     "vehicle_price": 21995.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:42+00:00",
+   "last_seen_at": "2026-10-06T17:20:42+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "live"
+  },
+  "gfv": 10289.16,
+  "grant_gbp": 0.0,
+  "heat_pump_listed": false,
+  "id": "hyundai:PCP_1_6JW5ZFZ7ZDD008",
+  "list_price": 25745.0,
+  "manufacturer_contribution": 0.0,
+  "metrics": {
+   "acquisition_penalty_vs_cash": 1498.0,
+   "amount_of_credit": 21640.0,
+   "apr_implied": 0.089,
+   "apr_stated": 0.08900000000000001,
+   "best_cash_deal_id": "carwow:cash:110664",
+   "best_cash_price": 20497.0,
+   "cost_of_credit": 5675.72,
+   "customer_deposit": 355.0,
+   "derived_fields": [],
+   "effective_monthly_hand_back": 354.73,
+   "effective_rate_vs_cash": 0.1192,
+   "finance_vs_own_cash_price": 5675.72,
+   "funding_premium_vs_cash": 7173.72,
+   "gfv": 10289.16,
+   "gfv_pct_of_list": 0.4,
+   "gfv_pct_of_price": 0.468,
+   "interest_per_month": 118.24,
+   "list_price": 25745.0,
+   "manufacturer_contribution": 0.0,
+   "monthly_at_0pct_same_gfv": 236.48,
+   "monthly_payment": 354.72,
+   "num_payments": 48,
+   "paid_if_bought": 27670.72,
+   "paid_if_handed_back": 17381.56,
+   "term_months": 49,
+   "vehicle_price": 21995.0
+  },
+  "monthly_payment": 354.72,
+  "notes": "Hyundai's national representative example; the deposit is Hyundai's example, not £0. Available from £355 per month with £355 deposit and 8.9% APR.* Includes £3,750 Electric Car Grant.**",
+  "num_payments": 48,
+  "observed_at": "2026-10-06T17:20:42+00:00",
+  "offer_key": "hyundai:PCP_1_6JW5ZFZ7ZDD008",
+  "offer_strapline": "Available from £355 per month with £355 deposit and 8.9% APR.* Includes £3,750 Electric Car Grant.**",
+  "present": 1,
+  "provider": "hyundai_offers",
+  "source": "Hyundai UK offer page",
+  "source_ref": "PCP_1_6JW5ZFZ7ZDD008",
+  "source_url": "https://www.hyundai.com/uk/en/offers/new-cars/model/offer.all-new_ioniq_3.html",
+  "status": "live",
+  "term_months": 49,
+  "total_payable_stated": 27670.72,
+  "valid_from": "2026-10-01",
+  "valid_to": "2027-01-04",
+  "vehicle_price": 21995.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-ioniq3-61-advance",
+  "car_ref": {
+   "key": "hyundai|ioniq 3 electric hatchback|99kw advance 61kwh 5dr auto",
+   "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW Advance 61kWh 5dr Auto",
+   "source": "ncd"
+  },
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:27+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:43+00:00",
+     "observed_at": "2026-10-06T17:16:27+00:00",
+     "present": true,
+     "source": "ncd",
+     "vehicle_price": 25700.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:43+00:00",
+   "last_seen_at": "2026-10-06T17:20:43+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "ncd:/car/hyundai/ioniq-3-electric-hatchback/hatchback/electric/automatic/99kw-advance-61kwh-5dr-auto/26/",
+  "listing_url": "https://www.new-car-discount.com/car/hyundai/ioniq-3/hatchback/all/all",
+  "metrics": {
+   "discount_vs_list": null,
+   "list_price": null,
+   "vehicle_price": 25700.0
+  },
+  "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
+  "observed_at": "2026-10-06T17:16:27+00:00",
+  "offer_key": "ncd:/car/hyundai/ioniq-3-electric-hatchback/hatchback/electric/automatic/99kw-advance-61kwh-5dr-auto/26/",
+  "present": 1,
+  "provider": "ncd",
+  "saving_stated": 180.0,
+  "source": "New Car Discount",
+  "source_url": "https://www.new-car-discount.com/car/hyundai/ioniq-3-electric-hatchback/hatchback/electric/automatic/99kw-advance-61kwh-5dr-auto/26/",
+  "status": "lead",
+  "vehicle_price": 25700.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-ioniq3-61-premium-evpack",
+  "car_ref": {
+   "key": "hyundai|ioniq 3 electric hatchback|99kw premium 61kwh 5dr auto [ev pack]",
+   "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW Premium 61kWh 5dr Auto [EV Pack]",
+   "source": "ncd"
+  },
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:27+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:43+00:00",
+     "observed_at": "2026-10-06T17:16:27+00:00",
+     "present": true,
+     "source": "ncd",
+     "vehicle_price": 28649.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:43+00:00",
+   "last_seen_at": "2026-10-06T17:20:43+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "ncd:/car/hyundai/ioniq-3-electric-hatchback/hatchback/electric/automatic/99kw-premium-61kwh-5dr-auto-ev-pack/26/",
+  "listing_url": "https://www.new-car-discount.com/car/hyundai/ioniq-3/hatchback/all/all",
+  "metrics": {
+   "discount_vs_list": null,
+   "list_price": null,
+   "vehicle_price": 28649.0
+  },
+  "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
+  "observed_at": "2026-10-06T17:16:27+00:00",
+  "offer_key": "ncd:/car/hyundai/ioniq-3-electric-hatchback/hatchback/electric/automatic/99kw-premium-61kwh-5dr-auto-ev-pack/26/",
+  "present": 1,
+  "provider": "ncd",
+  "saving_stated": 180.0,
+  "source": "New Car Discount",
+  "source_url": "https://www.new-car-discount.com/car/hyundai/ioniq-3-electric-hatchback/hatchback/electric/automatic/99kw-premium-61kwh-5dr-auto-ev-pack/26/",
+  "status": "lead",
+  "vehicle_price": 28649.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-ioniq3-61-ultimate-comfort-design-evpack",
+  "car_ref": {
+   "key": "hyundai|ioniq 3 electric hatchback|99kw ultimate 61kwh 5dr auto [comfort/design/ev]",
+   "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW Ultimate 61kWh 5dr Auto [Comfort/Design/EV]",
+   "source": "ncd"
+  },
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:27+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:43+00:00",
+     "observed_at": "2026-10-06T17:16:27+00:00",
+     "present": true,
+     "source": "ncd",
+     "vehicle_price": 35150.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:43+00:00",
+   "last_seen_at": "2026-10-06T17:20:43+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "ncd:/car/hyundai/ioniq-3-electric-hatchback/hatchback/electric/automatic/99kw-ultimate-61kwh-5dr-auto-comfort-design-ev/26/",
+  "listing_url": "https://www.new-car-discount.com/car/hyundai/ioniq-3/hatchback/all/all",
+  "metrics": {
+   "discount_vs_list": null,
+   "list_price": null,
+   "vehicle_price": 35150.0
+  },
+  "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
+  "observed_at": "2026-10-06T17:16:27+00:00",
+  "offer_key": "ncd:/car/hyundai/ioniq-3-electric-hatchback/hatchback/electric/automatic/99kw-ultimate-61kwh-5dr-auto-comfort-design-ev/26/",
+  "present": 1,
+  "provider": "ncd",
+  "saving_stated": 180.0,
+  "source": "New Car Discount",
+  "source_url": "https://www.new-car-discount.com/car/hyundai/ioniq-3-electric-hatchback/hatchback/electric/automatic/99kw-ultimate-61kwh-5dr-auto-comfort-design-ev/26/",
+  "status": "lead",
+  "vehicle_price": 35150.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-ioniq3-61-ultimate-evpack",
+  "car_ref": {
+   "key": "hyundai|ioniq 3 electric hatchback|99kw ultimate 61kwh 5dr auto [ev pack]",
+   "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW Ultimate 61kWh 5dr Auto [EV Pack]",
+   "source": "ncd"
+  },
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:27+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:43+00:00",
+     "observed_at": "2026-10-06T17:16:27+00:00",
+     "present": true,
+     "source": "ncd",
+     "vehicle_price": 31150.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:43+00:00",
+   "last_seen_at": "2026-10-06T17:20:43+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "ncd:/car/hyundai/ioniq-3-electric-hatchback/hatchback/electric/automatic/99kw-ultimate-61kwh-5dr-auto-ev-pack/26/",
+  "listing_url": "https://www.new-car-discount.com/car/hyundai/ioniq-3/hatchback/all/all",
+  "metrics": {
+   "discount_vs_list": null,
+   "list_price": null,
+   "vehicle_price": 31150.0
+  },
+  "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
+  "observed_at": "2026-10-06T17:16:27+00:00",
+  "offer_key": "ncd:/car/hyundai/ioniq-3-electric-hatchback/hatchback/electric/automatic/99kw-ultimate-61kwh-5dr-auto-ev-pack/26/",
+  "present": 1,
+  "provider": "ncd",
+  "saving_stated": 180.0,
+  "source": "New Car Discount",
+  "source_url": "https://www.new-car-discount.com/car/hyundai/ioniq-3-electric-hatchback/hatchback/electric/automatic/99kw-ultimate-61kwh-5dr-auto-ev-pack/26/",
+  "status": "lead",
+  "vehicle_price": 31150.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-kona-65-advance",
+  "car_ref": {
+   "key": "hyundai|kona electric hatchback|160kw advance 65kwh 5dr auto",
+   "label": "KONA ELECTRIC HATCHBACK 160kW Advance 65kWh 5dr Auto",
+   "source": "ncd"
+  },
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:45+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:45+00:00",
+     "present": true,
+     "source": "ncd",
+     "vehicle_price": 23588.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:45+00:00",
+   "last_seen_at": "2026-10-06T17:20:45+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "ncd:/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-advance-65kwh-5dr-auto/23/",
+  "listing_url": "https://www.new-car-discount.com/car/hyundai/kona/hatchback/all/all",
+  "metrics": {
+   "discount_vs_list": null,
+   "list_price": null,
+   "vehicle_price": 23588.0
+  },
+  "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
+  "observed_at": "2026-10-06T17:20:45+00:00",
+  "offer_key": "ncd:/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-advance-65kwh-5dr-auto/23/",
+  "present": 1,
+  "provider": "ncd",
+  "saving_stated": 11546.0,
+  "source": "New Car Discount",
+  "source_url": "https://www.new-car-discount.com/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-advance-65kwh-5dr-auto/23/",
+  "status": "lead",
+  "vehicle_price": 23588.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-kona-65-nline",
+  "car_ref": {
+   "key": "hyundai|kona electric hatchback|160kw n line 65kwh 5dr auto",
+   "label": "KONA ELECTRIC HATCHBACK 160kW N Line 65kWh 5dr Auto",
+   "source": "ncd"
+  },
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:45+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:45+00:00",
+     "present": true,
+     "source": "ncd",
+     "vehicle_price": 25356.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:45+00:00",
+   "last_seen_at": "2026-10-06T17:20:45+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "ncd:/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-n-line-65kwh-5dr-auto/23/",
+  "listing_url": "https://www.new-car-discount.com/car/hyundai/kona/hatchback/all/all",
+  "metrics": {
+   "discount_vs_list": null,
+   "list_price": null,
+   "vehicle_price": 25356.0
+  },
+  "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
+  "observed_at": "2026-10-06T17:20:45+00:00",
+  "offer_key": "ncd:/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-n-line-65kwh-5dr-auto/23/",
+  "present": 1,
+  "provider": "ncd",
+  "saving_stated": 11913.0,
+  "source": "New Car Discount",
+  "source_url": "https://www.new-car-discount.com/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-n-line-65kwh-5dr-auto/23/",
+  "status": "lead",
+  "vehicle_price": 25356.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-kona-65-nlines",
+  "car_ref": {
+   "key": "hyundai|kona electric hatchback|160kw n line s 65kwh 5dr auto",
+   "label": "KONA ELECTRIC HATCHBACK 160kW N Line S 65kWh 5dr Auto",
+   "source": "ncd"
+  },
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:45+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:45+00:00",
+     "present": true,
+     "source": "ncd",
+     "vehicle_price": 26929.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:45+00:00",
+   "last_seen_at": "2026-10-06T17:20:45+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "ncd:/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-n-line-s-65kwh-5dr-auto/23/",
+  "listing_url": "https://www.new-car-discount.com/car/hyundai/kona/hatchback/all/all",
+  "metrics": {
+   "discount_vs_list": null,
+   "list_price": null,
+   "vehicle_price": 26929.0
+  },
+  "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
+  "observed_at": "2026-10-06T17:20:45+00:00",
+  "offer_key": "ncd:/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-n-line-s-65kwh-5dr-auto/23/",
+  "present": 1,
+  "provider": "ncd",
+  "saving_stated": 12925.0,
+  "source": "New Car Discount",
+  "source_url": "https://www.new-car-discount.com/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-n-line-s-65kwh-5dr-auto/23/",
+  "status": "lead",
+  "vehicle_price": 26929.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-kona-65-ultimate",
+  "car_ref": {
+   "key": "hyundai|kona electric hatchback|160kw ultimate 65kwh 5dr auto",
+   "label": "KONA ELECTRIC HATCHBACK 160kW Ultimate 65kWh 5dr Auto",
+   "source": "ncd"
+  },
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:45+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:45+00:00",
+     "present": true,
+     "source": "ncd",
+     "vehicle_price": 26966.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:45+00:00",
+   "last_seen_at": "2026-10-06T17:20:45+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "ncd:/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-ultimate-65kwh-5dr-auto/23/",
+  "listing_url": "https://www.new-car-discount.com/car/hyundai/kona/hatchback/all/all",
+  "metrics": {
+   "discount_vs_list": null,
+   "list_price": null,
+   "vehicle_price": 26966.0
+  },
+  "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
+  "observed_at": "2026-10-06T17:20:45+00:00",
+  "offer_key": "ncd:/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-ultimate-65kwh-5dr-auto/23/",
+  "present": 1,
+  "provider": "ncd",
+  "saving_stated": 12798.0,
+  "source": "New Car Discount",
+  "source_url": "https://www.new-car-discount.com/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-ultimate-65kwh-5dr-auto/23/",
+  "status": "lead",
+  "vehicle_price": 26966.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-inster-49-02",
+  "car_ref": {
+   "key": "hyundai|inster electric hatchback|85kw 02 49kwh 5dr auto",
+   "label": "INSTER ELECTRIC HATCHBACK 85kW 02 49kWh 5dr Auto",
+   "source": "ncd"
+  },
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:47+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:47+00:00",
+     "present": true,
+     "source": "ncd",
+     "vehicle_price": 20815.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:47+00:00",
+   "last_seen_at": "2026-10-06T17:20:47+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "ncd:/car/hyundai/inster-electric-hatchback/hatchback/electric/automatic/85kw-02-49kwh-5dr-auto/24/",
+  "listing_url": "https://www.new-car-discount.com/car/hyundai/inster/hatchback/all/all",
+  "metrics": {
+   "discount_vs_list": null,
+   "list_price": null,
+   "vehicle_price": 20815.0
+  },
+  "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
+  "observed_at": "2026-10-06T17:20:47+00:00",
+  "offer_key": "ncd:/car/hyundai/inster-electric-hatchback/hatchback/electric/automatic/85kw-02-49kwh-5dr-auto/24/",
+  "present": 1,
+  "provider": "ncd",
+  "saving_stated": 6434.0,
+  "source": "New Car Discount",
+  "source_url": "https://www.new-car-discount.com/car/hyundai/inster-electric-hatchback/hatchback/electric/automatic/85kw-02-49kwh-5dr-auto/24/",
+  "status": "lead",
+  "vehicle_price": 20815.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-ioniq5-84-advance-rwd",
+  "car_ref": {
+   "key": "hyundai|ioniq 5 electric hatchback|168kw advance 84kwh 5dr auto",
+   "label": "IONIQ 5 ELECTRIC HATCHBACK 168kW Advance 84 kWh 5dr Auto",
+   "source": "ncd"
+  },
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:49+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:49+00:00",
+     "present": true,
+     "source": "ncd",
+     "vehicle_price": 31746.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:49+00:00",
+   "last_seen_at": "2026-10-06T17:20:49+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "ncd:/car/hyundai/ioniq-5-electric-hatchback/hatchback/electric/automatic/168kw-advance-84-kwh-5dr-auto/24/",
+  "listing_url": "https://www.new-car-discount.com/car/hyundai/ioniq-5/hatchback/all/all",
+  "metrics": {
+   "discount_vs_list": null,
+   "list_price": null,
+   "vehicle_price": 31746.0
+  },
+  "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
+  "observed_at": "2026-10-06T17:20:49+00:00",
+  "offer_key": "ncd:/car/hyundai/ioniq-5-electric-hatchback/hatchback/electric/automatic/168kw-advance-84-kwh-5dr-auto/24/",
+  "present": 1,
+  "provider": "ncd",
+  "saving_stated": 12583.0,
+  "source": "New Car Discount",
+  "source_url": "https://www.new-car-discount.com/car/hyundai/ioniq-5-electric-hatchback/hatchback/electric/automatic/168kw-advance-84-kwh-5dr-auto/24/",
+  "status": "lead",
+  "vehicle_price": 31746.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-ioniq5-84-premium-rwd",
+  "car_ref": {
+   "key": "hyundai|ioniq 5 electric hatchback|168kw premium 84kwh 5dr auto",
+   "label": "IONIQ 5 ELECTRIC HATCHBACK 168kW Premium 84 kWh 5dr Auto",
+   "source": "ncd"
+  },
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:49+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:49+00:00",
+     "present": true,
+     "source": "ncd",
+     "vehicle_price": 34380.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:49+00:00",
+   "last_seen_at": "2026-10-06T17:20:49+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "ncd:/car/hyundai/ioniq-5-electric-hatchback/hatchback/electric/automatic/168kw-premium-84-kwh-5dr-auto/24/",
+  "listing_url": "https://www.new-car-discount.com/car/hyundai/ioniq-5/hatchback/all/all",
+  "metrics": {
+   "discount_vs_list": null,
+   "list_price": null,
+   "vehicle_price": 34380.0
+  },
+  "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
+  "observed_at": "2026-10-06T17:20:49+00:00",
+  "offer_key": "ncd:/car/hyundai/ioniq-5-electric-hatchback/hatchback/electric/automatic/168kw-premium-84-kwh-5dr-auto/24/",
+  "present": 1,
+  "provider": "ncd",
+  "saving_stated": 12509.0,
+  "source": "New Car Discount",
+  "source_url": "https://www.new-car-discount.com/car/hyundai/ioniq-5-electric-hatchback/hatchback/electric/automatic/168kw-premium-84-kwh-5dr-auto/24/",
+  "status": "lead",
+  "vehicle_price": 34380.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "kia-ev2-61-gtlines-hp",
+  "car_ref": {
+   "key": "kia|kia ev2 electric hatchback|99kw gt-line s 61kwh 5dr auto [heat pump]",
+   "label": "KIA EV2 ELECTRIC HATCHBACK 99kW GT-Line S 61kWh 5dr Auto [Heat Pump]",
+   "source": "ncd"
+  },
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:51+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:51+00:00",
+     "present": true,
+     "source": "ncd",
+     "vehicle_price": 30775.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:51+00:00",
+   "last_seen_at": "2026-10-06T17:20:51+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "ncd:/car/kia/ev2-electric-hatchback/hatchback/electric/automatic/99kw-gt-line-s-61kwh-5dr-auto-heat-pump/26/",
+  "listing_url": "https://www.new-car-discount.com/car/kia/ev2/hatchback/all/all",
+  "metrics": {
+   "discount_vs_list": null,
+   "list_price": null,
+   "vehicle_price": 30775.0
+  },
+  "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
+  "observed_at": "2026-10-06T17:20:51+00:00",
+  "offer_key": "ncd:/car/kia/ev2-electric-hatchback/hatchback/electric/automatic/99kw-gt-line-s-61kwh-5dr-auto-heat-pump/26/",
+  "present": 1,
+  "provider": "ncd",
+  "saving_stated": 6414.0,
+  "source": "New Car Discount",
+  "source_url": "https://www.new-car-discount.com/car/kia/ev2-electric-hatchback/hatchback/electric/automatic/99kw-gt-line-s-61kwh-5dr-auto-heat-pump/26/",
+  "status": "lead",
+  "vehicle_price": 30775.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "kia-ev3-81-gtlines-hp",
+  "car_ref": {
+   "key": "kia|kia ev3 electric estate|150kw gt-line s 81.4kwh 5dr auto [heat pump]",
+   "label": "KIA EV3 ELECTRIC ESTATE 150kW GT-Line S 81.4kWh 5dr Auto [Heat Pump]",
+   "source": "ncd"
+  },
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:53+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:53+00:00",
+     "present": true,
+     "source": "ncd",
+     "vehicle_price": 38234.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:53+00:00",
+   "last_seen_at": "2026-10-06T17:20:53+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "ncd:/car/kia/ev3-electric-estate/estate/electric/automatic/150kw-gt-line-s-81.4kwh-5dr-auto-heat-pump/26/",
+  "listing_url": "https://www.new-car-discount.com/car/kia/ev3/estate/all/all",
+  "metrics": {
+   "discount_vs_list": null,
+   "list_price": null,
+   "vehicle_price": 38234.0
+  },
+  "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
+  "observed_at": "2026-10-06T17:20:53+00:00",
+  "offer_key": "ncd:/car/kia/ev3-electric-estate/estate/electric/automatic/150kw-gt-line-s-81.4kwh-5dr-auto-heat-pump/26/",
+  "present": 1,
+  "provider": "ncd",
+  "saving_stated": 5865.0,
+  "source": "New Car Discount",
+  "source_url": "https://www.new-car-discount.com/car/kia/ev3-electric-estate/estate/electric/automatic/150kw-gt-line-s-81.4kwh-5dr-auto-heat-pump/26/",
+  "status": "lead",
+  "vehicle_price": 38234.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "kia-pv5-passenger-71-elite-7seat",
+  "car_ref": {
+   "key": "kia|kia pv5 electric estate|120kw elite long range 71kwh 5dr auto [7 seat]",
+   "label": "KIA PV5 ELECTRIC ESTATE 120kW Elite Long Range 71kWh 5dr Auto [7 Seat]",
+   "source": "ncd"
+  },
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:57+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:57+00:00",
+     "present": true,
+     "source": "ncd",
+     "vehicle_price": 38572.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:57+00:00",
+   "last_seen_at": "2026-10-06T17:20:57+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "ncd:/car/kia/pv5-electric-estate/mpv/electric/automatic/120kw-elite-long-range-71kwh-5dr-auto-7-seat/26/",
+  "listing_url": "https://www.new-car-discount.com/car/kia/pv5/mpv/all/all",
+  "metrics": {
+   "discount_vs_list": null,
+   "list_price": null,
+   "vehicle_price": 38572.0
+  },
+  "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
+  "observed_at": "2026-10-06T17:20:57+00:00",
+  "offer_key": "ncd:/car/kia/pv5-electric-estate/mpv/electric/automatic/120kw-elite-long-range-71kwh-5dr-auto-7-seat/26/",
+  "present": 1,
+  "provider": "ncd",
+  "saving_stated": 3547.0,
+  "source": "New Car Discount",
+  "source_url": "https://www.new-car-discount.com/car/kia/pv5-electric-estate/mpv/electric/automatic/120kw-elite-long-range-71kwh-5dr-auto-7-seat/26/",
+  "status": "lead",
+  "vehicle_price": 38572.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "kia-pv5-passenger-71-essential-7seat",
+  "car_ref": {
+   "key": "kia|kia pv5 electric estate|120kw essential long range 71kwh 5dr auto [7 seat]",
+   "label": "KIA PV5 ELECTRIC ESTATE 120kW Essential Long Range 71kWh 5dr Auto [7 Seat]",
+   "source": "ncd"
+  },
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:57+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:57+00:00",
+     "present": true,
+     "source": "ncd",
+     "vehicle_price": 32739.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:57+00:00",
+   "last_seen_at": "2026-10-06T17:20:57+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "ncd:/car/kia/pv5-electric-estate/mpv/electric/automatic/120kw-essential-long-range-71kwh-5dr-auto-7-seat/26/",
+  "listing_url": "https://www.new-car-discount.com/car/kia/pv5/mpv/all/all",
+  "metrics": {
+   "discount_vs_list": null,
+   "list_price": null,
+   "vehicle_price": 32739.0
+  },
+  "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
+  "observed_at": "2026-10-06T17:20:57+00:00",
+  "offer_key": "ncd:/car/kia/pv5-electric-estate/mpv/electric/automatic/120kw-essential-long-range-71kwh-5dr-auto-7-seat/26/",
+  "present": 1,
+  "provider": "ncd",
+  "saving_stated": 4400.0,
+  "source": "New Car Discount",
+  "source_url": "https://www.new-car-discount.com/car/kia/pv5-electric-estate/mpv/electric/automatic/120kw-essential-long-range-71kwh-5dr-auto-7-seat/26/",
+  "status": "lead",
+  "vehicle_price": 32739.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-06",
+  "car_id": "kia-pv5-passenger-71-plus-7seat",
+  "car_ref": {
+   "key": "kia|kia pv5 electric estate|120kw plus long range 71kwh 5dr auto [7 seat]",
+   "label": "KIA PV5 ELECTRIC ESTATE 120kW Plus Long Range 71kWh 5dr Auto [7 Seat]",
+   "source": "ncd"
+  },
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:20:57+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-06T17:20:57+00:00",
+     "present": true,
+     "source": "ncd",
+     "vehicle_price": 35593.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:57+00:00",
+   "last_seen_at": "2026-10-06T17:20:57+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "ncd:/car/kia/pv5-electric-estate/mpv/electric/automatic/120kw-plus-long-range-71kwh-5dr-auto-7-seat/26/",
+  "listing_url": "https://www.new-car-discount.com/car/kia/pv5/mpv/all/all",
+  "metrics": {
+   "discount_vs_list": null,
+   "list_price": null,
+   "vehicle_price": 35593.0
+  },
+  "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
+  "observed_at": "2026-10-06T17:20:57+00:00",
+  "offer_key": "ncd:/car/kia/pv5-electric-estate/mpv/electric/automatic/120kw-plus-long-range-71kwh-5dr-auto-7-seat/26/",
+  "present": 1,
+  "provider": "ncd",
+  "saving_stated": 4826.0,
+  "source": "New Car Discount",
+  "source_url": "https://www.new-car-discount.com/car/kia/pv5-electric-estate/mpv/electric/automatic/120kw-plus-long-range-71kwh-5dr-auto-7-seat/26/",
+  "status": "lead",
+  "vehicle_price": 35593.0,
+  "verification": "scraped"
+ },
+ {
+  "annual_mileage": 6000,
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-kona-65-advance",
+  "car_ref": {
+   "key": "hyundai|kona electric|160kw advance 65kwh 5dr auto",
+   "label": "Hyundai Kona Electric 160kW Advance 65kWh 5dr Auto",
+   "source": "leaseloco"
+  },
+  "fees_gbp": 295.0,
+  "finance_type": "pch",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:43+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:58+00:00",
+     "initial_rental": 2620.8,
+     "monthly_rental": 291.2,
+     "observed_at": "2026-10-06T17:16:43+00:00",
+     "present": true,
+     "source": "leaseloco"
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:58+00:00",
+   "last_seen_at": "2026-10-06T17:20:58+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "leaseloco:44397:48:9:6000",
+  "initial_rental": 2620.8,
+  "lease_type": 2,
+  "locoscore": 84,
+  "metrics": {
+   "annual_mileage": 6000,
+   "effective_monthly": 345.88,
+   "fees": 295.0,
+   "initial_rental": 2620.8,
+   "monthly_rental": 291.2,
+   "num_rentals": 47,
+   "term_months": 48,
+   "total_cost": 16602.2
+  },
+  "monthly_rental": 291.2,
+  "notes": "Best personal-lease price on LeaseLoco for this derivative and profile; figures converted from ex-VAT.",
+  "num_rentals": 47,
+  "observed_at": "2026-10-06T17:16:43+00:00",
+  "offer_key": "leaseloco:44397:48:9:6000",
+  "present": 1,
+  "profile": "9+47",
+  "provider": "leaseloco",
+  "source": "LeaseLoco best personal lease",
+  "source_ref": "deal dfcea3e92f9e793c3ad108edc4439800 vehicle 44397",
+  "source_url": "https://www.leaseloco.com/car-leasing/hyundai/kona-electric",
+  "status": "lead",
+  "stock_status": 0,
+  "term_months": 48,
+  "verification": "scraped"
+ },
+ {
+  "annual_mileage": 6000,
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-kona-65-nline",
+  "car_ref": {
+   "key": "hyundai|kona electric|160kw n line 65kwh 5dr auto",
+   "label": "Hyundai Kona Electric 160kW N Line 65kWh 5dr Auto",
+   "source": "leaseloco"
+  },
+  "fees_gbp": 358.0,
+  "finance_type": "pch",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:43+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:58+00:00",
+     "initial_rental": 3229.92,
+     "monthly_rental": 269.16,
+     "observed_at": "2026-10-06T17:16:43+00:00",
+     "present": true,
+     "source": "leaseloco"
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:58+00:00",
+   "last_seen_at": "2026-10-06T17:20:58+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "leaseloco:44399:48:12:6000",
+  "initial_rental": 3229.92,
+  "lease_type": 2,
+  "locoscore": 88,
+  "metrics": {
+   "annual_mileage": 6000,
+   "effective_monthly": 338.3,
+   "fees": 358.0,
+   "initial_rental": 3229.92,
+   "monthly_rental": 269.16,
+   "num_rentals": 47,
+   "term_months": 48,
+   "total_cost": 16238.44
+  },
+  "monthly_rental": 269.16,
+  "notes": "Best personal-lease price on LeaseLoco for this derivative and profile; figures converted from ex-VAT.",
+  "num_rentals": 47,
+  "observed_at": "2026-10-06T17:16:43+00:00",
+  "offer_key": "leaseloco:44399:48:12:6000",
+  "present": 1,
+  "profile": "12+47",
+  "provider": "leaseloco",
+  "source": "LeaseLoco best personal lease",
+  "source_ref": "deal 250b60c8500712bfd80fb7b9bbc97520 vehicle 44399",
+  "source_url": "https://www.leaseloco.com/car-leasing/hyundai/kona-electric",
+  "status": "lead",
+  "stock_status": 0,
+  "term_months": 48,
+  "verification": "scraped"
+ },
+ {
+  "annual_mileage": 6000,
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-kona-65-ultimate",
+  "car_ref": {
+   "key": "hyundai|kona electric|160kw ultimate 65kwh 5dr auto",
+   "label": "Hyundai Kona Electric 160kW Ultimate 65kWh 5dr Auto",
+   "source": "leaseloco"
+  },
+  "fees_gbp": 358.0,
+  "finance_type": "pch",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:43+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:58+00:00",
+     "initial_rental": 3497.04,
+     "monthly_rental": 291.42,
+     "observed_at": "2026-10-06T17:16:43+00:00",
+     "present": true,
+     "source": "leaseloco"
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:58+00:00",
+   "last_seen_at": "2026-10-06T17:20:58+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "leaseloco:44400:48:12:6000",
+  "initial_rental": 3497.04,
+  "lease_type": 2,
+  "locoscore": 88,
+  "metrics": {
+   "annual_mileage": 6000,
+   "effective_monthly": 365.66,
+   "fees": 358.0,
+   "initial_rental": 3497.04,
+   "monthly_rental": 291.42,
+   "num_rentals": 47,
+   "term_months": 48,
+   "total_cost": 17551.78
+  },
+  "monthly_rental": 291.42,
+  "notes": "Best personal-lease price on LeaseLoco for this derivative and profile; figures converted from ex-VAT.",
+  "num_rentals": 47,
+  "observed_at": "2026-10-06T17:16:43+00:00",
+  "offer_key": "leaseloco:44400:48:12:6000",
+  "present": 1,
+  "profile": "12+47",
+  "provider": "leaseloco",
+  "source": "LeaseLoco best personal lease",
+  "source_ref": "deal 3becab51587ed4441db2f56132f507b6 vehicle 44400",
+  "source_url": "https://www.leaseloco.com/car-leasing/hyundai/kona-electric",
+  "status": "lead",
+  "stock_status": 0,
+  "term_months": 48,
+  "verification": "scraped"
+ },
+ {
+  "annual_mileage": 6000,
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-kona-65-nlines",
+  "car_ref": {
+   "key": "hyundai|kona electric|160kw n line s 65kwh 5dr auto",
+   "label": "Hyundai Kona Electric 160kW N Line S 65kWh 5dr Auto",
+   "source": "leaseloco"
+  },
+  "fees_gbp": 358.0,
+  "finance_type": "pch",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:43+00:00",
+   "history": [
+    {
+     "confirmed_at": "2026-10-06T17:20:58+00:00",
+     "initial_rental": 3453.36,
+     "monthly_rental": 287.78,
+     "observed_at": "2026-10-06T17:16:43+00:00",
+     "present": true,
+     "source": "leaseloco"
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:20:58+00:00",
+   "last_seen_at": "2026-10-06T17:20:58+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "leaseloco:44401:48:12:6000",
+  "initial_rental": 3453.36,
+  "lease_type": 2,
+  "locoscore": 88,
+  "metrics": {
+   "annual_mileage": 6000,
+   "effective_monthly": 361.19,
+   "fees": 358.0,
+   "initial_rental": 3453.36,
+   "monthly_rental": 287.78,
+   "num_rentals": 47,
+   "term_months": 48,
+   "total_cost": 17337.02
+  },
+  "monthly_rental": 287.78,
+  "notes": "Best personal-lease price on LeaseLoco for this derivative and profile; figures converted from ex-VAT.",
+  "num_rentals": 47,
+  "observed_at": "2026-10-06T17:16:43+00:00",
+  "offer_key": "leaseloco:44401:48:12:6000",
+  "present": 1,
+  "profile": "12+47",
+  "provider": "leaseloco",
+  "source": "LeaseLoco best personal lease",
+  "source_ref": "deal abb6e8905686c8fa0516b6defbb18950 vehicle 44401",
+  "source_url": "https://www.leaseloco.com/car-leasing/hyundai/kona-electric",
+  "status": "lead",
+  "stock_status": 0,
+  "term_months": 48,
+  "verification": "scraped"
+ },
+ {
+  "annual_mileage": 30000,
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-inster-49-02",
+  "car_ref": {
+   "key": "hyundai|inster|85kw 02 49kwh 5dr auto",
+   "label": "Hyundai Inster 85kW 02 49kWh 5dr Auto",
+   "source": "leaseloco"
+  },
+  "deal_list": "originalSearchResultDeals",
+  "fees_gbp": 295.0,
+  "finance_type": "pch",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:21:00+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "initial_rental": 2936.79,
+     "monthly_rental": 326.31,
+     "observed_at": "2026-10-06T17:21:00+00:00",
+     "present": true,
+     "source": "leaseloco"
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:21:00+00:00",
+   "last_seen_at": "2026-10-06T17:21:00+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "leaseloco:51303:48:9:30000",
+  "initial_rental": 2936.79,
+  "lease_type": 2,
+  "locoscore": 76,
+  "metrics": {
+   "annual_mileage": 30000,
+   "effective_monthly": 386.84,
+   "fees": 295.0,
+   "initial_rental": 2936.79,
+   "monthly_rental": 326.31,
+   "num_rentals": 47,
+   "term_months": 48,
+   "total_cost": 18568.36
+  },
+  "monthly_rental": 326.31,
+  "notes": "Best personal-lease price on LeaseLoco for this derivative and profile; figures converted from ex-VAT.",
+  "num_rentals": 47,
+  "observed_at": "2026-10-06T17:21:00+00:00",
+  "offer_key": "leaseloco:51303:48:9:30000",
+  "present": 1,
+  "profile": "9+47",
+  "provider": "leaseloco",
+  "source": "LeaseLoco best personal lease",
+  "source_ref": "deal 10891458878837b1bd426d00d0df4e4f vehicle 51303",
+  "source_url": "https://www.leaseloco.com/car-leasing/hyundai/inster",
+  "status": "lead",
+  "stock_status": 0,
+  "term_months": 48,
+  "verification": "scraped"
+ },
+ {
+  "annual_mileage": 6000,
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-ioniq5-84-advance-rwd",
+  "car_ref": {
+   "key": "hyundai|ioniq 5|168kw advance 84kwh 5dr auto",
+   "label": "Hyundai IONIQ 5 168kW Advance 84 kWh 5dr Auto",
+   "source": "leaseloco"
+  },
+  "deal_list": "originalBestDealList",
+  "fees_gbp": 295.0,
+  "finance_type": "pch",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:21:03+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "initial_rental": 3789.99,
+     "monthly_rental": 421.11,
+     "observed_at": "2026-10-06T17:21:03+00:00",
+     "present": true,
+     "source": "leaseloco"
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:21:03+00:00",
+   "last_seen_at": "2026-10-06T17:21:03+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "leaseloco:50694:48:9:6000",
+  "initial_rental": 3789.99,
+  "lease_type": 2,
+  "locoscore": 79,
+  "metrics": {
+   "annual_mileage": 6000,
+   "effective_monthly": 497.44,
+   "fees": 295.0,
+   "initial_rental": 3789.99,
+   "monthly_rental": 421.11,
+   "num_rentals": 47,
+   "term_months": 48,
+   "total_cost": 23877.16
+  },
+  "monthly_rental": 421.11,
+  "notes": "Best personal-lease price on LeaseLoco for this derivative and profile; figures converted from ex-VAT.",
+  "num_rentals": 47,
+  "observed_at": "2026-10-06T17:21:03+00:00",
+  "offer_key": "leaseloco:50694:48:9:6000",
+  "present": 1,
+  "profile": "9+47",
+  "provider": "leaseloco",
+  "source": "LeaseLoco best personal lease",
+  "source_ref": "deal e11b4df67d169b5e7a7101ff026f0d04 vehicle 50694",
+  "source_url": "https://www.leaseloco.com/car-leasing/hyundai/ioniq-5",
+  "status": "lead",
+  "stock_status": 0,
+  "term_months": 48,
+  "verification": "scraped"
+ },
+ {
+  "annual_mileage": 6000,
+  "captured_at": "2026-10-06",
+  "car_id": "hyundai-ioniq5-84-premium-rwd",
+  "car_ref": {
+   "key": "hyundai|ioniq 5|168kw premium 84kwh 5dr auto",
+   "label": "Hyundai IONIQ 5 168kW Premium 84 kWh 5dr Auto",
+   "source": "leaseloco"
+  },
+  "deal_list": "originalBestDealList",
+  "fees_gbp": 295.0,
+  "finance_type": "pch",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:21:03+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "initial_rental": 1486.89,
+     "monthly_rental": 495.63,
+     "observed_at": "2026-10-06T17:21:03+00:00",
+     "present": true,
+     "source": "leaseloco"
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:21:03+00:00",
+   "last_seen_at": "2026-10-06T17:21:03+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "leaseloco:50695:48:3:6000",
+  "initial_rental": 1486.89,
+  "lease_type": 2,
+  "locoscore": 80,
+  "metrics": {
+   "annual_mileage": 6000,
+   "effective_monthly": 522.43,
+   "fees": 295.0,
+   "initial_rental": 1486.89,
+   "monthly_rental": 495.63,
+   "num_rentals": 47,
+   "term_months": 48,
+   "total_cost": 25076.5
+  },
+  "monthly_rental": 495.63,
+  "notes": "Best personal-lease price on LeaseLoco for this derivative and profile; figures converted from ex-VAT.",
+  "num_rentals": 47,
+  "observed_at": "2026-10-06T17:21:03+00:00",
+  "offer_key": "leaseloco:50695:48:3:6000",
+  "present": 1,
+  "profile": "3+47",
+  "provider": "leaseloco",
+  "source": "LeaseLoco best personal lease",
+  "source_ref": "deal 97b3e5a4f2204d715829ab7f00851f89 vehicle 50695",
+  "source_url": "https://www.leaseloco.com/car-leasing/hyundai/ioniq-5",
+  "status": "lead",
+  "stock_status": 0,
+  "term_months": 48,
+  "verification": "scraped"
+ },
+ {
+  "annual_mileage": 5000,
+  "captured_at": "2026-10-06",
+  "car_id": "kia-ev3-81-gtlines-hp",
+  "car_ref": {
+   "key": "kia|ev3|150kw gt-line s 81.4kwh 5dr auto [heat pump]",
+   "label": "KIA EV3 150kW GT-Line S 81.4kWh 5dr Auto [Heat Pump]",
+   "source": "leaseloco"
+  },
+  "deal_list": "originalBestDealList",
+  "fees_gbp": 349.99,
+  "finance_type": "pch",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:21:05+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "initial_rental": 5308.8,
+     "monthly_rental": 442.4,
+     "observed_at": "2026-10-06T17:21:05+00:00",
+     "present": true,
+     "source": "leaseloco"
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:21:05+00:00",
+   "last_seen_at": "2026-10-06T17:21:05+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "leaseloco:57460:48:12:5000",
+  "initial_rental": 5308.8,
+  "lease_type": 2,
+  "locoscore": 74,
+  "metrics": {
+   "annual_mileage": 5000,
+   "effective_monthly": 551.07,
+   "fees": 349.99,
+   "initial_rental": 5308.8,
+   "monthly_rental": 442.4,
+   "num_rentals": 47,
+   "term_months": 48,
+   "total_cost": 26451.59
+  },
+  "monthly_rental": 442.4,
+  "notes": "Best personal-lease price on LeaseLoco for this derivative and profile; figures converted from ex-VAT.",
+  "num_rentals": 47,
+  "observed_at": "2026-10-06T17:21:05+00:00",
+  "offer_key": "leaseloco:57460:48:12:5000",
+  "present": 1,
+  "profile": "12+47",
+  "provider": "leaseloco",
+  "source": "LeaseLoco best personal lease",
+  "source_ref": "deal 6850de726a75e75353e038bd1ad6a59d vehicle 57460",
+  "source_url": "https://www.leaseloco.com/car-leasing/kia/ev3",
+  "status": "lead",
+  "stock_status": 0,
+  "term_months": 48,
+  "verification": "scraped"
+ },
+ {
+  "annual_mileage": 5000,
+  "captured_at": "2026-10-06",
+  "car_id": "kia-ev6-84-gtlines-rwd-hp",
+  "car_ref": {
+   "key": "kia|ev6|168kw gt line s 84kwh 5dr auto",
+   "label": "KIA EV6 168kW GT Line S 84kWh 5dr Auto",
+   "source": "leaseloco"
+  },
+  "deal_list": "originalBestDealList",
+  "fees_gbp": 300.0,
+  "finance_type": "pch",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:21:07+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "initial_rental": 6683.52,
+     "monthly_rental": 556.96,
+     "observed_at": "2026-10-06T17:21:07+00:00",
+     "present": true,
+     "source": "leaseloco"
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:21:07+00:00",
+   "last_seen_at": "2026-10-06T17:21:07+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "leaseloco:51035:48:12:5000",
+  "initial_rental": 6683.52,
+  "lease_type": 2,
+  "locoscore": 73,
+  "metrics": {
+   "annual_mileage": 5000,
+   "effective_monthly": 690.85,
+   "fees": 300.0,
+   "initial_rental": 6683.52,
+   "monthly_rental": 556.96,
+   "num_rentals": 47,
+   "term_months": 48,
+   "total_cost": 33160.64
+  },
+  "monthly_rental": 556.96,
+  "notes": "Best personal-lease price on LeaseLoco for this derivative and profile; figures converted from ex-VAT.",
+  "num_rentals": 47,
+  "observed_at": "2026-10-06T17:21:07+00:00",
+  "offer_key": "leaseloco:51035:48:12:5000",
+  "present": 1,
+  "profile": "12+47",
+  "provider": "leaseloco",
+  "source": "LeaseLoco best personal lease",
+  "source_ref": "deal 671b04ac8d28c07c49d78857189197f1 vehicle 51035",
+  "source_url": "https://www.leaseloco.com/car-leasing/kia/ev6",
+  "status": "lead",
+  "stock_status": 0,
+  "term_months": 48,
+  "verification": "scraped"
+ },
+ {
+  "amount_of_credit": 31975.0,
+  "apr": 0.039,
+  "captured_at": "2026-10-06",
+  "car_id": "kia-pv5-passenger-71-elite-7seat",
+  "car_ref": {
+   "key": "kia|pv5 electric estate 120kw elite long range 71kwh 5dr auto [7 seat]",
+   "label": "Kia PV5 Electric Estate 120Kw Elite Long Range 71Kwh 5Dr Auto [7 Seat]",
+   "source": "rrg"
+  },
+  "cost_of_credit_stated": 3001.98,
+  "customer_deposit": 8500.0,
+  "dealer": "RRG Kia (GWR Kia PBV Centre)",
+  "finance_type": "pcp",
+  "fixed_rate_pa": 0.020099999999999996,
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-06T17:16:57+00:00",
+   "history": [
+    {
+     "apr": 0.039,
+     "confirmed_at": "2026-10-06T17:21:08+00:00",
+     "gfv": 18652.06,
+     "monthly_payment": 453.47,
+     "observed_at": "2026-10-06T17:16:57+00:00",
+     "present": true,
+     "source": "rrg",
+     "vehicle_price": 40475.0
+    }
+   ],
+   "last_checked_at": "2026-10-06T17:21:08+00:00",
+   "last_seen_at": "2026-10-06T17:21:08+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "live"
+  },
+  "gfv": 18652.06,
+  "grant_gbp": 1500.0,
+  "id": "rrg:pv5-electric-estate-120kw-elite-long-range-71kwh-5dr-auto-7-seat:pcp",
+  "list_price": 41975.0,
+  "manufacturer_contribution": 0.0,
+  "metrics": {
+   "acquisition_penalty_vs_cash": 1903.0,
+   "amount_of_credit": 31975.0,
+   "apr_implied": 0.039,
+   "apr_stated": 0.039,
+   "best_cash_deal_id": "ncd:/car/kia/pv5-electric-estate/mpv/electric/automatic/120kw-elite-long-range-71kwh-5dr-auto-7-seat/26/",
+   "best_cash_price": 38572.0,
+   "cost_of_credit": 3001.98,
+   "customer_deposit": 8500.0,
+   "derived_fields": [],
+   "effective_monthly_hand_back": 670.94,
+   "effective_rate_vs_cash": 0.0669,
+   "finance_vs_own_cash_price": 3001.98,
+   "funding_premium_vs_cash": 4904.98,
+   "gfv": 18652.06,
+   "gfv_pct_of_list": 0.444,
+   "gfv_pct_of_price": 0.461,
+   "interest_per_month": 83.39,
+   "list_price": 41975.0,
+   "manufacturer_contribution": 0.0,
+   "monthly_at_0pct_same_gfv": 370.08,
+   "monthly_payment": 453.47,
+   "num_payments": 36,
+   "paid_if_bought": 43476.98,
+   "paid_if_handed_back": 24824.92,
+   "term_months": 37,
+   "vehicle_price": 40475.0
+  },
+  "monthly_payment": 453.47,
+  "notes": "Representative example for PV5 Passenger Elite long range 7 seater; the deposit is the dealer's example, not £0.",
+  "num_payments": 36,
+  "observed_at": "2026-10-06T17:16:57+00:00",
+  "offer_key": "rrg:pv5-electric-estate-120kw-elite-long-range-71kwh-5dr-auto-7-seat:pcp",
+  "present": 1,
+  "provider": "rrg",
+  "source": "RRG Kia offers page",
+  "source_url": "https://www.rrg-group.com/kia/new-car-offers/pv5-passenger-7-seater/",
+  "status": "live",
+  "term_months": 37,
+  "total_payable_stated": 44976.98,
+  "vehicle_price": 40475.0,
+  "verification": "scraped"
  }
 ]

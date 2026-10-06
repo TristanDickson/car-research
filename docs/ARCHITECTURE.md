@@ -7,9 +7,13 @@ on `main` and GitHub Pages serves it.
 
 ```
 providers (discover → fetch → parse)       pipeline/providers/*      Python, stdlib
-   manual_seed   data/seed/*.json           cars, requirements, trim map, hand-captured offers
-   carwow_paste  data/pastes/carwow/*.txt   Carwow offer pages copied out of a logged-in browser
-   <scrapers>    (to come)                  manufacturer / dealer / broker / aggregator pages
+   manual_seed     data/seed/*.json          cars, requirements, trim map, hand-captured offers
+   carwow_paste    data/pastes/carwow/*.txt  Carwow offer pages copied out of a logged-in browser
+   carwow_deals    carwow.co.uk (live)       best cash price per CAP derivative, Kia PCP-finance price, rep. example
+   hyundai_offers  hyundai.com/uk (live)     Hyundai Finance national PCP example per model, with validity dates
+   ncd             new-car-discount.com      broker all-in cash price per derivative
+   leaseloco       leaseloco.com (live)      best personal lease per derivative/profile (ex-VAT → inc.)
+   rrg             rrg-group.com (live)      dealer PCP example for the PV5 7-seat
         │  Bronze  artifacts            every fetched body, sha256-addressed, supersede chain
         │  Silver  source_rows          one row per parsed record, in the source's vocabulary
         │  Gold    cars                 canonical trims (hand-curated)
@@ -17,7 +21,8 @@ providers (discover → fetch → parse)       pipeline/providers/*      Python,
         │          offer_observations   one row per offer key per sighting (present / gone)
         ▼          requirements
 SQLite  data/car-research.sqlite            gitignored: a dev-machine artifact
-        │
+        │  ⇄ data/history/observations.jsonl  COMMITTED sighting log: every refresh appends, every
+        │                                      run (CI, a fresh clone) replays it before scraping
         ▼  export_snapshot()                 pipeline/services/snapshot.py
 JSON    web/public/data/{manifest,cars,offers,requirements,data}.json   COMMITTED on main
         │   offers = latest observation per key + finance maths + freshness (state, age, history)
@@ -49,10 +54,48 @@ page is idempotent (same key, same observed time, same artifact).
 ## Trim map (the small resolution problem)
 
 Every source names trims differently. A record that arrives with a `car_ref` (`{source, key}`)
-is resolved through `trim_map`; the key is the trim text normalised by the provider. A miss
-leaves the record in Silver, records an `unmapped` row, and counts on the run. `python -m
-pipeline trims` lists them (and fails CI); add the mapping to `data/seed/trim_map.json` and
-re-run. Nothing is ever attached to a guessed car.
+is resolved through `trim_map`; the key is whatever is stable for that source: the CAP
+derivative id on Carwow (`carwow-cap`), Hyundai's CAP code (`hyundai-cap`), or the derivative
+text normalised by `parse.norm_key` (`ncd`, `leaseloco`, `rrg`: lower-case, `kwh` glued to its
+number, parts joined by `|`). A miss leaves the record in Silver, records an `unmapped` row, and
+counts on the run. `python -m pipeline trims` lists them (and fails CI); add the mapping to
+`data/seed/trim_map.json` and re-run. Rows with `"status": "ignored"` are derivatives we have
+looked at and chosen not to track (the 42kWh Ioniq 3, no-heat-pump Insters, 5-seat PV5s, AWD
+Ioniq 5s): they resolve to nothing without counting as unmapped. Nothing is ever attached to a
+guessed car.
+
+## Live scraping
+
+`providers/http.py` is the one fetch path: a browser user agent, a per-host delay, two retries
+on 429/5xx, and a `FetchError` the runner turns into a per-target failure (one dead page does
+not sink a provider's run; the run records `errors` and the failing targets). Each live
+provider is a `parse_page(text, …) -> rows` pure function with the real captured page in
+`tests/fixtures/`, so a layout change fails `tests/test_providers.py` rather than writing
+nonsense. Providers set `live=True`; `refresh --offline` skips them, which is what CI runs.
+
+What each site gives, and the caveats carried into the offer rows:
+
+- **Carwow deals pages** are server-rendered and public. Per derivative: RRP, Carwow's best
+  cash price across its dealers (status `lead`, the named dealer needs the logged-in quotes
+  page), and on Kia pages a separate *PCP Finance* price (the price if you take Kia's PCP, usually
+  below cash: the row carries `pcp_finance_price` and the delta). One representative PCP example
+  per model, matched to its derivative by RRP, status `illustrative`.
+- **Hyundai UK offer pages** embed the complete PCP example as JSON (`data-js-options`): cash
+  price, grant, OTR, deposit and contribution, APR and flat rate, GFV, interest, mileage, excess
+  charge, and the order window in the T&Cs (`valid_from` / `valid_to`). Deposit is Hyundai's
+  example (£3,500), not £0; the maths in the app normalises that.
+- **New Car Discount** prints one all-in price per derivative, including the grant. The listing
+  names the no-heat-pump and pack variants explicitly, which is how the trim map tells them apart.
+- **LeaseLoco** ships deals in `__NEXT_DATA__` (`originalBestDealList`, or the first search
+  page for models without a curated list). Prices are ex-VAT and are multiplied by 1.2; the key
+  includes term, initial-months and mileage because the same car appears on several profiles.
+- **RRG** is a plain-text representative example on a dealer page; the regex is pinned to the
+  current wording.
+
+Blocked or unavailable, and why they are not providers: Richmond Hyundai and Kia's used-car site
+(Imperva, blocks headless Chromium too), cars2buy (Cloudflare), Arnold Clark (client-rendered),
+EV Database (rate-limited), and Kia's own quote API (`kiaofferscalculator.co.uk`), which answers
+"No quote available for parameters entered" for every parameter set, in the live widget as well.
 
 ## Carwow without an API
 
@@ -129,6 +172,12 @@ links like `/cars/view?id=…`), `.nojekyll`, `upload-pages-artifact`, `deploy-p
 One-time repo setting: **Settings → Pages → Source = "GitHub Actions"**. Until then the deploy
 step fails.
 
+`.github/workflows/scrape.yml` runs nightly (and on dispatch): `pipeline refresh` with the live
+providers, commits `data/history`, `web/public/data` and `docs/deal-comparison.md` if anything
+changed, then dispatches the Pages deploy (a push made with the workflow token does not trigger
+other workflows by itself). `pipeline-ci.yml` runs `refresh --offline`: seed, pastes and the
+replayed history, so the freshness diff is deterministic and needs no network.
+
 If the snapshot ever grows past a few MB (per-listing price history, scraped used-car markets),
 move it off `main` onto a squashed orphan `data` branch exactly as `etf-tool/scripts/publish-data.sh`
 does, and add the second checkout step to the deploy workflow.
@@ -136,7 +185,8 @@ does, and add the second checkout step to the deploy workflow.
 ## Local development
 
 ```
-make snapshot        # python -m pipeline refresh --out web/public/data
+make snapshot        # python -m pipeline refresh --out web/public/data   (live scrape)
+make snapshot-offline  # same with --offline: seed + pastes + replayed history
 make test            # python unittest + web lint/typecheck/vitest
 make web-dev         # next dev on :3001, reads web/public/data
 make web-build       # static export to web/out
@@ -147,21 +197,18 @@ Python ≥ 3.11, stdlib only so far. Node 22.
 
 ## Adding a provider (scraper)
 
-1. `pipeline/providers/<name>.py`: write `discover`, `fetch`, `parse`; wrap fetch with delay /
-   retry middleware when it exists; declare `Capability(kinds=…)` and `Provider`.
-2. Register it in `pipeline/providers/__init__.py` (after `manual_seed`, which writes the cars
+1. Save a real page into `tests/fixtures/` first and write `parse_page()` against it.
+2. `pipeline/providers/<name>.py`: `discover` yields the targets (URL in `metadata`), `fetch`
+   calls `http.fetch_url`, `parse` wraps `parse_page`; declare `Capability(kinds=("offer",))` and
+   `Provider(live=True)`.
+3. Register it in `pipeline/providers/__init__.py` (after `manual_seed`, which writes the cars
    and trim map everything else resolves against).
-3. Emit `ParsedRecord(kind="offer", key=<offer key>, row=…)` with `offer_key`, `observed_at`,
-   `present`, `finance_type`, `status`, the price fields in the seed schema, and either `car_id`
-   or `car_ref: {source, key, label}` for the trim map to resolve.
-4. `python -m pipeline run <name>`, then `python -m pipeline trims` to see what needs mapping,
-   then `make snapshot`. The deal maths, freshness and requirement checks apply automatically.
-5. `carwow_paste` is the template: a file-backed provider with a pure `parse_page()` that the
-   tests exercise against real captured pages.
-
-Candidate first providers, in the order they pay off: Carwow dealer-offer pages (full PCP
-representative examples), Cars2buy derivative price lists (cash benchmarks), manufacturer offer
-pages (campaign terms), LeaseLoco (PCH).
+4. Emit `ParsedRecord(kind="offer", key=<offer key>, row=…)` with `offer_key`, `observed_at`,
+   `present`, `finance_type`, `status`, `verification: "scraped"`, the price fields in the seed
+   schema, and `car_ref: {source, key, label}` for the trim map to resolve.
+5. `python -m pipeline run <name>`, then `python -m pipeline trims` to see what needs mapping or
+   ignoring, then `make snapshot`. The deal maths, freshness and requirement checks apply
+   automatically. Add a fixture test to `tests/test_providers.py`.
 
 ## Decisions
 

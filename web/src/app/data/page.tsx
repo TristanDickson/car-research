@@ -44,9 +44,11 @@ export default function DataPage() {
             {data.providers.map((p) => (
               <li key={p.name}>
                 <span className="font-medium text-gray-100">{p.name}</span>
-                <span className="ml-2 text-gray-500">
+                <span className="ml-2"><Badge tone={p.live ? "good" : "muted"}>{p.live ? "scrapes the web" : "offline"}</Badge></span>
+                {p.description && <div className="text-gray-400">{p.description}</div>}
+                <div className="text-xs text-gray-500">
                   {p.capabilities.map((c) => `${c.name} → ${c.kinds.join(", ")} (parser v${c.parser_version})`).join("; ")}
-                </span>
+                </div>
               </li>
             ))}
           </ul>
@@ -76,7 +78,7 @@ export default function DataPage() {
       <Card title="Recent runs">
         <table className="w-full text-sm">
           <thead className="text-xs uppercase text-gray-500">
-            <tr><th className="text-left">Provider</th><th className="text-left">Capability</th><th className="text-left">Finished</th><th className="text-left">Status</th><th className="text-right">Artifacts</th><th className="text-right">Records</th><th className="text-right">Unmapped</th></tr>
+            <tr><th className="text-left">Provider</th><th className="text-left">Capability</th><th className="text-left">Finished</th><th className="text-left">Status</th><th className="text-right">Artifacts</th><th className="text-right">Records</th><th className="text-right">Unmapped</th><th className="text-right">Failed targets</th></tr>
           </thead>
           <tbody>
             {data.runs.map((r) => (
@@ -88,6 +90,7 @@ export default function DataPage() {
                 <td className="py-1 text-right tabular-nums">{r.artifacts}</td>
                 <td className="py-1 text-right tabular-nums">{r.records}</td>
                 <td className="py-1 text-right tabular-nums">{r.unmapped}</td>
+                <td className="py-1 text-right tabular-nums">{r.errors ?? 0}</td>
               </tr>
             ))}
           </tbody>

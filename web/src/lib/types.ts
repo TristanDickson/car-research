@@ -230,6 +230,7 @@ export interface RunRow {
   artifacts: number;
   records: number;
   unmapped: number;
+  errors?: number;
 }
 
 export interface UnmappedTrim {
@@ -244,7 +245,12 @@ export interface UnmappedTrim {
 export interface DataPage {
   generated_at: string;
   stale_days: number;
-  providers: { name: string; capabilities: { name: string; kinds: string[]; parser_version: string }[] }[];
+  providers: {
+    name: string;
+    live?: boolean;
+    description?: string;
+    capabilities: { name: string; kinds: string[]; parser_version: string }[];
+  }[];
   runs: RunRow[];
   unmapped_trims: UnmappedTrim[];
   offer_states: Record<string, number>;

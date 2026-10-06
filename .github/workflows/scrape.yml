@@ -1,0 +1,67 @@
+# Nightly price scrape: runs every live provider, appends new observations to
+# data/history/observations.jsonl, regenerates the snapshot the SPA reads and
+# the deal comparison doc, commits, then kicks the Pages deploy (pushes made
+# with GITHUB_TOKEN do not trigger other workflows, so we dispatch it).
+#
+# One provider failing (site down, layout changed) is logged in the run and the
+# rest still land; a changed layout shows up as a provider with 0 records and
+# its offers drifting to 'stale' in the app after 14 days.
+name: Nightly price scrape
+
+on:
+  schedule:
+    - cron: "17 3 * * *"   # 03:17 UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: scrape
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Refresh (live providers + history + snapshot)
+        env:
+          CAR_RESEARCH_DB: /tmp/scrape.sqlite
+        run: |
+          python -m pipeline refresh --out web/public/data
+          python -m pipeline status
+          python -m pipeline deal-table > docs/deal-comparison.md
+
+      - name: Unmapped trims (report only)
+        env:
+          CAR_RESEARCH_DB: /tmp/scrape.sqlite
+        run: python -m pipeline trims || echo "::warning::new unmapped trims; add them to data/seed/trim_map.json"
+
+      - name: Commit and push if anything changed
+        id: commit
+        run: |
+          git config user.name "car-research scrape"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/history web/public/data docs/deal-comparison.md
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No price changes."
+          else
+            git commit -m "data: nightly price scrape $(date -u +%Y-%m-%d)"
+            git push origin HEAD:main
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy the app with the new snapshot
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages-deploy.yml --ref main

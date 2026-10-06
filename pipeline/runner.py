@@ -26,6 +26,7 @@ class RunResult:
     records: int
     gold_rows: int
     unmapped: int
+    errors: int = 0
 
 
 def store_artifact(conn: sqlite3.Connection, source: str, cap: Capability, target: Target,
@@ -72,18 +73,27 @@ def run(conn: sqlite3.Connection, provider: Provider, capability: str | None = N
 
     n_art = n_new = n_rec = n_unmapped = 0
     records: dict[str, list] = {}
+    failures: list[str] = []
     try:
         for i, t in enumerate(cap.discover(Target(identifier=target), ctx)):
             if ctx.max_targets is not None and i >= ctx.max_targets:
                 break
-            fetched = cap.fetch(t, ctx)
+            # One bad target (site down, layout changed) must not sink the run.
+            try:
+                fetched = cap.fetch(t, ctx)
+                if fetched.status_code != 200:
+                    raise RuntimeError(f"HTTP {fetched.status_code}")
+                parsed = list(cap.parse(fetched.body, t))
+            except Exception as e:  # noqa: BLE001
+                failures.append(f"{t.identifier}: {e}")
+                continue
             now = _now()
             art_id, is_new = store_artifact(conn, provider.name, cap, t, fetched, now)
             n_art += 1
             n_new += int(is_new)
             # Re-parsing an existing artifact replaces its Silver rows (idempotent).
             conn.execute("DELETE FROM source_rows WHERE artifact_id=?", (art_id,))
-            for rec in cap.parse(fetched.body, t):
+            for rec in parsed:
                 conn.execute(
                     "INSERT INTO source_rows (artifact_id, source, kind, source_key, row, parsed_at) VALUES (?,?,?,?,?,?)",
                     (art_id, provider.name, rec.kind, rec.key, json.dumps(rec.row, ensure_ascii=False, sort_keys=True), now),
@@ -91,17 +101,18 @@ def run(conn: sqlite3.Connection, provider: Provider, capability: str | None = N
                 n_rec += 1
                 if rec.kind == "offer" and not rec.row.get("car_id"):
                     ref = rec.row.get("car_ref") or {}
-                    car_id = gold.resolve_car(conn, ref.get("source", provider.name), ref.get("key", ""),
-                                              ref.get("label"), fetched.url, now)
+                    car_id, status = gold.resolve_car(conn, ref.get("source", provider.name), ref.get("key", ""),
+                                                      ref.get("label"), fetched.url, now)
                     if car_id is None:
-                        n_unmapped += 1
+                        n_unmapped += int(status == "unmapped")
                         continue
                     rec.row["car_id"] = car_id
                 records.setdefault(rec.kind, []).append((art_id, rec))
         n_gold = gold.write(conn, provider.name, cap.kinds, records, run_id)
+        status = "ok" if (n_art or not failures) else "error"
         conn.execute(
-            "UPDATE runs SET finished_at=?, status='ok', artifacts=?, records=?, unmapped=? WHERE id=?",
-            (_now(), n_art, n_rec, n_unmapped, run_id),
+            "UPDATE runs SET finished_at=?, status=?, artifacts=?, records=?, unmapped=?, errors=?, error=? WHERE id=?",
+            (_now(), status, n_art, n_rec, n_unmapped, len(failures), "\n".join(failures) or None, run_id),
         )
         conn.commit()
     except Exception:
@@ -112,4 +123,4 @@ def run(conn: sqlite3.Connection, provider: Provider, capability: str | None = N
         )
         conn.commit()
         raise
-    return RunResult(run_id, provider.name, cap.name, n_art, n_new, n_rec, n_gold, n_unmapped)
+    return RunResult(run_id, provider.name, cap.name, n_art, n_new, n_rec, n_gold, n_unmapped, len(failures))

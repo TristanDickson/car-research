@@ -18,14 +18,14 @@ jobs:
           python-version: "3.12"
       - name: Unit tests
         run: python -m unittest discover -s tests -v
-      - name: Rebuild snapshot from seed and pastes
+      - name: Rebuild snapshot offline
         env:
           CAR_RESEARCH_DB: /tmp/ci.sqlite
         # Pin generated_at to the committed one: freshness fields (age, stale)
         # are relative to it, so the diff below is deterministic.
         run: |
           GEN=$(python -c "import json;print(json.load(open('web/public/data/manifest.json'))['generated_at'])")
-          python -m pipeline refresh --out /tmp/snapshot --generated-at "$GEN"
+          python -m pipeline refresh --offline --out /tmp/snapshot --generated-at "$GEN"
       - name: No unmapped trims
         env:
           CAR_RESEARCH_DB: /tmp/ci.sqlite

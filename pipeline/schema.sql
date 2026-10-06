@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS runs (
   artifacts   INTEGER DEFAULT 0,
   records     INTEGER DEFAULT 0,
   unmapped    INTEGER DEFAULT 0,      -- offers skipped because their trim is not in trim_map
+  errors      INTEGER DEFAULT 0,      -- targets that failed to fetch or parse (run continues)
   error       TEXT
 );
 
@@ -90,7 +91,8 @@ CREATE TABLE IF NOT EXISTS offer_observations (
   offer_key       TEXT NOT NULL,
   car_id          TEXT NOT NULL REFERENCES cars(id),
   source          TEXT NOT NULL,      -- provider that observed it
-  observed_at     TEXT NOT NULL,      -- ISO date or datetime
+  observed_at     TEXT NOT NULL,      -- first time this exact state was seen
+  confirmed_at    TEXT,               -- last time the same state was seen again (unchanged re-sighting)
   present         INTEGER NOT NULL DEFAULT 1,
   finance_type    TEXT NOT NULL,      -- pcp | pch | cash | campaign
   status          TEXT NOT NULL,      -- what the source implied at the time

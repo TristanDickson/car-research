@@ -1,20 +1,20 @@
 {
  "counts": {
   "cars": 19,
-  "observations": 33,
-  "offers": 33,
-  "trim_map_mapped": 4,
+  "observations": 80,
+  "offers": 80,
+  "trim_map_mapped": 50,
   "trim_map_unmapped": 0
  },
- "generated_at": "2026-10-06T14:09:48+00:00",
+ "generated_at": "2026-10-06T17:22:24+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
   "expired": 3,
   "historical": 1,
-  "illustrative": 1,
-  "lead": 12,
-  "live": 7
+  "illustrative": 2,
+  "lead": 54,
+  "live": 11
  },
  "providers": [
   {
@@ -30,6 +30,8 @@
      "parser_version": "2"
     }
    ],
+   "description": "The hand-curated seed data (data/seed/*.json) as a provider.",
+   "live": false,
    "name": "manual_seed"
   },
   {
@@ -42,18 +44,91 @@
      "parser_version": "1"
     }
    ],
+   "description": "Carwow dealer-offer pages pasted as text (data/pastes/carwow/*.txt).",
+   "live": false,
    "name": "carwow_paste"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "offer"
+     ],
+     "name": "deals",
+     "parser_version": "1"
+    }
+   ],
+   "description": "Carwow public model deals pages: https://www.carwow.co.uk/<make>/<model>/deals",
+   "live": true,
+   "name": "carwow_deals"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "offer"
+     ],
+     "name": "offers",
+     "parser_version": "1"
+    }
+   ],
+   "description": "Hyundai UK per-model offer pages: /uk/en/offers/new-cars/model/offer.<model>.html",
+   "live": true,
+   "name": "hyundai_offers"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "offer"
+     ],
+     "name": "listing",
+     "parser_version": "1"
+    }
+   ],
+   "description": "New Car Discount model listings: https://www.new-car-discount.com/car/<make>/<model>/<body>/all/all",
+   "live": true,
+   "name": "ncd"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "offer"
+     ],
+     "name": "best-deals",
+     "parser_version": "1"
+    }
+   ],
+   "description": "LeaseLoco model pages: https://www.leaseloco.com/car-leasing/<make>/<model>",
+   "live": true,
+   "name": "leaseloco"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "offer"
+     ],
+     "name": "offers",
+     "parser_version": "1"
+    }
+   ],
+   "description": "RRG Kia PV5 offers page: representative Kia Finance PCP examples in plain text.",
+   "live": true,
+   "name": "rrg"
   }
  ],
  "runs": [
   {
    "artifacts": 4,
    "capability": "offers",
-   "finished_at": "2026-10-06T14:09:48+00:00",
-   "id": 2,
+   "errors": 0,
+   "finished_at": "2026-10-06T17:22:24+00:00",
+   "id": 11,
    "records": 4,
    "source": "carwow_paste",
-   "started_at": "2026-10-06T14:09:48+00:00",
+   "started_at": "2026-10-06T17:22:24+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -61,11 +136,129 @@
   {
    "artifacts": 4,
    "capability": "seed",
-   "finished_at": "2026-10-06T14:09:48+00:00",
-   "id": 1,
-   "records": 53,
+   "errors": 0,
+   "finished_at": "2026-10-06T17:22:24+00:00",
+   "id": 10,
+   "records": 252,
    "source": "manual_seed",
-   "started_at": "2026-10-06T14:09:48+00:00",
+   "started_at": "2026-10-06T17:22:24+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
+   "artifacts": 4,
+   "capability": "offers",
+   "errors": 0,
+   "finished_at": "2026-10-06T17:21:35+00:00",
+   "id": 9,
+   "records": 4,
+   "source": "carwow_paste",
+   "started_at": "2026-10-06T17:21:35+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
+   "artifacts": 4,
+   "capability": "seed",
+   "errors": 0,
+   "finished_at": "2026-10-06T17:21:35+00:00",
+   "id": 8,
+   "records": 252,
+   "source": "manual_seed",
+   "started_at": "2026-10-06T17:21:35+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
+   "artifacts": 1,
+   "capability": "offers",
+   "errors": 0,
+   "finished_at": "2026-10-06T17:21:08+00:00",
+   "id": 7,
+   "records": 1,
+   "source": "rrg",
+   "started_at": "2026-10-06T17:21:07+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
+   "artifacts": 5,
+   "capability": "best-deals",
+   "errors": 0,
+   "finished_at": "2026-10-06T17:21:07+00:00",
+   "id": 6,
+   "records": 49,
+   "source": "leaseloco",
+   "started_at": "2026-10-06T17:20:57+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 38
+  },
+  {
+   "artifacts": 8,
+   "capability": "listing",
+   "errors": 0,
+   "finished_at": "2026-10-06T17:20:57+00:00",
+   "id": 5,
+   "records": 70,
+   "source": "ncd",
+   "started_at": "2026-10-06T17:20:42+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 38
+  },
+  {
+   "artifacts": 4,
+   "capability": "offers",
+   "errors": 0,
+   "finished_at": "2026-10-06T17:20:42+00:00",
+   "id": 4,
+   "records": 4,
+   "source": "hyundai_offers",
+   "started_at": "2026-10-06T17:20:36+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
+   "artifacts": 8,
+   "capability": "deals",
+   "errors": 0,
+   "finished_at": "2026-10-06T17:20:36+00:00",
+   "id": 3,
+   "records": 79,
+   "source": "carwow_deals",
+   "started_at": "2026-10-06T17:20:17+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 34
+  },
+  {
+   "artifacts": 4,
+   "capability": "offers",
+   "errors": 0,
+   "finished_at": "2026-10-06T17:20:17+00:00",
+   "id": 2,
+   "records": 4,
+   "source": "carwow_paste",
+   "started_at": "2026-10-06T17:20:17+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
+   "artifacts": 4,
+   "capability": "seed",
+   "errors": 0,
+   "finished_at": "2026-10-06T17:20:17+00:00",
+   "id": 1,
+   "records": 144,
+   "source": "manual_seed",
+   "started_at": "2026-10-06T17:20:17+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0

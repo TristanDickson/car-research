@@ -1,11 +1,1253 @@
 {
   "schema_version": 1,
   "as_of": "2026-10-06",
-  "notes": "Maps each source's own trim naming onto our car ids. source_key is normalised by the provider (lower-case, 'kwh' attached to its number, single spaces). A scraped offer whose key is missing here lands in silver but not gold, and shows up as 'unmapped' in the snapshot until a row is added.",
+  "notes": "Maps each source's own trim naming onto our car ids. Sources: carwow (pasted quote pages, key = make|model|derivative), carwow-cap (public deals pages, key = CAP derivative id), hyundai-cap (Hyundai UK offer pages, key = CAP code), ncd / leaseloco (key = make|model|derivative, normalised), rrg (key = kia|derivative). A row without car_id is status 'ignored': a derivative we deliberately don't track (wrong pack, no heat pump, non-EV). A scraped key missing here lands in silver but not gold and shows as 'unmapped' in the snapshot and `pipeline trims`.",
   "trim_map": [
-    { "source": "carwow", "source_key": "hyundai|ioniq 3|99kw 61kwh auto ultimate ev pack", "car_id": "hyundai-ioniq3-61-ultimate-evpack" },
-    { "source": "carwow", "source_key": "hyundai|kona electric|160kw 65kwh auto ultimate", "car_id": "hyundai-kona-65-ultimate" },
-    { "source": "carwow", "source_key": "hyundai|inster|85kw 49kwh auto 02", "car_id": "hyundai-inster-49-02", "note": "Tech Pack (internal V2L) not confirmed on the listed car." },
-    { "source": "carwow", "source_key": "hyundai|ioniq 5|168kw 84kwh auto premium", "car_id": "hyundai-ioniq5-84-premium-rwd" }
+    {
+      "source": "carwow",
+      "source_key": "hyundai|inster|85kw 49kwh auto 02",
+      "car_id": "hyundai-inster-49-02",
+      "note": "Tech Pack (internal V2L) not confirmed on the listed car."
+    },
+    {
+      "source": "carwow",
+      "source_key": "hyundai|ioniq 3|99kw 61kwh auto ultimate ev pack",
+      "car_id": "hyundai-ioniq3-61-ultimate-evpack"
+    },
+    {
+      "source": "carwow",
+      "source_key": "hyundai|ioniq 5|168kw 84kwh auto premium",
+      "car_id": "hyundai-ioniq5-84-premium-rwd"
+    },
+    {
+      "source": "carwow",
+      "source_key": "hyundai|kona electric|160kw 65kwh auto ultimate",
+      "car_id": "hyundai-kona-65-ultimate"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "103322",
+      "car_id": "hyundai-kona-65-advance",
+      "note": "RRP £35,000 = Kona Advance 65kWh."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "103324",
+      "car_id": "hyundai-kona-65-nline"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "103325",
+      "car_id": "hyundai-kona-65-ultimate"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "103326",
+      "car_id": "hyundai-kona-65-nlines"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "105816",
+      "car_id": "hyundai-ioniq5-84-advance-rwd",
+      "note": "RRP £44,195 = 168kW 84kWh RWD Advance."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "105817",
+      "car_id": "hyundai-ioniq5-84-premium-rwd",
+      "note": "RRP £46,755 = 168kW 84kWh RWD Premium."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "106619",
+      "car_id": "kia-ev6-84-gtlines-rwd-hp",
+      "note": "Carwow/LeaseLoco list one GT Line S 84kWh RWD derivative and no separate [Heat Pump] variant (unlike EV3/EV2); confirm heat-pump fitment with the dealer before relying on this."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "106646",
+      "car_id": "hyundai-inster-49-02",
+      "note": "RRP £27,115 = Inster 02 49kWh with heat pump."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "109891",
+      "car_id": "kia-ev2-61-gtlines-hp",
+      "note": "RRP £37,045; Carwow's own listing text reads 'GT-Line S 61kWh 5dr Auto [Heat Pump]'."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "110664",
+      "car_id": "hyundai-ioniq3-61-advance"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "110973",
+      "car_id": "kia-pv5-passenger-71-essential-7seat",
+      "note": "RRP £36,995 = Essential 7-seat (5-seat is 108178 at £36,195)."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "110974",
+      "car_id": "kia-pv5-passenger-71-plus-7seat",
+      "note": "RRP £40,275 = Plus 7-seat (5-seat is 108179 at £39,475)."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "110975",
+      "car_id": "kia-pv5-passenger-71-elite-7seat",
+      "note": "RRP £41,975 = Elite 7-seat (the 5-seat Elite is 110972 at £41,175)."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "110993",
+      "car_id": "kia-ev3-81-gtlines-hp",
+      "note": "GT-Line S at RRP £43,955 = with heat pump; 106394 (£43,055) is without."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "111014",
+      "car_id": "hyundai-ioniq3-61-premium-evpack",
+      "note": "Carwow 'Premium' derivative at RRP £28,695 is the EV Pack car."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "111015",
+      "car_id": "hyundai-ioniq3-61-ultimate-evpack",
+      "note": "RRP £31,195 = Ultimate + EV Pack."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "111021",
+      "car_id": "hyundai-ioniq3-61-ultimate-comfort-design-evpack",
+      "note": "RRP £35,195 = Ultimate + Comfort + Design + EV."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "103323",
+      "status": "ignored",
+      "note": "Second Kona Advance derivative at RRP £35,600 (£600 over the standard Advance; probably Comfort Pack); not tracked.",
+      "label": "Hyundai Kona Electric 160kW 65kWh Auto · Advance · RRP £35,600"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "105814",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 5 125kW 63 kWh Auto · Advance · RRP £40,695",
+      "note": "Ioniq 5 63kWh; we track the 84kWh."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "105815",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 5 125kW 63 kWh Auto · Premium · RRP £43,255",
+      "note": "Ioniq 5 63kWh; we track the 84kWh."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "105818",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 5 168kW 84 kWh Auto · N Line · RRP £48,255"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "105819",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 5 168kW 84 kWh Auto · Ultimate · RRP £50,255"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "105820",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 5 168kW 84 kWh Auto · N Line S · RRP £53,255"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "105821",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 5 239kW 84 kWh AWD Auto · N Line · RRP £51,755",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "105822",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 5 239kW 84 kWh AWD Auto · Ultimate · RRP £53,755",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "105823",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 5 239kW 84 kWh AWD Auto · N Line S · RRP £56,755",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "105824",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 5 168kW 84 kWh Auto · Ultimate · RRP £51,755"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "105825",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 5 168kW 84 kWh Auto · Ultimate · RRP £52,755"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "105827",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 5 239kW 84 kWh AWD Auto · Ultimate · RRP £55,255",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "105828",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 5 239kW 84 kWh AWD Auto · Ultimate · RRP £56,255",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "106391",
+      "status": "ignored",
+      "label": "Kia EV3 150kW 58.3kWh Auto · Air · RRP £33,055"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "106392",
+      "status": "ignored",
+      "label": "Kia EV3 150kW 81.4kWh Auto · Air · RRP £36,055"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "106393",
+      "status": "ignored",
+      "label": "Kia EV3 150kW 81.4kWh Auto · GT-Line · RRP £39,455"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "106394",
+      "status": "ignored",
+      "label": "Kia EV3 150kW 81.4kWh Auto · GT-Line S · RRP £43,055",
+      "note": "GT-Line S without the heat pump (RRP £43,055); fails the heat-pump requirement."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "106620",
+      "status": "ignored",
+      "label": "Kia EV6 239kW 84kWh AWD Auto · GT Line S · RRP £57,235",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "106637",
+      "status": "ignored",
+      "label": "Kia EV6 168kW 84kWh Auto · Air · RRP £45,635"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "106638",
+      "status": "ignored",
+      "label": "Kia EV6 168kW 84kWh Auto · GT Line · RRP £48,635"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "106639",
+      "status": "ignored",
+      "label": "Kia EV6 239kW 84kWh AWD Auto · GT Line · RRP £52,135",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "106644",
+      "status": "ignored",
+      "label": "Hyundai Inster 71kW 42kWh Auto · 01 · RRP £23,755"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "106645",
+      "status": "ignored",
+      "label": "Hyundai Inster 85kW 49kWh Auto · 01 · RRP £25,305"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "106647",
+      "status": "ignored",
+      "label": "Hyundai Inster 85kW 49kWh Auto · Cross · RRP £29,245"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "108177",
+      "status": "ignored",
+      "label": "Kia PV5 Passenger 89kW Standard Range 52kWh Auto · Essential · RRP £33,195",
+      "note": "PV5 5-seat (or 52kWh); the household wants the 7-seat 71kWh."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "108178",
+      "status": "ignored",
+      "note": "PV5 Essential 5-seat (RRP £36,195).",
+      "label": "Kia PV5 Passenger 120kW Long Range 71kWh Auto · Essential · RRP £36,195"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "108179",
+      "status": "ignored",
+      "note": "PV5 Plus 5-seat (RRP £39,475).",
+      "label": "Kia PV5 Passenger 120kW Long Range 71kWh Auto · Plus · RRP £39,475"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "108315",
+      "status": "ignored",
+      "label": "Kia EV6 478kW 84kWh AWD Auto · GT · RRP £60,035",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "109120",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 5 168kW 84 kWh Auto · Ultimate · RRP £54,255"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "109121",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 5 239kW 84 kWh AWD Auto · Ultimate · RRP £57,755",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "109887",
+      "status": "ignored",
+      "label": "Kia EV2 107kW 42kWh Auto · First Edition · RRP £28,495"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "109888",
+      "status": "ignored",
+      "label": "Kia EV2 99kW 61kWh Auto · Air · RRP £27,995"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "109889",
+      "status": "ignored",
+      "label": "Kia EV2 99kW 61kWh Auto · GT-Line · RRP £32,745"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "109890",
+      "status": "ignored",
+      "note": "EV2 GT-Line S without the heat pump (RRP £36,345).",
+      "label": "Kia EV2 99kW 61kWh Auto · GT-Line S · RRP £36,345"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "110532",
+      "status": "ignored",
+      "note": "Inster 02 49kWh at RRP £26,290, £825 under 106646: the no-heat-pump derivative brokers list as '[No Heat Pump]'.",
+      "label": "Hyundai Inster 85kW 49kWh Auto · 02 · RRP £26,290"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "110533",
+      "status": "ignored",
+      "label": "Hyundai Inster 71kW 42kWh Auto · 01 · RRP £22,995"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "110534",
+      "status": "ignored",
+      "label": "Hyundai Inster 71kW 42kWh Auto · 02 · RRP £24,740"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "110535",
+      "status": "ignored",
+      "label": "Hyundai Inster 85kW 49kWh Auto · Cross · RRP £28,420"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "110536",
+      "status": "ignored",
+      "label": "Hyundai Inster 85kW 49kWh Auto · 01 · RRP £24,545"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "110663",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 3 108kW 42kWh Auto · Advance · RRP £22,245"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "110665",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 3 99kW 61kWh Auto · Premium · RRP £27,445"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "110666",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 3 99kW 61kWh Auto · Ultimate · RRP £29,945"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "110667",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 3 99kW 61kWh Auto · N Line Evo · RRP £31,945"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "110972",
+      "status": "ignored",
+      "note": "PV5 Elite 5-seat (RRP £41,175, £800 under the 7-seat).",
+      "label": "Kia PV5 Passenger 120kW Long Range 71kWh Auto · Elite · RRP £41,175"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "111016",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 3 99kW 61kWh Auto · Ultimate · RRP £32,445"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "111017",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 3 99kW 61kWh Auto · Ultimate · RRP £31,445"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "111018",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 3 99kW 61kWh Auto · Ultimate · RRP £33,695"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "111019",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 3 99kW 61kWh Auto · Ultimate · RRP £33,945"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "111020",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 3 99kW 61kWh Auto · Ultimate · RRP £32,695"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "111022",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 3 99kW 61kWh Auto · N Line Evo · RRP £33,195"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "111023",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 3 99kW 61kWh Auto · N Line Evo · RRP £34,445"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "111024",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 3 99kW 61kWh Auto · N Line Evo · RRP £33,445"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "111025",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 3 99kW 61kWh Auto · N Line Evo · RRP £35,695"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "111026",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 3 99kW 61kWh Auto · N Line Evo · RRP £35,945"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "111027",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 3 99kW 61kWh Auto · N Line Evo · RRP £34,695"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "111028",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 3 99kW 61kWh Auto · N Line Evo · RRP £37,195"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "111632",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 5 125kW 63 kWh Auto · Advance · RRP £40,695",
+      "note": "Ioniq 5 63kWh; we track the 84kWh."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "111633",
+      "status": "ignored",
+      "label": "Hyundai Ioniq 5 125kW 63 kWh Auto · Premium · RRP £43,255",
+      "note": "Ioniq 5 63kWh; we track the 84kWh."
+    },
+    {
+      "source": "hyundai-cap",
+      "source_key": "hy3i004ad5he a",
+      "car_id": "hyundai-ioniq3-61-advance"
+    },
+    {
+      "source": "hyundai-cap",
+      "source_key": "hyir0002 5he a",
+      "car_id": "hyundai-inster-49-02",
+      "note": "Hyundai's Inster offer page; heat-pump fitment of the offer car not stated."
+    },
+    {
+      "source": "hyundai-cap",
+      "source_key": "hykn00ade5he a 2",
+      "car_id": "hyundai-kona-65-advance"
+    },
+    {
+      "source": "hyundai-cap",
+      "source_key": "hyi500anh5he a 1",
+      "status": "ignored",
+      "note": "Ioniq 5 63kWh Advance; we track the 84kWh.",
+      "label": "IONIQ 5 63 kWh 170 PS 2WD ADVANCE"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|inster|85kw 02 49kwh 5dr auto",
+      "car_id": "hyundai-inster-49-02"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5|168kw advance 84kwh 5dr auto",
+      "car_id": "hyundai-ioniq5-84-advance-rwd"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5|168kw premium 84kwh 5dr auto",
+      "car_id": "hyundai-ioniq5-84-premium-rwd"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|kona electric|160kw advance 65kwh 5dr auto",
+      "car_id": "hyundai-kona-65-advance"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|kona electric|160kw n line 65kwh 5dr auto",
+      "car_id": "hyundai-kona-65-nline"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|kona electric|160kw n line s 65kwh 5dr auto",
+      "car_id": "hyundai-kona-65-nlines"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|kona electric|160kw ultimate 65kwh 5dr auto",
+      "car_id": "hyundai-kona-65-ultimate"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev3|150kw gt-line s 81.4kwh 5dr auto [heat pump]",
+      "car_id": "kia-ev3-81-gtlines-hp"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev6|168kw gt line s 84kwh 5dr auto",
+      "car_id": "kia-ev6-84-gtlines-rwd-hp",
+      "note": "Carwow/LeaseLoco list one GT Line S 84kWh RWD derivative and no separate [Heat Pump] variant (unlike EV3/EV2); confirm heat-pump fitment with the dealer before relying on this."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|inster|71kw 01 42kwh 5dr auto",
+      "status": "ignored",
+      "label": "Hyundai Inster 71kW 01 42kWh 5dr Auto"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|inster|71kw 01 42kwh 5dr auto [no heat pump]",
+      "status": "ignored",
+      "label": "Hyundai Inster 71kW 01 42kWh 5dr Auto [No Heat Pump]",
+      "note": "No-heat-pump derivative; fails the heat-pump requirement."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|inster|71kw 02 42kwh 5dr auto [no heat pump]",
+      "status": "ignored",
+      "label": "Hyundai Inster 71kW 02 42kWh 5dr Auto [No Heat Pump]",
+      "note": "No-heat-pump derivative; fails the heat-pump requirement."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|inster|85kw 01 49kwh 5dr auto",
+      "status": "ignored",
+      "label": "Hyundai Inster 85kW 01 49kWh 5dr Auto"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|inster|85kw 01 49kwh 5dr auto [no heat pump]",
+      "status": "ignored",
+      "label": "Hyundai Inster 85kW 01 49kWh 5dr Auto [No Heat Pump]",
+      "note": "No-heat-pump derivative; fails the heat-pump requirement."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|inster|85kw cross 49kwh 5dr auto",
+      "status": "ignored",
+      "label": "Hyundai Inster 85kW Cross 49kWh 5dr Auto"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|inster|85kw cross 49kwh 5dr auto [no heat pump]",
+      "status": "ignored",
+      "label": "Hyundai Inster 85kW Cross 49kWh 5dr Auto [No Heat Pump]",
+      "note": "No-heat-pump derivative; fails the heat-pump requirement."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5 n|478kw 84kwh 5dr auto",
+      "status": "ignored",
+      "label": "Hyundai IONIQ 5 N 478kW 84 kWh 5dr Auto",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5 n|478kw 84kwh 5dr auto [vision roof]",
+      "status": "ignored",
+      "label": "Hyundai IONIQ 5 N 478kW 84 kWh 5dr Auto [Vision Roof]",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5|125kw advance 63kwh 5dr auto",
+      "status": "ignored",
+      "label": "Hyundai IONIQ 5 125kW Advance 63 kWh 5dr Auto",
+      "note": "Ioniq 5 63kWh; we track the 84kWh."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5|125kw premium 63kwh 5dr auto",
+      "status": "ignored",
+      "label": "Hyundai IONIQ 5 125kW Premium 63 kWh 5dr Auto",
+      "note": "Ioniq 5 63kWh; we track the 84kWh."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5|168kw n line 84kwh 5dr auto",
+      "status": "ignored",
+      "label": "Hyundai IONIQ 5 168kW N Line 84 kWh 5dr Auto"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5|168kw n line s 84kwh 5dr auto",
+      "status": "ignored",
+      "label": "Hyundai IONIQ 5 168kW N Line S 84 kWh 5dr Auto"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5|168kw ultimate 84kwh 5dr auto",
+      "status": "ignored",
+      "label": "Hyundai IONIQ 5 168kW Ultimate 84 kWh 5dr Auto"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5|168kw ultimate 84kwh 5dr auto [tech pack]",
+      "status": "ignored",
+      "label": "Hyundai IONIQ 5 168kW Ultimate 84 kWh 5dr Auto [Tech Pack]"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5|168kw ultimate 84kwh 5dr auto [tech/zen pack]",
+      "status": "ignored",
+      "label": "Hyundai IONIQ 5 168kW Ultimate 84 kWh 5dr Auto [Tech/Zen Pack]"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5|168kw ultimate 84kwh 5dr auto [zen pack]",
+      "status": "ignored",
+      "label": "Hyundai IONIQ 5 168kW Ultimate 84 kWh 5dr Auto [Zen Pack]"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5|239kw n line 84kwh 5dr awd auto",
+      "status": "ignored",
+      "label": "Hyundai IONIQ 5 239kW N Line 84 kWh 5dr AWD Auto",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5|239kw n line s 84kwh 5dr awd auto",
+      "status": "ignored",
+      "label": "Hyundai IONIQ 5 239kW N Line S 84 kWh 5dr AWD Auto",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5|239kw ultimate 84kwh 5dr awd auto",
+      "status": "ignored",
+      "label": "Hyundai IONIQ 5 239kW Ultimate 84 kWh 5dr AWD Auto",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5|239kw ultimate 84kwh 5dr awd auto [tech pack]",
+      "status": "ignored",
+      "label": "Hyundai IONIQ 5 239kW Ultimate 84 kWh 5dr AWD Auto [Tech Pack]",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5|239kw ultimate 84kwh 5dr awd auto [tech/zen pack]",
+      "status": "ignored",
+      "label": "Hyundai IONIQ 5 239kW Ultimate 84 kWh 5dr AWD Auto [Tech/Zen Pack]",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|ioniq 5|239kw ultimate 84kwh 5dr awd auto [zen pack]",
+      "status": "ignored",
+      "label": "Hyundai IONIQ 5 239kW Ultimate 84 kWh 5dr AWD Auto [Zen Pack]",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "hyundai|kona electric|160kw advance 65kwh 5dr auto [comfort pack]",
+      "status": "ignored",
+      "label": "Hyundai Kona Electric 160kW Advance 65kWh 5dr Auto [Comfort Pack]"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev3|150kw air 58.3kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV3 150kW Air 58.3kWh 5dr Auto"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev3|150kw air 81.4kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV3 150kW Air 81.4kWh 5dr Auto"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev3|150kw gt-line 81.4kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV3 150kW GT-Line 81.4kWh 5dr Auto"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev3|150kw gt-line s 81.4kwh 5dr auto",
+      "status": "ignored",
+      "note": "GT-Line S without the heat pump."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev3|215kw gt 81.4kwh awd 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV3 215kW GT 81.4kWh AWD 5dr Auto",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev6|125kw air sr 63kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV6 125kW Air SR 63kWh 5dr Auto"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev6|166kw air 77.4kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV6 166kW Air 77.4kWh 5dr Auto"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev6|166kw gt line 77.4kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV6 166kW GT Line 77.4kWh 5dr Auto"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev6|166kw gt line s 77.4kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV6 166kW GT Line S 77.4kWh 5dr Auto"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev6|168kw air 84kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV6 168kW Air 84kWh 5dr Auto"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev6|168kw gt line 84kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV6 168kW GT Line 84kWh 5dr Auto"
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev6|236kw gt line 77.4kwh 5dr awd auto",
+      "status": "ignored",
+      "label": "KIA EV6 236kW GT Line 77.4kWh 5dr AWD Auto",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev6|236kw gt line s 77.4kwh 5dr awd auto",
+      "status": "ignored",
+      "label": "KIA EV6 236kW GT Line S 77.4kWh 5dr AWD Auto",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev6|239kw gt line 84kwh 5dr awd auto",
+      "status": "ignored",
+      "label": "KIA EV6 239kW GT Line 84kWh 5dr AWD Auto",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev6|239kw gt line s 84kwh 5dr awd auto",
+      "status": "ignored",
+      "label": "KIA EV6 239kW GT Line S 84kWh 5dr AWD Auto",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "leaseloco",
+      "source_key": "kia|ev6|478kw gt 84kwh 5dr awd auto",
+      "status": "ignored",
+      "label": "KIA EV6 478kW GT 84kWh 5dr AWD Auto",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|inster electric hatchback|85kw 02 49kwh 5dr auto",
+      "car_id": "hyundai-inster-49-02"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw advance 61kwh 5dr auto",
+      "car_id": "hyundai-ioniq3-61-advance"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw premium 61kwh 5dr auto [ev pack]",
+      "car_id": "hyundai-ioniq3-61-premium-evpack"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw ultimate 61kwh 5dr auto [comfort/design/ev]",
+      "car_id": "hyundai-ioniq3-61-ultimate-comfort-design-evpack"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw ultimate 61kwh 5dr auto [ev pack]",
+      "car_id": "hyundai-ioniq3-61-ultimate-evpack"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|168kw advance 84kwh 5dr auto",
+      "car_id": "hyundai-ioniq5-84-advance-rwd"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|168kw premium 84kwh 5dr auto",
+      "car_id": "hyundai-ioniq5-84-premium-rwd"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|kona electric hatchback|160kw advance 65kwh 5dr auto",
+      "car_id": "hyundai-kona-65-advance"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|kona electric hatchback|160kw n line 65kwh 5dr auto",
+      "car_id": "hyundai-kona-65-nline"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|kona electric hatchback|160kw n line s 65kwh 5dr auto",
+      "car_id": "hyundai-kona-65-nlines"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|kona electric hatchback|160kw ultimate 65kwh 5dr auto",
+      "car_id": "hyundai-kona-65-ultimate"
+    },
+    {
+      "source": "ncd",
+      "source_key": "kia|kia ev2 electric hatchback|99kw gt-line s 61kwh 5dr auto [heat pump]",
+      "car_id": "kia-ev2-61-gtlines-hp"
+    },
+    {
+      "source": "ncd",
+      "source_key": "kia|kia ev3 electric estate|150kw gt-line s 81.4kwh 5dr auto [heat pump]",
+      "car_id": "kia-ev3-81-gtlines-hp"
+    },
+    {
+      "source": "ncd",
+      "source_key": "kia|kia pv5 electric estate|120kw elite long range 71kwh 5dr auto [7 seat]",
+      "car_id": "kia-pv5-passenger-71-elite-7seat"
+    },
+    {
+      "source": "ncd",
+      "source_key": "kia|kia pv5 electric estate|120kw essential long range 71kwh 5dr auto [7 seat]",
+      "car_id": "kia-pv5-passenger-71-essential-7seat"
+    },
+    {
+      "source": "ncd",
+      "source_key": "kia|kia pv5 electric estate|120kw plus long range 71kwh 5dr auto [7 seat]",
+      "car_id": "kia-pv5-passenger-71-plus-7seat"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|inster electric hatchback|71kw 01 42kwh 5dr auto",
+      "status": "ignored",
+      "label": "INSTER ELECTRIC HATCHBACK 71kW 01 42kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|inster electric hatchback|71kw 01 42kwh 5dr auto [no heat pump]",
+      "status": "ignored",
+      "label": "INSTER ELECTRIC HATCHBACK 71kW 01 42kWh 5dr Auto [No Heat Pump]",
+      "note": "No-heat-pump derivative; fails the heat-pump requirement."
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|inster electric hatchback|71kw 02 42kwh 5dr auto",
+      "status": "ignored",
+      "label": "INSTER ELECTRIC HATCHBACK 71kW 02 42kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|inster electric hatchback|71kw 02 42kwh 5dr auto [no heat pump]",
+      "status": "ignored",
+      "label": "INSTER ELECTRIC HATCHBACK 71kW 02 42kWh 5dr Auto [No Heat Pump]",
+      "note": "No-heat-pump derivative; fails the heat-pump requirement."
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|inster electric hatchback|85kw 01 49kwh 5dr auto",
+      "status": "ignored",
+      "label": "INSTER ELECTRIC HATCHBACK 85kW 01 49kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|inster electric hatchback|85kw 01 49kwh 5dr auto [no heat pump]",
+      "status": "ignored",
+      "label": "INSTER ELECTRIC HATCHBACK 85kW 01 49kWh 5dr Auto [No Heat Pump]",
+      "note": "No-heat-pump derivative; fails the heat-pump requirement."
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|inster electric hatchback|85kw 02 49kwh 5dr auto [no heat pump]",
+      "status": "ignored",
+      "label": "INSTER ELECTRIC HATCHBACK 85kW 02 49kWh 5dr Auto [No Heat Pump]",
+      "note": "No-heat-pump derivative; fails the heat-pump requirement."
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|inster electric hatchback|85kw cross 49kwh 5dr auto",
+      "status": "ignored",
+      "label": "INSTER ELECTRIC HATCHBACK 85kW Cross 49kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|inster electric hatchback|85kw cross 49kwh 5dr auto [no heat pump]",
+      "status": "ignored",
+      "label": "INSTER ELECTRIC HATCHBACK 85kW Cross 49kWh 5dr Auto [No Heat Pump]",
+      "note": "No-heat-pump derivative; fails the heat-pump requirement."
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|108kw advance 42kwh 5dr auto",
+      "status": "ignored",
+      "label": "IONIQ 3 ELECTRIC HATCHBACK 108kW Advance 42kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw n line evo 61kwh 5dr auto",
+      "status": "ignored",
+      "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW N Line Evo 61kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw n line evo 61kwh 5dr auto [comfort pack]",
+      "status": "ignored",
+      "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW N Line Evo 61kWh 5dr Auto [Comfort Pack]"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw n line evo 61kwh 5dr auto [comfort/design/ev]",
+      "status": "ignored",
+      "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW N Line Evo 61kWh 5dr Auto [Comfort/Design/EV]"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw n line evo 61kwh 5dr auto [comfort/design]",
+      "status": "ignored",
+      "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW N Line Evo 61kWh 5dr Auto [Comfort/Design]"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw n line evo 61kwh 5dr auto [comfort/ev]",
+      "status": "ignored",
+      "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW N Line Evo 61kWh 5dr Auto [Comfort/EV]"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw n line evo 61kwh 5dr auto [design pack]",
+      "status": "ignored",
+      "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW N Line Evo 61kWh 5dr Auto [Design Pack]"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw n line evo 61kwh 5dr auto [design/ev]",
+      "status": "ignored",
+      "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW N Line Evo 61kWh 5dr Auto [Design/EV]"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw n line evo 61kwh 5dr auto [ev pack]",
+      "status": "ignored",
+      "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW N Line Evo 61kWh 5dr Auto [EV Pack]"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw premium 61kwh 5dr auto",
+      "status": "ignored",
+      "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW Premium 61kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw ultimate 61kwh 5dr auto",
+      "status": "ignored",
+      "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW Ultimate 61kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw ultimate 61kwh 5dr auto [comfort pack]",
+      "status": "ignored",
+      "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW Ultimate 61kWh 5dr Auto [Comfort Pack]"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw ultimate 61kwh 5dr auto [comfort/design]",
+      "status": "ignored",
+      "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW Ultimate 61kWh 5dr Auto [Comfort/Design]"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw ultimate 61kwh 5dr auto [comfort/ev]",
+      "status": "ignored",
+      "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW Ultimate 61kWh 5dr Auto [Comfort/EV]"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw ultimate 61kwh 5dr auto [design pack]",
+      "status": "ignored",
+      "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW Ultimate 61kWh 5dr Auto [Design Pack]"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 3 electric hatchback|99kw ultimate 61kwh 5dr auto [design/ev]",
+      "status": "ignored",
+      "label": "IONIQ 3 ELECTRIC HATCHBACK 99kW Ultimate 61kWh 5dr Auto [Design/EV]"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|125kw advance 63kwh 5dr auto",
+      "status": "ignored",
+      "label": "IONIQ 5 ELECTRIC HATCHBACK 125kW Advance 63 kWh 5dr Auto",
+      "note": "Ioniq 5 63kWh; we track the 84kWh."
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|125kw advance 63kwh 5dr auto [no heat pump]",
+      "status": "ignored",
+      "label": "IONIQ 5 ELECTRIC HATCHBACK 125kW Advance 63 kWh 5dr Auto [No Heat Pump]",
+      "note": "No-heat-pump derivative; fails the heat-pump requirement."
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|125kw premium 63kwh 5dr auto",
+      "status": "ignored",
+      "label": "IONIQ 5 ELECTRIC HATCHBACK 125kW Premium 63 kWh 5dr Auto",
+      "note": "Ioniq 5 63kWh; we track the 84kWh."
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|125kw premium 63kwh 5dr auto [no heat pump]",
+      "status": "ignored",
+      "label": "IONIQ 5 ELECTRIC HATCHBACK 125kW Premium 63 kWh 5dr Auto [No Heat Pump]",
+      "note": "No-heat-pump derivative; fails the heat-pump requirement."
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|168kw n line 84kwh 5dr auto",
+      "status": "ignored",
+      "label": "IONIQ 5 ELECTRIC HATCHBACK 168kW N Line 84 kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|168kw n line s 84kwh 5dr auto",
+      "status": "ignored",
+      "label": "IONIQ 5 ELECTRIC HATCHBACK 168kW N Line S 84 kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|168kw ultimate 84kwh 5dr auto",
+      "status": "ignored",
+      "label": "IONIQ 5 ELECTRIC HATCHBACK 168kW Ultimate 84 kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|168kw ultimate 84kwh 5dr auto [tech pack]",
+      "status": "ignored",
+      "label": "IONIQ 5 ELECTRIC HATCHBACK 168kW Ultimate 84 kWh 5dr Auto [Tech Pack]"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|168kw ultimate 84kwh 5dr auto [tech/zen pack]",
+      "status": "ignored",
+      "label": "IONIQ 5 ELECTRIC HATCHBACK 168kW Ultimate 84 kWh 5dr Auto [Tech/Zen Pack]"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|168kw ultimate 84kwh 5dr auto [zen pack]",
+      "status": "ignored",
+      "label": "IONIQ 5 ELECTRIC HATCHBACK 168kW Ultimate 84 kWh 5dr Auto [Zen Pack]"
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|239kw n line 84kwh 5dr awd auto",
+      "status": "ignored",
+      "label": "IONIQ 5 ELECTRIC HATCHBACK 239kW N Line 84 kWh 5dr AWD Auto",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|239kw n line s 84kwh 5dr awd auto",
+      "status": "ignored",
+      "label": "IONIQ 5 ELECTRIC HATCHBACK 239kW N Line S 84 kWh 5dr AWD Auto",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|239kw ultimate 84kwh 5dr awd auto",
+      "status": "ignored",
+      "label": "IONIQ 5 ELECTRIC HATCHBACK 239kW Ultimate 84 kWh 5dr AWD Auto",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|239kw ultimate 84kwh 5dr awd auto [tech pack]",
+      "status": "ignored",
+      "label": "IONIQ 5 ELECTRIC HATCHBACK 239kW Ultimate 84 kWh 5dr AWD Auto [Tech Pack]",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|239kw ultimate 84kwh 5dr awd auto [tech/zen pack]",
+      "status": "ignored",
+      "label": "IONIQ 5 ELECTRIC HATCHBACK 239kW Ultimate 84 kWh 5dr AWD Auto [Tech/Zen Pack]",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|ioniq 5 electric hatchback|239kw ultimate 84kwh 5dr awd auto [zen pack]",
+      "status": "ignored",
+      "label": "IONIQ 5 ELECTRIC HATCHBACK 239kW Ultimate 84 kWh 5dr AWD Auto [Zen Pack]",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "ncd",
+      "source_key": "hyundai|kona electric hatchback|160kw advance 65kwh 5dr auto [comfort pack]",
+      "status": "ignored",
+      "label": "KONA ELECTRIC HATCHBACK 160kW Advance 65kWh 5dr Auto [Comfort Pack]"
+    },
+    {
+      "source": "ncd",
+      "source_key": "kia|kia ev2 electric hatchback|99kw air 61kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV2 ELECTRIC HATCHBACK 99kW Air 61kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "kia|kia ev2 electric hatchback|99kw gt-line 61kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV2 ELECTRIC HATCHBACK 99kW GT-Line 61kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "kia|kia ev2 electric hatchback|99kw gt-line s 61kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV2 ELECTRIC HATCHBACK 99kW GT-Line S 61kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "kia|kia ev3 electric estate|150kw air 58.3kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV3 ELECTRIC ESTATE 150kW Air 58.3kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "kia|kia ev3 electric estate|150kw air 81.4kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV3 ELECTRIC ESTATE 150kW Air 81.4kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "kia|kia ev3 electric estate|150kw gt-line 81.4kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV3 ELECTRIC ESTATE 150kW GT-Line 81.4kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "kia|kia ev3 electric estate|150kw gt-line s 81.4kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV3 ELECTRIC ESTATE 150kW GT-Line S 81.4kWh 5dr Auto"
+    },
+    {
+      "source": "ncd",
+      "source_key": "kia|kia ev3 electric estate|215kw gt 81.4kwh awd 5dr auto",
+      "status": "ignored",
+      "label": "KIA EV3 ELECTRIC ESTATE 215kW GT 81.4kWh AWD 5dr Auto",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "ncd",
+      "source_key": "kia|kia ev6 electric estate|478kw gt 84kwh 5dr awd auto",
+      "status": "ignored",
+      "label": "KIA EV6 ELECTRIC ESTATE 478kW GT 84kWh 5dr AWD Auto",
+      "note": "AWD / performance variant; not on the shortlist."
+    },
+    {
+      "source": "ncd",
+      "source_key": "kia|kia pv5 electric estate|120kw elite long range 71kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA PV5 ELECTRIC ESTATE 120kW Elite Long Range 71kWh 5dr Auto",
+      "note": "PV5 5-seat (or 52kWh); the household wants the 7-seat 71kWh."
+    },
+    {
+      "source": "ncd",
+      "source_key": "kia|kia pv5 electric estate|120kw essential long range 71kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA PV5 ELECTRIC ESTATE 120kW Essential Long Range 71kWh 5dr Auto",
+      "note": "PV5 5-seat (or 52kWh); the household wants the 7-seat 71kWh."
+    },
+    {
+      "source": "ncd",
+      "source_key": "kia|kia pv5 electric estate|120kw plus long range 71kwh 5dr auto",
+      "status": "ignored",
+      "label": "KIA PV5 ELECTRIC ESTATE 120kW Plus Long Range 71kWh 5dr Auto",
+      "note": "PV5 5-seat (or 52kWh); the household wants the 7-seat 71kWh."
+    },
+    {
+      "source": "rrg",
+      "source_key": "kia|pv5 electric estate 120kw elite long range 71kwh 5dr auto [7 seat]",
+      "car_id": "kia-pv5-passenger-71-elite-7seat"
+    }
   ]
 }

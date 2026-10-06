@@ -141,7 +141,7 @@ def load_requirements(conn: sqlite3.Connection) -> dict:
 def _freshness(obs: list[sqlite3.Row], payload: dict, today: date) -> dict:
     latest = obs[-1]
     seen = [o for o in obs if o["present"]]
-    last_seen = seen[-1]["observed_at"] if seen else None
+    last_seen = max((o["confirmed_at"] or o["observed_at"]) for o in seen) if seen else None
     age = (today - date.fromisoformat(last_seen[:10])).days if last_seen else None
     if not latest["present"]:
         state = "gone"
@@ -153,15 +153,15 @@ def _freshness(obs: list[sqlite3.Row], payload: dict, today: date) -> dict:
     history = []
     for o in obs:
         p = json.loads(o["payload"])
-        history.append({"observed_at": o["observed_at"], "present": bool(o["present"]), "source": o["source"],
-                        **{k: p.get(k) for k in HISTORY_FIELDS if p.get(k) is not None}})
+        history.append({"observed_at": o["observed_at"], "confirmed_at": o["confirmed_at"], "present": bool(o["present"]),
+                        "source": o["source"], **{k: p.get(k) for k in HISTORY_FIELDS if p.get(k) is not None}})
     return {
         "state": state,
         "stale": stale,
         "age_days": age,
         "first_seen_at": obs[0]["observed_at"],
         "last_seen_at": last_seen,
-        "last_checked_at": latest["observed_at"],
+        "last_checked_at": latest["confirmed_at"] or latest["observed_at"],
         "observations": len(obs),
         "present": bool(latest["present"]),
         "history": history,
@@ -192,7 +192,7 @@ def latest_offers(conn: sqlite3.Connection, today: date | None = None) -> list[d
 
 def latest_runs(conn: sqlite3.Connection, limit: int = 20) -> list[dict]:
     rows = conn.execute(
-        "SELECT id, source, capability, target, started_at, finished_at, status, artifacts, records, unmapped "
+        "SELECT id, source, capability, target, started_at, finished_at, status, artifacts, records, unmapped, errors "
         "FROM runs ORDER BY id DESC LIMIT ?", (limit,)
     ).fetchall()
     return [dict(r) for r in rows]
@@ -204,6 +204,17 @@ def unmapped_trims(conn: sqlite3.Connection) -> list[dict]:
         "WHERE status='unmapped' ORDER BY source, source_key"
     ).fetchall()
     return [dict(r) for r in rows]
+
+
+def _provider_blurb(name: str) -> str:
+    """First line of the provider module's docstring, for the Data page."""
+    import importlib
+
+    try:
+        doc = importlib.import_module(f"pipeline.providers.{name}").__doc__ or ""
+    except ImportError:
+        return ""
+    return doc.strip().splitlines()[0] if doc.strip() else ""
 
 
 def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at: str | None = None,
@@ -245,8 +256,9 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         "generated_at": generated_at,
         "stale_days": STALE_DAYS,
         "providers": [
-            {"name": p.name, "capabilities": [{"name": c.name, "kinds": list(c.kinds), "parser_version": c.parser_version}
-                                              for c in p.capabilities.values()]}
+            {"name": p.name, "live": p.live, "description": _provider_blurb(p.name),
+             "capabilities": [{"name": c.name, "kinds": list(c.kinds), "parser_version": c.parser_version}
+                              for c in p.capabilities.values()]}
             for p in PROVIDERS.values()
         ],
         "runs": latest_runs(conn),

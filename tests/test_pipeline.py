@@ -40,7 +40,9 @@ class SeedImportAndExport(unittest.TestCase):
         self.assertEqual(q(c, "SELECT COUNT(*) FROM source_rows"), n_cars + n_deals + 1 + n_trims)
         self.assertEqual(q(c, "SELECT COUNT(*) FROM cars"), n_cars)
         self.assertEqual(q(c, "SELECT COUNT(*) FROM offer_observations"), n_deals, "re-import must not duplicate observations")
-        self.assertEqual(q(c, "SELECT COUNT(*) FROM trim_map WHERE status='mapped'"), n_trims)
+        self.assertEqual(q(c, "SELECT COUNT(*) FROM trim_map"), n_trims)
+        self.assertEqual(q(c, "SELECT COUNT(*) FROM trim_map WHERE status='mapped'"),
+                         q(c, "SELECT COUNT(*) FROM trim_map WHERE car_id IS NOT NULL"))
         self.assertEqual(q(c, "SELECT COUNT(*) FROM runs WHERE status='ok'"), 2)
 
     def test_carwow_pastes_resolve_through_trim_map(self):
@@ -120,7 +122,7 @@ class SeedImportAndExport(unittest.TestCase):
             self.assertEqual(len(cars), manifest["counts"]["cars"])
             self.assertEqual(len(offers), manifest["counts"]["offers"])
             self.assertEqual(manifest["counts"]["offers"], 29 + 4)
-            self.assertEqual([p["name"] for p in data["providers"]], ["manual_seed", "carwow_paste"])
+            self.assertEqual([p["name"] for p in data["providers"]][:2], ["manual_seed", "carwow_paste"])
             self.assertEqual(data["unmapped_trims"], [])
             for o in offers:
                 self.assertIn("metrics", o)

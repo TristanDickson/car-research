@@ -29,25 +29,26 @@ def fingerprint(row: dict) -> str:
 
 
 def resolve_car(conn: sqlite3.Connection, site: str, key: str, label: str | None,
-                example_url: str | None, now: str) -> str | None:
-    """trim_map lookup. A miss records an 'unmapped' row (first time) and bumps
-    last_seen_at (every time) so the snapshot can list what needs mapping."""
+                example_url: str | None, now: str) -> tuple[str | None, str]:
+    """trim_map lookup → (car_id, status). A miss records an 'unmapped' row (first
+    time) and bumps last_seen_at (every time) so the snapshot can list what needs
+    mapping. 'ignored' rows are derivatives we deliberately don't track."""
     row = conn.execute(
         "SELECT car_id, status FROM trim_map WHERE source=? AND source_key=?", (site, key)
     ).fetchone()
     if row and row["status"] == "mapped" and row["car_id"]:
         conn.execute("UPDATE trim_map SET last_seen_at=? WHERE source=? AND source_key=?", (now, site, key))
-        return row["car_id"]
+        return row["car_id"], "mapped"
     if row:
         conn.execute("UPDATE trim_map SET last_seen_at=?, label=COALESCE(label, ?), example_url=COALESCE(example_url, ?) "
                      "WHERE source=? AND source_key=?", (now, label, example_url, site, key))
-    else:
-        conn.execute(
-            "INSERT INTO trim_map (source, source_key, car_id, status, label, example_url, first_seen_at, last_seen_at) "
-            "VALUES (?,?,NULL,'unmapped',?,?,?,?)",
-            (site, key, label, example_url, now, now),
-        )
-    return None
+        return None, row["status"]
+    conn.execute(
+        "INSERT INTO trim_map (source, source_key, car_id, status, label, example_url, first_seen_at, last_seen_at) "
+        "VALUES (?,?,NULL,'unmapped',?,?,?,?)",
+        (site, key, label, example_url, now, now),
+    )
+    return None, "unmapped"
 
 
 def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
@@ -89,6 +90,20 @@ def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
 
     for artifact_id, rec in records.get("offer", []):
         r = rec.row
+        fp = fingerprint(r)
+        latest = conn.execute(
+            "SELECT id, observed_at, confirmed_at, present, fingerprint FROM offer_observations "
+            "WHERE offer_key=? ORDER BY observed_at DESC, id DESC LIMIT 1", (r["offer_key"],)
+        ).fetchone()
+        # An unchanged re-sighting after the last one: extend confirmed_at rather than
+        # adding a row. History then holds one row per distinct state, each with the
+        # span over which it was seen.
+        if (latest and latest["present"] and int(r.get("present", 1)) == 1 and latest["fingerprint"] == fp
+                and r["observed_at"] >= latest["observed_at"]):
+            conn.execute("UPDATE offer_observations SET confirmed_at=?, run_id=COALESCE(?, run_id) WHERE id=?",
+                         (r["observed_at"], run_id, latest["id"]))
+            written += 1
+            continue
         conn.execute(
             """INSERT INTO offer_observations (offer_key, car_id, source, observed_at, present, finance_type, status,
                  verification, seller, vehicle_price, monthly_payment, apr, gfv, fingerprint, payload, artifact_id, run_id)
@@ -101,7 +116,7 @@ def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
             (
                 r["offer_key"], r["car_id"], source, r["observed_at"], int(r.get("present", 1)), r["finance_type"],
                 r["status"], r.get("verification"), r.get("dealer") or r.get("source"), r.get("vehicle_price"),
-                r.get("monthly_payment"), r.get("apr"), r.get("gfv"), fingerprint(r), _dump(r), artifact_id, run_id,
+                r.get("monthly_payment"), r.get("apr"), r.get("gfv"), fp, _dump(r), artifact_id, run_id,
             ),
         )
         written += 1
