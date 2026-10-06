@@ -39,9 +39,10 @@ def cdx_snapshots(url: str, since: str, ctx: Context) -> list[tuple[str, str]]:
         "url": url, "output": "json", "from": since.replace("-", ""), "fl": "timestamp,statuscode,digest",
         "filter": "statuscode:200", "collapse": "timestamp:8",
     })
-    # Fail fast: a hung or 'temporarily offline' index query costs one timeout, not
-    # three, and the page is simply skipped this run (re-run the backfill later).
-    f = fetch_url(f"{CDX}?{q}", ctx, accept="application/json", timeout=45, retries=0)
+    # One retry: the index answers 503 / 'connection refused' in bursts and usually
+    # recovers within seconds, while a truly hung query costs two timeouts, not three.
+    # A page whose index still fails is skipped this run (re-run the backfill later).
+    f = fetch_url(f"{CDX}?{q}", ctx, accept="application/json", timeout=45, retries=1)
     rows = json.loads(f.body or b"[]")
     return [(r[0], r[2]) for r in rows[1:]]
 

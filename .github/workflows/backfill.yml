@@ -60,10 +60,13 @@ jobs:
           args=(--only "${{ matrix.provider }}" --since "${{ inputs.since }}" --every-days "${{ inputs.every_days }}" --out /tmp/snapshot)
           [ -n "${{ inputs.max_targets }}" ] && args+=(--max-targets "${{ inputs.max_targets }}")
           python -u -m pipeline backfill "${args[@]}" 2>&1 | tee /tmp/backfill.log
+          echo "--- derivatives in archived pages that the trim map does not know (add or ignore in data/seed/trim_map.json):"
+          python -m pipeline trims | tee /tmp/trims.log || true
           {
             echo "### ${{ matrix.provider }}"
             echo '```'
             grep -E "captures to fold in|wayback index|/backfill:|FAILED" /tmp/backfill.log || true
+            cat /tmp/trims.log
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
