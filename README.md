@@ -148,8 +148,9 @@ pump, 5-seat). Nothing is ever attached to a guessed car.
 
 Push to `main` deploys via `.github/workflows/pages-deploy.yml`. One-time settings in the GitHub
 repo: **Settings → Pages → Source = "GitHub Actions"**, and the `github-pages` environment must
-allow `main` to deploy (it only allows the default branch out of the box: make `main` the default
-branch, or add it under Settings → Environments → github-pages → Deployment branches). A deploy
+allow `main` to deploy. Enabling Pages creates that environment with a branch rule naming whatever
+branch was the default at the time, and changing the default branch later does not update it, so
+add `main` under Settings → Environments → github-pages → Deployment branches and tags. A deploy
 rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Data conventions

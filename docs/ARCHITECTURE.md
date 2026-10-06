@@ -171,10 +171,10 @@ links like `/cars/view?id=…`), `.nojekyll`, `upload-pages-artifact`, `deploy-p
 
 One-time repo settings: **Settings → Pages → Source = "GitHub Actions"** (until then the
 deploy step fails with a 404), and the `github-pages` environment GitHub creates at that point
-only lets the repository's *default branch* deploy. The workflow deploys from `main`, so either
-make `main` the default branch (Settings → General) or add `main` under Settings → Environments
-→ github-pages → Deployment branches. A run rejected by that rule fails in two seconds with no
-runner and no logs.
+carries a deployment-branch rule naming the branch that was the default at the time. Changing
+the default branch later does not update the rule. The workflow deploys from `main`, so add
+`main` under Settings → Environments → github-pages → Deployment branches and tags. A run
+rejected by that rule fails in two seconds with no runner and no logs.
 
 `.github/workflows/scrape.yml` runs nightly (and on dispatch): `pipeline refresh` with the live
 providers, commits `data/history`, `web/public/data` and `docs/deal-comparison.md` if anything
