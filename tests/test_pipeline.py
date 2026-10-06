@@ -127,6 +127,10 @@ class SeedImportAndExport(unittest.TestCase):
                 self.assertIn("freshness", o)
                 self.assertIn(o["freshness"]["state"], {"live", "lead", "derived", "illustrative", "campaign", "expired", "historical", "gone"})
             by_id = {c["id"]: c for c in cars}
+            for c in cars:
+                self.assertIn("picks", c)
+                self.assertIn("image", c)
+            self.assertEqual(by_id["kia-pv5-passenger-71-elite-7seat"]["picks"][0]["verdict"], "want")
             kona = by_id["hyundai-kona-65-ultimate"]
             self.assertTrue(kona["requirement_check"]["passes"])
             self.assertEqual(kona["deal_summary"]["best_cash_price"], 26966)

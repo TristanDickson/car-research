@@ -26,6 +26,7 @@
   "heat_pump": "standard",
   "heated_seats": true,
   "id": "hyundai-inster-49-02",
+  "image": null,
   "insurance_group": "23D",
   "internal_v2l": "pack",
   "list_price_gbp": 27115,
@@ -39,6 +40,13 @@
   "packs_required": {
    "internal_v2l": "Tech Pack (£500)"
   },
+  "picks": [
+   {
+    "note": "The 'do we need to spend any of this?' check.",
+    "verdict": "control",
+    "who": "T"
+   }
+  ],
   "power_hp": 115,
   "power_kw": 85,
   "requirement_check": {
@@ -79,6 +87,7 @@
   "grant_gbp": 3750,
   "heat_pump": "none",
   "id": "hyundai-ioniq3-61-advance",
+  "image": null,
   "internal_v2l": "none",
   "length_mm": 4155,
   "list_price_gbp": null,
@@ -86,6 +95,7 @@
   "model": "Ioniq 3",
   "model_year": 2026,
   "notes": "EV Pack is NOT available on Advance, so no heat pump or V2L: fails the hard requirements. Carwow shows 'Advance from £22,245' which is believed to be the smaller-battery car; the 61kWh Advance list price was not captured. Hyundai's national £354.72 × 48 offer is on this trim. Range figures pending final homologation.",
+  "picks": [],
   "power_hp": 135,
   "requirement_check": {
    "failures": [
@@ -128,6 +138,7 @@
   "grant_gbp": 3750,
   "heat_pump": "pack",
   "id": "hyundai-ioniq3-61-premium-evpack",
+  "image": null,
   "internal_v2l": "pack",
   "length_mm": 4155,
   "list_price_breakdown": {
@@ -146,6 +157,7 @@
    "heat_pump": "EV Pack",
    "internal_v2l": "EV Pack"
   },
+  "picks": [],
   "power_hp": 135,
   "requirement_check": {
    "failures": [],
@@ -185,6 +197,7 @@
   "heat_pump": "pack",
   "heated_seats": true,
   "id": "hyundai-ioniq3-61-ultimate-comfort-design-evpack",
+  "image": null,
   "internal_v2l": "pack",
   "length_mm": 4155,
   "list_price_gbp": 35195,
@@ -198,6 +211,7 @@
    "Comfort Pack",
    "Design Pack"
   ],
+  "picks": [],
   "power_hp": 135,
   "requirement_check": {
    "failures": [],
@@ -240,6 +254,7 @@
   "heat_pump": "pack",
   "heated_seats": true,
   "id": "hyundai-ioniq3-61-ultimate-evpack",
+  "image": null,
   "internal_v2l": "pack",
   "length_mm": 4155,
   "list_price_breakdown": {
@@ -264,6 +279,13 @@
    "heat_pump": "EV Pack",
    "internal_v2l": "EV Pack"
   },
+  "picks": [
+   {
+    "note": "The rational pick if we don't spend PV5 money. Cash, not the 8.9% PCP.",
+    "verdict": "maybe",
+    "who": "T"
+   }
+  ],
   "power_hp": 135,
   "power_kw": 99,
   "requirement_check": {
@@ -304,6 +326,7 @@
   "grant_gbp": 0,
   "heat_pump": "standard",
   "id": "hyundai-ioniq5-84-advance-rwd",
+  "image": null,
   "internal_v2l": "unknown",
   "length_mm": 4655,
   "list_price_gbp": null,
@@ -311,6 +334,7 @@
   "model": "Ioniq 5",
   "model_year": 2026,
   "notes": "Only appears via the Richmond £319 PCH offer. Internal V2L on Advance not confirmed.",
+  "picks": [],
   "requirement_check": {
    "failures": [],
    "passes": true,
@@ -352,6 +376,7 @@
   "heat_pump": "standard",
   "heated_seats": true,
   "id": "hyundai-ioniq5-84-premium-rwd",
+  "image": null,
   "insurance_group": "38E",
   "internal_v2l": "standard",
   "length_mm": 4655,
@@ -361,6 +386,7 @@
   "model": "Ioniq 5",
   "model_year": 2026,
   "notes": "Premium includes the internal 230V V2L socket (3.6kW). Carwow listing figures.",
+  "picks": [],
   "power_hp": 228,
   "power_kw": 168,
   "requirement_check": {
@@ -399,6 +425,7 @@
   "grant_gbp": 0,
   "heat_pump": "standard",
   "id": "hyundai-ioniq5-lr-2022",
+  "image": null,
   "internal_v2l": "standard",
   "length_mm": 4655,
   "list_price_gbp": 46000,
@@ -406,6 +433,7 @@
   "model": "Ioniq 5",
   "model_year": 2022,
   "notes": "Tristan's current car. Figures approximate from memory; battery may be 73kWh. Complaints: width and turning circle.",
+  "picks": [],
   "power_hp": null,
   "requirement_check": {
    "failures": [],
@@ -443,6 +471,7 @@
   "grant_gbp": 3750,
   "heat_pump": "standard",
   "id": "hyundai-kona-65-advance",
+  "image": null,
   "internal_v2l": "none",
   "length_mm": 4355,
   "list_price_gbp": 35000,
@@ -450,6 +479,7 @@
   "model": "Kona Electric",
   "model_year": 2027,
   "notes": "Fails the internal V2L requirement (MY27 spec sheet: internal 3-pin only on N Line S and Ultimate; some dealer pages wrongly say Advance has it). Richmond's expired £279 PCH / 0% PCP were on this trim; a stock MY26 car might differ, so ask for VIN/model year.",
+  "picks": [],
   "power_hp": 218,
   "power_kw": 160,
   "requirement_check": {
@@ -492,6 +522,7 @@
   "heat_pump": "standard",
   "heated_seats": true,
   "id": "hyundai-kona-65-nline",
+  "image": null,
   "internal_v2l": "none",
   "length_mm": 4355,
   "list_price_gbp": 37135,
@@ -499,6 +530,7 @@
   "model": "Kona Electric",
   "model_year": 2027,
   "notes": "Still no internal V2L. 19in wheels cost ~37mi of range.",
+  "picks": [],
   "power_hp": 218,
   "requirement_check": {
    "failures": [
@@ -540,6 +572,7 @@
   "heat_pump": "standard",
   "heated_seats": true,
   "id": "hyundai-kona-65-nlines",
+  "image": null,
   "internal_v2l": "standard",
   "length_mm": 4355,
   "list_price_gbp": 39720,
@@ -548,6 +581,7 @@
   "model": "Kona Electric",
   "model_year": 2027,
   "notes": "Meets hard requirements. Sportier trim; Ultimate is £90 cheaper and the one to price.",
+  "picks": [],
   "power_hp": 218,
   "requirement_check": {
    "failures": [],
@@ -594,6 +628,7 @@
   "heated_seats": true,
   "hud": true,
   "id": "hyundai-kona-65-ultimate",
+  "image": null,
   "insurance_group": "33D",
   "internal_v2l": "standard",
   "length_mm": 4355,
@@ -603,6 +638,7 @@
   "model": "Kona Electric",
   "model_year": 2027,
   "notes": "The Kona trim that matches the brief. Carwow description mentions an electric tilt/slide sunroof. Reviews: double buggy fits in boot; owner family with 2 kids says 95% of boxes ticked.",
+  "picks": [],
   "power_hp": 218,
   "power_kw": 160,
   "requirement_check": {
@@ -646,6 +682,7 @@
   "heat_pump": "option",
   "heated_seats": true,
   "id": "kia-ev2-61-gtlines-hp",
+  "image": null,
   "internal_v2l": "standard",
   "list_price_gbp": 37045,
   "make": "Kia",
@@ -653,6 +690,7 @@
   "model": "EV2",
   "model_year": 2026,
   "notes": "Internal socket only on GT-Line S; heat pump is an extra-cost option on that grade. List includes heat pump. Brings memory seats and sunroof, so compare against Ioniq 3 Ultimate Comfort/Design/EV (£31,445 after grant) not the bare Ultimate EV.",
+  "picks": [],
   "requirement_check": {
    "failures": [],
    "passes": true,
@@ -688,6 +726,7 @@
   "heat_pump": "option",
   "heated_seats": true,
   "id": "kia-ev3-81-gtlines-hp",
+  "image": null,
   "internal_v2l": "standard",
   "length_mm": 4310,
   "list_price_gbp": 43955,
@@ -696,6 +735,7 @@
   "model": "EV3",
   "model_year": 2026,
   "notes": "GT-Line S does NOT get the £1,500 grant that cheaper EV3 trims get; Kia gives a £3,000 PCP contribution instead. List includes heat pump. Kia Finance GFV £20,063.14 (Brayleys example).",
+  "picks": [],
   "power_hp": 201,
   "requirement_check": {
    "failures": [],
@@ -733,6 +773,7 @@
   "grant_gbp": 0,
   "heat_pump": "unknown",
   "id": "kia-ev6-77-gtlines-2024-used",
+  "image": null,
   "internal_v2l": "unknown",
   "list_price_gbp": null,
   "make": "Kia",
@@ -740,6 +781,7 @@
   "model": "EV6",
   "model_year": 2024,
   "notes": "Specific car: EMG Cambridge, 27,799 miles, ~4y3m warranty remaining. Listing has a generic-spec disclaimer; confirm heat pump and internal socket on the actual car. Registered before April 2025 so no VED supplement.",
+  "picks": [],
   "requirement_check": {
    "failures": [],
    "passes": true,
@@ -779,6 +821,7 @@
   "grant_gbp": 0,
   "heat_pump": "option",
   "id": "kia-ev6-84-gtlines-rwd-hp",
+  "image": null,
   "internal_v2l": "standard",
   "list_price_gbp": null,
   "make": "Kia",
@@ -786,6 +829,7 @@
   "model": "EV6",
   "model_year": 2026,
   "notes": "List over £50,000 so pays the £440/yr VED expensive-car supplement. Ioniq 5-class charging and width. New-car offer 3.9% + £1,500 contribution.",
+  "picks": [],
   "requirement_check": {
    "failures": [],
    "passes": true,
@@ -826,6 +870,7 @@
   "heated_seats": true,
   "height_mm": 1900,
   "id": "kia-pv5-passenger-71-elite-7seat",
+  "image": null,
   "internal_v2l": "standard",
   "length_mm": 4695,
   "list_price_gbp": 41975,
@@ -833,6 +878,13 @@
   "model": "PV5 Passenger",
   "model_year": 2026,
   "notes": "The 'what I actually want' car: dual powered sliding doors, 360 cameras, ventilated seats. Kia Finance GFV £18,661.50 on 37 months (consistent across RRG and Arnold Clark). Owner complaints: PBV support, infotainment apps, slow software fixes; seats not as modular as an old MPV.",
+  "picks": [
+   {
+    "note": "Worth it and affordable: seven seats, powered sliding doors, proper V2L.",
+    "verdict": "want",
+    "who": "T"
+   }
+  ],
   "power_hp": 163,
   "power_kw": 120,
   "powered_sliding_doors": 2,
@@ -878,6 +930,7 @@
   "heat_pump": "standard",
   "height_mm": 1900,
   "id": "kia-pv5-passenger-71-essential-7seat",
+  "image": null,
   "internal_v2l": "none",
   "length_mm": 4695,
   "list_price_gbp": 36995,
@@ -885,6 +938,7 @@
   "model": "PV5 Passenger",
   "model_year": 2026,
   "notes": "No V2L: fails the brief. Only here because dealer PCP examples exist for it.",
+  "picks": [],
   "power_hp": 163,
   "power_kw": 120,
   "powered_sliding_doors": 0,
@@ -931,6 +985,7 @@
   "heated_seats": true,
   "height_mm": 1900,
   "id": "kia-pv5-passenger-71-plus-7seat",
+  "image": null,
   "internal_v2l": "standard",
   "length_mm": 4695,
   "list_price_gbp": 40275,
@@ -938,6 +993,7 @@
   "model": "PV5 Passenger",
   "model_year": 2026,
   "notes": "Sufficient. One powered sliding door (right side), power tailgate, heated front + outer rear seats, wireless CarPlay. 7-year warranty. First UK 7-seat deliveries from Oct 2026.",
+  "picks": [],
   "power_hp": 163,
   "power_kw": 120,
   "powered_sliding_doors": 1,

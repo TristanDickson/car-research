@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-06",
+  "notes": "Household verdicts, shared by everyone who opens the site (unlike the per-browser star). who: T = Tristan, P = partner. verdict: want | maybe | no | control. Edit here, run make snapshot, commit.",
+  "picks": [
+    { "car_id": "kia-pv5-passenger-71-elite-7seat", "who": "T", "verdict": "want", "note": "Worth it and affordable: seven seats, powered sliding doors, proper V2L." },
+    { "car_id": "hyundai-ioniq3-61-ultimate-evpack", "who": "T", "verdict": "maybe", "note": "The rational pick if we don't spend PV5 money. Cash, not the 8.9% PCP." },
+    { "car_id": "hyundai-inster-49-02", "who": "T", "verdict": "control", "note": "The 'do we need to spend any of this?' check." }
+  ]
+}

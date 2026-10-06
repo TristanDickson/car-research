@@ -6,16 +6,16 @@
   "offers": 33,
   "unmapped_trims": 0
  },
- "generated_at": "2026-10-06T13:55:43+00:00",
+ "generated_at": "2026-10-06T14:09:48+00:00",
  "runs": [
   {
    "artifacts": 4,
    "capability": "offers",
-   "finished_at": "2026-10-06T13:55:43+00:00",
+   "finished_at": "2026-10-06T14:09:48+00:00",
    "id": 2,
    "records": 4,
    "source": "carwow_paste",
-   "started_at": "2026-10-06T13:55:43+00:00",
+   "started_at": "2026-10-06T14:09:48+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -23,11 +23,11 @@
   {
    "artifacts": 4,
    "capability": "seed",
-   "finished_at": "2026-10-06T13:55:43+00:00",
+   "finished_at": "2026-10-06T14:09:48+00:00",
    "id": 1,
    "records": 53,
    "source": "manual_seed",
-   "started_at": "2026-10-06T13:55:43+00:00",
+   "started_at": "2026-10-06T14:09:48+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0

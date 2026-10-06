@@ -107,8 +107,18 @@ export interface SnapshotCar {
   expensive_car_supplement?: boolean;
   notes?: string;
   verification?: string;
+  image_url?: string | null;
+  /** Committed photo path (prefix with the base path) or image_url, resolved at export. */
+  image?: string | null;
+  picks: HouseholdPick[];
   requirement_check: RequirementCheck;
   deal_summary: DealSummary;
+}
+
+export interface HouseholdPick {
+  who: string;
+  verdict: "want" | "maybe" | "no" | "control" | string;
+  note?: string | null;
 }
 
 export type FinanceType = "pcp" | "pch" | "cash" | "campaign";

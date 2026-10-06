@@ -6,7 +6,7 @@ Distilled from the ChatGPT conversation of 4-6 October 2026 (see
 
 ## Who and when
 
-- **Household:** Tristan (buyer/driver), Patricia (partner, holds the budget line), two young
+- **Household:** Tristan (buyer/driver), my partner (holds the budget line), two young
   children (one toddler, one baby; child seats and buggy stage). Family of four; a fifth or
   seventh seat is occasionally useful for grandparents or friends.
 - **Current car:** Hyundai Ioniq 5 long range, bought on a Richmond Hyundai Guildford public
@@ -47,7 +47,7 @@ Distilled from the ChatGPT conversation of 4-6 October 2026 (see
   for family use but a real downgrade on long trips.
 - **DC charging:** the Ioniq 5's 800V / 260kW system was genuinely useful. ~110kW (Ioniq 3,
   Kona) is "merely adequate".
-- **Budget:** Patricia's ceiling is **£400/month effective**. Tristan is willing to go to
+- **Budget:** my partner's ceiling is **£400/month effective**. Tristan is willing to go to
   ~£700/month for the PV5 because the utility is real and affordable. Resolve by pricing the
   PV5 against the best ≤£400 car that meets the hard requirements and asking whether the
   delta buys enough.

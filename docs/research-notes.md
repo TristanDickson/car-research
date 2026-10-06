@@ -64,7 +64,7 @@ marked *pasted* come from pages Tristan pasted into the conversation and are fir
 
 | Car | Role | Route | Status |
 | --- | --- | --- | --- |
-| Kia PV5 Elite 7-seat | "What I actually want": seven seats, dual powered sliders, huge space, V2L, roughly Ioniq 5 footprint | PCP at 3.9% (~£700/month £0 down, GFV £18,661.50) or cash ~£40.3k | Tristan: worth it. Patricia: over budget. Decide by pricing the delta vs best ≤£400 car. |
+| Kia PV5 Elite 7-seat | "What I actually want": seven seats, dual powered sliders, huge space, V2L, roughly Ioniq 5 footprint | PCP at 3.9% (~£700/month £0 down, GFV £18,661.50) or cash ~£40.3k | Tristan: worth it. My partner: over budget. Decide by pricing the delta vs best ≤£400 car. |
 | Hyundai Ioniq 3 Ultimate EV Pack | Rational compact choice: 300mi, V2L, heat pump, 1,800mm wide | **Cash** ~£27,445. PCP is 8.9% (£5.5k interest), do not take it | Right car, wrong campaign. Watch for 0-3% support. Reviews praise packaging; no owner corpus yet. |
 | Kia EV2 GT-Line S + heat pump | Direct Ioniq 3 rival, better equipped, 257mi | Cash lead £29,666; lease ~£427/mo effective (48m/5k) | Credible alternative; broker price unconfirmed for December. |
 | Hyundai Kona Ultimate 65kWh | Safe conventional fallback | Richmond PCP 2.9% £546.64 £0 down; but New Car Discount shows **£26,966 outright** | Richmond PCP is ~£6.9k premium over that cash lead. Needs like-for-like confirmation. |

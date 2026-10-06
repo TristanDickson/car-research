@@ -1027,7 +1027,7 @@ And this is where **Elite starts looking much more compelling than Plus**. Kia's
 - **Elite:** **dual powered sliding doors**.
 - Both get the powered tailgate. ([kia.com](https://www.kia.com/nmc/en/pbv/Kia-PV5-Passenger?utm_source=chatgpt.com))
 
-For you, dual power doors would be especially useful with two children: you can open whichever side is safe/accessible, get Max in without messing around with a heavy sliding door, and when carrying the baby you can open the door remotely rather than juggling handles. On a vehicle this tall and van-shaped, that feels like a genuinely useful upgrade rather than luxury trim padding.
+For you, dual power doors would be especially useful with two children: you can open whichever side is safe/accessible, get our eldest in without messing around with a heavy sliding door, and when carrying the baby you can open the door remotely rather than juggling handles. On a vehicle this tall and van-shaped, that feels like a genuinely useful upgrade rather than luxury trim padding.
 
 And the price difference is only **£1,700**:
 
@@ -1282,7 +1282,7 @@ At **£0 down and a hard-ish £400/month ceiling**, the current Elite PCP is now
 
 The Carwow price is **£40,330**.
 
-So Kia would need to find roughly **£7k of extra support even at 0%**, or about **£10k at the current 3.9%**, before an Elite gets into Patricia’s territory.
+So Kia would need to find roughly **£7k of extra support even at 0%**, or about **£10k at the current 3.9%**, before an Elite gets into my partner’s territory.
 
 That’s not a “maybe the dealer can sharpen their pencil” gap. That requires a completely different manufacturer campaign.
 
@@ -1296,7 +1296,7 @@ So I think the decision framework becomes:
 
 **Other cars:** this is where I'd now search seriously, because there may be something with heat pump + V2L at £350–400 that isn't making you pay for seven-seat-PV5 residual risk.
 
-Your old **£540 Ioniq deal already felt expensive to Patricia**, so replacing it with a £700 PV5 because it's technically a better family car is clearly going in the wrong direction. memcite
+Your old **£540 Ioniq deal already felt expensive to my partner**, so replacing it with a £700 PV5 because it's technically a better family car is clearly going in the wrong direction. memcite
 
 ====================================================================================
 047 — User — 2026-10-05T15:14:54Z
@@ -1308,7 +1308,7 @@ the point is, i think its worth it and i can afford it
 048 — Assistant
 ====================================================================================
 
-Then the problem isn’t affordability; it’s that **you and Patricia are valuing the car differently**.
+Then the problem isn’t affordability; it’s that **you and my partner are valuing the car differently**.
 
 At ~£700/month, the PV5 Elite is about **£300/month above her preferred £400 ceiling**, i.e. roughly **£10,800 over three years**. That is the real question to settle: whether the additional utility is worth ~£11k to the household.
 
@@ -1321,7 +1321,7 @@ And I can see the case for it much more clearly than I could for simply buying a
 - proper internal V2L for camping/power use;
 - still roughly the footprint of your Ioniq 5 rather than moving into EV9 territory.
 
-So I wouldn’t dismiss it because “Patricia wants £400”. I’d compare it against the **best £400-ish car that actually meets enough of your requirements**, then ask what the extra PV5 expenditure buys.
+So I wouldn’t dismiss it because “my partner wants £400”. I’d compare it against the **best £400-ish car that actually meets enough of your requirements**, then ask what the extra PV5 expenditure buys.
 
 If, for example, the realistic alternative is a £390 Kona that loses the seven seats, sliding doors and enormous interior, the comparison is:
 
@@ -1506,7 +1506,7 @@ Hyundai quotes the overall range maximum at 308 miles. ([hyundai.news](https://w
 
 That last dimension is particularly relevant. Your IONIQ 5 is 1,890mm wide and you've complained about that. The IONIQ 3 is **90mm narrower**. It's also **25mm narrower than the Kona Electric** and about 200mm shorter.
 
-### And the finance could actually fit Patricia's number
+### And the finance could actually fit my partner's number
 
 Hyundai's **current October Q4 offer** is:
 
@@ -1558,7 +1558,7 @@ At nearly **£11k less**, the IONIQ 3 makes me question why you'd buy the high-s
 
 So I'd now put them roughly into three different roles:
 
-**IONIQ 3 Premium + EV Pack:** rational choice — small, 300-mile range, V2L, heat pump, potentially around Patricia's £400 target.
+**IONIQ 3 Premium + EV Pack:** rational choice — small, 300-mile range, V2L, heat pump, potentially around my partner's £400 target.
 
 **PV5 Elite:** “I actually want this” choice — much more useful family vehicle, but currently ~£700 PCP.
 
@@ -2902,7 +2902,7 @@ versus
 
 > **Kona Ultimate: £547/month PCP and keep £27k in the bank.**
 
-And Patricia's £400/month objection effectively disappears with the IONIQ 3, assuming she's comfortable with the capital expenditure rather than specifically wanting to preserve the savings.
+And my partner's £400/month objection effectively disappears with the IONIQ 3, assuming she's comfortable with the capital expenditure rather than specifically wanting to preserve the savings.
 
 There is also an amusing inversion with the Inster: **I would finance the Inster**, because Hyundai is giving you 0% plus a £3,000 contribution. I would **buy the IONIQ 3 for cash**, because its PCP is punitive.
 

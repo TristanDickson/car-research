@@ -27,7 +27,7 @@
   },
   "budget": {
     "monthly_ceiling_gbp": 400,
-    "monthly_ceiling_owner": "Patricia",
+    "monthly_ceiling_owner": "partner",
     "monthly_tolerance_gbp": 700,
     "monthly_tolerance_owner": "Tristan",
     "liquidity_constraint": false,

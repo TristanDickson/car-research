@@ -22,6 +22,9 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 from model.deal_math import compute
+from pipeline.db import ROOT
+
+IMAGE_EXTS = ("jpg", "jpeg", "png", "webp")
 
 # Bump on any incompatible shape change; the SPA warns loudly on skew.
 SCHEMA_VERSION = "2"
@@ -105,6 +108,27 @@ def deal_summary(offers: list[dict], metrics_by_id: dict[str, dict]) -> dict:
     }
 
 
+def load_picks(root: Path) -> dict[str, list[dict]]:
+    """Household verdicts (data/seed/picks.json): our own decisions, not sourced
+    data, so they bypass the medallion and ride along at export."""
+    path = root / "data" / "seed" / "picks.json"
+    if not path.exists():
+        return {}
+    out: dict[str, list[dict]] = {}
+    for pick in json.loads(path.read_text(encoding="utf-8")).get("picks", []):
+        out.setdefault(pick["car_id"], []).append({k: pick.get(k) for k in ("who", "verdict", "note")})
+    return out
+
+
+def car_image(root: Path, car: dict) -> str | None:
+    """A committed photo under web/public/images/cars/<id>.<ext> wins; else the
+    car record's image_url; else None (the SPA shows a placeholder)."""
+    for ext in IMAGE_EXTS:
+        if (root / "web" / "public" / "images" / "cars" / f'{car["id"]}.{ext}').exists():
+            return f'/images/cars/{car["id"]}.{ext}'
+    return car.get("image_url")
+
+
 def load_cars(conn: sqlite3.Connection) -> list[dict]:
     return [json.loads(r["payload"]) for r in conn.execute("SELECT payload FROM cars ORDER BY id")]
 
@@ -182,10 +206,12 @@ def unmapped_trims(conn: sqlite3.Connection) -> list[dict]:
     return [dict(r) for r in rows]
 
 
-def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at: str | None = None) -> dict:
+def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at: str | None = None,
+                    root: Path = ROOT) -> dict:
     from pipeline.providers import PROVIDERS
 
     out = Path(out_dir)
+    picks = load_picks(root)
     generated_at = generated_at or datetime.now(timezone.utc).isoformat(timespec="seconds")
     today = date.fromisoformat(generated_at[:10])
 
@@ -206,6 +232,8 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     for c in cars:
         c["requirement_check"] = evaluate_hard(requirements, c)
         c["deal_summary"] = deal_summary(by_car.get(c["id"], []), metrics)
+        c["picks"] = picks.get(c["id"], [])
+        c["image"] = car_image(root, c)
 
     states: dict[str, int] = {}
     for o in offers:

@@ -36,7 +36,7 @@ export function SnapshotBanner() {
 
   return (
     <div className="border-b border-gray-800 bg-gray-900/60">
-      <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-2 px-6 py-1.5 text-xs text-gray-400">
+      <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-2 px-4 py-1.5 text-xs text-gray-400 sm:px-6">
         <span>
           {error ? (
             <span className="text-rose-300">Snapshot failed to load: {(error as Error).message}</span>

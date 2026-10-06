@@ -4,12 +4,12 @@ export const ACTIVE_STATES: ReadonlySet<OfferState> = new Set(["live", "lead", "
 
 const DAY = 86_400_000;
 
-/** Whole days since an ISO date/datetime, as of `now`. */
+/** Calendar days (UTC) since an ISO date/datetime, as of `now`: yesterday evening is 1, not 0. */
 export function ageDays(iso: string | null | undefined, now: Date = new Date()): number | null {
   if (!iso) return null;
   const d = new Date(iso.length === 10 ? `${iso}T00:00:00Z` : iso);
   if (Number.isNaN(d.getTime())) return null;
-  return Math.max(0, Math.floor((now.getTime() - d.getTime()) / DAY));
+  return Math.max(0, Math.floor(now.getTime() / DAY) - Math.floor(d.getTime() / DAY));
 }
 
 /** The snapshot's own stale flag is relative to generated_at; recompute from the

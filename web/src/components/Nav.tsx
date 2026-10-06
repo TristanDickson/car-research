@@ -8,7 +8,7 @@ import { activeHref, NAV } from "@/lib/nav";
 export function Nav() {
   const active = activeHref(usePathname());
   return (
-    <nav className="flex gap-5 text-sm font-medium text-gray-400">
+    <nav className="flex gap-5 overflow-x-auto whitespace-nowrap text-sm font-medium text-gray-400 [scrollbar-width:none]">
       {NAV.map((item) => (
         <Link
           key={item.href}

@@ -27,6 +27,8 @@ const car = (id: string) => ({
   model: "Ioniq 3",
   trim: id,
   seats: 5,
+  picks: [],
+  image: null,
   requirement_check: { passes: true, failures: [], unknown: [] },
   deal_summary: {
     offers: 0, current_offers: 0, best_cash_price: null, best_cash_offer_id: null, best_cash_age_days: null,
