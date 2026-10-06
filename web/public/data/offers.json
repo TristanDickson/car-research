@@ -1990,15 +1990,15 @@
    "first_seen_at": "2026-10-06T17:16:04+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:19+00:00",
+     "confirmed_at": "2026-10-06T17:57:11+00:00",
      "observed_at": "2026-10-06T17:16:04+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 20497.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:19+00:00",
-   "last_seen_at": "2026-10-06T17:20:19+00:00",
+   "last_checked_at": "2026-10-06T17:57:11+00:00",
+   "last_seen_at": "2026-10-06T17:57:11+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2042,15 +2042,15 @@
    "first_seen_at": "2026-10-06T17:16:04+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:19+00:00",
+     "confirmed_at": "2026-10-06T17:57:11+00:00",
      "observed_at": "2026-10-06T17:16:04+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 23270.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:19+00:00",
-   "last_seen_at": "2026-10-06T17:20:19+00:00",
+   "last_checked_at": "2026-10-06T17:57:11+00:00",
+   "last_seen_at": "2026-10-06T17:57:11+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2094,15 +2094,15 @@
    "first_seen_at": "2026-10-06T17:16:04+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:19+00:00",
+     "confirmed_at": "2026-10-06T17:57:11+00:00",
      "observed_at": "2026-10-06T17:16:04+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 25620.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:19+00:00",
-   "last_seen_at": "2026-10-06T17:20:19+00:00",
+   "last_checked_at": "2026-10-06T17:57:11+00:00",
+   "last_seen_at": "2026-10-06T17:57:11+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2146,15 +2146,15 @@
    "first_seen_at": "2026-10-06T17:16:04+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:19+00:00",
+     "confirmed_at": "2026-10-06T17:57:11+00:00",
      "observed_at": "2026-10-06T17:16:04+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 29380.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:19+00:00",
-   "last_seen_at": "2026-10-06T17:20:19+00:00",
+   "last_checked_at": "2026-10-06T17:57:11+00:00",
+   "last_seen_at": "2026-10-06T17:57:11+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2198,15 +2198,15 @@
    "first_seen_at": "2026-10-06T17:16:06+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:21+00:00",
+     "confirmed_at": "2026-10-06T17:57:13+00:00",
      "observed_at": "2026-10-06T17:16:06+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 27794.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:21+00:00",
-   "last_seen_at": "2026-10-06T17:20:21+00:00",
+   "last_checked_at": "2026-10-06T17:57:13+00:00",
+   "last_seen_at": "2026-10-06T17:57:13+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2250,15 +2250,15 @@
    "first_seen_at": "2026-10-06T17:16:06+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:21+00:00",
+     "confirmed_at": "2026-10-06T17:57:13+00:00",
      "observed_at": "2026-10-06T17:16:06+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 29714.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:21+00:00",
-   "last_seen_at": "2026-10-06T17:20:21+00:00",
+   "last_checked_at": "2026-10-06T17:57:13+00:00",
+   "last_seen_at": "2026-10-06T17:57:13+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2302,15 +2302,15 @@
    "first_seen_at": "2026-10-06T17:16:06+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:21+00:00",
+     "confirmed_at": "2026-10-06T17:57:13+00:00",
      "observed_at": "2026-10-06T17:16:06+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 31957.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:21+00:00",
-   "last_seen_at": "2026-10-06T17:20:21+00:00",
+   "last_checked_at": "2026-10-06T17:57:13+00:00",
+   "last_seen_at": "2026-10-06T17:57:13+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2354,15 +2354,15 @@
    "first_seen_at": "2026-10-06T17:16:06+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:21+00:00",
+     "confirmed_at": "2026-10-06T17:57:13+00:00",
      "observed_at": "2026-10-06T17:16:06+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 32038.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:21+00:00",
-   "last_seen_at": "2026-10-06T17:20:21+00:00",
+   "last_checked_at": "2026-10-06T17:57:13+00:00",
+   "last_seen_at": "2026-10-06T17:57:13+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2412,7 +2412,7 @@
    "history": [
     {
      "apr": 0.028999999999999998,
-     "confirmed_at": "2026-10-06T17:20:21+00:00",
+     "confirmed_at": "2026-10-06T17:57:13+00:00",
      "gfv": 11676.51,
      "monthly_payment": 285.0,
      "observed_at": "2026-10-06T17:16:06+00:00",
@@ -2421,8 +2421,8 @@
      "vehicle_price": 27795.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:21+00:00",
-   "last_seen_at": "2026-10-06T17:20:21+00:00",
+   "last_checked_at": "2026-10-06T17:57:13+00:00",
+   "last_seen_at": "2026-10-06T17:57:13+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2492,15 +2492,15 @@
    "first_seen_at": "2026-10-06T17:20:23+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:16+00:00",
      "observed_at": "2026-10-06T17:20:23+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 22865.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:23+00:00",
-   "last_seen_at": "2026-10-06T17:20:23+00:00",
+   "last_checked_at": "2026-10-06T17:57:16+00:00",
+   "last_seen_at": "2026-10-06T17:57:16+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2544,15 +2544,15 @@
    "first_seen_at": "2026-10-06T17:20:26+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:18+00:00",
      "observed_at": "2026-10-06T17:20:26+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 39854.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:26+00:00",
-   "last_seen_at": "2026-10-06T17:20:26+00:00",
+   "last_checked_at": "2026-10-06T17:57:18+00:00",
+   "last_seen_at": "2026-10-06T17:57:18+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2596,15 +2596,15 @@
    "first_seen_at": "2026-10-06T17:20:26+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:18+00:00",
      "observed_at": "2026-10-06T17:20:26+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 42158.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:26+00:00",
-   "last_seen_at": "2026-10-06T17:20:26+00:00",
+   "last_checked_at": "2026-10-06T17:57:18+00:00",
+   "last_seen_at": "2026-10-06T17:57:18+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2648,15 +2648,15 @@
    "first_seen_at": "2026-10-06T17:16:13+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:28+00:00",
+     "confirmed_at": "2026-10-06T17:57:21+00:00",
      "observed_at": "2026-10-06T17:16:13+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 35187.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:28+00:00",
-   "last_seen_at": "2026-10-06T17:20:28+00:00",
+   "last_checked_at": "2026-10-06T17:57:21+00:00",
+   "last_seen_at": "2026-10-06T17:57:21+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2700,15 +2700,15 @@
    "first_seen_at": "2026-10-06T17:16:13+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:28+00:00",
+     "confirmed_at": "2026-10-06T17:57:21+00:00",
      "observed_at": "2026-10-06T17:16:13+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 38303.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:28+00:00",
-   "last_seen_at": "2026-10-06T17:20:28+00:00",
+   "last_checked_at": "2026-10-06T17:57:21+00:00",
+   "last_seen_at": "2026-10-06T17:57:21+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2752,15 +2752,15 @@
    "first_seen_at": "2026-10-06T17:20:28+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:21+00:00",
      "observed_at": "2026-10-06T17:20:28+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 39918.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:28+00:00",
-   "last_seen_at": "2026-10-06T17:20:28+00:00",
+   "last_checked_at": "2026-10-06T17:57:21+00:00",
+   "last_seen_at": "2026-10-06T17:57:21+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2804,15 +2804,15 @@
    "first_seen_at": "2026-10-06T17:20:31+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:23+00:00",
      "observed_at": "2026-10-06T17:20:31+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 30760.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:31+00:00",
-   "last_seen_at": "2026-10-06T17:20:31+00:00",
+   "last_checked_at": "2026-10-06T17:57:23+00:00",
+   "last_seen_at": "2026-10-06T17:57:23+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2856,15 +2856,15 @@
    "first_seen_at": "2026-10-06T17:16:18+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:33+00:00",
+     "confirmed_at": "2026-10-06T17:57:26+00:00",
      "observed_at": "2026-10-06T17:16:18+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 40936.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:33+00:00",
-   "last_seen_at": "2026-10-06T17:20:33+00:00",
+   "last_checked_at": "2026-10-06T17:57:26+00:00",
+   "last_seen_at": "2026-10-06T17:57:26+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2908,15 +2908,15 @@
    "first_seen_at": "2026-10-06T17:20:36+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:28+00:00",
      "observed_at": "2026-10-06T17:20:36+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 48445.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:36+00:00",
-   "last_seen_at": "2026-10-06T17:20:36+00:00",
+   "last_checked_at": "2026-10-06T17:57:28+00:00",
+   "last_seen_at": "2026-10-06T17:57:28+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -2968,7 +2968,7 @@
    "history": [
     {
      "apr": 0.028999999999999998,
-     "confirmed_at": "2026-10-06T17:20:36+00:00",
+     "confirmed_at": "2026-10-06T17:57:29+00:00",
      "gfv": 11292.98,
      "monthly_payment": 454.46,
      "observed_at": "2026-10-06T17:16:21+00:00",
@@ -2977,8 +2977,8 @@
      "vehicle_price": 31250.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:36+00:00",
-   "last_seen_at": "2026-10-06T17:20:36+00:00",
+   "last_checked_at": "2026-10-06T17:57:29+00:00",
+   "last_seen_at": "2026-10-06T17:57:29+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3061,7 +3061,7 @@
    "history": [
     {
      "apr": 0.0,
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:31+00:00",
      "gfv": 8923.88,
      "monthly_payment": 290.65,
      "observed_at": "2026-10-06T17:20:38+00:00",
@@ -3070,8 +3070,8 @@
      "vehicle_price": 27375.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:38+00:00",
-   "last_seen_at": "2026-10-06T17:20:38+00:00",
+   "last_checked_at": "2026-10-06T17:57:31+00:00",
+   "last_seen_at": "2026-10-06T17:57:31+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3154,7 +3154,7 @@
    "history": [
     {
      "apr": 0.08900000000000001,
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:34+00:00",
      "gfv": 10289.16,
      "monthly_payment": 354.72,
      "observed_at": "2026-10-06T17:20:42+00:00",
@@ -3163,8 +3163,8 @@
      "vehicle_price": 21995.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:42+00:00",
-   "last_seen_at": "2026-10-06T17:20:42+00:00",
+   "last_checked_at": "2026-10-06T17:57:34+00:00",
+   "last_seen_at": "2026-10-06T17:57:34+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3237,15 +3237,15 @@
    "first_seen_at": "2026-10-06T17:16:27+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:43+00:00",
+     "confirmed_at": "2026-10-06T17:57:35+00:00",
      "observed_at": "2026-10-06T17:16:27+00:00",
      "present": true,
      "source": "ncd",
      "vehicle_price": 25700.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:43+00:00",
-   "last_seen_at": "2026-10-06T17:20:43+00:00",
+   "last_checked_at": "2026-10-06T17:57:35+00:00",
+   "last_seen_at": "2026-10-06T17:57:35+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3284,15 +3284,15 @@
    "first_seen_at": "2026-10-06T17:16:27+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:43+00:00",
+     "confirmed_at": "2026-10-06T17:57:35+00:00",
      "observed_at": "2026-10-06T17:16:27+00:00",
      "present": true,
      "source": "ncd",
      "vehicle_price": 28649.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:43+00:00",
-   "last_seen_at": "2026-10-06T17:20:43+00:00",
+   "last_checked_at": "2026-10-06T17:57:35+00:00",
+   "last_seen_at": "2026-10-06T17:57:35+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3331,15 +3331,15 @@
    "first_seen_at": "2026-10-06T17:16:27+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:43+00:00",
+     "confirmed_at": "2026-10-06T17:57:35+00:00",
      "observed_at": "2026-10-06T17:16:27+00:00",
      "present": true,
      "source": "ncd",
      "vehicle_price": 35150.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:43+00:00",
-   "last_seen_at": "2026-10-06T17:20:43+00:00",
+   "last_checked_at": "2026-10-06T17:57:35+00:00",
+   "last_seen_at": "2026-10-06T17:57:35+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3378,15 +3378,15 @@
    "first_seen_at": "2026-10-06T17:16:27+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:43+00:00",
+     "confirmed_at": "2026-10-06T17:57:35+00:00",
      "observed_at": "2026-10-06T17:16:27+00:00",
      "present": true,
      "source": "ncd",
      "vehicle_price": 31150.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:43+00:00",
-   "last_seen_at": "2026-10-06T17:20:43+00:00",
+   "last_checked_at": "2026-10-06T17:57:35+00:00",
+   "last_seen_at": "2026-10-06T17:57:35+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3425,15 +3425,15 @@
    "first_seen_at": "2026-10-06T17:20:45+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:37+00:00",
      "observed_at": "2026-10-06T17:20:45+00:00",
      "present": true,
      "source": "ncd",
      "vehicle_price": 23588.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:45+00:00",
-   "last_seen_at": "2026-10-06T17:20:45+00:00",
+   "last_checked_at": "2026-10-06T17:57:37+00:00",
+   "last_seen_at": "2026-10-06T17:57:37+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3472,15 +3472,15 @@
    "first_seen_at": "2026-10-06T17:20:45+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:37+00:00",
      "observed_at": "2026-10-06T17:20:45+00:00",
      "present": true,
      "source": "ncd",
      "vehicle_price": 25356.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:45+00:00",
-   "last_seen_at": "2026-10-06T17:20:45+00:00",
+   "last_checked_at": "2026-10-06T17:57:37+00:00",
+   "last_seen_at": "2026-10-06T17:57:37+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3519,15 +3519,15 @@
    "first_seen_at": "2026-10-06T17:20:45+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:37+00:00",
      "observed_at": "2026-10-06T17:20:45+00:00",
      "present": true,
      "source": "ncd",
      "vehicle_price": 26929.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:45+00:00",
-   "last_seen_at": "2026-10-06T17:20:45+00:00",
+   "last_checked_at": "2026-10-06T17:57:37+00:00",
+   "last_seen_at": "2026-10-06T17:57:37+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3566,15 +3566,15 @@
    "first_seen_at": "2026-10-06T17:20:45+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:37+00:00",
      "observed_at": "2026-10-06T17:20:45+00:00",
      "present": true,
      "source": "ncd",
      "vehicle_price": 26966.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:45+00:00",
-   "last_seen_at": "2026-10-06T17:20:45+00:00",
+   "last_checked_at": "2026-10-06T17:57:37+00:00",
+   "last_seen_at": "2026-10-06T17:57:37+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3613,15 +3613,15 @@
    "first_seen_at": "2026-10-06T17:20:47+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:39+00:00",
      "observed_at": "2026-10-06T17:20:47+00:00",
      "present": true,
      "source": "ncd",
      "vehicle_price": 20815.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:47+00:00",
-   "last_seen_at": "2026-10-06T17:20:47+00:00",
+   "last_checked_at": "2026-10-06T17:57:39+00:00",
+   "last_seen_at": "2026-10-06T17:57:39+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3660,15 +3660,15 @@
    "first_seen_at": "2026-10-06T17:20:49+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:41+00:00",
      "observed_at": "2026-10-06T17:20:49+00:00",
      "present": true,
      "source": "ncd",
      "vehicle_price": 31746.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:49+00:00",
-   "last_seen_at": "2026-10-06T17:20:49+00:00",
+   "last_checked_at": "2026-10-06T17:57:41+00:00",
+   "last_seen_at": "2026-10-06T17:57:41+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3707,15 +3707,15 @@
    "first_seen_at": "2026-10-06T17:20:49+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:41+00:00",
      "observed_at": "2026-10-06T17:20:49+00:00",
      "present": true,
      "source": "ncd",
      "vehicle_price": 34380.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:49+00:00",
-   "last_seen_at": "2026-10-06T17:20:49+00:00",
+   "last_checked_at": "2026-10-06T17:57:41+00:00",
+   "last_seen_at": "2026-10-06T17:57:41+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3754,15 +3754,15 @@
    "first_seen_at": "2026-10-06T17:20:51+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:42+00:00",
      "observed_at": "2026-10-06T17:20:51+00:00",
      "present": true,
      "source": "ncd",
      "vehicle_price": 30775.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:51+00:00",
-   "last_seen_at": "2026-10-06T17:20:51+00:00",
+   "last_checked_at": "2026-10-06T17:57:42+00:00",
+   "last_seen_at": "2026-10-06T17:57:42+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3801,15 +3801,15 @@
    "first_seen_at": "2026-10-06T17:20:53+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:44+00:00",
      "observed_at": "2026-10-06T17:20:53+00:00",
      "present": true,
      "source": "ncd",
      "vehicle_price": 38234.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:53+00:00",
-   "last_seen_at": "2026-10-06T17:20:53+00:00",
+   "last_checked_at": "2026-10-06T17:57:44+00:00",
+   "last_seen_at": "2026-10-06T17:57:44+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3848,15 +3848,15 @@
    "first_seen_at": "2026-10-06T17:20:57+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:48+00:00",
      "observed_at": "2026-10-06T17:20:57+00:00",
      "present": true,
      "source": "ncd",
      "vehicle_price": 38572.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:57+00:00",
-   "last_seen_at": "2026-10-06T17:20:57+00:00",
+   "last_checked_at": "2026-10-06T17:57:48+00:00",
+   "last_seen_at": "2026-10-06T17:57:48+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3895,15 +3895,15 @@
    "first_seen_at": "2026-10-06T17:20:57+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:48+00:00",
      "observed_at": "2026-10-06T17:20:57+00:00",
      "present": true,
      "source": "ncd",
      "vehicle_price": 32739.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:57+00:00",
-   "last_seen_at": "2026-10-06T17:20:57+00:00",
+   "last_checked_at": "2026-10-06T17:57:48+00:00",
+   "last_seen_at": "2026-10-06T17:57:48+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3942,15 +3942,15 @@
    "first_seen_at": "2026-10-06T17:20:57+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:48+00:00",
      "observed_at": "2026-10-06T17:20:57+00:00",
      "present": true,
      "source": "ncd",
      "vehicle_price": 35593.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:57+00:00",
-   "last_seen_at": "2026-10-06T17:20:57+00:00",
+   "last_checked_at": "2026-10-06T17:57:48+00:00",
+   "last_seen_at": "2026-10-06T17:57:48+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -3991,7 +3991,7 @@
    "first_seen_at": "2026-10-06T17:16:43+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:58+00:00",
+     "confirmed_at": "2026-10-06T17:57:50+00:00",
      "initial_rental": 2620.8,
      "monthly_rental": 291.2,
      "observed_at": "2026-10-06T17:16:43+00:00",
@@ -3999,8 +3999,8 @@
      "source": "leaseloco"
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:58+00:00",
-   "last_seen_at": "2026-10-06T17:20:58+00:00",
+   "last_checked_at": "2026-10-06T17:57:50+00:00",
+   "last_seen_at": "2026-10-06T17:57:50+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -4052,7 +4052,7 @@
    "first_seen_at": "2026-10-06T17:16:43+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:58+00:00",
+     "confirmed_at": "2026-10-06T17:57:50+00:00",
      "initial_rental": 3229.92,
      "monthly_rental": 269.16,
      "observed_at": "2026-10-06T17:16:43+00:00",
@@ -4060,8 +4060,8 @@
      "source": "leaseloco"
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:58+00:00",
-   "last_seen_at": "2026-10-06T17:20:58+00:00",
+   "last_checked_at": "2026-10-06T17:57:50+00:00",
+   "last_seen_at": "2026-10-06T17:57:50+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -4113,7 +4113,7 @@
    "first_seen_at": "2026-10-06T17:16:43+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:58+00:00",
+     "confirmed_at": "2026-10-06T17:57:50+00:00",
      "initial_rental": 3497.04,
      "monthly_rental": 291.42,
      "observed_at": "2026-10-06T17:16:43+00:00",
@@ -4121,8 +4121,8 @@
      "source": "leaseloco"
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:58+00:00",
-   "last_seen_at": "2026-10-06T17:20:58+00:00",
+   "last_checked_at": "2026-10-06T17:57:50+00:00",
+   "last_seen_at": "2026-10-06T17:57:50+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -4174,7 +4174,7 @@
    "first_seen_at": "2026-10-06T17:16:43+00:00",
    "history": [
     {
-     "confirmed_at": "2026-10-06T17:20:58+00:00",
+     "confirmed_at": "2026-10-06T17:57:50+00:00",
      "initial_rental": 3453.36,
      "monthly_rental": 287.78,
      "observed_at": "2026-10-06T17:16:43+00:00",
@@ -4182,8 +4182,8 @@
      "source": "leaseloco"
     }
    ],
-   "last_checked_at": "2026-10-06T17:20:58+00:00",
-   "last_seen_at": "2026-10-06T17:20:58+00:00",
+   "last_checked_at": "2026-10-06T17:57:50+00:00",
+   "last_seen_at": "2026-10-06T17:57:50+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -4236,7 +4236,7 @@
    "first_seen_at": "2026-10-06T17:21:00+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:53+00:00",
      "initial_rental": 2936.79,
      "monthly_rental": 326.31,
      "observed_at": "2026-10-06T17:21:00+00:00",
@@ -4244,8 +4244,8 @@
      "source": "leaseloco"
     }
    ],
-   "last_checked_at": "2026-10-06T17:21:00+00:00",
-   "last_seen_at": "2026-10-06T17:21:00+00:00",
+   "last_checked_at": "2026-10-06T17:57:53+00:00",
+   "last_seen_at": "2026-10-06T17:57:53+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -4298,7 +4298,7 @@
    "first_seen_at": "2026-10-06T17:21:03+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:57+00:00",
      "initial_rental": 3789.99,
      "monthly_rental": 421.11,
      "observed_at": "2026-10-06T17:21:03+00:00",
@@ -4306,8 +4306,8 @@
      "source": "leaseloco"
     }
    ],
-   "last_checked_at": "2026-10-06T17:21:03+00:00",
-   "last_seen_at": "2026-10-06T17:21:03+00:00",
+   "last_checked_at": "2026-10-06T17:57:57+00:00",
+   "last_seen_at": "2026-10-06T17:57:57+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -4360,7 +4360,7 @@
    "first_seen_at": "2026-10-06T17:21:03+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:57:57+00:00",
      "initial_rental": 1486.89,
      "monthly_rental": 495.63,
      "observed_at": "2026-10-06T17:21:03+00:00",
@@ -4368,8 +4368,8 @@
      "source": "leaseloco"
     }
    ],
-   "last_checked_at": "2026-10-06T17:21:03+00:00",
-   "last_seen_at": "2026-10-06T17:21:03+00:00",
+   "last_checked_at": "2026-10-06T17:57:57+00:00",
+   "last_seen_at": "2026-10-06T17:57:57+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -4422,7 +4422,7 @@
    "first_seen_at": "2026-10-06T17:21:05+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:58:00+00:00",
      "initial_rental": 5308.8,
      "monthly_rental": 442.4,
      "observed_at": "2026-10-06T17:21:05+00:00",
@@ -4430,8 +4430,8 @@
      "source": "leaseloco"
     }
    ],
-   "last_checked_at": "2026-10-06T17:21:05+00:00",
-   "last_seen_at": "2026-10-06T17:21:05+00:00",
+   "last_checked_at": "2026-10-06T17:58:00+00:00",
+   "last_seen_at": "2026-10-06T17:58:00+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -4484,7 +4484,7 @@
    "first_seen_at": "2026-10-06T17:21:07+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2026-10-06T17:58:04+00:00",
      "initial_rental": 6683.52,
      "monthly_rental": 556.96,
      "observed_at": "2026-10-06T17:21:07+00:00",
@@ -4492,8 +4492,8 @@
      "source": "leaseloco"
     }
    ],
-   "last_checked_at": "2026-10-06T17:21:07+00:00",
-   "last_seen_at": "2026-10-06T17:21:07+00:00",
+   "last_checked_at": "2026-10-06T17:58:04+00:00",
+   "last_seen_at": "2026-10-06T17:58:04+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
@@ -4550,7 +4550,7 @@
    "history": [
     {
      "apr": 0.039,
-     "confirmed_at": "2026-10-06T17:21:08+00:00",
+     "confirmed_at": "2026-10-06T17:58:05+00:00",
      "gfv": 18652.06,
      "monthly_payment": 453.47,
      "observed_at": "2026-10-06T17:16:57+00:00",
@@ -4559,8 +4559,8 @@
      "vehicle_price": 40475.0
     }
    ],
-   "last_checked_at": "2026-10-06T17:21:08+00:00",
-   "last_seen_at": "2026-10-06T17:21:08+00:00",
+   "last_checked_at": "2026-10-06T17:58:05+00:00",
+   "last_seen_at": "2026-10-06T17:58:05+00:00",
    "observations": 1,
    "present": true,
    "stale": false,
