@@ -205,3 +205,29 @@ class BackfilledSightings(unittest.TestCase):
         self.assertEqual(len(self._spans()), 4)
         self._obs("2026-10-25T00:00:00+00:00", 27794.0, present=0)           # gone: never merged
         self.assertEqual(self._spans()[-1], ("2026-10-25", "2026-10-25", 27794.0, 0))
+
+
+class HistoryPerSource(unittest.TestCase):
+    """The chunked backfill exports one provider's rows per job and merges them back by replacing that source."""
+
+    def test_export_source_and_import_replace_source(self):
+        import tempfile
+        from pipeline.history import export_history, import_history
+        conn = fresh_conn()
+        run_all(conn)
+        with tempfile.TemporaryDirectory() as tmp:
+            f = Path(tmp) / "carwow_paste.jsonl"
+            n = export_history(conn, f, source="carwow_paste")
+            self.assertEqual(n, 4)
+            # Pretend a chunk job moved one span earlier, then merge its file back.
+            lines = f.read_text().splitlines()
+            d = json.loads(lines[0]); d["observed_at"] = "2026-09-01T00:00:00+00:00"
+            lines[0] = json.dumps(d); f.write_text("\n".join(lines) + "\n")
+            m = import_history(conn, f, replace_source="carwow_paste")
+            self.assertEqual(m, 4)
+            rows = conn.execute("SELECT COUNT(*) FROM offer_observations WHERE source='carwow_paste'").fetchone()[0]
+            self.assertEqual(rows, 4, "replaced, not added to")
+            self.assertEqual(conn.execute("SELECT MIN(observed_at) FROM offer_observations WHERE source='carwow_paste'").fetchone()[0],
+                             "2026-09-01T00:00:00+00:00")
+            total = conn.execute("SELECT COUNT(*) FROM offer_observations").fetchone()[0]
+            self.assertEqual(total, 33, "other providers untouched")

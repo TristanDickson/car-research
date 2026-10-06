@@ -1,11 +1,12 @@
-# One-off (re-runnable) backfill: fold Wayback Machine captures of the pages the
-# live providers read into the sighting history, then commit history + snapshot
-# and redeploy. Dispatch by hand; it is slow (archive.org rate-limits) and the
-# archive is sometimes "temporarily offline", in which case re-run it later:
-# captures already folded in are merged, not duplicated.
+# Backfill from the Wayback Machine, in short chunks: one job per provider with
+# its own log and timeout, then one merge job that folds every chunk's result
+# into the committed history, regenerates the snapshot and redeploys.
 #
-# Runs on a GitHub runner because web.archive.org refuses connections from some
-# cloud networks (it did from the Claude session this was written in).
+# Why chunks: archive.org throttles and is sometimes "temporarily offline", so a
+# single long job is opaque until it ends. A chunk's log is readable the moment
+# that chunk finishes, a hung page costs that chunk at most one timeout, and a
+# chunk that fails leaves the others' results intact. Re-running is safe: a
+# capture already folded in is merged, not duplicated.
 name: Backfill from the Wayback Machine
 
 on:
@@ -17,9 +18,9 @@ on:
       every_days:
         description: "At most one capture per this many days per page"
         default: "7"
-      only:
-        description: "Comma-separated providers (blank = all live providers)"
-        default: ""
+      providers:
+        description: "JSON list of providers to run"
+        default: '["carwow_deals","hyundai_offers","ncd","leaseloco","rrg"]'
       max_targets:
         description: "Stop after this many captures per provider (blank = all)"
         default: ""
@@ -33,9 +34,16 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  backfill:
+  chunk:
+    name: ${{ matrix.provider }}
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        provider: ${{ fromJSON(inputs.providers) }}
+    env:
+      CAR_RESEARCH_DB: /tmp/chunk.sqlite
     steps:
       - uses: actions/checkout@v4
         with:
@@ -44,25 +52,64 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Current state (seed + replayed history + tonight's live pages)
-        env:
-          CAR_RESEARCH_DB: /tmp/scrape.sqlite
-        run: python -m pipeline refresh --out web/public/data
+      - name: Current history into a local DB (no network)
+        run: python -m pipeline refresh --offline --out /tmp/snapshot
 
-      - name: Backfill from archived captures
-        env:
-          CAR_RESEARCH_DB: /tmp/scrape.sqlite
+      - name: Fold in archived captures for ${{ matrix.provider }}
         run: |
-          args=(--since "${{ inputs.since }}" --every-days "${{ inputs.every_days }}" --out web/public/data)
-          [ -n "${{ inputs.only }}" ] && args+=(--only "${{ inputs.only }}")
+          args=(--only "${{ matrix.provider }}" --since "${{ inputs.since }}" --every-days "${{ inputs.every_days }}" --out /tmp/snapshot)
           [ -n "${{ inputs.max_targets }}" ] && args+=(--max-targets "${{ inputs.max_targets }}")
-          python -m pipeline backfill "${args[@]}"
-          python -m pipeline status
+          python -u -m pipeline backfill "${args[@]}" 2>&1 | tee /tmp/backfill.log
+          {
+            echo "### ${{ matrix.provider }}"
+            echo '```'
+            grep -E "captures to fold in|wayback index|/backfill:|FAILED" /tmp/backfill.log || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Export this provider's history
+        run: python -m pipeline export-history --source "${{ matrix.provider }}" --file "/tmp/history-${{ matrix.provider }}.jsonl"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: history-${{ matrix.provider }}
+          path: /tmp/history-${{ matrix.provider }}.jsonl
+          retention-days: 7
+
+  merge:
+    needs: chunk
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CAR_RESEARCH_DB: /tmp/merge.sqlite
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: history-*
+          path: /tmp/chunks
+          merge-multiple: true
+
+      - name: Merge every chunk into the committed history
+        run: |
+          python -m pipeline refresh --offline --out web/public/data
+          for f in /tmp/chunks/history-*.jsonl; do
+            [ -e "$f" ] || { echo "no chunk results"; break; }
+            p=$(basename "$f" .jsonl); p=${p#history-}
+            python -m pipeline import-history --file "$f" --replace-source "$p"
+          done
+          python -m pipeline export-history
+          python -m pipeline export-snapshot --out web/public/data
           python -m pipeline deal-table > docs/deal-comparison.md
+          python -m pipeline status | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Unmapped trims (report only)
-        env:
-          CAR_RESEARCH_DB: /tmp/scrape.sqlite
         run: python -m pipeline trims || echo "::warning::archived pages mention derivatives not in the trim map"
 
       - name: Commit and push if anything changed

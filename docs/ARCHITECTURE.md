@@ -80,9 +80,13 @@ Gold's `_merge_sighting` makes out-of-order sightings safe: a sighting matching 
 span before it extends that span; one matching the span after it moves that span's
 start back; one bridging two matching spans merges them; a different price inside a
 span splits the span at that point (the span was seen at its start and end, so those
-become two rows). `refresh` skips `backfill`; `pipeline backfill` runs it, and
-`.github/workflows/backfill.yml` runs that on a GitHub runner because archive.org
-refuses connections from some cloud networks.
+become two rows). `refresh` skips `backfill`; `pipeline backfill` runs it. `.github/workflows/backfill.yml`
+runs it on GitHub runners (archive.org refuses connections from some cloud networks) as
+one short job per provider, each from the committed history, exporting only that
+provider's rows (`export-history --source`); a merge job replays the committed history,
+replaces each provider's rows with its chunk (`import-history --replace-source`), and
+commits. A chunk's log is readable the moment it finishes, a hung page costs that chunk
+one timeout, and a failed chunk leaves the others' results intact.
 
 Coverage (probed 6 Oct 2026, with the archive partly offline): Carwow Kona and EV6
 deals pages have 8–9 captures each since mid-2024, Hyundai's Ioniq 5 offer page 30,

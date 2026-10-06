@@ -17,11 +17,13 @@ COLUMNS = ("offer_key", "car_id", "source", "observed_at", "confirmed_at", "pres
            "verification", "seller", "vehicle_price", "monthly_payment", "apr", "gfv", "fingerprint", "payload")
 
 
-def export_history(conn: sqlite3.Connection, path: Path | str = DEFAULT_PATH) -> int:
+def export_history(conn: sqlite3.Connection, path: Path | str = DEFAULT_PATH, source: str | None = None) -> int:
+    """Write every observation (or only one provider's, with `source`) as JSONL."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
+    where, params = ("WHERE source=?", (source,)) if source else ("", ())
     rows = conn.execute(
-        f"SELECT {', '.join(COLUMNS)} FROM offer_observations ORDER BY offer_key, observed_at, source"
+        f"SELECT {', '.join(COLUMNS)} FROM offer_observations {where} ORDER BY offer_key, observed_at, source", params
     ).fetchall()
     with path.open("w", encoding="utf-8") as f:
         for r in rows:
@@ -31,10 +33,15 @@ def export_history(conn: sqlite3.Connection, path: Path | str = DEFAULT_PATH) ->
     return len(rows)
 
 
-def import_history(conn: sqlite3.Connection, path: Path | str = DEFAULT_PATH) -> int:
+def import_history(conn: sqlite3.Connection, path: Path | str = DEFAULT_PATH, replace_source: str | None = None) -> int:
+    """Upsert the file's rows. With `replace_source`, that provider's existing rows
+    are dropped first so the file is the whole truth for it (how the chunked
+    backfill merges one job's result per provider)."""
     path = Path(path)
     if not path.exists():
         return 0
+    if replace_source:
+        conn.execute("DELETE FROM offer_observations WHERE source=?", (replace_source,))
     n = 0
     with path.open(encoding="utf-8") as f:
         for line in f:

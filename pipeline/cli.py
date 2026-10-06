@@ -119,14 +119,16 @@ def cmd_backfill(args) -> int:
 
 
 def cmd_export_history(args) -> int:
-    from pipeline.history import export_history
-    print(f"history: {export_history(_open())} observations written")
+    from pipeline.history import DEFAULT_PATH, export_history
+    n = export_history(_open(), args.file or DEFAULT_PATH, source=args.source)
+    print(f"history: {n} observations written to {args.file or DEFAULT_PATH}")
     return 0
 
 
 def cmd_import_history(args) -> int:
-    from pipeline.history import import_history
-    print(f"history: {import_history(_open())} observations replayed")
+    from pipeline.history import DEFAULT_PATH, import_history
+    n = import_history(_open(), args.file or DEFAULT_PATH, replace_source=args.replace_source)
+    print(f"history: {n} observations replayed from {args.file or DEFAULT_PATH}")
     return 0
 
 
@@ -200,8 +202,14 @@ def main(argv=None) -> int:
     b.add_argument("--generated-at")
     b.set_defaults(func=cmd_backfill)
 
-    sub.add_parser("export-history", help="Write offer observations to data/history/observations.jsonl.").set_defaults(func=cmd_export_history)
-    sub.add_parser("import-history", help="Replay data/history/observations.jsonl into the DB.").set_defaults(func=cmd_import_history)
+    eh = sub.add_parser("export-history", help="Write offer observations to data/history/observations.jsonl.")
+    eh.add_argument("--file", help="Write here instead of data/history/observations.jsonl.")
+    eh.add_argument("--source", help="Only this provider's observations.")
+    eh.set_defaults(func=cmd_export_history)
+    ih = sub.add_parser("import-history", help="Replay data/history/observations.jsonl into the DB.")
+    ih.add_argument("--file", help="Read this file instead of data/history/observations.jsonl.")
+    ih.add_argument("--replace-source", help="Drop this provider's existing rows first; the file is then its whole history.")
+    ih.set_defaults(func=cmd_import_history)
 
     sub.add_parser("status", help="Row counts and recent runs.").set_defaults(func=cmd_status)
     sub.add_parser("trims", help="List source trims that are not mapped to a car (exit 1 if any).").set_defaults(func=cmd_trims)
