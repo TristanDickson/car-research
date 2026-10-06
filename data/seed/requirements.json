@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-06",
+  "source": "docs/requirements.md",
+  "household": {
+    "adults": 2,
+    "children": 2,
+    "child_seats": 2,
+    "buggy": true,
+    "notes": "Family of four. Fifth or seventh seat occasionally useful."
+  },
+  "current_car": {
+    "car_id": "hyundai-ioniq5-lr-2022",
+    "finance": "pcp",
+    "ends": "2026-12-10",
+    "deal_id": "2022-12_richmond_ioniq5-lr_pcp_current"
+  },
+  "quoting_basis": {
+    "customer_deposit_gbp": 0,
+    "term_months": 37,
+    "num_payments": 36,
+    "annual_mileage": 6000,
+    "delivery_by": "2026-12-10",
+    "compare_on": "total_cost",
+    "gfv_is": "floor_not_forecast",
+    "base_case_equity_gbp": 0
+  },
+  "budget": {
+    "monthly_ceiling_gbp": 400,
+    "monthly_ceiling_owner": "Patricia",
+    "monthly_tolerance_gbp": 700,
+    "monthly_tolerance_owner": "Tristan",
+    "liquidity_constraint": false,
+    "cash_purchase_ok": true
+  },
+  "hard": [
+    { "id": "bev", "label": "Battery EV", "field": "fuel", "op": "==", "value": "bev" },
+    { "id": "heat_pump", "label": "Heat pump", "field": "heat_pump", "op": "in", "value": ["standard", "pack", "option"] },
+    { "id": "internal_v2l", "label": "Internal 3-pin (230V) V2L socket in cabin", "field": "internal_v2l", "op": "in", "value": ["standard", "pack", "option"] },
+    { "id": "seats", "label": "At least 4 proper seats", "field": "seats", "op": ">=", "value": 4 },
+    { "id": "delivery", "label": "Handover by 10 Dec 2026 (new) or available now (used)", "field": "available_by", "op": "<=", "value": "2026-12-10" },
+    { "id": "zero_deposit", "label": "£0 customer deposit if financed", "field": "customer_deposit", "op": "==", "value": 0, "applies_to": "deal" }
+  ],
+  "preferences": [
+    { "id": "width", "label": "Narrower than Ioniq 5 (1,890mm)", "field": "width_mm", "direction": "lower", "reference": 1890, "weight": 3 },
+    { "id": "turning_circle", "label": "Tighter turning circle than Ioniq 5", "field": "turning_circle_m", "direction": "lower", "weight": 2 },
+    { "id": "range", "label": "WLTP range; ~300mi comfortable, ~240 acceptable", "field": "wltp_range_mi", "direction": "higher", "comfortable": 300, "floor": 240, "weight": 3 },
+    { "id": "dc_charge", "label": "Fast DC charging (Ioniq 5 260kW was genuinely useful)", "field": "dc_peak_kw", "direction": "higher", "comfortable": 150, "weight": 2 },
+    { "id": "monthly_effective", "label": "Effective monthly cost (handed back, £0 equity)", "field": "effective_monthly_gbp", "direction": "lower", "target": 400, "weight": 4, "applies_to": "deal" },
+    { "id": "funding_premium", "label": "Funding premium vs best confirmed cash price", "field": "funding_premium_gbp", "direction": "lower", "weight": 4, "applies_to": "deal" },
+    { "id": "established", "label": "Established model with owner evidence", "field": "model_launched", "direction": "lower", "weight": 1 }
+  ],
+  "wants": [
+    { "id": "memory_seats", "label": "Electric memory seats", "field": "memory_seats", "weight": 1 },
+    { "id": "glass_roof", "label": "Panoramic / opening roof", "field": "glass_roof", "weight": 1 },
+    { "id": "powered_sliding_doors", "label": "Powered sliding doors both sides", "field": "powered_sliding_doors", "op": ">=", "value": 2, "weight": 2 },
+    { "id": "seven_seats", "label": "Seven seats", "field": "seats", "op": ">=", "value": 7, "weight": 2 },
+    { "id": "heated_seats", "label": "Heated seats and steering wheel", "field": "heated_seats", "weight": 1 },
+    { "id": "camera_360", "label": "360 camera", "field": "camera_360", "weight": 1 }
+  ],
+  "finance_posture": {
+    "default": "pcp",
+    "take_pch_if_cheaper_by_gbp_per_month": 50,
+    "take_cash_if_apr_above": 0.06,
+    "finance_if_contribution_makes_pcp_cheaper_than_cash": true
+  },
+  "context": {
+    "overnight_electricity_p_per_kwh": 6,
+    "home_battery": true,
+    "solar": true,
+    "v2l_use": "camping / powering things from the cabin socket",
+    "preferred_dealer_history": "Richmond Hyundai Guildford (public offer, 2022)",
+    "buying_style": "hunt anomalously good public offers, then one sanity-check quote"
+  }
+}

@@ -1,0 +1,3855 @@
+EV replacement — full conversation transcript
+
+4–6 October 2026 • 85 messages • 1 screenshot
+
+This is the full visible user/assistant conversation from the opening question through the export request. All pasted quotations, replies, corrections and original source links are included. Earlier claims are preserved as written, not newly verified or corrected. User timestamps are UTC; assistant timestamps were not provided.
+
+
+====================================================================================
+001 — User — 2026-10-04T19:19:37Z
+====================================================================================
+
+are EVs going up right now? my PCP is up in Dec, when can I lock it in?
+
+====================================================================================
+002 — Assistant
+====================================================================================
+
+Not really in the sense of **EV prices broadly rising**. What *has* just happened is the Q4 finance reset, so some PCP offers changed on 1 October.
+
+The underlying market is still extremely competitive. September BEV registrations were up **36.3% YoY**, but BEVs are still only 26.2% YTD versus the 33% mandate target. Manufacturers are therefore still throwing discounts/finance support at EVs rather than having much scope to push prices materially upward. ([smmt.co.uk](https://www.smmt.co.uk/record-electric-car-market-powers-bumper-september/?utm_source=chatgpt.com))
+
+Interestingly, Hyundai's Kona Electric illustrates why the monthly figures can look as though they're moving around. The July–September offer was **0% APR with no Hyundai deposit contribution**; the new October offer is **2.9% APR + £1,750 deposit contribution**, alongside the £3,750 government grant. ([hyundai.com](https://www.hyundai.com/uk/en/offers/new-cars/model/offer.kona_electric.html?utm_source=chatgpt.com)) On a typical 36-month PCP, that £1,750 contribution roughly offsets the extra interest, so it's not really a £1,750 price rise disguised as finance.
+
+### For your December PCP: you can start locking one in now
+
+In fact, **October is a pretty sensible time to do it**.
+
+Hyundai's current Kona offer explicitly applies to cars **ordered 1 October 2026–4 January 2027**. ([hyundai.com](https://www.hyundai.com/uk/en/models/kona-electric.html?utm_source=chatgpt.com)) Kia's new Q4 campaign runs **1 October–15 December**, including EV3/EV4/EV5 and the current EV6/EV9 offers. ([kia.com](https://www.kia.com/uk/new-cars/offers/?utm_source=chatgpt.com))
+
+So you can go into a dealer now and say essentially:
+
+> I need the car in December. I want to order now on the current campaign and have the vehicle handed over when my Ioniq 5 PCP finishes.
+
+The **new PCP normally doesn't start until you take delivery**. The important bit is getting a signed vehicle order showing the car, discount, manufacturer contribution and agreed finance campaign. Don't accept vague "we'll see what the rate is in December" language.
+
+I'd actually target **late October through November**, rather than waiting until December. That gives you enough time to find the exact trim/colour and play dealers against each other, while still being comfortably inside these Q4 campaigns. If a particularly stupid deal appears now, there's no reason you couldn't order this week for December delivery.
+
+And there is a useful asymmetry here: manufacturers are still under pressure to shift EVs before year-end, so **November/December could produce stronger stock-clearance deals**, particularly on cars already sitting in the UK. I wouldn't rush into an merely-OK deal because you fear EVs are about to become expensive. The market data doesn't support that fear at present. ([smmt.co.uk](https://www.smmt.co.uk/record-electric-car-market-powers-bumper-september/?utm_source=chatgpt.com))
+
+Given your `<£400/month` target, I'd probably start properly watching **Kona Electric / EV6 / Niro-type replacements now**, and regard anything genuinely exceptional as lockable from this point onward. memcite
+
+genui{"suggest_automation":{"label":"Alert me if UK EV PCP deals improve before December"}}
+
+====================================================================================
+003 — User — 2026-10-04T19:23:05Z
+====================================================================================
+
+is "playing dealers off against each other" still a thing?
+
+====================================================================================
+004 — Assistant
+====================================================================================
+
+Yes, **for a new car it absolutely still is**. But it’s less “sit in a showroom haggling for £2k off” and more **make dealers compete against a written quote**.
+
+A very current UK thread from August 2026 describes exactly this: get multiple Carwow quotes, then take the lowest one to your preferred/local dealer and ask them to beat or match it. ([reddit.com](https://www.reddit.com/r/CarTalkUK/comments/1vqoaw4/buying_a_new_car_how_does_it_work_can_i_haggle/?utm_source=chatgpt.com))
+
+The distinction is:
+
+- **New cars / PCP:** still quite negotiable because dealers have registration targets, manufacturer bonuses, finance contributions and stock they want shifted. That makes identical cars genuinely available at different effective prices from different franchises. A September 2026 discussion also notes dealers actively chasing PCP renewals because shifting another new unit helps their targets. ([reddit.com](https://www.reddit.com/r/CarTalkUK/comments/1w8fa9w/dealer_offering_a_new_pcp_before_previous/?utm_source=chatgpt.com))
+- **Used cars:** much less so now. Dealers increasingly use algorithmic/market pricing and often won't move on the sticker price; recent 2026 buyers report flat refusals even on ordinary cars. ([reddit.com](https://www.reddit.com/r/CarTalkUK/comments/1svnb36/is_negotiating_prices_no_longer_a_thing_at_main/?utm_source=chatgpt.com))
+
+For you, I wouldn't even call it “haggling”. I'd do something like:
+
+> “I’m ordering an EV for December. Same spec elsewhere is £X deposit + £Y/month over 36 months, 8k miles. If you can beat the total payable, I’ll order from you.”
+
+Then send essentially the same request to **4–6 Hyundai/Kia dealers plus Carwow/DriveTheDeal-type brokers**.
+
+And compare **total cost**, not monthly payment. Dealer A can make £379 look better than £399 simply by moving £1,500 into the deposit or changing the mileage/GFV.
+
+For a Kona/EV6-sized purchase, I'd expect dealer competition to be worth doing even if the eventual difference is only **£500–£1,500 over the agreement**. Occasionally it will be considerably more if one dealer has a specific stock car or is trying to hit a target.
+
+So yes: my previous “play dealers off against each other” comment was actually appropriate **for the new EV you're looking at**. It's the old-school “what's your best price, mate?” ritual that's mostly dying.
+
+====================================================================================
+005 — User — 2026-10-04T19:24:08Z
+====================================================================================
+
+last time I just went for a public offer from Richmond Hyundai. 540pm for the long range Ioniq 5, £0 down at the start
+
+====================================================================================
+006 — Assistant
+====================================================================================
+
+Yes — and that’s a better description of how I’d approach it this time too.
+
+Your **£540/month, £0 deposit long-range Ioniq 5** sounds like one of those genuinely aggressive public dealer campaigns where Richmond had already done the discounting for you. In that situation, ringing six dealers and spending hours negotiating might have gained almost nothing.
+
+Richmond are still doing this sort of thing now. Their current advertised deals include an **84kWh Ioniq 5 Advance at £319/month with £3,750 upfront** on PCH, and a **65kWh Kona Electric Advance at £359.19/month with £3,000 upfront on 0% PCP**, advertised as **20% off MRRP**. ([richmondmotorgroup.com](https://www.richmondmotorgroup.com/hyundai/locations/1101/richmond-hyundai-guildford/?utm_source=chatgpt.com))
+
+So I'd slightly revise my advice: **start by hunting for anomalously good public offers**, not by assuming you need to negotiate from list price. Richmond, DriveElectric/Leasing.com-style listings, Carwow etc. effectively expose the dealers who are already prepared to sacrifice margin or use manufacturer support to shift volume.
+
+Then only use another dealer as a sanity check:
+
+> “Richmond are offering this exact car on these terms. Can you materially beat it?”
+
+If they say no, you've spent five minutes rather than conducting some ridiculous multi-dealer auction.
+
+That's probably particularly appropriate for you because you're not trying to buy a £65k Ioniq 5 again; you're looking for **the best EV package under roughly £400/month with heat pump/V2L/etc.** The winning answer could easily be whichever manufacturer/dealer happens to be dumping stock hardest in November, rather than the car with the nominally lowest list price. memcite
+
+And I'd normalise every offer to **£0 effective deposit** when comparing it. For example, that £319 + £3,750 Ioniq 5 over 48 months is really about **£397/month effective**, before considering any fees. Suddenly it looks much more directly comparable to your old £540/£0 deal.
+
+====================================================================================
+007 — User — 2026-10-04T19:27:41Z
+====================================================================================
+
+I thought you said Hyundai weren't doing 0% on the kona anymore
+
+====================================================================================
+008 — Assistant
+====================================================================================
+
+Yes. I contradicted myself.
+
+The **current Hyundai UK Q4 offer**, for cars ordered **1 October 2026–4 January 2027**, is **2.9% APR with £1,750 Hyundai deposit contribution** on the Kona Electric. Hyundai's live model page says exactly that. ([hyundai.com](https://www.hyundai.com/uk/en/models/kona-electric.html?utm_source=chatgpt.com))
+
+The **0% Kona offer was the previous campaign**, valid for orders **30 July–30 September 2026**. Hyundai still has that old offer page indexed/live, which is what caused the confusion. ([hyundai.com](https://www.hyundai.com/uk/en/offers/new-cars/model/offer.kona_electric.html?utm_source=chatgpt.com))
+
+So my Richmond example in the previous message was wrong: I picked up a stale/previous-period 0% offer rather than verifying that it was still bookable in October.
+
+Current position:
+
+- **Up to 30 Sep:** 0%, no Hyundai deposit contribution.
+- **From 1 Oct:** 2.9%, £1,750 Hyundai contribution.
+- Both also benefit from the **£3,750 Electric Car Grant** on qualifying Kona Electrics. ([hyundai.com](https://www.hyundai.com/uk/en/models/kona-electric.html?utm_source=chatgpt.com))
+
+And this is actually relevant to your original question: **the Kona finance deal has technically got worse since September**, although the £1,750 contribution offsets a substantial chunk of the interest. So there has been at least one concrete Q4 move upward in finance cost.
+
+====================================================================================
+009 — User — 2026-10-04T19:28:40Z
+====================================================================================
+
+can you give me the actual link? your source links aren't clickable on mobile, it just takes you to the root site
+
+====================================================================================
+010 — Assistant
+====================================================================================
+
+Yes. This is the exact Hyundai UK page showing the **current 2.9% APR + £1,750 deposit contribution** Kona Electric offer:
+
+[Hyundai UK – KONA Electric current offer](https://www.hyundai.com/uk/en/models/kona-electric.html?utm_source=chatgpt.com)
+
+The offer is shown on the page under **“Latest offers”** and says it applies to cars ordered **1 October 2026 to 4 January 2027**. ([hyundai.com](https://www.hyundai.com/uk/en/models/kona-electric.html))
+
+If mobile still mangles that, I can give you the raw URL as plain text too.
+
+====================================================================================
+011 — User — 2026-10-04T19:36:35Z
+====================================================================================
+
+would you PCP or PCH?
+
+====================================================================================
+012 — Assistant
+====================================================================================
+
+For you, I’d **default to PCP, but take PCH whenever the lease is materially cheaper on a like-for-like basis**.
+
+The reason is that PCP gives you useful optionality for EVs. You can hand the car back at the GMFV, buy it if the market value turns out unexpectedly strong, or trade/sell it and capture any equity if the car is worth more than the settlement figure. You also have statutory voluntary-termination rights once 50% of the total amount payable has been paid, although because the balloon counts toward that 50%, that often only becomes useful fairly late in a PCP. ([moneyhelper.org.uk](https://www.moneyhelper.org.uk/en/everyday-money/buying-and-running-a-car/financing-buying-car-personal-contract-purchase-pcp?source=mas&utm_source=chatgpt.com))
+
+PCH strips most of that away. You're simply renting it; there's no purchase option and early termination can be considerably more expensive or unavailable depending on the contract. You still face mileage and condition charges at handback. ([bvrla.co.uk](https://www.bvrla.co.uk/home/consumer-advice/leasing-frequently-asked-questions?utm_source=chatgpt.com))
+
+That said, **none of those PCP advantages is worth paying hundreds extra for**. If you're pretty certain you'll swap the car after 2–4 years anyway, PCH becomes a pure pricing question.
+
+For example, Hyundai is currently advertising the Kona Electric N Line PCH at **£417.60/month + £2,505.60 initial rental**. ([hyundai.com](https://www.hyundai.com/uk/en/offers/new-cars/finance-type/pch-offers.html?utm_source=chatgpt.com)) That initial rental is exactly six monthly payments. So the correct comparison against a PCP isn't £417 vs £X; it's:
+
+**PCH total rentals + fees ÷ months of use**
+
+versus
+
+**PCP deposit + monthly payments + fees − any realistic equity you expect to recover ÷ months of use.**
+
+I would actually assume **£0 equity** when doing the PCP calculation. If equity appears, it's a bonus. Your current Ioniq 5 is a good example of why I wouldn't want to build a plan around EV residual values being kind to you.
+
+So my rule for December would be roughly:
+
+- If equivalent PCP and PCH are within **~£20–30/month effective cost**, I'd take **PCP** for the flexibility.
+- If PCH is **£50–£75+/month cheaper**, I'd probably **lease it**.
+- If there is a bonkers subsidised PCH deal — which happens quite often with EVs — I'd take PCH without caring that PCP is theoretically more flexible.
+- If the PCP itself is being heavily subsidised at **0–3% APR plus deposit contribution**, PCP becomes much more attractive.
+
+The current Kona is actually a useful case to watch because the retail PCP gets **2.9% APR + £1,750 Hyundai contribution**, while Hyundai is simultaneously offering PCH. ([hyundai.com](https://www.hyundai.com/uk/en/models/kona-electric.html?utm_source=chatgpt.com)) There may be a fairly clear winner once we put **the exact same Kona trim, mileage and term** side-by-side.
+
+Given how you treated the Ioniq 5 — effectively paying for three/four years' use rather than intending to own it forever — **I wouldn't have any ideological preference for PCP this time. I'd search both markets and buy whichever depreciation subsidy is largest.** memcite
+
+====================================================================================
+013 — User — 2026-10-04T19:39:07Z
+====================================================================================
+
+Skip to main content
+Richmond Motor GroupHyundai
+Toggle Navigation Menu
+MENU
+
+Home
+New Cars
+Used Vehicles
+EV / Hybrid
+Offers
+Finance
+Aftersales
+Motability Scheme
+Business
+Locations
+About Us
+CONTACT MENU
+
+Richmond Hyundai Portsmouth
+Tel: 023 9387 8707
+Richmond Hyundai Guildford
+Tel: 01483 968154
+Richmond Hyundai Lymington
+Tel: 01590 631267
+Richmond Hyundai Southampton
+Tel: 023 8272 1561
+Richmond Hyundai Bognor Regis
+Tel: 01243 957264
+Hyundai KONA Electric 65kWh Advance
+From £359.19 per month - Deposit £3,000
+
+Hyundai Home Offers Hyundai KONA Electric 65kWh Advance
+Quick Enquiry
+
+Send Enquiry to \*
+Please Select...
+Your Name \*
+Email Address \*
+Telephone Number \*
+At Richmond Motor Group we take your privacy seriously. You can see what we do with your data at www\.richmondmotorgroup.com/data-protection/. By submitting your contact data in the form above you are requesting we contact you using all the information provided.
+
+
+
+
+
+Hyundai KONA Electric Finance Offer
+Available From Only £359 Per Month
+Personal Contract Hire | 37 Month Agreement
+Hyundai 5 Year Warranty
+
+Enquire Now >
+Representative Example: Hyundai KONA Electric 65kWh Advance
+Manufacturer List Price	£35,000.00
+Richmond Discount	£3,250.00
+Richmond Cash Price	£31,750.00
+Government EV Grant	£3,750.00
+Customer Deposit / Part-Exchange	£3,000.00
+Amount of Credit	£25,000.00
+Term of Agreement (Months)	37
+Representative APR	0.0%
+1 Initial Payment	£359.35
+35 Monthly Payments	£359.19
+Guaranteed Future Value	£12,069.00
+Total Interest	£0.00
+Total Amount Payable	£31,750.00
+Miles per Annum	6,000
+Excess Mileage Charge	9p Per Mile
+
+
+
+Even Lower Deposit Option!
+Manufacturer List Price	£35,000.00
+Richmond Discount	£3,250.00
+Richmond Cash Price	£31,750.00
+Government EV Grant	£3,750.00
+Customer Deposit / Part-Exchange	£430.00
+Amount of Credit	£27,570.00
+Term of Agreement (Months)	37
+Representative APR	0.0%
+1 Initial Payment	£430.70
+35 Monthly Payments	£430.58
+Guaranteed Future Value	£12,069.00
+Total Interest	£0.00
+Total Amount Payable	£31,750.00
+Miles per Annum	6,000
+Excess Mileage Charge	9p Per Mile
+Key Benefits:
+
+Up To 234 Miles of Range
+12.3" Colour Touchscreen
+Apple CarPlay & Android Auto
+Front & Rear Parking Sensors
+Rear Parking Camera
+Smart Cruise Control (SCC)
+Dual-Zone Climate Control
+5 Year Warranty
+
+
+
+
+
+
+
+Book A Test Drive >
+Request More Info >
+Very Limited Stock!
+Order Now Before It's Too Late
+
+
+
+
+
+
+
+Hyundai 5 Year Triple Care Package
+Our confidence in the quality of our products is backed with a fantastic ‘5 Year Triple Care Package’, giving you peace of mind with Unlimited Mileage Warranty, Roadside Assistance and Annual Vehicle Health Checks – all as standard for the first five years of ownership.
+
+Hyundai 5 Year Warranty
+
+5 Year Unlimited Mileage Warranty
+
+All brand new Hyundai cars come backed with an extensive and fully transferable 5 Year Unlimited Mileage Warranty, allowing you to enjoy your new car for many years to come with complete peace of mind and reassurance.
+
+Hyundai models are designed and built to the highest standards, and we are so confident in the quality and reliability that we offer one of the most comprehensive warranties around.
+
+Hyundai 24 Hour Roadside Assistance
+
+24 Hour Roadside Assistance
+
+24 hour Roadside Assistance is available anywhere in the UK or the Channel Islands for 12 months from the date of first registration, should you require it. If your car can’t be fixed at the roadside, Onward Travel cover is also included to transport you and your car home.
+
+A further 12 months will be added every year (from the date of registration) when you ensure your is vehicle serviced at an authorised Hyundai repairer in line with the service schedule.
+
+Hyundai 5 Year Annual Vehicle Health Checks
+
+5 Annual Vehicle Health Checks
+
+5 Annual Vehicle Health Checks are included to help spot any problems early, for complete reassurance. Inspections on key areas of your car are carried out by highly-trained technicians who will thoroughly check all of the essential components.
+
+Our Hyundai trained technicians have specialist knowledge and expert experience on all Hyundai models so you can be assured that your car is being looked after with the utmost care.
+
+Finance Options
+Car finance is one of the easiest ways to budget and pay for your next vehicle. At Richmond Motor Group we know the value of finding the right car finance for you, and just how important finance can be in securing the car you really want or need. As such, we offer comprehensive solutions and have dedicated experts to help find the best options to suit you.
+
+Why Finance Through a Dealership?
+
+
+
+What is Personal Contract Hire?
+
+
+
+Contact Us - Hyundai New Cars
+
+Hyundai Portsmouth: 023 9387 8707
+Hyundai Guildford: 01483 968154
+Hyundai Southampton: 023 8272 1561
+Hyundai Bognor: 01243 957264
+Hyundai Lymington: 01590 631267
+Terms and conditions:
+37 Month Personal Contract Purchase 0.0% APR agreements based on a Hyundai KONA 1.0T 115PS Advance in Mirage Green. 1 - £3,000.00 Customer Deposit and £3,750.00 Government EV Grant followed by 1 Initial Payment of £359.35 and 35 Monthly Payments of £359.19. Guaranteed Future Value payment of £12,069.00, Amount Borrowed - £25,000.00, Total Interest - £0.00, Total Amount Payable - £31,750.00. 2 - £430.00 Customer Deposit and £3,750.00 Government EV Grant followed by 1 Initial Payment of £430.70 and 35 Monthly Payments of £430.58. Guaranteed Future Value payment of £12,069.00, Amount Borrowed - £27,570.00, Total Interest - £0.00, Total Amount Payable - £31,750.00. Annual Mileage of 5,000 miles and Excess Mileage Charge of 6.4p per mile (only applies if contract mileage is exceeded). Further charges may be made, subject to the condition or mileage of the vehicle. We work with a panel of lenders, including Arval UK Limited trading as Hyundai Contract Hire, registered office: Whitehill House, Windmill Hill, Swindon, SN5 6PE. If the underwriting criteria or finance product availability of our chosen lender does not suit your needs, we will offer a finance option using an alternative lender who have different underwriting criteria. We are not providing you with independent financial advice and are not impartial. We will provide you with information on the finance products that may suit your requirements based on the information you disclose to assist you in making an informed decision. You should decide if the finance product is right for you. We do not charge a fee for our services. We typically receive a commission from the lender or broker for introducing you, which will either be a fixed fee or a fixed percentage of the amount you borrow. The lenders we work with will pay commission at different rates. These arrangements are negotiated with our lenders in advance and do not give us discretion to negotiate or adjust your APR. The exact amount of commission will be provided to you in good time prior to the conclusion of your finance contract. Any commission amounts lenders pay will not affect the amount that you pay under your finance agreement. Terms and Conditions apply. Applicants must be aged 18 years or over and finance is subject to status. A guarantee or indemnity may be required. Images are used for illustration purposes only. Please refer to the FCA Statement section for details of our FCA status. Offer valid for vehicles ordered and delivered before 30th September 2026.
+
+
+
+REGISTERED ADDRESS: The Quay, 30 Channel Way, Ocean Village, Southampton, Hampshire, UK SO14 3TG
+
+REGISTERED IN: ENGLAND AND WALES
+
+REG COMPANY NUMBERS: 02971884, 03820911, 04358129, 03393853, 08425506 AND 05011771
+
+VAT REG NUMBERS: 619940318, 750105769, 176958348, 787693552, 991252115 AND 824114561
+
+
+
+Quick Links
+New Cars
+Used Cars
+Servicing
+Motability
+Latest News
+Contact Us
+Finance
+Fleet
+Useful Links
+Careers
+Advanced Search
+Special Offers
+Customer Services
+FCA Statement
+Terms and Conditions
+Modern Slavery Act
+Third-Party Sexual Harassment
+Data Privacy Notice
+SITEMAP
+LEGAL & COOKIE NOTICE
+DATA PROTECTION & PRIVACY
+COVID-19 NOTICE
+2026 BLUESKY INTERACTIVE
+Richmond Cars Ltd (FRN 673585), Richmond Cars (Southampton) Ltd (FRN 687484), Richmond Cars (Guildford) Ltd (683805), Richmond Cars (Fareham) Ltd (FRN 741215), Richmond Cars (Botley) Ltd (FRN 741326). and Newmans (Southampton) Ltd (FRN 922679) are authorised and regulated by the Financial Conduct Authority for Consumer Credit activities.
+
+For the sale of general insurance, Richmond Cars Ltd (FRN 627736), Richmond Cars (Southampton) Ltd (FRN 627736), Richmond Cars (Guildford) Ltd (FRN 627621), Richmond Cars (Fareham) Ltd (FRN 848119), Richmond Cars (Botley) Ltd (FRN 848135), and Newmans (Southampton) Ltd (FRN 584297) are Appointed Representatives of Automotive Compliance Ltd (FRN 497010), which is authorised and regulated by the Financial Conduct Authority). Automotive Compliance Ltd’s permissions as a Principal Firm allows these compani
+es to act as agents on behalf of the insurer for insurance distribution activities only.
+
+You can check this on the FCA Register by visiting [https://register.fca.org.uk/s/](https://register.fca.org.uk/s/)
+
+
+
+SAF Approved
+
+====================================================================================
+014 — Assistant
+====================================================================================
+
+That page clears it up: **it isn’t PCH despite the heading saying “Personal Contract Hire”. It is PCP.** The finance table has a **GFV/balloon of £12,069**, which you do not get on PCH, and the terms at the bottom explicitly call it a **37-month Personal Contract Purchase at 0% APR**.
+
+Two important catches:
+
+1. **The offer has expired.** The terms say it was only valid for vehicles “ordered and delivered before 30th September 2026.” So Richmond have simply left the page live.
+2. The page itself is sloppy/inconsistent: it says **6,000 miles and 9p/mile** in the table, then **5,000 miles and 6.4p/mile** in the small print. I’d treat the small print/actual finance quote as definitive.
+
+The pricing is actually quite neat, though. Both deposit options cost exactly the same if you hand the car back:
+
+- £3,000 deposit + £359.35 + 35 × £359.19 = **£15,931**
+- £430 deposit + £430.70 + 35 × £430.58 = **£15,931**
+
+So the “£359/month” option is purely moving money into the deposit. The lower-deposit version is the more honest representation of what it costs.
+
+If you treat that as roughly 36 months of payments/use, it’s about **£443/month effective** to drive the car and hand it back, before any excess-mileage/condition charges. If you use the contractual 37-month term as the denominator it’s about **£431/month**.
+
+And yes: **this was genuinely a much better finance structure than Hyundai’s current national 2.9% offer**. Richmond had stacked:
+
+- £3,250 dealer discount
+- £3,750 government grant
+- **0% finance**
+- £12,069 GFV
+
+That is exactly the sort of public dealer special I meant when you mentioned how you bought your Ioniq 5.
+
+So I’d absolutely keep watching Richmond rather than assuming Hyundai UK’s national offer is the best available. The useful question now is whether Richmond have put up an **October replacement for this expired deal**, because if they have, that’s the number we should compare against PCH.
+
+====================================================================================
+015 — User — 2026-10-04T19:39:57Z
+====================================================================================
+
+Skip to main content
+Richmond Motor GroupHyundai
+Toggle Navigation Menu
+MENU
+
+Home
+New Cars
+Used Vehicles
+EV / Hybrid
+Offers
+Finance
+Aftersales
+Motability Scheme
+Business
+Locations
+About Us
+CONTACT MENU
+
+Richmond Hyundai Portsmouth
+Tel: 023 9387 8707
+Richmond Hyundai Guildford
+Tel: 01483 968154
+Richmond Hyundai Lymington
+Tel: 01590 631267
+Richmond Hyundai Southampton
+Tel: 023 8272 1561
+Richmond Hyundai Bognor Regis
+Tel: 01243 957264
+Hyundai KONA Electric 65kWh
+From £279.00 per month - Deposit £3,000
+
+Hyundai Home Offers Hyundai KONA Electric 65kWh
+Quick Enquiry
+
+Send Enquiry to \*
+Please Select...
+Your Name \*
+Email Address \*
+Telephone Number \*
+At Richmond Motor Group we take your privacy seriously. You can see what we do with your data at www\.richmondmotorgroup.com/data-protection/. By submitting your contact data in the form above you are requesting we contact you using all the information provided.
+
+
+
+
+
+Hyundai KONA Electric Finance Offer
+Available From Only £279 Per Month
+Personal Contract Hire | 48 Month Agreement
+Hyundai 5 Year Warranty
+
+Enquire Now >
+Representative Example: Hyundai KONA Electric 65kWh Advance
+Contract Term (Months)	48
+Contract Profile	1 + 47
+Advance Rental	£3,000.00
+47 Monthly Payments	£279.00
+Admin Fee	£0.00
+Miles per Annum	5,000
+Excess Mileage Charge	6.4p Per Mile
+
+
+
+Hyundai KONA Electric 65kWh N Line in Meta Blue
+Key Benefits:
+
+Up To 234 Miles of Range
+12.3" Colour Touchscreen
+Apple CarPlay & Android Auto
+Front & Rear Parking Sensors
+Rear Parking Camera
+Smart Cruise Control (SCC)
+Dual-Zone Climate Control
+5 Year Warranty
+
+Hyundai KONA Electric 65kWh N Line in Meta Blue
+Hyundai KONA Electric 65kWh N Line in Meta Blue
+Hyundai KONA Electric 65kWh N Line in Meta Blue
+Book A Test Drive >
+Request More Info >
+Very Limited Stock!
+Order Now Before It's Too Late
+
+
+
+
+
+Hyundai 5 Year Triple Care Package
+Our confidence in the quality of our products is backed with a fantastic ‘5 Year Triple Care Package’, giving you peace of mind with Unlimited Mileage Warranty, Roadside Assistance and Annual Vehicle Health Checks – all as standard for the first five years of ownership.
+
+Hyundai 5 Year Warranty
+
+5 Year Unlimited Mileage Warranty
+
+All brand new Hyundai cars come backed with an extensive and fully transferable 5 Year Unlimited Mileage Warranty, allowing you to enjoy your new car for many years to come with complete peace of mind and reassurance.
+
+Hyundai models are designed and built to the highest standards, and we are so confident in the quality and reliability that we offer one of the most comprehensive warranties around.
+
+Hyundai 24 Hour Roadside Assistance
+
+24 Hour Roadside Assistance
+
+24 hour Roadside Assistance is available anywhere in the UK or the Channel Islands for 12 months from the date of first registration, should you require it. If your car can’t be fixed at the roadside, Onward Travel cover is also included to transport you and your car home.
+
+A further 12 months will be added every year (from the date of registration) when you ensure your is vehicle serviced at an authorised Hyundai repairer in line with the service schedule.
+
+Hyundai 5 Year Annual Vehicle Health Checks
+
+5 Annual Vehicle Health Checks
+
+5 Annual Vehicle Health Checks are included to help spot any problems early, for complete reassurance. Inspections on key areas of your car are carried out by highly-trained technicians who will thoroughly check all of the essential components.
+
+Our Hyundai trained technicians have specialist knowledge and expert experience on all Hyundai models so you can be assured that your car is being looked after with the utmost care.
+
+Finance Options
+Car finance is one of the easiest ways to budget and pay for your next vehicle. At Richmond Motor Group we know the value of finding the right car finance for you, and just how important finance can be in securing the car you really want or need. As such, we offer comprehensive solutions and have dedicated experts to help find the best options to suit you.
+
+Why Finance Through a Dealership?
+
+
+
+What is Personal Contract Hire?
+
+
+
+Contact Us - Hyundai New Cars
+
+Hyundai Portsmouth: 023 9387 8707
+Hyundai Guildford: 01483 968154
+Hyundai Southampton: 023 8272 1561
+Hyundai Bognor: 01243 957264
+Hyundai Lymington: 01590 631267
+Terms and conditions:
+48 Month Personal Contract Hire agreement based on a Hyundai KONA Electric 65kWh Advance in Engine Red after a £3,000.00 Advance Rental followed by 47 Monthly Payments of £279.00. Annual Mileage of 5,000 miles and Excess Mileage Charge of 6.4p per mile (only applies if contract mileage is exceeded). Further charges may be made, subject to the condition or mileage of the vehicle. We work with a panel of lenders, including Arval UK Limited trading as Hyundai Contract Hire, registered office: Whitehill House, Windmill Hill, Swindon, SN5 6PE. If the underwriting criteria or finance product availability of our chosen lender does not suit your needs, we will offer a finance option using an alternative lender who have different underwriting criteria. We are not providing you with independent financial advice and are not impartial. We will provide you with information on the finance products that may suit your requirements based on the information you disclose to assist you in making an informed decision. You should decide if the finance product is right for you. We do not charge a fee for our services. We typically receive a commission from the lender or broker for introducing you, which will either be a fixed fee or a fixed percentage of the amount you borrow. The lenders we work with will pay commission at different rates. These arrangements are negotiated with our lenders in advance and do not give us discretion to negotiate or adjust your APR. The exact amount of commission will be provided to you in good time prior to the conclusion of your finance contract. Any commission amounts lenders pay will not affect the amount that you pay under your finance agreement. Terms and Conditions apply. Applicants must be aged 18 years or over and finance is subject to status. A guarantee or indemnity may be required. Images are used for illustration purposes only. Please refer to the FCA Statement section for details of our FCA status. Offer valid for vehicles ordered and delivered before 30th September 2026.
+
+
+
+REGISTERED ADDRESS: The Quay, 30 Channel Way, Ocean Village, Southampton, Hampshire, UK SO14 3TG
+
+REGISTERED IN: ENGLAND AND WALES
+
+REG COMPANY NUMBERS: 02971884, 03820911, 04358129, 03393853, 08425506 AND 05011771
+
+VAT REG NUMBERS: 619940318, 750105769, 176958348, 787693552, 991252115 AND 824114561
+
+
+
+Quick Links
+New Cars
+Used Cars
+Servicing
+Motability
+Latest News
+Contact Us
+Finance
+Fleet
+Useful Links
+Careers
+Advanced Search
+Special Offers
+Customer Services
+FCA Statement
+Terms and Conditions
+Modern Slavery Act
+Third-Party Sexual Harassment
+Data Privacy Notice
+SITEMAP
+LEGAL & COOKIE NOTICE
+DATA PROTECTION & PRIVACY
+COVID-19 NOTICE
+2026 BLUESKY INTERACTIVE
+Richmond Cars Ltd (FRN 673585), Richmond Cars (Southampton) Ltd (FRN 687484), Richmond Cars (Guildford) Ltd (683805), Richmond Cars (Fareham) Ltd (FRN 741215), Richmond Cars (Botley) Ltd (FRN 741326). and Newmans (Southampton) Ltd (FRN 922679) are authorised and regulated by the Financial Conduct Authority for Consumer Credit activities.
+
+For the sale of general insurance, Richmond Cars Ltd (FRN 627736), Richmond Cars (Southampton) Ltd (FRN 627736), Richmond Cars (Guildford) Ltd (FRN 627621), Richmond Cars (Fareham) Ltd (FRN 848119), Richmond Cars (Botley) Ltd (FRN 848135), and Newmans (Southampton) Ltd (FRN 584297) are Appointed Representatives of Automotive Compliance Ltd (FRN 497010), which is authorised and regulated by the Financial Conduct Authority). Automotive Compliance Ltd’s permissions as a Principal Firm allows these companies to act as agents on b
+ehalf of the insurer for insurance distribution activities only.
+
+You can check this on the FCA Register by visiting [https://register.fca.org.uk/s/](https://register.fca.org.uk/s/)
+
+
+
+SAF Approved
+
+====================================================================================
+016 — Assistant
+====================================================================================
+
+Yes — **this PCH offer absolutely destroys the PCP offer you pasted before** if your intention is simply to run the car and give it back.
+
+Using the actual cash flows:
+
+| | PCP | PCH |
+|---|---:|---:|
+| Term | 37 months | 48 months |
+| Upfront | £430 | £3,000 |
+| Monthly | £430.58 × 35 + first payment | £279 × 47 |
+| Balloon | £12,069 if buying | None |
+| Total cost if handed back | **~£15,931** | **£16,113** |
+| Effective monthly cost | **~£431/month** | **~£336/month** |
+| Mileage | ~5,000/yr* | 5,000/yr |
+
+\*Their PCP page contradicts itself on mileage, but the small print says 5,000.
+
+The remarkable bit is this:
+
+**The PCH costs only £182 more in total, but gives you the car for another 11 months.**
+
+So you were effectively paying:
+
+- PCP: ~**£431/month**
+- PCH: ~**£336/month**
+
+That is a **£95/month difference**.
+
+For someone who expects to hand the car back anyway, I would take the PCH without hesitation at those respective prices.
+
+The PCP only starts making sense if you attach significant value to having the option to buy it for £12,069 after three years. And with a Kona EV, I'd be very reluctant to pay roughly **£3,400 more over the first three years** just to acquire that option.
+
+There is another useful way of looking at it. The £3k upfront on the PCH makes the £279 headline slightly silly, but even after properly amortising it:
+
+**£3,000 + (47 × £279) = £16,113**
+
+**£16,113 ÷ 48 = £335.69/month**
+
+That's a genuinely cheap way to have a new 65kWh Kona for four years.
+
+So this changes my earlier generic PCP-vs-PCH answer somewhat. **When manufacturers are subsidising PCH this aggressively, PCH is exactly what you should be looking for.**
+
+Unfortunately this particular offer also says **ordered and delivered before 30 September 2026**, so it's another expired Richmond page. But it gives us a very useful benchmark:
+
+> **65kWh Kona Advance, 5k miles: ~£336/month effective PCH**
+
+If Richmond or anyone else gets anywhere near **£330–350 effective** for your December car, I'd consider that a strong deal. Above about £400 effective, I'd start asking why we're not looking at something better.
+
+====================================================================================
+017 — User — 2026-10-04T19:46:47Z
+====================================================================================
+
+i think Iran destroying the Saudi pipeline and China ramping up oil purchases means you're being a little relaxed about this
+
+====================================================================================
+018 — Assistant
+====================================================================================
+
+Yes. Having checked the current situation, **I was too relaxed about waiting**.
+
+The important combination right now is:
+
+- Brent is around **$102/bbl** and remains exposed to further Gulf disruption. ([reuters.com](https://www.reuters.com/world/middle-east/most-gulf-shares-end-higher-firmer-oil-us-rate-bets-2026-10-04/?utm_source=chatgpt.com))
+- The Saudi East-West pipeline was actually knocked offline by drone strikes on 11 September. It restarted on 22 September and Yanbu loadings resumed by 29 September, so “destroyed” overstates its current status — but the vulnerability is very real, and there have been further attacks on Saudi oil infrastructure. ([reuters.com](https://www.reuters.com/business/energy/saudi-resumes-yanbu-oil-loading-after-pipeline-restart-2026-09-29/?utm_source=chatgpt.com))
+- China is now competing harder for Russian crude, while Chinese refiners have **stopped most October fuel exports to preserve domestic stocks**. That makes the global products market tighter rather than relieving it. ([reuters.com](https://www.reuters.com/business/energy/russian-oil-supply-india-tightens-reduced-exports-strong-chinese-demand-2026-09-28/?utm_source=chatgpt.com))
+- UK petrol is already about **174.7p/L** and diesel has crossed **£2/L**. ([rac.co.uk](https://www.rac.co.uk/drive/news/fuel-news/diesel-price-hits-record-high/?utm_source=chatgpt.com))
+- This is already changing purchasing behaviour. RAC polling found **30% of drivers said the Iran-driven fuel-price rise made them more likely to consider an EV**, and Octopus reported EV-leasing enquiries jumping 36% earlier in the crisis. ([media.rac.co.uk](https://media.rac.co.uk/high-fuel-prices-from-iran-conflict-steer-three-in-10-drivers-towards-evs?utm_source=chatgpt.com))
+- September UK BEV registrations then jumped **36% YoY**. ([reuters.com](https://www.reuters.com/world/china/uk-new-car-sales-hit-highest-september-level-since-2017-prelim-data-shows-2026-10-02/?utm_source=chatgpt.com))
+
+That materially changes the risk around your December timing.
+
+There is still a countervailing force: manufacturers are below the **33% ZEV mandate trajectory**, with BEVs only **26.2% YTD**, so Hyundai/Kia/etc. still have a regulatory reason to subsidise EV registrations. ([reuters.com](https://www.reuters.com/world/china/uk-new-car-sales-hit-highest-september-level-since-2017-prelim-data-shows-2026-10-02/?utm_source=chatgpt.com))
+
+But previously I was effectively assuming:
+
+**weak EV demand + manufacturer targets → probably better deals toward year end.**
+
+It's now more like:
+
+**manufacturer targets pushing prices down ↔ rapidly rising EV demand pushing prices up.**
+
+And the second force has strengthened very quickly.
+
+### What I'd do with your December Ioniq return
+
+I would **start shopping seriously now**, rather than planning to wait until late November.
+
+Not necessarily sign whatever Hyundai puts in front of you tomorrow. But I'd change the trigger from “wait for an exceptional November deal” to:
+
+> **If an already-good Q4 deal appears that can be locked for December delivery, take it.**
+
+That expired Richmond Kona PCH is an excellent benchmark:
+
+**£3,000 + 47 × £279 = £16,113 / 48 = £336/month effective.**
+
+If you found another **65kWh Kona around £330–350 effective**, I would not gamble that December is going to produce £300 because dealers will be desperate. There's now a perfectly credible path where those cheap stock-supported offers disappear because petrol at £1.75 and diesel at £2 suddenly sells EVs for them.
+
+I'd still be reluctant at **£400+ effective** for a Kona Advance; there's enough manufacturer pressure that I'd expect better somewhere. But **£330–360 effective for the right Kona**, with a December handover secured, is now the sort of price at which I'd lock rather than try to squeeze another £20/month out of December.
+
+Also, with your **6p overnight electricity and home battery/solar setup**, the present fuel-price shock makes an EV disproportionately attractive to you compared with the average buyer; you're not merely avoiding £1.75 petrol, you're replacing much of it with extremely cheap electricity. memcite
+
+So yes: **your geopolitical point changes my timing recommendation. I'd shop October aggressively and regard November as a fallback, not the target.**
+
+I can also monitor the public Kona/EV6/Niro-class PCP and PCH deals and flag one if it crosses, say, **£350/month effective with ≤£1k equivalent deposit**.
+
+====================================================================================
+019 — User — 2026-10-04T19:49:02Z
+====================================================================================
+
+we also don't have enough oil tankers
+
+====================================================================================
+020 — Assistant
+====================================================================================
+
+Exactly. And that is probably the more important point than the headline quantity of oil available.
+
+The tanker market is already showing an **effective capacity shortage**. Reuters reported last week that the Gulf of Oman ship-to-ship system had effectively hit its capacity limit after the Saudi East-West pipeline disruption. Moving the displaced Saudi crude required roughly **36–40 additional VLCCs**, on top of the ships already being absorbed by Iraqi/UAE flows. VLCC charter rates reached about **$1.27m per day**. ([reuters.com](https://www.reuters.com/business/energy/gulf-oman-ship-to-ship-oil-transfers-reach-limit-saudi-exports-surge-2026-09-25/?utm_source=chatgpt.com))
+
+More broadly, VLCC earnings have now exceeded **$1m/day**, with the industry describing the problem as not simply “more oil needing ships”, but **the same barrel consuming far more ship-days**: longer routes, waiting around Hormuz, ship-to-ship transfers, diversions, escorts, insurance restrictions and vessels avoiding dangerous areas. ([tankersinternational.com](https://tankersinternational.com/2026/10/02/vlcc-earnings-break-the-1-million-per-day-barrier/?utm_source=chatgpt.com))
+
+So you effectively have several constraints multiplying each other:
+
+**Oil production → export infrastructure → safe passage → tanker availability → refinery capacity/location → product tankers → petrol/diesel.**
+
+You don't need any one of those to fail catastrophically. Making the logistics 20–30% less efficient can create an acute shortage of *transport capacity* despite there theoretically being enough crude and enough tankers globally.
+
+And China's behaviour makes that worse. Chinese demand is pulling Russian crude eastward, while China has simultaneously suspended almost all October fuel exports beyond Hong Kong/Macau. Asian gasoline and diesel inventories are consequently being squeezed and refining margins have blown out. ([reuters.com](https://www.reuters.com/business/energy/china-fuel-export-suspension-choke-supplies-asia-2026-10-02/?utm_source=chatgpt.com))
+
+That's why I now think your objection to my original **“there's no need to rush; November might be cheaper”** framing is correct.
+
+The relevant risk isn't really:
+
+> oil goes up → Hyundai has to raise Kona prices.
+
+It's:
+
+> sustained £1.70–£2+ road fuel → consumers suddenly become much more interested in EVs → dealers no longer need to subsidise particular stock as aggressively → those freak £279 Kona leases disappear.
+
+Meanwhile Hyundai has **already moved the national Kona PCP from 0% to 2.9%** at the October campaign reset.
+
+So if I were in your position with the Ioniq due back in December, I'd now treat **October as the buying window**. I'd still refuse a mediocre deal, but something around that old Richmond PCH — roughly **£330–£350/month effective for the 65kWh Kona** — is something I'd lock rather than gambling on a December fire sale.
+
+The tanker situation is one of the stronger reasons for doing that, because there's a real physical bottleneck here rather than merely traders speculating on geopolitical headlines. ([reuters.com](https://www.reuters.com/business/energy/gulf-oman-ship-to-ship-oil-transfers-reach-limit-saudi-exports-surge-2026-09-25/?utm_source=chatgpt.com))
+
+I can keep an eye on UK Kona/EV6/Niro-class offers and flag a genuinely strong PCP/PCH deal before your December changeover.
+
+====================================================================================
+021 — User — 2026-10-04T19:50:15Z
+====================================================================================
+
+does that Kona have everything I want?
+
+====================================================================================
+022 — Assistant
+====================================================================================
+
+Not quite. For the **Kona Electric 65kWh Advance** you pasted, the one important miss is **your 3-pin V2L requirement**.
+
+Hyundai’s October 2026 **MY27** spec sheet says:
+
+- **65.4kWh / 319-mile WLTP** — yes
+- **Heat pump** — yes, standard on Advance
+- **17-inch wheels** — yes, which is good for range
+- **Smart cruise with stop/go** — yes
+- **Front + rear parking sensors + reversing camera** — yes
+- **Keyless entry/start** — yes
+- **12.3-inch nav + Android Auto/CarPlay** — yes
+- **Much smaller than the Ioniq 5** — 4,355mm long × 1,825mm wide, with a **10.6m turning circle**
+- **Internal 3-pin V2L socket** — **NO**
+
+The official MY27 equipment matrix is quite explicit: the **internal 3-pin V2L is only on N Line S and Ultimate**. ([dmassets.hyundai.com](https://dmassets.hyundai.com/is/content/hyundaiautoever/KONA_EV_Tech_Specpdf))
+
+That last point matters because some dealer pages are currently wrong: I found one Hyundai dealer claiming Advance has the 3-pin V2L, but Hyundai's actual October MY27 specification contradicts it. ([corkills.com](https://www.corkills.com/hyundai/new-cars/kona-electric/))
+
+So your trim ladder is basically:
+
+**Advance:** almost ideal cheap version, heat pump, 319-mile range, but **no V2L socket**.
+
+**N Line:** adds heated seats/steering wheel etc., but **still no V2L**, and the 19-inch wheels knock WLTP range down to about **282 miles**. ([dmassets.hyundai.com](https://dmassets.hyundai.com/is/content/hyundaiautoever/KONA_EV_Tech_Specpdf))
+
+**N Line S / Ultimate:** finally gets the **V2L internal 3-pin**, plus HUD, better driver-assistance/parking equipment, electric/ventilated seats etc. ([dmassets.hyundai.com](https://dmassets.hyundai.com/is/content/hyundaiautoever/KONA_EV_Tech_Specpdf))
+
+Which makes the Kona slightly annoying for you: **Hyundai has put the one unusual feature you actually care about behind a £4,400 trim jump**, while putting the heat pump on everything.
+
+One caveat: that expired Richmond £279 PCH could be **MY26 stock rather than MY27**, and equipment may differ. I would therefore ask Richmond for the **VIN/model-year and confirmation that the actual car has the 230V/V2L socket** before ruling that specific stock car out. But for a newly ordered MY27 Advance: **no, it doesn't quite have everything you want.** memcite
+
+====================================================================================
+023 — User — 2026-10-04T20:20:01Z
+====================================================================================
+
+what about a pv5?
+
+====================================================================================
+024 — Assistant
+====================================================================================
+
+The **PV5 is much more interesting for you than the Kona**, particularly the **71.2kWh Plus 7-seat**. That trim basically ticks your unusual requirements straight out of the box.
+
+The **PV5 Plus 7-seat** gets:
+
+- **7 seats**, in a 2-2-3 layout.
+- **71.2kWh battery**, roughly **242–246 miles WLTP** in the seven-seater. ([autotrader.co.uk](https://www.autotrader.co.uk/vans/content/kia-pv5-passenger-seven-seat-version-now-available?utm_source=chatgpt.com))
+- **Heat pump as standard** on all current seven-seat versions. ([kia.com](https://www.kia.com/uk/pbv/lineup/pv5-passenger/pricing/))
+- **Proper V2L**, including an **internal 220/230V domestic socket** as well as external V2L from the charge port. That's standard on Plus and Elite. ([kia.com](https://www.kia.com/uk/pbv/lineup/pv5-passenger/))
+- Heated front seats, heated outer rear seats and heated steering wheel.
+- Smart cruise with stop/go.
+- Front/rear parking sensors and reversing camera.
+- Wireless CarPlay/Android Auto.
+- Power tailgate.
+- Sliding rear doors.
+- 150kW DC charging, about **30 minutes 10–80%**. ([kia.com](https://www.kia.com/uk/pbv/lineup/pv5-passenger/))
+- Seven-year Kia warranty.
+
+And it is **actually available now**. The seven-seater order book opened in June and first UK customer deliveries are scheduled from **October 2026**, so your December changeover lines up rather neatly. ([lloydmotorgroup.com](https://www.lloydmotorgroup.com/News/Kia-updates-PV5-Passenger-line-up-with-new-7-seat-variant/2624?utm_source=chatgpt.com))
+
+### The surprising bit: it isn't really bigger than your Ioniq 5
+
+This is what makes the PV5 rather clever.
+
+Your Ioniq 5 is:
+
+**4,655 × 1,890 mm**
+
+PV5:
+
+**4,695 × 1,895 mm**
+
+So the enormous-looking van is only **40mm longer and 5mm wider** than the Ioniq 5. ([hyundai.com](https://www.hyundai.com/uk/en/models/ioniq5/trims-prices.html?utm_source=chatgpt.com))
+
+It's obviously vastly taller, around **1.90m**, but its road footprint is virtually identical.
+
+That does mean it **doesn't solve your objection to the Ioniq 5 being wide**. On paper it's actually 5mm wider. However, dual sliding rear doors massively improve the practical problem of getting children in and out when parked beside another car.
+
+The turning circle is around **11–11.7m depending on how it's measured**, which is respectable for something with a 3m wheelbase, but it's not suddenly a Kona-sized manoeuvrable car. ([kia.com](https://www.kia.com/nmc/en/pbv/Kia-PV5-Passenger?utm_source=chatgpt.com))
+
+### And £40k gets you the one you'd actually want
+
+Current Kia UK pricing is:
+
+| PV5 7-seat | OTR | After £1,500 grant |
+|---|---:|---:|
+| Essential 71.2 HP | £36,995 | **£35,495** |
+| **Plus 71.2 HP** | **£40,275** | **£38,775** |
+| Elite 71.2 HP | £41,975 | **£40,475** |
+
+([kia.com](https://www.kia.com/uk/pbv/lineup/pv5-passenger/pricing/))
+
+I wouldn't choose Essential for you because **it doesn't have V2L**. The **Plus is the sweet spot**. Elite mainly buys electric sliding doors, ventilated seats, 360° cameras and some nicer trim. ([rrg-group.com](https://www.rrg-group.com/kia/new-pbv/pv5-passenger/?utm_source=chatgpt.com))
+
+So:
+
+**PV5 Plus 7-seat = heat pump + proper 3-pin V2L + seven seats + huge interior + sliding doors + long-range battery.**
+
+That is much closer to your actual specification than the Kona Advance.
+
+There are two meaningful compromises.
+
+First, **range**. You're coming from a long-range Ioniq 5. The seven-seat PV5's ~242–246 WLTP is appreciably worse, and EV Database reckons roughly **205 miles of mixed real-world range**, with motorway winter use potentially substantially below that. ([ev-database.org](https://ev-database.org/car/3671/Kia-PV5-Passenger-712-kWh---7-Seats?utm_source=chatgpt.com)) For ordinary family use that's probably irrelevant; on long trips it's a genuine downgrade.
+
+Second, **finance**. This is currently the problem. One live-ish PCH quote I've found for the **Plus 7-seat** is £417.23/month but with a gigantic **£5,006.76 initial rental** over 48 months plus £357 fee. That's really about:
+
+**£520/month effective.**
+
+([nationwidevehiclecontracts.co.uk](https://www.nationwidevehiclecontracts.co.uk/car-leasing/kia/pv5-passenger/120kw-plus-long-range-71kwh-auto-7-seat?utm_source=chatgpt.com))
+
+So at today's advertised leasing prices it **doesn't satisfy your sub-£400 requirement**.
+
+That doesn't put me off the car, though. Its £38,775 post-grant cash price isn't crazy, and Carwow is already seeing roughly £2k average discounts across the PV5 range. ([carwow.co.uk](https://www.carwow.co.uk/kia/pv5-passenger?utm_source=chatgpt.com)) It's exactly the sort of relatively new model where I'd now watch for a Kia/dealer-supported PCP or PCH campaign between now and December.
+
+**If a PV5 Plus 7-seat appeared around £375–400 effective, I'd put it ahead of the Kona for you.** You'd effectively be exchanging some motorway range and car-like handling for a ludicrous amount of family utility, seven seats, proper V2L and sliding doors — without actually taking up appreciably more road space than your Ioniq 5. memcite
+
+====================================================================================
+025 — User — 2026-10-04T20:23:41Z
+====================================================================================
+
+why is it so much when the sticker price isnt much more?
+
+====================================================================================
+026 — Assistant
+====================================================================================
+
+Because lease pricing is driven much more by **expected depreciation + manufacturer subsidy + funding rate** than by sticker price.
+
+The PV5 Plus 7-seat is only **£38,775 after grant**. But Kia is not currently throwing much money at it: the official PV5 PCP is **3.9% APR with no deposit contribution**, so this is not a heavily subsidised launch finance campaign. ([kia.com](https://www.kia.com/uk/pbv/lineup/pv5-passenger/pricing/?utm_source=chatgpt.com))
+
+By contrast, that £279 Kona was an unusually aggressive deal. Richmond had already knocked **£3,250 off the car**, it got the **£3,750 grant**, and the finance/lease support was clearly strong enough to get the effective cost down to about **£336/month**. Richmond still has that £279 listing indexed, although its terms say the offer expired on 30 September. ([richmondmotorgroup.com](https://www.richmondmotorgroup.com/hyundai/find-us/richmond-mg-portsmouth/5335/dealershipdetails.aspx?utm_source=chatgpt.com))
+
+The PV5 also has another problem: **it's brand new and residual values are uncertain**. A leasing company has much less evidence for what a four-year-old PV5 Passenger will be worth than it has for a Kona. They price that risk into the rental.
+
+So you end up with something roughly like:
+
+- Kona: ~£31.8k transaction price, but unusually strong support and established residuals.
+- PV5 Plus 7-seat: ~£38.8k after grant, little visible support and uncertain residuals.
+- Current PV5 lease market: Plus 7-seat starts around **£407/month headline** on Leasing.com, while the specific Nationwide quote is **£417/month with 12 months upfront**, which is much worse once normalised. ([leasing.com](https://leasing.com/car-leasing/kia/pv5/estate/?utm_source=chatgpt.com))
+
+So the **£520 effective PV5 figure I gave you was partly because I happened to pick a bad 12+47 quote**. It isn't necessarily “a £520/month car”. There are already offers around £407 headline, although we'd need to inspect the initial rental to know the true effective monthly.
+
+The more important conclusion is: **the PV5 itself isn't intrinsically too expensive. It just hasn't had the kind of stupid finance support that made the Kona £279.**
+
+Given a £38.8k post-grant price, I would absolutely keep watching it. If Kia decides it wants to push PV5 registrations and starts subsidising PCH properly, a **£350–£400 effective** seven-seat Plus doesn't look remotely implausible.
+
+====================================================================================
+027 — User — 2026-10-04T20:24:22Z
+====================================================================================
+
+what about PCP?
+
+====================================================================================
+028 — Assistant
+====================================================================================
+
+PCP makes the PV5 look **a lot less silly than PCH**.
+
+Kia’s current Q4 offer is still **3.9% APR PCP**, with the **£1,500 Electric Car Grant**, and the offer is valid **1 October–15 December 2026**. ([kia.com](https://www.kia.com/uk/dealers/townsendgarage/?utm_source=chatgpt.com))
+
+For context, Kia Finance was already putting a **£17,370 GFV** on the cheaper 7-seat Essential over 37 months. An Elite 7-seat example had a **£18,661.50 final payment**. ([arnoldclark.com](https://www.arnoldclark.com/new-cars/kia/pv5/120kw-essential-long-range-71kwh-5dr-auto-7-seat/0/ref/blk_zk71oau2l96mdgzt?utm_source=chatgpt.com))
+
+So for the **Plus 7-seat**, which is £40,275 list / £38,775 after grant, I'd expect the GFV to land somewhere around **£18k-ish**. ([kia.com](https://www.kia.com/uk/pbv/lineup/pv5-passenger/pricing/?utm_source=chatgpt.com))
+
+That gives you roughly:
+
+| Deposit | Approx monthly | Balloon |
+|---:|---:|---:|
+| £0 | ~£660 | ~£18k |
+| £3,000 | ~£575 | ~£18k |
+| £4,500 | ~£530 | ~£18k |
+| £8,000 | ~£425 | ~£18k |
+| £10,000 | ~£370 | ~£18k |
+
+Those monthly figures are estimates using 3.9% APR and an ~£18.3k GFV; I haven't found Kia publishing the exact Plus 7-seat example yet.
+
+But the important thing is this:
+
+**the PCP is not expensive because Kia expects you to repay £39k over three years. You’re effectively financing roughly the £20k of expected depreciation plus interest.**
+
+That makes much more sense.
+
+And dealer discounting could transform it. Arnold Clark was already advertising the **Essential 7-seat at £34,195**, £2,800 below list, with:
+
+**£4,499 down + £419/month + £17,370 balloon.** ([arnoldclark.com](https://www.arnoldclark.com/new-cars/kia/pv5/120kw-essential-long-range-71kwh-5dr-auto-7-seat/0/ref/blk_zk71oau2l96mdgzt?utm_source=chatgpt.com))
+
+More interestingly, I found a broker advertising the **Plus 7-seat at £35,009**, versus £40,275 list — over **£5,200 off**. ([forcescarsdirect.com](https://www.forcescarsdirect.com/new-cars/kia/pv5?utm_source=chatgpt.com))
+
+If you could actually get a £35k transaction price through Kia PCP and the GFV remains around £18k, the numbers become much nicer. Roughly:
+
+**£4.5k down → ~£420/month**
+
+or equivalently around **£545/month with £0 down**.
+
+That is suddenly very close to what you were paying for the Ioniq 5, except you're getting **seven seats, sliding doors, heat pump and proper V2L**.
+
+So I would **not write the PV5 off based on the lease pricing**. For this particular car, **PCP looks like the much more promising route**, especially if we can combine 3.9% finance with a £3k–£5k dealer discount. memcite
+
+====================================================================================
+029 — User — 2026-10-05T14:56:40Z
+====================================================================================
+
+is essential enough for me?
+
+====================================================================================
+030 — User — 2026-10-05T14:57:01Z
+====================================================================================
+
+so why suggest the arnold clark car then?
+
+====================================================================================
+031 — Assistant
+====================================================================================
+
+Because I used the Arnold Clark Essential as a **pricing example for the PCP structure**, not because it was actually the right trim for you — but I should have made that distinction explicit.
+
+For your requirements, **Essential is not enough**. Kia’s current UK trim breakdown says Plus adds the **Charging Pack with V2X/V2L**, and Essential does not have it. ([eu-www.kia.com](https://eu-www.kia.com/uk/pbv/lineup/pv5-passenger/?utm_source=chatgpt.com))
+
+So the Arnold Clark car was useful only to show:
+
+> “Here is a real PV5 PCP with a chunky GFV and sensible monthly payment.”
+
+It was **not** a car I should have presented as a candidate for you.
+
+For you, the relevant minimum is **Plus**, because that’s where V2L appears. The 7-seat Plus is **£40,275 OTR / £38,775 after the £1,500 grant**. ([kia.com](https://www.kia.com/uk/pbv/lineup/pv5-passenger/pricing/?msockid=04045f04c4b76be8013c49fcc5116ac4&utm_source=chatgpt.com))
+
+So the proper question is not “can we get an Essential around £419/month?” It’s:
+
+> **Can we get a Plus 7-seat PCP close enough to that number to make it worthwhile?**
+
+That’s the one I should have focused on.
+
+====================================================================================
+032 — User — 2026-10-05T14:57:28Z
+====================================================================================
+
+is the plus enough? The elite doesnt seem like much more
+
+====================================================================================
+033 — User — 2026-10-05T14:58:28Z
+====================================================================================
+
+eletric sliding doors sounds incredibly useful
+
+====================================================================================
+034 — Assistant
+====================================================================================
+
+Yes. For a family car, **dual electric sliding doors are exactly the sort of thing you'd actually notice every day**, rather than brochure fluff.
+
+And this is where **Elite starts looking much more compelling than Plus**. Kia's current spec matrix says:
+
+- **Plus:** one powered sliding door, on the right side.
+- **Elite:** **dual powered sliding doors**.
+- Both get the powered tailgate. ([kia.com](https://www.kia.com/nmc/en/pbv/Kia-PV5-Passenger?utm_source=chatgpt.com))
+
+For you, dual power doors would be especially useful with two children: you can open whichever side is safe/accessible, get Max in without messing around with a heavy sliding door, and when carrying the baby you can open the door remotely rather than juggling handles. On a vehicle this tall and van-shaped, that feels like a genuinely useful upgrade rather than luxury trim padding.
+
+And the price difference is only **£1,700**:
+
+- Plus 7-seat: **£40,275 OTR / £38,775 after grant**
+- Elite 7-seat: **£41,975 OTR / £40,475 after grant** ([kia.com](https://www.kia.com/uk/pbv/lineup/pv5-passenger/pricing/?msockid=04045f04c4b76be8013c49fcc5116ac4&utm_source=chatgpt.com))
+
+Over a 37-month PCP, £1,700 of extra list price does **not** necessarily mean £46/month more, because Elite should also have a slightly higher GFV. Realistically the monthly delta could be something like **£25–40/month**, depending on the finance assumptions.
+
+That starts to look quite reasonable for:
+
+**dual powered sliding doors + standard internal V2L + the other Elite convenience/safety kit**.
+
+So I’d change my trim view to:
+
+**Essential:** no, wrong for you.  
+**Plus:** sufficient.  
+**Elite:** probably the trim I'd actually target if the PCP delta stays modest.
+
+At a £25-ish monthly premium, I'd almost certainly take Elite. At £60–70+, I'd think harder. memcite
+
+====================================================================================
+035 — User — 2026-10-05T15:00:12Z
+====================================================================================
+
+[Attached image: assets/carwow-pv5-offer-screenshot.png]
+
+i'm sure carwow used to show pcp details but i cant see them
+
+====================================================================================
+036 — Assistant
+====================================================================================
+
+You’re remembering correctly: **Carwow still has full PCP breakdowns on its model/deals pages**, but this dealer-offer screen you’re on is now only showing the **discounted finance price + APR**, not the actual monthly/deposit/GFV structure.
+
+Your screenshot says:
+
+- **Carwow PCP offer: £40,330**
+- saving **£1,645**
+- **3.9% APR**
+- and then explicitly: **“Offer is illustrative only. Contact partner directly for full representative and personalised offer.”**
+
+So on this particular offer page, **they’ve deliberately stopped exposing the actual PCP terms**. You have to enquire with Hedge End Kia to get the deposit, monthly, mileage and balloon.
+
+That’s different from Carwow’s general deals pages, which still show the full representative example — monthly payment, term, deposit, contribution, optional final payment, mileage, excess mileage, etc. ([carwow.co.uk](https://www.carwow.co.uk/vauxhall/corsa-electric/deals?utm_source=chatgpt.com))
+
+You can also use Carwow’s own PCP calculator, although you need the GFV to make it useful. They say themselves that their calculator is only indicative and that the dealer supplies the bespoke PCP quote. ([carwow.co.uk](https://www.carwow.co.uk/pcp-calculator?source=post_page---------------------------&utm_source=chatgpt.com))
+
+For this **PV5 Elite 7-seat at £40,330 / 3.9%**, the missing number we really need is the **GFV**. Once we have that I can calculate the monthly payment accurately for whatever deposit you actually want.
+
+And that £40,330 price is already interesting: it’s only about **£145 below the post-grant £40,475 figure**, so Carwow isn’t giving you some huge dealer discount here. The attraction would have to come from the **GFV/PCP structure**, not the headline saving.
+
+====================================================================================
+037 — User — 2026-10-05T15:01:29Z
+====================================================================================
+
+can you find out what the GFV will probably be?
+
+====================================================================================
+038 — Assistant
+====================================================================================
+
+Yes — and I can do better than estimate it. I found an actual **PV5 Elite Long Range 71kWh 7-seat PCP** example using Kia Finance.
+
+The **optional final payment / GFV is £18,661.50** on a 37-month agreement. ([rrg-group.com](https://www.rrg-group.com/kia/new-car-offers/pv5-passenger-7-seater/?utm_source=chatgpt.com))
+
+The published example is:
+
+| | PV5 Elite 7-seat |
+|---|---:|
+| OTR price | £41,975 |
+| Electric Car Grant | £1,500 |
+| APR | 3.9% |
+| Term | 37 months |
+| Payments | 36 |
+| **GFV** | **£18,661.50** |
+
+Arnold Clark independently shows exactly the **same £18,661.50 GFV** for the Elite 7-seat, which gives me quite high confidence that this is Kia Finance's current residual for that derivative rather than a dealer-specific guess. ([arnoldclark.com](https://www.arnoldclark.com/new-cars/kia/pv5?utm_source=chatgpt.com))
+
+That means the Carwow car you've found at **£40,330** should probably use **£18,661.50** as well, assuming the same term and mileage. The dealer discount normally reduces the amount you're financing; it doesn't reduce Kia Finance's GFV.
+
+That's actually a pretty strong residual:
+
+**£18,661.50 / £41,975 = 44.5% of original list after three years.**
+
+And crucially, it's **£18.7k of the £40.3k Carwow price that you don't have to repay through the monthly payments** unless you decide to keep the car.
+
+So now that we have the missing number, I can calculate the likely Carwow PCP properly at **£0, £1k, £3k, £5k deposit**, rather than the rough numbers I gave you earlier.
+
+====================================================================================
+039 — User — 2026-10-05T15:09:58Z
+====================================================================================
+
+no, because i'm not putting down a deposit, so only 0 please
+
+====================================================================================
+040 — Assistant
+====================================================================================
+
+With **£0 customer deposit**, using the current Kia Finance structure and the **£18,661.50 GFV**, that Carwow Elite should be roughly **£700/month**.
+
+The cleanest way to derive it is from Kia’s published Elite 7-seat example: £40,475 after grant, £7,999 customer deposit, 36 × £467.98, £18,661.50 final payment, 3.9% APR. ([rrg-group.com](https://www.rrg-group.com/kia/new-car-offers/pv5-passenger-7-seater/?utm_source=chatgpt.com))
+
+Remove the £7,999 deposit and the monthly rises by about £236. Your Carwow car is £145 cheaper at **£40,330**, giving approximately:
+
+**£0 deposit + 36 × £699.50 + £18,661.50 optional final payment**
+
+at the same 37-month / 6,000-mile structure.
+
+So call it **~£700/month, zero down**.
+
+One caveat: the Carwow £40,330 appears to be only **£145 below the £40,475 post-grant price** — i.e. its £1,645 “saving” seems to comprise the **£1,500 government grant + £145 dealer discount**. If Carwow somehow applies the grant *again* afterwards, it'd instead be around **£655/month**, but I think ~£700 is the much more likely figure.
+
+That also explains why the advertised £468-ish PCP numbers looked attractive: **they were hiding £8k upfront**. For the way you actually buy cars — £0 down — the PV5 Elite is currently a ~£700/month proposition, not a ~£470 one.
+
+====================================================================================
+041 — User — 2026-10-05T15:12:02Z
+====================================================================================
+
+oof, thats way higher than the ioniq. The ioniq was like 24k GFV, 46k purchase price, £540pm. Is the interest why this is so much higher?
+
+====================================================================================
+042 — Assistant
+====================================================================================
+
+Mostly, yes — but **term length is doing almost as much work as the interest**.
+
+Your old Ioniq 5 numbers were roughly:
+
+- Purchase price: **£46k**
+- GFV: **£24k**
+- Amount actually being amortised: **~£22k**
+- Payment: **~£540/month**
+
+That strongly suggests your Ioniq agreement was around **42 months**, because £22k spread over ~41 regular payments is about £537/month.
+
+The PV5 Elite we're looking at is:
+
+- Purchase price: **£40,330**
+- GFV: **£18,661**
+- Amount being amortised before interest: **£21,669**
+
+So remarkably, the actual depreciation you're financing is almost identical:
+
+**Ioniq: ~£22k**  
+**PV5: ~£21.7k**
+
+The PV5 isn't expensive because it's depreciating vastly more in cash terms. It's expensive because Kia is currently structuring the PCP as **36 payments at 3.9%**, rather than your Hyundai deal's longer, effectively very cheap finance.
+
+At **0% over 36 months**, that PV5 would be about:
+
+**£21,669 ÷ 36 ≈ £602/month**
+
+Then 3.9% interest takes it to about:
+
+**£699/month**
+
+So interest is costing you roughly **£97/month** on that structure.
+
+And the shorter term accounts for another big chunk. If I modelled that same PV5 over roughly the same ~41-payment duration as your Ioniq, even at 3.9%, it drops to about **£626/month**. At 0%, it would be only about **£528/month**.
+
+So the comparison is basically:
+
+| | Ioniq 5 | PV5 Elite |
+|---|---:|---:|
+| Price | ~£46k | £40.3k |
+| GFV | ~£24k | £18.7k |
+| Depreciation financed | ~£22k | ~£21.7k |
+| Finance rate | presumably ~0% / very subsidised | 3.9% |
+| Regular-payment period | ~41 months | 36 months |
+| Monthly | ~£540 | ~£699 |
+
+That explains almost all of it.
+
+Your old Ioniq deal was **really good finance**. Hyundai gave you a high residual, cheap money and a longer repayment period. Kia's PV5 PCP isn't fundamentally terrible; it's just **not being subsidised nearly as aggressively**.
+
+Which also means a future **0% PV5 campaign or a 42/48-month supported PCP could transform the numbers without the car itself getting any cheaper**. At roughly £530–580/month zero-down, the Elite would suddenly look much more sensible to you.
+
+====================================================================================
+043 — User — 2026-10-05T15:12:54Z
+====================================================================================
+
+the ioniq was 36 months, 0%
+
+====================================================================================
+044 — Assistant
+====================================================================================
+
+Then my previous explanation was wrong: **term length wasn’t the reason at all**.
+
+If your Ioniq 5 was **36 months at 0%**, then the comparison is much simpler.
+
+With a £46k price and ~£24k GFV, a pure 0% PCP with no other support should have been roughly:
+
+**£46,000 − £24,000 = £22,000**
+
+spread over about 36 payments = roughly **£610/month**.
+
+But you were paying about **£540/month with £0 down**. That means the actual financed price must have been lower than £46k once Hyundai/dealer support was applied — probably around **£43k–£43.5k**, depending on the exact payment count.
+
+So your Ioniq deal likely had roughly **£2.5k–£3k of discount/contribution embedded in it**, on top of the 0% finance.
+
+For the PV5 Elite we’re looking at:
+
+- cash/finance price: **£40,330**
+- GFV: **£18,661.50**
+- depreciation portion: **£21,668.50**
+
+At 0%, that would be about:
+
+**£602/month**
+
+At 3.9%, it becomes roughly:
+
+**£699/month**
+
+So the 3.9% finance alone is adding about **£97/month**, or about **£3,500 over the agreement**.
+
+Then there’s another ~£60/month difference because your Ioniq deal seems to have had several thousand pounds of hidden manufacturer/dealer support that the PV5 currently doesn’t.
+
+So effectively:
+
+| | Ioniq 5 | PV5 Elite |
+|---|---:|---:|
+| Term | 36 mo | 36 mo |
+| APR | **0%** | **3.9%** |
+| Approx net financed price | ~£43k | £40.3k |
+| GFV | ~£24k | £18.7k |
+| Monthly | **~£540** | **~£699** |
+
+The really striking thing is that the **PV5 is cheaper to buy**, but Kia expects it to be worth much less after three years and then charges interest on top.
+
+So yes: **the 3.9% is a huge part of the problem**, but the lower GFV is also doing substantial damage.
+
+If Kia put the PV5 on **0% PCP**, even with today’s GFV, it falls from ~£699 to **~£602/month**. If they also threw in another £2–3k dealer/manufacturer contribution like your old Hyundai deal effectively had, you’d be back around **£520–550/month** — almost exactly Ioniq territory.
+
+====================================================================================
+045 — User — 2026-10-05T15:14:21Z
+====================================================================================
+
+patricia is never going to go for that. She doesnt even really want to pay over 400
+
+====================================================================================
+046 — Assistant
+====================================================================================
+
+Then I’d basically **take the PV5 off the active shortlist for now**.
+
+At **£0 down and a hard-ish £400/month ceiling**, the current Elite PCP is nowhere near viable. With its £18,661 GFV:
+
+- At **0%**, to hit £400/month over 36 months, the financed price would need to be only about **£33,060**.
+- At **3.9%**, it would need to be about **£30,200**.
+
+The Carwow price is **£40,330**.
+
+So Kia would need to find roughly **£7k of extra support even at 0%**, or about **£10k at the current 3.9%**, before an Elite gets into Patricia’s territory.
+
+That’s not a “maybe the dealer can sharpen their pencil” gap. That requires a completely different manufacturer campaign.
+
+And I wouldn’t try to disguise it with a deposit. £4,000 down to turn £510 into £400 is still spending the same money; it just makes the monthly number cosmetically nicer. Since you want **£0 down**, £400 should mean £400.
+
+So I think the decision framework becomes:
+
+**PV5 Elite:** ideal actual car, wrong finance. Keep watching in case Kia launches a heavily subsidised Q4/year-end campaign.
+
+**Kona:** much more plausible financially, but you need **Ultimate/N Line S** for the proper V2L socket, so we need to see whether one of those can actually get close to £400 zero-down.
+
+**Other cars:** this is where I'd now search seriously, because there may be something with heat pump + V2L at £350–400 that isn't making you pay for seven-seat-PV5 residual risk.
+
+Your old **£540 Ioniq deal already felt expensive to Patricia**, so replacing it with a £700 PV5 because it's technically a better family car is clearly going in the wrong direction. memcite
+
+====================================================================================
+047 — User — 2026-10-05T15:14:54Z
+====================================================================================
+
+the point is, i think its worth it and i can afford it
+
+====================================================================================
+048 — Assistant
+====================================================================================
+
+Then the problem isn’t affordability; it’s that **you and Patricia are valuing the car differently**.
+
+At ~£700/month, the PV5 Elite is about **£300/month above her preferred £400 ceiling**, i.e. roughly **£10,800 over three years**. That is the real question to settle: whether the additional utility is worth ~£11k to the household.
+
+And I can see the case for it much more clearly than I could for simply buying a more expensive conventional EV. You’re paying for things you would actually use:
+
+- seven proper seats rather than five;
+- dual powered sliding doors, which are unusually useful with two young children;
+- vastly better passenger/cargo flexibility;
+- heat pump;
+- proper internal V2L for camping/power use;
+- still roughly the footprint of your Ioniq 5 rather than moving into EV9 territory.
+
+So I wouldn’t dismiss it because “Patricia wants £400”. I’d compare it against the **best £400-ish car that actually meets enough of your requirements**, then ask what the extra PV5 expenditure buys.
+
+If, for example, the realistic alternative is a £390 Kona that loses the seven seats, sliding doors and enormous interior, the comparison is:
+
+**Kona: ~£14k over 3 years**  
+**PV5: ~£25k over 3 years**
+
+That £11k difference is substantial, but it isn't absurd relative to your finances if you genuinely think the PV5 would materially improve family life. The argument is much weaker if there turns out to be a £450–500 alternative giving you 90% of the benefit.
+
+So I’d keep the **PV5 Elite as the “this is what I actually want” benchmark**, then hunt aggressively for something substantially cheaper that makes you think, “actually, I don't need the PV5.”
+
+If nothing does, then you're not deciding whether you *can* afford £700. You're deciding whether those features are worth roughly **£300/month of discretionary spending** to the two of you. memcite
+
+====================================================================================
+049 — User — 2026-10-05T15:16:37Z
+====================================================================================
+
+did you say one of these had internal v2L? [**Skip to main content**](https://quotes.carwow.co.uk/buying/car-configurator/trim?make=hyundai\&model=kona-electric-2023\&payment_preferences%5B%5D=finance\&state=only_new_cars#main-content)svg
+
+[**svgBack**](https://quotes.carwow.co.uk/buying/car-configurator/trim?make=hyundai\&model=kona-electric-2023\&payment_preferences%5B%5D=finance\&state=only_new_cars#)
+
+60% completed
+
+## Choose a trim
+
+Each trim is a version of the car with different features and equipment
+
+### Advance
+
+The Advance spec car is the most affordable Kona Electric. It’s the only model available with a choice of battery sizes, with either a 48kWh capacity and a shorter range or a 65kWh battery and a range of up to 319 miles. Advance cars are well equipped for entry-level models, with dual-zone climate control, cruise control, Bluetooth, twin 12.3-inch screens, a DAB radio, and Apple CarPlay and Android Auto as standard.
+
+### Advance Standard
+
+RRP from
+
+Monthly from
+
+Used from
+
+**£35,000**
+
+**£300\***
+
+**£18,899**
+
+**Pick this trim**
+
+### Advance Comfort Pack
+
+RRP from
+
+Monthly from
+
+**£35,600**
+
+**£304\***
+
+**Pick this trim**
+
+### N Line
+
+The N Line S builds on the spec of the N Line, adding Alcantara and leather-trimmed seats that are both heated and ventilated in the front, as well as being electrically adjustable. The climate control has three zones rather than two, and the stereo is uprated to a Bose sound system with seven speakers and a subwoofer. On the outside, there’s a full-width horizontal daytime running light and full projection LED headlights. There’s a longer list of standard driver aids as well.
+
+RRP from
+
+Monthly from
+
+Used from
+
+**£37,135**
+
+**£313\***
+
+**£20,453**
+
+**Pick this trim**
+
+### Ultimate
+
+The two front seats are both electrically adjustable and heated. And cooled, which is… cool. Better still, the two outer rear seats are also heated, and everything is leather-trimmed. The driver also has a head-up display to look at, and everyone gets the benefit of an electrically powered tilt and slide sunroof.
+
+RRP from
+
+Monthly from
+
+Used from
+
+**£39,630**
+
+**£338\***
+
+**£19,995**
+
+**Pick this trim**
+
+### N Line S
+
+You can’t buy the N Line with the smaller battery – every N Line comes with the 65kWh capacity for worry-free long drives. The N Line also has a sportier look than the Advance entry-spec, with 19-inch alloys, black gloss door mirrors, and body-coloured wheel-arch inserts. Inside, you’ll find aluminium pedals and heated front and rear seats. The steering wheel is heated too, and there’s a wireless charging pad for compatible smartphones.
+
+RRP from
+
+Monthly from
+
+Used from
+
+**£39,720**
+
+**£333\***
+
+**£21,740**
+
+**Pick this trim**
+
+Please contact the dealer or manufacturer for a personalised quote, including terms and conditions. Quote is subject to dealer or manufacturer requirements, including status and availability. Illustrations are based on personal contract hire, 9 month upfront fee, 48 month term, 8000 miles annually, inc VAT, excluding fees. T&Cs apply.
+
+====================================================================================
+050 — Assistant
+====================================================================================
+
+Yes. On the current UK MY27 Kona Electric, the **internal 3-pin V2L socket is standard on:**
+
+- **N Line S**
+- **Ultimate**
+
+It is **not** fitted to Advance or ordinary N Line. Hyundai’s October 2026 spec sheet shows “Vehicle to Load (V2L) (Internal 3 Pin Plug)” only against those two trims. ([dmassets.hyundai.com](https://dmassets.hyundai.com/is/content/hyundaiautoever/KONA_EV_Tech_Specpdf))
+
+So from the Carwow list you pasted, the two relevant ones for you are **Ultimate at £39,630** and **N Line S at £39,720**.
+
+Between those two, I’d lean **Ultimate** for you unless you particularly prefer the N Line styling. They both get the internal V2L, but Ultimate is slightly cheaper and avoids paying for the sportier trim treatment while still giving you the useful high-spec kit. Hyundai’s current spec also gives both the heat pump, HUD, heated/ventilated front seats, heated rear seats, surround-view camera and the upgraded driver-assistance equipment. ([dmassets.hyundai.com](https://dmassets.hyundai.com/is/content/hyundaiautoever/KONA_EV_Tech_Specpdf))
+
+One downside: both use the **19-inch wheels**, so WLTP range drops from **319 miles on Advance to 282 miles**. ([dmassets.hyundai.com](https://dmassets.hyundai.com/is/content/hyundaiautoever/KONA_EV_Tech_Specpdf))
+
+So the Kona trim that actually matches your brief is basically **Ultimate**.
+
+====================================================================================
+051 — User — 2026-10-05T15:17:36Z
+====================================================================================
+
+also is it worth considering an ioniq 3?
+
+====================================================================================
+052 — Assistant
+====================================================================================
+
+Yes. In fact, given what we’ve now established about your requirements, the **IONIQ 3 may be one of the strongest options**.
+
+The important bit is that you **don’t want the Advance**. The cheapest specification that actually gives you everything is:
+
+**IONIQ 3 Premium 61kWh + £1,250 EV Pack**
+
+The EV Pack adds exactly your two awkward requirements:
+
+- **Heat pump**
+- **V2L**
+- including the **internal 3-pin socket**
+- external V2L as well
+- V2X hardware
+
+Hyundai's official UK specification confirms the EV Pack is available on Premium, Ultimate and N Line Evo, but not Advance. ([hyundai.news](https://www.hyundai.news/uk/articles/press-releases/ioniq-3-uk-pricing-august-2026.html?utm_source=chatgpt.com))
+
+And the price is surprisingly low. Premium is **£27,445 OTR** before the current £3,750 Electric Car Grant. Hyundai now confirms the IONIQ 3 gets the full £3,750 grant. ([hyundai.com](https://www.hyundai.com/uk/en/models/ioniq3.html))
+
+So approximately:
+
+**£27,445**
+− **£3,750 grant**
++ **£1,250 EV Pack**
+= **£24,945**
+
+That is *dramatically* cheaper than the £39–40k Kona Ultimate/N Line S we're looking at.
+
+And you're not sacrificing much range:
+
+- 61kWh battery
+- about **303 miles WLTP** on Premium
+- 441L normal boot
+- another **119L “Megabox” under the boot floor**
+- five proper seats
+- 4,155mm long
+- **1,800mm wide**
+
+Hyundai quotes the overall range maximum at 308 miles. ([hyundai.news](https://www.hyundai.news/uk/articles/press-releases/ioniq-3-uk-pricing-august-2026.html?utm_source=chatgpt.com))
+
+That last dimension is particularly relevant. Your IONIQ 5 is 1,890mm wide and you've complained about that. The IONIQ 3 is **90mm narrower**. It's also **25mm narrower than the Kona Electric** and about 200mm shorter.
+
+### And the finance could actually fit Patricia's number
+
+Hyundai's **current October Q4 offer** is:
+
+**IONIQ 3 Advance 61kWh**
+- £355 deposit
+- **£354.72 × 48**
+- £10,289.63 GFV
+- 8.9% APR
+- £3,750 grant
+- 6,000 miles
+- orders 1 Oct 2026–4 Jan 2027
+
+([hyundai.com](https://www.hyundai.com/uk/en/models/ioniq3.html))
+
+The APR is horrible, but the car itself is so cheap that it still produces a £355 monthly.
+
+Premium + EV Pack costs about **£2,950 more** net than that Advance. Its GFV should also be somewhat higher, so I would expect a **zero-deposit Premium + EV Pack to land somewhere around the £400-ish region**, rather than anything remotely like the £700 PV5.
+
+We'd need the actual Premium GFV to calculate it properly, but it is clearly in an entirely different affordability category.
+
+### The compromises versus your IONIQ 5
+
+This isn't secretly an IONIQ 5 for £25k.
+
+The 61kWh version has only **135PS** and does 0–62 in about **9.5 seconds**. More importantly, it's a **400V car**, with only about **110kW peak DC charging**. Hyundai says 10–80% is ~30 minutes. Your IONIQ 5's 800V charging system is substantially better on a long trip. ([hyundai.news](https://www.hyundai.news/uk/articles/press-releases/ioniq-3-uk-pricing-august-2026.html?utm_source=chatgpt.com))
+
+And obviously:
+
+**IONIQ 3:** 5-seat compact hatch  
+**PV5:** enormous 7-seat family box with powered sliding doors
+
+So it doesn't solve the “two children + enormous useful van” problem the way the PV5 does.
+
+But viewed against the **Kona Ultimate**, the IONIQ 3 looks almost embarrassingly strong:
+
+| | IONIQ 3 Premium + EV Pack | Kona Ultimate |
+|---|---:|---:|
+| Approx post-grant price | **£24,945** | ~£35,880 |
+| Battery | 61kWh | 65.4kWh |
+| Range | ~303mi | ~282mi |
+| Heat pump | **Yes** | Yes |
+| Internal 3-pin V2L | **Yes** | Yes |
+| Width | **1,800mm** | 1,825mm |
+| Boot | 441L + 119L lower storage | ~466L |
+| Seats | 5 | 5 |
+| DC charging | ~110kW | ~100kW |
+
+At nearly **£11k less**, the IONIQ 3 makes me question why you'd buy the high-spec Kona at all.
+
+So I'd now put them roughly into three different roles:
+
+**IONIQ 3 Premium + EV Pack:** rational choice — small, 300-mile range, V2L, heat pump, potentially around Patricia's £400 target.
+
+**PV5 Elite:** “I actually want this” choice — much more useful family vehicle, but currently ~£700 PCP.
+
+**Kona Ultimate:** awkward middle ground — doesn't have the PV5's transformative practicality, while costing vastly more than an IONIQ 3 that meets essentially the same core requirements.
+
+For your December replacement, **I'd definitely get an IONIQ 3 Premium + EV Pack quote before doing anything with the Kona.** memcite
+
+====================================================================================
+053 — User — 2026-10-05T15:20:09Z
+====================================================================================
+
+why the fuck are there this many options?
+
+[**Skip to main content**](https://quotes.carwow.co.uk/buying/car-configurator/trim?make=hyundai\&model=ioniq-3-2026\&payment_preferences%5B%5D=finance#main-content)svg
+
+[**svgBack**](https://quotes.carwow.co.uk/buying/car-configurator/trim?make=hyundai\&model=ioniq-3-2026\&payment_preferences%5B%5D=finance#)
+
+60% completed
+
+## Choose a trim
+
+Each trim is a version of the car with different features and equipment
+
+### Advance
+
+RRP from
+
+Monthly from
+
+**£22,245**
+
+**£388\***
+
+**Pick this trim**
+
+### Premium
+
+### Premium Standard
+
+RRP from
+
+Monthly from
+
+**£27,445**
+
+**£462\***
+
+**Pick this trim**
+
+### Premium EV Pack
+
+RRP from
+
+**£28,695**
+
+**Pick this trim**
+
+### Ultimate
+
+### Ultimate Standard
+
+RRP from
+
+Monthly from
+
+**£29,945**
+
+**£503\***
+
+**Pick this trim**
+
+### Ultimate EV Pack
+
+RRP from
+
+**£31,195**
+
+**Pick this trim**
+
+### Ultimate Design Pack
+
+RRP from
+
+**£31,445**
+
+**Pick this trim**
+
+### Ultimate Comfort Pack
+
+RRP from
+
+**£32,445**
+
+**Pick this trim**
+
+### Ultimate Design/EV
+
+RRP from
+
+**£32,695**
+
+**Pick this trim**
+
+### Ultimate Comfort/EV
+
+RRP from
+
+**£33,695**
+
+**Pick this trim**
+
+### Ultimate Comfort/Design
+
+RRP from
+
+**£33,945**
+
+**Pick this trim**
+
+### Ultimate Comfort/Design/EV
+
+RRP from
+
+**£35,195**
+
+**Pick this trim**
+
+### N Line Evo
+
+### N Line Evo Standard
+
+RRP from
+
+Monthly from
+
+**£31,945**
+
+**£525\***
+
+**Pick this trim**
+
+### N Line Evo EV Pack
+
+RRP from
+
+**£33,195**
+
+**Pick this trim**
+
+### N Line Evo Design Pack
+
+RRP from
+
+**£33,445**
+
+**Pick this trim**
+
+### N Line Evo Comfort Pack
+
+RRP from
+
+**£34,445**
+
+**Pick this trim**
+
+### N Line Evo Design/EV
+
+RRP from
+
+**£34,695**
+
+**Pick this trim**
+
+### N Line Evo Comfort/EV
+
+RRP from
+
+**£35,695**
+
+**Pick this trim**
+
+### N Line Evo Comfort/Design Comf/Desn
+
+RRP from
+
+**£35,945**
+
+**Pick this trim**
+
+### N Line Evo Comfort/Design/EV
+
+RRP from
+
+**£37,195**
+
+**Pick this trim**
+
+Please contact the dealer or manufacturer for a personalised quote, including terms and conditions. Quote is subject to dealer or manufacturer requirements, including status and availability. Illustrations are based on personal contract hire, 9 month upfront fee, 48 month term, 8000 miles annually, inc VAT, excluding fees. T&Cs apply.
+
+====================================================================================
+054 — Assistant
+====================================================================================
+
+Because Carwow is exploding **three actual option packs into every possible combination**, so it looks much worse than Hyundai’s range really is.
+
+There are basically only **4 trims**:
+
+- Advance
+- Premium
+- Ultimate
+- N Line Evo
+
+Then Hyundai has **3 packs**:
+
+- **EV Pack — £1,250:** heat pump + external V2L + **internal 3-pin V2L** + 11kW/V2X
+- **Comfort Pack — £2,500:** electric memory/relaxation seats, heated rear seats, ventilated fronts, Bose, Digital Key, laminated glass etc.
+- **Design Pack — £1,500:** vision roof + two-tone roof
+
+Premium can only take the EV Pack. Ultimate and N Line Evo can take any combination of EV / Comfort / Design, which is why Carwow generates this ridiculous matrix. ([hyundai.news](https://www.hyundai.news/uk/articles/press-releases/ioniq-3-uk-pricing-august-2026.html?utm_source=chatgpt.com))
+
+For you I’d ignore almost all of it.
+
+**The actual shortlist is:**
+
+- **Premium EV Pack — £28,695**  
+  Cheapest version that gives you the stuff you specifically asked for: **heat pump + internal 3-pin V2L**.
+- **Ultimate EV Pack — £31,195**  
+  Same EV functionality, but adds genuinely useful comfort/spec: heated front seats/steering wheel, rear vents, reclining rear seats, matrix LEDs, HDA/navigation cruise, nicer interior.
+- **Ultimate Comfort/EV — £33,695**  
+  Adds the big Comfort Pack: electric memory/relaxation seats, heated rear seats, ventilated fronts, Bose, Digital Key etc.
+- **N Line Evo variants:** mostly irrelevant unless you specifically prefer the styling/interior.
+
+I’d probably **bin Design Pack completely**. £1,500 for the vision roof/two-tone roof is not solving any requirement you have. ([hyundai.news](https://www.hyundai.news/uk/articles/press-releases/ioniq-3-uk-pricing-august-2026.html?utm_source=chatgpt.com))
+
+So despite Carwow showing about 18 choices, for you it’s really just:
+
+**Premium EV Pack vs Ultimate EV Pack vs Ultimate Comfort/EV.**
+
+And my instinct is that **Ultimate EV Pack is probably the sweet spot** if the finance delta over Premium isn’t stupid.
+
+====================================================================================
+055 — User — 2026-10-05T15:21:42Z
+====================================================================================
+
+We'd want the memory seats and the sunroof actually
+
+====================================================================================
+056 — Assistant
+====================================================================================
+
+Then your actual IONIQ 3 configuration is basically forced:
+
+**Ultimate Comfort/Design/EV — £35,195 RRP** before whatever grant/discount applies.
+
+That gives you all three things you care about:
+
+- **EV Pack:** heat pump + external V2L + **internal 3-pin V2L**
+- **Comfort Pack:** electric front seats with **driver memory**, ventilated fronts, heated rear seats, premium relaxation seats, Bose, Digital Key, laminated glass
+- **Design Pack:** **panoramic Vision Roof** + contrasting roof
+
+Hyundai’s own UK spec confirms those pack contents. ([hyundai.news](https://www.hyundai.news/uk/articles/press-releases/ioniq-3-uk-pricing-august-2026.html?utm_source=chatgpt.com))
+
+One correction though: Hyundai calls it a **“Vision Roof”**, and I can confirm it’s panoramic glass, but I **can’t find Hyundai saying that it actually opens**. So if by “sunroof” you specifically mean an opening roof rather than a panoramic glass roof, I wouldn’t assume it does. ([hutchings.co.uk](https://www.hutchings.co.uk/new-cars/hyundai-ioniq-3-61kwh-n-line-evo-auto-5dr/200?utm_source=chatgpt.com))
+
+That also means Carwow’s huge option list collapses completely for you: **Ultimate Comfort/Design/EV is the one to price.** The N Line equivalent costs £2k more and loses a lot of range for essentially styling/parking-tech benefits.
+
+====================================================================================
+057 — User — 2026-10-05T15:22:59Z
+====================================================================================
+
+we dont NEED the sunroof or memory seats though
+
+====================================================================================
+058 — Assistant
+====================================================================================
+
+Right. Then I wouldn’t spec the car around those.
+
+Your **actual minimum sensible IONIQ 3** is:
+
+- **Premium EV Pack — £28,695**
+- 61kWh battery
+- ~303-mile WLTP
+- heat pump
+- external V2L
+- **internal 3-pin V2L**
+- battery pre-conditioning
+- 17-inch wheels
+- the normal comfort/convenience kit you’d expect
+
+That is the cheapest version that hits the requirements you’ve consistently cared about. ([hyundai.news](https://www.hyundai.news/uk/articles/press-releases/ioniq-3-uk-pricing-august-2026.html?utm_source=chatgpt.com))
+
+The next step up I’d seriously consider is **Ultimate EV Pack — £31,195**, because the extra £2,500 gets you things that are useful even if not essential: heated front seats and steering wheel, rear vents, reclining rear seats, matrix LEDs, lumbar support, navigation-based cruise/HDA and nicer trim. ([hyundai.news](https://www.hyundai.news/uk/articles/press-releases/ioniq-3-uk-pricing-august-2026.html?utm_source=chatgpt.com))
+
+Then the other packs become pure wants:
+
+- **Comfort Pack +£2,500:** electric/memory seats, ventilated fronts, heated rear seats, Bose, Digital Key etc.
+- **Design Pack +£1,500:** Vision Roof + two-tone roof. ([hyundai.news](https://www.hyundai.news/uk/articles/press-releases/ioniq-3-uk-pricing-august-2026.html?utm_source=chatgpt.com))
+
+So I’d price just **Premium EV Pack vs Ultimate EV Pack** first.
+
+If Premium comes out around £400 zero-down and Ultimate is, say, £30–40 more, Ultimate is worth considering. If the gap is £70+, Premium becomes much harder to argue against.
+
+====================================================================================
+059 — User — 2026-10-05T15:23:35Z
+====================================================================================
+
+do they all get the same range?
+
+====================================================================================
+060 — Assistant
+====================================================================================
+
+No. The **wheel size/trim makes a noticeable difference**, especially on N Line Evo.
+
+For the 61kWh battery, Hyundai’s current UK figures are:
+
+- **Advance 61kWh:** 308 miles
+- **Premium:** 303 miles
+- **Ultimate:** 300 miles
+- **N Line Evo:** 265 miles
+
+The main reason is the wheels: 16", 17", 18", then 19" respectively. ([hyundai.news](https://www.hyundai.news/uk/articles/press-releases/ioniq-3-uk-pricing-august-2026.html?utm_source=chatgpt.com))
+
+So for you, **Premium EV Pack is actually the efficiency sweet spot**: you keep essentially the full range while getting the heat pump and V2L. Ultimate EV Pack only costs you ~3 miles of quoted range, so that’s negligible. But **N Line Evo loses ~38 miles versus Premium**, which is much harder to justify unless you really want the styling/equipment.
+
+The Comfort/Design/EV packs may shift the exact homologated figure slightly depending on final spec, but the big range step is definitely the wheel/trim change, not the packs.
+
+====================================================================================
+061 — User — 2026-10-05T15:26:50Z
+====================================================================================
+
+Skip to main content
+Diesel near £2 a litre? Compare electric deals
+New
+Used
+Leasing
+Electric
+Sell
+Vans
+News
+Reviews
+Buying
+Selling
+Messages
+4
+Notifications
+Menu
+My cars
+Hyundai Ioniq 3
+Richmond Hyundai Guildford
+Hyundai Ioniq 3 - 22
+5
+Photo is for illustrative purposes
+Hyundai Ioniq 3 - Front
+Hyundai Ioniq 3 - Front left
+Hyundai Ioniq 3 - Rear
+Hyundai Ioniq 3 - Side
+Hyundai Ioniq 3
+99kW 61kWh Auto Ultimate EV Pack Brand new Surrey
+
+
+Hyundai Guildford
+Richmond Hyundai Guildford
+53 reviews
+ Surrey 16 miles away
+Online now
+1 messageEnquire now Request test drive Call now
+Message Partner
+
+Message Richmond Hyundai Guildford about this Hyundai Ioniq 3
+
+First name
+Tristan
+Last name
+Email
+[email redacted]
+Phone number
+[phone redacted]
+Message
+
+How would you prefer to be contacted?
+
+Phonecall
+Carwow uses your details in accordance with our privacy policy. By enquiring you agree that we will pass your details to the seller who will use your details in accordance with their privacy policy.
+
+Send message
+
+Message sent, Richmond Hyundai Guildford will contact you soon!
+Want to know how much your current car is worth?
+
+We check over thousands of dealers to find you the best price for your car.
+Your vehicle registration
+e.g. BK17 GTD
+Close
+Get a valuation
+
+
+
+Request a test drive
+Choose a date
+Select day
+Choose a time
+
+Select time
+Next
+Cash
+PCP Finance
+
+36 month term
+
+£0 deposit
+
+6,000 miles / year
+What is PCP Finance?
+Carwow PCP offer
+£526.07 / month
+You save
+£3,750 (12%) 
+Term of agreement
+37 months
+ 
+36 monthly payments of
+£526.07
+ 
+RRP
+£31,195.00
+ 
+Carwow price
+£27,445.00
+ 
+Deposit
+£0.00
+ 
+Manufacturer deposit contribution
+£0.00
+ 
+Total amount of credit
+£27,445.00
+ 
+Total amount payable
+£32,977.80
+ 
+Cost of credit
+£5,532.80
+ 
+Representative APR
+8.9%
+ 
+Fixed rate of interest pa
+4.58%
+ 
+Optional final payment
+£14,039.28
+ 
+Mileage per annum
+6000
+ 
+Excess mileage charges
+9p / mile
+Carwow offer is calculated including any discount offered by the partner and the manufacturer deposit contribution.
+
+
+View more
+
+
+
+
+
+
+This Carwow offer includes
+On-the-road price 12 months road tax Brand new unregistered car VAT Number plates Full UK manufacturer warranty
+Key information
+Engine power
+135 bhp
+ 
+Transmission
+Automatic
+ 
+Fuel
+Electric
+ 
+Doors
+5
+ 
+Seats
+5
+ 
+Warranty
+This car has 5 years or 999,999 miles on its Hyundai manufacturer's warranty.
+Running Costs
+Running Costs
+
+Range and Economy
+Consumption 
+Combined 
+-
+Battery range
+308 miles
+Miles per pound 
+-
+The information we show
+Whilst Carwow uses reasonable efforts to ensure accuracy all information and details must be confirmed when enquiring. Carwow makes no representations, warranties or guarantees, whether express or implied, that this information is accurate, complete or up to date. Carwow will not accept liability for the information provided.
+Stats & performance
+CO2 emissions
+CO2 0 g/km
+ 
+First year road tax
+£10
+ 
+Battery range
+308 miles
+ 
+Acceleration (0-62mph)
+9.6 secs
+ 
+Top speed
+102 mph
+ 
+Boot (seats up)
+441 litres
+Vehicle features
+Android Auto
+Apple CarPlay
+Climate control
+Cruise control
+Heated seats
+Navigation
+Parking Sensors
+Touchscreen infotainment
+
+
+
+
+
+
+
+
+
+Whilst Carwow uses reasonable efforts to ensure accuracy all information and details must be confirmed when enquiring. Carwow makes no representations, warranties or guarantees, whether express or implied, that this information is accurate, complete or up to date. Carwow will not accept liability for the information provided.
+Deal ID: ccbac930e8c40084fe1590a6e91466a1
+Recommended based on your preferences
+
+Back to top
+Please contact the dealer or manufacturer for a personalised quote, including terms and conditions. Quote is subject to dealer or manufacturer requirements, including status and availability. Illustrations are based on personal contract hire, 9 month upfront fee, 48 month term, 8000 miles annually, inc VAT, excluding fees. T&Cs apply.
+
+Sign in to save this deal
+Continue with Google
+or
+Email
+By proceeding you confirm you have read our Privacy policy and agree to our T&Cs.
+Get ahead with the latest deals, news, and buying/selling advice from Carwow.
+You can opt-out of marketing communications at any time. View info about how you’ll be contacted.
+
+What happens when you use Carwow?
+
+More information about what Carwow does with the details you provide:
+
+We will inform you about your deals, news and advice by email, SMS, and/or WhatsApp
+You can contact your chosen dealer via our platform. We will not pass on your contact details to dealers unless you accept
+You can update your contact details or communications preferences at any time within your account settings.
+Above are just the key details, for full information see our T&Cs and Privacy policy.
+Sounds good
+Help Centre
+Monday to Friday 9.00 - 18.00
+Saturday 9.00 - 17.30
+Sundays and Bank Holidays CLOSED
+    
+About us
+Contact us
+Authors and experts
+Carwow newsroom
+Official Carwow Merchandise
+Careers
+Dealer & brand partners
+Rated 4.4/5 from 85,270 reviews
+
+
+© 2026 Carwow Ltd. All rights reserved
+Terms & conditions
+Manage cookies & privacy
+Fraud disclaimer
+ESG policy
+Privacy policy
+Fake reviews policy
+Modern slavery statement
+Accessibility notice
+Code of car changing
+UK
+Germany
+Spain
+Average savings are calculated daily based on the best dealer prices on Carwow vs manufacturer RRP. Where it is shown that the EV Grant is included, this refers to the Government grant awarded to manufacturers on certain EV models and derivatives, the amount awarded under the EV Grant is included in the Savings stated and applied at the point of sale. Carwow is the trading name of Carwow Ltd, which is authorised and regulated by the Financial Conduct Authority for credit broking and insurance distribution activities (firm reference number: 767155). Carwow Leasey Limited is an appointed representative of ITC Compliance Limited which is authorised and regulated by the Financial Conduct Authority for credit broking (firm reference number: 313486) Carwow and Carwow Leasey Limited are each credit brokers and not a lenders. Carwow and Carwow Leasey Limited may receive a fee from retailers advertising finance and may receive a commission from partners (including dealers) for introducing customers. All finance offers and monthly payments shown are subject to application and status. Carwow is covered by the Financial Ombudsman Service (please see www.financial-ombudsman.org.uk for more information). Carwow Ltd is registered in England (company number 07103079), registered office 2nd Floor, Verde Building, 10 Bressenden Place, London, England, SW1E 5DH. Carwow Leasey Limited is registered in England (company number 13601174), registered office 2nd Floor, Verde Building, 10 Bressenden Place, London, England, SW1E 5DH and is a wholly owned subsidiary of Carwow Ltd.
+
+Skip to main content
+Diesel near £2 a litre? Compare electric deals
+New
+Used
+Leasing
+Electric
+Sell
+Vans
+News
+Reviews
+Buying
+Selling
+Messages
+4
+Notifications
+Menu
+My cars
+Hyundai Kona Electric
+Richmond Hyundai Guildford
+Hyundai Kona Electric - 22
+5
+Photo is for illustrative purposes
+Hyundai Kona Electric - Front
+Hyundai Kona Electric - Front left
+Hyundai Kona Electric - Rear
+Hyundai Kona Electric - Side
+Hyundai Kona Electric
+160kW 65kWh Auto Ultimate Brand new Surrey
+
+
+Hyundai Guildford
+Richmond Hyundai Guildford
+53 reviews
+ Surrey 16 miles away
+Online now
+1 messageEnquire now Request test drive Call now
+Message Partner
+
+Message Richmond Hyundai Guildford about this Hyundai Kona Electric
+
+First name
+Tristan
+Last name
+Email
+[email redacted]
+Phone number
+[phone redacted]
+Message
+
+How would you prefer to be contacted?
+
+Phonecall
+Carwow uses your details in accordance with our privacy policy. By enquiring you agree that we will pass your details to the seller who will use your details in accordance with their privacy policy.
+
+Send message
+
+Message sent, Richmond Hyundai Guildford will contact you soon!
+Want to know how much your current car is worth?
+
+We check over thousands of dealers to find you the best price for your car.
+Your vehicle registration
+e.g. BK17 GTD
+Close
+Get a valuation
+
+
+
+Request a test drive
+Choose a date
+Select day
+Choose a time
+
+Select time
+Next
+Cash
+PCP Finance
+
+36 month term
+
+£0 deposit
+
+6,000 miles / year
+What is PCP Finance?
+Carwow PCP offer
+£546.64 / month
+You save
+£6,080 (15.3%) 
+Term of agreement
+37 months
+ 
+36 monthly payments of
+£546.64
+ 
+RRP
+£39,630.00
+ 
+Carwow price
+£33,549.60
+ 
+Deposit
+£0.00
+ 
+Manufacturer deposit contribution
+£1,750.00
+ 
+Total amount of credit
+£31,799.60
+ 
+Total amount payable
+£35,586.69
+ 
+Cost of credit
+£2,037.09
+ 
+Representative APR
+2.9%
+ 
+Fixed rate of interest pa
+1.49%
+ 
+Optional final payment
+£14,157.65
+ 
+Mileage per annum
+6000
+ 
+Excess mileage charges
+9p / mile
+Carwow offer is calculated including any discount offered by the partner and the manufacturer deposit contribution.
+
+
+View more
+
+
+
+
+
+
+This Carwow offer includes
+On-the-road price 12 months road tax Brand new unregistered car VAT Number plates Full UK manufacturer warranty
+Key information
+Engine power
+218 bhp
+ 
+Transmission
+Automatic
+ 
+Fuel
+Electric
+ 
+Doors
+5
+ 
+Seats
+5
+ 
+Warranty
+This car has 5 years or 999,999 miles on its Hyundai manufacturer's warranty.
+Running Costs
+Running Costs
+
+Insurance 
+Insurance group
+High
+33
+1
+10
+20
+30
+40
+50
+Get a quote
+*Insurance quotes are provided by Quotezone
+Range and Economy
+Consumption 
+Combined 
+3.7 miles per kWh
+Battery range
+282 miles
+Miles per pound 
+14.1
+The information we show
+Whilst Carwow uses reasonable efforts to ensure accuracy all information and details must be confirmed when enquiring. Carwow makes no representations, warranties or guarantees, whether express or implied, that this information is accurate, complete or up to date. Carwow will not accept liability for the information provided.
+Stats & performance
+CO2 emissions
+CO2 0 g/km
+ 
+First year road tax
+£10
+ 
+Insurance group
+33D
+ 
+Efficiency
+3.7 miles/kWh
+ 
+Battery range
+282 miles
+ 
+Acceleration (0-62mph)
+7.8 secs
+ 
+Top speed
+107 mph
+ 
+Boot (seats up)
+466 litres
+ 
+Boot (seats down)
+1300 litres
+ 
+Safety rating
+Vehicle features
+Android Auto
+Apple CarPlay
+Climate control
+Cruise control
+Heated seats
+Leather seats
+Navigation
+Parking Camera
+Parking Sensors
+Touchscreen infotainment
+Tow hitch
+
+
+
+
+
+
+
+
+
+Whilst Carwow uses reasonable efforts to ensure accuracy all information and details must be confirmed when enquiring. Carwow makes no representations, warranties or guarantees, whether express or implied, that this information is accurate, complete or up to date. Carwow will not accept liability for the information provided.
+Deal ID: aea9f090b32568c0f0326d4ef6cf6299
+Recommended based on your preferences
+
+Back to top
+Please contact the dealer or manufacturer for a personalised quote, including terms and conditions. Quote is subject to dealer or manufacturer requirements, including status and availability. Illustrations are based on personal contract hire, 9 month upfront fee, 48 month term, 8000 miles annually, inc VAT, excluding fees. T&Cs apply.
+
+Sign in to save this deal
+Continue with Google
+or
+Email
+By proceeding you confirm you have read our Privacy policy and agree to our T&Cs.
+Get ahead with the latest deals, news, and buying/selling advice from Carwow.
+You can opt-out of marketing communications at any time. View info about how you’ll be contacted.
+
+What happens when you use Carwow?
+
+More information about what Carwow does with the details you provide:
+
+We will inform you about your deals, news and advice by email, SMS, and/or WhatsApp
+You can contact your chosen dealer via our platform. We will not pass on your contact details to dealers unless you accept
+You can update your contact details or communications preferences at any time within your account settings.
+Above are just the key details, for full information see our T&Cs and Privacy policy.
+Sounds good
+Help Centre
+Monday to Friday 9.00 - 18.00
+Saturday 9.00 - 17.30
+Sundays and Bank Holidays CLOSED
+    
+About us
+Contact us
+Authors and experts
+Carwow newsroom
+Official Carwow Merchandise
+Careers
+Dealer & brand partners
+Rated 4.4/5 from 85,270 reviews
+
+
+© 2026 Carwow Ltd. All rights reserved
+Terms & conditions
+Manage cookies & privacy
+Fraud disclaimer
+ESG policy
+Privacy policy
+Fake reviews policy
+Modern slavery statement
+Accessibility notice
+Code of car changing
+UK
+Germany
+Spain
+Average savings are calculated daily based on the best dealer prices on Carwow vs manufacturer RRP. Where it is shown that the EV Grant is included, this refers to the Government grant awarded to manufacturers on certain EV models and derivatives, the amount awarded under the EV Grant is included in the Savings stated and applied at the point of sale. Carwow is the trading name of Carwow Ltd, which is authorised and regulated by the Financial Conduct Authority for credit broking and insurance distribution activities (firm reference number: 767155). Carwow Leasey Limited is an appointed representative of ITC Compliance Limited which is authorised and regulated by the Financial Conduct Authority for credit broking (firm reference number: 313486) Carwow and Carwow Leasey Limited are each credit brokers and not a lenders. Carwow and Carwow Leasey Limited may receive a fee from retailers advertising finance and may receive a commission from partners (including dealers) for introducing customers. All finance offers and monthly payments shown are subject to application and status. Carwow is covered by the Financial Ombudsman Service (please see www.financial-ombudsman.org.uk for more information). Carwow Ltd is registered in England (company number 07103079), registered office 2nd Floor, Verde Building, 10 Bressenden Place, London, England, SW1E 5DH. Carwow Leasey Limited is registered in England (company number 13601174), registered office 2nd Floor, Verde Building, 10 Bressenden Place, London, England, SW1E 5DH and is a wholly owned subsidiary of Carwow Ltd.
+
+Very much not interested in paying the same rate for less car because of fucking shight finance
+
+====================================================================================
+062 — Assistant
+====================================================================================
+
+Yes. On those two quotes, the **IONIQ 3 is terrible value purely because Hyundai has saddled it with 8.9% finance**.
+
+Your exact comparison is pretty damning:
+
+|  | IONIQ 3 Ultimate EV | Kona Ultimate |
+|---|---:|---:|
+| RRP | £31,195 | £39,630 |
+| Price after discounts/grant | £27,445 | £33,550 |
+| Amount financed | £27,445 | £31,800 |
+| APR | **8.9%** | **2.9%** |
+| GFV | £14,039 | £14,158 |
+| £0-down monthly | **£526.07** | **£546.64** |
+| Your 3-year cash outlay* | **£32,978** | **£33,837** |
+
+\*36 payments + balloon, if buying it.
+
+So despite the Kona being an **£8,435 more expensive car at list**, over the whole agreement it costs you only about **£859 more**.
+
+That's absurdly favourable to the Kona.
+
+And look at the finance cost:
+
+- IONIQ 3: **£5,532.80**
+- Kona: **£2,037.09**
+
+You're paying about **£3,500 extra interest** on the cheaper IONIQ 3.
+
+If that exact £27,445 IONIQ 3 had roughly the Kona's **2.9% finance**, keeping the same £14,039 GFV, it'd be around **£420–425/month** rather than £526.
+
+At **0%**, it'd be:
+
+**(£27,445 − £14,039) / 36 = £372/month.**
+
+And *that* is where the IONIQ 3 starts making sense: £370–425 for a smaller, efficient 300-mile EV versus £547 for the larger/faster/more luxurious Kona.
+
+At **£526 vs £547**, I wouldn't choose the IONIQ 3 either. You're saving **£20/month** to give up:
+
+- ~83 bhp
+- larger battery
+- larger cabin/boot
+- considerably more expensive base vehicle
+- Ultimate-level equipment
+- and broadly the same three-year residual
+
+That's not an attractive trade.
+
+So I'd currently classify the IONIQ 3 as **“right car, wrong campaign.”** Don't buy it on 8.9% PCP. Watch for Hyundai to put **0–3% support** behind it, or for a heavily subsidised PCH deal.
+
+The Kona Ultimate offer you've found is substantially better finance engineering, even though the car itself costs much more.
+
+====================================================================================
+063 — User — 2026-10-05T15:31:49Z
+====================================================================================
+
+maybe its just the inster
+
+Skip to main content
+Diesel near £2 a litre? Compare electric deals
+New
+Used
+Leasing
+Electric
+Sell
+Vans
+News
+Reviews
+Buying
+Selling
+Messages
+8
+Notifications
+Menu
+My cars
+Hyundai Inster
+Richmond Hyundai Guildford
+Hyundai Inster - 22
+5
+Photo is for illustrative purposes
+Hyundai Inster - Front
+Hyundai Inster - Front left
+Hyundai Inster - Rear
+Hyundai Inster - Side
+Hyundai Inster
+85kW 49kWh Auto 02 Brand new Surrey
+
+
+Hyundai Guildford
+Richmond Hyundai Guildford
+53 reviews
+ Surrey 16 miles away
+Online now
+1 messageEnquire now Request test drive Call now
+Message Partner
+
+Message Richmond Hyundai Guildford about this Hyundai Inster
+
+First name
+Tristan
+Last name
+Email
+[email redacted]
+Phone number
+[phone redacted]
+Message
+
+How would you prefer to be contacted?
+
+Phonecall
+Carwow uses your details in accordance with our privacy policy. By enquiring you agree that we will pass your details to the seller who will use your details in accordance with their privacy policy.
+
+Send message
+
+Message sent, Richmond Hyundai Guildford will contact you soon!
+Want to know how much your current car is worth?
+
+We check over thousands of dealers to find you the best price for your car.
+Your vehicle registration
+e.g. BK17 GTD
+Close
+Get a valuation
+
+
+
+Request a test drive
+Choose a date
+Select day
+Choose a time
+
+Select time
+Next
+Cash
+PCP Finance
+
+36 month term
+
+£0 deposit
+
+6,000 miles / year
+What is PCP Finance?
+Carwow PCP offer
+£324.62 / month
+You save
+£4,316 (15.9%) 
+Term of agreement
+37 months
+ 
+35 monthly payments of
+£324.62
+ 
+RRP
+£27,115.00
+ 
+Carwow price
+£25,798.75
+ 
+Deposit
+£0.00
+ 
+Manufacturer deposit contribution
+£3,000.00
+ 
+Total amount of credit
+£22,798.75
+ 
+Total amount payable
+£25,798.75
+ 
+Cost of credit
+£0.00
+ 
+Representative APR
+0%
+ 
+Fixed rate of interest pa
+0%
+ 
+Optional final payment
+£11,112.30
+ 
+Mileage per annum
+6000
+ 
+Excess mileage charges
+9p / mile
+Carwow offer is calculated including any discount offered by the partner and the manufacturer deposit contribution.
+
+
+View more
+
+
+
+
+
+
+This Carwow offer includes
+On-the-road price 12 months road tax Brand new unregistered car VAT Number plates Full UK manufacturer warranty
+Key information
+Engine power
+115 bhp
+ 
+Transmission
+Automatic
+ 
+Fuel
+Electric
+ 
+Doors
+5
+ 
+Seats
+4
+ 
+Warranty
+This car has 5 years or 999,999 miles on its Hyundai manufacturer's warranty.
+Running Costs
+Running Costs
+
+Insurance 
+Insurance group
+Average
+23
+1
+10
+20
+30
+40
+50
+Get a quote
+*Insurance quotes are provided by Quotezone
+Range and Economy
+Consumption 
+Combined 
+4.1 miles per kWh
+Battery range
+223 miles
+Miles per pound 
+15.6
+The information we show
+Whilst Carwow uses reasonable efforts to ensure accuracy all information and details must be confirmed when enquiring. Carwow makes no representations, warranties or guarantees, whether express or implied, that this information is accurate, complete or up to date. Carwow will not accept liability for the information provided.
+Stats & performance
+CO2 emissions
+CO2 0 g/km
+ 
+First year road tax
+£10
+ 
+Insurance group
+23D
+ 
+Efficiency
+4.1 miles/kWh
+ 
+Battery range
+223 miles
+ 
+Acceleration (0-62mph)
+10.6 secs
+ 
+Top speed
+93 mph
+ 
+Boot (seats up)
+238 litres
+ 
+Boot (seats down)
+1059 litres
+ 
+Safety rating
+Vehicle features
+Android Auto
+Apple CarPlay
+Climate control
+Cruise control
+Heated seats
+Navigation
+Parking Camera
+Parking Sensors
+Touchscreen infotainment
+
+
+
+
+
+
+
+
+
+Whilst Carwow uses reasonable efforts to ensure accuracy all information and details must be confirmed when enquiring. Carwow makes no representations, warranties or guarantees, whether express or implied, that this information is accurate, complete or up to date. Carwow will not accept liability for the information provided.
+Deal ID: c1d1cb71b766f5eee32cd608b778b11f
+Recommended based on your preferences
+
+Back to top
+Please contact the dealer or manufacturer for a personalised quote, including terms and conditions. Quote is subject to dealer or manufacturer requirements, including status and availability. Illustrations are based on personal contract hire, 9 month upfront fee, 48 month term, 8000 miles annually, inc VAT, excluding fees. T&Cs apply.
+
+Sign in to save this deal
+Continue with Google
+or
+Email
+By proceeding you confirm you have read our Privacy policy and agree to our T&Cs.
+Get ahead with the latest deals, news, and buying/selling advice from Carwow.
+You can opt-out of marketing communications at any time. View info about how you’ll be contacted.
+
+What happens when you use Carwow?
+
+More information about what Carwow does with the details you provide:
+
+We will inform you about your deals, news and advice by email, SMS, and/or WhatsApp
+You can contact your chosen dealer via our platform. We will not pass on your contact details to dealers unless you accept
+You can update your contact details or communications preferences at any time within your account settings.
+Above are just the key details, for full information see our T&Cs and Privacy policy.
+Sounds good
+Help Centre
+Monday to Friday 9.00 - 18.00
+Saturday 9.00 - 17.30
+Sundays and Bank Holidays CLOSED
+    
+About us
+Contact us
+Authors and experts
+Carwow newsroom
+Official Carwow Merchandise
+Careers
+Dealer & brand partners
+Rated 4.4/5 from 85,270 reviews
+
+
+© 2026 Carwow Ltd. All rights reserved
+Terms & conditions
+Manage cookies & privacy
+Fraud disclaimer
+ESG policy
+Privacy policy
+Fake reviews policy
+Modern slavery statement
+Accessibility notice
+Code of car changing
+UK
+Germany
+Spain
+Average savings are calculated daily based on the best dealer prices on Carwow vs manufacturer RRP. Where it is shown that the EV Grant is included, this refers to the Government grant awarded to manufacturers on certain EV models and derivatives, the amount awarded under the EV Grant is included in the Savings stated and applied at the point of sale. Carwow is the trading name of Carwow Ltd, which is authorised and regulated by the Financial Conduct Authority for credit broking and insurance distribution activities (firm reference number: 767155). Carwow Leasey Limited is an appointed representative of ITC Compliance Limited which is authorised and regulated by the Financial Conduct Authority for credit broking (firm reference number: 313486) Carwow and Carwow Leasey Limited are each credit brokers and not a lenders. Carwow and Carwow Leasey Limited may receive a fee from retailers advertising finance and may receive a commission from partners (including dealers) for introducing customers. All finance offers and monthly payments shown are subject to application and status. Carwow is covered by the Financial Ombudsman Service (please see www.financial-ombudsman.org.uk for more information). Carwow Ltd is registered in England (company number 07103079), registered office 2nd Floor, Verde Building, 10 Bressenden Place, London, England, SW1E 5DH. Carwow Leasey Limited is registered in England (company number 13601174), registered office 2nd Floor, Verde Building, 10 Bressenden Place, London, England, SW1E 5DH and is a wholly owned subsidiary of Carwow Ltd.
+
+====================================================================================
+064 — User — 2026-10-05T15:32:21Z
+====================================================================================
+
+why have hyundai done this to the 3? Do they not want people to buy it? Or do they think people are idiots?
+
+====================================================================================
+065 — Assistant
+====================================================================================
+
+Yes — I think what you're seeing is basically **launch-model pricing discipline**. Hyundai currently has almost no reason to subsidise the IONIQ 3's finance, whereas it plainly does on the cars it wants to push.
+
+The comparison across Hyundai's own range is striking right now:
+
+- **INSTER:** 0% + £3,000 deposit contribution. ([hyundai.com](https://www.hyundai.com/uk/en?utm_source=chatgpt.com))
+- **IONIQ 5:** 0% + £3,000 contribution. ([hyundai.com](https://www.hyundai.com/uk/en?utm_source=chatgpt.com))
+- **IONIQ 9:** 0%. ([hyundai.com](https://www.hyundai.com/uk/en/offers/new-cars/finance-type/pcp-offers.html?utm_source=chatgpt.com))
+- **Kona Electric:** 2.9% + £1,750 contribution + £3,750 grant. ([hyundai.com](https://www.hyundai.com/uk/en))
+- **IONIQ 3:** **8.9%, no finance contribution**, just the government £3,750 grant. ([hyundai.com](https://www.hyundai.com/uk/en))
+
+So this isn't “interest rates are high now”. **Hyundai itself is lending at 0–2.9% on several other EVs at the same moment.** The 8.9% is a model-specific commercial decision.
+
+And the IONIQ 3 only just went on sale in August. Hyundai has explicitly described it as an important new European volume model, while its cash pricing is already extremely aggressive: after the £3,750 government grant it now starts at **£18,495**. ([autoexpress.co.uk](https://www.autoexpress.co.uk/hyundai/ioniq-3/365167/new-hyundai-ioniq-3-sale-now-uk-prices-under-ps22k?utm_source=chatgpt.com))
+
+My read is therefore:
+
+**They want people to buy it. They just don't currently think they need to pay people to buy it.**
+
+The finance campaign is effectively saying: *here's our shiny new £18.5k/£20-something-k EV; if you want to borrow the money from us immediately after launch, we're taking margin on the finance.*
+
+Whereas an INSTER sitting in stock gets:
+
+> here's **£3,000 from Hyundai and free money for three years**, please take it.
+
+That's a completely different level of sales support.
+
+And there is a slightly cynical wrinkle to the IONIQ 3 offer. Hyundai's homepage leads with:
+
+> **“From £355 per month with £355 deposit”**
+
+The **8.9% APR** is displayed too, so there's nothing hidden, but the offer has clearly been engineered around an attractive monthly headline. ([hyundai.com](https://www.hyundai.com/uk/en))
+
+Your Carwow quote demonstrates why that stops working once you choose the car you actually want:
+
+**Ultimate EV Pack**
+- actual selling price: **£27,445**
+- £0 deposit
+- £526.07/month
+- **£5,532.80 cost of credit**
+- £14,039 balloon
+
+You're giving Hyundai Finance **£5.5k** for financing a £27k car for three years.
+
+Compare the Kona you've just found:
+
+- £31,799 financed
+- £546.64/month
+- **£2,037 interest**
+
+So the Kona costs nearly £4,400 more to finance at the outset and yet only **£20.57/month more**.
+
+That isn't because the IONIQ 3 is secretly expensive. **It's because its finance offer is shit.**
+
+The especially revealing part is that Hyundai launched the IONIQ 3 in August at **5.9% APR**, then moved it to **8.9% in October**, just as it received the full £3,750 government grant. ([hyundai.com](https://www.hyundai.com/uk/en/offers/new-cars/model/offer.all-new_ioniq_3.html?utm_source=chatgpt.com))
+
+I wouldn't claim without evidence that Hyundai deliberately increased the APR *because* of the grant. But commercially, the result is obvious: **part of the benefit you would otherwise feel from the government knocking £3,750 off the car disappears again into financing costs.**
+
+So I wouldn't buy an IONIQ 3 on this PCP campaign. Not because the car is poor — actually I think it's unusually well suited to what you want — but because **there's no reason for you to volunteer £5.5k in interest when Hyundai is simultaneously giving away financing on its other EVs.**
+
+And this also makes that **£324.62, £0-down INSTER 02** you found look much less stupid. £0 interest, £3k Hyundai contribution, 223 miles, tiny footprint, and £325/month. That's Hyundai actually trying to sell you a car.
+
+The IONIQ 3 is one I'd watch for the **first serious finance campaign**. At 2.9% it becomes compelling; at 0% it would be almost comically good value.
+
+====================================================================================
+066 — User — 2026-10-05T15:36:36Z
+====================================================================================
+
+given i have a large amount of savings, we could just buy the 3 outright?
+
+====================================================================================
+067 — Assistant
+====================================================================================
+
+Yes. **For the IONIQ 3 specifically, buying it outright is probably the sensible way to do it.**
+
+Using the exact Carwow Ultimate EV Pack quote you pasted:
+
+- Cash/Carwow price: **£27,445**
+- PCP: **36 × £526.07 + £14,039.28**
+- Total PCP cost if you keep it: **£32,977.80**
+- Extra cost of using Hyundai Finance: **£5,532.80**
+
+So Hyundai is effectively asking you to pay **£5.5k for the privilege of not spending the £27.4k upfront**.
+
+At 8.9% APR, that's difficult to justify if the alternative is simply taking £27,445 from cash savings. Your savings would need to earn something approaching **8.9% after tax and with comparable certainty** for the finance to win financially.
+
+There is one thing PCP buys you: the right to hand the car back after three years for the £14,039 GFV. But even that protection is expensive. If you buy it cash and it's worth:
+
+- £14k after 3 years → your depreciation is ~**£13.4k**
+- £10k → ~**£17.4k**
+- PCP handback payments → ~**£18.9k**
+
+So, ignoring the opportunity cost of the cash, the outright purchase actually still beats the PCP even if the IONIQ 3 is worth only about **£8,500 after three years**. That's an enormous collapse from a £27.4k purchase price.
+
+This also changes the comparison with the Kona quite a lot. You aren't really choosing:
+
+> IONIQ 3 £526/month vs Kona £547/month.
+
+You could instead choose:
+
+> **IONIQ 3 Ultimate EV Pack: £27,445 cash, no monthly payment**
+
+versus
+
+> **Kona Ultimate: £547/month PCP and keep £27k in the bank.**
+
+And Patricia's £400/month objection effectively disappears with the IONIQ 3, assuming she's comfortable with the capital expenditure rather than specifically wanting to preserve the savings.
+
+There is also an amusing inversion with the Inster: **I would finance the Inster**, because Hyundai is giving you 0% plus a £3,000 contribution. I would **buy the IONIQ 3 for cash**, because its PCP is punitive.
+
+So if you genuinely like the IONIQ 3, I wouldn't let the awful PCP kill it. **£27,445 outright for an Ultimate EV Pack is a much more attractive proposition than £526/month makes it appear.**
+
+====================================================================================
+068 — User — 2026-10-05T15:38:38Z
+====================================================================================
+
+Can you check independent reviews and forums for which of these options to go for, for a 4 person family, given we could make any of them work technically?
+
+====================================================================================
+069 — Assistant
+====================================================================================
+
+Yes. I went through owner forums/Reddit as well as Autocar, Auto Express, Electrifying, Top Gear and the more family-oriented reviews. The result is actually quite clean:
+
+**for a four-person family, I think the real choice is IONIQ 3 vs PV5.** The Kona is the conservative middle option, and the Inster is the financially brilliant compromise.
+
+| | Family reality | Main compromise | How I’d view it |
+|---|---|---|---|
+| **IONIQ 3 Ultimate EV Pack** | Proper family hatchback space, bulky rear-facing seats fit, good boot, compact outside | Brand-new model; mediocre rapid charging | **Best overall balance** |
+| **PV5 Elite 7-seat** | By far easiest with children; electric sliders, enormous space, 7 seats | Cost, range, van-like aspects | **Best actual family car** |
+| **Kona Ultimate** | Very competent conventional family SUV | Costs much more than IONIQ 3 without transforming practicality | **Safe fallback** |
+| **Inster 02 + Tech Pack** | Remarkably usable for four | Exactly four seats, tiny-ish boot, short range | **Best cheap option** |
+
+### IONIQ 3: the one I'd probably buy
+
+The independent evidence is unusually good on its packaging. CompleteCar actually tried the child-seat question and says there's **loads of room for bulky child seats, including rear-facing ones**. The quoted 441-litre luggage capacity is slightly flattering because it's **322L of conventional boot plus a huge 119L underfloor compartment**, but that's still genuinely useful space. ([completecar.ie](https://www.completecar.ie/car-reviews/article/Hyundai/Ioniq_3/Ioniq_3/2713/15006/2026-Hyundai-Ioniq-3-review.html?utm_source=chatgpt.com))
+
+Autocar describes it as essentially **family-hatch space in a supermini footprint**; an average-height adult could sit comfortably behind their own driving position, and the roof isn't nearly as restrictive as its shape suggests. Auto Express came to much the same conclusion: unusually good rear space and cargo capacity for something this short. ([images.cdn.autocar.co.uk](https://images.cdn.autocar.co.uk/car-review/hyundai/ioniq-3?utm_source=chatgpt.com))
+
+That's particularly compelling because it solves one of your IONIQ 5 complaints without becoming an Inster-sized exercise in packing. It's about 4.15m long and 1.8m wide but is still a real four-person family car.
+
+The downside is that **there basically isn't an owner corpus yet**. UK deliveries have only just started, so unlike the Kona and Inster, we don't have people reporting after 10,000 miles with two children. Autocar's detailed drive was still of a late prototype. Its 115kW charging is also merely adequate rather than IONIQ-5 good. ([images.cdn.autocar.co.uk](https://images.cdn.autocar.co.uk/car-review/hyundai/ioniq-3?utm_source=chatgpt.com))
+
+But at the **£27,445 cash price you've actually found for an Ultimate EV Pack**, I'd take that uncertainty. I would not take Hyundai's 8.9% PCP.
+
+### PV5: the reviews basically validate your instinct
+
+Independent testers are remarkably positive about it. Autocar found it spacious, easy to drive and much more car-like than its proportions suggest; Auto Express gave it 4.5/5 and specifically praises it as an electric family car rather than merely a van with windows. Top Gear calls it an “immensely practical family hauler.” ([mag.autocar.co.uk](https://www.mag.autocar.co.uk/car-review/kia/pv5?utm_source=chatgpt.com))
+
+For **four people**, the seven-seater is actually an amusingly good configuration. Leave row three folded and you get about **785 litres of boot**, while each child gets one of the two middle-row seats and there's a walkway into the back. When needed, unfold the third row and you've got seven seats while retaining about **318L** of luggage space. ([the-independent.com](https://www.the-independent.com/cars/electric-vehicles/kia-electric-pv5-seven-seats-b2988694.html?utm_source=chatgpt.com))
+
+Then there are the things numbers don't capture: low step-in height, sliding doors and, on Elite, **powered sliding doors**. With small children those aren't gimmicks. They're the difference between opening a conventional rear door into the car next to you while holding bags/child/etc. and pressing a button.
+
+Owner evidence is also encouraging. One UK owner with six months/5,000 miles said that after testing the PV5 and ID Buzz on the same roads, they still preferred the PV5 after ownership. Their complaints weren't fundamental vehicle problems: **weak Kia PBV support, limited infotainment apps and software bugs Kia has been slow to fix**. ([reddit.com](https://www.reddit.com/r/ElectricVehiclesUK/comments/1wbuja0/looking_for_views_kia_pv5/?utm_source=chatgpt.com))
+
+There are genuine drawbacks. The seats aren't nearly as modular as you might expect: reviewers and owners complain that they don't slide/remove like a proper old-school MPV. The interior is intentionally hard-wearing rather than luxurious, A-pillar visibility isn't great, and ~246 miles WLTP in the seven-seater means ~200-ish motorway-real-world territory is plausible. ([autoexpress.co.uk](https://www.autoexpress.co.uk/kia/pv5?utm_source=chatgpt.com))
+
+So **as a car for your family, ignoring price, I'd actually choose the PV5 Elite over everything else here**.
+
+The question is whether those advantages are worth the price premium over the IONIQ 3.
+
+And interestingly, buying both for cash makes that question less grotesque than the £700 PCP implied. Your Carwow prices are roughly:
+
+**IONIQ 3 Ultimate EV: £27,445**  
+**PV5 Elite 7-seat: ~£40,330**
+
+That's £12.9k more upfront. But using their PCP GFVs as rough three-year residual estimates, the PV5 is also expected to retain about £4.6k more value. The implied **extra three-year depreciation is therefore about £8.3k, or ~£230/month** rather than £360+/month. That's still significant, but it is a much more rational representation of what you're buying.
+
+### Kona: reviews say it's good, but the IONIQ 3 rather ruins it
+
+The **current-generation Kona** is importantly different from the cramped old Kona that attracts complaints online. Electrifying says you can put chunky child seats in the rear without drama and fit a **double buggy** in the 466L boot; Autocar says big adults fit behind big adults. ([electrifying.com](https://www.electrifying.com/reviews/hyundai/kona-ev/practicality-and-boot-space?utm_source=chatgpt.com))
+
+And there's a particularly relevant 2026 UK owner discussion: a family with **two children aged six and three** uses a current Kona as its main car and says it ticks about **95% of their boxes**. They compared it with an IONIQ 5 and were surprised that the IONIQ 5's boot didn't feel significantly more useful. ([reddit.com](https://www.reddit.com/r/Hyundai/comments/1uur8h8/time_to_move_from_the_kona_ev_to_the_ioniq_5_or/?utm_source=chatgpt.com))
+
+So I have no problem with the Kona as a family car.
+
+I just struggle to see why **you** would choose it now. Your Ultimate quote is £33.5k-ish and £547/month PCP. For six grand less cash, the IONIQ 3 gives you the V2L/heat-pump combination, ~300-mile range, enough family space and a much smaller footprint. The Kona gives you more power, slightly more conventional cargo space and a more established model, but that's not a transformative difference.
+
+### Inster: considerably better than I expected, but I'd still put it last as the only family car
+
+The owner evidence is actually impressive. There are families of four using Insters as their sole/main car and reporting that they love them; one 2m-tall owner says he can sit behind himself. Owners have done motorway trips with four occupants and luggage successfully. ([insterforum.de](https://www.insterforum.de/thread/1407-inster-prime-als-familienauto/?postID=42284&utm_source=chatgpt.com))
+
+The clever sliding rear seats are doing enormous work. Independent testing agrees that rear passenger space is almost absurd for the exterior size, and one owner with a baby reports fitting the baby seat plus a folded buggy in the rear footwell **without even using the boot**. ([carwow.co.uk](https://www.carwow.co.uk/hyundai/inster?utm_source=chatgpt.com))
+
+But the forums also reveal where the trick runs out. A family-of-four owner was considering a roof box just to get a week's clothing aboard, and another owner explicitly said that if they were still in the **buggy/change-bag baby stage**, the small boot would be much more of a problem. ([insterforum.de](https://www.insterforum.de/thread/1407-inster-prime-als-familienauto/?utm_source=chatgpt.com))
+
+That's the distinction for me. You *can* make it work. But you'd be using essentially **100% of the vehicle's capability** whenever all four of you travel. There is no fifth seat for a grandparent/friend, and with the rear seats moved back for child-seat space the boot is only 238L.
+
+Also, crucial correction to the exact deal you pasted: **standard Inster 02 does not automatically get your internal V2L socket**. You need the **£500 Tech Pack**, which adds the internal 3-pin V2L socket and Digital Key. The heat pump is already standard. ([dmassets.hyundai.com](https://dmassets.hyundai.com/is/content/hyundaiautoever/INSTER_Tech_and_Spec_Guidepdf?utm_source=chatgpt.com))
+
+So the £324/month car only meets your brief if Richmond can supply it **with Tech Pack**.
+
+### Where I've landed
+
+If you want to minimise expenditure without feeling like you've bought an obviously compromised family vehicle, I'd **buy the IONIQ 3 Ultimate EV Pack for cash**.
+
+If what you really want is to make day-to-day life with children **materially easier**, and you're prepared to spend money on that rather than merely on a nicer/faster car, I'd get the **PV5 Elite 7-seat**. The independent reviews convinced me more on that car, not less. It isn't just enormous for the sake of being enormous; sliding doors, low access, a huge square boot and spare seats are all useful family features.
+
+The **Kona is the car I'd choose if you insist on PCP** and the current campaign stays as you pasted it. It's proven, properly roomy and the finance is much less offensive than the IONIQ 3's.
+
+And the **Inster is what I'd buy if £325/month became the overriding objective**. I don't think I'd voluntarily choose it over a £27.4k cash IONIQ 3 when you're able to buy the latter outright.
+
+So my actual shortlist for a test-drive day would now be just **IONIQ 3 Ultimate EV Pack and PV5 Elite 7-seat**, with an Inster 02 + Tech Pack there as the “do we actually need to spend any of this extra money?” control. The Kona has become the one I have trouble finding a compelling reason to pick.
+
+====================================================================================
+070 — User — 2026-10-05T15:51:31Z
+====================================================================================
+
+the pv5 finance deal seems good going into probably higher rates
+
+====================================================================================
+071 — User — 2026-10-05T15:51:52Z
+====================================================================================
+
+we could of course, just get another ioniq 5
+
+====================================================================================
+072 — Assistant
+====================================================================================
+
+Yes — and once you bring **another IONIQ 5** back into it, the shortlist changes again.
+
+The PV5’s **3.9% fixed PCP** does look relatively attractive if you think market rates are heading upward. But Hyundai is currently advertising something even more valuable on the IONIQ 5: **0% APR plus £3,000 deposit contribution**. Hyundai’s live UK homepage is showing that offer today. ([hyundai.com](https://www.hyundai.com/uk/en?utm_source=chatgpt.com))
+
+There is a slight website mess: Hyundai's detailed IONIQ 5 offer page still has the previous campaign dates ending 30 September, so I would want Richmond to confirm that the October 0% campaign genuinely applies to the specific car before relying on it. ([hyundai.com](https://www.hyundai.com/uk/en/models/ioniq5.html?utm_source=chatgpt.com))
+
+And the current IONIQ 5 is meaningfully better than the one you're handing back. The **84kWh Premium RWD** now does **354 miles WLTP**, still has the 800V rapid-charging system, and Premium includes the **internal 230V V2L socket**. ([dmassets.hyundai.com](https://dmassets.hyundai.com/is/content/hyundaiautoever/IONIQ_5_Tech_and_Spec_Guidepdf?utm_source=chatgpt.com))
+
+So you'd get:
+
+- a car you already know works very well for your family;
+- **84kWh / 354 miles** rather than the old long-range battery;
+- proper **3.6kW internal V2L**;
+- heat pump;
+- vastly faster motorway charging than the IONIQ 3/PV5/Kona;
+- 520L boot and enormous rear-seat space;
+- no new-model gamble;
+- potentially **0% finance**, which is unusually valuable if borrowing costs rise.
+
+The things you disliked don't disappear: it's still **1,890mm wide** and still has that big-car turning-circle feeling. ([carwow.co.uk](https://www.carwow.co.uk/hyundai/ioniq-5?utm_source=chatgpt.com)) But you've already lived with those disadvantages for three years, so they're known annoyances rather than unknown compromises.
+
+And this creates a rather funny hierarchy:
+
+**Inster ~£325:** cheap as hell, but objectively a major downsizing.
+
+**IONIQ 3 ~£27.4k cash:** excellent value if you want to spend less and get something smaller.
+
+**IONIQ 5 84kWh Premium at 0%:** probably the strongest *finance/value* choice if Richmond can get the zero-deposit monthly anywhere near your existing £540.
+
+**PV5 Elite at 3.9%:** the car that actually adds a new capability to your life — seven seats, enormous space, powered sliders — but you pay substantially more for it.
+
+That last distinction matters. If you're going to spend **£600–700/month**, I can see the argument for saying *fuck it, get the PV5*, because at least you're buying something your IONIQ 5 cannot do.
+
+But if a new **84kWh IONIQ 5 Premium** comes out at, say, **£450–550 zero-down at 0%**, it becomes extremely difficult to justify either the Kona or the badly financed IONIQ 3. You'd essentially renew into a better version of a car you already know works.
+
+I would get Richmond to quote exactly **84kWh Premium RWD, 36 months, £0 customer deposit, 6k miles**, because that's probably the most relevant benchmark for everything else now. memcite
+
+====================================================================================
+073 — User — 2026-10-05T15:55:03Z
+====================================================================================
+
+Skip to main content
+Diesel near £2 a litre? Compare electric deals
+New
+Used
+Leasing
+Electric
+Sell
+Vans
+News
+Reviews
+Buying
+Selling
+Messages
+9+
+Notifications
+Menu
+My cars
+Hyundai Ioniq 5
+Richmond Hyundai Guildford
+Hyundai Ioniq 5 - 22
+5
+Photo is for illustrative purposes
+Hyundai Ioniq 5 - Front
+Hyundai Ioniq 5 - Front left
+Hyundai Ioniq 5 - Rear
+Hyundai Ioniq 5 - Side
+Hyundai Ioniq 5
+168kW 84 kWh Auto Premium Brand new Surrey
+
+Hyundai Guildford
+Richmond Hyundai Guildford
+53 reviews
+ Surrey 16 miles away
+Online now
+1 messageEnquire now Request test drive Call now
+Message Partner
+
+Message Richmond Hyundai Guildford about this Hyundai Ioniq 5
+
+First name
+Tristan
+Last name
+Email
+[email redacted]
+Phone number
+[phone redacted]
+Message
+
+How would you prefer to be contacted?
+
+Phonecall
+Carwow uses your details in accordance with our privacy policy. By enquiring you agree that we will pass your details to the seller who will use your details in accordance with their privacy policy.
+
+Send message
+
+Message sent, Richmond Hyundai Guildford will contact you soon!
+Want to know how much your current car is worth?
+
+We check over thousands of dealers to find you the best price for your car.
+Your vehicle registration
+e.g. BK17 GTD
+Close
+Get a valuation
+
+
+
+Request a test drive
+Choose a date
+Select day
+Choose a time
+
+Select time
+Next
+Cash
+PCP Finance
+
+36 month term
+
+£0 deposit
+
+6,000 miles / year
+What is PCP Finance?
+Carwow PCP offer
+£651.89 / month
+You save
+£5,757 (12.3%) 
+Term of agreement
+37 months
+ 
+35 monthly payments of
+£651.89
+ 
+RRP
+£46,755.00
+ 
+Carwow price
+£43,997.10
+ 
+Deposit
+£0.00
+ 
+Manufacturer deposit contribution
+£3,000.00
+ 
+Total amount of credit
+£40,997.10
+ 
+Total amount payable
+£43,997.10
+ 
+Cost of credit
+£0.00
+ 
+Representative APR
+0%
+ 
+Fixed rate of interest pa
+0%
+ 
+Optional final payment
+£17,528.97
+ 
+Mileage per annum
+6000
+ 
+Excess mileage charges
+9p / mile
+Carwow offer is calculated including any discount offered by the partner and the manufacturer deposit contribution.
+
+
+View more
+
+
+
+
+
+
+This Carwow offer includes
+On-the-road price 12 months road tax Brand new unregistered car VAT Number plates Full UK manufacturer warranty
+Key information
+Engine power
+228 bhp
+ 
+Transmission
+Automatic
+ 
+Fuel
+Electric
+ 
+Doors
+5
+ 
+Seats
+5
+ 
+Warranty
+This car has 5 years or 999,999 miles on its Hyundai manufacturer's warranty.
+Running Costs
+Running Costs
+
+Insurance 
+Insurance group
+High
+38
+1
+10
+20
+30
+40
+50
+Get a quote
+*Insurance quotes are provided by Quotezone
+Range and Economy
+Consumption 
+Combined 
+3.9 miles per kWh
+Battery range
+354 miles
+Miles per pound 
+14.8
+The information we show
+Whilst Carwow uses reasonable efforts to ensure accuracy all information and details must be confirmed when enquiring. Carwow makes no representations, warranties or guarantees, whether express or implied, that this information is accurate, complete or up to date. Carwow will not accept liability for the information provided.
+Stats & performance
+CO2 emissions
+CO2 0 g/km
+ 
+First year road tax
+£10
+ 
+Insurance group
+38E
+ 
+Efficiency
+3.9 miles/kWh
+ 
+Battery range
+354 miles
+ 
+Acceleration (0-62mph)
+7.5 secs
+ 
+Top speed
+114 mph
+ 
+Boot (seats up)
+520 litres
+ 
+Boot (seats down)
+1580 litres
+Vehicle features
+Android Auto
+Apple CarPlay
+Climate control
+Cruise control
+Heated seats
+Leather seats
+Navigation
+Parking Sensors
+Touchscreen infotainment
+
+
+
+
+
+
+
+
+
+
+
+Whilst Carwow uses reasonable efforts to ensure accuracy all information and details must be confirmed when enquiring. Carwow makes no representations, warranties or guarantees, whether express or implied, that this information is accurate, complete or up to date. Carwow will not accept liability for the information provided.
+Deal ID: 74386145a70f0465c61e28b78b7afc43
+Recommended based on your preferences
+
+Back to top
+Please contact the dealer or manufacturer for a personalised quote, including terms and conditions. Quote is subject to dealer or manufacturer requirements, including status and availability. Illustrations are based on personal contract hire, 9 month upfront fee, 48 month term, 8000 miles annually, inc VAT, excluding fees. T&Cs apply.
+Help Centre
+Monday to Friday 9.00 - 18.00
+Saturday 9.00 - 17.30
+Sundays and Bank Holidays CLOSED
+    
+About us
+Contact us
+Authors and experts
+Carwow newsroom
+Official Carwow Merchandise
+Careers
+Dealer & brand partners
+Rated 4.4/5 from 85,279 reviews
+
+
+© 2026 Carwow Ltd. All rights reserved
+Terms & conditions
+Manage cookies & privacy
+Fraud disclaimer
+ESG policy
+Privacy policy
+Fake reviews policy
+Modern slavery statement
+Accessibility notice
+Code of car changing
+UK
+Germany
+Spain
+Average savings are calculated daily based on the best dealer prices on Carwow vs manufacturer RRP. Where it is shown that the EV Grant is included, this refers to the Government grant awarded to manufacturers on certain EV models and derivatives, the amount awarded under the EV Grant is included in the Savings stated and applied at the point of sale. Carwow is the trading name of Carwow Ltd, which is authorised and regulated by the Financial Conduct Authority for credit broking and insurance distribution activities (firm reference number: 767155). Carwow Leasey Limited is an appointed representative of ITC Compliance Limited which is authorised and regulated by the Financial Conduct Authority for credit broking (firm reference number: 313486) Carwow and Carwow Leasey Limited are each credit brokers and not a lenders. Carwow and Carwow Leasey Limited may receive a fee from retailers advertising finance and may receive a commission from partners (including dealers) for introducing customers. All finance offers and monthly payments shown are subject to application and status. Carwow is covered by the Financial Ombudsman Service (please see www.financial-ombudsman.org.uk for more information). Carwow Ltd is registered in England (company number 07103079), registered office 2nd Floor, Verde Building, 10 Bressenden Place, London, England, SW1E 5DH. Carwow Leasey Limited is registered in England (company number 13601174), registered office 2nd Floor, Verde Building, 10 Bressenden Place, London, England, SW1E 5DH and is a wholly owned subsidiary of Carwow Ltd.
+
+they cant
+
+====================================================================================
+074 — Assistant
+====================================================================================
+
+Exactly. **They can't.** This quote kills my “maybe another IONIQ 5 around your old £540” idea.
+
+And the interesting thing is that the problem is **not the finance rate at all**. This is already 0%.
+
+The killer is the **GFV**.
+
+Your old deal was approximately:
+
+| | Old IONIQ 5 | New IONIQ 5 |
+|---|---:|---:|
+| Nominal purchase price | ~£46k | £43,997 |
+| Manufacturer contribution | embedded/unknown | £3,000 |
+| Amount you effectively finance | ~£43.4k-ish | **£40,997** |
+| APR | 0% | **0%** |
+| GFV | **~£24,000** | **£17,529** |
+| £0-down payment | **~£540** | **£651.89** |
+
+The new car is actually **cheaper to finance upfront**, but Hyundai Finance now expects it to be worth **£6,500 less at three years old**.
+
+That is enormous.
+
+With 0% PCP, the maths is essentially just:
+
+**(amount financed − GFV) ÷ 36**
+
+New car:
+
+**£40,997 − £17,529 = £23,468**
+
+**£23,468 ÷ 36 = £651.89**
+
+Your old car, from the payment:
+
+**£540 × 36 ≈ £19,440 depreciation funded**
+
+So Hyundai is asking you to fund roughly **£4,000 more depreciation over the same three years**, despite the new car costing less after support.
+
+That is almost exactly the **£112/month increase**.
+
+### This tells us something important about the whole market
+
+Your old IONIQ 5 PCP was unusually good not merely because it was 0%. It had an **extremely optimistic residual value**.
+
+A £24k GFV on a roughly £43–46k transaction price meant Hyundai was underwriting something like **52–55% residual after three years**.
+
+Now they're underwriting:
+
+**£17,529 / £46,755 = 37.5% of list**
+
+or about **40% of the discounted selling price**.
+
+That's a completely different residual-value assumption.
+
+And given what happened to used EV values over the last few years, it's understandable why the finance companies have become much more conservative. The customer consequence is nasty: **even 0% finance doesn't recreate the old monthly payments**.
+
+This also makes the PV5 deal look somewhat different. Kia's ~£18,662 GFV on a £41,975 Elite is about **44.5% of list**, which is actually meaningfully stronger than Hyundai's current IONIQ 5 residual assumption.
+
+So your choices now look more like:
+
+- **Inster:** £325, 0%, very heavily subsidised.
+- **IONIQ 3:** great cash price but shit 8.9% PCP; buy cash if choosing it.
+- **Kona Ultimate:** ~£547 at 2.9%; weirdly only £21 cheaper than the IONIQ 3 because of the latter's finance.
+- **IONIQ 5:** **£652 despite 0%**, because Hyundai has murdered the GFV.
+- **PV5 Elite:** ~£700 at 3.9%, but at least you're paying the extra for a genuinely different/more useful vehicle.
+
+That makes me substantially less interested in another IONIQ 5. **£652 to get essentially an improved version of the car you already have feels much worse than £700-ish for the PV5 that actually gives you seven seats and powered sliding doors.**
+
+And equally, **£27,445 cash for the IONIQ 3** suddenly looks extremely rational if you decide you don't want to spend PV5 money.
+
+====================================================================================
+075 — User — 2026-10-05T15:55:49Z
+====================================================================================
+
+I think these GFVs are absolutely ridiculous though, i'd expect to make a lot of this back at the end of the contract and liquidity isnt a problem for us
+
+====================================================================================
+076 — Assistant
+====================================================================================
+
+Yes. In that case **we’ve been overweighting the monthly payment**.
+
+With plenty of liquidity, the useful metric is:
+
+**purchase/finance cost − value of the car at the end**, with the GFV treated as a **guaranteed floor**, not as the amount you expect the car actually to be worth.
+
+For that new IONIQ 5 quote, Hyundai is lending you **£40,997 at 0%**, with a £17,529 GFV. If at three years you can actually sell/trade it for:
+
+- **£24k:** equity ~£6,471 → effective three-year cost about **£472/month**
+- **£22k:** equity ~£4,471 → effective cost about **£528/month**
+- **£20k:** equity ~£2,471 → effective cost about **£583/month**
+- **£17,529:** no equity → the headline **£652/month**
+
+So £652 isn't really “the cost of the car” unless Hyundai's pessimistic residual turns out exactly right. It's partly **accelerated repayment of capital that you may recover later**.
+
+And at **0%**, that IONIQ 5 PCP is actually a very nice structure for someone in your position. You retain your cash, Hyundai gives you the £3k finance contribution, you pay no interest, and Hyundai Finance takes the downside if the car is worth less than £17.5k. If it's worth more, you can capture the equity instead of handing it back. Assuming there isn't a materially better cash-only discount, I would take the PCP rather than buy that IONIQ 5 outright.
+
+I would temper the “lots of equity” expectation slightly, though. Current used IONIQ 5 Premiums with the older 73/77kWh batteries are advertised around **£15k–£18.6k** in considerable numbers, so Hyundai's £17.5k floor isn't completely detached from what three-year-old IONIQ 5s are actually doing today. Dealer trade-in values would be lower than those retail advertisements. ([autotrader.co.uk](https://www.autotrader.co.uk/cars/used/hyundai/hatchback/ioniq-5/?utm_source=chatgpt.com)) The new 84kWh/354-mile car may hold up better, but I'd treat that as upside rather than assume £24k.
+
+The **PV5 is even more interesting in this framework**. Kia's published Elite 7-seat PCP has a **£18,661.50 GFV and 3.9% APR**; at £0 down the maths comes out around **£704/month**, with only about **£3,500 total interest over the three years**. ([rrg-group.com](https://www.rrg-group.com/kia/new-car-offers/pv5-passenger-7-seater/?utm_source=chatgpt.com)) If the PV5 were worth, say, £25k after three years, you'd have ~£6.3k of equity and its effective three-year economic cost would be around **£528/month**, not £704.
+
+And the 3.9% becomes more attractive if borrowing rates rise. You're locking cheap-ish money for three years while retaining the **put option** to dump the car on Kia Finance at £18.7k if the PV5 residual market goes horribly wrong.
+
+So I'd change how we compare the four:
+
+**Inster:** genuinely cheap regardless.  
+**IONIQ 3:** probably buy cash because 8.9% is punitive.  
+**IONIQ 5:** **PCP it at 0%**; monthly payment is largely irrelevant.  
+**PV5:** **3.9% PCP is quite attractive**, particularly because it's a brand-new model whose residual is unusually uncertain.
+
+That actually makes the **PV5 Elite much more defensible** than our earlier “£700/month versus £400/month” framing suggested. The extra monthly cash flow isn't necessarily being consumed; quite a bit of it is simply building equity faster because Kia has set a conservative balloon.
+
+====================================================================================
+077 — User — 2026-10-05T15:59:28Z
+====================================================================================
+
+can you put these in a table? All 5 cars with their monthly rates, interest rates, cash price, GFV etc? Basically all the factors we've talked about
+
+====================================================================================
+078 — Assistant
+====================================================================================
+
+Yes. Putting everything on the same **£0 customer deposit / ~36-payment PCP basis** makes the picture much clearer.
+
+### Finance comparison
+
+| Car / spec | RRP | Current cash / Carwow price | Finance contribution | APR | £0-down monthly | GFV / balloon | 3yr payments if handed back | Customer cost if bought at end | Finance premium vs buying cash |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| **Inster 02 49kWh** | £27,115 | **£25,798.75** | **£3,000** | **0%** | **£324.62** | £11,112 | £11,686 | **£22,799** | **–£3,000** |
+| **IONIQ 3 Ultimate EV Pack** | £31,195 | **£27,445** | £0 | **8.9%** | **£526.07** | £14,039 | £18,939 | **£32,978** | **+£5,533** |
+| **Kona Electric Ultimate 65kWh** | £39,630 | **£33,549.60** | **£1,750** | **2.9%** | **£546.64** | £14,158 | £19,679 | **£33,837** | **+£287** |
+| **IONIQ 5 Premium 84kWh** | £46,755 | **£43,997.10** | **£3,000** | **0%** | **£651.89** | £17,529 | £23,468 | **£40,997** | **–£3,000** |
+| **PV5 Elite 71.2kWh 7-seat** | £41,975 | **~£40,330** | £0 | **3.9%** | **~£700*** | £18,661 | ~£25,183 | **~£43,844** | **~+£3,514** |
+
+\*PV5 is the one figure here that isn't a live £0-deposit Carwow quote. I've calculated ~£699.50 from the £40,330 price you found, Kia's current 3.9% PCP structure and the published **£18,661.50 Elite 7-seat GFV**. Kia currently advertises PV5 PCP at 3.9%, and that GFV appears consistently in dealer finance examples. ([rrg-group.com](https://www.rrg-group.com/kia/new-car-offers/pv5-passenger-7-seater/?utm_source=chatgpt.com))
+
+That **last column is especially revealing**. It asks: *if you eventually buy the car, how much more/less have you paid compared with simply paying today's cash price?*
+
+So:
+
+- **Inster:** take the PCP. Hyundai is effectively paying you £3k to use its 0% money.
+- **IONIQ 3:** cash. The finance is costing you **£5.5k for no useful reason**.
+- **Kona:** PCP. Despite the 2.9% APR, the £1,750 contribution means financing it and ultimately buying it costs only about **£287 more than cash**.
+- **IONIQ 5:** definitely PCP rather than cash. You're borrowing £41k for three years at 0% and getting **£3k off for doing so**.
+- **PV5:** 3.9% costs you ~£3.5k, but you're getting three years' liquidity plus the very useful **£18.7k guaranteed residual floor** on a completely new type of vehicle.
+
+### The actual cars
+
+| | **Inster 02** | **IONIQ 3 Ultimate EV** | **Kona Ultimate** | **IONIQ 5 Premium** | **PV5 Elite 7-seat** |
+|---|---:|---:|---:|---:|---:|
+| Battery | 49kWh | 61kWh | 65.4kWh | 84kWh | 71.2kWh |
+| WLTP range | **223mi** on your quote | **300mi official**¹ | **282mi** | **354mi** | **242mi+** |
+| Power | 115hp | 135hp | 218hp | 228hp | ~163hp |
+| Seats | **4** | 5 | 5 | 5 | **7** |
+| Boot | 238–351L² | **441L** | 466L | **520L** | **318L / 785L row 3 folded** |
+| Heat pump | **Yes** | **Yes – EV Pack** | **Yes** | **Yes** | **Yes** |
+| Internal 3-pin V2L | Tech Pack only | **Yes** | **Yes** | **Yes** | **Yes** |
+| DC charging | ~30m 10–80 | ~110kW / ~30m | ~102kW / ~41m | **260kW / ~18m** | **150kW / <30m** |
+| Family-special feature | Tiny outside, sliding rear bench | Compact but genuinely roomy | Conventional family SUV | Vast rear space / superb road-trip EV | **Powered sliding doors + 7 seats** |
+| Major compromise | Tiny boot / only 4 seats | Slow-ish charging, 135hp | Expensive for what it adds | Width / turning circle | Price + ~240mi range |
+
+¹ Hyundai's launch specification says the 61kWh **Ultimate is 300 miles**; your Carwow listing says 308, which appears to be using the 61kWh Advance figure. I'd use Hyundai's 300 until the actual vehicle certificate says otherwise. ([hyundai.news](https://www.hyundai.news/uk/articles/press-releases/ioniq-3-uk-pricing-august-2026.html?utm_source=chatgpt.com))
+
+² Hyundai lets you slide the Inster rear seats forward, increasing the boot from 238 to 351 litres at the expense of rear legroom. Heat pump is standard; the **£500 Tech Pack adds the internal V2L socket**, although there are currently dealers advertising that pack free. ([hyundai.com](https://www.hyundai.com/uk/en/models/inster.html?utm_source=chatgpt.com))
+
+The Kona has a standard heat pump across the range; Ultimate gives you the high-spec equipment and the current 65.4kWh/19-inch-wheel setup is the ~282-mile version. ([hyundai.news](https://www.hyundai.news/uk/articles/press-releases/all-new-kona-electric-range-pricing-and-specification.html?utm_source=chatgpt.com)) The IONIQ 5 Premium explicitly has internal V2L, and the 84kWh car's standout remains its 260kW/18-minute rapid charging. ([hyundai.com](https://www.hyundai.com/uk/en/models/ioniq5.html?utm_source=chatgpt.com))
+
+The PV5 is the outlier: the seven-seater gets the 71.2kWh battery, 2-2-3 seating, 318L behind all seven seats / 785L with row three folded, and Plus/Elite get internal and external V2L; Elite adds the powered sliding doors. ([autotrader.co.uk](https://www.autotrader.co.uk/vans/content/kia-pv5-passenger-seven-seat-version-now-available?utm_source=chatgpt.com))
+
+### The GFVs are where this gets interesting
+
+As a percentage of today's quoted cash price:
+
+| Car | GFV as % of current cash price |
+|---|---:|
+| IONIQ 3 | **51.2%** |
+| PV5 Elite | **46.3%** |
+| Inster | **43.1%** |
+| Kona Ultimate | **42.2%** |
+| IONIQ 5 | **39.8%** |
+
+So your instinct is right: **the IONIQ 5 GFV is extraordinarily conservative compared with the old deal you had**. The £652 payment makes it look expensive because Hyundai is making you repay a huge amount of principal during the agreement.
+
+If your new IONIQ 5 were actually worth £22k after three years instead of £17.5k, you'd have roughly **£4.5k equity**, knocking its effective depreciation cost down by about **£124/month**. At £24k value, the equity would be ~£6.5k, equivalent to about **£180/month**.
+
+The same logic applies to the PV5. If Kia's £18.7k GFV proves conservative and it's actually worth £24–25k, there's **£5–6k+ of equity sitting there**. Given that liquidity isn't a constraint for you, I'd regard the headline monthly as a **cash-flow number**, not the actual economic cost.
+
+That leaves me viewing the five like this: **Inster is the cheap answer; IONIQ 3 is the cash-purchase answer; Kona is the sensible conventional PCP; IONIQ 5 is the extremely cheap-money PCP with a pessimistic balloon; PV5 is the expensive-but-transformative family option with a useful residual-value guarantee.** memcite
+
+====================================================================================
+079 — User — 2026-10-05T18:18:27Z
+====================================================================================
+
+what about an ev2 or ev3 or even ev6? any good deals? what's the value like? seems like we're comparing PCP with leasing and cash and trying to find the absolute best value. I'm currently very dubious of how cheap the Ioniq 3 is compared to the Kona and other comparables. Just seems like a nonsense market, particularly with the spread of PCP rates too.
+
+====================================================================================
+080 — Assistant
+====================================================================================
+
+[Worked for 14m 7s]
+
+**Yes—there are worthwhile Kia alternatives, but the strongest leads I found are a discounted EV2, a discounted-cash EV3, and a used EV6—not an obviously unbeatable new-car PCP.**
+
+Your suspicion about the comparisons is justified. **The IONIQ 3’s price checks out, but I overstated its advantage earlier by mixing discounted prices, list prices, different equipment levels and finance contributions.** And a low advertised APR can still be poor value when taking it means missing a larger cash discount.
+
+## 1. Which Kia versions actually match your requirements?
+
+For **heat pump plus an internal three-pin V2L socket**, the relevant versions are:
+
+| Model | Version to price | Battery | Quoted WLTP range | Main attraction |
+|---|---|---:|---:|---|
+| **EV2** | **GT-Line S + Heat Pump** | 61kWh | **257 miles** | Compact, well-equipped alternative to the IONIQ 3 |
+| **EV3** | **GT-Line S + Heat Pump** | 81.4kWh | **361 miles** | Larger battery and long range without IONIQ 5 dimensions |
+| **EV6** | **GT-Line S RWD + Heat Pump** | 84kWh | **347 miles** | IONIQ 5-class performance and rapid charging |
+
+Kia’s UK equipment tables put the internal socket on GT-Line S, with the heat pump an additional option on that grade. So those cheap Air and ordinary GT-Line headlines are **not prices for the car you have been asking for**. ([kia.com](https://www.kia.com/uk/new-cars/ev2/specification/))
+
+The upside is that GT-Line S also brings equipment you would like, including memory seating and a sunroof. The downside is that **Kia makes you buy the expensive trim before it lets you add the heat pump**. That materially affects its value against Hyundai’s cheaper EV Pack approach. ([kia.com](https://www.kia.com/uk/new-cars/ev2/specification/))
+
+## 2. The actual deals worth considering
+
+### EV2: a credible alternative at about £29,700 cash
+
+New UK Cars is advertising the **EV2 GT-Line S with Heat Pump at £29,666**, against £37,045 list. Its listing includes the £3,750 grant within the advertised saving; it is **not another £3,750 to deduct afterwards**. ([newukcars.co.uk](https://www.newukcars.co.uk/new-cars-fuel-types/electric/25000-30000/12))
+
+That is only **£2,221 more than your £27,445 IONIQ 3 Ultimate EV Pack**.
+
+And it is a more generously equipped comparison than the trim names suggest: the Kia includes the memory-seat/sunroof equipment that requires additional packs on that particular Hyundai. The EV2’s trade-off is its **257-mile quoted range**, rather than the IONIQ 3 Ultimate’s expected 300 miles. ([kia.com](https://www.kia.com/uk/new-cars/ev2/specification/))
+
+Kia also currently offers **3.9% PCP with no minimum customer deposit** on the EV2. However, I have **not verified that the £29,666 broker price can be combined with Kia’s 3.9% finance**, so I am not manufacturing an attractive monthly payment by stacking two potentially incompatible offers. ([kia.com](https://www.kia.com/uk/new-cars/offers/retail/pcp/ev2/))
+
+**My assessment:** the EV2 deserves consideration alongside the IONIQ 3. At that discounted cash price, it is not an absurdly expensive alternative.
+
+[EV2 GT-Line S Heat Pump — advertised £29,666 listing](https://www.newukcars.co.uk/new-cars-fuel-types/electric/25000-30000/12)
+
+### EV3: attractive at £37,263 cash; much less attractive on the published PCP
+
+The same broker advertises a **new EV3 GT-Line S with Heat Pump for £37,263**, against £43,955 list. Its page explicitly says it does not arrange finance. This is therefore a **cash-purchase lead**, not a verified £37,263 Kia PCP offer. ([newukcars.co.uk](https://www.newukcars.co.uk/vehicle/kia/ev3-814kwh-201-gt-line-s-heat-pump-auto-fwd/27))
+
+There is a clean, current PCP example for the exact specification from Brayleys. Converting its published terms to your **£0 customer deposit**, while keeping the same rate, mileage and balloon, gives:
+
+| EV3 GT-Line S Heat Pump | £0-deposit PCP calculation |
+|---|---:|
+| Vehicle price | £43,955 |
+| Kia finance contribution | £3,000 |
+| Amount financed | **£40,955** |
+| APR | **3.9%** |
+| Regular payments | **36** |
+| Annual mileage | **6,000** |
+| GFV / optional final payment | **£20,063.14** |
+| **Calculated monthly payment** | **About £681** |
+| Total customer payments if bought at the end | **About £44,579** |
+
+The monthly is my calculation from the published example, not a personalised dealer quote. The original example uses a customer deposit; nothing has been added to your deposit here. ([brayleys.co.uk](https://www.brayleys.co.uk/car-deals/new/kia/ev3/from-474-per-month-3-9-apr-representative-))
+
+**Here is the important bit:**
+
+> The published **3.9% PCP costs about £7,316 more to end up owning the car than the £37,263 advertised cash alternative**.
+
+Only about £3,624 of that is interest. The rest is the difference between the two deals’ net vehicle prices. Assuming the discounted cash car is genuinely available on equivalent terms, the PCP’s payment schedule represents an **effective funding cost of roughly 8.5% relative to that cash alternative**—not 3.9%. That is a comparison calculation, not the contract’s APR, and it excludes the value of the PCP’s guaranteed handback option. ([brayleys.co.uk](https://www.brayleys.co.uk/car-deals/new/kia/ev3/from-474-per-month-3-9-apr-representative-))
+
+**This is exactly why choosing the car with the nicest APR can go wrong.**
+
+As a vehicle, the EV3 gives you an 81.4kWh battery, 361-mile quoted range and a 460-litre boot in a body about **4.31m long and 1.85m wide**. It is a meaningful long-range alternative to the smaller Hyundai, not simply the same car with a Kia badge and a higher price. ([kia.com](https://www.kia.com/uk/new-cars/ev3/specification/))
+
+**My assessment:** £37.3k cash is worth evaluating. The full-price £681 PCP is not the deal I would chase when that much cheaper cash lead exists.
+
+[EV3 GT-Line S Heat Pump — £37,263 cash listing](https://www.newukcars.co.uk/vehicle/kia/ev3-814kwh-201-gt-line-s-heat-pump-auto-fwd/27)
+
+### EV6: the strongest value lead is used, bought outright
+
+For a **new** EV6, Kia currently offers **3.9% PCP plus £1,500 contribution**, including zero-customer-deposit applications. That is not inherently bad finance, but it does not have the 0% advantage of your IONIQ 5 quote. ([kia.com](https://www.kia.com/uk/new-cars/offers/ev6/?utm_source=chatgpt.com))
+
+The more interesting find is this actual Kia-network car:
+
+| Used EV6 example | Details |
+|---|---|
+| Model | **2024 EV6 GT-Line S, 77.4kWh** |
+| Price | **£26,995** |
+| Mileage | **27,799 miles** |
+| Dealer | **EMG Cambridge** |
+| Advertised equipment | Heat pump, V2L, memory driver’s seat, opening sunroof, ventilated seats, 360° camera |
+| Warranty displayed | Approximately **4 years 3 months remaining** |
+
+The listing contains a generic-specification disclaimer, so the actual heat pump and internal socket need confirmation against that car, rather than assuming every older GT-Line S has identical equipment. ([used-uk.kia.com](https://used-uk.kia.com/used-car-details/used-kia-ev6-774-kwh-gt-line-s-suv-midnight-black-automatic-electric/id-922124736118/))
+
+That is **£450 less than the new IONIQ 3 cash quote**.
+
+This is a genuinely different proposition: a nearly three-year-old, larger, better-equipped car versus a new compact car. It also retains the EV6’s fast-charging advantage. What it **does not** give you is the smaller footprint you wanted; this example is listed at 1,890mm wide. ([used-uk.kia.com](https://used-uk.kia.com/used-car-details/used-kia-ev6-774-kwh-gt-line-s-suv-midnight-black-automatic-electric/id-922124736118/))
+
+There is also a tax distinction: an EV registered before April 2025 avoids the expensive-car supplement, whereas a new EV6 in the relevant high specification exceeds the current £50,000 threshold. The supplement is currently £440 annually during the applicable years, based on original list price rather than the discounted purchase price. ([gov.uk](https://www.gov.uk/vehicle-tax-rate-tables))
+
+**My assessment:** for “most car for the money”, a used EV6 bought with cash is a much stronger challenger than another £50k-plus new-car configuration.
+
+[2024 EV6 GT-Line S — £26,995 at EMG Cambridge](https://used-uk.kia.com/used-car-details/used-kia-ev6-774-kwh-gt-line-s-suv-midnight-black-automatic-electric/id-922124736118/)
+
+## 3. What does leasing look like?
+
+These are **matching-spec personal lease examples**, rather than base-model headlines. All are **48 months and 5,000 miles annually**, so they are **not directly equivalent to your three-year, 6,000-mile PCPs**.
+
+| Matching car | Advertised payment structure | Fees | Total rental cost | Average per month including upfront |
+|---|---|---:|---:|---:|
+| **EV2 GT-Line S Heat Pump** | About £342/month; £4,098 initial rental | £348 | **£20,497 stated total** | **£427** |
+| **EV3 GT-Line S Heat Pump** | £4,198.01 initial + 47 × £466.45 | £298.80 | **£26,419.96** | **£550** |
+| **EV6 GT-Line S RWD, adding Heat Pump** | Calculated £6,521.04 initial + 47 × £543.42 | £357 | **About £32,419** | **£675** |
+
+Sources: Moneyshake/LeaseCar for EV2, Vehicleflex for EV3, Nationwide for EV6. The EV6 calculation adds the advertised £16.11/month heat-pump option to its existing payment profile, including the initial rental. The EV2 page rounds its displayed monthly payment, so I have used its stated total. ([moneyshake.com](https://www.moneyshake.com/vehicles/109891))
+
+**Those averages are not £0-upfront quotes.** They expose the real cost of the advertisements; a one-month-initial version needs its own quote.
+
+The **EV2 lease is the most interesting of the three**. The EV3 is plausible, but not an obvious bargain beside discounted cash. The EV6 example does not strike me as exceptional: it commits about £32.4k to four years’ use with no car to sell afterwards.
+
+For perspective, the £29,666 cash EV2 versus £20,497 lease gives a simple starting point: **cash wins before funding costs and owner-paid road tax if the car is worth more than £9,169 after four years**. Interest earned on cash retained by leasing moves that break-even upwards. That is the comparison worth making—not “£342 lease versus £29,666 purchase”. ([newukcars.co.uk](https://www.newukcars.co.uk/new-cars-fuel-types/electric/25000-30000/12))
+
+## 4. Is the IONIQ 3’s low price actually real?
+
+**Yes, the underlying price is supported by Hyundai’s own figures.**
+
+For your Ultimate EV Pack:
+
+**£29,945 Ultimate + £1,250 EV Pack − £3,750 grant = £27,445.**
+
+The launch specification supplies the trim and pack prices; Hyundai’s current model page confirms the full £3,750 grant. So this is not simply Carwow accidentally deducting the grant twice. ([hyundai.news](https://www.hyundai.news/uk/articles/press-releases/ioniq-3-uk-pricing-august-2026.html))
+
+But there are two corrections to the story I gave you earlier.
+
+**First, it is not an £11,000 saving against your actual Kona deal.** From the figures you pasted, the comparison is £27,445 for the IONIQ 3 against a £33,549.60 quoted vehicle price for the Kona—or £33,836.69 of your own money if you complete the Kona PCP and buy it. That is roughly **£6,100–£6,400**, before accounting for the value of retaining cash.
+
+**Second, the equipment comparison was too loose.** Add the Comfort and Design packs to the IONIQ 3 for the memory seats and glass roof, and its post-grant price becomes **£31,445**. You do not need those packs, but they matter when judging it against a fully equipped Kia. ([hyundai.news](https://www.hyundai.news/uk/articles/press-releases/ioniq-3-uk-pricing-august-2026.html))
+
+That produces a more credible comparison:
+
+| Cash-purchase proposition | Price |
+|---|---:|
+| Your **IONIQ 3 Ultimate EV Pack** | **£27,445** |
+| Discounted **EV2 GT-Line S Heat Pump** | **£29,666** |
+| **IONIQ 3 Ultimate Comfort/Design/EV** at published prices less grant | **£31,445** |
+| Discounted **EV3 GT-Line S Heat Pump** | **£37,263** |
+| The **used EV6 GT-Line S** example | **£26,995** |
+
+The new Kia prices are advertised broker leads, not confirmed December allocations. ([newukcars.co.uk](https://www.newukcars.co.uk/new-cars-fuel-types/electric/25000-30000/12))
+
+**The IONIQ 3 remains competitively priced, but it is no longer “mysteriously £11k cheaper than everything comparable”.** Also, Hyundai still labels its technical/range figures as pending final homologation, so I would not give its provisional 300-mile figure the same evidential weight as an established model’s specification and owner experience. ([hyundai.com](https://www.hyundai.com/uk/en/models/ioniq3.html))
+
+## 5. Why the market feels nonsensical—and what matters for you
+
+You are seeing several different pricing decisions superimposed:
+
+**The vehicle’s actual selling price, government support, manufacturer finance support, dealer discounts, and the lender’s residual assumption.**
+
+They do not move together. For example, the EV2 GT-Line S receives the £3,750 grant, while the EV3 GT-Line S does **not** receive the £1,500 grant available on cheaper EV3 trims; instead, it gets a larger PCP contribution. That alone creates an awkward step between apparently neighbouring models and specifications. ([kia.com](https://www.kia.com/uk/new-cars/offers/retail/pcp/ev2/))
+
+For your circumstances, I would use this decision rule:
+
+> **Compare the same ownership period using the actual acquisition deal, financing cost, value of cash retained and eventual net resale value. Treat the PCP balloon as a contractual protection, not a forecast or promised equity.**
+
+A low balloon makes the monthly cash flow higher, but it does not itself make the car more expensive overall—or guarantee that you will recover money. Likewise, a low APR is useful **only after accounting for any discount you lose by taking that finance**. The EV3 example above demonstrates that particularly clearly.
+
+### Where that leaves the shortlist
+
+**For a compact new car:** I would compare the **£27.4k IONIQ 3 cash offer directly with the £29.7k EV2 cash lead**, with the EV2 lease as a separate funding alternative. That is now a meaningful contest, not an automatic Hyundai win.
+
+**For a longer-range new family car:** the **£37.3k EV3 GT-Line S Heat Pump** is relevant. Its published full-price PCP is not especially persuasive; the task is to establish whether a dealer will provide a substantial vehicle discount *alongside* the 3.9% campaign.
+
+**For the greatest amount of car per pound:** the **£27k used EV6** deserves serious attention. It challenges the IONIQ 3 on purchase price without asking you to accept small-car performance or charging—but preserves the large-car footprint you dislike.
+
+**For the PV5:** its case remains the extra family usefulness, rather than being the cheapest route to owning an EV. Nothing here makes your preference for it irrational; it simply needs to earn its premium through the sliding doors, space and seating you actually value.
+
+**My strongest conclusion is that we should stop using “good APR” as shorthand for “good deal”. The EV3’s nominal 3.9% versus its discounted cash alternative is the clearest example yet of why the whole transaction matters.**
+
+Would you like alerts for matching EV2/EV3/EV6 offers that beat these cash and all-in lease benchmarks before December?
+
+====================================================================================
+081 — User — 2026-10-06T08:02:44Z
+====================================================================================
+
+Christ, so Apr is being used to obfuscate real price if list price changes between cash and PCP options
+
+====================================================================================
+082 — Assistant
+====================================================================================
+
+[Worked for 2m 30s]
+
+Yes. **A low APR can make borrowing look cheap while a worse vehicle price absorbs the benefit.** More precisely, it is usually the **discounted transaction price**, rather than the manufacturer’s list price, that changes. The APR describes the credit agreement; it does not tell you whether the car’s starting price is competitive with offers elsewhere. ([handbook.fca.org.uk](https://handbook.fca.org.uk/handbook/conc3/conc3s5?utm_source=chatgpt.com))
+
+### The EV3 example shows exactly why that matters
+
+I rechecked both listings: the broker advertises **£37,263 cash**, while Brayleys’ PCP starts at **£43,955**, reduced to **£40,955 after Kia’s £3,000 contribution**. Both describe the GT-Line S with heat pump. ([newukcars.co.uk](https://www.newukcars.co.uk/vehicle/kia/ev3-814kwh-201-gt-line-s-heat-pump-auto-fwd/27))
+
+Using that PCP structure with **£0 customer deposit**:
+
+| Component | Amount |
+|---|---:|
+| Advertised cash alternative | **£37,263** |
+| Net vehicle price on the PCP | **£40,955** |
+| **Extra vehicle cost before paying any interest** | **£3,692** |
+| Calculated interest over the agreement | **£3,624** |
+| Total of your payments, including buying it at the end | **£44,579** |
+| **Total premium over the cash alternative** | **£7,316** |
+
+So the economic proposition is not simply:
+
+> “Keep your savings and borrow at 3.9%.”
+
+It is:
+
+> **“Pay £3,692 more for the car, then borrow at 3.9%.”**
+
+Using the actual payment timings and balloon, I calculate that as **about 8.5% annualised relative to buying the £37,263 cash alternative**. That is not the contractual APR; it is the effective cost of choosing that entire finance deal instead of that cash deal.
+
+The PCP also buys you the option to hand the car back rather than pay the balloon, subject to mileage and condition terms. That protection has value, but it needs to justify part of the **whole £7,316 premium**, not just the interest shown on the paperwork. ([moneyhelper.org.uk](https://www.moneyhelper.org.uk/en/everyday-money/buying-and-running-a-car/financing-buying-car-personal-contract-purchase-pcp))
+
+### One important distinction in this particular comparison
+
+These are **different sellers’ offers**, not evidence that one dealer changes the price when you switch from cash to PCP. We have not established whether a dealer could combine the lower selling price with Kia’s supported finance. So the figures demonstrate an expensive *overall deal*, rather than proving the lost discount is an unavoidable condition of getting 3.9%. ([newukcars.co.uk](https://www.newukcars.co.uk/vehicle/kia/ev3-814kwh-201-gt-line-s-heat-pump-auto-fwd/27))
+
+But your underlying point holds: **moving the apparent bargain between vehicle discount, finance contribution and APR makes the offers much harder to compare.** “£3,000 contribution” sounds generous until another seller offers £6,692 off without requiring its finance.
+
+And this corrects my earlier reasoning: **“3.9% is attractive going into higher rates” is incomplete. It is attractive only after checking what purchase price you must accept to obtain it.**
+
+For you, the starting point should be the **best confirmed like-for-like cash price**, with finance measured against that—not against RRP or the finance seller’s own cash headline. Genuine cheap finance remains valuable; paying an inflated acquisition price to access it can cancel that value entirely.
+
+====================================================================================
+083 — User — 2026-10-06T08:15:15Z
+====================================================================================
+
+so how do I find what I should actually pay for each car. That would tell me whether the finance offered is good. has some enterprising individual done a thing like park sync for this?
+
+====================================================================================
+084 — Assistant
+====================================================================================
+
+[Worked for 5m 45s]
+
+**Yes. The closest free tool for finding the car’s actual purchase price is Cars2buy. The closest ParcSync-style price tracker is LeaseLoco—but that covers leasing.** There is also a genuinely independent, paid pricing-research service called Insider Car Deals. They solve different parts of this problem rather than combining everything into one comparison. ([cars2buy.co.uk](https://www.cars2buy.co.uk/))
+
+**And checking them has already surfaced a substantially cheaper Kona listing than the price we were using.**
+
+## The useful tools
+
+| Tool | What it does | What it does not establish |
+|---|---|---|
+| **[Cars2buy — new-car price comparison](https://www.cars2buy.co.uk/new-cars/)** | Compares advertised purchase prices from dealers and brokers, with filters for the exact trim and derivative. Free to use; links through to the supplier. | Whether the lowest listing is genuinely available for your required delivery date, or whether its discount combines with manufacturer PCP. |
+| **[LeaseLoco](https://www.leaseloco.com/)** | Compares lease offers, provides historical price charts and price-drop alerts, and scores deals with adjustments for term and mileage. | The cheapest outright purchase price, or whether leasing beats buying with your savings. |
+| **[Insider Car Deals — Personal Deal Sheet](https://insidercardeals.co.uk/product/get-your-personal-deal-sheet/)** | Supplies a target transaction price, dealer-discount benchmark, manufacturer incentives and illustrative PCP figures for your chosen specification. | It is paid research, not a free searchable market dashboard or a binding offer to supply the car. |
+
+Those capabilities are described on the services’ own pages. Cars2buy is the one I would use first for your immediate question; LeaseLoco’s history and alerts are the closest to what you liked about ParcSync. ([cars2buy.co.uk](https://www.cars2buy.co.uk/new-cars/kia/ev3/))
+
+### The independent individual you were asking about does exist
+
+**Insider Car Deals is run by Pat Hoy.** The service says it uses recent transactions and pricing research, and receives no payments from dealers or manufacturers. Its current charge is **£95 for one car, plus £50 for each additional car**, with up to three selectable on the order page. Which? also uses Hoy as a source on new-car discounts. ([insidercardeals.co.uk](https://insidercardeals.co.uk/about-us/))
+
+That is quite close to “tell me what I should actually pay”. However, I have not bought or independently tested one of its reports. **I would exhaust the free advertised-price comparisons before paying to research your whole shortlist.**
+
+## A concrete result: the Kona may have a much lower cash benchmark
+
+Cars2buy led me to **New Car Discount’s own listing for the Kona Electric 160kW Ultimate 65kWh**, which currently displays an **outright purchase price of £26,966**, including first registration, road tax and warranty. The page presents finance as an alternative to outright purchase, rather than identifying that headline as a finance-only price. ([new-car-discount.com](https://www.new-car-discount.com/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-ultimate-65kwh-5dr-auto/23/))
+
+[Direct link: Kona Ultimate 65kWh — advertised £26,966](https://www.new-car-discount.com/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-ultimate-65kwh-5dr-auto/23/)
+
+**This is still a lead, not a confirmed December quote.** The supplier has not confirmed the actual model year, registration status, availability or any conditions behind that price. I am not assuming it is an exact replacement for Richmond’s offer until those match.
+
+But **provided it is a like-for-like, obtainable cash offer**, your existing Richmond quote compares as follows:
+
+| Kona Ultimate comparison | Amount |
+|---|---:|
+| New Car Discount’s advertised outright price | **£26,966.00** |
+| Richmond’s net amount financed, after its contribution | **£31,799.60** |
+| Extra acquisition cost on Richmond’s PCP | **£4,833.60** |
+| Interest on Richmond’s PCP | **£2,037.09** |
+| Richmond: 36 payments plus final payment | **£33,836.69** |
+| **Total premium over that cash alternative** | **£6,870.69** |
+
+The Richmond figures come from the quote you pasted; the differences are calculated from those figures and the newly found cash listing.
+
+That means my earlier **“the Kona PCP costs only £287 more than cash”** was a comparison against **Richmond’s own quoted vehicle price**, not the best available market cash price. It was insufficient for the decision you are making.
+
+It also means the conclusion that the IONIQ 3 was uniquely cheap relative to the Kona was premature. **We need comparable market purchase prices before ranking the cars—not one discounted Hyundai against another dealer’s finance example.**
+
+## How to establish what you should actually pay
+
+The useful benchmark is:
+
+> **The lowest confirmed, all-in price at which a supplier will sell you the exact car you want, on terms and a delivery timetable that work for you.**
+
+You do not need to discover the dealer’s invoice cost or some theoretical “true value”. Once a credible supplier will actually sell the right car for £X, you have an alternative against which every other offer can be measured.
+
+I would start with **Cars2buy’s exact-derivative results**, then cross-check **[Carfile](https://www.carfile.net/)** and **[Drive the Deal](https://www.drivethedeal.com/)** where they cover the model. Both arrange discounted cars through supplying dealerships; their advertised numbers still need specification and availability confirmation. ([cars2buy.co.uk](https://www.cars2buy.co.uk/new-cars/kia/ev3/))
+
+For your shortlist, “exact” means the battery, drivetrain, model year and relevant packs—not merely “EV3 GT-Line S” or “Kona Ultimate”. Your heat-pump/internal-V2L requirements need to remain attached to each entry, with memory seats and roof recorded as optional preferences rather than silently added or omitted.
+
+The enquiry that turns a listing into useful evidence is:
+
+> Please confirm your all-in outright price for this exact specification, for December delivery, including all fees and any grant. Confirm model year, whether it is new and unregistered, and any eligibility or finance conditions. Separately, quote the same car on manufacturer PCP with £0 customer deposit, 36 monthly payments and 6,000 miles annually, showing the vehicle price, contributions, APR, balloon and fees.
+
+**Crucially, ask whether the discounted price can be combined with the supported PCP.** Do not assume it cannot: Drive the Deal explicitly says manufacturer finance schemes can normally be accessed through its supplying dealers, with exceptions advised before proceeding. That does not guarantee your particular Hyundai/Kia combination, but it shows that **“cheap cash price or cheap finance—choose one” is not a universal rule**. ([drivethedeal.com](https://www.drivethedeal.com/Frequently-Asked-Questions.aspx))
+
+## Then judging the finance becomes straightforward
+
+For each car, we need two separate figures:
+
+**Acquisition-price penalty**
+
+> Net vehicle price under the PCP, after contributions  
+> **minus** best confirmed equivalent cash price.
+
+**Total funding premium if you buy at the end**
+
+> Your deposit + all instalments + final payment + fees  
+> **minus** best confirmed equivalent cash price.
+
+Then annualise that second comparison using the actual payment dates. That exposes a nominally low-APR deal which is expensive because of a lost discount. It also recognises a genuinely good deal where the finance contribution makes the acquisition price *lower* than cash.
+
+For **cash versus PCP ending in ownership of the same car**, you do not need to predict its future resale value to compare the funding: you finish with the same asset either way. The PCP’s guaranteed handback option is an additional benefit to assess separately.
+
+For **leasing versus ownership**, future resale does matter. There I would show the resale value at which buying and leasing break even, alongside the return you could earn on the cash retained—not assume the PCP’s GFV is the car’s actual future value.
+
+**So: Cars2buy for purchase-price discovery, LeaseLoco for lease prices/history, and confirmed supplier quotes to join the two together.** I did not find a verified, free, market-wide tool that automatically discovers the best cash price and then fairly ranks every PCP and lease against it. The pieces exist; the missing piece is the combined comparison—and we should have established the purchase-price baselines before drawing such strong conclusions about the cars.
+
+====================================================================================
+085 — User — 2026-10-06T08:52:49Z
+====================================================================================
+
+can you dump the entire record of this conversation somewhere
