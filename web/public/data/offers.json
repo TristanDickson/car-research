@@ -1,5 +1,98 @@
 [
  {
+  "amount_of_credit": 28650.0,
+  "annual_mileage": 10000,
+  "apr": 0.0,
+  "captured_at": "2026-06-10",
+  "car_id": "hyundai-kona-65-advance",
+  "car_ref": {
+   "key": "hykn00ade5he a 2",
+   "label": "KONA Electric 65kWh 218PS Advance (CAP HYKN00ADE5HE A 2)",
+   "source": "hyundai-cap"
+  },
+  "configurator_url": "https://www.hyundai.com/uk/en/models/kona-electric/configurator.html#/share-code/FSC!7FW5ZHZ7ZGG0RG+MID!7F|W5||+EXTID!A2B-650+INTID!NNB|0+CID!uk+LID!en+HWFID!finance+HWPRID!KNC|pcp+HWMLG!10000+HWMTHS!37+HWLOANDOWNP!3500+HO!true",
+  "cost_of_credit_stated": 0.0,
+  "customer_deposit": 3500.0,
+  "dealer": "Hyundai Finance (national offer)",
+  "excess_mileage_ppm": 9.0,
+  "finance_type": "pcp",
+  "fixed_rate_pa": 0.0,
+  "freshness": {
+   "age_days": 118,
+   "first_seen_at": "2026-06-10T22:19:29+00:00",
+   "history": [
+    {
+     "apr": 0.0,
+     "confirmed_at": null,
+     "gfv": 12464.38,
+     "monthly_payment": 449.6,
+     "observed_at": "2026-06-10T22:19:29+00:00",
+     "present": true,
+     "source": "hyundai_offers",
+     "vehicle_price": 34150.0
+    }
+   ],
+   "last_checked_at": "2026-06-10T22:19:29+00:00",
+   "last_seen_at": "2026-06-10T22:19:29+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": true,
+   "state": "live"
+  },
+  "gfv": 12464.38,
+  "grant_gbp": 1500.0,
+  "heat_pump_listed": false,
+  "id": "hyundai:PCP_19_7FW5ZHZ7ZGG0RG",
+  "list_price": 35000.0,
+  "manufacturer_contribution": 2000.0,
+  "metrics": {
+   "acquisition_penalty_vs_cash": 8562.0,
+   "amount_of_credit": 28650.0,
+   "apr_implied": -0.0,
+   "apr_stated": 0.0,
+   "best_cash_deal_id": "ncd:/car/hyundai/kona-electric-hatchback/hatchback/electric/automatic/160kw-advance-65kwh-5dr-auto/23/",
+   "best_cash_price": 23588.0,
+   "cost_of_credit": -0.02,
+   "customer_deposit": 3500.0,
+   "derived_fields": [],
+   "effective_monthly_hand_back": 532.04,
+   "effective_rate_vs_cash": 0.1818,
+   "finance_vs_own_cash_price": -2000.02,
+   "funding_premium_vs_cash": 8561.98,
+   "gfv": 12464.38,
+   "gfv_pct_of_list": 0.356,
+   "gfv_pct_of_price": 0.365,
+   "interest_per_month": -0.0,
+   "list_price": 35000.0,
+   "manufacturer_contribution": 2000.0,
+   "monthly_at_0pct_same_gfv": 449.6,
+   "monthly_payment": 449.6,
+   "num_payments": 36,
+   "paid_if_bought": 32149.98,
+   "paid_if_handed_back": 19685.6,
+   "term_months": 37,
+   "vehicle_price": 34150.0
+  },
+  "monthly_payment": 449.6,
+  "notes": "Hyundai's national representative example; the deposit is Hyundai's example, not £0. 0% APR Available and £2,000 towards your deposit* Includes £1,500 Electric Car Grant.",
+  "num_payments": 36,
+  "observed_at": "2026-06-10T22:19:29+00:00",
+  "offer_key": "hyundai:PCP_19_7FW5ZHZ7ZGG0RG",
+  "offer_strapline": "0% APR Available and £2,000 towards your deposit* Includes £1,500 Electric Car Grant.",
+  "present": 1,
+  "provider": "hyundai_offers",
+  "source": "Hyundai UK offer page",
+  "source_ref": "PCP_19_7FW5ZHZ7ZGG0RG",
+  "source_url": "https://www.hyundai.com/uk/en/offers/new-cars/model/offer.kona_electric.html",
+  "status": "live",
+  "term_months": 37,
+  "total_payable_stated": 34150.0,
+  "valid_from": null,
+  "valid_to": null,
+  "vehicle_price": 34150.0,
+  "verification": "scraped"
+ },
+ {
   "amount_of_credit": 43000,
   "annual_mileage": null,
   "apr": 0.0,
@@ -2198,7 +2291,7 @@
    "first_seen_at": "2025-01-16T18:15:00+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2025-02-12T16:09:52+00:00",
      "observed_at": "2025-01-16T18:15:00+00:00",
      "present": true,
      "source": "carwow_deals",
@@ -2206,10 +2299,24 @@
     },
     {
      "confirmed_at": null,
+     "observed_at": "2025-05-18T16:13:59+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 30894.0
+    },
+    {
+     "confirmed_at": "2025-08-11T01:22:50+00:00",
      "observed_at": "2025-08-11T01:22:50+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 29565.0
+    },
+    {
+     "confirmed_at": null,
+     "observed_at": "2025-11-18T10:04:24+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 30065.0
     },
     {
      "confirmed_at": null,
@@ -2228,7 +2335,7 @@
    ],
    "last_checked_at": "2026-10-06T17:57:13+00:00",
    "last_seen_at": "2026-10-06T17:57:13+00:00",
-   "observations": 4,
+   "observations": 6,
    "present": true,
    "stale": false,
    "state": "lead"
@@ -2271,7 +2378,7 @@
    "first_seen_at": "2025-01-16T18:15:00+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2025-02-12T16:09:52+00:00",
      "observed_at": "2025-01-16T18:15:00+00:00",
      "present": true,
      "source": "carwow_deals",
@@ -2279,10 +2386,24 @@
     },
     {
      "confirmed_at": null,
+     "observed_at": "2025-05-18T16:13:59+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 32654.0
+    },
+    {
+     "confirmed_at": "2025-08-11T01:22:50+00:00",
      "observed_at": "2025-08-11T01:22:50+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 31335.0
+    },
+    {
+     "confirmed_at": null,
+     "observed_at": "2025-11-18T10:04:24+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 31479.0
     },
     {
      "confirmed_at": null,
@@ -2301,7 +2422,7 @@
    ],
    "last_checked_at": "2026-10-06T17:57:13+00:00",
    "last_seen_at": "2026-10-06T17:57:13+00:00",
-   "observations": 4,
+   "observations": 6,
    "present": true,
    "stale": false,
    "state": "lead"
@@ -2344,7 +2465,7 @@
    "first_seen_at": "2025-01-16T18:15:00+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2025-02-12T16:09:52+00:00",
      "observed_at": "2025-01-16T18:15:00+00:00",
      "present": true,
      "source": "carwow_deals",
@@ -2352,10 +2473,24 @@
     },
     {
      "confirmed_at": null,
+     "observed_at": "2025-05-18T16:13:59+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 34766.0
+    },
+    {
+     "confirmed_at": "2025-08-11T01:22:50+00:00",
      "observed_at": "2025-08-11T01:22:50+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 33459.0
+    },
+    {
+     "confirmed_at": null,
+     "observed_at": "2025-11-18T10:04:24+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 33639.0
     },
     {
      "confirmed_at": null,
@@ -2374,7 +2509,7 @@
    ],
    "last_checked_at": "2026-10-06T17:57:13+00:00",
    "last_seen_at": "2026-10-06T17:57:13+00:00",
-   "observations": 4,
+   "observations": 6,
    "present": true,
    "stale": false,
    "state": "lead"
@@ -2417,7 +2552,7 @@
    "first_seen_at": "2025-01-16T18:15:00+00:00",
    "history": [
     {
-     "confirmed_at": null,
+     "confirmed_at": "2025-02-12T16:09:52+00:00",
      "observed_at": "2025-01-16T18:15:00+00:00",
      "present": true,
      "source": "carwow_deals",
@@ -2425,10 +2560,24 @@
     },
     {
      "confirmed_at": null,
+     "observed_at": "2025-05-18T16:13:59+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 34766.0
+    },
+    {
+     "confirmed_at": "2025-08-11T01:22:50+00:00",
      "observed_at": "2025-08-11T01:22:50+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 33459.0
+    },
+    {
+     "confirmed_at": null,
+     "observed_at": "2025-11-18T10:04:24+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 33639.0
     },
     {
      "confirmed_at": null,
@@ -2447,7 +2596,7 @@
    ],
    "last_checked_at": "2026-10-06T17:57:13+00:00",
    "last_seen_at": "2026-10-06T17:57:13+00:00",
-   "observations": 4,
+   "observations": 6,
    "present": true,
    "stale": false,
    "state": "lead"
@@ -2492,17 +2641,37 @@
   "fixed_rate_pa": 0.0149,
   "freshness": {
    "age_days": 0,
-   "first_seen_at": "2025-08-11T01:22:50+00:00",
+   "first_seen_at": "2025-05-18T16:13:59+00:00",
    "history": [
     {
-     "apr": 0.084,
+     "apr": 0.028999999999999998,
      "confirmed_at": null,
+     "gfv": 15675.0,
+     "monthly_payment": 272.0,
+     "observed_at": "2025-05-18T16:13:59+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 30895.0
+    },
+    {
+     "apr": 0.084,
+     "confirmed_at": "2025-08-11T01:22:50+00:00",
      "gfv": 15392.0,
      "monthly_payment": 366.0,
      "observed_at": "2025-08-11T01:22:50+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 29566.0
+    },
+    {
+     "apr": 0.0,
+     "confirmed_at": null,
+     "gfv": 15077.5,
+     "monthly_payment": 281.0,
+     "observed_at": "2025-11-18T10:04:24+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 31479.0
     },
     {
      "apr": 0.039,
@@ -2527,7 +2696,7 @@
    ],
    "last_checked_at": "2026-10-06T17:57:13+00:00",
    "last_seen_at": "2026-10-06T17:57:13+00:00",
-   "observations": 3,
+   "observations": 5,
    "present": true,
    "stale": false,
    "state": "illustrative"
@@ -2593,8 +2762,36 @@
   "finance_type": "cash",
   "freshness": {
    "age_days": 0,
-   "first_seen_at": "2026-10-06T17:20:23+00:00",
+   "first_seen_at": "2025-03-28T00:00:28+00:00",
    "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2025-03-28T00:00:28+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 24615.0
+    },
+    {
+     "confirmed_at": null,
+     "observed_at": "2025-10-14T17:10:22+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 20642.0
+    },
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-04-14T15:54:36+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 21944.0
+    },
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-05-12T16:14:49+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 22755.0
+    },
     {
      "confirmed_at": "2026-10-06T17:57:16+00:00",
      "observed_at": "2026-10-06T17:20:23+00:00",
@@ -2605,7 +2802,7 @@
    ],
    "last_checked_at": "2026-10-06T17:57:16+00:00",
    "last_seen_at": "2026-10-06T17:57:16+00:00",
-   "observations": 1,
+   "observations": 5,
    "present": true,
    "stale": false,
    "state": "lead"
@@ -3009,11 +3206,46 @@
   "finance_type": "cash",
   "freshness": {
    "age_days": 0,
-   "first_seen_at": "2026-10-06T17:20:36+00:00",
+   "first_seen_at": "2025-02-12T17:39:12+00:00",
    "history": [
     {
+     "confirmed_at": null,
+     "observed_at": "2025-02-12T17:39:12+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 49972.0
+    },
+    {
+     "confirmed_at": null,
+     "observed_at": "2025-05-25T05:11:41+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 50246.0
+    },
+    {
+     "confirmed_at": null,
+     "observed_at": "2025-10-08T10:28:26+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 49453.0
+    },
+    {
+     "confirmed_at": null,
+     "observed_at": "2025-12-12T06:52:54+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 49982.0
+    },
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-04-17T16:06:10+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 48974.0
+    },
+    {
      "confirmed_at": "2026-10-06T17:57:28+00:00",
-     "observed_at": "2026-10-06T17:20:36+00:00",
+     "observed_at": "2026-06-15T08:57:52+00:00",
      "present": true,
      "source": "carwow_deals",
      "vehicle_price": 48445.0
@@ -3021,7 +3253,7 @@
    ],
    "last_checked_at": "2026-10-06T17:57:28+00:00",
    "last_seen_at": "2026-10-06T17:57:28+00:00",
-   "observations": 1,
+   "observations": 6,
    "present": true,
    "stale": false,
    "state": "lead"

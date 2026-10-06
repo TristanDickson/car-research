@@ -1,12 +1,12 @@
 {
  "counts": {
   "cars": 19,
-  "observations": 97,
-  "offers": 80,
+  "observations": 117,
+  "offers": 81,
   "trim_map_mapped": 50,
   "trim_map_unmapped": 0
  },
- "generated_at": "2026-10-06T20:49:43+00:00",
+ "generated_at": "2026-10-06T21:17:05+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
@@ -14,7 +14,8 @@
   "historical": 1,
   "illustrative": 2,
   "lead": 54,
-  "live": 11
+  "live": 11,
+  "live (stale)": 1
  },
  "providers": [
   {
@@ -159,11 +160,11 @@
    "artifacts": 4,
    "capability": "offers",
    "errors": 0,
-   "finished_at": "2026-10-06T20:49:43+00:00",
+   "finished_at": "2026-10-06T21:17:05+00:00",
    "id": 2,
    "records": 4,
    "source": "carwow_paste",
-   "started_at": "2026-10-06T20:49:43+00:00",
+   "started_at": "2026-10-06T21:17:05+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -172,11 +173,11 @@
    "artifacts": 4,
    "capability": "seed",
    "errors": 0,
-   "finished_at": "2026-10-06T20:49:43+00:00",
+   "finished_at": "2026-10-06T21:17:05+00:00",
    "id": 1,
    "records": 252,
    "source": "manual_seed",
-   "started_at": "2026-10-06T20:49:42+00:00",
+   "started_at": "2026-10-06T21:17:05+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0

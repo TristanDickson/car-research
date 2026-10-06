@@ -2,6 +2,7 @@
 
 | Car | Status | Price | Contrib | Deposit | Monthly × n | APR stated / implied | GFV (% price) | Paid if handed back | Paid if bought | Cost of credit | Eff. monthly (hand back) | Monthly at 0% | Best cash | Funding premium vs cash | Eff. rate vs cash |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Hyundai Kona Electric Advance 65kWh | live | £34,150 | £2,000 | £3,500 | £450 × 36 | 0.0% / -0.0% | £12,464 (36.5%) | £19,686 | £32,150 | £-0 | £532 | £450 | £23,588 | £8,562 | 18.2% |
 | Hyundai Ioniq 5 Long range (current car) | historical | £43,000 | £0 | £0 | £540 × 36 | 0.0% / 0.4% | £24,000 (55.8%) | £19,440 | £43,440 | £440 | £540 | £528 |  |  |  |
 | Hyundai Kona Electric Advance 65kWh | expired | £28,000 | £0 | £3,000 | £359 × 36 | 0.0% / 0.0% | £12,069 (43.1%) | £15,931 | £28,000 | £0 | £431 | £359 | £23,588 | £4,412 | 9.0% |
 | Hyundai Kona Electric Advance 65kWh | expired | £28,000 | £0 | £430 | £431 × 36 | 0.0% / 0.0% | £12,069 (43.1%) | £15,931 | £28,000 | £0 | £431 | £431 | £23,588 | £4,412 | 8.3% |
