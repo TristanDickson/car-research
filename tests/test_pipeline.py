@@ -160,3 +160,48 @@ class SeedImportAndExport(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class BackfilledSightings(unittest.TestCase):
+    """Older copies of a page (Wayback, a dated paste) fold into the span history correctly."""
+
+    def setUp(self):
+        self.conn = fresh_conn()
+        run(self.conn, manual_seed.provider, ctx=self.ctx) if hasattr(self, "ctx") else None
+
+    def _obs(self, observed_at, price, present=1):
+        from pipeline import gold
+        from pipeline.providers.types import ParsedRecord
+        row = {"offer_key": "t:cash:1", "car_id": "hyundai-kona-65-advance", "observed_at": observed_at, "present": present,
+               "finance_type": "cash", "status": "lead", "vehicle_price": price, "source": "Test"}
+        gold.write(self.conn, "test", ("offer",), {"offer": [(None, ParsedRecord("offer", "t:cash:1", row))]}, None)
+
+    def _spans(self):
+        return [(r["observed_at"][:10], (r["confirmed_at"] or r["observed_at"])[:10], r["vehicle_price"], r["present"])
+                for r in self.conn.execute("SELECT * FROM offer_observations WHERE offer_key='t:cash:1' ORDER BY observed_at")]
+
+    def test_backfill_extends_merges_and_splits_spans(self):
+        from pipeline.providers import manual_seed
+        from pipeline.providers.types import Context
+        from pipeline.db import ROOT
+        run(self.conn, manual_seed.provider, ctx=Context(root=ROOT))
+        self._obs("2026-10-06T00:00:00+00:00", 27794.0)                      # today
+        self._obs("2026-09-20T00:00:00+00:00", 27794.0)                      # older copy, same price → span starts earlier
+        self.assertEqual(self._spans(), [("2026-09-20", "2026-10-06", 27794.0, 1)])
+        self._obs("2026-09-01T00:00:00+00:00", 28500.0)                      # older, different price → its own row
+        self.assertEqual(self._spans(), [("2026-09-01", "2026-09-01", 28500.0, 1), ("2026-09-20", "2026-10-06", 27794.0, 1)])
+        self._obs("2026-09-08T00:00:00+00:00", 28500.0)                      # extends the first span forward
+        self.assertEqual(self._spans()[0], ("2026-09-01", "2026-09-08", 28500.0, 1))
+        self._obs("2026-09-15T00:00:00+00:00", 27794.0)                      # between: matches the later span → starts earlier
+        self.assertEqual(self._spans()[1], ("2026-09-15", "2026-10-06", 27794.0, 1))
+        self._obs("2026-10-07T00:00:00+00:00", 27794.0)                      # tonight's re-sighting
+        self.assertEqual(self._spans()[1], ("2026-09-15", "2026-10-07", 27794.0, 1))
+        # Two spans at the same price with a gap, then a sighting in the gap: they merge.
+        self._obs("2026-10-20T00:00:00+00:00", 27794.0)
+        self._obs("2026-10-12T00:00:00+00:00", 26000.0)
+        self.assertEqual(len(self._spans()), 4)
+        self._obs("2026-10-12T12:00:00+00:00", 27794.0)                      # after the £26,000 sighting, same day
+        self.assertEqual(self._spans()[-1], ("2026-10-12", "2026-10-20", 27794.0, 1))
+        self.assertEqual(len(self._spans()), 4)
+        self._obs("2026-10-25T00:00:00+00:00", 27794.0, present=0)           # gone: never merged
+        self.assertEqual(self._spans()[-1], ("2026-10-25", "2026-10-25", 27794.0, 0))

@@ -69,6 +69,8 @@ def cmd_refresh(args) -> int:
         if args.offline and provider.live:
             continue
         for cap in provider.capabilities:
+            if cap == "backfill":
+                continue  # Wayback backfill is a one-off: `pipeline backfill`
             try:
                 _print_run(run(conn, provider, cap))
             except Exception as e:  # noqa: BLE001
@@ -83,6 +85,36 @@ def cmd_refresh(args) -> int:
     print(f"snapshot -> {args.out}: {json.dumps(manifest['counts'])}")
     if failed:
         print("providers that failed:", *failed, sep="\n  ")
+    return 0
+
+
+def cmd_backfill(args) -> int:
+    """Pull dated copies of each live provider's pages from the Wayback Machine
+    and fold them into the sighting history, then rewrite history + snapshot.
+    Run `refresh` first so the DB holds the current history to merge into."""
+    from pipeline.history import export_history, import_history
+    from pipeline.providers import PROVIDERS
+    from pipeline.providers.types import Context
+    from pipeline.runner import run
+    from pipeline.services.snapshot import export_snapshot
+
+    conn = _open()
+    if not conn.execute("SELECT COUNT(*) FROM cars").fetchone()[0]:
+        _print_run(run(conn, PROVIDERS["manual_seed"]))
+        print(f"history: {import_history(conn)} observations replayed from data/history")
+    only = set(args.only.split(",")) if args.only else None
+    ctx = Context(root=ROOT, delay_seconds=args.delay, max_targets=args.max_targets,
+                  extras={"since": args.since, "every_days": args.every_days})
+    for name, provider in PROVIDERS.items():
+        if "backfill" not in provider.capabilities or (only and name not in only):
+            continue
+        try:
+            _print_run(run(conn, provider, "backfill", ctx=ctx))
+        except Exception as e:  # noqa: BLE001
+            print(f"{name}/backfill: FAILED ({e})")
+    print(f"history: {export_history(conn)} observations written to data/history")
+    manifest = export_snapshot(conn, args.out, generated_at=args.generated_at)
+    print(f"snapshot -> {args.out}: {json.dumps(manifest['counts'])}")
     return 0
 
 
@@ -157,6 +189,16 @@ def main(argv=None) -> int:
     f.add_argument("--offline", action="store_true", help="Skip live providers; replay data/history only.")
     f.add_argument("--only", help="Comma-separated provider names to run (manual_seed always recommended first).")
     f.set_defaults(func=cmd_refresh)
+
+    b = sub.add_parser("backfill", help="Fold Wayback Machine copies of the live providers' pages into the sighting history.")
+    b.add_argument("--since", default="2025-01-01", help="Earliest capture date to use (YYYY-MM-DD).")
+    b.add_argument("--every-days", type=int, default=7, help="At most one capture per this many days per page.")
+    b.add_argument("--only", help="Comma-separated provider names.")
+    b.add_argument("--max-targets", type=int, help="Stop after this many captures per provider (for a trial run).")
+    b.add_argument("--delay", type=float, default=3.0, help="Seconds between requests to the same host.")
+    b.add_argument("--out", default=str(DEFAULT_OUT))
+    b.add_argument("--generated-at")
+    b.set_defaults(func=cmd_backfill)
 
     sub.add_parser("export-history", help="Write offer observations to data/history/observations.jsonl.").set_defaults(func=cmd_export_history)
     sub.add_parser("import-history", help="Replay data/history/observations.jsonl into the DB.").set_defaults(func=cmd_import_history)

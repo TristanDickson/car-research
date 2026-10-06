@@ -16,10 +16,10 @@ from __future__ import annotations
 import html as H
 import re
 from collections.abc import Iterator
-from datetime import datetime, timezone
 
 from pipeline.providers.http import fetch_url
 from pipeline.providers.parse import money, number, pct, text
+from pipeline.providers.wayback import backfill_capability, observed_at_for, original_url
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 
 SITE = "carwow-cap"
@@ -137,11 +137,11 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str) -> 
 
 
 def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
-    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     for row in parse_page(body.decode("utf-8", "replace"), target.metadata["make"], target.metadata["model"],
-                          target.metadata["url"], now):
+                          original_url(target), observed_at_for(target)):
         yield ParsedRecord(kind="offer", key=row["offer_key"], row=row)
 
 
 deals = Capability(name="deals", parser_version="1", discover=discover, fetch=fetch, parse=parse, kinds=("offer",))
-provider = Provider(name="carwow_deals", default_capability="deals", capabilities={"deals": deals}, live=True)
+provider = Provider(name="carwow_deals", default_capability="deals",
+                    capabilities={"deals": deals, "backfill": backfill_capability(deals)}, live=True)

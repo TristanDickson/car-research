@@ -64,6 +64,32 @@ looked at and chosen not to track (the 42kWh Ioniq 3, no-heat-pump Insters, 5-se
 Ioniq 5s): they resolve to nothing without counting as unmapped. Nothing is ever attached to a
 guessed car.
 
+## Backfill from the Wayback Machine
+
+Each live provider has a second capability, `backfill`, built by
+`providers/wayback.py::backfill_capability(base)`: discover asks the CDX index for
+every 200 capture of the base capability's URLs since a date, thins them to one per
+week and drops captures whose body digest matches the last one kept, and yields a
+target per capture whose `observed_at` is the archive timestamp; fetch pulls the raw
+page (`/web/<ts>id_/<url>`); parse is the base parser, which reads `observed_at` and
+`original_url` off the target. The runner stores the archived body as a Bronze
+artifact under the base provider, so a backfilled sighting is indistinguishable from a
+live one apart from its date.
+
+Gold's `_merge_sighting` makes out-of-order sightings safe: a sighting matching the
+span before it extends that span; one matching the span after it moves that span's
+start back; one bridging two matching spans merges them; a different price inside a
+span splits the span at that point (the span was seen at its start and end, so those
+become two rows). `refresh` skips `backfill`; `pipeline backfill` runs it, and
+`.github/workflows/backfill.yml` runs that on a GitHub runner because archive.org
+refuses connections from some cloud networks.
+
+Coverage (probed 6 Oct 2026, with the archive partly offline): Carwow Kona and EV6
+deals pages have 8–9 captures each since mid-2024, Hyundai's Ioniq 5 offer page 30,
+New Car Discount's Kona and Ioniq 5 listings 3–4, the newer models (Ioniq 3, EV2, EV3,
+PV5, Inster) 0–3, LeaseLoco and RRG none. Old captures of a page that has since been
+redesigned parse to zero rows, which is harmless.
+
 ## Live scraping
 
 `providers/http.py` is the one fetch path: a browser user agent, a per-host delay, two retries
@@ -150,6 +176,18 @@ for the same car, the acquisition penalty, funding premium and effective annual 
 at export time and the results ride in `deals[].metrics`, so the browser has no finance code to
 drift. Conventions: payments at months 1..n, balloon at n+1, APR as an effective annual rate.
 `tests/test_deal_math.py` pins it to the real Carwow quotes.
+
+## Trends in the app
+
+`web/src/lib/trends.ts` turns an offer's history into chart series: `offerSeries` joins
+spans into a step line (a 'gone' breaks it), `dailyBest` takes the lowest covering span
+per day with a current offer extended to today, `movement` reports the current run,
+the first value and a windowed delta. `components/charts/LineChart.tsx` is a plain SVG
+multi-line chart (2px lines, 8px end markers with a surface ring, hairline grid, legend
+for two or more series, direct end-labels for up to four, crosshair tooltip reading
+every series at the snapped date, arrow-key focus) and `Sparkline.tsx` the stat-tile
+version. Colours are assigned by sorted offer id so a filter never repaints a line; the
+palette was validated against the app's dark surface. Every chart has a table twin.
 
 ## Browser-side database
 

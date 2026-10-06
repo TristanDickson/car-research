@@ -38,6 +38,8 @@ export type OfferState = "live" | "lead" | "derived" | "illustrative" | "campaig
 
 export interface ObservationPoint {
   observed_at: string;
+  /** Last time this exact state was confirmed; null when seen once. */
+  confirmed_at?: string | null;
   present: boolean;
   source: string;
   monthly_payment?: number;

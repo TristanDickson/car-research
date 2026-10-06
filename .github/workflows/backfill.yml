@@ -1,0 +1,86 @@
+# One-off (re-runnable) backfill: fold Wayback Machine captures of the pages the
+# live providers read into the sighting history, then commit history + snapshot
+# and redeploy. Dispatch by hand; it is slow (archive.org rate-limits) and the
+# archive is sometimes "temporarily offline", in which case re-run it later:
+# captures already folded in are merged, not duplicated.
+#
+# Runs on a GitHub runner because web.archive.org refuses connections from some
+# cloud networks (it did from the Claude session this was written in).
+name: Backfill from the Wayback Machine
+
+on:
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "Earliest capture date (YYYY-MM-DD)"
+        default: "2025-01-01"
+      every_days:
+        description: "At most one capture per this many days per page"
+        default: "7"
+      only:
+        description: "Comma-separated providers (blank = all live providers)"
+        default: ""
+      max_targets:
+        description: "Stop after this many captures per provider (blank = all)"
+        default: ""
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: scrape
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Current state (seed + replayed history + tonight's live pages)
+        env:
+          CAR_RESEARCH_DB: /tmp/scrape.sqlite
+        run: python -m pipeline refresh --out web/public/data
+
+      - name: Backfill from archived captures
+        env:
+          CAR_RESEARCH_DB: /tmp/scrape.sqlite
+        run: |
+          args=(--since "${{ inputs.since }}" --every-days "${{ inputs.every_days }}" --out web/public/data)
+          [ -n "${{ inputs.only }}" ] && args+=(--only "${{ inputs.only }}")
+          [ -n "${{ inputs.max_targets }}" ] && args+=(--max-targets "${{ inputs.max_targets }}")
+          python -m pipeline backfill "${args[@]}"
+          python -m pipeline status
+          python -m pipeline deal-table > docs/deal-comparison.md
+
+      - name: Unmapped trims (report only)
+        env:
+          CAR_RESEARCH_DB: /tmp/scrape.sqlite
+        run: python -m pipeline trims || echo "::warning::archived pages mention derivatives not in the trim map"
+
+      - name: Commit and push if anything changed
+        id: commit
+        run: |
+          git config user.name "car-research scrape"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/history web/public/data docs/deal-comparison.md
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"; echo "Nothing new."
+          else
+            git commit -m "data: Wayback backfill since ${{ inputs.since }} ($(date -u +%Y-%m-%d))"
+            git push origin HEAD:main
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy the app with the new snapshot
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages-deploy.yml --ref main

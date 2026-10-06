@@ -51,6 +51,79 @@ def resolve_car(conn: sqlite3.Connection, site: str, key: str, label: str | None
     return None, "unmapped"
 
 
+def _span_end(o: sqlite3.Row) -> str:
+    return o["confirmed_at"] or o["observed_at"]
+
+
+def _merge_sighting(conn: sqlite3.Connection, r: dict, fp: str, run_id: int | None) -> bool:
+    """Fold an unchanged sighting into the span it belongs to instead of adding a row.
+
+    History holds one row per distinct state, each with the span [observed_at,
+    confirmed_at] over which it was seen. A sighting at time t with the same
+    price-bearing fields as the span before it extends that span forward; one
+    matching the span after it (a backfilled older copy of the page) moves that
+    span's start back; one that bridges two matching spans merges them. Anything
+    else (a new price, a 'gone', a corrected payload at the same instant) is a
+    row of its own. Returns True if the sighting was absorbed."""
+    if int(r.get("present", 1)) != 1:
+        return False
+    t, key = r["observed_at"], r["offer_key"]
+    prev = conn.execute(
+        "SELECT id, observed_at, confirmed_at, present, fingerprint FROM offer_observations "
+        "WHERE offer_key=? AND observed_at<=? ORDER BY observed_at DESC, id DESC LIMIT 1", (key, t)
+    ).fetchone()
+    nxt = conn.execute(
+        "SELECT id, observed_at, confirmed_at, present, fingerprint FROM offer_observations "
+        "WHERE offer_key=? AND observed_at>? ORDER BY observed_at ASC, id ASC LIMIT 1", (key, t)
+    ).fetchone()
+    prev_same = bool(prev and prev["present"] and prev["fingerprint"] == fp)
+    next_same = bool(nxt and nxt["present"] and nxt["fingerprint"] == fp)
+    if prev_same:
+        end = max(_span_end(prev), t)
+        if next_same:
+            end = max(end, _span_end(nxt))
+            conn.execute("DELETE FROM offer_observations WHERE id=?", (nxt["id"],))
+        conn.execute("UPDATE offer_observations SET confirmed_at=?, run_id=COALESCE(?, run_id) WHERE id=?",
+                     (end, run_id, prev["id"]))
+        return True
+    if next_same:
+        # The span starts earlier; its old start becomes a confirmation if it had none.
+        conn.execute("UPDATE offer_observations SET observed_at=?, confirmed_at=COALESCE(confirmed_at, observed_at) WHERE id=?",
+                     (t, nxt["id"]))
+        return True
+    if prev and prev["present"] and prev["confirmed_at"] and prev["confirmed_at"] > t:
+        # A different price seen inside a span we assumed unbroken: the span was
+        # seen at its start and at its end, so split it there and let the caller
+        # insert the contradicting sighting between.
+        conn.execute(
+            """INSERT INTO offer_observations (offer_key, car_id, source, observed_at, confirmed_at, present, finance_type,
+                 status, verification, seller, vehicle_price, monthly_payment, apr, gfv, fingerprint, payload, artifact_id, run_id)
+               SELECT offer_key, car_id, source, confirmed_at, NULL, present, finance_type, status, verification, seller,
+                 vehicle_price, monthly_payment, apr, gfv, fingerprint, payload, artifact_id, run_id
+               FROM offer_observations WHERE id=?""", (prev["id"],))
+        conn.execute("UPDATE offer_observations SET confirmed_at=NULL WHERE id=?", (prev["id"],))
+    return False
+
+
+def _insert_observation(conn: sqlite3.Connection, r: dict, source: str, fp: str,
+                        artifact_id: int | None, run_id: int | None) -> None:
+    conn.execute(
+        """INSERT INTO offer_observations (offer_key, car_id, source, observed_at, present, finance_type, status,
+             verification, seller, vehicle_price, monthly_payment, apr, gfv, fingerprint, payload, artifact_id, run_id)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+           ON CONFLICT(offer_key, observed_at, source) DO UPDATE SET car_id=excluded.car_id, present=excluded.present,
+             finance_type=excluded.finance_type, status=excluded.status, verification=excluded.verification,
+             seller=excluded.seller, vehicle_price=excluded.vehicle_price, monthly_payment=excluded.monthly_payment,
+             apr=excluded.apr, gfv=excluded.gfv, fingerprint=excluded.fingerprint, payload=excluded.payload,
+             artifact_id=excluded.artifact_id, run_id=excluded.run_id""",
+        (
+            r["offer_key"], r["car_id"], source, r["observed_at"], int(r.get("present", 1)), r["finance_type"],
+            r["status"], r.get("verification"), r.get("dealer") or r.get("source"), r.get("vehicle_price"),
+            r.get("monthly_payment"), r.get("apr"), r.get("gfv"), fp, _dump(r), artifact_id, run_id,
+        ),
+    )
+
+
 def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
           records: dict[str, list[tuple[int, ParsedRecord]]], run_id: int | None, now: str | None = None) -> int:
     now = now or _now()
@@ -90,35 +163,10 @@ def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
 
     for artifact_id, rec in records.get("offer", []):
         r = rec.row
-        fp = fingerprint(r)
-        latest = conn.execute(
-            "SELECT id, observed_at, confirmed_at, present, fingerprint FROM offer_observations "
-            "WHERE offer_key=? ORDER BY observed_at DESC, id DESC LIMIT 1", (r["offer_key"],)
-        ).fetchone()
-        # An unchanged re-sighting after the last one: extend confirmed_at rather than
-        # adding a row. History then holds one row per distinct state, each with the
-        # span over which it was seen.
-        if (latest and latest["present"] and int(r.get("present", 1)) == 1 and latest["fingerprint"] == fp
-                and r["observed_at"] >= latest["observed_at"]):
-            conn.execute("UPDATE offer_observations SET confirmed_at=?, run_id=COALESCE(?, run_id) WHERE id=?",
-                         (r["observed_at"], run_id, latest["id"]))
+        if _merge_sighting(conn, r, fingerprint(r), run_id):
             written += 1
             continue
-        conn.execute(
-            """INSERT INTO offer_observations (offer_key, car_id, source, observed_at, present, finance_type, status,
-                 verification, seller, vehicle_price, monthly_payment, apr, gfv, fingerprint, payload, artifact_id, run_id)
-               VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-               ON CONFLICT(offer_key, observed_at, source) DO UPDATE SET car_id=excluded.car_id, present=excluded.present,
-                 finance_type=excluded.finance_type, status=excluded.status, verification=excluded.verification,
-                 seller=excluded.seller, vehicle_price=excluded.vehicle_price, monthly_payment=excluded.monthly_payment,
-                 apr=excluded.apr, gfv=excluded.gfv, fingerprint=excluded.fingerprint, payload=excluded.payload,
-                 artifact_id=excluded.artifact_id, run_id=excluded.run_id""",
-            (
-                r["offer_key"], r["car_id"], source, r["observed_at"], int(r.get("present", 1)), r["finance_type"],
-                r["status"], r.get("verification"), r.get("dealer") or r.get("source"), r.get("vehicle_price"),
-                r.get("monthly_payment"), r.get("apr"), r.get("gfv"), fp, _dump(r), artifact_id, run_id,
-            ),
-        )
+        _insert_observation(conn, r, source, fingerprint(r), artifact_id, run_id)
         written += 1
 
     for artifact_id, rec in records.get("requirements", []):

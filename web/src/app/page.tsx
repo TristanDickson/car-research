@@ -6,11 +6,18 @@ import { useMemo, useState } from "react";
 import { CarCard } from "@/components/CarCard";
 import { Empty, ErrorNote, Loading, PageHeader } from "@/components/ui";
 import { carCosts, type CarCosts } from "@/lib/costs";
+import { dailyBest, lastDays, movement, type Movement, type Pt } from "@/lib/trends";
 import { carName, gbp } from "@/lib/format";
 import { useCars, useDataPage, useOffers, useRequirements, useShortlist, useToggleShortlist } from "@/lib/hooks";
 import type { SnapshotCar, SnapshotOffer } from "@/lib/types";
 
 type SortKey = "monthly" | "threeYear" | "cash" | "range" | "seats" | "name";
+
+export interface CarTrend {
+  /** Best cash price per day, last 90 days. */
+  points: Pt[];
+  movement: Movement | null;
+}
 
 export default function PickPage() {
   const cars = useCars();
@@ -24,6 +31,7 @@ export default function PickPage() {
   const [onlyPriced, setOnlyPriced] = useState(false);
   const [sort, setSort] = useState<SortKey>("monthly");
   const [compare, setCompare] = useState<string[]>([]);
+  const [now] = useState(() => Date.now());
 
   const staleDays = data.data?.stale_days ?? 14;
   const budget = reqs.data?.budget as { monthly_ceiling_gbp?: number; monthly_tolerance_gbp?: number } | undefined;
@@ -38,6 +46,17 @@ export default function PickPage() {
     for (const c of carRows ?? []) out.set(c.id, carCosts(byCar.get(c.id) ?? [], staleDays));
     return out;
   }, [carRows, offerRows, staleDays]);
+
+  const trendById = useMemo(() => {
+    const byCar = new Map<string, SnapshotOffer[]>();
+    for (const o of offerRows ?? []) byCar.set(o.car_id, [...(byCar.get(o.car_id) ?? []), o]);
+    const out = new Map<string, CarTrend>();
+    for (const c of carRows ?? []) {
+      const daily = dailyBest(byCar.get(c.id) ?? [], "vehicle_price", now, (o) => o.finance_type === "cash" && !o.metrics.skipped);
+      out.set(c.id, { points: lastDays(daily, 90, now), movement: movement(daily, 30) });
+    }
+    return out;
+  }, [carRows, offerRows, now]);
 
   const rows = useMemo(() => {
     const list = (carRows ?? []).filter((c) => (!onlyMeets || c.requirement_check.passes) && (!onlyPriced || costsById.get(c.id)?.monthly != null || costsById.get(c.id)?.cash));
@@ -111,6 +130,7 @@ export default function PickPage() {
               key={c.id}
               car={c}
               costs={costsById.get(c.id)!}
+              trend={trendById.get(c.id) ?? null}
               ceiling={ceiling}
               starred={starred.has(c.id)}
               onStar={() => toggle.mutate(c.id)}

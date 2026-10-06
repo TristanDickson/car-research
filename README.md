@@ -90,6 +90,30 @@ drops out of the best-price summaries. Kia's own quote widget currently returns 
 available" for every car, so Kia Finance examples are hand-captured for now; Richmond and
 cars2buy block automated reads and stay as pastes.
 
+## Trends
+
+Every sighting is kept, so prices are a history, not a number: one row per distinct
+price with the span of dates it was seen over. The app draws them on three levels:
+
+- **Pick cards**: a 90-day sparkline of the best outright price with "down £x over 30
+  days" and how long it has sat at the current price.
+- **Car page → Price over time**: outright prices by source and advertised monthly
+  payments by offer as step lines through their sightings, with a crosshair that reads
+  every line at a date, the list-after-grant line for reference, and the same data as
+  a table underneath.
+- **Trends page**: a movers table (best price, discount against list, change over the
+  window, days at this price) and one small chart per car on a shared axis.
+
+The nightly scrape adds a point per car per day. Older points come from two places:
+the hand-captured offers and Carwow quotes keep their original dates, and `pipeline
+backfill` folds dated captures of the scraped pages from the Wayback Machine into the
+same history (`.github/workflows/backfill.yml`, dispatched by hand). Coverage there is
+sparse and uneven: a probe found roughly one capture every few months for the Carwow
+Kona and EV6 pages and Hyundai's Ioniq 5 offer page, next to nothing for the newer
+models, and nothing for LeaseLoco or RRG. It gives waypoints (what Carwow's Kona price
+was in January, May and August), not a daily line. There is no other public source of
+historical UK car prices for these pages; the nightly scrape is the trend.
+
 ## Repo layout
 
 ```
@@ -107,7 +131,7 @@ web/                    Next.js static SPA: pick, compare, cars, car detail with
 docs/                   requirements, research notes, architecture, generated deal table,
   transcripts/          raw source conversations (contact details redacted)
 tests/                  Python unit tests; tests/fixtures holds one real page per scraper
-.github/workflows/      pages-deploy, web-ci, pipeline-ci (offline replay; fails if the snapshot is stale), scrape (nightly)
+.github/workflows/      pages-deploy, web-ci, pipeline-ci (offline replay; fails if the snapshot is stale), scrape (nightly), backfill (Wayback, by hand)
 ```
 
 ## Working on it
@@ -119,6 +143,7 @@ make test          # python unittest + web lint/typecheck/vitest
 make web-dev       # http://localhost:3001
 python3 -m pipeline deal-table > docs/deal-comparison.md
 python3 -m pipeline trims        # anything scraped that is not yet in the trim map
+python3 -m pipeline backfill --since 2025-01-01   # Wayback captures → history (needs a network archive.org will talk to)
 ```
 
 Python ≥ 3.11 with no third-party packages; Node 22 (`cd web && npm install`).
@@ -168,6 +193,10 @@ rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Context log
 
+- **2026-10-06** Trends: sparklines on the Pick cards, price-over-time charts on the car
+  page, a Trends page with movers and small multiples. Sighting merge generalised so
+  backfilled (older) captures extend, start or split spans correctly. Wayback Machine
+  backfill as a capability on every live provider plus a dispatchable workflow.
 - **2026-10-06** Live scrapers: Carwow public deals pages, Hyundai UK offer pages, New Car
   Discount, LeaseLoco and RRG, each pinned to a real captured page in `tests/fixtures`. Sightings
   are logged to `data/history/observations.jsonl` and replayed so CI and fresh clones need no

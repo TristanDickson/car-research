@@ -3,6 +3,8 @@
 import Link from "next/link";
 
 import { CarImage } from "@/components/CarImage";
+import { Sparkline } from "@/components/charts/Sparkline";
+import type { CarTrend } from "@/app/page";
 import { Badge } from "@/components/ui";
 import { briefTicks, budgetGap, IONIQ5_WIDTH_MM, type CarCosts } from "@/lib/costs";
 import { carName, gbp, num } from "@/lib/format";
@@ -12,6 +14,7 @@ import type { SnapshotCar } from "@/lib/types";
 interface Props {
   car: SnapshotCar;
   costs: CarCosts;
+  trend: CarTrend | null;
   ceiling: number | null;
   starred: boolean;
   onStar: () => void;
@@ -21,7 +24,7 @@ interface Props {
 
 const VERDICT_TONE: Record<string, "good" | "warn" | "bad" | "muted"> = { want: "good", maybe: "warn", no: "bad", control: "muted" };
 
-export function CarCard({ car, costs, ceiling, starred, onStar, compared, onCompare }: Props) {
+export function CarCard({ car, costs, trend, ceiling, starred, onStar, compared, onCompare }: Props) {
   const gap = budgetGap(costs.monthly, ceiling);
   const widthDelta = car.width_mm != null ? car.width_mm - IONIQ5_WIDTH_MM : null;
   const route = costs.monthlyRoute === "pcp" ? costs.pcp : costs.monthlyRoute === "pch" ? costs.pch : null;
@@ -102,8 +105,16 @@ export function CarCard({ car, costs, ceiling, starred, onStar, compared, onComp
           <div className="mt-2 border-t border-gray-800 pt-2 text-sm text-gray-300">
             {costs.cash ? (
               <>
-                Buy outright: <b className="tabular-nums">{gbp(costs.cash.price)}</b>
-                {costs.cash.dealer ? <span className="text-xs text-gray-500"> · {costs.cash.dealer}</span> : null}
+                <div className="flex items-center justify-between gap-2">
+                  <div>
+                    Buy outright: <b className="tabular-nums">{gbp(costs.cash.price)}</b>
+                    {costs.cash.dealer ? <span className="text-xs text-gray-500"> · {costs.cash.dealer}</span> : null}
+                  </div>
+                  {trend && trend.points.length >= 2 && (
+                    <Sparkline points={trend.points} title={`Best outright price, last ${trend.points.length} days`} />
+                  )}
+                </div>
+                {trend?.movement && <MovementLine m={trend.movement} />}
                 {costs.cashThreeYearAtFloor != null && (
                   <div className="text-xs text-gray-500">
                     about {gbp(costs.cashThreeYearAtFloor)} over three years if it is still worth {gbp(costs.pcp?.gfv)} (the finance company&apos;s floor)
@@ -126,5 +137,25 @@ export function CarCard({ car, costs, ceiling, starred, onStar, compared, onComp
         </div>
       </div>
     </article>
+  );
+}
+
+
+function MovementLine({ m }: { m: import("@/lib/trends").Movement }) {
+  const day = (ms: number) => new Date(ms).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
+  if (m.points < 2) return <div className="text-xs text-gray-500">first seen {day(m.firstAt)}; no history yet</div>;
+  const d = m.deltaSinceThen ?? m.deltaSinceFirst;
+  const since = m.deltaSinceThen != null ? "over 30 days" : `since ${day(m.firstAt)}`;
+  return (
+    <div className="text-xs">
+      {d === 0 ? (
+        <span className="text-gray-500">unchanged {since} · at this price {m.daysAtNow} day{m.daysAtNow === 1 ? "" : "s"}</span>
+      ) : (
+        <span className={d < 0 ? "text-emerald-300" : "text-amber-300"}>
+          {d < 0 ? "down" : "up"} {gbp(Math.abs(d))} {since}
+          <span className="text-gray-500"> · at this price {m.daysAtNow} day{m.daysAtNow === 1 ? "" : "s"}</span>
+        </span>
+      )}
+    </div>
   );
 }

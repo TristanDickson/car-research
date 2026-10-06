@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
 import { OfferTable } from "@/components/OfferTable";
+import { PriceHistory } from "@/components/PriceHistory";
 import { Badge, Card, Empty, ErrorNote, Loading, PageHeader, TriBadge } from "@/components/ui";
 import { carName, gbp, num } from "@/lib/format";
 import { useCar, useDataPage, useOffersForCar, useShortlist, useToggleShortlist } from "@/lib/hooks";
@@ -137,6 +138,10 @@ function CarView() {
           <p className="mt-2 text-xs text-gray-500">verification: {c.verification ?? "—"}</p>
         </Card>
       )}
+
+      <Card title="Price over time">
+        <PriceHistory car={c} offers={offers.data ?? []} />
+      </Card>
 
       <Card title={`Price board · ${offers.data?.length ?? 0} offers observed`}>
         {offers.data && offers.data.length > 0 ? (

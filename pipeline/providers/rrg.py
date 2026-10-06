@@ -3,10 +3,10 @@ from __future__ import annotations
 
 import re
 from collections.abc import Iterator
-from datetime import datetime, timezone
 
 from pipeline.providers.http import fetch_url
 from pipeline.providers.parse import norm_key, number, slug, text
+from pipeline.providers.wayback import backfill_capability, observed_at_for, original_url
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 
 SITE = "rrg"
@@ -55,10 +55,9 @@ def parse_page(page: str, url: str, observed_at: str) -> list[dict]:
 
 
 def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
-    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
-    for row in parse_page(body.decode("utf-8", "replace"), target.metadata["url"], now):
+    for row in parse_page(body.decode("utf-8", "replace"), original_url(target), observed_at_for(target)):
         yield ParsedRecord(kind="offer", key=row["offer_key"], row=row)
 
 
 offers = Capability(name="offers", parser_version="1", discover=discover, fetch=fetch, parse=parse, kinds=("offer",))
-provider = Provider(name="rrg", default_capability="offers", capabilities={"offers": offers}, live=True)
+provider = Provider(name="rrg", default_capability="offers", capabilities={"offers": offers, "backfill": backfill_capability(offers)}, live=True)
