@@ -55,7 +55,7 @@ def cmd_refresh(args) -> int:
 
     A failing provider is reported and skipped; the snapshot is still written from
     whatever succeeded plus the replayed history."""
-    from pipeline.history import export_history, import_history
+    from pipeline.history import export_history, export_specs, import_history, import_specs
     from pipeline.providers import PROVIDERS
     from pipeline.runner import run
     from pipeline.services.snapshot import export_snapshot
@@ -79,8 +79,10 @@ def cmd_refresh(args) -> int:
         if name == "manual_seed":
             n = import_history(conn)
             print(f"history: {n} observations replayed from data/history")
+            print(f"history: {import_specs(conn)} spec rows replayed from data/history")
     n = export_history(conn)
     print(f"history: {n} observations written to data/history")
+    print(f"history: {export_specs(conn)} spec rows written to data/history")
     manifest = export_snapshot(conn, args.out, generated_at=args.generated_at)
     print(f"snapshot -> {args.out}: {json.dumps(manifest['counts'])}")
     if failed:
@@ -92,7 +94,7 @@ def cmd_backfill(args) -> int:
     """Pull dated copies of each live provider's pages from the Wayback Machine
     and fold them into the sighting history, then rewrite history + snapshot.
     Run `refresh` first so the DB holds the current history to merge into."""
-    from pipeline.history import export_history, import_history
+    from pipeline.history import export_history, export_specs, import_history, import_specs
     from pipeline.providers import PROVIDERS
     from pipeline.providers.types import Context
     from pipeline.runner import run
@@ -102,6 +104,7 @@ def cmd_backfill(args) -> int:
     if not conn.execute("SELECT COUNT(*) FROM cars").fetchone()[0]:
         _print_run(run(conn, PROVIDERS["manual_seed"]))
         print(f"history: {import_history(conn)} observations replayed from data/history")
+        print(f"history: {import_specs(conn)} spec rows replayed from data/history")
     only = set(args.only.split(",")) if args.only else None
     ctx = Context(root=ROOT, delay_seconds=args.delay, max_targets=args.max_targets,
                   extras={"since": args.since, "every_days": args.every_days})
@@ -113,22 +116,29 @@ def cmd_backfill(args) -> int:
         except Exception as e:  # noqa: BLE001
             print(f"{name}/backfill: FAILED ({e})")
     print(f"history: {export_history(conn)} observations written to data/history")
+    print(f"history: {export_specs(conn)} spec rows written to data/history")
     manifest = export_snapshot(conn, args.out, generated_at=args.generated_at)
     print(f"snapshot -> {args.out}: {json.dumps(manifest['counts'])}")
     return 0
 
 
 def cmd_export_history(args) -> int:
-    from pipeline.history import DEFAULT_PATH, export_history
-    n = export_history(_open(), args.file or DEFAULT_PATH, source=args.source)
+    from pipeline.history import DEFAULT_PATH, export_history, export_specs
+    conn = _open()
+    n = export_history(conn, args.file or DEFAULT_PATH, source=args.source)
     print(f"history: {n} observations written to {args.file or DEFAULT_PATH}")
+    if not args.file:
+        print(f"history: {export_specs(conn)} spec rows written to data/history")
     return 0
 
 
 def cmd_import_history(args) -> int:
-    from pipeline.history import DEFAULT_PATH, import_history
-    n = import_history(_open(), args.file or DEFAULT_PATH, replace_source=args.replace_source)
+    from pipeline.history import DEFAULT_PATH, import_history, import_specs
+    conn = _open()
+    n = import_history(conn, args.file or DEFAULT_PATH, replace_source=args.replace_source)
     print(f"history: {n} observations replayed from {args.file or DEFAULT_PATH}")
+    if not args.file:
+        print(f"history: {import_specs(conn)} spec rows replayed from data/history")
     return 0
 
 

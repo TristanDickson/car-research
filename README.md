@@ -82,6 +82,8 @@ Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
 | `ncd` | new-car-discount.com model listings | broker all-in cash price per derivative | scrapes |
 | `leaseloco` | leaseloco.com model pages | best personal-lease deal per derivative and profile, VAT added | scrapes |
 | `rrg` | rrg-group.com Kia PV5 offers | the dealer's PCP example for the PV5 7-seat | scrapes |
+| `carwow_specs` | carwow.co.uk `/specifications` per model | equipment per trim, numbers per engine, CAP ids with version dates, an image per derivative | scrapes |
+| `kia_specs` | kia.com/uk `/specification` per model | grade × feature ticks, numbers per powertrain, seat variants | scrapes |
 
 Every scrape is an observation: the body is kept (Bronze), parsed (Silver), resolved to one of
 our 19 trims through the trim map and written as a sighting (Gold). Re-seeing the same price
@@ -114,19 +116,50 @@ models, and nothing for LeaseLoco or RRG. It gives waypoints (what Carwow's Kona
 was in January, May and August), not a daily line. There is no other public source of
 historical UK car prices for these pages; the nightly scrape is the trend.
 
+## Specs: features by make, model, variant and year
+
+Two sources list equipment per variant in machine-readable form, and both are scraped
+nightly alongside the prices:
+
+- **Carwow `/specifications`** per model: the standard-equipment list per trim, the
+  derivatives available for it as CAP ids with a dated derivative version (the
+  model-year marker), RRP and Carwow price, and a render per derivative (the photos on
+  the cards come from here until you drop your own into `web/public/images/cars/`).
+- **Kia UK `/specification`** per model: grade-by-feature tick tables (✓ standard, OPT
+  option) and the numeric tables per powertrain; the PV5 page breaks 5- and 7-seat out.
+
+Every variant lands in `specs` (and `data/history/specs.jsonl`), mapped to one of our
+trims where the trim map knows it and kept anyway where it does not. The wording is
+normalised into canonical flags (`pipeline/services/features.py`: heat pump, internal
+and external V2L, heated seats, 360 camera, powered tailgate, and so on) so the same
+question can be asked of both sources. The **Specs** page is a feature-by-variant matrix
+with the shared make / model / variant / year filter; the car page's **Equipment** card
+shows what the sources list for that exact variant next to the hand-entered brief fields,
+and `spec_check` names any disagreement (today: Carwow lists an interior V2L socket on the
+Kona Advance and N Line, which the model-year 27 spec sheet contradicts; ask the dealer).
+
+Hyundai UK has no spec page that can be read without a browser; Carwow covers its models.
+
+## Filters
+
+One make / model / variant-text / model-year bar scopes the Pick, Cars, Offers, Trends and
+Specs pages. It lives in the URL (`?make=Kia&model=EV3&q=gt-line&year=2026`), so a
+filtered view is a link and the filter follows you between pages.
+
 ## Repo layout
 
 ```
 pipeline/               Python package: providers, SQLite medallion, snapshot exporter, history, CLI
-  providers/            manual_seed, carwow_paste, and the live scrapers (carwow_deals, hyundai_offers, ncd, leaseloco, rrg)
+  providers/            manual_seed, carwow_paste, and the live scrapers (carwow_deals, hyundai_offers, ncd, leaseloco, rrg, carwow_specs, kia_specs)
                         http.py (polite fetch: UA, per-host delay, retry) and parse.py (money/pct/text/key helpers)
   services/snapshot.py  Gold → web/public/data: offers with metrics + freshness, requirement checks, data page
-  history.py            offer_observations ⇄ data/history/observations.jsonl (so CI and a fresh clone replay the past)
+  history.py            offer_observations ⇄ data/history/observations.jsonl, specs ⇄ data/history/specs.jsonl (CI and a fresh clone replay both)
+  services/features.py  equipment wording → canonical flags (heat pump, internal V2L, …) shared by every spec source
 model/deal_math.py      PCP / PCH / cash normalisation (pinned by tests/test_deal_math.py)
 data/seed/              hand-captured cars (19), offers (29), requirements, trim map (50 mapped, the rest ignored on purpose)
 data/pastes/            pasted source pages, one file each (carwow: 4, richmond: 2)
 data/history/           the committed sighting log, appended by every refresh
-web/                    Next.js static SPA: pick, compare, cars, car detail with price board, offers, requirements, data
+web/                    Next.js static SPA: pick, compare, cars, car detail (price board, history, equipment), offers, trends, specs, requirements, data
   public/data/          the committed snapshot the SPA reads
 docs/                   requirements, research notes, architecture, generated deal table,
   transcripts/          raw source conversations (contact details redacted)
@@ -193,6 +226,10 @@ rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Context log
 
+- **2026-10-06** Specs: Carwow specification pages and Kia UK specification tables scraped
+  per variant, normalised to canonical feature flags, shown as a Specs matrix and an
+  Equipment card with a hand-versus-source check; images per derivative; one URL-synced
+  make / model / variant / year filter across every page.
 - **2026-10-06** Trends: sparklines on the Pick cards, price-over-time charts on the car
   page, a Trends page with movers and small multiples. Sighting merge generalised so
   backfilled (older) captures extend, start or split spans correctly. Wayback Machine

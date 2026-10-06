@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 
 import { CarCard } from "@/components/CarCard";
+import { FilterBar } from "@/components/FilterBar";
 import { Empty, ErrorNote, Loading, PageHeader } from "@/components/ui";
 import { carCosts, type CarCosts } from "@/lib/costs";
 import { dailyBest, lastDays, movement, type Movement, type Pt } from "@/lib/trends";
+import { carMatches, useFilters } from "@/lib/filters";
 import { carName, gbp } from "@/lib/format";
 import { useCars, useDataPage, useOffers, useRequirements, useShortlist, useToggleShortlist } from "@/lib/hooks";
 import type { SnapshotCar, SnapshotOffer } from "@/lib/types";
@@ -20,6 +22,15 @@ export interface CarTrend {
 }
 
 export default function PickPage() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <Pick />
+    </Suspense>
+  );
+}
+
+function Pick() {
+  const [filters] = useFilters();
   const cars = useCars();
   const offers = useOffers();
   const reqs = useRequirements();
@@ -59,7 +70,7 @@ export default function PickPage() {
   }, [carRows, offerRows, now]);
 
   const rows = useMemo(() => {
-    const list = (carRows ?? []).filter((c) => (!onlyMeets || c.requirement_check.passes) && (!onlyPriced || costsById.get(c.id)?.monthly != null || costsById.get(c.id)?.cash));
+    const list = (carRows ?? []).filter((c) => carMatches(c, filters) && (!onlyMeets || c.requirement_check.passes) && (!onlyPriced || costsById.get(c.id)?.monthly != null || costsById.get(c.id)?.cash));
     const key = (c: SnapshotCar): number | string | null => {
       const k = costsById.get(c.id)!;
       switch (sort) {
@@ -78,7 +89,7 @@ export default function PickPage() {
       if (kb == null) return -1;
       return typeof ka === "number" && typeof kb === "number" ? ka - kb : String(ka).localeCompare(String(kb));
     });
-  }, [carRows, onlyMeets, onlyPriced, sort, costsById]);
+  }, [carRows, filters, onlyMeets, onlyPriced, sort, costsById]);
 
   if (cars.error) return <ErrorNote error={cars.error} />;
   if (!cars.data || !offers.data) return <Loading />;
@@ -100,6 +111,7 @@ export default function PickPage() {
         }
       />
 
+      <FilterBar cars={cars.data} />
       <div className="flex flex-wrap items-center gap-3 text-sm">
         <label className="flex items-center gap-2">
           <input type="checkbox" checked={onlyMeets} onChange={(e) => setOnlyMeets(e.target.checked)} /> Meets the brief

@@ -14,11 +14,14 @@ providers (discover → fetch → parse)       pipeline/providers/*      Python,
    ncd             new-car-discount.com      broker all-in cash price per derivative
    leaseloco       leaseloco.com (live)      best personal lease per derivative/profile (ex-VAT → inc.)
    rrg             rrg-group.com (live)      dealer PCP example for the PV5 7-seat
+   carwow_specs    carwow.co.uk (live)       equipment per trim, numbers per engine, CAP ids + version dates, images
+   kia_specs       kia.com/uk (live)         grade × feature ticks, numbers per powertrain, seat variants
         │  Bronze  artifacts            every fetched body, sha256-addressed, supersede chain
         │  Silver  source_rows          one row per parsed record, in the source's vocabulary
         │  Gold    cars                 canonical trims (hand-curated)
         │          trim_map             (site, trim-as-printed) → car_id; misses recorded as 'unmapped'
         │          offer_observations   one row per offer key per sighting (present / gone)
+        │          specs                one row per source variant: equipment, flags, numbers, image
         ▼          requirements
 SQLite  data/car-research.sqlite            gitignored: a dev-machine artifact
         │  ⇄ data/history/observations.jsonl  COMMITTED sighting log: every refresh appends, every
@@ -94,6 +97,26 @@ New Car Discount's Kona and Ioniq 5 listings 3–4, the newer models (Ioniq 3, E
 PV5, Inster) 0–3, LeaseLoco and RRG none. Old captures of a page that has since been
 redesigned parse to zero rows, which is harmless.
 
+## Specs (features by variant)
+
+A `spec` record is one source variant: a Carwow CAP derivative (trim equipment list +
+engine numbers + model facts, keyed `carwow-cap:<cap>`) or a Kia grade × powertrain
+(× seat count where the page splits them, keyed `kia-spec:<model>:<grade>:<battery drive>[:<seats>seat]`).
+`providers/carwow_specs.py` and `providers/kia_specs.py` are the parsers; both are
+pinned to captured pages in `tests/fixtures`. The runner resolves a spec through the trim
+map like an offer but never records a miss: untracked variants are kept with
+`car_id NULL` so the Specs page can show a whole model range. Gold upserts by key and
+stamps `changed_at` when the fingerprint (features, flags, numbers, RRP) moves.
+
+`services/features.py` maps the sources' wording onto canonical flags
+(`heat_pump`, `v2l_internal`, `v2l_external`, `heated_front_seats`, `camera_360`, …),
+each `standard`, `option` or `null` (not listed; sources say what a car has, not what it
+lacks). The exporter attaches each car's mapped specs and a `spec_check` comparing the
+hand-entered tri-state fields with the flags, and falls back to a Carwow render for the
+car image (exact derivative first, then the same model and trim word). Specs are
+committed as `data/history/specs.jsonl` and replayed offline, so CI reproduces the
+snapshot without the network.
+
 ## Live scraping
 
 `providers/http.py` is the one fetch path: a browser user agent, a per-host delay, two retries
@@ -152,13 +175,14 @@ car facts, the dealer) and reconciles the payment count against the page's own t
 | Deploy | `pages-deploy.yml`: Actions artifact, SPA 404 fallback, `.nojekyll` | same workflow, single checkout |
 | CI | `frontend-ci.yml`, `pages-build-check.yml`, `backend-ci.yml` | `web-ci.yml`, `pipeline-ci.yml` (adds a snapshot-freshness check) |
 
-## Snapshot contract (schema_version 2)
+## Snapshot contract (schema_version 3)
 
 | File | Shape |
 | --- | --- |
 | `manifest.json` | `{schema_version, generated_at, counts:{cars,offers,observations,cash_benchmarks,unmapped_trims}, runs:[…]}` |
 | `cars.json` | car records plus `requirement_check` `{passes, failures[], unknown[]}` and `deal_summary` (best current cash / PCP / PCH with the age of each) |
 | `offers.json` | latest observation of each offer plus `metrics` (from `model/deal_math.py`) and `freshness` (state, stale, age, first/last seen, history) |
+| `specs.json` | every scraped variant: features, options, canonical flags, numbers, image, provider, car_id when mapped |
 | `requirements.json` | the requirements document verbatim |
 | `data.json` | providers, recent runs, unmapped trims, offer-state counts: the SPA's Data page |
 
@@ -192,6 +216,13 @@ for two or more series, direct end-labels for up to four, crosshair tooltip read
 every series at the snapped date, arrow-key focus) and `Sparkline.tsx` the stat-tile
 version. Colours are assigned by sorted offer id so a filter never repaints a line; the
 palette was validated against the app's dark surface. Every chart has a table twin.
+
+## Filters in the app
+
+`web/src/lib/filters.ts` holds one filter set (make, model, variant text, model year)
+in the URL query; `FilterBar` renders it and every list page applies `carMatches`,
+`offerMatches` or `specMatches`. Model matching is forgiving ("Kona" matches "Kona
+Electric"); the year is a car's model year or a Carwow derivative version's year.
 
 ## Browser-side database
 

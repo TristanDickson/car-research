@@ -4,11 +4,12 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
+import { EquipmentCard } from "@/components/EquipmentCard";
 import { OfferTable } from "@/components/OfferTable";
 import { PriceHistory } from "@/components/PriceHistory";
 import { Badge, Card, Empty, ErrorNote, Loading, PageHeader, TriBadge } from "@/components/ui";
 import { carName, gbp, num } from "@/lib/format";
-import { useCar, useDataPage, useOffersForCar, useShortlist, useToggleShortlist } from "@/lib/hooks";
+import { useCar, useDataPage, useOffersForCar, useShortlist, useSpecsForCar, useToggleShortlist } from "@/lib/hooks";
 import type { SnapshotCar } from "@/lib/types";
 
 // Static export: no dynamic segments, so the car id rides a query param.
@@ -25,6 +26,7 @@ function CarView() {
   const id = useSearchParams().get("id");
   const car = useCar(id);
   const offers = useOffersForCar(id);
+  const specs = useSpecsForCar(id);
   const data = useDataPage();
   const { data: shortlist } = useShortlist();
   const toggle = useToggleShortlist();
@@ -138,6 +140,8 @@ function CarView() {
           <p className="mt-2 text-xs text-gray-500">verification: {c.verification ?? "—"}</p>
         </Card>
       )}
+
+      <EquipmentCard car={c} specs={specs.data ?? []} flagLabels={data.data?.flag_labels ?? {}} />
 
       <Card title="Price over time">
         <PriceHistory car={c} offers={offers.data ?? []} />

@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 
+import { FilterBar } from "@/components/FilterBar";
 import { OfferTable } from "@/components/OfferTable";
 import { ErrorNote, Loading, PageHeader } from "@/components/ui";
-import { carName } from "@/lib/format";
+import { offerMatches, useFilters } from "@/lib/filters";
 import { isCurrent } from "@/lib/freshness";
 import { useCars, useDataPage, useOffers } from "@/lib/hooks";
 import type { FinanceType } from "@/lib/types";
@@ -12,28 +13,29 @@ import type { FinanceType } from "@/lib/types";
 const TYPES: FinanceType[] = ["pcp", "pch", "cash", "campaign"];
 
 export default function OffersPage() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <Offers />
+    </Suspense>
+  );
+}
+
+function Offers() {
   const offers = useOffers();
   const cars = useCars();
   const data = useDataPage();
+  const [filters] = useFilters();
   const [types, setTypes] = useState<Set<FinanceType>>(new Set(["pcp", "pch", "cash"]));
   const [onlyCurrent, setOnlyCurrent] = useState(true);
-  const [q, setQ] = useState("");
+  const [now] = useState(() => new Date());
   const staleDays = data.data?.stale_days ?? 14;
 
   const carMap = useMemo(() => new Map((cars.data ?? []).map((c) => [c.id, c])), [cars.data]);
 
-  const rows = useMemo(() => {
-    const needle = q.trim().toLowerCase();
-    const now = new Date();
-    return (offers.data ?? []).filter((o) => {
-      if (!types.has(o.finance_type)) return false;
-      if (onlyCurrent && !isCurrent(o, staleDays, now)) return false;
-      if (!needle) return true;
-      const c = carMap.get(o.car_id);
-      const hay = `${c ? carName(c) : o.car_id} ${o.dealer ?? ""} ${o.source ?? ""} ${o.notes ?? ""}`.toLowerCase();
-      return hay.includes(needle);
-    });
-  }, [offers.data, types, onlyCurrent, q, carMap, staleDays]);
+  const rows = useMemo(
+    () => (offers.data ?? []).filter((o) => types.has(o.finance_type) && (!onlyCurrent || isCurrent(o, staleDays, now)) && offerMatches(o, carMap.get(o.car_id), filters)),
+    [offers.data, types, onlyCurrent, filters, carMap, staleDays, now],
+  );
 
   if (offers.error) return <ErrorNote error={offers.error} />;
   if (!offers.data || !cars.data) return <Loading />;
@@ -53,13 +55,8 @@ export default function OffersPage() {
         title="Offers"
         subtitle="Every offer observed, by source and date. 'Seen' is the last time the source showed it; an active offer not seen for a fortnight is stale and drops out of the best-price summaries. The finance maths is done once at export: implied APR as a check on the stated one, what you pay if you hand back or buy, and the premium and effective rate against the best cash price for the same car."
       />
+      <FilterBar cars={cars.data} count={`${rows.length} of ${offers.data.length}`} />
       <div className="mb-4 flex flex-wrap items-center gap-3 text-sm">
-        <input
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Search car, dealer, source, notes"
-          className="w-72 rounded border border-gray-700 bg-gray-900 px-2 py-1 text-gray-100"
-        />
         {TYPES.map((t) => (
           <label key={t} className="flex items-center gap-1">
             <input type="checkbox" checked={types.has(t)} onChange={() => toggleType(t)} />
@@ -70,7 +67,6 @@ export default function OffersPage() {
           <input type="checkbox" checked={onlyCurrent} onChange={(e) => setOnlyCurrent(e.target.checked)} />
           Current only (hide stale, gone, expired, historical, campaign)
         </label>
-        <span className="text-gray-500">{rows.length} of {offers.data.length}</span>
       </div>
       <OfferTable offers={rows} cars={carMap} staleDays={staleDays} />
     </div>

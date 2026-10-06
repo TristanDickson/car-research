@@ -107,6 +107,12 @@ def run(conn: sqlite3.Connection, provider: Provider, capability: str | None = N
                         n_unmapped += int(status == "unmapped")
                         continue
                     rec.row["car_id"] = car_id
+                elif rec.kind == "spec" and not rec.row.get("car_id"):
+                    # Specs for every variant are kept; a miss is not a mapping task.
+                    ref = rec.row.get("car_ref") or {}
+                    car_id, _ = gold.resolve_car(conn, ref.get("source", provider.name), ref.get("key", ""),
+                                                 ref.get("label"), fetched.url, now, record_miss=False)
+                    rec.row["car_id"] = car_id
                 records.setdefault(rec.kind, []).append((art_id, rec))
         n_gold = gold.write(conn, provider.name, cap.kinds, records, run_id)
         status = "ok" if (n_art or not failures) else "error"

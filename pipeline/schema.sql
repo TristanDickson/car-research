@@ -119,3 +119,29 @@ CREATE TABLE IF NOT EXISTS requirements (
   artifact_id INTEGER REFERENCES artifacts(id),
   updated_at  TEXT NOT NULL
 );
+
+-- One row per source variant (a Carwow CAP derivative, a Kia grade × powertrain):
+-- the equipment list, canonical feature flags and numbers as the source prints
+-- them. car_id is set when the trim map knows the variant; untracked variants
+-- are kept so the Specs page can show every variant of a model.
+CREATE TABLE IF NOT EXISTS specs (
+  spec_key      TEXT PRIMARY KEY,
+  source        TEXT NOT NULL,
+  make          TEXT,
+  model         TEXT,
+  trim          TEXT,
+  variant       TEXT,
+  cap_id        TEXT,
+  version_date  TEXT,
+  car_id        TEXT REFERENCES cars(id),
+  image_url     TEXT,
+  fingerprint   TEXT,
+  payload       TEXT NOT NULL,
+  first_seen_at TEXT NOT NULL,
+  last_seen_at  TEXT NOT NULL,
+  changed_at    TEXT,
+  artifact_id   INTEGER REFERENCES artifacts(id),
+  run_id        INTEGER REFERENCES runs(id)
+);
+CREATE INDEX IF NOT EXISTS specs_car ON specs(car_id);
+CREATE INDEX IF NOT EXISTS specs_model ON specs(make, model);

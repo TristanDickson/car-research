@@ -9,8 +9,8 @@
 // IndexedDB.
 import Dexie, { type Table } from "dexie";
 
-import { getManifest, loadCars, loadData, loadOffers, loadRequirements } from "./snapshot";
-import type { DataPage, Requirements, SnapshotCar, SnapshotManifest, SnapshotOffer } from "./types";
+import { getManifest, loadCars, loadData, loadOffers, loadRequirements, loadSpecs } from "./snapshot";
+import type { DataPage, Requirements, SnapshotCar, SnapshotManifest, SnapshotOffer, SnapshotSpec } from "./types";
 
 export interface MetaRow {
   key: string;
@@ -26,6 +26,7 @@ export interface ShortlistRow {
 export class CarResearchDB extends Dexie {
   cars!: Table<SnapshotCar, string>;
   offers!: Table<SnapshotOffer, string>;
+  specs!: Table<SnapshotSpec, string>;
   meta!: Table<MetaRow, string>;
   shortlist!: Table<ShortlistRow, string>;
 
@@ -45,6 +46,10 @@ export class CarResearchDB extends Dexie {
         deals: null,
         offers: "id, car_id, finance_type, status, captured_at",
       })
+      .upgrade((tx) => tx.table("meta").clear());
+    // v3 (snapshot schema 3): scraped specs per variant; cars carry spec summaries.
+    this.version(3)
+      .stores({ specs: "spec_key, car_id, make, model, trim" })
       .upgrade((tx) => tx.table("meta").clear());
   }
 }
@@ -66,17 +71,20 @@ async function seed(): Promise<SnapshotManifest> {
   const current = await db.meta.get("generated_at");
   if (current?.value === manifest.generated_at) return manifest;
 
-  const [cars, offers, requirements, data] = await Promise.all([
+  const [cars, offers, requirements, data, specs] = await Promise.all([
     loadCars(),
     loadOffers(),
     loadRequirements(),
     loadData().catch(() => null as DataPage | null),
+    loadSpecs().catch(() => [] as SnapshotSpec[]),
   ]);
-  await db.transaction("rw", db.cars, db.offers, db.meta, async () => {
+  await db.transaction("rw", db.cars, db.offers, db.specs, db.meta, async () => {
     await db.cars.clear();
     await db.offers.clear();
+    await db.specs.clear();
     await db.cars.bulkPut(cars);
     await db.offers.bulkPut(offers);
+    await db.specs.bulkPut(specs);
     await db.meta.bulkPut([
       { key: "generated_at", value: manifest.generated_at },
       { key: "schema_version", value: manifest.schema_version },

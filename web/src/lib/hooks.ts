@@ -77,3 +77,26 @@ export function useToggleShortlist() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["shortlist"] }),
   });
 }
+
+export function useSpecs() {
+  return useQuery({
+    queryKey: ["specs"],
+    queryFn: async () => {
+      await ensureSeeded();
+      return getDb().specs.orderBy("spec_key").toArray();
+    },
+    staleTime: FOREVER,
+  });
+}
+
+export function useSpecsForCar(carId: string | null) {
+  return useQuery({
+    queryKey: ["specs", "car", carId],
+    queryFn: async () => {
+      await ensureSeeded();
+      return getDb().specs.where("car_id").equals(carId as string).toArray();
+    },
+    enabled: !!carId,
+    staleTime: FOREVER,
+  });
+}

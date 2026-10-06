@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 
 import { LineChart } from "@/components/charts/LineChart";
+import { FilterBar } from "@/components/FilterBar";
 import { WindowPicker, type Window } from "@/components/PriceHistory";
 import { Card, Empty, ErrorNote, Loading, PageHeader } from "@/components/ui";
+import { carMatches, useFilters } from "@/lib/filters";
 import { carName, gbp, pct } from "@/lib/format";
 
 const fullName = (c: SnapshotCar) => carName(c) + (c.packs?.length ? ` + ${c.packs.join(" + ")}` : "");
@@ -30,6 +32,15 @@ const DAY = 86_400_000;
  * per car (same axis, same window) and a movers table that is the chart twin.
  */
 export default function MarketPage() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <Market />
+    </Suspense>
+  );
+}
+
+function Market() {
+  const [filters] = useFilters();
   const cars = useCars();
   const offers = useOffers();
   const [win, setWin] = useState<Window>(90);
@@ -41,6 +52,7 @@ export default function MarketPage() {
     for (const o of offers.data ?? []) byCar.set(o.car_id, [...(byCar.get(o.car_id) ?? []), o]);
     const out: Row[] = [];
     for (const c of cars.data ?? []) {
+      if (!carMatches(c, filters)) continue;
       const list = byCar.get(c.id) ?? [];
       const daily = dailyBest(list, "vehicle_price", now, (o) => o.finance_type === "cash" && !o.metrics.skipped);
       if (!daily.length) continue;
@@ -53,7 +65,7 @@ export default function MarketPage() {
       });
     }
     return out.sort((a, b) => (a.move?.deltaSinceThen ?? a.move?.deltaSinceFirst ?? 0) - (b.move?.deltaSinceThen ?? b.move?.deltaSinceFirst ?? 0));
-  }, [cars.data, offers.data, win, now]);
+  }, [cars.data, offers.data, win, now, filters]);
 
   if (cars.error) return <ErrorNote error={cars.error} />;
   if (!cars.data || !offers.data) return <Loading />;
@@ -75,6 +87,7 @@ export default function MarketPage() {
         title="Trends"
         subtitle="How the best outright price of each car has moved, from every sighting we have. A nightly scrape adds a point per day; the Carwow quotes from September start the lines earlier."
       />
+      <FilterBar cars={cars.data} />
       <div className="flex flex-wrap items-center gap-3 text-sm">
         <WindowPicker value={win} onChange={setWin} />
         <label className="flex items-center gap-2">

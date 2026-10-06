@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-10-06",
-  "notes": "Maps each source's own trim naming onto our car ids. Sources: carwow (pasted quote pages, key = make|model|derivative), carwow-cap (public deals pages, key = CAP derivative id), hyundai-cap (Hyundai UK offer pages, key = CAP code), ncd / leaseloco (key = make|model|derivative, normalised), rrg (key = kia|derivative). A row without car_id is status 'ignored': a derivative we deliberately don't track (wrong pack, no heat pump, non-EV). A scraped key missing here lands in silver but not gold and shows as 'unmapped' in the snapshot and `pipeline trims`.",
+  "notes": "Maps each source's own trim naming onto our car ids. Sources: carwow (pasted quote pages, key = make|model|derivative), carwow-cap (public deals pages, key = CAP derivative id), hyundai-cap (Hyundai UK offer pages, key = CAP code), ncd / leaseloco (key = make|model|derivative, normalised), rrg (key = kia|derivative), kia-spec (Kia UK specification pages, key = kia|model|grade|battery drive|seats). A row without car_id is status 'ignored': a derivative we deliberately don't track (wrong pack, no heat pump, non-EV). A scraped key missing here lands in silver but not gold and shows as 'unmapped' in the snapshot and `pipeline trims`.",
   "trim_map": [
     {
       "source": "carwow",
@@ -124,10 +124,46 @@
     },
     {
       "source": "carwow-cap",
+      "source_key": "103320",
+      "status": "ignored",
+      "note": "Kona Electric 48kWh Advance (2024 price list); we track the 65kWh."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "103321",
+      "status": "ignored",
+      "note": "Kona Electric 48kWh Advance, higher RRP (2024 price list)."
+    },
+    {
+      "source": "carwow-cap",
       "source_key": "103323",
       "status": "ignored",
       "note": "Second Kona Advance derivative at RRP £35,600 (£600 over the standard Advance; probably Comfort Pack); not tracked.",
       "label": "Hyundai Kona Electric 160kW 65kWh Auto · Advance · RRP £35,600"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "103327",
+      "status": "ignored",
+      "note": "Kona N Line S at the 2024 RRP (£45,245), before the 2025 price cut; the current derivative is 103326."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "103328",
+      "status": "ignored",
+      "note": "Kona Ultimate at a 2024 RRP (£44,695); the current derivative is 103325."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "103329",
+      "status": "ignored",
+      "note": "Kona Ultimate at a 2024 RRP (£43,995); the current derivative is 103325."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "103330",
+      "status": "ignored",
+      "note": "Kona Ultimate at a 2024 RRP (£45,595); the current derivative is 103325."
     },
     {
       "source": "carwow-cap",
@@ -276,6 +312,18 @@
       "source_key": "106647",
       "status": "ignored",
       "label": "Hyundai Inster 85kW 49kWh Auto · Cross · RRP £29,245"
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "106736",
+      "status": "ignored",
+      "note": "EV6 63kWh Wave; not on the shortlist."
+    },
+    {
+      "source": "carwow-cap",
+      "source_key": "107808",
+      "status": "ignored",
+      "note": "EV6 63kWh Air SR; not on the shortlist."
     },
     {
       "source": "carwow-cap",
@@ -509,10 +557,54 @@
     },
     {
       "source": "hyundai-cap",
+      "source_key": "hyi500ade5he a 1",
+      "status": "ignored",
+      "note": "Ioniq 5 63kWh Advance (2025 offer page); we track the 84kWh."
+    },
+    {
+      "source": "hyundai-cap",
       "source_key": "hyi500anh5he a 1",
       "status": "ignored",
       "note": "Ioniq 5 63kWh Advance; we track the 84kWh.",
       "label": "IONIQ 5 63 kWh 170 PS 2WD ADVANCE"
+    },
+    {
+      "source": "hyundai-cap",
+      "source_key": "hykn00a4e5he a 2",
+      "status": "ignored",
+      "note": "Kona Electric 48kWh Advance (2025 offer page); we track the 65kWh."
+    },
+    {
+      "source": "kia-spec",
+      "source_key": "kia|ev2|gt-line s|61kwh fwd|",
+      "car_id": "kia-ev2-61-gtlines-hp",
+      "note": "Kia's EV2 page lists the heat pump as an option on GT-Line S; our car is the GT-Line S with it fitted."
+    },
+    {
+      "source": "kia-spec",
+      "source_key": "kia|ev3|gt-line s heat pump|81.4kwh fwd|",
+      "car_id": "kia-ev3-81-gtlines-hp"
+    },
+    {
+      "source": "kia-spec",
+      "source_key": "kia|ev6|gt-line s|84kwh rwd 225 bhp|",
+      "car_id": "kia-ev6-84-gtlines-rwd-hp",
+      "note": "Kia's EV6 page lists the heat pump as an option on GT-Line S."
+    },
+    {
+      "source": "kia-spec",
+      "source_key": "kia|pv5-passenger|elite|71.2kwh fwd|7-seat",
+      "car_id": "kia-pv5-passenger-71-elite-7seat"
+    },
+    {
+      "source": "kia-spec",
+      "source_key": "kia|pv5-passenger|essential|71.2kwh fwd|7-seat",
+      "car_id": "kia-pv5-passenger-71-essential-7seat"
+    },
+    {
+      "source": "kia-spec",
+      "source_key": "kia|pv5-passenger|plus|71.2kwh fwd|7-seat",
+      "car_id": "kia-pv5-passenger-71-plus-7seat"
     },
     {
       "source": "leaseloco",

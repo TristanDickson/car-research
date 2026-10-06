@@ -29,7 +29,7 @@ def fingerprint(row: dict) -> str:
 
 
 def resolve_car(conn: sqlite3.Connection, site: str, key: str, label: str | None,
-                example_url: str | None, now: str) -> tuple[str | None, str]:
+                example_url: str | None, now: str, record_miss: bool = True) -> tuple[str | None, str]:
     """trim_map lookup → (car_id, status). A miss records an 'unmapped' row (first
     time) and bumps last_seen_at (every time) so the snapshot can list what needs
     mapping. 'ignored' rows are derivatives we deliberately don't track."""
@@ -43,6 +43,8 @@ def resolve_car(conn: sqlite3.Connection, site: str, key: str, label: str | None
         conn.execute("UPDATE trim_map SET last_seen_at=?, label=COALESCE(label, ?), example_url=COALESCE(example_url, ?) "
                      "WHERE source=? AND source_key=?", (now, label, example_url, site, key))
         return None, row["status"]
+    if not record_miss:
+        return None, "unknown"
     conn.execute(
         "INSERT INTO trim_map (source, source_key, car_id, status, label, example_url, first_seen_at, last_seen_at) "
         "VALUES (?,?,NULL,'unmapped',?,?,?,?)",
@@ -167,6 +169,25 @@ def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
             written += 1
             continue
         _insert_observation(conn, r, source, fingerprint(r), artifact_id, run_id)
+        written += 1
+
+    for artifact_id, rec in records.get("spec", []):
+        r = rec.row
+        fp = hashlib.sha1(_dump({k: r.get(k) for k in ("features", "flags", "numbers", "rrp", "trim", "variant")}).encode()).hexdigest()[:16]
+        conn.execute(
+            """INSERT INTO specs (spec_key, source, make, model, trim, variant, cap_id, version_date, car_id, image_url,
+                 fingerprint, payload, first_seen_at, last_seen_at, changed_at, artifact_id, run_id)
+               VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+               ON CONFLICT(spec_key) DO UPDATE SET
+                 source=excluded.source, make=excluded.make, model=excluded.model, trim=excluded.trim, variant=excluded.variant,
+                 cap_id=excluded.cap_id, version_date=excluded.version_date, car_id=COALESCE(excluded.car_id, specs.car_id),
+                 image_url=COALESCE(excluded.image_url, specs.image_url),
+                 changed_at=CASE WHEN specs.fingerprint IS NOT excluded.fingerprint THEN excluded.last_seen_at ELSE specs.changed_at END,
+                 fingerprint=excluded.fingerprint, payload=excluded.payload, last_seen_at=excluded.last_seen_at,
+                 artifact_id=excluded.artifact_id, run_id=excluded.run_id""",
+            (r["spec_key"], source, r.get("make"), r.get("model"), r.get("trim"), r.get("variant"), r.get("cap_id"),
+             r.get("version_date"), r.get("car_id"), r.get("image_url"), fp, _dump(r), now, now, now, artifact_id, run_id),
+        )
         written += 1
 
     for artifact_id, rec in records.get("requirements", []):

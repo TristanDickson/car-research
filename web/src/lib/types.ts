@@ -65,6 +65,8 @@ export interface Freshness {
 
 export interface SnapshotCar {
   id: string;
+  specs: CarSpecSummary[];
+  spec_check: { rows: SpecCheckRow[]; disagreements: number };
   make: string;
   model: string;
   trim: string;
@@ -247,6 +249,7 @@ export interface UnmappedTrim {
 export interface DataPage {
   generated_at: string;
   stale_days: number;
+  flag_labels?: Record<string, string>;
   providers: {
     name: string;
     live?: boolean;
@@ -282,4 +285,60 @@ export interface Requirements {
   finance_posture?: Record<string, unknown>;
   context?: Record<string, unknown>;
   [k: string]: unknown;
+}
+
+
+export type FlagState = "standard" | "option" | null;
+
+/** One scraped variant: a Carwow CAP derivative or a Kia grade × powertrain (× seats). */
+export interface SnapshotSpec {
+  spec_key: string;
+  provider: string;
+  source: string;
+  source_url: string;
+  observed_at: string;
+  make: string;
+  model: string;
+  model_slug: string;
+  trim: string;
+  variant: string;
+  engine?: string;
+  powertrain?: string;
+  cap_id?: string;
+  version_date?: string;
+  model_year_hint?: string;
+  seats?: number | null;
+  car_id: string | null;
+  rrp?: number | null;
+  carwow_price?: number | null;
+  image_url?: string | null;
+  description?: string | null;
+  features: string[];
+  options: string[];
+  flags: Record<string, FlagState>;
+  numbers: Record<string, number | string | null>;
+  first_seen_at: string;
+  last_seen_at: string;
+  changed_at: string | null;
+}
+
+export interface CarSpecSummary {
+  spec_key: string;
+  provider: string;
+  variant: string | null;
+  flags: Record<string, FlagState> | null;
+  features: number;
+  options: number;
+  numbers: Record<string, number | string | null> | null;
+  last_seen_at: string | null;
+}
+
+export interface SpecCheckRow {
+  field: string;
+  label: string;
+  hand: string | null;
+  source: string;
+  seen: FlagState;
+  verdict: string;
+  spec_key: string;
 }
