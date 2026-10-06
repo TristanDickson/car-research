@@ -1,0 +1,67 @@
+# Deploys the static app to GitHub Pages on every push to main.
+#
+# The snapshot the app reads (web/public/data) is committed on main by
+# `make snapshot`, so a single checkout has everything: no data branch, no
+# workflow_dispatch plumbing. If the snapshot ever grows large (price history),
+# move it to a squashed orphan `data` branch the way etf-tool does and stitch it
+# in here with a second checkout step.
+#
+# One-time repo setting: Settings → Pages → Source = "GitHub Actions".
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time; a newer push supersedes an in-flight one.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    defaults:
+      run:
+        working-directory: ./web
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
+      - name: Build static export
+        env:
+          # Project Pages sites live under /<repo>.
+          NEXT_PUBLIC_BASE_PATH: /car-research
+        run: npm run build
+
+      - name: SPA fallback + Pages hygiene
+        run: |
+          # Deep links to client-routed pages fall back to the app shell.
+          cp out/index.html out/404.html
+          touch out/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/out
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

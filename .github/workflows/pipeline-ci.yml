@@ -1,0 +1,32 @@
+# Pipeline gate: unit tests for the finance maths and the import/export path,
+# then a freshness check that fails if someone edited data/seed without
+# re-running `make snapshot` (the SPA reads the committed snapshot, not the seed).
+name: pipeline-ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Rebuild snapshot from seed
+        env:
+          CAR_RESEARCH_DB: /tmp/ci.sqlite
+        run: python -m pipeline refresh --out /tmp/snapshot
+      - name: Committed snapshot is up to date
+        run: |
+          for f in cars.json deals.json requirements.json; do
+            if ! diff -q /tmp/snapshot/$f web/public/data/$f; then
+              echo "::error::web/public/data/$f is stale. Run: make snapshot"
+              exit 1
+            fi
+          done

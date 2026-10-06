@@ -1,0 +1,166 @@
+"use client";
+
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+
+import { DealTable } from "@/components/DealTable";
+import { Badge, Card, Empty, ErrorNote, Loading, PageHeader, TriBadge } from "@/components/ui";
+import { carName, gbp, num } from "@/lib/format";
+import { useCar, useDealsForCar, useShortlist, useToggleShortlist } from "@/lib/hooks";
+import type { SnapshotCar } from "@/lib/types";
+
+// Static export: no dynamic segments, so the car id rides a query param.
+// useSearchParams needs a Suspense boundary in the exported build.
+export default function CarViewPage() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <CarView />
+    </Suspense>
+  );
+}
+
+function CarView() {
+  const id = useSearchParams().get("id");
+  const car = useCar(id);
+  const deals = useDealsForCar(id);
+  const { data: shortlist } = useShortlist();
+  const toggle = useToggleShortlist();
+
+  if (!id) return <Empty>No car selected.</Empty>;
+  if (car.error) return <ErrorNote error={car.error} />;
+  if (car.data === undefined) return <Loading />;
+  if (car.data === null) return <Empty>Unknown car id: {id}</Empty>;
+  const c = car.data;
+  const picked = (shortlist ?? []).some((s) => s.car_id === c.id);
+
+  return (
+    <div className="space-y-6">
+      <PageHeader
+        title={carName(c)}
+        subtitle={
+          <>
+            {c.body ?? ""} · {c.model_year ?? ""} {c.used ? "· used" : ""} ·{" "}
+            <Link href="/cars" className="underline">all cars</Link>
+          </>
+        }
+        right={
+          <button
+            onClick={() => toggle.mutate(c.id)}
+            className="rounded border border-gray-700 px-3 py-1 text-sm hover:bg-gray-800"
+          >
+            {picked ? "★ Shortlisted" : "☆ Shortlist"}
+          </button>
+        }
+      />
+
+      <div className="grid gap-4 lg:grid-cols-3">
+        <Card title="Brief">
+          <div className="mb-3">
+            {c.requirement_check.passes ? (
+              <Badge tone={c.requirement_check.unknown.length ? "warn" : "good"}>
+                meets hard requirements{c.requirement_check.unknown.length ? " (some unverified)" : ""}
+              </Badge>
+            ) : (
+              <Badge tone="bad">fails: {c.requirement_check.failures.join(", ")}</Badge>
+            )}
+          </div>
+          <Rows
+            rows={[
+              ["Heat pump", <TriBadge key="hp" value={c.heat_pump} detail={c.packs_required?.heat_pump} />],
+              ["Internal V2L", <TriBadge key="iv" value={c.internal_v2l} detail={c.packs_required?.internal_v2l} />],
+              ["External V2L", <TriBadge key="ev" value={c.external_v2l} />],
+              ["Seats", num(c.seats)],
+              ["Powered sliding doors", c.powered_sliding_doors != null ? String(c.powered_sliding_doors) : "—"],
+              ["Memory seats", flag(c.memory_seats)],
+              ["Glass roof", flag(c.glass_roof)],
+              ["Heated seats", flag(c.heated_seats)],
+              ["360 camera", flag(c.camera_360)],
+            ]}
+          />
+          {c.requirement_check.unknown.length > 0 && (
+            <p className="mt-2 text-xs text-gray-500">Unverified: {c.requirement_check.unknown.join(", ")}</p>
+          )}
+        </Card>
+
+        <Card title="Spec">
+          <Rows
+            rows={[
+              ["Battery", num(c.battery_kwh, 1, " kWh")],
+              ["WLTP range", num(c.wltp_range_mi, 0, " mi")],
+              ["Real range (est.)", num(c.real_range_mi, 0, " mi")],
+              ["Power", num(c.power_hp, 0, " hp")],
+              ["Architecture", num(c.architecture_v, 0, " V")],
+              ["DC peak", num(c.dc_peak_kw, 0, " kW")],
+              ["10–80%", num(c.dc_10_80_min, 0, " min")],
+              ["0–62", num(c.zero_to_62_s, 1, " s")],
+              ["Efficiency", num(c.efficiency_mi_kwh, 1, " mi/kWh")],
+              ["Length × width", `${num(c.length_mm)} × ${num(c.width_mm)} mm`],
+              ["Turning circle", num(c.turning_circle_m, 1, " m")],
+              ["Boot", c.boot_l != null ? `${num(c.boot_l)} L${c.boot_max_l ? ` / ${num(c.boot_max_l)} L` : ""}` : "—"],
+              ["Insurance group", c.insurance_group ?? "—"],
+            ]}
+          />
+          {c.boot_notes && <p className="mt-2 text-xs text-gray-500">{c.boot_notes}</p>}
+        </Card>
+
+        <Card title="Price">
+          <Rows
+            rows={[
+              ["List (OTR)", gbp(c.list_price_gbp)],
+              ["Government grant", c.grant_gbp ? gbp(c.grant_gbp) : "—"],
+              ["List after grant", c.list_price_gbp != null ? gbp(c.list_price_gbp - (c.grant_gbp ?? 0)) : "—"],
+              ["Best cash captured", gbp(c.deal_summary.best_cash_price)],
+              ["Best PCP £0 down", c.deal_summary.best_pcp_monthly != null ? `${gbp(c.deal_summary.best_pcp_monthly)}/mo` : "—"],
+              ["Best PCH effective", c.deal_summary.best_pch_effective_monthly != null ? `${gbp(c.deal_summary.best_pch_effective_monthly)}/mo` : "—"],
+              ["Used from (Carwow)", gbp(c.used_from_gbp)],
+              ["Expensive-car VED", c.expensive_car_supplement ? "yes (£440/yr)" : "no"],
+            ]}
+          />
+          {c.list_price_breakdown && (
+            <p className="mt-2 text-xs text-gray-500">
+              {Object.entries(c.list_price_breakdown).map(([k, v]) => `${k} ${gbp(v)}`).join(" + ")}
+            </p>
+          )}
+          {c.pack_prices_gbp && (
+            <p className="mt-1 text-xs text-gray-500">
+              Packs: {Object.entries(c.pack_prices_gbp).map(([k, v]) => `${k} ${gbp(v)}`).join(", ")}
+            </p>
+          )}
+        </Card>
+      </div>
+
+      {c.notes && (
+        <Card title="Notes">
+          <p className="text-sm text-gray-300">{c.notes}</p>
+          <p className="mt-2 text-xs text-gray-500">verification: {c.verification ?? "—"}</p>
+        </Card>
+      )}
+
+      <Card title={`Deals (${deals.data?.length ?? 0})`}>
+        {deals.data && deals.data.length > 0 ? (
+          <DealTable deals={deals.data} cars={new Map<string, SnapshotCar>([[c.id, c]])} showCar={false} />
+        ) : (
+          <Empty>No deals captured for this trim yet.</Empty>
+        )}
+      </Card>
+    </div>
+  );
+}
+
+function flag(v: boolean | undefined): string {
+  return v == null ? "—" : v ? "yes" : "no";
+}
+
+function Rows({ rows }: { rows: [string, React.ReactNode][] }) {
+  return (
+    <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+      {rows.map(([k, v]) => (
+        <div key={k} className="contents">
+          <dt className="text-gray-500">{k}</dt>
+          <dd className="text-right tabular-nums text-gray-200">{v}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}

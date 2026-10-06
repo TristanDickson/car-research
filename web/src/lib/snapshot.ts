@@ -1,0 +1,25 @@
+// Fetch layer for the committed snapshot. The SPA does not read these files
+// directly on every page: db.ts seeds them into IndexedDB once per snapshot
+// generation, and pages query that local DB.
+import type { Requirements, SnapshotCar, SnapshotDeal, SnapshotManifest } from "./types";
+
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+export const SNAPSHOT_BASE = `${BASE_PATH}/data`;
+
+// Must match pipeline/services/snapshot.py SCHEMA_VERSION.
+export const SUPPORTED_SCHEMA_VERSION = "1";
+
+async function fetchJson<T>(rel: string, init?: RequestInit): Promise<T> {
+  const res = await fetch(`${SNAPSHOT_BASE}/${rel}`, init);
+  if (!res.ok) throw new Error(`snapshot ${rel} -> ${res.status}`);
+  return res.json() as Promise<T>;
+}
+
+// Uncached so a "refresh" always sees the latest deploy.
+export const getManifest = () =>
+  fetchJson<SnapshotManifest>("manifest.json", { cache: "no-store" });
+// no-cache = revalidate against the server's ETag: changed files download fresh.
+export const loadCars = () => fetchJson<SnapshotCar[]>("cars.json", { cache: "no-cache" });
+export const loadDeals = () => fetchJson<SnapshotDeal[]>("deals.json", { cache: "no-cache" });
+export const loadRequirements = () =>
+  fetchJson<Requirements>("requirements.json", { cache: "no-cache" });

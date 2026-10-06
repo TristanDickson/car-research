@@ -1,6 +1,7 @@
 __pycache__/
 *.pyc
 .DS_Store
-node_modules/
-dist/
 .env
+# The SQLite DB is a dev-machine artifact; the committed data is web/public/data.
+data/*.sqlite
+data/*.sqlite-*

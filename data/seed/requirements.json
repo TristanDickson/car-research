@@ -38,7 +38,7 @@
     { "id": "heat_pump", "label": "Heat pump", "field": "heat_pump", "op": "in", "value": ["standard", "pack", "option"] },
     { "id": "internal_v2l", "label": "Internal 3-pin (230V) V2L socket in cabin", "field": "internal_v2l", "op": "in", "value": ["standard", "pack", "option"] },
     { "id": "seats", "label": "At least 4 proper seats", "field": "seats", "op": ">=", "value": 4 },
-    { "id": "delivery", "label": "Handover by 10 Dec 2026 (new) or available now (used)", "field": "available_by", "op": "<=", "value": "2026-12-10" },
+    { "id": "delivery", "label": "Handover by 10 Dec 2026 (new) or available now (used)", "field": "available_by", "op": "<=", "value": "2026-12-10", "applies_to": "deal" },
     { "id": "zero_deposit", "label": "£0 customer deposit if financed", "field": "customer_deposit", "op": "==", "value": 0, "applies_to": "deal" }
   ],
   "preferences": [

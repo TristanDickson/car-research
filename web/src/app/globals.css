@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+/* Tailwind 4 preflight defaults borders to currentColor; keep the v3 look. */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-800, currentColor);
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-gray-500);
+  }
+}
+
+html {
+  color-scheme: dark;
+}

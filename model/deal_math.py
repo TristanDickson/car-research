@@ -232,7 +232,8 @@ def pct(x):
 
 
 def print_markdown(results, cars):
-    name = {c["id"]: f'{c["make"]} {c["model"]} {c["trim"]}' for c in cars["cars"]}
+    """`cars` is the list of car records (what cars.json holds under "cars")."""
+    name = {c["id"]: f'{c["make"]} {c["model"]} {c["trim"]}' for c in cars}
     pcp = [r for r in results if r["finance_type"] == "pcp" and "skipped" not in r]
     pch = [r for r in results if r["finance_type"] == "pch" and "skipped" not in r]
     cash = [r for r in results if r["finance_type"] == "cash"]
@@ -271,7 +272,7 @@ def print_markdown(results, cars):
 
 def main():
     deals = load("deals.json")["deals"]
-    cars = load("cars.json")
+    cars = load("cars.json")["cars"]
     results = compute(deals)
     if "--json" in sys.argv:
         json.dump(results, sys.stdout, indent=2)

@@ -1,0 +1,29 @@
+# Frontend gate: lint, type-check, unit tests, and the static export build.
+name: web-ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - name: Build static export (root base path)
+        run: npm run build
+      - name: Assert export produced out/
+        run: test -f out/index.html && test -f out/cars/index.html && test -f out/deals/index.html

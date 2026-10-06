@@ -1,0 +1,35 @@
+{
+  "name": "car-research-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.51.0",
+    "dexie": "^4.0.8",
+    "next": "^16",
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.14",
+    "@types/node": "^20.14.0",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9",
+    "eslint-config-next": "^16",
+    "fake-indexeddb": "^6.2.5",
+    "jsdom": "^25.0.1",
+    "postcss": "^8.4.39",
+    "tailwindcss": "^4.1.14",
+    "typescript": "^5.5.3",
+    "vitest": "^3.0.5"
+  }
+}
