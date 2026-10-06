@@ -121,7 +121,16 @@ class ThroughTheRunner(unittest.TestCase):
         by = {r["spec_key"]: r for r in rows}
         self.assertEqual(by["carwow-cap:103322"]["car_id"], "hyundai-kona-65-advance")
         self.assertEqual(by["carwow-cap:110664"]["car_id"], "hyundai-ioniq3-61-advance")
-        self.assertIsNone(by["carwow-cap:110663"]["car_id"], "the 42kWh Ioniq 3 is ignored in the trim map but its spec is kept")
+        # The 42kWh Ioniq 3 is 'ignored' in the trim map (no hand-curated car): it gets a generated car.
+        self.assertEqual(by["carwow-cap:110663"]["car_id"], "carwow-cap:110663")
+        auto = json.loads(self.conn.execute("SELECT payload FROM cars WHERE id='carwow-cap:110663'").fetchone()["payload"])
+        self.assertEqual((auto["auto"], auto["make"], auto["model"], auto["trim"], auto["list_price_gbp"], auto["model_year"]),
+                         (True, "Hyundai", "Ioniq 3", "Advance · 108kW 42kWh Auto", 22245.0, 2026))
+        flags = json.loads(self.conn.execute("SELECT payload FROM specs WHERE spec_key='carwow-cap:110663'").fetchone()["payload"])["flags"]
+        self.assertEqual(auto["heat_pump"], flags["heat_pump"] or "unknown", "tri-state from the equipment list; absence is 'unknown', not 'none'")
+        self.assertEqual(auto["internal_v2l"], "unknown")
+        self.assertEqual(self.conn.execute("SELECT status, car_id FROM trim_map WHERE source='carwow-cap' AND source_key='110663'").fetchone()[:],
+                         ("auto", "carwow-cap:110663"))
         self.assertTrue(by["carwow-cap:103322"]["image_url"].startswith("https://car-data.carwow.co.uk/image?"))
         # No unmapped rows were recorded for the untracked derivatives.
         self.assertEqual(self.conn.execute("SELECT COUNT(*) FROM trim_map WHERE status='unmapped'").fetchone()[0], 0)

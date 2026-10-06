@@ -26,8 +26,12 @@ class CarwowDeals(unittest.TestCase):
         by_key = {r["offer_key"]: r for r in rows}
         self.assertEqual(len(rows), 21)  # 20 derivatives + 1 representative example
         ult = by_key["carwow:cash:111015"]
-        self.assertEqual(ult["car_ref"], {"source": "carwow-cap", "key": "111015",
-                                          "label": "Hyundai Ioniq 3 99kW 61kWh Auto · Ultimate · RRP £31,195"})
+        self.assertEqual({k: v for k, v in ult["car_ref"].items() if k != "stub"},
+                         {"source": "carwow-cap", "key": "111015", "label": "Hyundai Ioniq 3 99kW 61kWh Auto · Ultimate · RRP £31,195"})
+        # Enough to generate a car for a derivative nobody curates (see autocars.from_stub).
+        self.assertEqual(ult["car_ref"]["stub"], {"cap_id": "111015", "make": "Hyundai", "make_slug": "hyundai", "model": "Ioniq 3",
+                                                  "model_slug": "ioniq-3", "trim": "Ultimate", "engine": "99kW 61kWh Auto",
+                                                  "rrp": 31195.0, "version_date": "2026-10-01"})
         self.assertEqual((ult["list_price"], ult["vehicle_price"], ult["saving_stated"]), (31195.0, 25620.0, 5575.0))
         self.assertEqual(ult["finance_type"], "cash")
         self.assertEqual(ult["status"], "lead")

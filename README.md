@@ -58,15 +58,25 @@ Full rules in `docs/research-notes.md`; the generated comparison is `docs/deal-c
 
 Test-drive shortlist: Ioniq 3 Ultimate EV Pack and PV5 Elite 7-seat, Inster as the control.
 
+Those are the hand-curated trims. Behind them sits **every EV on sale in the UK**: the
+pipeline reads Carwow's model index each night (~250 electric models from ~50 makes),
+scrapes the specification and deals page of each, and generates a car record per
+derivative nobody has curated (~1,500), with its equipment, numbers, image, Carwow's cash
+price and PCP example, and LeaseLoco's leases where the derivative text can be matched.
+In the app, **Shortlist** is the curated set and **Every EV** is the lot; the brief is
+checked against both. See "Every EV on sale" below.
+
 ## How it fits together
 
 ```
 data/seed/*.json ─────────────┐
 data/pastes/carwow/*.txt ─────┼─▶ pipeline (Python) ─▶ SQLite ─▶ web/public/data/*.json (committed)
-live scrapers (5 sites) ──────┘     bronze/silver/gold           offers = latest sighting + maths + freshness
-data/history/observations.jsonl ┘   trim map resolves each       push main ─▶ Pages ─▶ SPA
-   (committed sighting log,         source's trim naming         SPA loads JSON into IndexedDB
-    replayed so CI needs no network)
+Carwow catalogue ─▶ live      │     bronze/silver/gold           offers = latest sighting + maths + freshness
+  scrapers (5 sites) ─────────┘     trim map resolves each       push main ─▶ Pages ─▶ SPA
+data/history/*.jsonl ─────────┘     source's trim naming, else   SPA loads JSON into IndexedDB
+   (committed sighting log, specs   a generated car per
+    and catalogue, replayed so CI   Carwow derivative
+    needs no network)
 ```
 
 Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
@@ -77,20 +87,52 @@ Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
 | --- | --- | --- | --- |
 | `manual_seed` | `data/seed/*.json` | cars, requirements, trim map, 29 hand-captured offers | yes |
 | `carwow_paste` | `data/pastes/carwow/*.txt` | dealer PCP quotes from the logged-in Carwow account (4 so far) | yes |
-| `carwow_deals` | carwow.co.uk public `<make>/<model>/deals` pages | Carwow's best cash price per derivative (CAP id), Kia's separate "PCP finance" price, the model-level representative PCP example | scrapes |
+| `carwow_catalog` | carwow.co.uk sitemaps and `<make>/electric` pages | the catalogue: every electric model, which have a deals page and a specifications page | scrapes |
+| `carwow_deals` | carwow.co.uk public `<make>/<model>/deals` pages, one per catalogue model | Carwow's best cash price per derivative (CAP id), Kia's separate "PCP finance" price, the model-level representative PCP example | scrapes |
 | `hyundai_offers` | hyundai.com/uk per-model offer pages | Hyundai Finance's full national PCP example per model (deposit, contribution, APR, GFV, validity dates) | scrapes |
 | `ncd` | new-car-discount.com model listings | broker all-in cash price per derivative | scrapes |
-| `leaseloco` | leaseloco.com model pages | best personal-lease deal per derivative and profile, VAT added | scrapes |
+| `leaseloco` | leaseloco.com model pages (the known ones plus a guess per catalogue model; a 404 is skipped) | best personal-lease deal per derivative and profile, VAT added | scrapes |
 | `rrg` | rrg-group.com Kia PV5 offers | the dealer's PCP example for the PV5 7-seat | scrapes |
-| `carwow_specs` | carwow.co.uk `/specifications` per model | equipment per trim, numbers per engine, CAP ids with version dates, an image per derivative | scrapes |
+| `carwow_specs` | carwow.co.uk `/specifications` per catalogue model | equipment per trim, numbers per engine, CAP ids with version dates, an image per derivative; a generated car for every derivative nobody curates | scrapes |
 | `kia_specs` | kia.com/uk `/specification` per model | grade × feature ticks, numbers per powertrain, seat variants | scrapes |
 
-Every scrape is an observation: the body is kept (Bronze), parsed (Silver), resolved to one of
-our 19 trims through the trim map and written as a sighting (Gold). Re-seeing the same price
-extends the sighting; a changed price is a new row; a price not seen for 14 days is stale and
-drops out of the best-price summaries. Kia's own quote widget currently returns "No quote
+Every scrape is an observation: the body is kept (Bronze), parsed (Silver), resolved to a car
+(one of our 19 curated trims through the trim map, else the generated car for that Carwow
+derivative) and written as a sighting (Gold). Re-seeing the same price extends the sighting; a
+changed price is a new row; a price not seen for 14 days is stale and drops out of the
+best-price summaries. Kia's own quote widget currently returns "No quote
 available" for every car, so Kia Finance examples are hand-captured for now; Richmond and
 cars2buy block automated reads and stay as pastes.
+
+## Every EV on sale
+
+The curated shortlist is 19 trims the household has looked at closely. The alternative
+to any of them is the whole UK EV market, so the pipeline covers that too, without a
+hand-written model list:
+
+1. `carwow_catalog` reads Carwow's sitemaps (`car_models.xml`, `car_model_deals.xml`,
+   `brand_fuel_types.xml`) and each make's `/electric` page, and writes a `models` row per
+   `<make>/<model>` with the printed names and whether a deals and a specifications page exist.
+   Makes whose whole range is electric (Tesla, Polestar, XPeng …) have no such page and are
+   flagged by make; MINI's electric models are listed by slug. ~250 electric models, ~50 makes.
+2. `carwow_specs` and `carwow_deals` discover their pages from that table (the old static list
+   is the fallback before the first catalogue run); `leaseloco` tries each model's slug and
+   skips the ones LeaseLoco does not have.
+3. A derivative the trim map does not know gets a **generated car** (`carwow-cap:<cap id>`,
+   `auto: true`): from its spec row when the specification page lists it (equipment flags,
+   numbers, RRP, image, the derivative's version date as the model year), else a stub from
+   what the deals page prints (trim, engine, RRP). A spec-built car replaces a stub; nothing
+   replaces a hand-curated car, and a derivative promoted to one later simply maps over it.
+   Tri-state fields are `unknown` when the source does not list the item: an equipment list
+   without "heat pump" is not proof there is none, so such cars meet the brief as "yes?" and
+   the Pick page's *Verified only* box drops them.
+4. Broker rows (LeaseLoco, NCD) name derivatives in their own words; `services/match.py`
+   resolves them to the one generated car of that make and model whose kW, kWh and trim
+   words agree, and refuses ties (those stay unmapped for a human).
+
+`python -m pipeline models` prints the catalogue with what has been scraped per model. The
+Data page shows the same table; **Shortlist / Every EV** on the filter bar switches every
+page between the curated trims and the whole market (`?scope=all` in the URL).
 
 ## Trends
 
@@ -150,21 +192,23 @@ filtered view is a link and the filter follows you between pages.
 
 ```
 pipeline/               Python package: providers, SQLite medallion, snapshot exporter, history, CLI
-  providers/            manual_seed, carwow_paste, and the live scrapers (carwow_deals, hyundai_offers, ncd, leaseloco, rrg, carwow_specs, kia_specs)
+  providers/            manual_seed, carwow_paste, carwow_catalog (the model index), and the live scrapers (carwow_specs, carwow_deals, hyundai_offers, ncd, leaseloco, rrg, kia_specs)
                         http.py (polite fetch: UA, per-host delay, retry) and parse.py (money/pct/text/key helpers)
-  services/snapshot.py  Gold → web/public/data: offers with metrics + freshness, requirement checks, data page
-  history.py            offer_observations ⇄ data/history/observations.jsonl, specs ⇄ data/history/specs.jsonl (CI and a fresh clone replay both)
+  services/snapshot.py  Gold → web/public/data: offers with metrics + freshness, requirement checks, data page, catalogue
+  services/autocars.py  a car record from a Carwow spec row (or a deals-page stub) for every derivative nobody curates
+  services/match.py     broker derivative text → the one generated car whose kW / kWh / trim words agree
+  history.py            offer_observations ⇄ data/history/observations.jsonl, specs ⇄ specs.jsonl, models ⇄ models.jsonl (CI and a fresh clone replay all three)
   services/features.py  equipment wording → canonical flags (heat pump, internal V2L, …) shared by every spec source
 model/deal_math.py      PCP / PCH / cash normalisation (pinned by tests/test_deal_math.py)
 data/seed/              hand-captured cars (19), offers (29), requirements, trim map (50 mapped, the rest ignored on purpose)
 data/pastes/            pasted source pages, one file each (carwow: 4, richmond: 2)
-data/history/           the committed sighting log, appended by every refresh
+data/history/           the committed sighting log, scraped specs and the catalogue, rewritten by every refresh
 web/                    Next.js static SPA: pick, compare, cars, car detail (price board, history, equipment), offers, trends, specs, requirements, data
   public/data/          the committed snapshot the SPA reads
 docs/                   requirements, research notes, architecture, generated deal table,
   transcripts/          raw source conversations (contact details redacted)
 tests/                  Python unit tests; tests/fixtures holds one real page per scraper
-.github/workflows/      pages-deploy, web-ci, pipeline-ci (offline replay; fails if the snapshot is stale), scrape (nightly), backfill (Wayback, by hand)
+.github/workflows/      pages-deploy, web-ci, pipeline-ci (offline replay; fails if the snapshot is stale), scrape (nightly), backfill (Wayback, by hand, sharded per provider)
 ```
 
 ## Working on it

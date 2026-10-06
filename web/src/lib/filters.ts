@@ -1,6 +1,10 @@
-// One filter set for every page: make, model, variant text, model year. It lives
-// in the URL (?make=Hyundai&model=Kona&q=ultimate&year=2026) so a filtered view is
-// a link, and moving between pages keeps it.
+// One filter set for every page: scope, make, model, variant text, model year.
+// It lives in the URL (?scope=all&make=Hyundai&model=Kona&q=ultimate&year=2026)
+// so a filtered view is a link, and moving between pages keeps it.
+//
+// scope: '' (default) = the hand-curated shortlist in data/seed/cars.json;
+// 'all' = every EV on sale, i.e. the generated cars too (one per Carwow
+// derivative, ~1,500 of them).
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
 
@@ -8,23 +12,30 @@ import { carName } from "./format";
 import type { SnapshotCar, SnapshotOffer, SnapshotSpec } from "./types";
 
 export interface Filters {
+  scope: "" | "all";
   make: string;
   model: string;
   q: string;
   year: string;
 }
 
-export const EMPTY: Filters = { make: "", model: "", q: "", year: "" };
-const KEYS: (keyof Filters)[] = ["make", "model", "q", "year"];
+export const EMPTY: Filters = { scope: "", make: "", model: "", q: "", year: "" };
+const KEYS: (keyof Filters)[] = ["scope", "make", "model", "q", "year"];
+
+export const allCars = (f: Filters) => f.scope === "all";
 
 export function filtersFrom(params: URLSearchParams | null): Filters {
   const f = { ...EMPTY };
-  for (const k of KEYS) f[k] = params?.get(k) ?? "";
+  for (const k of KEYS) {
+    if (k === "scope") f.scope = params?.get("scope") === "all" ? "all" : "";
+    else f[k] = params?.get(k) ?? "";
+  }
   return f;
 }
 
+/** No make / model / text / year narrowing (the scope is not a narrowing). */
 export function isEmpty(f: Filters): boolean {
-  return KEYS.every((k) => !f[k]);
+  return KEYS.every((k) => k === "scope" || !f[k]);
 }
 
 export function useFilters(): [Filters, (patch: Partial<Filters>) => void] {
@@ -65,7 +76,13 @@ function modelMatches(model: string | null | undefined, wanted: string): boolean
   return a === b || a.startsWith(b + " ") || b.startsWith(a + " ") || a.split(" ")[0] === b.split(" ")[0];
 }
 
+/** Scope only: is this car in view at all (hand-curated, or every EV)? */
+export function inScope(c: SnapshotCar, f: Filters): boolean {
+  return allCars(f) || !c.auto;
+}
+
 export function carMatches(c: SnapshotCar, f: Filters): boolean {
+  if (!inScope(c, f)) return false;
   if (f.make && norm(c.make) !== norm(f.make)) return false;
   if (!modelMatches(c.model, f.model)) return false;
   if (f.year && String(c.model_year ?? "") !== f.year) return false;
@@ -89,6 +106,7 @@ export function specMatches(s: SnapshotSpec, f: Filters): boolean {
 
 export function offerMatches(o: SnapshotOffer, car: SnapshotCar | undefined, f: Filters): boolean {
   if (!car) return isEmpty(f);
+  if (!inScope(car, f)) return false;
   if (f.make && norm(car.make) !== norm(f.make)) return false;
   if (!modelMatches(car.model, f.model)) return false;
   if (f.year && String(car.model_year ?? "") !== f.year) return false;
@@ -105,12 +123,13 @@ export interface FilterOptions {
   years: string[];
 }
 
-/** Choices for the bar, from whatever the page has loaded. Models narrow to the chosen make. */
+/** Choices for the bar, from whatever the page has loaded (within the scope). Models narrow to the chosen make. */
 export function filterOptions(cars: SnapshotCar[], specs: SnapshotSpec[], f: Filters): FilterOptions {
   const makes = new Set<string>();
   const models = new Set<string>();
   const years = new Set<string>();
   for (const c of cars) {
+    if (!inScope(c, f)) continue;
     makes.add(c.make);
     if (!f.make || norm(c.make) === norm(f.make)) models.add(c.model);
     if (c.model_year) years.add(String(c.model_year));

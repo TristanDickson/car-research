@@ -9,7 +9,10 @@ example, matched to its derivative by RRP.
 
 Emits one cash observation per derivative (offer key carwow:cash:<cap id>) and
 one illustrative PCP observation for the example. Trim resolution is by CAP id
-(trim_map source 'carwow-cap'), which is stable across visits.
+(trim_map source 'carwow-cap'), which is stable across visits; a derivative
+nobody curates resolves to a generated car (made from its spec row, or from
+the stub this page carries in car_ref when the spec page does not list it).
+Which models to read comes from the catalogue (carwow_catalog).
 """
 from __future__ import annotations
 
@@ -17,6 +20,7 @@ import html as H
 import re
 from collections.abc import Iterator
 
+from pipeline.providers.carwow_catalog import electric_models, pretty_make
 from pipeline.providers.http import fetch_url
 from pipeline.providers.parse import money, number, pct, text
 from pipeline.providers.wayback import backfill_capability, observed_at_for, original_url
@@ -40,17 +44,23 @@ def url_for(make: str, model: str) -> str:
 
 
 def discover(target: Target, ctx: Context) -> Iterator[Target]:
-    for make, model in MODELS:
-        ident = f"{make}/{model}"
+    """Every electric model with a deals page, from the catalogue; the static
+    list when no catalogue has been written yet (first run, tests)."""
+    models = electric_models(ctx, "has_deals") or [
+        {"make": mk, "model": mo, "make_name": pretty_make(mk)} for mk, mo in MODELS]
+    for m in models:
+        ident = f"{m['make']}/{m['model']}"
         if target.identifier in ("all", ident):
-            yield Target(identifier=ident, metadata={"make": make, "model": model, "url": url_for(make, model)})
+            yield Target(identifier=ident, metadata={"make": m["make"], "model": m["model"], "make_name": m["make_name"],
+                                                     "url": url_for(m["make"], m["model"])})
 
 
 def fetch(target: Target, ctx: Context) -> Fetched:
     return fetch_url(target.metadata["url"], ctx)
 
 
-def parse_page(page: str, make: str, model: str, url: str, observed_at: str) -> list[dict]:
+def parse_page(page: str, make: str, model: str, url: str, observed_at: str, make_name: str | None = None) -> list[dict]:
+    make_name = make_name or pretty_make(make)
     derivatives = []
     for m in DERIV_RE.finditer(page):
         b = m.group(1)
@@ -65,6 +75,8 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str) -> 
         prices = {text(k): text(v) for k, v in PRICE_RE.findall(b)}
         derivatives.append({
             "cap": cap.group(1), "trim": trim.group(1) if trim else None, "title": " ".join(parts),
+            # title parts are [model, engine]: enough to generate a car for a derivative nobody curates
+            "model_name": parts[0] if parts else model, "engine": " ".join(parts[1:]),
             "version": version.group(1) if version else None, "rrp": rrp,
             "cash": money(prices.get("Cash")), "pcp_price": money(prices.get("PCP Finance")),
             "monthly_from": money(prices.get("Monthly from*") or prices.get("Monthly from")),
@@ -79,16 +91,22 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str) -> 
         if fields.get("Monthly payment"):
             example = fields
 
-    pretty_make = make.capitalize()
+    def ref(d: dict, label: str) -> dict:
+        version_date = d["version"].rsplit("_", 1)[-1] if d["version"] and "_" in d["version"] else None
+        return {"source": SITE, "key": d["cap"], "label": label,
+                "stub": {"cap_id": d["cap"], "make": make_name, "make_slug": make, "model": d["model_name"], "model_slug": model,
+                         "trim": d["trim"], "engine": d["engine"], "rrp": d["rrp"],
+                         "version_date": version_date if version_date and len(version_date) == 10 else None}}
+
     rows: list[dict] = []
     for d in derivatives:
-        label = f"{pretty_make} {d['title']} · {d['trim']} · RRP £{d['rrp']:,.0f}" if d["rrp"] else f"{pretty_make} {d['title']} · {d['trim']}"
+        label = f"{make_name} {d['title']} · {d['trim']} · RRP £{d['rrp']:,.0f}" if d["rrp"] else f"{make_name} {d['title']} · {d['trim']}"
         row = {
             "id": f"carwow:cash:{d['cap']}", "offer_key": f"carwow:cash:{d['cap']}",
             "observed_at": observed_at, "captured_at": observed_at[:10], "present": 1,
             "status": "lead", "verification": "scraped", "source": "Carwow best price",
             "source_url": url, "source_ref": f"CAP {d['cap']}" + (f" / {d['version']}" if d["version"] else ""),
-            "car_ref": {"source": SITE, "key": d["cap"], "label": label},
+            "car_ref": ref(d, label),
             "finance_type": "cash", "list_price": d["rrp"], "vehicle_price": d["cash"],
             "saving_stated": round(d["rrp"] - d["cash"], 2) if d["rrp"] and d["cash"] else None,
             "carwow_trim": d["trim"], "carwow_title": d["title"],
@@ -116,7 +134,7 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str) -> 
                 "status": "illustrative", "verification": "scraped",
                 "source": "Carwow representative PCP example", "source_url": url,
                 "source_ref": f"CAP {match['cap']}",
-                "car_ref": {"source": SITE, "key": match["cap"], "label": f"{pretty_make} {match['title']} · {match['trim']}"},
+                "car_ref": ref(match, f"{make_name} {match['title']} · {match['trim']}"),
                 "finance_type": "pcp",
                 "list_price": rrp, "vehicle_price": money(example.get("Carwow price")),
                 "customer_deposit": money(example.get("Customer deposit")) or 0.0,
@@ -138,10 +156,10 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str) -> 
 
 def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
     for row in parse_page(body.decode("utf-8", "replace"), target.metadata["make"], target.metadata["model"],
-                          original_url(target), observed_at_for(target)):
+                          original_url(target), observed_at_for(target), target.metadata.get("make_name")):
         yield ParsedRecord(kind="offer", key=row["offer_key"], row=row)
 
 
-deals = Capability(name="deals", parser_version="1", discover=discover, fetch=fetch, parse=parse, kinds=("offer",))
+deals = Capability(name="deals", parser_version="2", discover=discover, fetch=fetch, parse=parse, kinds=("offer",))
 provider = Provider(name="carwow_deals", default_capability="deals",
                     capabilities={"deals": deals, "backfill": backfill_capability(deals)}, live=True)

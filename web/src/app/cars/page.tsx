@@ -5,7 +5,7 @@ import { Suspense, useMemo, useState } from "react";
 import { CarTable } from "@/components/CarTable";
 import { FilterBar } from "@/components/FilterBar";
 import { ErrorNote, Loading, PageHeader } from "@/components/ui";
-import { carMatches, useFilters } from "@/lib/filters";
+import { carMatches, inScope, useFilters } from "@/lib/filters";
 import { useCars } from "@/lib/hooks";
 
 export default function CarsPage() {
@@ -34,9 +34,9 @@ function Cars() {
     <div>
       <PageHeader
         title="Cars"
-        subtitle="One row per trim that matters. Heat pump and internal V2L are what force the trim choice; Best cash and Best PCP come from the deals captured for that exact trim."
+        subtitle="One row per trim. The shortlist is curated by hand (heat pump and internal V2L are what force the trim choice); Every EV adds a row per derivative on sale, generated from Carwow's catalogue, with its equipment read off the specification page. Best cash and Best PCP come from the deals captured for that exact trim."
       />
-      <FilterBar cars={data} count={`${rows.length} of ${data.length}`} />
+      <FilterBar cars={data} count={`${rows.length} of ${data.filter((c) => inScope(c, filters)).length}`} />
       <div className="mb-4 flex flex-wrap items-center gap-3 text-sm">
         <label className="flex items-center gap-1">
           Min seats

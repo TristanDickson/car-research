@@ -12,6 +12,7 @@ import json
 import re
 from collections.abc import Iterator
 
+from pipeline.providers.carwow_catalog import electric_models
 from pipeline.providers.http import fetch_url
 from pipeline.providers.parse import norm_key
 from pipeline.providers.wayback import backfill_capability, observed_at_for, original_url
@@ -23,9 +24,21 @@ VAT = 1.2
 
 
 def discover(target: Target, ctx: Context) -> Iterator[Target]:
+    """The known pages, then a guess per catalogue model: LeaseLoco's model slugs
+    mostly match Carwow's (bmw/i4, tesla/model-y), and a guess that 404s is
+    skipped quietly (optional target), not counted as a failure."""
+    seen: set[str] = set()
     for slug in SLUGS:
+        seen.add(slug)
         if target.identifier in ("all", slug):
             yield Target(identifier=slug, metadata={"url": f"https://www.leaseloco.com/car-leasing/{slug}"})
+    for m in electric_models(ctx) or []:
+        slug = f"{m['make']}/{m['model']}"
+        if slug in seen:
+            continue
+        seen.add(slug)
+        if target.identifier in ("all", slug):
+            yield Target(identifier=slug, metadata={"url": f"https://www.leaseloco.com/car-leasing/{slug}", "optional": True})
 
 
 def fetch(target: Target, ctx: Context) -> Fetched:
@@ -68,7 +81,10 @@ def parse_page(page: str, url: str, observed_at: str) -> list[dict]:
             "source_url": url, "source_ref": f"deal {p.get('id')} vehicle {v.get('id')}",
             "car_ref": {"source": SITE,
                         "key": norm_key(v.get("manufacturerName", ""), v.get("modelName", ""), v.get("derivativeName", "")),
-                        "label": f"{v.get('manufacturerName')} {v.get('modelName')} {v.get('derivativeName')}"},
+                        "label": f"{v.get('manufacturerName')} {v.get('modelName')} {v.get('derivativeName')}",
+                        # for the derivative-text matcher against generated cars
+                        "make": v.get("manufacturerName"), "model": v.get("modelName"),
+                        "derivative": (v.get("derivativeName") or "") + (f" [{v['seats']} seat]" if v.get("seats") else "")},
             "finance_type": "pch", "term_months": term, "profile": f"{init_months}+{term - 1}",
             "initial_rental": round(monthly * init_months, 2), "num_rentals": term - 1, "monthly_rental": monthly,
             "fees_gbp": fee, "annual_mileage": mileage, "lease_type": p.get("leaseType"),

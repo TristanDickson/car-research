@@ -45,7 +45,23 @@ function CarView() {
         subtitle={
           <>
             {c.body ?? ""} · {c.model_year ?? ""} {c.used ? "· used" : ""} ·{" "}
-            <Link href="/cars" className="underline">all cars</Link>
+            <Link href={c.auto ? "/cars?scope=all" : "/cars"} className="underline">all cars</Link>
+            {c.auto && (
+              <>
+                {" · "}
+                <Badge tone="muted" title={c.notes ?? undefined}>
+                  {c.source_kind === "stub" ? "generated from a Carwow deals page" : "generated from Carwow's specification page"}
+                </Badge>
+                {c.make_slug && c.model_slug && (
+                  <>
+                    {" "}
+                    <Link href={`/cars?scope=all&make=${encodeURIComponent(c.make)}&model=${encodeURIComponent(c.model)}`} className="underline">
+                      every {c.make} {c.model} derivative
+                    </Link>
+                  </>
+                )}
+              </>
+            )}
           </>
         }
         right={

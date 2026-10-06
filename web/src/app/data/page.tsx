@@ -1,11 +1,14 @@
 "use client";
 
+import Link from "next/link";
+
 import { Badge, Card, Empty, ErrorNote, Loading, PageHeader } from "@/components/ui";
 import { dateLabel } from "@/lib/format";
-import { useDataPage, useSnapshot } from "@/lib/hooks";
+import { useDataPage, useModels, useSnapshot } from "@/lib/hooks";
 
 export default function DataPage() {
   const snap = useSnapshot();
+  const models = useModels();
   const { data, error } = useDataPage();
   if (error) return <ErrorNote error={error} />;
   if (data === undefined) return <Loading />;
@@ -55,9 +58,45 @@ export default function DataPage() {
         </Card>
       </div>
 
+      <Card title={`Catalogue · ${models.data?.length ?? 0} electric models on sale (from Carwow's index)`}>
+        <p className="mb-2 text-sm text-gray-400">
+          Every model Carwow lists as electric. Deals and specs say whether Carwow has that page; derivatives is how many variants the
+          specification page lists; cars is how many car records exist for it (hand-curated plus generated); priced is how many of those have a current offer.
+        </p>
+        {!models.data?.length ? (
+          <Empty>No catalogue in this snapshot yet.</Empty>
+        ) : (
+          <div className="max-h-[32rem] overflow-auto">
+            <table className="w-full text-sm">
+              <thead className="sticky top-0 bg-gray-900 text-xs uppercase text-gray-500"><tr><th className="text-left">Model</th><th className="text-left">Deals</th><th className="text-left">Specs</th><th className="text-right">Derivatives</th><th className="text-right">Cars</th><th className="text-right">Priced</th><th className="text-left">Last seen</th></tr></thead>
+              <tbody>
+                {models.data.map((m) => {
+                  const name = `${m.make_name ?? m.make} ${m.model_name ?? m.model}`;
+                  return (
+                    <tr key={m.slug} className="border-t border-gray-800">
+                      <td className="py-1 pr-3">
+                        {m.cars > 0 ? (
+                          <Link href={`/cars?scope=all&make=${encodeURIComponent(m.make_name ?? m.make)}&model=${encodeURIComponent(m.model_name ?? m.model)}`} className="hover:underline">{name}</Link>
+                        ) : name}
+                      </td>
+                      <td className="py-1 pr-3">{m.has_deals ? "yes" : "—"}</td>
+                      <td className="py-1 pr-3">{m.has_specs ? "yes" : "—"}</td>
+                      <td className="py-1 text-right tabular-nums">{m.derivatives}</td>
+                      <td className="py-1 text-right tabular-nums">{m.cars}</td>
+                      <td className="py-1 text-right tabular-nums">{m.priced}</td>
+                      <td className="py-1 pl-3 whitespace-nowrap text-gray-400">{m.last_seen_at.slice(0, 10)}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </Card>
+
       <Card title={`Unmapped trims (${data.unmapped_trims.length})`}>
         {data.unmapped_trims.length === 0 ? (
-          <Empty>Every scraped trim resolves to a car. New ones appear here until added to data/seed/trim_map.json.</Empty>
+          <Empty>Every scraped trim resolves to a car (hand-curated, or generated from the catalogue). Broker derivatives that match no car appear here until added to data/seed/trim_map.json.</Empty>
         ) : (
           <table className="w-full text-sm">
             <thead className="text-xs uppercase text-gray-500"><tr><th className="text-left">Source</th><th className="text-left">Key</th><th className="text-left">As printed</th><th className="text-left">First seen</th></tr></thead>

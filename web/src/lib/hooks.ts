@@ -100,3 +100,14 @@ export function useSpecsForCar(carId: string | null) {
     staleTime: FOREVER,
   });
 }
+
+export function useModels() {
+  return useQuery({
+    queryKey: ["models"],
+    queryFn: async () => {
+      await ensureSeeded();
+      return getDb().models.orderBy("slug").toArray();
+    },
+    staleTime: FOREVER,
+  });
+}

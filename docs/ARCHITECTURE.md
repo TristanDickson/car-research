@@ -9,23 +9,25 @@ on `main` and GitHub Pages serves it.
 providers (discover → fetch → parse)       pipeline/providers/*      Python, stdlib
    manual_seed     data/seed/*.json          cars, requirements, trim map, hand-captured offers
    carwow_paste    data/pastes/carwow/*.txt  Carwow offer pages copied out of a logged-in browser
+   carwow_catalog  carwow.co.uk (live)       the catalogue: every electric model, from the sitemaps + <make>/electric pages
+   carwow_specs    carwow.co.uk (live)       equipment per trim, numbers per engine, CAP ids + version dates, images
    carwow_deals    carwow.co.uk (live)       best cash price per CAP derivative, Kia PCP-finance price, rep. example
    hyundai_offers  hyundai.com/uk (live)     Hyundai Finance national PCP example per model, with validity dates
    ncd             new-car-discount.com      broker all-in cash price per derivative
    leaseloco       leaseloco.com (live)      best personal lease per derivative/profile (ex-VAT → inc.)
    rrg             rrg-group.com (live)      dealer PCP example for the PV5 7-seat
-   carwow_specs    carwow.co.uk (live)       equipment per trim, numbers per engine, CAP ids + version dates, images
    kia_specs       kia.com/uk (live)         grade × feature ticks, numbers per powertrain, seat variants
         │  Bronze  artifacts            every fetched body, sha256-addressed, supersede chain
         │  Silver  source_rows          one row per parsed record, in the source's vocabulary
-        │  Gold    cars                 canonical trims (hand-curated)
-        │          trim_map             (site, trim-as-printed) → car_id; misses recorded as 'unmapped'
+        │  Gold    models               the catalogue: <make>/<model>, names, electric / has_deals / has_specs
+        │          cars                 canonical trims: hand-curated, plus one generated per Carwow derivative
+        │          trim_map             (site, trim-as-printed) → car_id; 'auto' = a generated car; misses 'unmapped'
         │          offer_observations   one row per offer key per sighting (present / gone)
         │          specs                one row per source variant: equipment, flags, numbers, image
         ▼          requirements
 SQLite  data/car-research.sqlite            gitignored: a dev-machine artifact
-        │  ⇄ data/history/observations.jsonl  COMMITTED sighting log: every refresh appends, every
-        │                                      run (CI, a fresh clone) replays it before scraping
+        │  ⇄ data/history/{observations,specs,models}.jsonl  COMMITTED: every refresh rewrites them,
+        │                                      every run (CI, a fresh clone) replays them before scraping
         ▼  export_snapshot()                 pipeline/services/snapshot.py
 JSON    web/public/data/{manifest,cars,offers,requirements,data}.json   COMMITTED on main
         │   offers = latest observation per key + finance maths + freshness (state, age, history)
@@ -63,9 +65,46 @@ text normalised by `parse.norm_key` (`ncd`, `leaseloco`, `rrg`: lower-case, `kwh
 number, parts joined by `|`). A miss leaves the record in Silver, records an `unmapped` row, and
 counts on the run. `python -m pipeline trims` lists them (and fails CI); add the mapping to
 `data/seed/trim_map.json` and re-run. Rows with `"status": "ignored"` are derivatives we have
-looked at and chosen not to track (the 42kWh Ioniq 3, no-heat-pump Insters, 5-seat PV5s, AWD
-Ioniq 5s): they resolve to nothing without counting as unmapped. Nothing is ever attached to a
-guessed car.
+looked at and chosen not to curate by hand (the 42kWh Ioniq 3, no-heat-pump Insters, 5-seat
+PV5s, AWD Ioniq 5s).
+
+Since the catalogue, a miss is rarer: a Carwow CAP id that is not `mapped` resolves to the
+generated car `carwow-cap:<id>` (`status: auto`), and a broker's derivative text resolves to
+the one generated car of that make + model whose kW, kWh and trim words agree
+(`services/match.py`; a tie or a contradiction is a miss, never a guess). Nothing is ever
+attached to a guessed car, and a hand-curated car always wins its derivative.
+
+## Generated cars (every EV on sale)
+
+`carwow_catalog` writes a `models` row per `<make>/<model>` Carwow lists, from three index
+pages: `sitemap/car_models.xml` (every model, and which have a `/specifications` page),
+`sitemap/car_model_deals.xml` (which have a `/deals` page) and each make's `/electric` page
+(the make's electric models by name, from `sitemap/brand_fuel_types.xml`). Makes without an
+`/electric` page because everything they sell is electric (Tesla, Polestar, XPeng …) are
+flagged by make; MINI's electric models are listed by slug. Gold merges the pages by slug
+(a flag set by any page sticks). `carwow_specs` and `carwow_deals` discover their targets from
+`models` (`ctx.extras["db"]`, which the runner sets), falling back to their static lists before
+the first catalogue run; `leaseloco` guesses each model's slug as an *optional* target, which
+the runner skips on a 404 instead of counting a failure.
+
+Every Carwow derivative without a hand-curated car gets a generated one
+(`services/autocars.py`), id `carwow-cap:<cap id>`, `auto: true`:
+
+- from its **spec row** (`from_spec`): make, model and trim as Carwow prints them, the engine as
+  the variant, numbers (seats, battery, range, power, boot, turning circle), the canonical
+  equipment flags as tri-state fields (`standard` / `option`, else `unknown`: an equipment list
+  that omits an item is not proof it is absent), RRP, image, the derivative's version date as
+  the model year;
+- from a **deals-page stub** (`from_stub`, carried in the offer's `car_ref`): trim, engine, RRP,
+  version date. Seen for derivatives only an (archived) deals page prints: run-out stock, last
+  year's list.
+
+`gold.ensure_auto_car` writes one unless a hand-curated car owns the id; a spec-built car
+replaces a stub, a stub replaces nothing. `gold.prune_auto_cars` drops generated cars nothing
+refers to (their derivative was promoted to a hand-curated car). On replay, `import_specs`
+regenerates the spec-built cars and `import_history` rebuilds a stub from the observation's
+`car_ref` when its car is missing, so the committed history is complete without a cars file:
+the order is models → specs → observations (`cli._replay`).
 
 ## Backfill from the Wayback Machine
 
@@ -104,9 +143,11 @@ engine numbers + model facts, keyed `carwow-cap:<cap>`) or a Kia grade × powert
 (× seat count where the page splits them, keyed `kia-spec:<model>:<grade>:<battery drive>[:<seats>seat]`).
 `providers/carwow_specs.py` and `providers/kia_specs.py` are the parsers; both are
 pinned to captured pages in `tests/fixtures`. The runner resolves a spec through the trim
-map like an offer but never records a miss: untracked variants are kept with
-`car_id NULL` so the Specs page can show a whole model range. Gold upserts by key and
-stamps `changed_at` when the fingerprint (features, flags, numbers, RRP) moves.
+map like an offer but never records a miss: a Carwow derivative nobody curates gets a
+generated car (above); a Kia grade without a car is kept with `car_id NULL` so the Specs
+page can show the whole range. Gold upserts by key and stamps `changed_at` when the
+fingerprint (features, flags, numbers, RRP) moves. Spec rows are current state, so the
+spec providers have no Wayback backfill (an older capture must not overwrite them).
 
 `services/features.py` maps the sources' wording onto canonical flags
 (`heat_pump`, `v2l_internal`, `v2l_external`, `heated_front_seats`, `camera_360`, …),
@@ -175,16 +216,17 @@ car facts, the dealer) and reconciles the payment count against the page's own t
 | Deploy | `pages-deploy.yml`: Actions artifact, SPA 404 fallback, `.nojekyll` | same workflow, single checkout |
 | CI | `frontend-ci.yml`, `pages-build-check.yml`, `backend-ci.yml` | `web-ci.yml`, `pipeline-ci.yml` (adds a snapshot-freshness check) |
 
-## Snapshot contract (schema_version 3)
+## Snapshot contract (schema_version 4)
 
 | File | Shape |
 | --- | --- |
-| `manifest.json` | `{schema_version, generated_at, counts:{cars,offers,observations,cash_benchmarks,unmapped_trims}, runs:[…]}` |
-| `cars.json` | car records plus `requirement_check` `{passes, failures[], unknown[]}` and `deal_summary` (best current cash / PCP / PCH with the age of each) |
+| `manifest.json` | `{schema_version, generated_at, counts:{cars,cars_generated,models,offers,observations,cash_benchmarks,unmapped_trims,specs}, runs:[…]}` |
+| `cars.json` | car records (hand-curated, and generated ones with `auto: true`, `source_kind`, `cap_id`, `model_slug`) plus `requirement_check` `{passes, failures[], unknown[]}` and `deal_summary` (best current cash / PCP / PCH with the age of each) |
+| `models.json` | the catalogue: every electric model, printed names, has_deals / has_specs, and per model how many derivatives, cars and priced cars we hold |
 | `offers.json` | latest observation of each offer plus `metrics` (from `model/deal_math.py`) and `freshness` (state, stale, age, first/last seen, history) |
 | `specs.json` | every scraped variant: features, options, canonical flags, numbers, image, provider, car_id when mapped |
 | `requirements.json` | the requirements document verbatim |
-| `data.json` | providers, recent runs, unmapped trims, offer-state counts: the SPA's Data page |
+| `data.json` | providers, recent runs, unmapped trims, offer-state counts, catalogue counts: the SPA's Data page |
 
 `generated_at` can be pinned (`--generated-at`) so CI can rebuild the snapshot and diff it
 against the committed one deterministically.
@@ -219,10 +261,14 @@ palette was validated against the app's dark surface. Every chart has a table tw
 
 ## Filters in the app
 
-`web/src/lib/filters.ts` holds one filter set (make, model, variant text, model year)
-in the URL query; `FilterBar` renders it and every list page applies `carMatches`,
-`offerMatches` or `specMatches`. Model matching is forgiving ("Kona" matches "Kona
-Electric"); the year is a car's model year or a Carwow derivative version's year.
+`web/src/lib/filters.ts` holds one filter set (scope, make, model, variant text, model
+year) in the URL query; `FilterBar` renders it and every list page applies `carMatches`,
+`offerMatches` or `specMatches`. Scope is `""` (the hand-curated shortlist) or `all`
+(every EV: the generated cars too); it is not a narrowing, so `clear` keeps it and an
+empty result offers the switch. Model matching is forgiving ("Kona" matches "Kona
+Electric"); the year is a car's model year or a Carwow derivative version's year. The
+Pick page shows 48 cards at a time and Trends 36 charts, with "show more" buttons, since
+every EV is ~1,500 derivatives; Specs shows the first 60 columns until a filter narrows it.
 
 ## Browser-side database
 

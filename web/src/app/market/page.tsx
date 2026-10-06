@@ -26,6 +26,8 @@ interface Row {
 }
 
 const DAY = 86_400_000;
+/** Small multiples per page; the movers table always lists every car. */
+const CHARTS = 36;
 
 /**
  * Market view: how each car's best outright price has moved. One small chart
@@ -45,6 +47,7 @@ function Market() {
   const offers = useOffers();
   const [win, setWin] = useState<Window>(90);
   const [metric, setMetric] = useState<Metric>("discount");
+  const [charts, setCharts] = useState(CHARTS);
   const [now] = useState(() => Date.now());
 
   const rows = useMemo<Row[]>(() => {
@@ -85,7 +88,7 @@ function Market() {
     <div className="space-y-5">
       <PageHeader
         title="Trends"
-        subtitle="How the best outright price of each car has moved, from every sighting we have. A nightly scrape adds a point per day; the Carwow quotes from September start the lines earlier."
+        subtitle="How the best outright price of each car has moved, from every sighting we have. A nightly scrape adds a point per day; the Wayback Machine backfill and the Carwow quotes from September start the lines earlier. Every EV widens this to each derivative on sale."
       />
       <FilterBar cars={cars.data} />
       <div className="flex flex-wrap items-center gap-3 text-sm">
@@ -141,7 +144,7 @@ function Market() {
           </Card>
 
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {rows.map((r) => (
+            {rows.slice(0, charts).map((r) => (
               <Card key={r.car.id} title={<Link href={`/cars/view?id=${encodeURIComponent(r.car.id)}`} className="normal-case tracking-normal hover:underline">{fullName(r.car)}</Link>}>
                 <LineChart series={seriesFor(r)} format={fmt} height={150} xDomain={xDomain}
                   reference={metric === "cash" && r.car.list_price_gbp ? { value: r.car.list_price_gbp - (r.car.grant_gbp ?? 0), label: "list after grant" } : null}
@@ -149,6 +152,13 @@ function Market() {
               </Card>
             ))}
           </div>
+          {rows.length > charts && (
+            <div className="flex justify-center">
+              <button onClick={() => setCharts((n) => n + CHARTS)} className="rounded border border-gray-700 px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">
+                Show {Math.min(CHARTS, rows.length - charts)} more charts of {rows.length}
+              </button>
+            </div>
+          )}
         </>
       )}
     </div>

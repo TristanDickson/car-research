@@ -145,3 +145,25 @@ CREATE TABLE IF NOT EXISTS specs (
 );
 CREATE INDEX IF NOT EXISTS specs_car ON specs(car_id);
 CREATE INDEX IF NOT EXISTS specs_model ON specs(make, model);
+
+-- The catalogue: every model Carwow lists, with the flags discovery needs
+-- (is it electric, does it have a deals page, a specifications page). Written
+-- by the carwow_catalog provider; the Carwow and LeaseLoco scrapers discover
+-- their targets from it, so a new EV on sale is picked up without a code change.
+CREATE TABLE IF NOT EXISTS models (
+  slug          TEXT PRIMARY KEY,     -- <make>/<model> as in the Carwow URL
+  make          TEXT NOT NULL,        -- make slug
+  model         TEXT NOT NULL,        -- model slug
+  make_name     TEXT,                 -- as Carwow prints it ('Kia', 'BMW')
+  model_name    TEXT,                 -- as Carwow prints it ('EV3', 'Ioniq 5')
+  electric      INTEGER,              -- 1 = battery electric; NULL = not known to be
+  has_deals     INTEGER,
+  has_specs     INTEGER,
+  source        TEXT NOT NULL,
+  payload       TEXT NOT NULL,
+  first_seen_at TEXT NOT NULL,
+  last_seen_at  TEXT NOT NULL,
+  artifact_id   INTEGER REFERENCES artifacts(id),
+  run_id        INTEGER REFERENCES runs(id)
+);
+CREATE INDEX IF NOT EXISTS models_electric ON models(electric, has_deals, has_specs);

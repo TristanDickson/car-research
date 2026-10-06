@@ -8,6 +8,7 @@ import sqlite3
 from datetime import datetime, timezone
 
 from pipeline.providers.types import ParsedRecord
+from pipeline.services import autocars, match
 
 PRICE_FIELDS = (
     "vehicle_price", "monthly_payment", "apr", "gfv", "customer_deposit",
@@ -28,17 +29,93 @@ def fingerprint(row: dict) -> str:
     return hashlib.sha1(_dump({k: row.get(k) for k in PRICE_FIELDS}).encode()).hexdigest()[:16]
 
 
+def _is_auto(conn: sqlite3.Connection, car_id: str) -> bool:
+    row = conn.execute("SELECT payload FROM cars WHERE id=?", (car_id,)).fetchone()
+    return bool(row) and bool(json.loads(row["payload"]).get("auto"))
+
+
+def _touch_trim_map(conn: sqlite3.Connection, site: str, key: str, car_id: str | None, status: str,
+                    label: str | None, example_url: str | None, now: str, note: str | None = None) -> None:
+    conn.execute(
+        """INSERT INTO trim_map (source, source_key, car_id, status, label, example_url, note, first_seen_at, last_seen_at)
+           VALUES (?,?,?,?,?,?,?,?,?)
+           ON CONFLICT(source, source_key) DO UPDATE SET last_seen_at=excluded.last_seen_at,
+             label=COALESCE(trim_map.label, excluded.label), example_url=COALESCE(trim_map.example_url, excluded.example_url),
+             car_id=CASE WHEN trim_map.status='mapped' THEN trim_map.car_id ELSE excluded.car_id END,
+             status=CASE WHEN trim_map.status='mapped' THEN trim_map.status ELSE excluded.status END""",
+        (site, key, car_id, status, label, example_url, note, now, now),
+    )
+
+
+_MODEL_NOISE = {"electric", "hatchback", "estate", "saloon", "suv", "mpv", "coupe", "ev", "e-tech", "hatch", "5dr", "4dr"}
+
+
+def _model_norm(s: str | None) -> str:
+    words = [w for w in (s or "").lower().replace("-", " ").split() if w not in _MODEL_NOISE]
+    return " ".join(words)
+
+
+def _model_agrees(wanted: str | None, car: dict) -> bool:
+    """'Kona Electric' / 'Kona', 'Ioniq 3 Hatchback' / 'Ioniq 3', 'PV5' / 'PV5
+    Passenger' agree; 'Ioniq 3' / 'Ioniq 5' do not."""
+    a = _model_norm(wanted)
+    if not a:
+        return True
+    for b in (_model_norm(car.get("model")), _model_norm((car.get("model_slug") or "").replace("-", " "))):
+        if b and (a == b or a.startswith(b + " ") or b.startswith(a + " ")):
+            return True
+    return False
+
+
+def _auto_candidates(conn: sqlite3.Connection, make: str | None, model: str | None) -> list[dict]:
+    """Generated cars of one make + model, for the derivative-text matcher."""
+    if not make:
+        return []
+    out = []
+    for r in conn.execute("SELECT payload FROM cars WHERE lower(make)=?", ((make or "").lower(),)):
+        p = json.loads(r["payload"])
+        if p.get("auto") and _model_agrees(model, p):
+            out.append(p)
+    return out
+
+
 def resolve_car(conn: sqlite3.Connection, site: str, key: str, label: str | None,
-                example_url: str | None, now: str, record_miss: bool = True) -> tuple[str | None, str]:
-    """trim_map lookup → (car_id, status). A miss records an 'unmapped' row (first
-    time) and bumps last_seen_at (every time) so the snapshot can list what needs
-    mapping. 'ignored' rows are derivatives we deliberately don't track."""
+                example_url: str | None, now: str, record_miss: bool = True,
+                ref: dict | None = None) -> tuple[str | None, str]:
+    """A source's naming → (car_id, status).
+
+    1. trim_map says 'mapped' → the hand-curated car.
+    2. Otherwise a generated car: for a Carwow CAP id the car carwow-cap:<id>
+       (made here from the record's stub when the specification page has not
+       produced one); for a broker's derivative text, the one generated car of
+       that make + model whose kW / kWh / trim words agree (status 'auto').
+    3. Otherwise the old behaviour: an 'unmapped' row the first time (bumped
+       every time) so the snapshot can list what needs a human; 'ignored' rows
+       are derivatives deliberately left out of the hand-curated set."""
+    ref = ref or {}
     row = conn.execute(
         "SELECT car_id, status FROM trim_map WHERE source=? AND source_key=?", (site, key)
     ).fetchone()
     if row and row["status"] == "mapped" and row["car_id"]:
         conn.execute("UPDATE trim_map SET last_seen_at=? WHERE source=? AND source_key=?", (now, site, key))
         return row["car_id"], "mapped"
+
+    auto_id = None
+    if site == "carwow-cap":
+        cid = autocars.auto_id(key)
+        if conn.execute("SELECT 1 FROM cars WHERE id=?", (cid,)).fetchone():
+            auto_id = cid
+        elif ref.get("stub"):
+            ensure_auto_car(conn, autocars.from_stub(ref["stub"]), ref.get("provider") or site, None, None, now)
+            auto_id = cid
+    elif ref.get("make"):
+        hit = match.best(ref.get("derivative") or label or "", _auto_candidates(conn, ref.get("make"), ref.get("model")))
+        if hit:
+            auto_id = hit["id"]
+    if auto_id:
+        _touch_trim_map(conn, site, key, auto_id, "auto", label, example_url, now)
+        return auto_id, "auto"
+
     if row:
         conn.execute("UPDATE trim_map SET last_seen_at=?, label=COALESCE(label, ?), example_url=COALESCE(example_url, ?) "
                      "WHERE source=? AND source_key=?", (now, label, example_url, site, key))
@@ -51,6 +128,56 @@ def resolve_car(conn: sqlite3.Connection, site: str, key: str, label: str | None
         (site, key, label, example_url, now, now),
     )
     return None, "unmapped"
+
+
+def _upsert_car(conn: sqlite3.Connection, r: dict, source: str, artifact_id: int | None, now: str) -> None:
+    conn.execute(
+        """INSERT INTO cars (id, make, model, trim, model_year, seats, battery_kwh, wltp_range_mi,
+             width_mm, list_price_gbp, grant_gbp, heat_pump, internal_v2l, payload, source, artifact_id, updated_at)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+           ON CONFLICT(id) DO UPDATE SET make=excluded.make, model=excluded.model, trim=excluded.trim,
+             model_year=excluded.model_year, seats=excluded.seats, battery_kwh=excluded.battery_kwh,
+             wltp_range_mi=excluded.wltp_range_mi, width_mm=excluded.width_mm,
+             list_price_gbp=excluded.list_price_gbp, grant_gbp=excluded.grant_gbp,
+             heat_pump=excluded.heat_pump, internal_v2l=excluded.internal_v2l, payload=excluded.payload,
+             source=excluded.source, artifact_id=excluded.artifact_id, updated_at=excluded.updated_at""",
+        (
+            r["id"], r["make"], r["model"], r.get("trim"), r.get("model_year"), r.get("seats"),
+            r.get("battery_kwh"), r.get("wltp_range_mi"), r.get("width_mm"), r.get("list_price_gbp"),
+            r.get("grant_gbp"), r.get("heat_pump"), r.get("internal_v2l"), _dump(r), source, artifact_id, now,
+        ),
+    )
+
+
+def ensure_auto_car(conn: sqlite3.Connection, car: dict, source: str, artifact_id: int | None,
+                    run_id: int | None, now: str) -> bool:
+    """Write a generated car unless a hand-curated one owns the id. A spec-built
+    car replaces a stub (and an older spec-built one); a stub never replaces
+    anything. Returns True if the row was written."""
+    row = conn.execute("SELECT payload FROM cars WHERE id=?", (car["id"],)).fetchone()
+    if row:
+        existing = json.loads(row["payload"])
+        if not existing.get("auto"):
+            return False
+        if car.get("source_kind") == "stub":
+            return False
+    _upsert_car(conn, car, source, artifact_id, now)
+    return True
+
+
+def prune_auto_cars(conn: sqlite3.Connection) -> int:
+    """Drop generated cars nothing refers to any more (their derivative was mapped
+    to a hand-curated car and no observation or spec still points at them)."""
+    rows = conn.execute(
+        """SELECT id FROM cars WHERE json_extract(payload, '$.auto') = 1
+             AND id NOT IN (SELECT car_id FROM offer_observations)
+             AND id NOT IN (SELECT car_id FROM specs WHERE car_id IS NOT NULL)
+             AND id NOT IN (SELECT car_id FROM trim_map WHERE car_id IS NOT NULL AND status='mapped')"""
+    ).fetchall()
+    for r in rows:
+        conn.execute("DELETE FROM trim_map WHERE car_id=? AND status='auto'", (r["id"],))
+        conn.execute("DELETE FROM cars WHERE id=?", (r["id"],))
+    return len(rows)
 
 
 def _span_end(o: sqlite3.Row) -> str:
@@ -132,22 +259,22 @@ def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
     written = 0
 
     for artifact_id, rec in records.get("car", []):
+        _upsert_car(conn, rec.row, source, artifact_id, now)
+        written += 1
+
+    for artifact_id, rec in records.get("model", []):
         r = rec.row
         conn.execute(
-            """INSERT INTO cars (id, make, model, trim, model_year, seats, battery_kwh, wltp_range_mi,
-                 width_mm, list_price_gbp, grant_gbp, heat_pump, internal_v2l, payload, source, artifact_id, updated_at)
-               VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-               ON CONFLICT(id) DO UPDATE SET make=excluded.make, model=excluded.model, trim=excluded.trim,
-                 model_year=excluded.model_year, seats=excluded.seats, battery_kwh=excluded.battery_kwh,
-                 wltp_range_mi=excluded.wltp_range_mi, width_mm=excluded.width_mm,
-                 list_price_gbp=excluded.list_price_gbp, grant_gbp=excluded.grant_gbp,
-                 heat_pump=excluded.heat_pump, internal_v2l=excluded.internal_v2l, payload=excluded.payload,
-                 source=excluded.source, artifact_id=excluded.artifact_id, updated_at=excluded.updated_at""",
-            (
-                r["id"], r["make"], r["model"], r.get("trim"), r.get("model_year"), r.get("seats"),
-                r.get("battery_kwh"), r.get("wltp_range_mi"), r.get("width_mm"), r.get("list_price_gbp"),
-                r.get("grant_gbp"), r.get("heat_pump"), r.get("internal_v2l"), _dump(r), source, artifact_id, now,
-            ),
+            """INSERT INTO models (slug, make, model, make_name, model_name, electric, has_deals, has_specs, source, payload,
+                 first_seen_at, last_seen_at, artifact_id, run_id)
+               VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+               ON CONFLICT(slug) DO UPDATE SET
+                 make_name=COALESCE(excluded.make_name, models.make_name), model_name=COALESCE(excluded.model_name, models.model_name),
+                 electric=COALESCE(excluded.electric, models.electric), has_deals=COALESCE(excluded.has_deals, models.has_deals),
+                 has_specs=COALESCE(excluded.has_specs, models.has_specs), source=excluded.source,
+                 last_seen_at=excluded.last_seen_at, artifact_id=excluded.artifact_id, run_id=excluded.run_id""",
+            (r["slug"], r["make"], r["model"], r.get("make_name"), r.get("model_name"), r.get("electric"), r.get("has_deals"),
+             r.get("has_specs"), source, _dump(r), now, now, artifact_id, run_id),
         )
         written += 1
 
@@ -173,6 +300,15 @@ def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
 
     for artifact_id, rec in records.get("spec", []):
         r = rec.row
+        if r.get("cap_id") and r["spec_key"].startswith("carwow-cap:") and r.get("car_id") in (None, autocars.auto_id(r["cap_id"])):
+            # Nobody curates this derivative: it becomes a generated car (a
+            # spec-built one replaces the stub a deals page may have left, and
+            # refreshes an older spec-built one).
+            car = autocars.from_spec(r)
+            if ensure_auto_car(conn, car, source, artifact_id, run_id, now) or _is_auto(conn, car["id"]):
+                r["car_id"] = car["id"]
+                _touch_trim_map(conn, "carwow-cap", r["cap_id"], car["id"], "auto",
+                                (r.get("car_ref") or {}).get("label"), r.get("source_url"), now)
         fp = hashlib.sha1(_dump({k: r.get(k) for k in ("features", "flags", "numbers", "rrp", "trim", "variant")}).encode()).hexdigest()[:16]
         conn.execute(
             """INSERT INTO specs (spec_key, source, make, model, trim, variant, cap_id, version_date, car_id, image_url,

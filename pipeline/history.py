@@ -3,6 +3,9 @@ machine) carries the full sighting history without the bronze artifacts.
 
 data/history/observations.jsonl: one line per offer_observations row, sorted,
 rewritten on every export. Import upserts by (offer_key, observed_at, source).
+data/history/specs.jsonl and models.jsonl carry the scraped specs and the
+catalogue the same way. Replay order matters: models, then specs (which make
+the generated cars), then observations (whose car must exist).
 """
 from __future__ import annotations
 
@@ -10,10 +13,15 @@ import json
 import sqlite3
 from pathlib import Path
 
+from pipeline import gold
 from pipeline.db import ROOT
+from pipeline.services import autocars
 
 DEFAULT_PATH = ROOT / "data" / "history" / "observations.jsonl"
 SPECS_PATH = ROOT / "data" / "history" / "specs.jsonl"
+MODELS_PATH = ROOT / "data" / "history" / "models.jsonl"
+MODEL_COLUMNS = ("slug", "make", "model", "make_name", "model_name", "electric", "has_deals", "has_specs", "source",
+                 "payload", "first_seen_at", "last_seen_at")
 SPEC_COLUMNS = ("spec_key", "source", "make", "model", "trim", "variant", "cap_id", "version_date", "car_id", "image_url",
                 "fingerprint", "payload", "first_seen_at", "last_seen_at", "changed_at")
 COLUMNS = ("offer_key", "car_id", "source", "observed_at", "confirmed_at", "present", "finance_type", "status",
@@ -52,9 +60,14 @@ def import_history(conn: sqlite3.Connection, path: Path | str = DEFAULT_PATH, re
             if not line:
                 continue
             d = json.loads(line)
-            # Only rows whose car exists can be loaded (FK); the seed runs first.
+            # Only rows whose car exists can be loaded (FK); the seed and the specs
+            # run first. A derivative only a deals page ever printed gets its
+            # stub car back from the observation itself.
             if not conn.execute("SELECT 1 FROM cars WHERE id=?", (d["car_id"],)).fetchone():
-                continue
+                stub = ((d.get("payload") or {}).get("car_ref") or {}).get("stub")
+                if not (stub and autocars.auto_id(stub.get("cap_id", "")) == d["car_id"]):
+                    continue
+                gold.ensure_auto_car(conn, autocars.from_stub(stub), d["source"], None, None, d["observed_at"])
             conn.execute(
                 """INSERT INTO offer_observations (offer_key, car_id, source, observed_at, confirmed_at, present,
                      finance_type, status, verification, seller, vehicle_price, monthly_payment, apr, gfv,
@@ -101,6 +114,12 @@ def import_specs(conn: sqlite3.Connection, path: Path | str = SPECS_PATH) -> int
             car_id = d.get("car_id")
             if car_id and not conn.execute("SELECT 1 FROM cars WHERE id=?", (car_id,)).fetchone():
                 car_id = None
+            payload = d["payload"]
+            if not car_id and payload.get("cap_id") and d["spec_key"].startswith("carwow-cap:"):
+                # Nobody curates this derivative: regenerate its car from the spec.
+                car = autocars.from_spec(payload)
+                if gold.ensure_auto_car(conn, car, d["source"], None, None, d["last_seen_at"]):
+                    car_id = car["id"]
             conn.execute(
                 """INSERT INTO specs (spec_key, source, make, model, trim, variant, cap_id, version_date, car_id, image_url,
                      fingerprint, payload, first_seen_at, last_seen_at, changed_at)
@@ -115,6 +134,49 @@ def import_specs(conn: sqlite3.Connection, path: Path | str = SPECS_PATH) -> int
                 (d["spec_key"], d["source"], d.get("make"), d.get("model"), d.get("trim"), d.get("variant"), d.get("cap_id"),
                  d.get("version_date"), car_id, d.get("image_url"), d.get("fingerprint"),
                  json.dumps(d["payload"], ensure_ascii=False, sort_keys=True), d["first_seen_at"], d["last_seen_at"], d.get("changed_at")),
+            )
+            n += 1
+    conn.commit()
+    return n
+
+
+def export_models(conn: sqlite3.Connection, path: Path | str = MODELS_PATH) -> int:
+    """The catalogue as JSONL, so an offline refresh knows every model too."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    rows = conn.execute(f"SELECT {', '.join(MODEL_COLUMNS)} FROM models ORDER BY slug").fetchall()
+    with path.open("w", encoding="utf-8") as f:
+        for r in rows:
+            d = {k: r[k] for k in MODEL_COLUMNS}
+            d["payload"] = json.loads(d["payload"])
+            f.write(json.dumps(d, ensure_ascii=False, sort_keys=True) + "\n")
+    return len(rows)
+
+
+def import_models(conn: sqlite3.Connection, path: Path | str = MODELS_PATH) -> int:
+    path = Path(path)
+    if not path.exists():
+        return 0
+    n = 0
+    with path.open(encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            d = json.loads(line)
+            conn.execute(
+                """INSERT INTO models (slug, make, model, make_name, model_name, electric, has_deals, has_specs, source, payload,
+                     first_seen_at, last_seen_at)
+                   VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
+                   ON CONFLICT(slug) DO UPDATE SET
+                     make_name=COALESCE(excluded.make_name, models.make_name), model_name=COALESCE(excluded.model_name, models.model_name),
+                     electric=COALESCE(excluded.electric, models.electric), has_deals=COALESCE(excluded.has_deals, models.has_deals),
+                     has_specs=COALESCE(excluded.has_specs, models.has_specs),
+                     first_seen_at=MIN(models.first_seen_at, excluded.first_seen_at),
+                     last_seen_at=MAX(models.last_seen_at, excluded.last_seen_at)""",
+                (d["slug"], d["make"], d["model"], d.get("make_name"), d.get("model_name"), d.get("electric"), d.get("has_deals"),
+                 d.get("has_specs"), d["source"], json.dumps(d["payload"], ensure_ascii=False, sort_keys=True),
+                 d["first_seen_at"], d["last_seen_at"]),
             )
             n += 1
     conn.commit()

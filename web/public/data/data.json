@@ -1,10 +1,17 @@
 {
  "counts": {
-  "cars": 19,
+  "cars": 53,
+  "cars_curated": 19,
+  "cars_generated": 34,
+  "makes": 0,
+  "models": 0,
+  "models_with_deals": 0,
+  "models_with_specs": 0,
   "observations": 117,
   "offers": 81,
   "specs": 65,
-  "specs_mapped": 14,
+  "specs_mapped": 48,
+  "trim_map_auto": 0,
   "trim_map_mapped": 56,
   "trim_map_unmapped": 0
  },
@@ -39,7 +46,7 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-06T22:26:10+00:00",
+ "generated_at": "2026-10-06T23:17:45+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
@@ -86,17 +93,45 @@
    "capabilities": [
     {
      "kinds": [
+      "model"
+     ],
+     "name": "catalog",
+     "parser_version": "1"
+    }
+   ],
+   "description": "The catalogue of every EV on sale in the UK, from Carwow's own index pages.",
+   "live": true,
+   "name": "carwow_catalog"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "spec"
+     ],
+     "name": "specs",
+     "parser_version": "2"
+    }
+   ],
+   "description": "Carwow model specification pages: https://www.carwow.co.uk/<make>/<model>/specifications",
+   "live": true,
+   "name": "carwow_specs"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
       "offer"
      ],
      "name": "deals",
-     "parser_version": "1"
+     "parser_version": "2"
     },
     {
      "kinds": [
       "offer"
      ],
      "name": "backfill",
-     "parser_version": "1"
+     "parser_version": "2"
     }
    ],
    "description": "Carwow public model deals pages: https://www.carwow.co.uk/<make>/<model>/deals",
@@ -204,27 +239,6 @@
      "parser_version": "1"
     }
    ],
-   "description": "Carwow model specification pages: https://www.carwow.co.uk/<make>/<model>/specifications",
-   "live": true,
-   "name": "carwow_specs"
-  },
-  {
-   "capabilities": [
-    {
-     "kinds": [
-      "spec"
-     ],
-     "name": "specs",
-     "parser_version": "1"
-    },
-    {
-     "kinds": [
-      "spec"
-     ],
-     "name": "backfill",
-     "parser_version": "1"
-    }
-   ],
    "description": "Kia UK model specification pages: https://www.kia.com/uk/new-cars/<model>/specification/",
    "live": true,
    "name": "kia_specs"
@@ -235,11 +249,11 @@
    "artifacts": 4,
    "capability": "offers",
    "errors": 0,
-   "finished_at": "2026-10-06T22:26:10+00:00",
+   "finished_at": "2026-10-06T23:17:45+00:00",
    "id": 2,
    "records": 4,
    "source": "carwow_paste",
-   "started_at": "2026-10-06T22:26:10+00:00",
+   "started_at": "2026-10-06T23:17:45+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -248,11 +262,11 @@
    "artifacts": 4,
    "capability": "seed",
    "errors": 0,
-   "finished_at": "2026-10-06T22:26:10+00:00",
+   "finished_at": "2026-10-06T23:17:45+00:00",
    "id": 1,
    "records": 268,
    "source": "manual_seed",
-   "started_at": "2026-10-06T22:26:10+00:00",
+   "started_at": "2026-10-06T23:17:45+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0

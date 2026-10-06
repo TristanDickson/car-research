@@ -9,8 +9,8 @@
 // IndexedDB.
 import Dexie, { type Table } from "dexie";
 
-import { getManifest, loadCars, loadData, loadOffers, loadRequirements, loadSpecs } from "./snapshot";
-import type { DataPage, Requirements, SnapshotCar, SnapshotManifest, SnapshotOffer, SnapshotSpec } from "./types";
+import { getManifest, loadCars, loadData, loadModels, loadOffers, loadRequirements, loadSpecs } from "./snapshot";
+import type { DataPage, Requirements, SnapshotCar, SnapshotManifest, SnapshotModel, SnapshotOffer, SnapshotSpec } from "./types";
 
 export interface MetaRow {
   key: string;
@@ -27,6 +27,7 @@ export class CarResearchDB extends Dexie {
   cars!: Table<SnapshotCar, string>;
   offers!: Table<SnapshotOffer, string>;
   specs!: Table<SnapshotSpec, string>;
+  models!: Table<SnapshotModel, string>;
   meta!: Table<MetaRow, string>;
   shortlist!: Table<ShortlistRow, string>;
 
@@ -51,6 +52,10 @@ export class CarResearchDB extends Dexie {
     this.version(3)
       .stores({ specs: "spec_key, car_id, make, model, trim" })
       .upgrade((tx) => tx.table("meta").clear());
+    // v4 (snapshot schema 4): every EV on sale as a generated car; the catalogue of models.
+    this.version(4)
+      .stores({ models: "slug, make" })
+      .upgrade((tx) => tx.table("meta").clear());
   }
 }
 
@@ -71,20 +76,23 @@ async function seed(): Promise<SnapshotManifest> {
   const current = await db.meta.get("generated_at");
   if (current?.value === manifest.generated_at) return manifest;
 
-  const [cars, offers, requirements, data, specs] = await Promise.all([
+  const [cars, offers, requirements, data, specs, models] = await Promise.all([
     loadCars(),
     loadOffers(),
     loadRequirements(),
     loadData().catch(() => null as DataPage | null),
     loadSpecs().catch(() => [] as SnapshotSpec[]),
+    loadModels().catch(() => [] as SnapshotModel[]),
   ]);
-  await db.transaction("rw", db.cars, db.offers, db.specs, db.meta, async () => {
+  await db.transaction("rw", db.cars, db.offers, db.specs, db.models, db.meta, async () => {
     await db.cars.clear();
     await db.offers.clear();
     await db.specs.clear();
+    await db.models.clear();
     await db.cars.bulkPut(cars);
     await db.offers.bulkPut(offers);
     await db.specs.bulkPut(specs);
+    await db.models.bulkPut(models);
     await db.meta.bulkPut([
       { key: "generated_at", value: manifest.generated_at },
       { key: "schema_version", value: manifest.schema_version },

@@ -56,6 +56,13 @@ export function CarCard({ car, costs, trend, ceiling, starred, onStar, compared,
           </Link>
           <div className="text-xs text-gray-500">
             {car.packs?.length ? car.packs.join(" + ") : car.used ? "used" : car.body ?? ""}
+            {car.auto && (
+              <span title={car.notes ?? undefined}>
+                {car.packs?.length || car.used || car.body ? " · " : ""}
+                {car.source_kind === "stub" ? "from a Carwow deals page" : "from Carwow's specification page"}
+                {car.model_year ? ` · ${car.model_year} list` : ""}
+              </span>
+            )}
           </div>
         </div>
 

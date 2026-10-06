@@ -9,18 +9,21 @@ boot, turning circle, wheelbase).
 
 Emits one 'spec' record per CAP derivative: trim equipment + engine numbers +
 model facts, keyed carwow-cap:<cap>, resolved to a car through the same
-carwow-cap trim map the deals pages use. Derivatives we do not track still
-land in gold (car_id NULL) so the Specs page can show every variant.
+carwow-cap trim map the deals pages use. A derivative nobody curates by hand
+becomes a generated car (pipeline/services/autocars.py) so its deals and
+history have somewhere to live. Which models to read comes from the catalogue
+(carwow_catalog), so every EV on sale is covered.
 """
 from __future__ import annotations
 
 import re
 from collections.abc import Iterator
 
+from pipeline.providers.carwow_catalog import electric_models, pretty_make
 from pipeline.providers.carwow_deals import MODELS
 from pipeline.providers.http import fetch_url
 from pipeline.providers.parse import money, number, text
-from pipeline.providers.wayback import backfill_capability, observed_at_for, original_url
+from pipeline.providers.wayback import observed_at_for, original_url
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 from pipeline.services.features import flags_for
 
@@ -38,10 +41,15 @@ def url_for(make: str, model: str) -> str:
 
 
 def discover(target: Target, ctx: Context) -> Iterator[Target]:
-    for make, model in MODELS:
-        ident = f"{make}/{model}"
+    """Every electric model with a specifications page, from the catalogue; the
+    static list when no catalogue has been written yet."""
+    models = electric_models(ctx, "has_specs") or [
+        {"make": mk, "model": mo, "make_name": pretty_make(mk)} for mk, mo in MODELS]
+    for m in models:
+        ident = f"{m['make']}/{m['model']}"
         if target.identifier in ("all", ident):
-            yield Target(identifier=ident, metadata={"make": make, "model": model, "url": url_for(make, model)})
+            yield Target(identifier=ident, metadata={"make": m["make"], "model": m["model"], "make_name": m["make_name"],
+                                                     "url": url_for(m["make"], m["model"])})
 
 
 def fetch(target: Target, ctx: Context) -> Fetched:
@@ -79,7 +87,8 @@ def _engines(page: str) -> dict[str, dict]:
     return out
 
 
-def parse_page(page: str, make: str, model: str, url: str, observed_at: str) -> list[dict]:
+def parse_page(page: str, make: str, model: str, url: str, observed_at: str, make_name: str | None = None) -> list[dict]:
+    make_name = make_name or pretty_make(make)
     facts = {text(k): text(v) for k, v in DTDD_RE.findall(page)}
     model_facts = {
         "seats": int(number(facts.get("Number of seats")) or 0) or None,
@@ -111,13 +120,15 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str) -> 
             if cap in seen:
                 continue
             seen.add(cap)
-            e = engines.get(engine, {})
+            e = dict(engines.get(engine, {}))
+            if not e.get("battery_kwh") and not model_facts.get("battery_kwh"):
+                e["battery_kwh"] = _num(engine, "kWh")  # most pages only print it in the engine name
             rows.append({
                 "spec_key": f"{SITE}:{cap}", "source": "Carwow specifications", "source_url": url,
-                "observed_at": observed_at, "make": make.capitalize(), "model": model_name, "model_slug": model,
+                "observed_at": observed_at, "make": make_name, "make_slug": make, "model": model_name, "model_slug": model,
                 "trim": trim, "variant": f"{model_name} {trim} {engine}".strip(), "engine": engine, "cap_id": cap,
                 "version_date": version, "model_year_hint": version[:4],
-                "car_ref": {"source": SITE, "key": cap, "label": f"{make.capitalize()} {model_name} {engine} · {trim} · RRP £{rrp:,.0f}" if rrp else f"{make.capitalize()} {model_name} {engine} · {trim}"},
+                "car_ref": {"source": SITE, "key": cap, "label": f"{make_name} {model_name} {engine} · {trim} · RRP £{rrp:,.0f}" if rrp else f"{make_name} {model_name} {engine} · {trim}"},
                 "rrp": rrp, "carwow_price": price,
                 "image_url": img.group(1).replace("&amp;", "&").replace("filter%5Bsize%5D=400", "filter%5Bsize%5D=800") if img else
                              f"https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D={cap}&filter%5Bsize%5D=800",
@@ -131,10 +142,11 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str) -> 
 
 def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
     for row in parse_page(body.decode("utf-8", "replace"), target.metadata["make"], target.metadata["model"],
-                          original_url(target), observed_at_for(target)):
+                          original_url(target), observed_at_for(target), target.metadata.get("make_name")):
         yield ParsedRecord(kind="spec", key=row["spec_key"], row=row)
 
 
-specs = Capability(name="specs", parser_version="1", discover=discover, fetch=fetch, parse=parse, kinds=("spec",))
-provider = Provider(name="carwow_specs", default_capability="specs",
-                    capabilities={"specs": specs, "backfill": backfill_capability(specs)}, live=True)
+# No Wayback backfill here: a spec row is the current state of a derivative,
+# and an older capture must not overwrite it.
+specs = Capability(name="specs", parser_version="2", discover=discover, fetch=fetch, parse=parse, kinds=("spec",))
+provider = Provider(name="carwow_specs", default_capability="specs", capabilities={"specs": specs}, live=True)

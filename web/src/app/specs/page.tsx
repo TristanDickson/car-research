@@ -35,6 +35,8 @@ const NUMBERS: { key: string; label: string; fmt: (v: number | string | null | u
   { key: "insurance_group", label: "Insurance group", fmt: (v) => (v == null || v === "" ? "—" : String(v)) },
 ];
 
+const MAX_COLS = 60;
+
 function Cell({ state }: { state: FlagState | "n/a" }) {
   if (state === "standard") return <span className="text-emerald-300">✓</span>;
   if (state === "option") return <span className="text-amber-300">opt</span>;
@@ -54,14 +56,17 @@ function Specs() {
   const [f] = useFilters();
   const [onlyDiff, setOnlyDiff] = useState(false);
   const [showAll, setShowAll] = useState(false);
+  const [wide, setWide] = useState(false);
   const [needle, setNeedle] = useState("");
 
-  const cols = useMemo(
+  const matching = useMemo(
     () => (specs.data ?? []).filter((s) => specMatches(s, f))
       .sort((a, b) => a.make.localeCompare(b.make) || a.model.localeCompare(b.model) || a.trim.localeCompare(b.trim)
         || (a.powertrain ?? a.engine ?? "").localeCompare(b.powertrain ?? b.engine ?? "") || (a.seats ?? 0) - (b.seats ?? 0)),
     [specs.data, f],
   );
+  // A matrix of every derivative on sale is ~1,500 columns: show the first MAX_COLS until a filter narrows it (or the reader insists).
+  const cols = useMemo(() => (wide ? matching : matching.slice(0, MAX_COLS)), [matching, wide]);
   const flagLabels = data.data?.flag_labels ?? {};
   const flagKeys = Object.keys(flagLabels);
   const carById = useMemo(() => new Map((cars.data ?? []).map((c) => [c.id, c])), [cars.data]);
@@ -94,10 +99,14 @@ function Specs() {
       <FilterBar
         cars={cars.data}
         specs={specs.data}
-        count={`${cols.length} of ${specs.data.length} variants`}
+        scope={false}
+        count={`${matching.length} of ${specs.data.length} variants${cols.length < matching.length ? ` (first ${cols.length} shown)` : ""}`}
         extra={
           <>
             <label className="flex items-center gap-1"><input type="checkbox" checked={onlyDiff} onChange={(e) => setOnlyDiff(e.target.checked)} /> only differences</label>
+            {matching.length > cols.length && (
+              <button onClick={() => setWide(true)} className="text-gray-400 underline hover:text-gray-100">show all {matching.length}</button>
+            )}
           </>
         }
       />
@@ -122,7 +131,7 @@ function Specs() {
                         {(s.version_date ?? s.model_year_hint) && <Badge tone="muted" title="derivative version">{(s.version_date ?? s.model_year_hint)!.slice(0, 7)}</Badge>}
                         {car && (
                           <Link href={`/cars/view?id=${encodeURIComponent(car.id)}`} className="rounded border border-blue-900 bg-blue-950 px-1.5 py-0.5 text-xs text-blue-300 hover:underline">
-                            tracked
+                            {car.auto ? "car" : "shortlist"}
                           </Link>
                         )}
                       </div>

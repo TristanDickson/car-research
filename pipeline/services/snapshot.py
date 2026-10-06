@@ -1,12 +1,13 @@
 """Static snapshot exporter: Gold → a directory of JSON the SPA reads.
 
-Layout (schema_version 2):
+Layout (schema_version 4):
     manifest.json       {schema_version, generated_at, counts, runs}
-    cars.json           [car + requirement_check + deal_summary]
+    cars.json           [car + requirement_check + deal_summary]; hand-curated and generated (auto: true)
     offers.json         [latest observation of each offer + metrics + freshness]
     requirements.json   the requirements document as-is
-    data.json           providers, recent runs, unmapped trims, offer states
+    data.json           providers, recent runs, unmapped trims, offer states, catalogue counts
     specs.json          every scraped variant: equipment list, canonical flags, numbers, image
+    models.json         the catalogue: every electric model Carwow lists, with what we hold for it
 
 An offer's current values are its latest observation. Freshness is derived here
 from the observation history, never typed by hand:
@@ -28,7 +29,10 @@ from pipeline.db import ROOT
 IMAGE_EXTS = ("jpg", "jpeg", "png", "webp")
 
 # Bump on any incompatible shape change; the SPA warns loudly on skew.
-SCHEMA_VERSION = "3"
+SCHEMA_VERSION = "4"
+
+# Spec payload fields kept in data/history/specs.jsonl but not shipped in specs.json.
+SPEC_PRIVATE = ("raw_numbers", "description", "observed_at")
 
 # Observed statuses that count as "an offer you could act on today".
 ACTIVE_STATUSES = {"live", "lead", "derived", "illustrative"}
@@ -180,17 +184,40 @@ def spec_check(car: dict, specs: list[dict]) -> dict:
     return {"rows": rows, "disagreements": sum(1 for r in rows if r["verdict"] in ("differs", "source lists it"))}
 
 
-def fallback_image(car: dict, specs: list[dict]) -> str | None:
+def specs_by_make(specs: list[dict]) -> dict[str, list[dict]]:
+    out: dict[str, list[dict]] = {}
+    for sp in specs:
+        if sp.get("image_url"):
+            out.setdefault((sp.get("make") or "").lower(), []).append(sp)
+    return out
+
+
+def fallback_image(car: dict, by_make: dict[str, list[dict]]) -> str | None:
     """A Carwow render for the same make + model and, if possible, the same trim word,
-    for cars whose exact derivative is not on the spec page (pack variants, options)."""
+    for cars whose exact derivative is not on the spec page (pack variants, options,
+    a derivative only a deals page printed)."""
     make, model = (car.get("make") or "").lower(), (car.get("model") or "").lower()
     trim = (car.get("trim") or "").lower()
-    same_model = [sp for sp in specs if sp.get("image_url") and (sp.get("make") or "").lower() == make
-                  and (model in (sp.get("model") or "").lower() or (sp.get("model") or "").lower() in model)]
+    slug = car.get("model_slug")
+    same_model = [sp for sp in by_make.get(make, [])
+                  if (slug and sp.get("model_slug") == slug)
+                  or model in (sp.get("model") or "").lower() or (sp.get("model") or "").lower() in model]
     for sp in same_model:
         if (sp.get("trim") or "").lower() and (sp.get("trim") or "").lower() in trim:
             return sp["image_url"]
     return same_model[0]["image_url"] if same_model else None
+
+
+def load_models(conn: sqlite3.Connection) -> list[dict]:
+    """The catalogue (electric models only), with per-model counts of what we hold."""
+    try:
+        rows = conn.execute("SELECT * FROM models WHERE electric=1 ORDER BY make, model").fetchall()
+    except sqlite3.OperationalError:
+        return []
+    return [{"slug": r["slug"], "make": r["make"], "model": r["model"],
+             "make_name": r["make_name"], "model_name": r["model_name"],
+             "has_deals": bool(r["has_deals"]), "has_specs": bool(r["has_specs"]),
+             "first_seen_at": r["first_seen_at"], "last_seen_at": r["last_seen_at"]} for r in rows]
 
 
 def load_cars(conn: sqlite3.Connection) -> list[dict]:
@@ -294,10 +321,12 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     offers = latest_offers(conn, today)
     requirements = load_requirements(conn)
     specs = load_specs(conn)
+    models = load_models(conn)
     specs_by_car: dict[str, list[dict]] = {}
     for sp in specs:
         if sp.get("car_id"):
             specs_by_car.setdefault(sp["car_id"], []).append(sp)
+    renders = specs_by_make(specs)
 
     metrics = {m["id"]: m for m in compute(offers)}
     for o in offers:
@@ -318,7 +347,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
                        "flags": sp.get("flags"), "features": len(sp.get("features") or []), "options": len(sp.get("options") or []),
                        "numbers": sp.get("numbers"), "last_seen_at": sp.get("last_seen_at")} for sp in mine]
         c["spec_check"] = spec_check(c, mine)
-        c["image"] = car_image(root, c, next((sp for sp in mine if sp.get("image_url")), None)) or fallback_image(c, specs)
+        c["image"] = car_image(root, c, next((sp for sp in mine if sp.get("image_url")), None)) or fallback_image(c, renders)
 
     states: dict[str, int] = {}
     for o in offers:
@@ -326,7 +355,23 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         states[s] = states.get(s, 0) + 1
     n_obs = conn.execute("SELECT COUNT(*) FROM offer_observations").fetchone()[0]
     unmapped = unmapped_trims(conn)
+    n_auto = sum(1 for c in cars if c.get("auto"))
     from pipeline.services.features import FLAGS
+
+    # Per-model tallies for the catalogue page: derivatives (spec rows), cars, cars with a current price.
+    by_slug: dict[tuple[str, str], dict] = {}
+    for sp in specs:
+        k = ((sp.get("make_slug") or sp.get("make") or "").lower(), sp.get("model_slug") or "")
+        by_slug.setdefault(k, {"derivatives": 0, "cars": 0, "priced": 0})["derivatives"] += 1
+    for c in cars:
+        # A hand-curated car has no slugs of its own; its mapped Carwow spec knows them.
+        via = next((sp for sp in specs_by_car.get(c["id"], []) if sp.get("model_slug")), {})
+        k = ((c.get("make_slug") or via.get("make_slug") or c.get("make") or "").lower(), c.get("model_slug") or via.get("model_slug") or "")
+        t = by_slug.setdefault(k, {"derivatives": 0, "cars": 0, "priced": 0})
+        t["cars"] += 1
+        t["priced"] += int(c["deal_summary"]["current_offers"] > 0)
+    for m in models:
+        m.update(by_slug.get((m["make"], m["model"]), {"derivatives": 0, "cars": 0, "priced": 0}))
 
     data_page = {
         "generated_at": generated_at,
@@ -341,16 +386,23 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         "runs": latest_runs(conn),
         "unmapped_trims": unmapped,
         "offer_states": states,
-        "counts": {"cars": len(cars), "offers": len(offers), "observations": n_obs, "specs": len(specs),
+        "counts": {"cars": len(cars), "cars_curated": len(cars) - n_auto, "cars_generated": n_auto,
+                   "offers": len(offers), "observations": n_obs, "specs": len(specs),
                    "specs_mapped": sum(1 for sp in specs if sp.get("car_id")),
                    "trim_map_mapped": conn.execute("SELECT COUNT(*) FROM trim_map WHERE status='mapped'").fetchone()[0],
-                   "trim_map_unmapped": len(unmapped)},
+                   "trim_map_auto": conn.execute("SELECT COUNT(*) FROM trim_map WHERE status='auto'").fetchone()[0],
+                   "trim_map_unmapped": len(unmapped),
+                   "models": len(models), "makes": len({m["make"] for m in models}),
+                   "models_with_deals": sum(1 for m in models if m["has_deals"]),
+                   "models_with_specs": sum(1 for m in models if m["has_specs"])},
     }
     manifest = {
         "schema_version": SCHEMA_VERSION,
         "generated_at": generated_at,
         "counts": {
             "cars": len(cars),
+            "cars_generated": n_auto,
+            "models": len(models),
             "offers": len(offers),
             "observations": n_obs,
             "cash_benchmarks": sum(1 for o in offers if o["finance_type"] == "cash"),
@@ -360,7 +412,9 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         "runs": latest_runs(conn, 10),
     }
     _write(out / "cars.json", cars)
-    _write(out / "specs.json", specs)
+    # ~1,500 spec rows: leave out what the app never reads (the full history keeps it).
+    _write(out / "specs.json", [{k: v for k, v in sp.items() if k not in SPEC_PRIVATE} for sp in specs])
+    _write(out / "models.json", models)
     _write(out / "offers.json", offers)
     _write(out / "requirements.json", requirements)
     _write(out / "data.json", data_page)

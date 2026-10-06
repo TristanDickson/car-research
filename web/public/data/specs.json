@@ -1,10 +1,9 @@
 [
  {
   "cap_id": "110533",
-  "car_id": null,
+  "car_id": "carwow-cap:110533",
   "carwow_price": 18745.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "The Inster in 01 trim can be had with either the Standard or Long range powertrains. Regardless of which one you opt for you get the same generous level of equipment, including a heat pump and battery heater to maximise your range. Inside, twin 10.25-inch screens cover infotainment and driver information and you also get climate control, adaptive cruise control and a reversing camera.",
   "engine": "71kW 42kWh Auto",
   "features": [
    "15\" Alloy wheels",
@@ -154,18 +153,8 @@
    "wltp_range_mi": 203.0,
    "zero_to_60_s": 11.7
   },
-  "observed_at": "2026-10-06T22:16:47+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "11.7 s",
-   "Battery range": "203 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.3 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "87 mph"
-  },
   "rrp": 22995.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/inster/specifications",
@@ -176,10 +165,9 @@
  },
  {
   "cap_id": "110536",
-  "car_id": null,
+  "car_id": "carwow-cap:110536",
   "carwow_price": 18745.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "The Inster in 01 trim can be had with either the Standard or Long range powertrains. Regardless of which one you opt for you get the same generous level of equipment, including a heat pump and battery heater to maximise your range. Inside, twin 10.25-inch screens cover infotainment and driver information and you also get climate control, adaptive cruise control and a reversing camera.",
   "engine": "85kW 49kWh Auto",
   "features": [
    "15\" Alloy wheels",
@@ -329,18 +317,8 @@
    "wltp_range_mi": 229.0,
    "zero_to_60_s": 10.6
   },
-  "observed_at": "2026-10-06T22:16:47+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "10.6 s",
-   "Battery range": "229 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.2 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "93 mph"
-  },
   "rrp": 22995.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/inster/specifications",
@@ -351,10 +329,9 @@
  },
  {
   "cap_id": "110532",
-  "car_id": null,
+  "car_id": "carwow-cap:110532",
   "carwow_price": 20490.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "Step up to 02 trim for the Inster and you get upgraded seats - not only do the rear ones slide and recline, but the front seats both fold totally flat leaving you with a totally uninterrupted interior flat floor. The front seats and steering wheel are also heated. You get 17-inch alloy wheels, ambient lighting, full LED headlights and rear privacy glass. It's available with the Long Range battery only.",
   "engine": "85kW 49kWh Auto",
   "features": [
    "Electric rear windows",
@@ -518,18 +495,8 @@
    "wltp_range_mi": 229.0,
    "zero_to_60_s": 10.6
   },
-  "observed_at": "2026-10-06T22:16:47+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "10.6 s",
-   "Battery range": "229 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.2 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "93 mph"
-  },
   "rrp": 24740.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/inster/specifications",
@@ -540,10 +507,9 @@
  },
  {
   "cap_id": "110534",
-  "car_id": null,
+  "car_id": "carwow-cap:110534",
   "carwow_price": 20490.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "Step up to 02 trim for the Inster and you get upgraded seats - not only do the rear ones slide and recline, but the front seats both fold totally flat leaving you with a totally uninterrupted interior flat floor. The front seats and steering wheel are also heated. You get 17-inch alloy wheels, ambient lighting, full LED headlights and rear privacy glass. It's available with the Long Range battery only.",
   "engine": "71kW 42kWh Auto",
   "features": [
    "Electric rear windows",
@@ -707,18 +673,8 @@
    "wltp_range_mi": 203.0,
    "zero_to_60_s": 11.7
   },
-  "observed_at": "2026-10-06T22:16:47+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "11.7 s",
-   "Battery range": "203 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.3 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "87 mph"
-  },
   "rrp": 24740.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/inster/specifications",
@@ -729,10 +685,9 @@
  },
  {
   "cap_id": "110535",
-  "car_id": null,
+  "car_id": "carwow-cap:110535",
   "carwow_price": 24170.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "The peak of the Inster range comes in the form of the Cross trim level, taking the 02 trim and adding a glass sunroof as well as the rugged Cross Design Package for mini-4x4 looks. The Cross has its own wheel design too, as well as a 360-degree camera and blind spot-assist driving tech.",
   "engine": "85kW 49kWh Auto",
   "features": [
    "Electric rear windows",
@@ -903,18 +858,8 @@
    "wltp_range_mi": 229.0,
    "zero_to_60_s": 10.6
   },
-  "observed_at": "2026-10-06T22:16:47+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "10.6 s",
-   "Battery range": "229 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.2 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "93 mph"
-  },
   "rrp": 28420.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/inster/specifications",
@@ -925,10 +870,9 @@
  },
  {
   "cap_id": "110663",
-  "car_id": null,
+  "car_id": "carwow-cap:110663",
   "carwow_price": 17852.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "",
   "engine": "108kW 42kWh Auto",
   "features": [
    "Anti-lock brake system",
@@ -1032,18 +976,8 @@
    "wltp_range_mi": 213.0,
    "zero_to_60_s": 8.8
   },
-  "observed_at": "2026-10-06T22:16:43+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "8.8 s",
-   "Battery range": "213 miles",
-   "CO2 Emissions": "0 g/km",
-   "First year road tax": "£10",
-   "Fuel economy": "0 mpg",
-   "Gears": "1-speed",
-   "Top speed": "105 mph"
-  },
   "rrp": 22245.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/ioniq-3/specifications",
@@ -1057,7 +991,6 @@
   "car_id": "hyundai-ioniq3-61-advance",
   "carwow_price": 17852.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "",
   "engine": "99kW 61kWh Auto",
   "features": [
    "Anti-lock brake system",
@@ -1161,18 +1094,8 @@
    "wltp_range_mi": 308.0,
    "zero_to_60_s": 9.6
   },
-  "observed_at": "2026-10-06T22:16:43+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "9.6 s",
-   "Battery range": "308 miles",
-   "CO2 Emissions": "0 g/km",
-   "First year road tax": "£10",
-   "Fuel economy": "0 mpg",
-   "Gears": "1-speed",
-   "Top speed": "102 mph"
-  },
   "rrp": 22245.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/ioniq-3/specifications",
@@ -1183,10 +1106,9 @@
  },
  {
   "cap_id": "110667",
-  "car_id": null,
+  "car_id": "carwow-cap:110667",
   "carwow_price": 27261.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "",
   "engine": "99kW 61kWh Auto",
   "features": [
    "Anti-lock brake system",
@@ -1317,18 +1239,8 @@
    "wltp_range_mi": 308.0,
    "zero_to_60_s": 9.6
   },
-  "observed_at": "2026-10-06T22:16:43+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "9.6 s",
-   "Battery range": "308 miles",
-   "CO2 Emissions": "0 g/km",
-   "First year road tax": "£10",
-   "Fuel economy": "0 mpg",
-   "Gears": "1-speed",
-   "Top speed": "102 mph"
-  },
   "rrp": 31945.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/ioniq-3/specifications",
@@ -1339,10 +1251,9 @@
  },
  {
   "cap_id": "110665",
-  "car_id": null,
+  "car_id": "carwow-cap:110665",
   "carwow_price": 22896.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "",
   "engine": "99kW 61kWh Auto",
   "features": [
    "Anti-lock brake system",
@@ -1453,18 +1364,8 @@
    "wltp_range_mi": 308.0,
    "zero_to_60_s": 9.6
   },
-  "observed_at": "2026-10-06T22:16:43+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "9.6 s",
-   "Battery range": "308 miles",
-   "CO2 Emissions": "0 g/km",
-   "First year road tax": "£10",
-   "Fuel economy": "0 mpg",
-   "Gears": "1-speed",
-   "Top speed": "102 mph"
-  },
   "rrp": 27445.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/ioniq-3/specifications",
@@ -1475,10 +1376,9 @@
  },
  {
   "cap_id": "110666",
-  "car_id": null,
+  "car_id": "carwow-cap:110666",
   "carwow_price": 25321.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "",
   "engine": "99kW 61kWh Auto",
   "features": [
    "Anti-lock brake system",
@@ -1601,18 +1501,8 @@
    "wltp_range_mi": 308.0,
    "zero_to_60_s": 9.6
   },
-  "observed_at": "2026-10-06T22:16:43+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "9.6 s",
-   "Battery range": "308 miles",
-   "CO2 Emissions": "0 g/km",
-   "First year road tax": "£10",
-   "Fuel economy": "0 mpg",
-   "Gears": "1-speed",
-   "Top speed": "102 mph"
-  },
   "rrp": 29945.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/ioniq-3/specifications",
@@ -1623,10 +1513,9 @@
  },
  {
   "cap_id": "105814",
-  "car_id": null,
+  "car_id": "carwow-cap:105814",
   "carwow_price": 36705.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "The Hyundai Ioniq 5 range opens with the Advance trim. Equipment includes the 12.3-inch touchscreen infotainment display, dual-zone air conditioning, and importantly for an electric car, a heat pump is standard to improve range on cold days.",
   "engine": "125kW 63 kWh Auto",
   "features": [
    "Anti-lock brake system",
@@ -1802,18 +1691,8 @@
    "wltp_range_mi": 273.0,
    "zero_to_60_s": 8.5
   },
-  "observed_at": "2026-10-06T22:16:50+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "8.5 s",
-   "Battery range": "273 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.0 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "114 mph"
-  },
   "rrp": 40695.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/ioniq-5/specifications",
@@ -1827,7 +1706,6 @@
   "car_id": "hyundai-ioniq5-84-advance-rwd",
   "carwow_price": 36705.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "The Hyundai Ioniq 5 range opens with the Advance trim. Equipment includes the 12.3-inch touchscreen infotainment display, dual-zone air conditioning, and importantly for an electric car, a heat pump is standard to improve range on cold days.",
   "engine": "168kW 84 kWh Auto",
   "features": [
    "Anti-lock brake system",
@@ -2003,18 +1881,8 @@
    "wltp_range_mi": 354.0,
    "zero_to_60_s": 7.5
   },
-  "observed_at": "2026-10-06T22:16:50+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "7.5 s",
-   "Battery range": "354 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.9 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "114 mph"
-  },
   "rrp": 40695.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/ioniq-5/specifications",
@@ -2025,10 +1893,9 @@
  },
  {
   "cap_id": "105818",
-  "car_id": null,
+  "car_id": "carwow-cap:105818",
   "carwow_price": 43509.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "N Line builds on the specification of Advance models with a few choice touches, such as specific N Line 20-inch alloy wheels and privacy glass for the rear windows, while you also get a 'deluxe' scuff plate for the door sills. N Line models are not offered with the entry-level battery and motor.",
   "engine": "168kW 84 kWh Auto",
   "features": [
    "Anti-lock brake system",
@@ -2215,18 +2082,8 @@
    "wltp_range_mi": 354.0,
    "zero_to_60_s": 7.5
   },
-  "observed_at": "2026-10-06T22:16:50+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "7.5 s",
-   "Battery range": "354 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.9 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "114 mph"
-  },
   "rrp": 48255.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/ioniq-5/specifications",
@@ -2237,10 +2094,9 @@
  },
  {
   "cap_id": "105821",
-  "car_id": null,
+  "car_id": "carwow-cap:105821",
   "carwow_price": 43509.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "N Line builds on the specification of Advance models with a few choice touches, such as specific N Line 20-inch alloy wheels and privacy glass for the rear windows, while you also get a 'deluxe' scuff plate for the door sills. N Line models are not offered with the entry-level battery and motor.",
   "engine": "239kW 84 kWh AWD Auto",
   "features": [
    "Anti-lock brake system",
@@ -2427,18 +2283,8 @@
    "wltp_range_mi": 307.0,
    "zero_to_60_s": 5.3
   },
-  "observed_at": "2026-10-06T22:16:50+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "5.3 s",
-   "Battery range": "307 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.4 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "114 mph"
-  },
   "rrp": 48255.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/ioniq-5/specifications",
@@ -2449,10 +2295,9 @@
  },
  {
   "cap_id": "105820",
-  "car_id": null,
+  "car_id": "carwow-cap:105820",
   "carwow_price": 48009.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "Despite the name, N Line S actually builds on the equipment list of the Ultimate trim to be the, well, ultimate Ioniq 5 trim. You get a blind spot view monitor and a smart parking assistant as standard, as well as a 360-degree camera. On the outside you get the same 20-inch alloy wheels seen on the regular N Line trim, and a glass roof.",
   "engine": "168kW 84 kWh Auto",
   "features": [
    "Anti-lock brake system",
@@ -2654,18 +2499,8 @@
    "wltp_range_mi": 354.0,
    "zero_to_60_s": 7.5
   },
-  "observed_at": "2026-10-06T22:16:50+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "7.5 s",
-   "Battery range": "354 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.9 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "114 mph"
-  },
   "rrp": 53255.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/ioniq-5/specifications",
@@ -2676,10 +2511,9 @@
  },
  {
   "cap_id": "105823",
-  "car_id": null,
+  "car_id": "carwow-cap:105823",
   "carwow_price": 48009.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "Despite the name, N Line S actually builds on the equipment list of the Ultimate trim to be the, well, ultimate Ioniq 5 trim. You get a blind spot view monitor and a smart parking assistant as standard, as well as a 360-degree camera. On the outside you get the same 20-inch alloy wheels seen on the regular N Line trim, and a glass roof.",
   "engine": "239kW 84 kWh AWD Auto",
   "features": [
    "Anti-lock brake system",
@@ -2881,18 +2715,8 @@
    "wltp_range_mi": 307.0,
    "zero_to_60_s": 5.3
   },
-  "observed_at": "2026-10-06T22:16:50+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "5.3 s",
-   "Battery range": "307 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.4 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "114 mph"
-  },
   "rrp": 53255.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/ioniq-5/specifications",
@@ -2906,7 +2730,6 @@
   "car_id": "hyundai-ioniq5-84-premium-rwd",
   "carwow_price": 39009.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "Despite the top-spec-sounding name, Premium is the entry level Ioniq 5. It’s still packed with kit, though. This includes two 12.3-inch displays, part leather upholstery, ambient lighting, tinted windows and a sliding centre console. As for the exterior, there’s 19-inch alloys, body-coloured door mirrors, flush manual door handles, chrome side mouldings and a rear-view camera.",
   "engine": "168kW 84 kWh Auto",
   "features": [
    "Anti-lock brake system",
@@ -3088,18 +2911,8 @@
    "wltp_range_mi": 354.0,
    "zero_to_60_s": 7.5
   },
-  "observed_at": "2026-10-06T22:16:50+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "7.5 s",
-   "Battery range": "354 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.9 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "114 mph"
-  },
   "rrp": 43255.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/ioniq-5/specifications",
@@ -3110,10 +2923,9 @@
  },
  {
   "cap_id": "111633",
-  "car_id": null,
+  "car_id": "carwow-cap:111633",
   "carwow_price": 39009.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "Despite the top-spec-sounding name, Premium is the entry level Ioniq 5. It’s still packed with kit, though. This includes two 12.3-inch displays, part leather upholstery, ambient lighting, tinted windows and a sliding centre console. As for the exterior, there’s 19-inch alloys, body-coloured door mirrors, flush manual door handles, chrome side mouldings and a rear-view camera.",
   "engine": "125kW 63 kWh Auto",
   "features": [
    "Anti-lock brake system",
@@ -3295,18 +3107,8 @@
    "wltp_range_mi": 273.0,
    "zero_to_60_s": 8.5
   },
-  "observed_at": "2026-10-06T22:16:50+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "8.5 s",
-   "Battery range": "273 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.0 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "114 mph"
-  },
   "rrp": 43255.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/ioniq-5/specifications",
@@ -3317,10 +3119,9 @@
  },
  {
   "cap_id": "105819",
-  "car_id": null,
+  "car_id": "carwow-cap:105819",
   "carwow_price": 45309.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "On the Ioniq 5 Ultimate, you get 20-inch alloy wheels, gloss black detailing on the door mirrors, flush door handles and chrome side mouldings. There’s also dual 12-inch displays, a sliding centre console, electrical seat adjustment, dual-zone climate control, privacy rear windows and a Bose speaker system.",
   "engine": "168kW 84 kWh Auto",
   "features": [
    "Anti-lock brake system",
@@ -3515,18 +3316,8 @@
    "wltp_range_mi": 354.0,
    "zero_to_60_s": 7.5
   },
-  "observed_at": "2026-10-06T22:16:50+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "7.5 s",
-   "Battery range": "354 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.9 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "114 mph"
-  },
   "rrp": 50255.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/ioniq-5/specifications",
@@ -3537,10 +3328,9 @@
  },
  {
   "cap_id": "105822",
-  "car_id": null,
+  "car_id": "carwow-cap:105822",
   "carwow_price": 45309.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "On the Ioniq 5 Ultimate, you get 20-inch alloy wheels, gloss black detailing on the door mirrors, flush door handles and chrome side mouldings. There’s also dual 12-inch displays, a sliding centre console, electrical seat adjustment, dual-zone climate control, privacy rear windows and a Bose speaker system.",
   "engine": "239kW 84 kWh AWD Auto",
   "features": [
    "Anti-lock brake system",
@@ -3735,18 +3525,8 @@
    "wltp_range_mi": 307.0,
    "zero_to_60_s": 5.3
   },
-  "observed_at": "2026-10-06T22:16:50+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "5.3 s",
-   "Battery range": "307 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.4 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "114 mph"
-  },
   "rrp": 50255.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/ioniq-5/specifications",
@@ -3760,7 +3540,6 @@
   "car_id": "hyundai-kona-65-advance",
   "carwow_price": 27795.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "The Advance spec car is the most affordable Kona Electric. It’s the only model available with a choice of battery sizes, with either a 48kWh capacity and a shorter range or a 65kWh battery and a range of up to 319 miles. Advance cars are well equipped for entry-level models, with dual-zone climate control, cruise control, Bluetooth, twin 12.3-inch screens, a DAB radio, and Apple CarPlay and Android Auto as standard.",
   "engine": "160kW 65kWh Auto",
   "features": [
    "Alarm/immobiliser",
@@ -3911,18 +3690,8 @@
    "wltp_range_mi": 319.0,
    "zero_to_60_s": 7.8
   },
-  "observed_at": "2026-10-06T22:16:45+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "7.8 s",
-   "Battery range": "319 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.2 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "107 mph"
-  },
   "rrp": 35000.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/kona-electric/specifications",
@@ -3936,7 +3705,6 @@
   "car_id": "hyundai-kona-65-nline",
   "carwow_price": 29715.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "The N Line S builds on the spec of the N Line, adding Alcantara and leather-trimmed seats that are both heated and ventilated in the front, as well as being electrically adjustable. The climate control has three zones rather than two, and the stereo is uprated to a Bose sound system with seven speakers and a subwoofer. On the outside, there’s a full-width horizontal daytime running light and full projection LED headlights. There’s a longer list of standard driver aids as well.",
   "engine": "160kW 65kWh Auto",
   "features": [
    "Alarm/immobiliser",
@@ -4096,18 +3864,8 @@
    "wltp_range_mi": 319.0,
    "zero_to_60_s": 7.8
   },
-  "observed_at": "2026-10-06T22:16:45+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "7.8 s",
-   "Battery range": "319 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.2 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "107 mph"
-  },
   "rrp": 37135.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/kona-electric/specifications",
@@ -4121,7 +3879,6 @@
   "car_id": "hyundai-kona-65-nlines",
   "carwow_price": 32039.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "You can’t buy the N Line with the smaller battery – every N Line comes with the 65kWh capacity for worry-free long drives. The N Line also has a sportier look than the Advance entry-spec, with 19-inch alloys, black gloss door mirrors, and body-coloured wheel-arch inserts. Inside, you’ll find aluminium pedals and heated front and rear seats. The steering wheel is heated too, and there’s a wireless charging pad for compatible smartphones.",
   "engine": "160kW 65kWh Auto",
   "features": [
    "Alarm/immobiliser",
@@ -4294,18 +4051,8 @@
    "wltp_range_mi": 319.0,
    "zero_to_60_s": 7.8
   },
-  "observed_at": "2026-10-06T22:16:45+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "7.8 s",
-   "Battery range": "319 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.2 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "107 mph"
-  },
   "rrp": 39720.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/kona-electric/specifications",
@@ -4319,7 +4066,6 @@
   "car_id": "hyundai-kona-65-ultimate",
   "carwow_price": 31958.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "The two front seats are both electrically adjustable and heated. And cooled, which is… cool. Better still, the two outer rear seats are also heated, and everything is leather-trimmed. The driver also has a head-up display to look at, and everyone gets the benefit of an electrically powered tilt and slide sunroof.",
   "engine": "160kW 65kWh Auto",
   "features": [
    "Alarm/immobiliser",
@@ -4491,18 +4237,8 @@
    "wltp_range_mi": 319.0,
    "zero_to_60_s": 7.8
   },
-  "observed_at": "2026-10-06T22:16:45+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "7.8 s",
-   "Battery range": "319 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.2 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "107 mph"
-  },
   "rrp": 39630.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/hyundai/kona-electric/specifications",
@@ -4513,10 +4249,9 @@
  },
  {
   "cap_id": "109888",
-  "car_id": null,
+  "car_id": "carwow-cap:109888",
   "carwow_price": 22888.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "Kicking off the EV2 range is the Air model, which comes with a 61kWh battery for 280 miles of range, 16-inch alloy wheels, heated steering wheel and front seats, 12.3-inch touchscreen infotainment, adaptive cruise control and cloth interior trim.",
   "engine": "99kW 61kWh Auto",
   "features": [
    "Automatic air conditioning",
@@ -4680,18 +4415,8 @@
    "wltp_range_mi": 275.0,
    "zero_to_60_s": 9.5
   },
-  "observed_at": "2026-10-06T22:16:55+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "9.5 s",
-   "Battery range": "275 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.1 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "100 mph"
-  },
   "rrp": 27995.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/ev2/specifications",
@@ -4895,7 +4620,6 @@
    "wltp_range_mi": null,
    "zero_to_62_s": 9.5
   },
-  "observed_at": "2026-10-06T22:22:06+00:00",
   "options": [
    "Premium Paint"
   ],
@@ -4910,10 +4634,9 @@
  },
  {
   "cap_id": "109887",
-  "car_id": null,
+  "car_id": "carwow-cap:109887",
   "carwow_price": 25889.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "The EV2 First Edition is a limited-run launch model, and it comes with 18-inch wheels, pop-out door handles, a wireless phone charger, adaptive LED headlights, privacy rear glass, Harman Kardon sound system and 360-degree cameras - but unlike the rest of the range has a small 42.2kWh battery with 190 miles of range.",
   "engine": "107kW 42kWh Auto",
   "features": [
    "Automatic air conditioning",
@@ -5083,18 +4806,8 @@
    "wltp_range_mi": 195.0,
    "zero_to_60_s": 8.7
   },
-  "observed_at": "2026-10-06T22:16:55+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "8.7 s",
-   "Battery range": "195 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.1 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "100 mph"
-  },
   "rrp": 28495.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/ev2/specifications",
@@ -5309,7 +5022,6 @@
    "wltp_range_mi": 195.0,
    "zero_to_62_s": 8.7
   },
-  "observed_at": "2026-10-06T22:22:06+00:00",
   "options": [
    "Premium Paint"
   ],
@@ -5324,10 +5036,9 @@
  },
  {
   "cap_id": "109889",
-  "car_id": null,
+  "car_id": "carwow-cap:109889",
   "carwow_price": 26762.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "The GT-Line is the sporty addition to the EV2 range, with 19-inch alloys wheels, aggressive bumpers, GT-Line specific interior trims, two-tone leatherette upholstery, blind-stop monitoring and rear privacy glass. It has the larger 61kWh battery as standard.",
   "engine": "99kW 61kWh Auto",
   "features": [
    "Automatic air conditioning",
@@ -5500,18 +5211,8 @@
    "wltp_range_mi": 275.0,
    "zero_to_60_s": 9.5
   },
-  "observed_at": "2026-10-06T22:16:55+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "9.5 s",
-   "Battery range": "275 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.1 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "100 mph"
-  },
   "rrp": 32745.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/ev2/specifications",
@@ -5722,7 +5423,6 @@
    "wltp_range_mi": 261.0,
    "zero_to_62_s": 9.7
   },
-  "observed_at": "2026-10-06T22:22:06+00:00",
   "options": [
    "Premium Paint"
   ],
@@ -5737,10 +5437,9 @@
  },
  {
   "cap_id": "109890",
-  "car_id": null,
+  "car_id": "carwow-cap:109890",
   "carwow_price": 30110.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "Building on the GT-Line trim with the addition of a power tailgate, Harman Kardon speakers, digital key (on your phone), surround-view cameras, vehicle-to-load charging and auto-dipping rear view mirror, GT-Line S is the EV2’s range-topping trim.",
   "engine": "99kW 61kWh Auto",
   "features": [
    "Automatic air conditioning",
@@ -5922,18 +5621,8 @@
    "wltp_range_mi": 275.0,
    "zero_to_60_s": 9.5
   },
-  "observed_at": "2026-10-06T22:16:55+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "9.5 s",
-   "Battery range": "275 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.1 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "100 mph"
-  },
   "rrp": 36345.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/ev2/specifications",
@@ -6153,7 +5842,6 @@
    "wltp_range_mi": 257.0,
    "zero_to_62_s": 9.7
   },
-  "observed_at": "2026-10-06T22:22:06+00:00",
   "options": [
    "Premium Paint",
    "Heat Pump"
@@ -6169,10 +5857,9 @@
  },
  {
   "cap_id": "106391",
-  "car_id": null,
+  "car_id": "carwow-cap:106391",
   "carwow_price": 29300.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "Air is the entry point to the Kia EV3 range, and it gets 17-inch alloy wheels, twin 12.3-inch displays for driver information and infotainment, heated front seats and steering wheel, all-round parking sensors and even Highway Driving Assist for semi-autonomous driving on the motorway.",
   "engine": "150kW 58.3kWh Auto",
   "features": [
    "Automatic air conditioning",
@@ -6340,18 +6027,8 @@
    "wltp_range_mi": 270.0,
    "zero_to_60_s": 7.5
   },
-  "observed_at": "2026-10-06T22:16:58+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "7.5 s",
-   "Battery range": "270 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.1 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "105 mph"
-  },
   "rrp": 33055.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/ev3/specifications",
@@ -6362,10 +6039,9 @@
  },
  {
   "cap_id": "106392",
-  "car_id": null,
+  "car_id": "carwow-cap:106392",
   "carwow_price": 29300.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "Air is the entry point to the Kia EV3 range, and it gets 17-inch alloy wheels, twin 12.3-inch displays for driver information and infotainment, heated front seats and steering wheel, all-round parking sensors and even Highway Driving Assist for semi-autonomous driving on the motorway.",
   "engine": "150kW 81.4kWh Auto",
   "features": [
    "Automatic air conditioning",
@@ -6533,18 +6209,8 @@
    "wltp_range_mi": 375.0,
    "zero_to_60_s": 7.7
   },
-  "observed_at": "2026-10-06T22:16:58+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "7.7 s",
-   "Battery range": "375 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.1 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "105 mph"
-  },
   "rrp": 33055.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/ev3/specifications",
@@ -6742,7 +6408,6 @@
    "wltp_range_mi": 270.0,
    "zero_to_62_s": 7.5
   },
-  "observed_at": "2026-10-06T22:22:08+00:00",
   "options": [
    "Premium Paint"
   ],
@@ -6936,7 +6601,6 @@
    "wltp_range_mi": 375.0,
    "zero_to_62_s": 7.7
   },
-  "observed_at": "2026-10-06T22:22:08+00:00",
   "options": [
    "Premium Paint"
   ],
@@ -7161,7 +6825,6 @@
    "wltp_range_mi": 334.0,
    "zero_to_62_s": 5.7
   },
-  "observed_at": "2026-10-06T22:22:08+00:00",
   "options": [
    "Premium Paint",
    "Matt Paint"
@@ -7177,10 +6840,9 @@
  },
  {
   "cap_id": "106393",
-  "car_id": null,
+  "car_id": "carwow-cap:106393",
   "carwow_price": 35252.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "GT-Line cars are only available with the larger of the EV3's batteries, and get larger 19-inch alloy wheels as well as the GT-Line styling package. Lumbar support for the driver, a different design of LED headlight, faux-leather seats and a wireless phone charger are added to the kit list.",
   "engine": "150kW 81.4kWh Auto",
   "features": [
    "Automatic air conditioning",
@@ -7358,18 +7020,8 @@
    "wltp_range_mi": 375.0,
    "zero_to_60_s": 7.7
   },
-  "observed_at": "2026-10-06T22:16:58+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "7.7 s",
-   "Battery range": "375 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.1 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "105 mph"
-  },
   "rrp": 39455.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/ev3/specifications",
@@ -7571,7 +7223,6 @@
    "wltp_range_mi": 367.0,
    "zero_to_62_s": 7.9
   },
-  "observed_at": "2026-10-06T22:22:08+00:00",
   "options": [
    "Premium Paint"
   ],
@@ -7586,10 +7237,9 @@
  },
  {
   "cap_id": "106394",
-  "car_id": null,
+  "car_id": "carwow-cap:106394",
   "carwow_price": 40100.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "GT-Line S is the top of the EV3 range, and the only trim level that can be specified with a heat pump for increased range in the winter. It also gets a head-up display, 360-degree parking camera, power tailgate, Harman Kardon sound system and ventilated front seats.",
   "engine": "150kW 81.4kWh Auto",
   "features": [
    "Automatic air conditioning",
@@ -7781,18 +7431,8 @@
    "wltp_range_mi": 375.0,
    "zero_to_60_s": 7.7
   },
-  "observed_at": "2026-10-06T22:16:58+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "7.7 s",
-   "Battery range": "375 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "4.1 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "105 mph"
-  },
   "rrp": 43055.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/ev3/specifications",
@@ -8011,7 +7651,6 @@
    "wltp_range_mi": 362.0,
    "zero_to_62_s": 7.9
   },
-  "observed_at": "2026-10-06T22:22:08+00:00",
   "options": [
    "Premium Paint",
    "Heat Pump"
@@ -8236,7 +7875,6 @@
    "wltp_range_mi": 361.0,
    "zero_to_62_s": 7.9
   },
-  "observed_at": "2026-10-06T22:22:08+00:00",
   "options": [
    "Premium Paint"
   ],
@@ -8251,10 +7889,9 @@
  },
  {
   "cap_id": "106637",
-  "car_id": null,
+  "car_id": "carwow-cap:106637",
   "carwow_price": 41156.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "Air may be the entry-level spec on the Kia EV6, but it comes with plenty of premium features. Vegan leather upholstery, a curved 12.3-inch digital display, automatic headlights, dual-zone climate control and heating for the front seats and steering wheel are all features that come as standard on this trim.",
   "engine": "168kW 84kWh Auto",
   "features": [
    "Anti-lock brake system",
@@ -8432,18 +8069,8 @@
    "wltp_range_mi": 361.0,
    "zero_to_60_s": 7.7
   },
-  "observed_at": "2026-10-06T22:17:00+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "7.7 s",
-   "Battery range": "361 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.9 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "115 mph"
-  },
   "rrp": 45635.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/ev6/specifications",
@@ -8551,7 +8178,6 @@
    "wltp_range_mi": null,
    "zero_to_62_s": null
   },
-  "observed_at": "2026-10-06T22:22:10+00:00",
   "options": [
    "Premium Paint"
   ],
@@ -8671,7 +8297,6 @@
    "wltp_range_mi": 361.0,
    "zero_to_62_s": 7.7
   },
-  "observed_at": "2026-10-06T22:22:10+00:00",
   "options": [
    "Premium Paint"
   ],
@@ -8686,10 +8311,9 @@
  },
  {
   "cap_id": "108315",
-  "car_id": null,
+  "car_id": "carwow-cap:108315",
   "carwow_price": 54116.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "The Kia EV6 GT is the most powerful Kia ever made, with 585hp on-tap. It's suitably equipped too, with 21-inch alloy wheels, an electronic limited-slip differential and electronically-controlled suspension adding to its sporting credentials.",
   "engine": "478kW 84kWh AWD Auto",
   "features": [
    "Anti-lock brake system",
@@ -8892,18 +8516,8 @@
    "wltp_range_mi": 279.0,
    "zero_to_60_s": 3.5
   },
-  "observed_at": "2026-10-06T22:17:00+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "3.5 s",
-   "Battery range": "279 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.0 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "161 mph"
-  },
   "rrp": 60035.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/ev6/specifications",
@@ -8914,10 +8528,9 @@
  },
  {
   "cap_id": "106638",
-  "car_id": null,
+  "car_id": "carwow-cap:106638",
   "carwow_price": 43856.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "GT-Line injects a bit of sporty style over the standard car with its more aggressive exterior design black alloy pedals and suede seat trim. Also included on this trim are front parking sensors, privacy glass and power adjustment for the front seats.",
   "engine": "168kW 84kWh Auto",
   "features": [
    "Anti-lock brake system",
@@ -9106,18 +8719,8 @@
    "wltp_range_mi": 361.0,
    "zero_to_60_s": 7.7
   },
-  "observed_at": "2026-10-06T22:17:00+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "7.7 s",
-   "Battery range": "361 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.9 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "115 mph"
-  },
   "rrp": 48635.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/ev6/specifications",
@@ -9128,10 +8731,9 @@
  },
  {
   "cap_id": "106639",
-  "car_id": null,
+  "car_id": "carwow-cap:106639",
   "carwow_price": 43856.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "GT-Line injects a bit of sporty style over the standard car with its more aggressive exterior design black alloy pedals and suede seat trim. Also included on this trim are front parking sensors, privacy glass and power adjustment for the front seats.",
   "engine": "239kW 84kWh AWD Auto",
   "features": [
    "Anti-lock brake system",
@@ -9320,18 +8922,8 @@
    "wltp_range_mi": 339.0,
    "zero_to_60_s": 5.3
   },
-  "observed_at": "2026-10-06T22:17:00+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "5.3 s",
-   "Battery range": "339 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.7 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "116 mph"
-  },
   "rrp": 48635.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/ev6/specifications",
@@ -9345,7 +8937,6 @@
   "car_id": "kia-ev6-84-gtlines-rwd-hp",
   "carwow_price": 48446.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "As the range-topping trim level, the GT-Line S spec is the best-equipped version of the Kia EV6. A sliding sunroof, cooled front seats, a 360-degrees parking camera and a 14-speaker premium sound system are highlights of some of the features they have over the less-expensive models. GT-Line S cars get larger 20-inch alloy wheels and blind spot monitoring, too.",
   "engine": "168kW 84kWh Auto",
   "features": [
    "Anti-lock brake system",
@@ -9546,18 +9137,8 @@
    "wltp_range_mi": 361.0,
    "zero_to_60_s": 7.7
   },
-  "observed_at": "2026-10-06T22:17:00+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "7.7 s",
-   "Battery range": "361 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.9 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "115 mph"
-  },
   "rrp": 53735.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/ev6/specifications",
@@ -9568,10 +9149,9 @@
  },
  {
   "cap_id": "106620",
-  "car_id": null,
+  "car_id": "carwow-cap:106620",
   "carwow_price": 48446.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "As the range-topping trim level, the GT-Line S spec is the best-equipped version of the Kia EV6. A sliding sunroof, cooled front seats, a 360-degrees parking camera and a 14-speaker premium sound system are highlights of some of the features they have over the less-expensive models. GT-Line S cars get larger 20-inch alloy wheels and blind spot monitoring, too.",
   "engine": "239kW 84kWh AWD Auto",
   "features": [
    "Anti-lock brake system",
@@ -9772,18 +9352,8 @@
    "wltp_range_mi": 339.0,
    "zero_to_60_s": 5.3
   },
-  "observed_at": "2026-10-06T22:17:00+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "5.3 s",
-   "Battery range": "339 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.7 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "116 mph"
-  },
   "rrp": 53735.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/ev6/specifications",
@@ -9910,7 +9480,6 @@
    "wltp_range_mi": 339.0,
    "zero_to_62_s": 5.3
   },
-  "observed_at": "2026-10-06T22:22:10+00:00",
   "options": [
    "Premium Paint"
   ],
@@ -10041,7 +9610,6 @@
    "wltp_range_mi": 361.0,
    "zero_to_62_s": 7.7
   },
-  "observed_at": "2026-10-06T22:22:10+00:00",
   "options": [
    "Premium Paint"
   ],
@@ -10175,7 +9743,6 @@
    "wltp_range_mi": null,
    "zero_to_62_s": null
   },
-  "observed_at": "2026-10-06T22:22:10+00:00",
   "options": [
    "Premium Paint",
    "Heat Pump"
@@ -10310,7 +9877,6 @@
    "wltp_range_mi": null,
    "zero_to_62_s": null
   },
-  "observed_at": "2026-10-06T22:22:10+00:00",
   "options": [
    "Premium Paint",
    "Heat Pump"
@@ -10326,10 +9892,9 @@
  },
  {
   "cap_id": "110972",
-  "car_id": null,
+  "car_id": "carwow-cap:110972",
   "carwow_price": 39159.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "Sitting above the Essential and Plus trim levels, the Elite comes with electric sliding rear doors, ventilated front seats, 360-degree cameras with a blind spot function, side parking sensors, two-tone upholstery and posher paint.",
   "engine": "120kW Long Range 71kWh Auto",
   "features": [
    "Automatic air conditioning",
@@ -10478,18 +10043,8 @@
    "wltp_range_mi": 256.0,
    "zero_to_60_s": 10.6
   },
-  "observed_at": "2026-10-06T22:16:52+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "10.6 s",
-   "Battery range": "256 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.2 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "84 mph"
-  },
   "rrp": 41175.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/pv5-passenger/specifications",
@@ -10633,7 +10188,6 @@
    "wltp_range_mi": 256.0,
    "zero_to_62_s": 10.6
   },
-  "observed_at": "2026-10-06T22:22:12+00:00",
   "options": [],
   "powertrain": "71.2 kWh FWD",
   "provider": "kia_specs",
@@ -10778,7 +10332,6 @@
    "wltp_range_mi": 246.0,
    "zero_to_62_s": null
   },
-  "observed_at": "2026-10-06T22:22:12+00:00",
   "options": [],
   "powertrain": "71.2 kWh FWD",
   "provider": "kia_specs",
@@ -10791,10 +10344,9 @@
  },
  {
   "cap_id": "108177",
-  "car_id": null,
+  "car_id": "carwow-cap:108177",
   "carwow_price": 30078.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "As the base of the PV5 Passenger range, the Essential model comes with a choice of 51.5kWh or 71.2kWh battery packs, rear privacy glass, automatic headlights, USB-C charging ports, front and rear parking sensors with a reversing camera and cruise control with a stop-and-go function.",
   "engine": "89kW Standard Range 52kWh Auto",
   "features": [
    "Automatic air conditioning",
@@ -10927,18 +10479,8 @@
    "wltp_range_mi": 183.0,
    "zero_to_60_s": 12.8
   },
-  "observed_at": "2026-10-06T22:16:52+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "12.8 s",
-   "Battery range": "183 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.2 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "84 mph"
-  },
   "rrp": 33195.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/pv5-passenger/specifications",
@@ -10949,10 +10491,9 @@
  },
  {
   "cap_id": "108178",
-  "car_id": null,
+  "car_id": "carwow-cap:108178",
   "carwow_price": 30078.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "As the base of the PV5 Passenger range, the Essential model comes with a choice of 51.5kWh or 71.2kWh battery packs, rear privacy glass, automatic headlights, USB-C charging ports, front and rear parking sensors with a reversing camera and cruise control with a stop-and-go function.",
   "engine": "120kW Long Range 71kWh Auto",
   "features": [
    "Automatic air conditioning",
@@ -11085,18 +10626,8 @@
    "wltp_range_mi": 256.0,
    "zero_to_60_s": 10.6
   },
-  "observed_at": "2026-10-06T22:16:52+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "10.6 s",
-   "Battery range": "256 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.2 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "84 mph"
-  },
   "rrp": 33195.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/pv5-passenger/specifications",
@@ -11244,7 +10775,6 @@
    "wltp_range_mi": null,
    "zero_to_62_s": null
   },
-  "observed_at": "2026-10-06T22:22:12+00:00",
   "options": [
    "Premium Paint"
   ],
@@ -11400,7 +10930,6 @@
    "wltp_range_mi": 256.0,
    "zero_to_62_s": 10.6
   },
-  "observed_at": "2026-10-06T22:22:12+00:00",
   "options": [
    "Premium Paint"
   ],
@@ -11558,7 +11087,6 @@
    "wltp_range_mi": 246.0,
    "zero_to_62_s": null
   },
-  "observed_at": "2026-10-06T22:22:12+00:00",
   "options": [
    "Premium Paint"
   ],
@@ -11573,10 +11101,9 @@
  },
  {
   "cap_id": "108179",
-  "car_id": null,
+  "car_id": "carwow-cap:108179",
   "carwow_price": 37544.0,
   "changed_at": "2026-10-06T22:17:00+00:00",
-  "description": "The higher-grade PV5 Passenger Plus is only available with the larger 71.2kWh battery pack, 16-inch alloy wheels, electric door mirrors, heated front seats and steering wheel, an electric tailgate, wireless phone charger and blind spot monitoring.",
   "engine": "120kW Long Range 71kWh Auto",
   "features": [
    "Automatic air conditioning",
@@ -11724,18 +11251,8 @@
    "wltp_range_mi": 256.0,
    "zero_to_60_s": 10.6
   },
-  "observed_at": "2026-10-06T22:16:52+00:00",
   "options": [],
   "provider": "carwow_specs",
-  "raw_numbers": {
-   "Acceleration (0-60mph)": "10.6 s",
-   "Battery range": "256 miles",
-   "CO2 Emissions": "0 g/km",
-   "Consumption": "3.2 miles/kWh",
-   "First year road tax": "£10",
-   "Gears": "1-speed",
-   "Top speed": "84 mph"
-  },
   "rrp": 39475.0,
   "source": "Carwow specifications",
   "source_url": "https://www.carwow.co.uk/kia/pv5-passenger/specifications",
@@ -11881,7 +11398,6 @@
    "wltp_range_mi": 256.0,
    "zero_to_62_s": 10.6
   },
-  "observed_at": "2026-10-06T22:22:12+00:00",
   "options": [],
   "powertrain": "71.2 kWh FWD",
   "provider": "kia_specs",
@@ -12007,7 +11523,6 @@
    "wltp_range_mi": 246.0,
    "zero_to_62_s": null
   },
-  "observed_at": "2026-10-06T22:22:12+00:00",
   "options": [],
   "powertrain": "71.2 kWh FWD",
   "provider": "kia_specs",

@@ -4,7 +4,9 @@ providers read, parsed with the same parsers, dated by the archive timestamp.
 A live provider gains a 'backfill' capability from `backfill_capability(base)`:
 discover asks the CDX index for every 200 capture of each of the base
 capability's URLs since a date, thins them to one per week (and drops captures
-whose body digest matches the one kept before), and yields a target per capture;
+whose body digest matches the one kept before), and yields a target per capture
+(`ctx.extras["shard"] = (i, n)` keeps every n-th page only, so a big provider
+splits across jobs);
 fetch pulls the raw page (`/web/<ts>id_/<url>`, no toolbar); parse is the base
 parser, which reads `observed_at` and `original_url` off the target. Gold then
 folds each dated sighting into the offer's span history (`gold._merge_sighting`).
@@ -67,8 +69,11 @@ def backfill_capability(base: Capability, *, since: str = DEFAULT_SINCE, every_d
     def discover(target: Target, ctx: Context) -> Iterator[Target]:
         since_ = str(ctx.extras.get("since") or since)
         every = int(ctx.extras.get("every_days") or every_days)
+        shard, shards = ctx.extras.get("shard") or (0, 1)
         ident, _, only_ts = target.identifier.partition("@")
-        for t in base.discover(Target(ident), ctx):
+        for i, t in enumerate(base.discover(Target(ident), ctx)):
+            if i % shards != shard:
+                continue  # another job of the chunked backfill takes this page
             url = t.metadata["url"]
             try:
                 snaps = thin(cdx_snapshots(url, since_, ctx), every)

@@ -6,6 +6,10 @@
 # One provider failing (site down, layout changed) is logged in the run and the
 # rest still land; a changed layout shows up as a provider with 0 records and
 # its offers drifting to 'stale' in the app after 14 days.
+#
+# What gets scraped is not a fixed list: carwow_catalog reads Carwow's model
+# index first and the Carwow + LeaseLoco scrapers take every electric model
+# from it, so a new EV on sale appears here the night after Carwow lists it.
 name: Nightly price scrape
 
 on:
@@ -24,6 +28,8 @@ concurrency:
 jobs:
   scrape:
     runs-on: ubuntu-latest
+    # ~250 Carwow pages + ~250 LeaseLoco guesses at a polite pace: well under an hour.
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
         with:
@@ -43,7 +49,9 @@ jobs:
       - name: Unmapped trims (report only)
         env:
           CAR_RESEARCH_DB: /tmp/scrape.sqlite
-        run: python -m pipeline trims || echo "::warning::new unmapped trims; add them to data/seed/trim_map.json"
+        run: |
+          python -m pipeline models | tail -1
+          python -m pipeline trims || echo "::warning::broker derivatives that resolved to no car; map or ignore them in data/seed/trim_map.json"
 
       - name: Commit and push if anything changed
         id: commit

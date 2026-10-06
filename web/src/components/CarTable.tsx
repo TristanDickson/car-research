@@ -42,6 +42,7 @@ export function CarTable({ cars }: { cars: SnapshotCar[] }) {
             {carName(c)}
           </Link>
           {c.used && <Badge tone="muted">used</Badge>}
+          {c.auto && <Badge tone="muted" title={c.notes ?? undefined}>{c.source_kind === "stub" ? "deals page" : "scraped"}</Badge>}
           {c.packs && c.packs.length > 0 && (
             <div className="text-xs text-gray-500">{c.packs.join(" + ")}</div>
           )}

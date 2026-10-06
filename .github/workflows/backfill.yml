@@ -7,6 +7,11 @@
 # that chunk finishes, a hung page costs that chunk at most one timeout, and a
 # chunk that fails leaves the others' results intact. Re-running is safe: a
 # capture already folded in is merged, not duplicated.
+#
+# A big provider is split further: "carwow_deals@0/6" means shard 0 of 6 of
+# carwow_deals' pages (every EV on sale is ~180 deals pages). The merge job
+# imports the first shard of a provider with --replace-source and the rest on
+# top, so together they are that provider's whole history.
 name: Backfill from the Wayback Machine
 
 on:
@@ -19,8 +24,8 @@ on:
         description: "At most one capture per this many days per page"
         default: "7"
       providers:
-        description: "JSON list of providers to run"
-        default: '["carwow_deals","hyundai_offers","ncd","leaseloco","rrg"]'
+        description: "JSON list of chunks: a provider, or provider@shard/shards"
+        default: '["carwow_deals@0/6","carwow_deals@1/6","carwow_deals@2/6","carwow_deals@3/6","carwow_deals@4/6","carwow_deals@5/6","leaseloco@0/3","leaseloco@1/3","leaseloco@2/3","hyundai_offers","ncd","rrg"]'
       max_targets:
         description: "Stop after this many captures per provider (blank = all)"
         default: ""
@@ -35,16 +40,26 @@ concurrency:
 
 jobs:
   chunk:
-    name: ${{ matrix.provider }}
+    name: ${{ matrix.chunk }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
-        provider: ${{ fromJSON(inputs.providers) }}
+        chunk: ${{ fromJSON(inputs.providers) }}
     env:
       CAR_RESEARCH_DB: /tmp/chunk.sqlite
     steps:
+      - name: Split the chunk name into provider and shard
+        id: spec
+        run: |
+          chunk="${{ matrix.chunk }}"
+          provider="${chunk%%@*}"
+          shard=""; [ "$chunk" != "$provider" ] && shard="${chunk#*@}"
+          tag="${provider}-${shard//\//of}"; tag="${tag%-}"
+          echo "provider=$provider" >> "$GITHUB_OUTPUT"
+          echo "shard=$shard" >> "$GITHUB_OUTPUT"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
         with:
           ref: main
@@ -55,28 +70,29 @@ jobs:
       - name: Current history into a local DB (no network)
         run: python -m pipeline refresh --offline --out /tmp/snapshot
 
-      - name: Fold in archived captures for ${{ matrix.provider }}
+      - name: Fold in archived captures for ${{ matrix.chunk }}
         run: |
-          args=(--only "${{ matrix.provider }}" --since "${{ inputs.since }}" --every-days "${{ inputs.every_days }}" --out /tmp/snapshot)
+          args=(--only "${{ steps.spec.outputs.provider }}" --since "${{ inputs.since }}" --every-days "${{ inputs.every_days }}" --out /tmp/snapshot)
           [ -n "${{ inputs.max_targets }}" ] && args+=(--max-targets "${{ inputs.max_targets }}")
+          [ -n "${{ steps.spec.outputs.shard }}" ] && args+=(--shard "${{ steps.spec.outputs.shard }}")
           python -u -m pipeline backfill "${args[@]}" 2>&1 | tee /tmp/backfill.log
-          echo "--- derivatives in archived pages that the trim map does not know (add or ignore in data/seed/trim_map.json):"
+          echo "--- derivatives in archived pages that resolved to no car (add or ignore in data/seed/trim_map.json):"
           python -m pipeline trims | tee /tmp/trims.log || true
           {
-            echo "### ${{ matrix.provider }}"
+            echo "### ${{ matrix.chunk }}"
             echo '```'
             grep -E "captures to fold in|wayback index|/backfill:|FAILED" /tmp/backfill.log || true
             cat /tmp/trims.log
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Export this provider's history
-        run: python -m pipeline export-history --source "${{ matrix.provider }}" --file "/tmp/history-${{ matrix.provider }}.jsonl"
+      - name: Export this chunk's history
+        run: python -m pipeline export-history --source "${{ steps.spec.outputs.provider }}" --file "/tmp/history-${{ steps.spec.outputs.tag }}.jsonl"
 
       - uses: actions/upload-artifact@v4
         with:
-          name: history-${{ matrix.provider }}
-          path: /tmp/history-${{ matrix.provider }}.jsonl
+          name: history-${{ steps.spec.outputs.tag }}
+          path: /tmp/history-${{ steps.spec.outputs.tag }}.jsonl
           retention-days: 7
 
   merge:
@@ -102,18 +118,24 @@ jobs:
       - name: Merge every chunk into the committed history
         run: |
           python -m pipeline refresh --offline --out web/public/data
-          for f in /tmp/chunks/history-*.jsonl; do
-            [ -e "$f" ] || { echo "no chunk results"; break; }
-            p=$(basename "$f" .jsonl); p=${p#history-}
-            python -m pipeline import-history --file "$f" --replace-source "$p"
+          declare -A replaced
+          for f in $(ls /tmp/chunks/history-*.jsonl 2>/dev/null | sort); do
+            p=$(basename "$f" .jsonl); p=${p#history-}; p=${p%-[0-9]*of[0-9]*}
+            if [ -z "${replaced[$p]}" ]; then
+              python -m pipeline import-history --file "$f" --replace-source "$p"
+              replaced[$p]=1
+            else
+              python -m pipeline import-history --file "$f"
+            fi
           done
+          [ "${#replaced[@]}" -gt 0 ] || echo "no chunk results"
           python -m pipeline export-history
           python -m pipeline export-snapshot --out web/public/data
           python -m pipeline deal-table > docs/deal-comparison.md
           python -m pipeline status | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Unmapped trims (report only)
-        run: python -m pipeline trims || echo "::warning::archived pages mention derivatives not in the trim map"
+        run: python -m pipeline trims || echo "::warning::archived pages mention derivatives that resolved to no car"
 
       - name: Commit and push if anything changed
         id: commit

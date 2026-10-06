@@ -27,6 +27,7 @@ class RunResult:
     gold_rows: int
     unmapped: int
     errors: int = 0
+    skipped: int = 0   # optional targets the source does not have (404)
 
 
 def store_artifact(conn: sqlite3.Connection, source: str, cap: Capability, target: Target,
@@ -63,6 +64,8 @@ def run(conn: sqlite3.Connection, provider: Provider, capability: str | None = N
     if ctx is None:
         from pipeline.db import ROOT
         ctx = Context(root=ROOT)
+    # discover may read the catalogue (gold) to know what to fetch.
+    ctx.extras.setdefault("db", conn)
     started = _now()
     cur = conn.execute(
         "INSERT INTO runs (source, capability, target, started_at, status) VALUES (?,?,?,?,'running')",
@@ -71,7 +74,7 @@ def run(conn: sqlite3.Connection, provider: Provider, capability: str | None = N
     run_id = int(cur.lastrowid)
     conn.commit()
 
-    n_art = n_new = n_rec = n_unmapped = 0
+    n_art = n_new = n_rec = n_unmapped = n_skipped = 0
     records: dict[str, list] = {}
     failures: list[str] = []
     try:
@@ -85,6 +88,11 @@ def run(conn: sqlite3.Connection, provider: Provider, capability: str | None = N
                     raise RuntimeError(f"HTTP {fetched.status_code}")
                 parsed = list(cap.parse(fetched.body, t))
             except Exception as e:  # noqa: BLE001
+                # A target the provider guessed at (a broker page for a model it
+                # may not list) is allowed not to exist.
+                if t.metadata.get("optional") and "404" in str(e):
+                    n_skipped += 1
+                    continue
                 failures.append(f"{t.identifier}: {e}")
                 continue
             now = _now()
@@ -100,9 +108,9 @@ def run(conn: sqlite3.Connection, provider: Provider, capability: str | None = N
                 )
                 n_rec += 1
                 if rec.kind == "offer" and not rec.row.get("car_id"):
-                    ref = rec.row.get("car_ref") or {}
+                    ref = dict(rec.row.get("car_ref") or {}, provider=provider.name)
                     car_id, status = gold.resolve_car(conn, ref.get("source", provider.name), ref.get("key", ""),
-                                                      ref.get("label"), fetched.url, now)
+                                                      ref.get("label"), fetched.url, now, ref=ref)
                     if car_id is None:
                         n_unmapped += int(status == "unmapped")
                         continue
@@ -129,4 +137,4 @@ def run(conn: sqlite3.Connection, provider: Provider, capability: str | None = N
         )
         conn.commit()
         raise
-    return RunResult(run_id, provider.name, cap.name, n_art, n_new, n_rec, n_gold, n_unmapped, len(failures))
+    return RunResult(run_id, provider.name, cap.name, n_art, n_new, n_rec, n_gold, n_unmapped, len(failures), n_skipped)

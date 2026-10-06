@@ -8,12 +8,14 @@ import { FilterBar } from "@/components/FilterBar";
 import { Empty, ErrorNote, Loading, PageHeader } from "@/components/ui";
 import { carCosts, type CarCosts } from "@/lib/costs";
 import { dailyBest, lastDays, movement, type Movement, type Pt } from "@/lib/trends";
-import { carMatches, useFilters } from "@/lib/filters";
+import { allCars, carMatches, useFilters } from "@/lib/filters";
 import { carName, gbp } from "@/lib/format";
 import { useCars, useDataPage, useOffers, useRequirements, useShortlist, useToggleShortlist } from "@/lib/hooks";
 import type { SnapshotCar, SnapshotOffer } from "@/lib/types";
 
 type SortKey = "monthly" | "threeYear" | "cash" | "range" | "seats" | "name";
+/** Cards per page: every EV on sale is ~1,500 derivatives, which no one scrolls. */
+const PAGE = 48;
 
 export interface CarTrend {
   /** Best cash price per day, last 90 days. */
@@ -39,9 +41,11 @@ function Pick() {
   const toggle = useToggleShortlist();
 
   const [onlyMeets, setOnlyMeets] = useState(true);
+  const [onlyVerified, setOnlyVerified] = useState(false);
   const [onlyPriced, setOnlyPriced] = useState(false);
   const [sort, setSort] = useState<SortKey>("monthly");
   const [compare, setCompare] = useState<string[]>([]);
+  const [shown, setShown] = useState(PAGE);
   const [now] = useState(() => Date.now());
 
   const staleDays = data.data?.stale_days ?? 14;
@@ -70,7 +74,11 @@ function Pick() {
   }, [carRows, offerRows, now]);
 
   const rows = useMemo(() => {
-    const list = (carRows ?? []).filter((c) => carMatches(c, filters) && (!onlyMeets || c.requirement_check.passes) && (!onlyPriced || costsById.get(c.id)?.monthly != null || costsById.get(c.id)?.cash));
+    const list = (carRows ?? []).filter((c) =>
+      carMatches(c, filters)
+      && (!onlyMeets || c.requirement_check.passes)
+      && (!onlyVerified || c.requirement_check.unknown.length === 0)
+      && (!onlyPriced || costsById.get(c.id)?.monthly != null || costsById.get(c.id)?.cash));
     const key = (c: SnapshotCar): number | string | null => {
       const k = costsById.get(c.id)!;
       switch (sort) {
@@ -89,7 +97,8 @@ function Pick() {
       if (kb == null) return -1;
       return typeof ka === "number" && typeof kb === "number" ? ka - kb : String(ka).localeCompare(String(kb));
     });
-  }, [carRows, filters, onlyMeets, onlyPriced, sort, costsById]);
+  }, [carRows, filters, onlyMeets, onlyVerified, onlyPriced, sort, costsById]);
+  const nAuto = useMemo(() => (carRows ?? []).filter((c) => c.auto).length, [carRows]);
 
   if (cars.error) return <ErrorNote error={cars.error} />;
   if (!cars.data || !offers.data) return <Loading />;
@@ -107,6 +116,7 @@ function Pick() {
             Each card shows the cheapest way to have the car each month from the offers we have actually seen, what that adds up to
             over the agreement, and the best price to buy it outright.
             {ceiling != null && <> The budget line is <b>{gbp(ceiling)}/month</b>.</>} Tick cars to compare them side by side.
+            {nAuto > 0 && <> <b>Shortlist</b> is the trims curated by hand; <b>Every EV</b> adds a card per derivative on sale in the UK, generated from Carwow&apos;s catalogue.</>}
           </>
         }
       />
@@ -115,6 +125,9 @@ function Pick() {
       <div className="flex flex-wrap items-center gap-3 text-sm">
         <label className="flex items-center gap-2">
           <input type="checkbox" checked={onlyMeets} onChange={(e) => setOnlyMeets(e.target.checked)} /> Meets the brief
+        </label>
+        <label className="flex items-center gap-2" title="Drop cars whose heat pump, cabin socket or seats are not confirmed by a source (generated cars mostly)">
+          <input type="checkbox" checked={onlyVerified} onChange={(e) => setOnlyVerified(e.target.checked)} /> Verified only
         </label>
         <label className="flex items-center gap-2">
           <input type="checkbox" checked={onlyPriced} onChange={(e) => setOnlyPriced(e.target.checked)} /> Has a current price
@@ -134,10 +147,21 @@ function Pick() {
       </div>
 
       {rows.length === 0 ? (
-        <Empty>Nothing matches. Untick a filter.</Empty>
+        <Empty>
+          Nothing matches. Untick a filter.
+          {!allCars(filters) && nAuto > 0 && (
+            <>
+              {" "}
+              <Link href={`?${new URLSearchParams({ ...Object.fromEntries(Object.entries(filters).filter(([, v]) => v)), scope: "all" }).toString()}`} className="underline">
+                Look across every EV on sale
+              </Link>{" "}
+              ({nAuto} more derivatives, generated from Carwow&apos;s catalogue).
+            </>
+          )}
+        </Empty>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {rows.map((c) => (
+          {rows.slice(0, shown).map((c) => (
             <CarCard
               key={c.id}
               car={c}
@@ -150,6 +174,14 @@ function Pick() {
               onCompare={() => toggleCompare(c.id)}
             />
           ))}
+        </div>
+      )}
+
+      {rows.length > shown && (
+        <div className="flex justify-center">
+          <button onClick={() => setShown((n) => n + PAGE)} className="rounded border border-gray-700 px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">
+            Show {Math.min(PAGE, rows.length - shown)} more of {rows.length}
+          </button>
         </div>
       )}
 
