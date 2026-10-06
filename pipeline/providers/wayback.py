@@ -39,7 +39,9 @@ def cdx_snapshots(url: str, since: str, ctx: Context) -> list[tuple[str, str]]:
         "url": url, "output": "json", "from": since.replace("-", ""), "fl": "timestamp,statuscode,digest",
         "filter": "statuscode:200", "collapse": "timestamp:8",
     })
-    f = fetch_url(f"{CDX}?{q}", ctx, accept="application/json", timeout=90)
+    # Fail fast: a hung or 'temporarily offline' index query costs one timeout, not
+    # three, and the page is simply skipped this run (re-run the backfill later).
+    f = fetch_url(f"{CDX}?{q}", ctx, accept="application/json", timeout=45, retries=0)
     rows = json.loads(f.body or b"[]")
     return [(r[0], r[2]) for r in rows[1:]]
 
@@ -70,8 +72,9 @@ def backfill_capability(base: Capability, *, since: str = DEFAULT_SINCE, every_d
             try:
                 snaps = thin(cdx_snapshots(url, since_, ctx), every)
             except (FetchError, ValueError) as e:
-                print(f"  wayback index for {url}: {e}", file=sys.stderr)
+                print(f"  wayback index for {url}: {e}", file=sys.stderr, flush=True)
                 continue
+            print(f"  {t.identifier}: {len(snaps)} captures to fold in", file=sys.stderr, flush=True)
             for ts, digest in snaps:
                 if only_ts and ts != only_ts:
                     continue
@@ -81,7 +84,7 @@ def backfill_capability(base: Capability, *, since: str = DEFAULT_SINCE, every_d
                 })
 
     def fetch(target: Target, ctx: Context) -> Fetched:
-        return fetch_url(target.metadata["url"], ctx, timeout=90)
+        return fetch_url(target.metadata["url"], ctx, timeout=60, retries=1)
 
     return Capability(name="backfill", parser_version=base.parser_version, discover=discover, fetch=fetch,
                       parse=base.parse, kinds=base.kinds)
