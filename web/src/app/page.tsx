@@ -5,21 +5,25 @@ import Link from "next/link";
 import { CarTable } from "@/components/CarTable";
 import { Card, Empty, ErrorNote, Loading, PageHeader } from "@/components/ui";
 import { gbp } from "@/lib/format";
-import { useCars, useDeals, useRequirements, useShortlist } from "@/lib/hooks";
+import { isCurrent } from "@/lib/freshness";
+import { useCars, useDataPage, useOffers, useRequirements, useShortlist } from "@/lib/hooks";
 
 export default function OverviewPage() {
   const cars = useCars();
-  const deals = useDeals();
+  const offers = useOffers();
   const reqs = useRequirements();
   const shortlist = useShortlist();
+  const data = useDataPage();
 
   if (cars.error) return <ErrorNote error={cars.error} />;
-  if (!cars.data || !deals.data) return <Loading />;
+  if (!cars.data || !offers.data) return <Loading />;
 
   const meets = cars.data.filter((c) => c.requirement_check.passes);
   const picked = new Set((shortlist.data ?? []).map((s) => s.car_id));
   const shortlisted = cars.data.filter((c) => picked.has(c.id));
-  const active = deals.data.filter((d) => ["live", "lead", "derived"].includes(d.status));
+  const staleDays = data.data?.stale_days ?? 14;
+  const current = offers.data.filter((o) => isCurrent(o, staleDays));
+  const stale = offers.data.filter((o) => ["live", "lead", "derived", "illustrative"].includes(o.freshness.state) && !isCurrent(o, staleDays));
   const budget = reqs.data?.budget as { monthly_ceiling_gbp?: number; monthly_tolerance_gbp?: number } | undefined;
 
   return (
@@ -36,7 +40,7 @@ export default function OverviewPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="Cars captured" value={String(cars.data.length)} sub={`${meets.length} meet the hard requirements`} />
-        <Stat label="Deals captured" value={String(deals.data.length)} sub={`${active.length} live, lead or derived`} />
+        <Stat label="Offers observed" value={String(offers.data.length)} sub={`${current.length} current · ${stale.length} stale`} />
         <Stat
           label="Budget line"
           value={budget?.monthly_ceiling_gbp != null ? `${gbp(budget.monthly_ceiling_gbp)}/mo` : "—"}

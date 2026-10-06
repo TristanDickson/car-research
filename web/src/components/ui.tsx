@@ -57,6 +57,7 @@ const STATUS_TONE: Record<string, Tone> = {
   campaign: "muted",
   expired: "muted",
   historical: "muted",
+  gone: "bad",
 };
 
 export function StatusBadge({ status }: { status: string }) {
@@ -77,4 +78,9 @@ export function ErrorNote({ error }: { error: unknown }) {
       {(error as Error)?.message ?? String(error)}
     </p>
   );
+}
+
+/** Age of the last sighting, coloured by staleness. */
+export function SeenBadge({ label, stale, gone }: { label: string; stale: boolean; gone?: boolean }) {
+  return <Badge tone={gone ? "bad" : stale ? "warn" : "good"}>{gone ? `gone · last seen ${label}` : `seen ${label}`}</Badge>;
 }

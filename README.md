@@ -14,8 +14,10 @@ react to the monthly figure" process, this repo:
 
 1. Captures **what we need from a car** as structured, weighted requirements
    (`docs/requirements.md`, `data/seed/requirements.json`).
-2. Keeps **every car and every deal** we look at as dated, sourced data, and normalises each deal
-   onto one footing (`model/deal_math.py`).
+2. Keeps **every car and every offer** we look at as dated, sourced observations with their
+   source page as evidence, and normalises each onto one footing (`model/deal_math.py`).
+   An offer not seen for a fortnight goes stale and drops out of the summaries, so "current"
+   is a property of the data, not a label.
 3. Serves it as a fast **single-page app** on GitHub Pages that loads the whole dataset into the
    browser's IndexedDB and lets us filter, sort and compare (`web/`).
 4. Will estimate how **intrinsically good value** a car is: a model of the real base cost to
@@ -59,11 +61,11 @@ Test-drive shortlist: Ioniq 3 Ultimate EV Pack and PV5 Elite 7-seat, Inster as t
 ## How it fits together
 
 ```
-data/seed/*.json ─┐
-scrapers (todo) ──┼─▶ pipeline (Python) ─▶ SQLite ─▶ web/public/data/*.json (committed)
-                  │     bronze/silver/gold           + deal metrics, requirement checks
-                  └──────────────────────────────────────────▶ push main ─▶ Pages ─▶ SPA
-                                                               SPA loads JSON into IndexedDB
+data/seed/*.json ────────┐
+data/pastes/carwow/*.txt ┼─▶ pipeline (Python) ─▶ SQLite ─▶ web/public/data/*.json (committed)
+scrapers (todo) ─────────┘     bronze/silver/gold           offers = latest sighting + maths + freshness
+                               trim map resolves each       push main ─▶ Pages ─▶ SPA
+                               source's trim naming         SPA loads JSON into IndexedDB
 ```
 
 Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
@@ -72,11 +74,12 @@ Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
 
 ```
 pipeline/               Python package: providers, SQLite medallion, snapshot exporter, CLI
-  providers/            manual_seed (data/seed → gold); scrapers go here
-  services/snapshot.py  Gold → web/public/data, with deal metrics and requirement checks
+  providers/            manual_seed (data/seed → gold), carwow_paste (pasted pages → offers); scrapers go here
+  services/snapshot.py  Gold → web/public/data: offers with metrics + freshness, requirement checks, data page
 model/deal_math.py      PCP / PCH / cash normalisation (pinned by tests/test_deal_math.py)
-data/seed/              hand-captured cars (19), deals (33), requirements
-web/                    Next.js static SPA: cars, deals, car detail, requirements, shortlist
+data/seed/              hand-captured cars (19), offers (29), requirements, trim map
+data/pastes/            pasted source pages, one file each (carwow: 4, richmond: 2)
+web/                    Next.js static SPA: overview, cars, car detail with price board, offers, requirements, data
   public/data/          the committed snapshot the SPA reads
 docs/                   requirements, research notes, architecture, generated deal table,
   transcripts/          raw source conversations (contact details redacted)
@@ -95,10 +98,16 @@ python3 -m pipeline deal-table > docs/deal-comparison.md
 
 Python ≥ 3.11 with no third-party packages; Node 22 (`cd web && npm install`).
 
-To add a deal or a car: edit `data/seed/deals.json` or `cars.json` following the existing
-entries (every deal has `captured_at`, `status`, `verification`, a `source`, and prices net of
-discount and grant), run `make snapshot`, commit the seed and the regenerated snapshot together.
-CI rejects a seed change without its snapshot.
+**To add a Carwow quote:** copy the dealer-offer page text from your logged-in browser into
+`data/pastes/carwow/<date>_<dealid>.txt`, first line `# captured_at: 2026-10-07T09:00:00Z`,
+then `make snapshot`. If the trim is new, `python3 -m pipeline trims` tells you what to add to
+`data/seed/trim_map.json`. Re-pasting the same offer on a later date records a new sighting
+(and any price change) rather than overwriting.
+
+**To add any other offer or a car:** edit `data/seed/deals.json` or `cars.json` following the
+existing entries (every offer has `captured_at`, `status`, `verification`, a `source`, and prices
+net of discount and grant), run `make snapshot`, commit the seed and the regenerated snapshot
+together. CI rejects a seed change without its snapshot, and rejects unmapped trims.
 
 ## Deploy
 
@@ -111,13 +120,18 @@ repo: **Settings → Pages → Source = "GitHub Actions"**.
   manufacturer finance contribution and before the customer deposit: what you would pay in cash
   from that seller.
 - **`amount_of_credit`** = vehicle price minus deposit minus contribution.
-- Every deal carries `captured_at`, `status` (live / expired / lead / illustrative / derived /
-  campaign / historical) and `verification` (pasted / cited / derived / user). Anything ChatGPT
-  sourced is *cited* until we re-verify it.
+- Every offer sighting carries `captured_at`, `status` as the source implied it (live / expired /
+  lead / illustrative / derived / campaign / historical) and `verification` (pasted / cited /
+  derived / user). The exported `freshness.state` adds `gone` and auto-expires on `valid_to`.
+  Anything ChatGPT sourced is *cited* until we re-verify it.
 - Cars carry `heat_pump` and `internal_v2l` as standard / pack / option / none / unknown, with
   `packs_required` naming the pack. These two fields drive most trim decisions.
 
 ## Context log
+
+- **2026-10-06** Offers became observations: offer keys, sighting history, freshness (stale after
+  14 days, gone, auto-expiry), a trim map with an unmapped queue, and a Carwow paste provider
+  with the four real pages from the transcript as fixtures. SPA gained Offers and Data pages.
 
 - **2026-10-06** Built the platform: pipeline (SQLite medallion, snapshot export), Next.js SPA
   with IndexedDB, Pages deploy and CI. Imported the 4-6 Oct ChatGPT conversation into

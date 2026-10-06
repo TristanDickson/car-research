@@ -43,7 +43,7 @@ export function SnapshotBanner() {
           ) : manifest ? (
             <>
               Snapshot generated {dateLabel(manifest.generated_at)} · {manifest.counts.cars} cars ·{" "}
-              {manifest.counts.deals} deals · held in this browser&apos;s IndexedDB
+              {manifest.counts.offers} offers · held in this browser&apos;s IndexedDB
               {mismatch && (
                 <span className="ml-2 font-semibold text-rose-300">
                   Data format v{manifest.schema_version} but the app expects v{SUPPORTED_SCHEMA_VERSION}.

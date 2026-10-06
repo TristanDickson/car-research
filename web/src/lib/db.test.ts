@@ -29,17 +29,20 @@ const car = (id: string) => ({
   seats: 5,
   requirement_check: { passes: true, failures: [], unknown: [] },
   deal_summary: {
-    deals: 0, active_deals: 0, best_cash_price: null, best_cash_deal_id: null,
-    best_pcp_monthly: null, best_pcp_deal_id: null, best_pch_effective_monthly: null, best_pch_deal_id: null,
+    offers: 0, current_offers: 0, best_cash_price: null, best_cash_offer_id: null, best_cash_age_days: null,
+    best_pcp_monthly: null, best_pcp_offer_id: null, best_pcp_age_days: null,
+    best_pch_effective_monthly: null, best_pch_offer_id: null, best_pch_age_days: null,
   },
 });
 
 function snapshot(generated_at: string, carIds: string[]) {
   return {
-    "manifest.json": { schema_version: "1", generated_at, counts: { cars: carIds.length, deals: 1 } },
+    "manifest.json": { schema_version: "2", generated_at, counts: { cars: carIds.length, offers: 1 } },
     "cars.json": carIds.map(car),
-    "deals.json": [{ id: "d1", car_id: carIds[0], captured_at: "2026-10-05", finance_type: "pcp", status: "live", metrics: {} }],
+    "offers.json": [{ id: "o1", car_id: carIds[0], provider: "test", captured_at: "2026-10-05", finance_type: "pcp", status: "live", metrics: {},
+      freshness: { state: "live", stale: false, age_days: 1, first_seen_at: "2026-10-05", last_seen_at: "2026-10-05", last_checked_at: "2026-10-05", observations: 1, present: true, history: [] } }],
     "requirements.json": { as_of: "2026-10-06", hard: [], preferences: [], wants: [] },
+    "data.json": { generated_at, stale_days: 14, providers: [], runs: [], unmapped_trims: [], offer_states: {}, counts: {} },
   };
 }
 
@@ -53,13 +56,13 @@ describe("IndexedDB seeding from the snapshot", () => {
     vi.unstubAllGlobals();
   });
 
-  it("seeds cars and deals on first load and memoises within a session", async () => {
+  it("seeds cars and offers on first load and memoises within a session", async () => {
     const calls = serve(snapshot("2026-10-06T10:00:00Z", ["a", "b"]));
     const m = await ensureSeeded();
     await ensureSeeded();
     expect(m.generated_at).toBe("2026-10-06T10:00:00Z");
     expect(await getDb().cars.count()).toBe(2);
-    expect(await getDb().deals.count()).toBe(1);
+    expect(await getDb().offers.count()).toBe(1);
     expect(count(calls, "manifest.json")).toBe(1);
     expect(count(calls, "cars.json")).toBe(1);
   });

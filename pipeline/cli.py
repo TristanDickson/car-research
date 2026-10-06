@@ -16,9 +16,14 @@ def _open():
     return conn
 
 
+def _print_run(res) -> None:
+    extra = f", {res.unmapped} UNMAPPED (run `python -m pipeline trims`)" if res.unmapped else ""
+    print(f"{res.source}/{res.capability}: {res.artifacts} artifacts ({res.new_artifacts} new), "
+          f"{res.records} records, {res.gold_rows} gold rows{extra}")
+
+
 def cmd_init_db(args) -> int:
-    conn = _open()
-    conn.close()
+    _open().close()
     print("schema ready")
     return 0
 
@@ -28,12 +33,7 @@ def cmd_run(args) -> int:
     from pipeline.runner import run
 
     conn = _open()
-    provider = PROVIDERS[args.provider]
-    res = run(conn, provider, args.capability, args.target)
-    print(
-        f"{res.source}/{res.capability}: {res.artifacts} artifacts ({res.new_artifacts} new), "
-        f"{res.records} records, {res.gold_rows} gold rows"
-    )
+    _print_run(run(conn, PROVIDERS[args.provider], args.capability, args.target))
     return 0
 
 
@@ -45,8 +45,7 @@ def cmd_import_seed(args) -> int:
 def cmd_export_snapshot(args) -> int:
     from pipeline.services.snapshot import export_snapshot
 
-    conn = _open()
-    manifest = export_snapshot(conn, args.out)
+    manifest = export_snapshot(_open(), args.out, generated_at=args.generated_at)
     print(f"snapshot -> {args.out}: {json.dumps(manifest['counts'])}")
     return 0
 
@@ -59,30 +58,43 @@ def cmd_refresh(args) -> int:
     conn = _open()
     for provider in PROVIDERS.values():
         for cap in provider.capabilities:
-            res = run(conn, provider, cap)
-            print(f"{res.source}/{res.capability}: {res.records} records, {res.gold_rows} gold rows")
-    manifest = export_snapshot(conn, args.out)
+            _print_run(run(conn, provider, cap))
+    manifest = export_snapshot(conn, args.out, generated_at=args.generated_at)
     print(f"snapshot -> {args.out}: {json.dumps(manifest['counts'])}")
     return 0
 
 
 def cmd_status(args) -> int:
     conn = _open()
-    for table in ("artifacts", "source_rows", "cars", "deals", "requirements", "runs"):
+    for table in ("artifacts", "source_rows", "cars", "trim_map", "offer_observations", "requirements", "runs"):
         n = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
-        print(f"{table:14s} {n}")
+        print(f"{table:19s} {n}")
     for r in conn.execute("SELECT * FROM runs ORDER BY id DESC LIMIT 5"):
-        print(f"run {r['id']} {r['source']}/{r['capability']} {r['status']} {r['finished_at']}")
+        print(f"run {r['id']} {r['source']}/{r['capability']} {r['status']} {r['finished_at']} "
+              f"records={r['records']} unmapped={r['unmapped']}")
     return 0
+
+
+def cmd_trims(args) -> int:
+    from pipeline.services.snapshot import unmapped_trims
+
+    rows = unmapped_trims(_open())
+    if not rows:
+        print("no unmapped trims")
+        return 0
+    print("Unmapped trims (add to data/seed/trim_map.json with the right car_id):")
+    for r in rows:
+        print(f'  {{ "source": "{r["source"]}", "source_key": "{r["source_key"]}", "car_id": "..." }}'
+              f'   # {r["label"] or ""}  first seen {r["first_seen_at"][:10]}')
+    return 1
 
 
 def cmd_deal_table(args) -> int:
     from model.deal_math import compute, print_markdown
-    from pipeline.services.snapshot import load_gold
+    from pipeline.services.snapshot import latest_offers, load_cars
 
     conn = _open()
-    cars, deals, _ = load_gold(conn)
-    print_markdown(compute(deals), cars)
+    print_markdown(compute(latest_offers(conn)), load_cars(conn))
     return 0
 
 
@@ -102,14 +114,17 @@ def main(argv=None) -> int:
 
     e = sub.add_parser("export-snapshot", help="Write the static JSON snapshot.")
     e.add_argument("--out", default=str(DEFAULT_OUT))
+    e.add_argument("--generated-at", help="Pin the snapshot timestamp (CI uses the committed one to diff deterministically).")
     e.set_defaults(func=cmd_export_snapshot)
 
-    f = sub.add_parser("refresh", help="Run every provider, then export the snapshot.")
+    f = sub.add_parser("refresh", help="Run every provider in order, then export the snapshot.")
     f.add_argument("--out", default=str(DEFAULT_OUT))
+    f.add_argument("--generated-at", help="Pin the snapshot timestamp (CI uses the committed one to diff deterministically).")
     f.set_defaults(func=cmd_refresh)
 
     sub.add_parser("status", help="Row counts and recent runs.").set_defaults(func=cmd_status)
-    sub.add_parser("deal-table", help="Print the normalised deal comparison as markdown.").set_defaults(func=cmd_deal_table)
+    sub.add_parser("trims", help="List source trims that are not mapped to a car (exit 1 if any).").set_defaults(func=cmd_trims)
+    sub.add_parser("deal-table", help="Print the normalised offer comparison as markdown.").set_defaults(func=cmd_deal_table)
 
     args = p.parse_args(argv)
     return args.func(args)

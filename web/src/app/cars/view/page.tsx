@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
-import { DealTable } from "@/components/DealTable";
+import { OfferTable } from "@/components/OfferTable";
 import { Badge, Card, Empty, ErrorNote, Loading, PageHeader, TriBadge } from "@/components/ui";
 import { carName, gbp, num } from "@/lib/format";
-import { useCar, useDealsForCar, useShortlist, useToggleShortlist } from "@/lib/hooks";
+import { useCar, useDataPage, useOffersForCar, useShortlist, useToggleShortlist } from "@/lib/hooks";
 import type { SnapshotCar } from "@/lib/types";
 
 // Static export: no dynamic segments, so the car id rides a query param.
@@ -23,7 +23,8 @@ export default function CarViewPage() {
 function CarView() {
   const id = useSearchParams().get("id");
   const car = useCar(id);
-  const deals = useDealsForCar(id);
+  const offers = useOffersForCar(id);
+  const data = useDataPage();
   const { data: shortlist } = useShortlist();
   const toggle = useToggleShortlist();
 
@@ -110,9 +111,9 @@ function CarView() {
               ["List (OTR)", gbp(c.list_price_gbp)],
               ["Government grant", c.grant_gbp ? gbp(c.grant_gbp) : "—"],
               ["List after grant", c.list_price_gbp != null ? gbp(c.list_price_gbp - (c.grant_gbp ?? 0)) : "—"],
-              ["Best cash captured", gbp(c.deal_summary.best_cash_price)],
-              ["Best PCP £0 down", c.deal_summary.best_pcp_monthly != null ? `${gbp(c.deal_summary.best_pcp_monthly)}/mo` : "—"],
-              ["Best PCH effective", c.deal_summary.best_pch_effective_monthly != null ? `${gbp(c.deal_summary.best_pch_effective_monthly)}/mo` : "—"],
+              ["Best current cash", withAge(gbp(c.deal_summary.best_cash_price), c.deal_summary.best_cash_age_days)],
+              ["Best current PCP £0 down", withAge(c.deal_summary.best_pcp_monthly != null ? `${gbp(c.deal_summary.best_pcp_monthly)}/mo` : "—", c.deal_summary.best_pcp_age_days)],
+              ["Best current PCH effective", withAge(c.deal_summary.best_pch_effective_monthly != null ? `${gbp(c.deal_summary.best_pch_effective_monthly)}/mo` : "—", c.deal_summary.best_pch_age_days)],
               ["Used from (Carwow)", gbp(c.used_from_gbp)],
               ["Expensive-car VED", c.expensive_car_supplement ? "yes (£440/yr)" : "no"],
             ]}
@@ -137,15 +138,20 @@ function CarView() {
         </Card>
       )}
 
-      <Card title={`Deals (${deals.data?.length ?? 0})`}>
-        {deals.data && deals.data.length > 0 ? (
-          <DealTable deals={deals.data} cars={new Map<string, SnapshotCar>([[c.id, c]])} showCar={false} />
+      <Card title={`Price board · ${offers.data?.length ?? 0} offers observed`}>
+        {offers.data && offers.data.length > 0 ? (
+          <OfferTable offers={offers.data} cars={new Map<string, SnapshotCar>([[c.id, c]])} staleDays={data.data?.stale_days ?? 14} showCar={false} />
         ) : (
-          <Empty>No deals captured for this trim yet.</Empty>
+          <Empty>No offers observed for this trim yet.</Empty>
         )}
       </Card>
     </div>
   );
+}
+
+function withAge(value: string, days: number | null): string {
+  if (days == null || value === "—") return value;
+  return `${value} (seen ${days === 0 ? "today" : `${days}d ago`})`;
 }
 
 function flag(v: boolean | undefined): string {

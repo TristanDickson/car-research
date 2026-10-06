@@ -9,8 +9,8 @@
 // IndexedDB.
 import Dexie, { type Table } from "dexie";
 
-import { getManifest, loadCars, loadDeals, loadRequirements } from "./snapshot";
-import type { Requirements, SnapshotCar, SnapshotDeal, SnapshotManifest } from "./types";
+import { getManifest, loadCars, loadData, loadOffers, loadRequirements } from "./snapshot";
+import type { DataPage, Requirements, SnapshotCar, SnapshotManifest, SnapshotOffer } from "./types";
 
 export interface MetaRow {
   key: string;
@@ -25,7 +25,7 @@ export interface ShortlistRow {
 
 export class CarResearchDB extends Dexie {
   cars!: Table<SnapshotCar, string>;
-  deals!: Table<SnapshotDeal, string>;
+  offers!: Table<SnapshotOffer, string>;
   meta!: Table<MetaRow, string>;
   shortlist!: Table<ShortlistRow, string>;
 
@@ -37,6 +37,15 @@ export class CarResearchDB extends Dexie {
       meta: "key",
       shortlist: "car_id",
     });
+    // v2 (snapshot schema 2): deals became offers (latest observation + freshness).
+    // Dropping the old store forces a re-seed on next load (meta.generated_at
+    // is cleared too), so nothing stale survives the upgrade.
+    this.version(2)
+      .stores({
+        deals: null,
+        offers: "id, car_id, finance_type, status, captured_at",
+      })
+      .upgrade((tx) => tx.table("meta").clear());
   }
 }
 
@@ -57,20 +66,22 @@ async function seed(): Promise<SnapshotManifest> {
   const current = await db.meta.get("generated_at");
   if (current?.value === manifest.generated_at) return manifest;
 
-  const [cars, deals, requirements] = await Promise.all([
+  const [cars, offers, requirements, data] = await Promise.all([
     loadCars(),
-    loadDeals(),
+    loadOffers(),
     loadRequirements(),
+    loadData().catch(() => null as DataPage | null),
   ]);
-  await db.transaction("rw", db.cars, db.deals, db.meta, async () => {
+  await db.transaction("rw", db.cars, db.offers, db.meta, async () => {
     await db.cars.clear();
-    await db.deals.clear();
+    await db.offers.clear();
     await db.cars.bulkPut(cars);
-    await db.deals.bulkPut(deals);
+    await db.offers.bulkPut(offers);
     await db.meta.bulkPut([
       { key: "generated_at", value: manifest.generated_at },
       { key: "schema_version", value: manifest.schema_version },
       { key: "requirements", value: JSON.stringify(requirements) },
+      { key: "data", value: JSON.stringify(data) },
     ]);
   });
   return manifest;
@@ -92,6 +103,12 @@ export async function getRequirements(): Promise<Requirements | null> {
   await ensureSeeded();
   const row = await getDb().meta.get("requirements");
   return row ? (JSON.parse(row.value) as Requirements) : null;
+}
+
+export async function getDataPage(): Promise<DataPage | null> {
+  await ensureSeeded();
+  const row = await getDb().meta.get("data");
+  return row ? (JSON.parse(row.value) as DataPage | null) : null;
 }
 
 export async function toggleShortlist(carId: string): Promise<boolean> {

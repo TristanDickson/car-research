@@ -1,12 +1,50 @@
 {
  "counts": {
   "cars": 19,
-  "cash_benchmarks": 6,
   "observations": 33,
   "offers": 33,
-  "unmapped_trims": 0
+  "trim_map_mapped": 4,
+  "trim_map_unmapped": 0
  },
  "generated_at": "2026-10-06T13:55:43+00:00",
+ "offer_states": {
+  "campaign": 7,
+  "derived": 2,
+  "expired": 3,
+  "historical": 1,
+  "illustrative": 1,
+  "lead": 12,
+  "live": 7
+ },
+ "providers": [
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "car",
+      "offer",
+      "requirements",
+      "trim_map"
+     ],
+     "name": "seed",
+     "parser_version": "2"
+    }
+   ],
+   "name": "manual_seed"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "offer"
+     ],
+     "name": "offers",
+     "parser_version": "1"
+    }
+   ],
+   "name": "carwow_paste"
+  }
+ ],
  "runs": [
   {
    "artifacts": 4,
@@ -33,5 +71,6 @@
    "unmapped": 0
   }
  ],
- "schema_version": "2"
+ "stale_days": 14,
+ "unmapped_trims": []
 }

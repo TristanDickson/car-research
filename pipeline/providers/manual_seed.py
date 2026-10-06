@@ -1,8 +1,9 @@
 """The hand-curated seed data (data/seed/*.json) as a provider.
 
-Everything captured by hand from the ChatGPT research goes through the same
-Bronze → Silver → Gold path as a scraper would, so provenance and lineage are
-uniform: the seed file bytes are the artifact, each JSON entry is a Silver row.
+Everything captured by hand goes through the same Bronze → Silver → Gold path as
+a scraper would, so provenance and lineage are uniform: the seed file bytes are
+the artifact, each JSON entry is a Silver row. Deals in the seed are offer
+observations (id = offer key, captured_at = observed_at).
 """
 from __future__ import annotations
 
@@ -20,9 +21,11 @@ from pipeline.providers.types import (
 
 SEED_FILES = {
     "cars.json": "car",
-    "deals.json": "deal",
+    "deals.json": "offer",
     "requirements.json": "requirements",
+    "trim_map.json": "trim_map",
 }
+LIST_KEY = {"car": "cars", "offer": "deals", "trim_map": "trim_map"}
 
 
 def discover(target: Target, ctx: Context) -> Iterator[Target]:
@@ -47,17 +50,26 @@ def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
     if kind == "requirements":
         yield ParsedRecord(kind="requirements", key="requirements", row=doc)
         return
-    for row in doc[kind + "s"]:
-        yield ParsedRecord(kind=kind, key=row["id"], row=row)
+    for row in doc[LIST_KEY[kind]]:
+        if kind == "offer":
+            row = dict(row)
+            row.setdefault("offer_key", row["id"])
+            row.setdefault("observed_at", row["captured_at"])
+            row.setdefault("present", 1)
+            yield ParsedRecord(kind="offer", key=row["offer_key"], row=row)
+        elif kind == "trim_map":
+            yield ParsedRecord(kind="trim_map", key=f'{row["source"]}|{row["source_key"]}', row=row)
+        else:
+            yield ParsedRecord(kind=kind, key=row["id"], row=row)
 
 
 seed = Capability(
     name="seed",
-    parser_version="1",
+    parser_version="2",
     discover=discover,
     fetch=fetch,
     parse=parse,
-    kinds=("car", "deal", "requirements"),
+    kinds=("car", "offer", "requirements", "trim_map"),
 )
 
 provider = Provider(

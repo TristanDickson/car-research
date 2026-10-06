@@ -8,6 +8,10 @@ import { carName, gbp, num } from "@/lib/format";
 import { useShortlist, useToggleShortlist } from "@/lib/hooks";
 import type { SnapshotCar } from "@/lib/types";
 
+function ageHint(days: number | null): string | undefined {
+  return days == null ? undefined : `last seen ${days === 0 ? "today" : `${days} day${days === 1 ? "" : "s"} ago`} (at snapshot time)`;
+}
+
 export function CarTable({ cars }: { cars: SnapshotCar[] }) {
   const { data: shortlist } = useShortlist();
   const toggle = useToggleShortlist();
@@ -73,25 +77,33 @@ export function CarTable({ cars }: { cars: SnapshotCar[] }) {
       key: "cash",
       header: "Best cash",
       align: "right",
-      title: "Lowest active cash / outright price captured",
+      title: "Lowest current cash / outright price captured (not stale, not gone)",
       sortValue: (c) => c.deal_summary.best_cash_price,
-      render: (c) => gbp(c.deal_summary.best_cash_price),
+      render: (c) => <span title={ageHint(c.deal_summary.best_cash_age_days)}>{gbp(c.deal_summary.best_cash_price)}</span>,
     },
     {
       key: "pcp",
       header: "Best PCP £0 down",
       align: "right",
-      title: "Lowest monthly on an active £0-deposit PCP",
+      title: "Lowest monthly on a current £0-deposit PCP",
       sortValue: (c) => c.deal_summary.best_pcp_monthly,
-      render: (c) => (c.deal_summary.best_pcp_monthly != null ? `${gbp(c.deal_summary.best_pcp_monthly)}/mo` : "—"),
+      render: (c) => (
+        <span title={ageHint(c.deal_summary.best_pcp_age_days)}>
+          {c.deal_summary.best_pcp_monthly != null ? `${gbp(c.deal_summary.best_pcp_monthly)}/mo` : "—"}
+        </span>
+      ),
     },
     {
       key: "pch",
       header: "Best PCH eff.",
       align: "right",
-      title: "Lowest effective monthly on an active lease (initial rental spread over the term)",
+      title: "Lowest effective monthly on a current lease (initial rental spread over the term)",
       sortValue: (c) => c.deal_summary.best_pch_effective_monthly,
-      render: (c) => (c.deal_summary.best_pch_effective_monthly != null ? `${gbp(c.deal_summary.best_pch_effective_monthly)}/mo` : "—"),
+      render: (c) => (
+        <span title={ageHint(c.deal_summary.best_pch_age_days)}>
+          {c.deal_summary.best_pch_effective_monthly != null ? `${gbp(c.deal_summary.best_pch_effective_monthly)}/mo` : "—"}
+        </span>
+      ),
     },
   ];
 

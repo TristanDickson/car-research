@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { ensureSeeded, getDb, getRequirements, toggleShortlist } from "./db";
+import { ensureSeeded, getDataPage, getDb, getRequirements, toggleShortlist } from "./db";
 
 const FOREVER = Number.POSITIVE_INFINITY;
 
@@ -31,27 +31,31 @@ export function useCar(id: string | null) {
   });
 }
 
-export function useDeals() {
+export function useOffers() {
   return useQuery({
-    queryKey: ["deals"],
+    queryKey: ["offers"],
     queryFn: async () => {
       await ensureSeeded();
-      return getDb().deals.orderBy("captured_at").toArray();
+      return getDb().offers.orderBy("captured_at").toArray();
     },
     staleTime: FOREVER,
   });
 }
 
-export function useDealsForCar(carId: string | null) {
+export function useOffersForCar(carId: string | null) {
   return useQuery({
-    queryKey: ["deals", "car", carId],
+    queryKey: ["offers", "car", carId],
     queryFn: async () => {
       await ensureSeeded();
-      return getDb().deals.where("car_id").equals(carId as string).toArray();
+      return getDb().offers.where("car_id").equals(carId as string).toArray();
     },
     enabled: !!carId,
     staleTime: FOREVER,
   });
+}
+
+export function useDataPage() {
+  return useQuery({ queryKey: ["data"], queryFn: getDataPage, staleTime: FOREVER });
 }
 
 export function useRequirements() {

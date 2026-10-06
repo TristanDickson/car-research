@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-06",
+  "notes": "Maps each source's own trim naming onto our car ids. source_key is normalised by the provider (lower-case, 'kwh' attached to its number, single spaces). A scraped offer whose key is missing here lands in silver but not gold, and shows up as 'unmapped' in the snapshot until a row is added.",
+  "trim_map": [
+    { "source": "carwow", "source_key": "hyundai|ioniq 3|99kw 61kwh auto ultimate ev pack", "car_id": "hyundai-ioniq3-61-ultimate-evpack" },
+    { "source": "carwow", "source_key": "hyundai|kona electric|160kw 65kwh auto ultimate", "car_id": "hyundai-kona-65-ultimate" },
+    { "source": "carwow", "source_key": "hyundai|inster|85kw 49kwh auto 02", "car_id": "hyundai-inster-49-02", "note": "Tech Pack (internal V2L) not confirmed on the listed car." },
+    { "source": "carwow", "source_key": "hyundai|ioniq 5|168kw 84kwh auto premium", "car_id": "hyundai-ioniq5-84-premium-rwd" }
+  ]
+}

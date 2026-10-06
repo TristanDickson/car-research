@@ -19,14 +19,46 @@ export interface RequirementCheck {
 }
 
 export interface DealSummary {
-  deals: number;
-  active_deals: number;
+  offers: number;
+  current_offers: number;
   best_cash_price: number | null;
-  best_cash_deal_id: string | null;
+  best_cash_offer_id: string | null;
+  best_cash_age_days: number | null;
   best_pcp_monthly: number | null;
-  best_pcp_deal_id: string | null;
+  best_pcp_offer_id: string | null;
+  best_pcp_age_days: number | null;
   best_pch_effective_monthly: number | null;
-  best_pch_deal_id: string | null;
+  best_pch_offer_id: string | null;
+  best_pch_age_days: number | null;
+}
+
+/** gone = the latest check did not find the offer; expired = past valid_to or
+ * the source said so; otherwise the status the source implied when last seen. */
+export type OfferState = "live" | "lead" | "derived" | "illustrative" | "campaign" | "expired" | "historical" | "gone";
+
+export interface ObservationPoint {
+  observed_at: string;
+  present: boolean;
+  source: string;
+  monthly_payment?: number;
+  vehicle_price?: number;
+  apr?: number;
+  gfv?: number;
+  initial_rental?: number;
+  monthly_rental?: number;
+}
+
+export interface Freshness {
+  state: OfferState;
+  /** Relative to manifest.generated_at. The UI recomputes age from last_seen_at. */
+  stale: boolean;
+  age_days: number | null;
+  first_seen_at: string;
+  last_seen_at: string | null;
+  last_checked_at: string;
+  observations: number;
+  present: boolean;
+  history: ObservationPoint[];
 }
 
 export interface SnapshotCar {
@@ -122,9 +154,11 @@ export interface DealMetrics {
   discount_vs_list?: number | null;
 }
 
-export interface SnapshotDeal {
+export interface SnapshotOffer {
   id: string;
   car_id: string;
+  provider: string;
+  freshness: Freshness;
   captured_at: string;
   deal_date?: string;
   finance_type: FinanceType;
@@ -164,7 +198,47 @@ export interface SnapshotDeal {
   mileage?: number | null;
   warranty_remaining?: string;
   notes?: string;
+  num_payments_stated?: number | null;
+  condition?: string;
+  location?: string | null;
+  car_ref?: { source: string; key: string; label?: string };
+  car_facts?: Record<string, unknown>;
   metrics: DealMetrics;
+}
+
+/** Kept for readability at call sites: a deal is one offer's latest observation. */
+export type SnapshotDeal = SnapshotOffer;
+
+export interface RunRow {
+  id: number;
+  source: string;
+  capability: string;
+  target: string;
+  started_at: string;
+  finished_at: string | null;
+  status: string;
+  artifacts: number;
+  records: number;
+  unmapped: number;
+}
+
+export interface UnmappedTrim {
+  source: string;
+  source_key: string;
+  label: string | null;
+  example_url: string | null;
+  first_seen_at: string;
+  last_seen_at: string;
+}
+
+export interface DataPage {
+  generated_at: string;
+  stale_days: number;
+  providers: { name: string; capabilities: { name: string; kinds: string[]; parser_version: string }[] }[];
+  runs: RunRow[];
+  unmapped_trims: UnmappedTrim[];
+  offer_states: Record<string, number>;
+  counts: Record<string, number>;
 }
 
 export interface RequirementRule {

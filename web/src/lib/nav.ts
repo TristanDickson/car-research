@@ -1,8 +1,9 @@
 export const NAV = [
   { href: "/", label: "Overview" },
   { href: "/cars", label: "Cars" },
-  { href: "/deals", label: "Deals" },
+  { href: "/offers", label: "Offers" },
   { href: "/requirements", label: "Requirements" },
+  { href: "/data", label: "Data" },
 ] as const;
 
 /** Map a pathname (trailing slash or not) to the NAV href it belongs to. */
