@@ -26,4 +26,4 @@ jobs:
       - name: Build static export (root base path)
         run: npm run build
       - name: Assert export produced out/
-        run: test -f out/index.html && test -f out/cars/index.html && test -f out/deals/index.html
+        run: test -f out/index.html && test -f out/cars/index.html && test -f out/offers/index.html && test -f out/compare/index.html
