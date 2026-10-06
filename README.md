@@ -146,8 +146,11 @@ pump, 5-seat). Nothing is ever attached to a guessed car.
 
 ## Deploy
 
-Push to `main` deploys via `.github/workflows/pages-deploy.yml`. One-time setting in the GitHub
-repo: **Settings → Pages → Source = "GitHub Actions"**.
+Push to `main` deploys via `.github/workflows/pages-deploy.yml`. One-time settings in the GitHub
+repo: **Settings → Pages → Source = "GitHub Actions"**, and the `github-pages` environment must
+allow `main` to deploy (it only allows the default branch out of the box: make `main` the default
+branch, or add it under Settings → Environments → github-pages → Deployment branches). A deploy
+rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Data conventions
 

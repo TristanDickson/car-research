@@ -169,8 +169,12 @@ loaded generation and can re-check Pages for a newer one.
 `NEXT_PUBLIC_BASE_PATH=/car-research`, copy `index.html` → `404.html` (SPA fallback for deep
 links like `/cars/view?id=…`), `.nojekyll`, `upload-pages-artifact`, `deploy-pages`.
 
-One-time repo setting: **Settings → Pages → Source = "GitHub Actions"**. Until then the deploy
-step fails.
+One-time repo settings: **Settings → Pages → Source = "GitHub Actions"** (until then the
+deploy step fails with a 404), and the `github-pages` environment GitHub creates at that point
+only lets the repository's *default branch* deploy. The workflow deploys from `main`, so either
+make `main` the default branch (Settings → General) or add `main` under Settings → Environments
+→ github-pages → Deployment branches. A run rejected by that rule fails in two seconds with no
+runner and no logs.
 
 `.github/workflows/scrape.yml` runs nightly (and on dispatch): `pipeline refresh` with the live
 providers, commits `data/history`, `web/public/data` and `docs/deal-comparison.md` if anything
