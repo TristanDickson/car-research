@@ -3,10 +3,43 @@
   "cars": 19,
   "observations": 117,
   "offers": 81,
-  "trim_map_mapped": 50,
+  "specs": 65,
+  "specs_mapped": 14,
+  "trim_map_mapped": 56,
   "trim_map_unmapped": 0
  },
- "generated_at": "2026-10-06T21:17:05+00:00",
+ "flag_labels": {
+  "adaptive_cruise": "Adaptive cruise control",
+  "blind_spot": "Blind-spot monitoring",
+  "bose_harman": "Premium audio",
+  "camera_360": "360° camera",
+  "carplay": "Apple CarPlay / Android Auto",
+  "digital_key": "Digital key",
+  "electric_seats": "Electric seat adjustment",
+  "glass_roof": "Glass / panoramic roof",
+  "heat_pump": "Heat pump",
+  "heated_front_seats": "Heated front seats",
+  "heated_rear_seats": "Heated rear seats",
+  "heated_steering_wheel": "Heated steering wheel",
+  "hud": "Head-up display",
+  "keyless": "Keyless entry",
+  "leather": "Leather / leatherette",
+  "led_headlights": "LED headlights",
+  "matrix_led": "Adaptive / matrix headlights",
+  "memory_seats": "Driver seat memory",
+  "nav": "Built-in navigation",
+  "powered_sliding_doors": "Powered sliding doors",
+  "powered_tailgate": "Powered tailgate",
+  "rear_privacy_glass": "Privacy glass",
+  "three_pin_socket": "3-pin socket mentioned",
+  "tow_prep": "Tow bar / towing prep",
+  "v2l_any": "V2L (any)",
+  "v2l_external": "External V2L",
+  "v2l_internal": "Internal V2L socket",
+  "ventilated_seats": "Ventilated front seats",
+  "wireless_charging": "Wireless phone charging"
+ },
+ "generated_at": "2026-10-06T22:26:10+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
@@ -153,6 +186,48 @@
    "description": "RRG Kia PV5 offers page: representative Kia Finance PCP examples in plain text.",
    "live": true,
    "name": "rrg"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "spec"
+     ],
+     "name": "specs",
+     "parser_version": "1"
+    },
+    {
+     "kinds": [
+      "spec"
+     ],
+     "name": "backfill",
+     "parser_version": "1"
+    }
+   ],
+   "description": "Carwow model specification pages: https://www.carwow.co.uk/<make>/<model>/specifications",
+   "live": true,
+   "name": "carwow_specs"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "spec"
+     ],
+     "name": "specs",
+     "parser_version": "1"
+    },
+    {
+     "kinds": [
+      "spec"
+     ],
+     "name": "backfill",
+     "parser_version": "1"
+    }
+   ],
+   "description": "Kia UK model specification pages: https://www.kia.com/uk/new-cars/<model>/specification/",
+   "live": true,
+   "name": "kia_specs"
   }
  ],
  "runs": [
@@ -160,11 +235,11 @@
    "artifacts": 4,
    "capability": "offers",
    "errors": 0,
-   "finished_at": "2026-10-06T21:17:05+00:00",
+   "finished_at": "2026-10-06T22:26:10+00:00",
    "id": 2,
    "records": 4,
    "source": "carwow_paste",
-   "started_at": "2026-10-06T21:17:05+00:00",
+   "started_at": "2026-10-06T22:26:10+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -173,11 +248,11 @@
    "artifacts": 4,
    "capability": "seed",
    "errors": 0,
-   "finished_at": "2026-10-06T21:17:05+00:00",
+   "finished_at": "2026-10-06T22:26:10+00:00",
    "id": 1,
-   "records": 252,
+   "records": 268,
    "source": "manual_seed",
-   "started_at": "2026-10-06T21:17:05+00:00",
+   "started_at": "2026-10-06T22:26:10+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0

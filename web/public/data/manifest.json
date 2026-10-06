@@ -4,19 +4,20 @@
   "cash_benchmarks": 39,
   "observations": 117,
   "offers": 81,
+  "specs": 65,
   "unmapped_trims": 0
  },
- "generated_at": "2026-10-06T21:17:05+00:00",
+ "generated_at": "2026-10-06T22:26:10+00:00",
  "runs": [
   {
    "artifacts": 4,
    "capability": "offers",
    "errors": 0,
-   "finished_at": "2026-10-06T21:17:05+00:00",
+   "finished_at": "2026-10-06T22:26:10+00:00",
    "id": 2,
    "records": 4,
    "source": "carwow_paste",
-   "started_at": "2026-10-06T21:17:05+00:00",
+   "started_at": "2026-10-06T22:26:10+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -25,15 +26,15 @@
    "artifacts": 4,
    "capability": "seed",
    "errors": 0,
-   "finished_at": "2026-10-06T21:17:05+00:00",
+   "finished_at": "2026-10-06T22:26:10+00:00",
    "id": 1,
-   "records": 252,
+   "records": 268,
    "source": "manual_seed",
-   "started_at": "2026-10-06T21:17:05+00:00",
+   "started_at": "2026-10-06T22:26:10+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
   }
  ],
- "schema_version": "2"
+ "schema_version": "3"
 }
