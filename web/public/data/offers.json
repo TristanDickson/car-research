@@ -94191,8 +94191,15 @@
   "finance_type": "cash",
   "freshness": {
    "age_days": 1,
-   "first_seen_at": "2026-10-06T23:19:47+00:00",
+   "first_seen_at": "2026-06-15T20:19:48+00:00",
    "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-06-15T20:19:48+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 30206.0
+    },
     {
      "confirmed_at": null,
      "observed_at": "2026-10-06T23:19:47+00:00",
@@ -94203,7 +94210,7 @@
    ],
    "last_checked_at": "2026-10-06T23:19:47+00:00",
    "last_seen_at": "2026-10-06T23:19:47+00:00",
-   "observations": 1,
+   "observations": 2,
    "present": true,
    "stale": false,
    "state": "lead"
@@ -94254,8 +94261,15 @@
   "finance_type": "cash",
   "freshness": {
    "age_days": 1,
-   "first_seen_at": "2026-10-06T23:19:47+00:00",
+   "first_seen_at": "2026-06-15T20:19:48+00:00",
    "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-06-15T20:19:48+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 33086.0
+    },
     {
      "confirmed_at": null,
      "observed_at": "2026-10-06T23:19:47+00:00",
@@ -94266,7 +94280,7 @@
    ],
    "last_checked_at": "2026-10-06T23:19:47+00:00",
    "last_seen_at": "2026-10-06T23:19:47+00:00",
-   "observations": 1,
+   "observations": 2,
    "present": true,
    "stale": false,
    "state": "lead"
@@ -94317,8 +94331,15 @@
   "finance_type": "cash",
   "freshness": {
    "age_days": 1,
-   "first_seen_at": "2026-10-06T23:19:47+00:00",
+   "first_seen_at": "2026-06-15T20:19:48+00:00",
    "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-06-15T20:19:48+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 36794.0
+    },
     {
      "confirmed_at": null,
      "observed_at": "2026-10-06T23:19:47+00:00",
@@ -94329,7 +94350,7 @@
    ],
    "last_checked_at": "2026-10-06T23:19:47+00:00",
    "last_seen_at": "2026-10-06T23:19:47+00:00",
-   "observations": 1,
+   "observations": 2,
    "present": true,
    "stale": false,
    "state": "lead"

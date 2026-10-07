@@ -29571,12 +29571,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=99728&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 50475.0,
+  "list_price_gbp": 50340.0,
   "make": "Toyota",
   "make_slug": "toyota",
   "model": "bZ4X",
   "model_slug": "bz4x",
-  "model_year": 2026,
+  "model_year": null,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -29597,7 +29597,7 @@
   "trim": "Vision · 150kW 71.4kWh Auto",
   "variant": "150kW 71.4kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-08-03"
+  "version_date": null
  },
  {
   "auto": true,
@@ -31454,12 +31454,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=105710&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 33060.0,
+  "list_price_gbp": 32905.0,
   "make": "MINI",
   "make_slug": "mini",
   "model": "Aceman",
   "model_slug": "aceman",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -31480,7 +31480,7 @@
   "trim": "E Classic · 135kW43kWh Auto",
   "variant": "135kW43kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-05-28"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -31756,12 +31756,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=105713&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 35660.0,
+  "list_price_gbp": 35105.0,
   "make": "MINI",
   "make_slug": "mini",
   "model": "Aceman",
   "model_slug": "aceman",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -31782,7 +31782,7 @@
   "trim": "E Exclusive · 135kW43kWh Auto",
   "variant": "135kW43kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-05-28"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -32058,12 +32058,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=105716&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 36960.0,
+  "list_price_gbp": 36405.0,
   "make": "MINI",
   "make_slug": "mini",
   "model": "Aceman",
   "model_slug": "aceman",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -32084,7 +32084,7 @@
   "trim": "E Sport · 135kW43kWh Auto",
   "variant": "135kW43kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-09-01"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -32110,12 +32110,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=105716&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 39460.0,
+  "list_price_gbp": 38905.0,
   "make": "MINI",
   "make_slug": "mini",
   "model": "Aceman",
   "model_slug": "aceman",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -32136,7 +32136,7 @@
   "trim": "E Sport · 135kW43kWh Auto",
   "variant": "135kW43kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-09-01"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -32662,12 +32662,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=105713&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 39160.0,
+  "list_price_gbp": 38605.0,
   "make": "MINI",
   "make_slug": "mini",
   "model": "Aceman",
   "model_slug": "aceman",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -32688,7 +32688,7 @@
   "trim": "SE Exclusive · 160kW54kWh Auto",
   "variant": "160kW54kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-05-28"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -32964,12 +32964,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=105716&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 40460.0,
+  "list_price_gbp": 39905.0,
   "make": "MINI",
   "make_slug": "mini",
   "model": "Aceman",
   "model_slug": "aceman",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -32990,7 +32990,7 @@
   "trim": "SE Sport · 160kW54kWh Auto",
   "variant": "160kW54kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-09-01"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -43537,12 +43537,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=110609&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 47350.0,
+  "list_price_gbp": 47340.0,
   "make": "Cupra",
   "make_slug": "cupra",
   "model": "Tavascan",
   "model_slug": "tavascan",
-  "model_year": 2026,
+  "model_year": null,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -43563,7 +43563,7 @@
   "trim": "V1 · 210kW 77kWh Auto",
   "variant": "210kW 77kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-04-01"
+  "version_date": null
  },
  {
   "auto": true,
@@ -43589,12 +43589,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=110609&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 48685.0,
+  "list_price_gbp": 48675.0,
   "make": "Cupra",
   "make_slug": "cupra",
   "model": "Tavascan",
   "model_slug": "tavascan",
-  "model_year": 2026,
+  "model_year": null,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -43615,7 +43615,7 @@
   "trim": "V1 · 210kW 77kWh Auto",
   "variant": "210kW 77kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-04-01"
+  "version_date": null
  },
  {
   "auto": true,
@@ -43641,12 +43641,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=110610&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 53845.0,
+  "list_price_gbp": 53835.0,
   "make": "Cupra",
   "make_slug": "cupra",
   "model": "Tavascan",
   "model_slug": "tavascan",
-  "model_year": 2026,
+  "model_year": null,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -43667,7 +43667,7 @@
   "trim": "V2 · 210kW 77kWh Auto",
   "variant": "210kW 77kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-08-12"
+  "version_date": null
  },
  {
   "auto": true,
@@ -43693,12 +43693,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=110610&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 55180.0,
+  "list_price_gbp": 55170.0,
   "make": "Cupra",
   "make_slug": "cupra",
   "model": "Tavascan",
   "model_slug": "tavascan",
-  "model_year": 2026,
+  "model_year": null,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -43719,7 +43719,7 @@
   "trim": "V2 · 210kW 77kWh Auto",
   "variant": "210kW 77kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-08-12"
+  "version_date": null
  },
  {
   "auto": true,
@@ -43745,12 +43745,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=110605&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 55945.0,
+  "list_price_gbp": 55935.0,
   "make": "Cupra",
   "make_slug": "cupra",
   "model": "Tavascan",
   "model_slug": "tavascan",
-  "model_year": 2026,
+  "model_year": null,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -43771,7 +43771,7 @@
   "trim": "VZ1 · 250kW 77kWh AWD Auto",
   "variant": "250kW 77kWh AWD Auto",
   "verification": "scraped",
-  "version_date": "2026-04-01"
+  "version_date": null
  },
  {
   "auto": true,
@@ -43797,12 +43797,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=110605&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 57280.0,
+  "list_price_gbp": 57270.0,
   "make": "Cupra",
   "make_slug": "cupra",
   "model": "Tavascan",
   "model_slug": "tavascan",
-  "model_year": 2026,
+  "model_year": null,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -43823,7 +43823,7 @@
   "trim": "VZ1 · 250kW 77kWh AWD Auto",
   "variant": "250kW 77kWh AWD Auto",
   "verification": "scraped",
-  "version_date": "2026-04-01"
+  "version_date": null
  },
  {
   "auto": true,
@@ -43849,12 +43849,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=110606&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 60845.0,
+  "list_price_gbp": 60835.0,
   "make": "Cupra",
   "make_slug": "cupra",
   "model": "Tavascan",
   "model_slug": "tavascan",
-  "model_year": 2026,
+  "model_year": null,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -43875,7 +43875,7 @@
   "trim": "VZ2 · 250kW 77kWh AWD Auto",
   "variant": "250kW 77kWh AWD Auto",
   "verification": "scraped",
-  "version_date": "2026-04-01"
+  "version_date": null
  },
  {
   "auto": true,
@@ -43901,12 +43901,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=110606&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 62180.0,
+  "list_price_gbp": 62170.0,
   "make": "Cupra",
   "make_slug": "cupra",
   "model": "Tavascan",
   "model_slug": "tavascan",
-  "model_year": 2026,
+  "model_year": null,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -43927,7 +43927,7 @@
   "trim": "VZ2 · 250kW 77kWh AWD Auto",
   "variant": "250kW 77kWh AWD Auto",
   "verification": "scraped",
-  "version_date": "2026-04-01"
+  "version_date": null
  },
  {
   "auto": true,
@@ -57404,12 +57404,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107219&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 40170.0,
+  "list_price_gbp": 39660.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -57430,7 +57430,7 @@
   "trim": "SE L · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -57456,12 +57456,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107219&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 40820.0,
+  "list_price_gbp": 40310.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -57482,7 +57482,7 @@
   "trim": "SE L · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -57508,12 +57508,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107219&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 41720.0,
+  "list_price_gbp": 41210.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -57534,7 +57534,7 @@
   "trim": "SE L · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -57685,12 +57685,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 43270.0,
+  "list_price_gbp": 42360.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -57711,7 +57711,7 @@
   "trim": "Edition · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -57737,12 +57737,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 44970.0,
+  "list_price_gbp": 44060.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -57763,7 +57763,7 @@
   "trim": "Edition · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -57789,12 +57789,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 41270.0,
+  "list_price_gbp": 40760.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -57815,7 +57815,7 @@
   "trim": "Edition · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -57841,12 +57841,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 43920.0,
+  "list_price_gbp": 43010.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -57867,7 +57867,7 @@
   "trim": "Edition · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -57893,12 +57893,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 45620.0,
+  "list_price_gbp": 44710.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -57919,7 +57919,7 @@
   "trim": "Edition · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -57945,12 +57945,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 41920.0,
+  "list_price_gbp": 41410.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -57971,7 +57971,7 @@
   "trim": "Edition · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -57997,12 +57997,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 44570.0,
+  "list_price_gbp": 43660.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -58023,7 +58023,7 @@
   "trim": "Edition · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -58049,12 +58049,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 46270.0,
+  "list_price_gbp": 45360.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -58075,7 +58075,7 @@
   "trim": "Edition · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -58101,12 +58101,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 42820.0,
+  "list_price_gbp": 42310.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -58127,7 +58127,7 @@
   "trim": "Edition · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -58153,12 +58153,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 45470.0,
+  "list_price_gbp": 44560.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -58179,7 +58179,7 @@
   "trim": "Edition · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -58205,12 +58205,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 47170.0,
+  "list_price_gbp": 46260.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -58231,7 +58231,7 @@
   "trim": "Edition · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-12-12"
  },
  {
   "auto": true,
@@ -58382,12 +58382,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 47470.0,
+  "list_price_gbp": 46560.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -58408,7 +58408,7 @@
   "trim": "Edition · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -58434,12 +58434,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 49170.0,
+  "list_price_gbp": 48260.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -58460,7 +58460,7 @@
   "trim": "Edition · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -58486,12 +58486,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 45470.0,
+  "list_price_gbp": 44960.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -58512,7 +58512,7 @@
   "trim": "Edition · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -58538,12 +58538,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 48120.0,
+  "list_price_gbp": 47210.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -58564,7 +58564,7 @@
   "trim": "Edition · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -58590,12 +58590,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 49820.0,
+  "list_price_gbp": 48910.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -58616,7 +58616,7 @@
   "trim": "Edition · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -58642,12 +58642,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 46120.0,
+  "list_price_gbp": 45610.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -58668,7 +58668,7 @@
   "trim": "Edition · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -58694,12 +58694,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 48770.0,
+  "list_price_gbp": 47860.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -58720,7 +58720,7 @@
   "trim": "Edition · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -58746,12 +58746,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 50470.0,
+  "list_price_gbp": 49560.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -58772,7 +58772,7 @@
   "trim": "Edition · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -58798,12 +58798,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 47020.0,
+  "list_price_gbp": 46510.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -58824,7 +58824,7 @@
   "trim": "Edition · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -58850,12 +58850,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 49670.0,
+  "list_price_gbp": 48760.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -58876,7 +58876,7 @@
   "trim": "Edition · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -58902,12 +58902,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 51370.0,
+  "list_price_gbp": 50460.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -58928,7 +58928,7 @@
   "trim": "Edition · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-12-12"
  },
  {
   "auto": true,
@@ -59079,12 +59079,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=108100&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 51220.0,
+  "list_price_gbp": 50460.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -59105,7 +59105,7 @@
   "trim": "Sportline · 210kW 85x 82kWh 4x4 Auto",
   "variant": "210kW 85x 82kWh 4x4 Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -78477,12 +78477,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=108100&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 49720.0,
+  "list_price_gbp": 48960.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -78503,7 +78503,7 @@
   "trim": "Sportline · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-08-14"
  },
  {
   "auto": true,
@@ -99267,12 +99267,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107219&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 43360.0,
+  "list_price_gbp": 43280.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -99293,7 +99293,7 @@
   "trim": "SE L · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-12-12"
  },
  {
   "auto": true,
@@ -99319,12 +99319,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107219&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 42710.0,
+  "list_price_gbp": 42630.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -99345,7 +99345,7 @@
   "trim": "SE L · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-12-12"
  },
  {
   "auto": true,
@@ -99371,12 +99371,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107219&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 44260.0,
+  "list_price_gbp": 44180.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -99397,7 +99397,7 @@
   "trim": "SE L · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-12-12"
  },
  {
   "auto": true,
@@ -99548,12 +99548,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107219&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 44560.0,
+  "list_price_gbp": 44480.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -99574,7 +99574,7 @@
   "trim": "SE L · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-12-12"
  },
  {
   "auto": true,
@@ -99600,12 +99600,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107219&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 42020.0,
+  "list_price_gbp": 41510.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -99626,7 +99626,7 @@
   "trim": "SE L · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-12-12"
  },
  {
   "auto": true,
@@ -99652,12 +99652,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107219&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 43320.0,
+  "list_price_gbp": 42810.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -99678,7 +99678,7 @@
   "trim": "SE L · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-12-12"
  },
  {
   "auto": true,
@@ -99704,12 +99704,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107219&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 42670.0,
+  "list_price_gbp": 42160.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -99730,7 +99730,7 @@
   "trim": "SE L · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-12-12"
  },
  {
   "auto": true,
@@ -99756,12 +99756,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107219&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 44220.0,
+  "list_price_gbp": 43710.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -99782,7 +99782,7 @@
   "trim": "SE L · 150kW 60 63kWh Auto",
   "variant": "150kW 60 63kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-12-12"
  },
  {
   "auto": true,
@@ -99808,12 +99808,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107219&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 45210.0,
+  "list_price_gbp": 45130.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -99834,7 +99834,7 @@
   "trim": "SE L · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-12-12"
  },
  {
   "auto": true,
@@ -99860,12 +99860,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107219&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 46760.0,
+  "list_price_gbp": 46680.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -99886,7 +99886,7 @@
   "trim": "SE L · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-12-12"
  },
  {
   "auto": true,
@@ -99912,12 +99912,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107219&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 45860.0,
+  "list_price_gbp": 45780.0,
   "make": "Skoda",
   "make_slug": "skoda",
   "model": "Enyaq",
   "model_slug": "enyaq",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -99938,7 +99938,7 @@
   "trim": "SE L · 210kW 85 82kWh Auto",
   "variant": "210kW 85 82kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-03-16"
+  "version_date": "2025-12-12"
  },
  {
   "auto": true,
