@@ -108,6 +108,27 @@ def _slim_stock(stock: dict | None) -> dict | None:
             "cheapest": {k: ch.get(k) for k in ("listing_key", "price_gbp", "year", "mileage", "source", "url")}}
 
 
+# A hand-curated car's own tri-state fields, as the canonical flags the specs use.
+CAR_FIELD_FLAGS = {"heat_pump": "heat_pump", "internal_v2l": "v2l_internal", "external_v2l": "v2l_external"}
+
+
+def car_flags(car: dict, specs: list[dict]) -> dict[str, str]:
+    """The car's equipment as canonical flags for the query: what its spec rows
+    list (standard beats option), with its own curated fields filling gaps
+    ('pack' and 'option' are listed, 'standard' is standard). Unlisted is the
+    default and is not written."""
+    out = {k: v for k, v in merged_flags(specs).items() if v}
+    for field, flag in CAR_FIELD_FLAGS.items():
+        v = car.get(field)
+        if flag not in out and v in ("standard", "pack", "option"):
+            out[flag] = "standard" if v == "standard" else "option"
+        if out.get(flag) and v in ("standard", "pack", "option") and out[flag] != "standard" and v == "standard":
+            out[flag] = "standard"
+    if any(out.get(k) for k in ("v2l_internal", "v2l_external")) and not out.get("v2l_any"):
+        out["v2l_any"] = "standard" if "standard" in (out.get("v2l_internal"), out.get("v2l_external")) else "option"
+    return out
+
+
 def merged_flags(specs: list[dict]) -> dict[str, str | None]:
     """One flag set per car from its spec rows: standard beats option beats unlisted."""
     rank = {"standard": 2, "option": 1}
@@ -577,7 +598,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
                       "flags": sp.get("flags"), "features": len(sp.get("features") or []), "options": len(sp.get("options") or []),
                       "numbers": sp.get("numbers"), "last_seen_at": sp.get("last_seen_at")} for sp in mine]
         c["spec_count"] = len(mine)
-        c["flags"] = {k: v for k, v in merged_flags(mine).items() if v}   # unlisted is the default; only what a source lists
+        c["flags"] = car_flags(c, mine)
         c["image"] = car_image(root, c, next((sp for sp in mine if sp.get("image_url")), None)) or fallback_image(c, renders)
         c["used_stock"] = _slim_stock(stock)
         details[c["id"]] = {

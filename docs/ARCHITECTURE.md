@@ -319,6 +319,26 @@ then without the electric suffix, then a short alias table of same-car spellings
 do not sell (the previous-generation e-Niro, a Mini hatch not in the catalogue) is skipped
 and counted on stderr.
 
+## The app: one query, three views, the reader's own brief
+
+`web/src/lib/query.ts` is the one search behind the cards (`/`), the table
+(`/cars`) and the specs grid (`/specs`): scope, make, model, text, year; a min/max
+for every number a car carries or costs; a tri-state chip for every canonical
+equipment flag and for the routes a car can be had by (standard → standard or option
+→ hidden), combined with 'all' or 'any'; the brief filter; the sort. It lives in the
+URL, so a view is a link and switching view keeps it. `useCarQuery` applies it once
+per page over the car records plus a context the records do not carry (the brief
+verdict, the costs, the shortlist).
+
+The brief is the reader's data: `data/seed/requirements.json` seeds an IndexedDB
+settings row once, the Requirements page edits it (budget, hard rules on any car
+field, preference weights), and `lib/brief.ts` evaluates it in the browser with three
+states: meets, fails, not confirmed. The quoting basis stays a pipeline input, since
+every cost in the snapshot was computed with it. `cars.json` carries only what every
+page shows; `details.json` (stock by year, spec rows, the cross-check) is fetched on
+demand for a car page. The app computes no cost: `deal_summary.routes` is the model's
+answer as of the snapshot, and the card reads it.
+
 ## Sightings: every route, every source, over time
 
 `model/sightings.py` is the one fact behind the Trends page and the car page's
