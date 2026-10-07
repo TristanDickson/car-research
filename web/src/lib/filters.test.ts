@@ -5,7 +5,6 @@ import type { SnapshotCar, SnapshotOffer } from "./types";
 
 const car = (id: string, extra: Partial<SnapshotCar> = {}): SnapshotCar =>
   ({ id, make: "Kia", model: "EV3", trim: id, model_year: 2026, picks: [], specs: [], spec_check: { rows: [], disagreements: 0 },
-     requirement_check: { passes: true, failures: [], unknown: [] },
      deal_summary: { offers: 0, current_offers: 0, best_cash_price: null, best_cash_offer_id: null, best_cash_age_days: null, best_pcp_monthly: null,
                      best_pcp_offer_id: null, best_pcp_age_days: null, best_pch_effective_monthly: null, best_pch_offer_id: null, best_pch_age_days: null },
      ...extra }) as SnapshotCar;

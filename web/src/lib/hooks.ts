@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { ensureSeeded, getDataPage, getDb, getRequirements, toggleShortlist } from "./db";
+import { ensureSeeded, getCarDetails, getDataPage, getDb, getRequirements, getSeedRequirements, resetRequirements, saveRequirements, toggleShortlist } from "./db";
+import type { Requirements } from "./types";
 
 const FOREVER = Number.POSITIVE_INFINITY;
 
@@ -60,6 +61,35 @@ export function useDataPage() {
 
 export function useRequirements() {
   return useQuery({ queryKey: ["requirements"], queryFn: getRequirements, staleTime: FOREVER });
+}
+
+export function useSeedRequirements() {
+  return useQuery({ queryKey: ["requirements", "seed"], queryFn: getSeedRequirements, staleTime: FOREVER });
+}
+
+export function useSaveRequirements() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (doc: Requirements) => saveRequirements(doc),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["requirements"] }),
+  });
+}
+
+export function useResetRequirements() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: () => resetRequirements(),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["requirements"] }),
+  });
+}
+
+export function useCarDetails(id: string | null | undefined) {
+  return useQuery({
+    queryKey: ["details", id ?? null],
+    queryFn: () => getCarDetails(id as string),
+    enabled: !!id,
+    staleTime: FOREVER,
+  });
 }
 
 export function useShortlist() {

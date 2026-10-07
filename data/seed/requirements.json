@@ -44,7 +44,8 @@
       "label": "Battery EV",
       "field": "fuel",
       "op": "==",
-      "value": "bev"
+      "value": "bev",
+      "short": "BEV"
     },
     {
       "id": "heat_pump",
@@ -55,7 +56,8 @@
         "standard",
         "pack",
         "option"
-      ]
+      ],
+      "short": "heat pump"
     },
     {
       "id": "internal_v2l",
@@ -66,14 +68,16 @@
         "standard",
         "pack",
         "option"
-      ]
+      ],
+      "short": "cabin socket"
     },
     {
       "id": "seats",
       "label": "At least 4 proper seats",
       "field": "seats",
       "op": ">=",
-      "value": 4
+      "value": 4,
+      "short": "4+ seats"
     },
     {
       "id": "delivery",
@@ -81,7 +85,8 @@
       "field": "available_by",
       "op": "<=",
       "value": "2026-12-10",
-      "applies_to": "deal"
+      "applies_to": "deal",
+      "short": "by 10 Dec"
     },
     {
       "id": "zero_deposit",

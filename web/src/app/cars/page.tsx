@@ -5,8 +5,9 @@ import { Suspense, useMemo, useState } from "react";
 import { CarTable } from "@/components/CarTable";
 import { FilterBar } from "@/components/FilterBar";
 import { ErrorNote, Loading, PageHeader } from "@/components/ui";
+import { briefAllows, evaluateBrief, type BriefFilter } from "@/lib/brief";
 import { carMatches, inScope, useFilters } from "@/lib/filters";
-import { useCars } from "@/lib/hooks";
+import { useCars, useRequirements } from "@/lib/hooks";
 
 export default function CarsPage() {
   return (
@@ -18,13 +19,14 @@ export default function CarsPage() {
 
 function Cars() {
   const { data, error } = useCars();
+  const reqs = useRequirements();
   const [filters] = useFilters();
-  const [onlyMeets, setOnlyMeets] = useState(false);
+  const [brief, setBrief] = useState<BriefFilter>("all");
   const [minSeats, setMinSeats] = useState(0);
 
   const rows = useMemo(
-    () => (data ?? []).filter((c) => carMatches(c, filters) && (!onlyMeets || c.requirement_check.passes) && (c.seats ?? 0) >= minSeats),
-    [data, filters, onlyMeets, minSeats],
+    () => (data ?? []).filter((c) => carMatches(c, filters) && briefAllows(brief, evaluateBrief(reqs.data?.hard, c)) && (c.seats ?? 0) >= minSeats),
+    [data, filters, brief, minSeats, reqs.data],
   );
 
   if (error) return <ErrorNote error={error} />;
@@ -34,7 +36,7 @@ function Cars() {
     <div>
       <PageHeader
         title="Cars"
-        subtitle="One row per trim. The shortlist is curated by hand (heat pump and internal V2L are what force the trim choice); Every EV adds a row per derivative on sale, generated from Carwow's catalogue, with its equipment read off the specification page. Best cash and Best PCP come from the deals captured for that exact trim."
+        subtitle="One row per derivative: the shortlist curated by hand, and with Every EV a row per derivative on sale, its equipment read off the specification page. The brief column is your Requirements page applied to each row."
       />
       <FilterBar cars={data} count={`${rows.length} of ${data.filter((c) => inScope(c, filters)).length}`} />
       <div className="mb-4 flex flex-wrap items-center gap-3 text-sm">
@@ -50,8 +52,12 @@ function Cars() {
           />
         </label>
         <label className="flex items-center gap-2">
-          <input type="checkbox" checked={onlyMeets} onChange={(e) => setOnlyMeets(e.target.checked)} />
-          Only cars that meet the hard requirements
+          Brief
+          <select value={brief} onChange={(e) => setBrief(e.target.value as BriefFilter)} className="rounded border border-gray-700 bg-gray-900 px-2 py-1">
+            <option value="all">every car</option>
+            <option value="pass-or-unknown">meets it or not yet confirmed</option>
+            <option value="pass">meets it, confirmed</option>
+          </select>
         </label>
       </div>
       <CarTable cars={rows} />

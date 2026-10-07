@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { Badge, Card, Empty } from "@/components/ui";
 import { ageLabel } from "@/lib/freshness";
-import type { FlagState, SnapshotCar, SnapshotSpec } from "@/lib/types";
+import type { CarDetails, FlagState, SnapshotCar, SnapshotSpec } from "@/lib/types";
 
 const VERDICT_TONE: Record<string, "good" | "warn" | "bad" | "muted" | "info"> = {
   agrees: "good", "not listed": "muted", differs: "bad", "source lists it": "warn",
@@ -21,7 +21,7 @@ function Mark({ state }: { state: FlagState }) {
  * What the spec sources say this exact variant has, next to what was typed in
  * by hand. A disagreement is a question for the dealer, not an automatic edit.
  */
-export function EquipmentCard({ car, specs, flagLabels }: { car: SnapshotCar; specs: SnapshotSpec[]; flagLabels: Record<string, string> }) {
+export function EquipmentCard({ car, specs, specCheck, flagLabels }: { car: SnapshotCar; specs: SnapshotSpec[]; specCheck?: CarDetails["spec_check"] | null; flagLabels: Record<string, string> }) {
   const [open, setOpen] = useState<string | null>(null);
   const specsHref = `/specs?make=${encodeURIComponent(car.make)}&model=${encodeURIComponent(car.model)}`;
   if (!specs.length) {
@@ -40,13 +40,13 @@ export function EquipmentCard({ car, specs, flagLabels }: { car: SnapshotCar; sp
         <span>What the sources list for this variant, against the hand-entered brief fields.</span>
         <Link href={specsHref} className="underline">Compare every {car.model} variant →</Link>
       </div>
-      {car.spec_check?.rows?.length > 0 && (
+      {(specCheck?.rows?.length ?? 0) > 0 && (
         <table className="mb-4 w-full text-sm">
           <thead className="text-left text-xs uppercase text-gray-500">
             <tr><th className="py-1 pr-3">Brief field</th><th className="py-1 pr-3">Entered</th><th className="py-1 pr-3">Source</th><th className="py-1 pr-3">Source says</th><th className="py-1">Verdict</th></tr>
           </thead>
           <tbody>
-            {car.spec_check.rows.map((r, i) => (
+            {specCheck!.rows.map((r, i) => (
               <tr key={i} className="border-t border-gray-800">
                 <td className="py-1 pr-3">{r.label}</td>
                 <td className="py-1 pr-3 text-gray-300">{r.hand ?? "—"}</td>

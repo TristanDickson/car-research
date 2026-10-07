@@ -117,6 +117,9 @@ class SeedImportAndExport(unittest.TestCase):
             self.assertEqual(manifest["counts"]["unmapped_trims"], 0)
             self.assertFalse((out / "deals.json").exists())
             cars = json.loads((out / "cars.json").read_text())
+            details = json.loads((out / "details.json").read_text())
+            for c in cars:
+                c["requirement_check"] = details[c["id"]]["requirement_check"]
             offers = json.loads((out / "offers.json").read_text())
             data = json.loads((out / "data.json").read_text())
             self.assertEqual(len(cars), manifest["counts"]["cars"])

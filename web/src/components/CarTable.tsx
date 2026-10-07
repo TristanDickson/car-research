@@ -5,7 +5,8 @@ import Link from "next/link";
 import { DataTable, type Column } from "@/components/DataTable";
 import { Badge, TriBadge } from "@/components/ui";
 import { carName, gbp, num } from "@/lib/format";
-import { useShortlist, useToggleShortlist } from "@/lib/hooks";
+import { evaluateBrief } from "@/lib/brief";
+import { useRequirements, useShortlist, useToggleShortlist } from "@/lib/hooks";
 import type { SnapshotCar } from "@/lib/types";
 
 function ageHint(days: number | null): string | undefined {
@@ -15,7 +16,9 @@ function ageHint(days: number | null): string | undefined {
 export function CarTable({ cars }: { cars: SnapshotCar[] }) {
   const { data: shortlist } = useShortlist();
   const toggle = useToggleShortlist();
+  const reqs = useRequirements();
   const picked = new Set((shortlist ?? []).map((s) => s.car_id));
+  const briefOf = (c: SnapshotCar) => evaluateBrief(reqs.data?.hard, c);
 
   const columns: Column<SnapshotCar>[] = [
     {
@@ -42,7 +45,6 @@ export function CarTable({ cars }: { cars: SnapshotCar[] }) {
             {carName(c)}
           </Link>
           {c.used && <Badge tone="muted">used</Badge>}
-          {c.auto && <Badge tone="muted" title={c.notes ?? undefined}>{c.source_kind === "stub" ? "deals page" : "scraped"}</Badge>}
           {c.packs && c.packs.length > 0 && (
             <div className="text-xs text-gray-500">{c.packs.join(" + ")}</div>
           )}
@@ -51,19 +53,15 @@ export function CarTable({ cars }: { cars: SnapshotCar[] }) {
     },
     {
       key: "req",
-      header: "Meets brief",
-      title: "Hard requirements: heat pump, internal V2L, seats, BEV",
-      sortValue: (c) => (c.requirement_check.passes ? 0 : 1),
-      render: (c) =>
-        c.requirement_check.passes ? (
-          <Badge tone={c.requirement_check.unknown.length ? "warn" : "good"} title={c.requirement_check.unknown.length ? `unverified: ${c.requirement_check.unknown.join(", ")}` : undefined}>
-            {c.requirement_check.unknown.length ? "yes?" : "yes"}
-          </Badge>
-        ) : (
-          <Badge tone="bad" title={`fails: ${c.requirement_check.failures.join(", ")}`}>
-            no: {c.requirement_check.failures.join(", ")}
-          </Badge>
-        ),
+      header: "Brief",
+      title: "Your hard requirements (Requirements page): pass, fail, or not confirmed where the car carries no value",
+      sortValue: (c) => ({ pass: 0, unknown: 1, fail: 2 }[briefOf(c).status]),
+      render: (c) => {
+        const b = briefOf(c);
+        if (b.status === "pass") return <Badge tone="good">meets</Badge>;
+        if (b.status === "fail") return <Badge tone="bad" title={`fails: ${b.failedLabels.join(", ")}`}>fails · {b.failedLabels.join(", ")}</Badge>;
+        return <Badge tone="muted" title={`not confirmed: ${b.unknownLabels.join(", ")}`}>unconfirmed · {b.unknownLabels.join(", ")}</Badge>;
+      },
     },
     { key: "seats", header: "Seats", align: "right", sortValue: (c) => c.seats, render: (c) => num(c.seats) },
     { key: "kwh", header: "kWh", align: "right", sortValue: (c) => c.battery_kwh, render: (c) => num(c.battery_kwh, 1) },

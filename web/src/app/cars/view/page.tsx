@@ -9,8 +9,10 @@ import { EquipmentCard } from "@/components/EquipmentCard";
 import { OfferTable } from "@/components/OfferTable";
 import { PriceHistory } from "@/components/PriceHistory";
 import { Badge, Card, Empty, ErrorNote, Loading, PageHeader, TriBadge } from "@/components/ui";
+import { carCosts, ROUTE_LABEL } from "@/lib/costs";
 import { carName, gbp, num } from "@/lib/format";
-import { useCar, useDataPage, useOffersForCar, useShortlist, useSpecsForCar, useToggleShortlist } from "@/lib/hooks";
+import { evaluateBrief } from "@/lib/brief";
+import { useCar, useCarDetails, useDataPage, useOffersForCar, useRequirements, useShortlist, useSpecsForCar, useToggleShortlist } from "@/lib/hooks";
 import type { SnapshotCar } from "@/lib/types";
 
 // Static export: no dynamic segments, so the car id rides a query param.
@@ -28,6 +30,8 @@ function CarView() {
   const car = useCar(id);
   const offers = useOffersForCar(id);
   const specs = useSpecsForCar(id);
+  const details = useCarDetails(id);
+  const reqs = useRequirements();
   const data = useDataPage();
   const { data: shortlist } = useShortlist();
   const toggle = useToggleShortlist();
@@ -38,6 +42,9 @@ function CarView() {
   if (car.data === null) return <Empty>Unknown car id: {id}</Empty>;
   const c = car.data;
   const picked = (shortlist ?? []).some((s) => s.car_id === c.id);
+  const brief = evaluateBrief(reqs.data?.hard, c);
+  const costs = carCosts(c);
+  const stock = details.data?.used_stock ?? null;
 
   return (
     <div className="space-y-6">
@@ -78,13 +85,9 @@ function CarView() {
       <div className="grid gap-4 lg:grid-cols-3">
         <Card title="Brief">
           <div className="mb-3">
-            {c.requirement_check.passes ? (
-              <Badge tone={c.requirement_check.unknown.length ? "warn" : "good"}>
-                meets hard requirements{c.requirement_check.unknown.length ? " (some unverified)" : ""}
-              </Badge>
-            ) : (
-              <Badge tone="bad">fails: {c.requirement_check.failures.join(", ")}</Badge>
-            )}
+            {brief.status === "pass" && <Badge tone="good">meets your hard requirements</Badge>}
+            {brief.status === "fail" && <Badge tone="bad">fails: {brief.failedLabels.join(", ")}</Badge>}
+            {brief.status === "unknown" && <Badge tone="muted">not confirmed: {brief.unknownLabels.join(", ")}</Badge>}
           </div>
           <Rows
             rows={[
@@ -99,8 +102,8 @@ function CarView() {
               ["360 camera", flag(c.camera_360)],
             ]}
           />
-          {c.requirement_check.unknown.length > 0 && (
-            <p className="mt-2 text-xs text-gray-500">Unverified: {c.requirement_check.unknown.join(", ")}</p>
+          {brief.unknown.length > 0 && (
+            <p className="mt-2 text-xs text-gray-500">No source has confirmed: {brief.unknownLabels.join(", ")}. <Link href="/requirements" className="underline">Your rules</Link>.</p>
           )}
         </Card>
 
@@ -131,7 +134,7 @@ function CarView() {
               ["List (OTR)", gbp(c.list_price_gbp)],
               ["Government grant", c.grant_gbp ? gbp(c.grant_gbp) : "—"],
               ["List after grant", c.list_price_gbp != null ? gbp(c.list_price_gbp - (c.grant_gbp ?? 0)) : "—"],
-              ["Best true £/mo", c.deal_summary.best_true_monthly != null ? withAge(`${gbp(c.deal_summary.best_true_monthly)}/mo via ${c.deal_summary.best_true_route}`, c.deal_summary.true_monthly_by_route?.[c.deal_summary.best_true_route!]?.age_days ?? null) : "—"],
+              ["Best true £/mo", costs.trueCost ? withAge(`${gbp(costs.trueCost.monthly)}/mo via ${ROUTE_LABEL[costs.trueCost.route]} (${costs.trueCost.source})`, costs.trueCost.ageDays) : "—"],
               ["Best current cash", withAge(gbp(c.deal_summary.best_cash_price), c.deal_summary.best_cash_age_days)],
               ["Best current PCP £0 down", withAge(c.deal_summary.best_pcp_monthly != null ? `${gbp(c.deal_summary.best_pcp_monthly)}/mo` : "—", c.deal_summary.best_pcp_age_days)],
               ["Best current PCH effective", withAge(c.deal_summary.best_pch_effective_monthly != null ? `${gbp(c.deal_summary.best_pch_effective_monthly)}/mo` : "—", c.deal_summary.best_pch_age_days)],
@@ -160,29 +163,29 @@ function CarView() {
         </Card>
       )}
 
-      {c.used_stock && (
-        <Card title={`Buy used · ${c.used_stock.count} example${c.used_stock.count === 1 ? "" : "s"} of this model on ${Object.keys(c.used_stock.sources ?? {}).join(", ") || "Carwow"}`}>
+      {stock && (
+        <Card title={`Buy used · ${stock.count} example${stock.count === 1 ? "" : "s"} of this model on ${Object.keys(stock.sources ?? {}).join(", ") || "Carwow"}`}>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="text-sm text-gray-300">
               <div>
-                Cheapest: <b className="tabular-nums">{gbp(c.used_stock.cheapest.price_gbp)}</b> · {c.used_stock.cheapest.year ?? "?"} · {num(c.used_stock.cheapest.mileage)} miles
-                {c.used_stock.cheapest.town ? ` · ${c.used_stock.cheapest.town}` : ""}
+                Cheapest: <b className="tabular-nums">{gbp(stock.cheapest.price_gbp)}</b> · {stock.cheapest.year ?? "?"} · {num(stock.cheapest.mileage)} miles
+                {stock.cheapest.town ? ` · ${stock.cheapest.town}` : ""}
               </div>
-              <div className="text-xs text-gray-500">{c.used_stock.cheapest.derivative}</div>
-              {c.used_stock.cheapest.url && (
-                <a href={c.used_stock.cheapest.url} target="_blank" rel="noreferrer" className="text-xs text-gray-400 underline">
-                  listing on {c.used_stock.cheapest.sources?.join(" and ") ?? c.used_stock.cheapest.source ?? "the source"}
+              <div className="text-xs text-gray-500">{stock.cheapest.derivative}</div>
+              {stock.cheapest.url && (
+                <a href={stock.cheapest.url} target="_blank" rel="noreferrer" className="text-xs text-gray-400 underline">
+                  listing on {stock.cheapest.sources?.join(" and ") ?? stock.cheapest.source ?? "the source"}
                 </a>
               )}
-              {c.used_stock.sources && Object.keys(c.used_stock.sources).length > 1 && (
+              {stock.sources && Object.keys(stock.sources).length > 1 && (
                 <div className="mt-1 text-xs text-gray-500">
-                  {Object.entries(c.used_stock.sources).map(([s, n]) => `${s} ${n}`).join(" · ")} listings; the same car on two sites counts once.
+                  {Object.entries(stock.sources).map(([s, n]) => `${s} ${n}`).join(" · ")} listings; the same car on two sites counts once.
                 </div>
               )}
               <div className="mt-2">
-                True cost as a route: <b className="tabular-nums">{c.used_stock.route.true_monthly != null ? `${gbp(c.used_stock.route.true_monthly)}/mo` : "—"}</b>
+                True cost as a route: <b className="tabular-nums">{stock.route.true_monthly != null ? `${gbp(stock.route.true_monthly)}/mo` : "—"}</b>
                 <span className="text-xs text-gray-500">
-                  {" "}· sold after the term at {gbp(c.used_stock.route.expected_value_at_end)} ({c.used_stock.route.residual_source === "used-market" ? "what examples that much older ask today" : "on the flat assumption"})
+                  {" "}· sold after the term at {gbp(stock.route.expected_value_at_end)} ({stock.route.residual_source === "used-market" ? "what examples that much older ask today" : "on the flat assumption"})
                 </span>
               </div>
             </div>
@@ -190,7 +193,7 @@ function CarView() {
               <div className="mb-1 text-xs uppercase tracking-wide text-gray-500">Asking prices by registration year</div>
               <table className="w-full text-sm">
                 <tbody>
-                  {Object.entries(c.used_stock.by_year).sort((a, b) => Number(b[0]) - Number(a[0])).map(([y, v]) => (
+                  {Object.entries(stock.by_year).sort((a, b) => Number(b[0]) - Number(a[0])).map(([y, v]) => (
                     <tr key={y} className="border-t border-gray-800">
                       <td className="py-0.5 pr-3">{y}</td>
                       <td className="py-0.5 pr-3 text-right tabular-nums">{v.n} listed</td>
@@ -200,9 +203,9 @@ function CarView() {
                   ))}
                 </tbody>
               </table>
-              {c.used_stock.residual && (
+              {stock.residual && (
                 <p className="mt-2 text-xs text-gray-500">
-                  The {c.used_stock.residual.year} median ({gbp(c.used_stock.residual.value)}, {c.used_stock.residual.n} cars) is the end-of-term value used for this car&apos;s PCP equity and outright cost.
+                  The {stock.residual.year} median ({gbp(stock.residual.value)}, {stock.residual.n} cars) is the end-of-term value used for this car&apos;s PCP equity and outright cost.
                 </p>
               )}
             </div>
@@ -210,7 +213,7 @@ function CarView() {
         </Card>
       )}
 
-      <EquipmentCard car={c} specs={specs.data ?? []} flagLabels={data.data?.flag_labels ?? {}} />
+      <EquipmentCard car={c} specs={specs.data ?? []} specCheck={details.data?.spec_check} flagLabels={data.data?.flag_labels ?? {}} />
 
       <Card title="True cost over time · every route, every source">
         <CostHistory car={c} />

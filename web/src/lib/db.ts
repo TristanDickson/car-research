@@ -9,8 +9,8 @@
 // IndexedDB.
 import Dexie, { type Table } from "dexie";
 
-import { getManifest, loadCars, loadData, loadModels, loadOffers, loadRequirements, loadResiduals, loadSeries, loadSpecs } from "./snapshot";
-import type { DataPage, Requirements, ResidualSeries, SnapshotCar, SnapshotManifest, SnapshotModel, SnapshotOffer, SnapshotSeries, SnapshotSpec } from "./types";
+import { getManifest, loadCars, loadData, loadDetails, loadModels, loadOffers, loadRequirements, loadResiduals, loadSeries, loadSpecs } from "./snapshot";
+import type { CarDetails, DataPage, Requirements, ResidualSeries, SnapshotCar, SnapshotManifest, SnapshotModel, SnapshotOffer, SnapshotSeries, SnapshotSpec } from "./types";
 
 export interface MetaRow {
   key: string;
@@ -23,6 +23,15 @@ export interface ShortlistRow {
   note: string | null;
 }
 
+/** The reader's own copy of a document (the requirements): seeded once from the
+ * snapshot, kept across snapshot reseeds, replaced only on an explicit reset. */
+export interface SettingsRow {
+  key: string;
+  value: string;
+  seeded_from: string;
+  updated_at: string;
+}
+
 export class CarResearchDB extends Dexie {
   cars!: Table<SnapshotCar, string>;
   offers!: Table<SnapshotOffer, string>;
@@ -30,8 +39,10 @@ export class CarResearchDB extends Dexie {
   models!: Table<SnapshotModel, string>;
   series!: Table<SnapshotSeries, string>;
   residuals!: Table<ResidualSeries, string>;
+  details!: Table<CarDetails, string>;
   meta!: Table<MetaRow, string>;
   shortlist!: Table<ShortlistRow, string>;
+  settings!: Table<SettingsRow, string>;
 
   constructor() {
     super("CarResearchDB");
@@ -61,6 +72,11 @@ export class CarResearchDB extends Dexie {
     // v5 (snapshot schema 5): every sighting by route and source over time, and the residual evidence behind it.
     this.version(5)
       .stores({ series: "id, subject, route, source, car_id, model", residuals: "id, model" })
+      .upgrade((tx) => tx.table("meta").clear());
+    // v6 (snapshot schema 6): cars.json slimmed, per-car detail on demand; the
+    // reader's own requirements live in settings and survive reseeds.
+    this.version(6)
+      .stores({ details: "id", settings: "key" })
       .upgrade((tx) => tx.table("meta").clear());
   }
 }
@@ -92,13 +108,18 @@ async function seed(): Promise<SnapshotManifest> {
     loadSeries().catch(() => [] as SnapshotSeries[]),
     loadResiduals().catch(() => [] as ResidualSeries[]),
   ]);
-  await db.transaction("rw", [db.cars, db.offers, db.specs, db.models, db.series, db.residuals, db.meta], async () => {
+  await db.transaction("rw", [db.cars, db.offers, db.specs, db.models, db.series, db.residuals, db.details, db.meta, db.settings], async () => {
     await db.cars.clear();
     await db.offers.clear();
     await db.specs.clear();
     await db.models.clear();
     await db.series.clear();
     await db.residuals.clear();
+    await db.details.clear();   // refetched on demand against the new snapshot
+    // The reader's requirements are theirs: seed them once, never overwrite on a new snapshot.
+    if (!(await db.settings.get("requirements"))) {
+      await db.settings.put({ key: "requirements", value: JSON.stringify(requirements), seeded_from: manifest.generated_at, updated_at: new Date().toISOString() });
+    }
     await db.cars.bulkPut(cars);
     await db.offers.bulkPut(offers);
     await db.specs.bulkPut(specs);
@@ -127,10 +148,48 @@ export function ensureSeeded(): Promise<SnapshotManifest> {
   return _seeding;
 }
 
+/** The reader's requirements (settings), else the snapshot's seed. */
 export async function getRequirements(): Promise<Requirements | null> {
+  await ensureSeeded();
+  const db = getDb();
+  const own = await db.settings.get("requirements");
+  if (own) return JSON.parse(own.value) as Requirements;
+  const row = await db.meta.get("requirements");
+  return row ? (JSON.parse(row.value) as Requirements) : null;
+}
+
+/** The snapshot's seed copy (data/seed/requirements.json), for reset and for showing what changed. */
+export async function getSeedRequirements(): Promise<Requirements | null> {
   await ensureSeeded();
   const row = await getDb().meta.get("requirements");
   return row ? (JSON.parse(row.value) as Requirements) : null;
+}
+
+export async function saveRequirements(doc: Requirements): Promise<void> {
+  const db = getDb();
+  const cur = await db.settings.get("requirements");
+  await db.settings.put({ key: "requirements", value: JSON.stringify(doc), seeded_from: cur?.seeded_from ?? "", updated_at: new Date().toISOString() });
+}
+
+/** Back to the seed: the only time the reader's copy is overwritten. */
+export async function resetRequirements(): Promise<Requirements | null> {
+  const seed = await getSeedRequirements();
+  if (seed) await saveRequirements(seed);
+  return seed;
+}
+
+/** A car's on-demand detail, fetching details.json once per snapshot. */
+export async function getCarDetails(id: string): Promise<CarDetails | null> {
+  await ensureSeeded();
+  const db = getDb();
+  const hit = await db.details.get(id);
+  if (hit) return hit;
+  if ((await db.details.count()) === 0) {
+    const all = await loadDetails();
+    await db.details.bulkPut(Object.entries(all).map(([cid, d]) => ({ id: cid, ...d })));
+    return (await db.details.get(id)) ?? null;
+  }
+  return null;
 }
 
 export async function getDataPage(): Promise<DataPage | null> {

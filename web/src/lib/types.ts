@@ -64,10 +64,21 @@ export interface ResidualSeries {
   points: { date: string; median: number; n: number }[];
 }
 
-export interface RouteSource extends SeriesPoint {
+export interface RouteSource {
+  key: string;
   source: string;
   source_name: string;
+  seller?: string | null;
+  true_monthly: number | null;
+  true_monthly_floor?: number | null;
+  /** What the source printed: a price, or a monthly. */
+  headline: number | null;
+  /** What the car is expected to be worth at the end of the term under this route. */
+  end_value?: number | null;
+  residual_source?: string | null;
   age_days: number;
+  /** Last day the sighting was confirmed. */
+  to?: string;
 }
 
 export interface DealSummary {
@@ -78,9 +89,17 @@ export interface DealSummary {
   best_true_monthly: number | null;
   best_true_route: Route | null;
   best_true_offer_id: string | null;
-  true_monthly_by_route: Partial<Record<Route, TrueMonthlyRoute>>;
+  /** Not exported any more: lib/costs.ts routeCosts derives it from routes. */
+  true_monthly_by_route?: Partial<Record<Route, TrueMonthlyRoute>>;
   /** Route → source → the cheapest current sighting costed as of the snapshot date: the one cost model. */
   routes: Partial<Record<Route, Record<string, RouteSource>>>;
+  /** Movement of the best cash price, for the card. */
+  trend?: CashTrend | null;
+  best_pcp_total?: number | null;
+  best_pcp_dealer?: string | null;
+  best_pch_total?: number | null;
+  best_pch_dealer?: string | null;
+  best_cash_dealer?: string | null;
   best_cash_price: number | null;
   best_cash_offer_id: string | null;
   best_cash_age_days: number | null;
@@ -123,12 +142,43 @@ export interface Freshness {
   history: ObservationPoint[];
 }
 
+/** What only the car page reads, fetched on demand (details.json, keyed by car id). */
+export interface CarDetails {
+  id: string;
+  specs: CarSpecSummary[];
+  spec_check: { rows: SpecCheckRow[]; disagreements: number };
+  /** The seed requirements' verdict at export; the app evaluates its own copy (lib/brief.ts). */
+  requirement_check: RequirementCheck;
+  used_stock?: UsedSummary | null;
+}
+
+/** A model's used stock in brief: what every page needs; details.json has the rest. */
+export interface UsedStockBrief {
+  count: number;
+  sources?: Record<string, number>;
+  residual: { value: number; source: string; n: number; year: number } | null;
+  cheapest: { listing_key: string; price_gbp: number; year: number | null; mileage: number | null; source?: string | null; url?: string | null };
+}
+
+/** Movement of the cheapest cash price across sources (model/sightings.trend). */
+export interface CashTrend {
+  now: number;
+  then: number | null;
+  delta: number | null;
+  window_days: number;
+  first_at: string;
+  days_at_now: number;
+  spark: [string, number][];
+}
+
 export interface SnapshotCar {
   /** make/model slugs: the subject of the model's used series. */
   model_key?: string;
   id: string;
-  specs: CarSpecSummary[];
-  spec_check: { rows: SpecCheckRow[]; disagreements: number };
+  /** How many spec rows describe this car (details.json has them). */
+  spec_count?: number;
+  /** Canonical equipment flags merged from the car's spec rows: standard beats option beats unlisted. */
+  flags?: Record<string, FlagState>;
   make: string;
   model: string;
   trim: string;
@@ -188,10 +238,9 @@ export interface SnapshotCar {
   /** Committed photo path (prefix with the base path) or image_url, resolved at export. */
   image?: string | null;
   picks: HouseholdPick[];
-  requirement_check: RequirementCheck;
   deal_summary: DealSummary;
-  /** The model's used stock (Carwow's partner dealers): the buy-used route and the residual evidence. */
-  used_stock?: UsedSummary | null;
+  /** The model's used stock in brief: the buy-used route and the residual evidence. */
+  used_stock?: UsedStockBrief | null;
 }
 
 export interface UsedListing {
@@ -386,12 +435,16 @@ export interface DataPage {
 export interface RequirementRule {
   id: string;
   label: string;
+  /** A short name for a card badge; label when absent. */
+  short?: string;
   field?: string;
   op?: string;
   value?: unknown;
   weight?: number;
   direction?: string;
   applies_to?: string;
+  /** false switches the rule off without deleting it (the reader's copy only). */
+  enabled?: boolean;
   [k: string]: unknown;
 }
 

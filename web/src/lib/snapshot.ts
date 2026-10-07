@@ -1,13 +1,13 @@
 // Fetch layer for the committed snapshot. The SPA does not read these files
 // directly on every page: db.ts seeds them into IndexedDB once per snapshot
 // generation, and pages query that local DB.
-import type { DataPage, Requirements, ResidualSeries, SnapshotCar, SnapshotManifest, SnapshotModel, SnapshotOffer, SnapshotSeries, SnapshotSpec } from "./types";
+import type { CarDetails, DataPage, Requirements, ResidualSeries, SnapshotCar, SnapshotManifest, SnapshotModel, SnapshotOffer, SnapshotSeries, SnapshotSpec } from "./types";
 
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 export const SNAPSHOT_BASE = `${BASE_PATH}/data`;
 
 // Must match pipeline/services/snapshot.py SCHEMA_VERSION.
-export const SUPPORTED_SCHEMA_VERSION = "5";
+export const SUPPORTED_SCHEMA_VERSION = "6";
 
 async function fetchJson<T>(rel: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${SNAPSHOT_BASE}/${rel}`, init);
@@ -26,5 +26,7 @@ export const loadSpecs = () => fetchJson<SnapshotSpec[]>("specs.json", { cache: 
 export const loadModels = () => fetchJson<SnapshotModel[]>("models.json", { cache: "no-cache" });
 export const loadSeries = () => fetchJson<SnapshotSeries[]>("series.json", { cache: "no-cache" });
 export const loadResiduals = () => fetchJson<ResidualSeries[]>("residuals.json", { cache: "no-cache" });
+/** Per-car detail, fetched the first time a car page needs it. */
+export const loadDetails = () => fetchJson<Record<string, Omit<CarDetails, "id">>>("details.json", { cache: "no-cache" });
 export const loadRequirements = () =>
   fetchJson<Requirements>("requirements.json", { cache: "no-cache" });

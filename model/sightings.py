@@ -183,7 +183,7 @@ def _point(c: Costed) -> dict:
     s = c.sighting
     return {"from": s.seen_from[:10], "to": s.seen_to[:10], "key": s.key, "route": s.route, "source": s.source, "seller": s.seller, "headline": c.headline,
             "true_monthly": c.true_monthly, "true_monthly_floor": c.true_monthly_floor, "residual_source": c.residual_source,
-            "as_of": c.as_of}
+            "end_value": c.expected_value_at_end, "as_of": c.as_of}
 
 
 def _slim(p: dict) -> dict:
@@ -294,3 +294,39 @@ def current(costed_today: list[Costed], today: date, stale_days: int) -> dict[st
 def best_by_route(routes: dict[str, dict[str, dict]]) -> dict[str, dict]:
     """route → the cheapest source's figure."""
     return {route: min(by_src.values(), key=lambda p: p["true_monthly"]) for route, by_src in routes.items() if by_src}
+
+
+def best_on(points: list[dict], day: str, measure: str = "headline") -> float | None:
+    """The cheapest `measure` any point showed on `day` (ISO date)."""
+    vals = [p[measure] for p in points if p.get(measure) is not None and p["from"] <= day <= p["to"]]
+    return min(vals) if vals else None
+
+
+def trend(series_rows: list[dict], today: date, measure: str = "headline", days: int = 90, window: int = 30, spark: int = 12) -> dict | None:
+    """A card's worth of movement for one subject and route across its
+    sources: the cheapest figure now, `window` days ago and at the first
+    sighting, how long it has held, and a short sparkline over `days`."""
+    points = [p for r in series_rows for p in r["points"]]
+    if not points:
+        return None
+    first = min(p["from"] for p in points)
+    iso = today.isoformat()
+    now = best_on(points, iso) or best_on(points, max(p["to"] for p in points))
+    if now is None:
+        return None
+    then = best_on(points, (today - timedelta(days=window)).isoformat())
+    held = 0
+    while held < 3650 and best_on(points, (today - timedelta(days=held + 1)).isoformat()) == now:
+        held += 1
+    span = max(1, min(days, (today - date.fromisoformat(first)).days))
+    step = max(1, span // max(1, spark - 1))
+    pts = []
+    for i in range(0, span + 1, step):
+        d = (today - timedelta(days=span - i)).isoformat()
+        v = best_on(points, d)
+        if v is not None:
+            pts.append([d, v])
+    if not pts or pts[-1][0] != iso:
+        pts.append([iso, now])
+    return {"now": now, "then": then, "delta": (now - then) if then is not None else None, "window_days": window,
+            "first_at": first, "days_at_now": held, "spark": pts}

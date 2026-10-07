@@ -165,6 +165,10 @@ class ThroughTheRunner(unittest.TestCase):
             manifest = export_snapshot(other, tmp, generated_at="2026-10-06T00:00:00+00:00")
             self.assertEqual(manifest["counts"]["specs"], 4)
             cars = {c["id"]: c for c in json.loads((Path(tmp) / "cars.json").read_text())}
+            details = json.loads((Path(tmp) / "details.json").read_text())
+            for cid, c in cars.items():
+                c["specs"] = details[cid]["specs"]
+                c["spec_check"] = details[cid]["spec_check"]
             kona = cars["hyundai-kona-65-advance"]
             self.assertEqual(kona["specs"][0]["spec_key"], "carwow-cap:103322")
             self.assertEqual(kona["specs"][0]["flags"]["heat_pump"], "standard")

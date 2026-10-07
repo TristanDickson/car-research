@@ -2,7 +2,8 @@
 
 Layout (schema_version 4):
     manifest.json       {schema_version, generated_at, counts, runs}
-    cars.json           [car + requirement_check + deal_summary]; hand-curated and generated (auto: true)
+    cars.json           [car + deal_summary]; hand-curated and generated (auto: true); what every page loads
+    details.json        {car id: used stock by year, spec rows, the cross-check, the seed's brief check}; on demand
     offers.json         [latest observation of each offer + metrics + freshness]
     requirements.json   the requirements document as-is
     data.json           providers, recent runs, unmapped trims, offer states, catalogue counts
@@ -30,14 +31,14 @@ from pathlib import Path
 from statistics import median
 
 from model.deal_math import compute, used_route
-from model.sightings import best_by_route
+from model.sightings import best_by_route, trend
 from pipeline.db import ROOT
 from pipeline.services import series as series_svc
 
 IMAGE_EXTS = ("jpg", "jpeg", "png", "webp")
 
 # Bump on any incompatible shape change; the SPA warns loudly on skew.
-SCHEMA_VERSION = "5"
+SCHEMA_VERSION = "6"
 
 # Spec payload fields kept in data/history/specs.jsonl but not shipped in specs.json.
 SPEC_PRIVATE = ("raw_numbers", "description", "observed_at")
@@ -48,9 +49,11 @@ STALE_DAYS = 14
 HISTORY_FIELDS = ("monthly_payment", "vehicle_price", "apr", "gfv", "initial_rental", "monthly_rental")
 
 
-def _write(path: Path, obj) -> None:
+def _write(path: Path, obj, pretty: bool = False) -> None:
+    """Compact JSON by default: the big arrays are fetched by the browser, not read by people."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(obj, indent=1, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
+    text = json.dumps(obj, indent=1, sort_keys=True, ensure_ascii=False) if pretty else json.dumps(obj, separators=(",", ":"), sort_keys=True, ensure_ascii=False)
+    path.write_text(text + "\n", encoding="utf-8")
 
 
 def evaluate_hard(requirements: dict, car: dict) -> dict:
@@ -85,6 +88,37 @@ def evaluate_hard(requirements: dict, car: dict) -> dict:
 def _is_current(o: dict) -> bool:
     f = o["freshness"]
     return f["state"] in ACTIVE_STATUSES and not f["stale"]
+
+
+ROUTE_POINT_KEYS = ("key", "source", "source_name", "seller", "true_monthly", "true_monthly_floor", "headline", "end_value",
+                    "residual_source", "age_days", "to")
+
+
+def _slim_routes(routes: dict[str, dict[str, dict]]) -> dict[str, dict[str, dict]]:
+    """route → source → the fields a card or table shows."""
+    return {route: {src: {k: p.get(k) for k in ROUTE_POINT_KEYS} for src, p in by_src.items()} for route, by_src in routes.items()}
+
+
+def _slim_stock(stock: dict | None) -> dict | None:
+    """What every page needs of a model's used stock; details.json has the rest."""
+    if not stock:
+        return None
+    ch = stock["cheapest"]
+    return {"count": stock["count"], "sources": stock.get("sources"), "residual": stock.get("residual"),
+            "cheapest": {k: ch.get(k) for k in ("listing_key", "price_gbp", "year", "mileage", "source", "url")}}
+
+
+def merged_flags(specs: list[dict]) -> dict[str, str | None]:
+    """One flag set per car from its spec rows: standard beats option beats unlisted."""
+    rank = {"standard": 2, "option": 1}
+    out: dict[str, str | None] = {}
+    for sp in specs:
+        for k, v in (sp.get("flags") or {}).items():
+            if rank.get(v, 0) > rank.get(out.get(k), 0):
+                out[k] = v
+            else:
+                out.setdefault(k, v)
+    return out
 
 
 def deal_summary(offers: list[dict], metrics_by_id: dict[str, dict], used: dict | None = None,
@@ -132,6 +166,11 @@ def deal_summary(offers: list[dict], metrics_by_id: dict[str, dict], used: dict 
         "best_pcp_monthly": best_pcp[1]["monthly_payment"] if best_pcp else None,
         "best_pcp_offer_id": best_pcp[0]["id"] if best_pcp else None,
         "best_pcp_age_days": age(best_pcp[0]) if best_pcp else None,
+        "best_pcp_total": best_pcp[1].get("paid_if_handed_back") if best_pcp else None,
+        "best_pcp_dealer": (best_pcp[0].get("dealer") or best_pcp[0].get("source")) if best_pcp else None,
+        "best_pch_total": best_pch[1].get("total_cost") if best_pch else None,
+        "best_pch_dealer": (best_pch[0].get("dealer") or best_pch[0].get("source")) if best_pch else None,
+        "best_cash_dealer": (best_cash.get("dealer") or best_cash.get("source")) if best_cash else None,
         "best_pch_effective_monthly": best_pch[1]["effective_monthly"] if best_pch else None,
         "best_pch_offer_id": best_pch[0]["id"] if best_pch else None,
         "best_pch_age_days": age(best_pch[0]) if best_pch else None,
@@ -516,21 +555,40 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     by_car: dict[str, list[dict]] = {}
     for o in offers:
         by_car.setdefault(o["car_id"], []).append(o)
+    series_by_subject: dict[str, list[dict]] = {}
+    for sr in sightings["series"]:
+        series_by_subject.setdefault((sr["subject"], sr["route"]), []).append(sr)
+    # cars.json is what every page loads, so it carries the card and the table;
+    # what only the car page reads (stock by year, spec rows, the cross-check)
+    # goes to details.json, fetched on demand.
+    details: dict[str, dict] = {}
     for c in cars:
-        c["requirement_check"] = evaluate_hard(requirements, c)
         slugs = car_slugs(c, specs_by_car)
         c["model_key"] = "/".join(slugs)   # the subject of the model's used series
-        c["used_stock"] = used_summaries.get(slugs)
+        stock = used_summaries.get(slugs)
         routes = {**sightings["current"].get(c["id"], {}), **sightings["current"].get(f"model:{'/'.join(slugs)}", {})}
-        c["deal_summary"] = deal_summary(by_car.get(c["id"], []), metrics, c["used_stock"], routes)
+        c["deal_summary"] = deal_summary(by_car.get(c["id"], []), metrics, stock, routes)
+        c["deal_summary"]["routes"] = _slim_routes(routes)
+        c["deal_summary"].pop("true_monthly_by_route", None)   # the app derives it from routes (lib/costs.ts routeCosts)
+        c["deal_summary"]["trend"] = trend(series_by_subject.get((c["id"], "cash"), []), today)
         c["picks"] = picks.get(c["id"], [])
         mine = specs_by_car.get(c["id"], [])
-        c["specs"] = [{"spec_key": sp["spec_key"], "provider": sp["provider"], "variant": sp.get("variant"),
-                       "flags": sp.get("flags"), "features": len(sp.get("features") or []), "options": len(sp.get("options") or []),
-                       "numbers": sp.get("numbers"), "last_seen_at": sp.get("last_seen_at")} for sp in mine]
-        # A generated car's fields come from its spec, so there is nothing to cross-check.
-        c["spec_check"] = {"rows": [], "disagreements": 0} if c.get("auto") else spec_check(c, mine)
+        spec_rows = [{"spec_key": sp["spec_key"], "provider": sp["provider"], "variant": sp.get("variant"),
+                      "flags": sp.get("flags"), "features": len(sp.get("features") or []), "options": len(sp.get("options") or []),
+                      "numbers": sp.get("numbers"), "last_seen_at": sp.get("last_seen_at")} for sp in mine]
+        c["spec_count"] = len(mine)
+        c["flags"] = {k: v for k, v in merged_flags(mine).items() if v}   # unlisted is the default; only what a source lists
         c["image"] = car_image(root, c, next((sp for sp in mine if sp.get("image_url")), None)) or fallback_image(c, renders)
+        c["used_stock"] = _slim_stock(stock)
+        details[c["id"]] = {
+            "requirement_check": evaluate_hard(requirements, c),   # the seed's view; the app evaluates its own copy
+            "specs": spec_rows,
+            # A generated car's fields come from its spec, so there is nothing to cross-check.
+            "spec_check": {"rows": [], "disagreements": 0} if c.get("auto") else spec_check(c, mine),
+            "used_stock": stock,
+        }
+        if c.get("auto"):
+            c["notes"] = None   # the boilerplate is implied by source_kind
 
     states: dict[str, int] = {}
     for o in offers:
@@ -552,7 +610,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         k = ((c.get("make_slug") or via.get("make_slug") or c.get("make") or "").lower(), c.get("model_slug") or via.get("model_slug") or "")
         t = by_slug.setdefault(k, {"derivatives": 0, "cars": 0, "priced": 0})
         t["cars"] += 1
-        t["priced"] += int(c["deal_summary"]["current_offers"] > 0)
+        t["priced"] += int(c["deal_summary"]["current_offers"] > 0 or bool(c["deal_summary"]["routes"]))
     for m in models:
         m.update(by_slug.get((m["make"], m["model"]), {"derivatives": 0, "cars": 0, "priced": 0}))
         m["used"] = sum(1 for l in dedupe_listings(used_by_model.get((m["make"], m["model"]), [])) if l["present"])
@@ -605,6 +663,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         "runs": latest_runs(conn, 10),
     }
     _write(out / "cars.json", cars)
+    _write(out / "details.json", details)
     # ~1,500 spec rows: leave out what the app never reads (the full history keeps it).
     _write(out / "specs.json", [{k: v for k, v in sp.items() if k not in SPEC_PRIVATE} for sp in specs])
     _write(out / "models.json", models)
@@ -612,9 +671,9 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     _write(out / "series.json", sightings["series"])
     _write(out / "residuals.json", sightings["residuals"])
     _write(out / "offers.json", offers)
-    _write(out / "requirements.json", requirements)
-    _write(out / "data.json", data_page)
-    _write(out / "manifest.json", manifest)
+    _write(out / "requirements.json", requirements, pretty=True)
+    _write(out / "data.json", data_page, pretty=True)
+    _write(out / "manifest.json", manifest, pretty=True)
     legacy = out / "deals.json"
     if legacy.exists():
         legacy.unlink()

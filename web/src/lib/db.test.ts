@@ -29,7 +29,6 @@ const car = (id: string) => ({
   seats: 5,
   picks: [],
   image: null,
-  requirement_check: { passes: true, failures: [], unknown: [] },
   deal_summary: {
     offers: 0, current_offers: 0, best_cash_price: null, best_cash_offer_id: null, best_cash_age_days: null,
     best_pcp_monthly: null, best_pcp_offer_id: null, best_pcp_age_days: null,

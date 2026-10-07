@@ -8,7 +8,7 @@ import { CarImage } from "@/components/CarImage";
 import { Badge, Empty, ErrorNote, Loading, PageHeader } from "@/components/ui";
 import { carCosts, type CarCosts } from "@/lib/costs";
 import { carName, gbp, num } from "@/lib/format";
-import { useCars, useDataPage, useOffers } from "@/lib/hooks";
+import { useCars, useDataPage } from "@/lib/hooks";
 import type { SnapshotCar, Tri } from "@/lib/types";
 
 export default function ComparePage() {
@@ -24,7 +24,6 @@ const tri = (v?: Tri) => (v === "standard" ? "yes" : v === "pack" || v === "opti
 function Compare() {
   const ids = (useSearchParams().get("ids") ?? "").split(",").filter(Boolean).slice(0, 4);
   const cars = useCars();
-  const offers = useOffers();
   const data = useDataPage();
   const staleDays = data.data?.stale_days ?? 14;
 
@@ -35,12 +34,12 @@ function Compare() {
 
   const costs = useMemo(() => {
     const out = new Map<string, CarCosts>();
-    for (const c of picked) out.set(c.id, carCosts((offers.data ?? []).filter((o) => o.car_id === c.id), staleDays));
+    for (const c of picked) out.set(c.id, carCosts(c));
     return out;
-  }, [picked, offers.data, staleDays]);
+  }, [picked]);
 
   if (cars.error) return <ErrorNote error={cars.error} />;
-  if (!cars.data || !offers.data) return <Loading />;
+  if (!cars.data) return <Loading />;
   if (picked.length < 2) {
     return (
       <Empty>
