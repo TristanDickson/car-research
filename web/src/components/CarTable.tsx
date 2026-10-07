@@ -75,6 +75,22 @@ export function CarTable({ cars }: { cars: SnapshotCar[] }) {
     { key: "list", header: "List", align: "right", sortValue: (c) => c.list_price_gbp, render: (c) => gbp(c.list_price_gbp) },
     { key: "grant", header: "Grant", align: "right", sortValue: (c) => c.grant_gbp, render: (c) => (c.grant_gbp ? gbp(c.grant_gbp) : "—") },
     {
+      key: "true",
+      header: "True £/mo",
+      align: "right",
+      title: "Cheapest current offer on one footing across cash, PCP and lease (discounted at the savings rate, expected end value credited back)",
+      sortValue: (c) => c.deal_summary.best_true_monthly,
+      render: (c) =>
+        c.deal_summary.best_true_monthly != null ? (
+          <span title={`via ${c.deal_summary.best_true_route}`}>
+            {gbp(c.deal_summary.best_true_monthly)}
+            <span className="text-xs text-gray-500"> {c.deal_summary.best_true_route}</span>
+          </span>
+        ) : (
+          "—"
+        ),
+    },
+    {
       key: "cash",
       header: "Best cash",
       align: "right",

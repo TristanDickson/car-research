@@ -4,8 +4,11 @@ machine) carries the full sighting history without the bronze artifacts.
 data/history/observations.jsonl: one line per offer_observations row, sorted,
 rewritten on every export. Import upserts by (offer_key, observed_at, source).
 data/history/specs.jsonl and models.jsonl carry the scraped specs and the
-catalogue the same way. Replay order matters: models, then specs (which make
-the generated cars), then observations (whose car must exist).
+catalogue the same way; resolutions.jsonl the broker rows' resolution (which
+derivative, how, with what evidence) and backfill.jsonl the backfill ledger.
+Replay order matters: models, then specs (which make the generated cars), then
+observations (whose car must exist), then resolutions (whose car must exist, and
+whose brackets are written back onto the generated cars).
 """
 from __future__ import annotations
 
@@ -21,6 +24,9 @@ DEFAULT_PATH = ROOT / "data" / "history" / "observations.jsonl"
 SPECS_PATH = ROOT / "data" / "history" / "specs.jsonl"
 MODELS_PATH = ROOT / "data" / "history" / "models.jsonl"
 LEDGER_PATH = ROOT / "data" / "history" / "backfill.jsonl"
+RESOLUTIONS_PATH = ROOT / "data" / "history" / "resolutions.jsonl"
+RES_COLUMNS = ("source", "source_key", "car_id", "status", "label", "example_url", "method", "evidence", "name_key",
+               "first_seen_at", "last_seen_at")
 LEDGER_COLUMNS = ("url", "since", "every_days", "source", "captures", "done_at")
 MODEL_COLUMNS = ("slug", "make", "model", "make_name", "model_name", "electric", "has_deals", "has_specs", "source",
                  "payload", "first_seen_at", "last_seen_at")
@@ -213,6 +219,66 @@ def import_ledger(conn: sqlite3.Connection, path: Path | str = LEDGER_PATH) -> i
                      captures=excluded.captures, source=excluded.source""",
                 (d["url"], d["since"], int(d["every_days"]), d.get("source"), d.get("captures"), d["done_at"]),
             )
+            n += 1
+    conn.commit()
+    return n
+
+
+def export_resolutions(conn: sqlite3.Connection, path: Path | str = RESOLUTIONS_PATH) -> int:
+    """The trim-map rows the pipeline made itself (the seed's are re-imported each
+    run): how every broker row resolved, with the evidence."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    rows = conn.execute(
+        f"SELECT {', '.join(RES_COLUMNS)} FROM trim_map WHERE status IN ('auto', 'unmapped', 'conflict') ORDER BY source, source_key"
+    ).fetchall()
+    with path.open("w", encoding="utf-8") as f:
+        for r in rows:
+            d = {k: r[k] for k in RES_COLUMNS}
+            d["evidence"] = json.loads(d["evidence"]) if d.get("evidence") else None
+            f.write(json.dumps(d, ensure_ascii=False, sort_keys=True) + "\n")
+    return len(rows)
+
+
+def import_resolutions(conn: sqlite3.Connection, path: Path | str = RESOLUTIONS_PATH) -> int:
+    """Upsert the file's rows (a seed 'mapped' row always wins; a seed 'ignored'
+    row gives way, as it does live, since the derivative now has a generated car)
+    and write each row's brackets back onto its generated car, as the live run did."""
+    from pipeline.services import resolve
+
+    path = Path(path)
+    if not path.exists():
+        return 0
+    n = 0
+    with path.open(encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            d = json.loads(line)
+            car_id = d.get("car_id")
+            if car_id and not conn.execute("SELECT 1 FROM cars WHERE id=?", (car_id,)).fetchone():
+                continue
+            ev = d.get("evidence")
+            conn.execute(
+                """INSERT INTO trim_map (source, source_key, car_id, status, label, example_url, method, evidence, name_key,
+                     first_seen_at, last_seen_at)
+                   VALUES (?,?,?,?,?,?,?,?,?,?,?)
+                   ON CONFLICT(source, source_key) DO UPDATE SET
+                     car_id=CASE WHEN trim_map.status='mapped' THEN trim_map.car_id ELSE excluded.car_id END,
+                     status=CASE WHEN trim_map.status='mapped' THEN trim_map.status ELSE excluded.status END,
+                     label=COALESCE(trim_map.label, excluded.label), example_url=COALESCE(trim_map.example_url, excluded.example_url),
+                     method=CASE WHEN trim_map.status='mapped' THEN trim_map.method ELSE excluded.method END,
+                     evidence=CASE WHEN trim_map.status='mapped' THEN trim_map.evidence ELSE excluded.evidence END,
+                     name_key=COALESCE(excluded.name_key, trim_map.name_key),
+                     first_seen_at=MIN(trim_map.first_seen_at, excluded.first_seen_at),
+                     last_seen_at=MAX(trim_map.last_seen_at, excluded.last_seen_at)""",
+                (d["source"], d["source_key"], car_id, d["status"], d.get("label"), d.get("example_url"), d.get("method"),
+                 json.dumps(ev, ensure_ascii=False, sort_keys=True) if ev else None, d.get("name_key"),
+                 d["first_seen_at"], d["last_seen_at"]),
+            )
+            if car_id and ev and ev.get("brackets"):
+                gold._apply_bracket_facts(conn, car_id, ev["brackets"], d["last_seen_at"])
             n += 1
     conn.commit()
     return n

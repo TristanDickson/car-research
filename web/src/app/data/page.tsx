@@ -35,6 +35,31 @@ export default function DataPage() {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
+        <Card title="Assumptions behind the true monthly">
+          <p className="mb-2 text-sm text-gray-400">
+            Every offer is put on one footing: each payment discounted at the savings rate, the car&apos;s expected value at the end credited
+            back (PCP: the equity above the GFV, never below zero; outright: sold), spread over the agreement. Edit these in data/seed/requirements.json.
+          </p>
+          <ul className="space-y-1 text-sm">
+            {Object.entries(data.assumptions ?? {}).filter(([, v]) => v != null && typeof v !== "string").map(([k, v]) => (
+              <li key={k} className="flex justify-between"><span>{k.replaceAll("_", " ")}</span><span className="tabular-nums">{String(v)}</span></li>
+            ))}
+          </ul>
+          {Object.entries(data.assumptions ?? {}).filter(([, v]) => typeof v === "string").map(([k, v]) => (
+            <p key={k} className="mt-2 text-xs text-gray-500">{String(v)}</p>
+          ))}
+        </Card>
+        <Card title="How broker rows were matched to derivatives">
+          <p className="mb-2 text-sm text-gray-400">
+            A Carwow CAP id is the car itself; a broker&apos;s derivative text resolves to one generated car by trim and powertrain, and
+            among same-trim twins by the broker&apos;s own RRP, by a pack in the name, or to the cheapest; ties the rules refuse to guess are conflicts below.
+          </p>
+          <ul className="space-y-1 text-sm">
+            {Object.entries(data.resolution_methods ?? {}).map(([k, v]) => (
+              <li key={k} className="flex justify-between"><span>{k}</span><span className="tabular-nums">{v}</span></li>
+            ))}
+          </ul>
+        </Card>
         <Card title="Offer states">
           <ul className="space-y-1 text-sm">
             {Object.entries(data.offer_states).map(([k, v]) => (
@@ -94,19 +119,25 @@ export default function DataPage() {
         )}
       </Card>
 
-      <Card title={`Unmapped trims (${data.unmapped_trims.length})`}>
+      <Card title={`Broker rows with no car (${data.unmapped_trims.length})`}>
         {data.unmapped_trims.length === 0 ? (
           <Empty>Every scraped trim resolves to a car (hand-curated, or generated from the catalogue). Broker derivatives that match no car appear here until added to data/seed/trim_map.json.</Empty>
         ) : (
           <table className="w-full text-sm">
-            <thead className="text-xs uppercase text-gray-500"><tr><th className="text-left">Source</th><th className="text-left">Key</th><th className="text-left">As printed</th><th className="text-left">First seen</th></tr></thead>
+            <thead className="text-xs uppercase text-gray-500"><tr><th className="text-left">Source</th><th className="text-left">As printed</th><th className="text-left">Why</th><th className="text-left">First seen</th></tr></thead>
             <tbody>
               {data.unmapped_trims.map((t) => (
                 <tr key={`${t.source}|${t.source_key}`} className="border-t border-gray-800">
                   <td className="py-1 pr-3">{t.source}</td>
-                  <td className="py-1 pr-3 font-mono text-xs">{t.source_key}</td>
-                  <td className="py-1 pr-3">{t.label ?? "—"}</td>
-                  <td className="py-1">{t.first_seen_at.slice(0, 10)}</td>
+                  <td className="py-1 pr-3"><div>{t.label ?? "—"}</div><div className="font-mono text-xs text-gray-600">{t.source_key}</div></td>
+                  <td className="py-1 pr-3 text-xs text-gray-400">
+                    <Badge tone={t.status === "conflict" ? "warn" : "muted"}>{t.status ?? "unmapped"}</Badge>
+                    {t.evidence?.reason ? <div className="mt-0.5">{String(t.evidence.reason)}</div> : null}
+                    {Array.isArray(t.evidence?.prices) && t.evidence.prices.length > 0 ? (
+                      <div className="text-gray-600">twins at {(t.evidence.prices as number[]).map((p) => `£${p.toLocaleString("en-GB")}`).join(", ")}</div>
+                    ) : null}
+                  </td>
+                  <td className="py-1 whitespace-nowrap">{t.first_seen_at.slice(0, 10)}</td>
                 </tr>
               ))}
             </tbody>

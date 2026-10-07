@@ -26,8 +26,8 @@ providers (discover → fetch → parse)       pipeline/providers/*      Python,
         │          specs                one row per source variant: equipment, flags, numbers, image
         ▼          requirements
 SQLite  data/car-research.sqlite            gitignored: a dev-machine artifact
-        │  ⇄ data/history/{observations,specs,models}.jsonl  COMMITTED: every refresh rewrites them,
-        │                                      every run (CI, a fresh clone) replays them before scraping
+        │  ⇄ data/history/{observations,specs,models,resolutions,backfill}.jsonl  COMMITTED: every refresh
+        │                                      rewrites them, every run (CI, a fresh clone) replays them first
         ▼  export_snapshot()                 pipeline/services/snapshot.py
 JSON    web/public/data/{manifest,cars,offers,requirements,data}.json   COMMITTED on main
         │   offers = latest observation per key + finance maths + freshness (state, age, history)
@@ -100,7 +100,33 @@ Every Carwow derivative without a hand-curated car gets a generated one
   year's list.
 
 `gold.ensure_auto_car` writes one unless a hand-curated car owns the id; a spec-built car
-replaces a stub, a stub replaces nothing. `gold.prune_auto_cars` drops generated cars nothing
+replaces a stub, a stub replaces nothing.
+
+### Resolving broker rows (services/resolve.py)
+
+A broker row carries CAP's derivative name ('150kW GT-Line S 81.4kWh 5dr Auto [Heat
+Pump]'); Carwow carries the CAP id and RRP but prints only trim and engine, so one trim
+often has several derivatives on Carwow told apart by RRP alone (packs, a heat pump, a
+seat layout). This is linkage to a registry, not clustering (bolthole's resolver clusters
+peers because no source carries an id; here the CAP id is the sync key). The rules, in
+order, each recorded as `method` + `evidence` on the trim-map row:
+
+| Step | Rule | method |
+| --- | --- | --- |
+| gates | make + model agree, kW and kWh agree where both print them, every trim word of the candidate appears in the text (`services/match.py`); engine words are a bonus | |
+| one match | a single candidate survives | `trim-powertrain` |
+| twins | the broker's own RRP equals one twin's (NCD prints price + saving, £135 above the RRP for on-the-road extras) | `rrp` |
+| | the same CAP name was pinned to a twin by another source | `name` |
+| | a pack in the name goes to the dearer twin when there are exactly two prices; '[No …]' or no bracket to the cheapest | `bracket`, `base` |
+| | identical prices: the current price-list version, then the id | `version` |
+| conflict | a pack bracket against three or more prices and no RRP | status `conflict`, listed on the Data page, never guessed |
+
+A bracket that picked a twin also says something Carwow never prints, so it is written
+onto the generated car: the name as a pack, '[Heat Pump]' → heat pump standard,
+'[No Heat Pump]' → none, '[7 seat]' → seats. An offer key names one derivative at its
+source, so when a rule moves it to a different twin its whole sighting history moves
+too (`gold.write`). `pipeline reparse` re-runs the parsers and the rules over the stored
+pages without the network. `gold.prune_auto_cars` drops generated cars nothing
 refers to (their derivative was promoted to a hand-curated car). On replay, `import_specs`
 regenerates the spec-built cars and `import_history` rebuilds a stub from the observation's
 `car_ref` when its car is missing, so the committed history is complete without a cars file:
@@ -245,6 +271,22 @@ Bump `SCHEMA_VERSION` in `pipeline/services/snapshot.py` and `SUPPORTED_SCHEMA_V
 
 Files are written with `sort_keys` and `indent=1` so git diffs of the data are readable. Every
 commit of `web/public/data` is a dated market snapshot, which is the price history.
+
+## The true monthly
+
+`model/deal_math.py` puts every route on one footing (`true_monthly`): each cash flow
+discounted at the savings rate (money not spent on a car earns it), the car's expected
+value at the end credited back, the present cost spread as an annuity over the
+agreement. Lease: initial rental and fees now, the rentals, nothing back. PCP: deposit
+and payments, then the option to buy at the GFV and sell at the expected value, worth
+max(V − GFV, 0). Outright: the price now, the car sold at V after the standard term; the
+floor variant uses the highest GFV any lender guarantees for the car. V comes from
+`requirements.json` `quoting_basis.residual_pct_of_list` at `residual_at_months` on a
+smooth curve (pct ** (t / at)); `savings_rate_apr` is the discount rate. Both are
+assumptions, shown on the Data page, until a used-market source replaces the residual.
+With V = GFV the PCP figure is today's hand-back arithmetic, so `true_monthly_floor` is
+the pessimistic case. The exporter puts the best current true monthly per route on
+each car (`deal_summary.true_monthly_by_route`) and the app ranks offers by it.
 
 ## Finance maths lives in the pipeline
 

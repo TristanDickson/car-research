@@ -13,6 +13,7 @@ interface Props {
   cars: Map<string, SnapshotCar>;
   staleDays: number;
   showCar?: boolean;
+  defaultSort?: { key: string; dir: "asc" | "desc" };
 }
 
 function monthly(o: SnapshotOffer): string {
@@ -32,7 +33,7 @@ function effMonthly(o: SnapshotOffer): number | null {
   return null;
 }
 
-export function OfferTable({ offers, cars, staleDays, showCar = true }: Props) {
+export function OfferTable({ offers, cars, staleDays, showCar = true, defaultSort }: Props) {
   const now = new Date();
   const columns: Column<SnapshotOffer>[] = [
     {
@@ -132,6 +133,24 @@ export function OfferTable({ offers, cars, staleDays, showCar = true }: Props) {
       render: (o) => gbp(o.metrics.paid_if_handed_back ?? o.metrics.total_cost),
     },
     {
+      key: "true",
+      header: "True £/mo",
+      title: "Every route on one footing: each payment discounted at the savings rate, the car's expected value at the end credited back (PCP: equity above the GFV, never below zero; outright: sold), spread over the agreement. In brackets: the same with the car worth only its GFV.",
+      align: "right",
+      sortValue: (o) => o.metrics.true_monthly,
+      render: (o) =>
+        o.metrics.true_monthly != null ? (
+          <span className="font-medium text-gray-100">
+            {gbp(o.metrics.true_monthly)}
+            {o.metrics.true_monthly_floor != null && o.metrics.true_monthly_floor !== o.metrics.true_monthly && (
+              <span className="font-normal text-gray-500"> ({gbp(o.metrics.true_monthly_floor)})</span>
+            )}
+          </span>
+        ) : (
+          "—"
+        ),
+    },
+    {
       key: "eff",
       header: "Eff. monthly",
       title: "Everything paid if handed back, spread over the term, no equity assumed",
@@ -173,9 +192,10 @@ export function OfferTable({ offers, cars, staleDays, showCar = true }: Props) {
 
   return (
     <div>
-      <DataTable rows={offers} columns={columns} rowKey={(o) => o.id} defaultSort={{ key: "seen", dir: "desc" }} dense />
+      <DataTable rows={offers} columns={columns} rowKey={(o) => o.id} defaultSort={defaultSort ?? { key: "seen", dir: "desc" }} dense />
       <p className="mt-2 text-xs text-gray-500">
         * monthly solved from APR, credit and GFV (derived, not a quote). PCP totals assume 36 payments then the balloon at month 37.
+        True £/mo puts cash, PCP and lease on one footing (savings rate and residual assumptions on the Data page); the bracketed figure is the GFV floor.
         Stale = an active offer not seen for more than {staleDays} days.
       </p>
     </div>

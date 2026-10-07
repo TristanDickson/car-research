@@ -134,6 +134,24 @@ hand-written model list:
 Data page shows the same table; **Shortlist / Every EV** on the filter bar switches every
 page between the curated trims and the whole market (`?scope=all` in the URL).
 
+## The true monthly
+
+Cash, PCP and lease are compared on one footing. Every payment is discounted at the
+savings rate (money not spent on a car earns it), the car's expected value at the end is
+credited back (owned outright: sold; PCP: the equity above the GFV, never below zero;
+lease: nothing), and the present cost is spread as a monthly over the agreement. The
+Pick cards lead with it, the Cars table and every price board rank by it, and the
+bracketed figure is the GFV floor (the car worth only what a lender guarantees). The two
+assumptions, the savings rate and the expected residual as a share of list, live in
+`data/seed/requirements.json` and show on the Data page; the residual is a placeholder
+until a used-market source replaces it.
+
+Broker leases and prices land on the right derivative by rules with evidence (see
+`docs/ARCHITECTURE.md`, "Resolving broker rows"): the broker's own RRP where it prints
+one, the pack named in brackets ('[Heat Pump]', '[Tech Pack]'), the cheapest twin
+otherwise; what a rule cannot decide is listed on the Data page as a conflict rather
+than guessed, and a bracket that decided also tells the generated car what it has.
+
 ## Trends
 
 Every sighting is kept, so prices are a history, not a number: one row per distinct

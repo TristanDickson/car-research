@@ -84,3 +84,41 @@ class DealMathReproducesQuotes(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TrueMonthly(unittest.TestCase):
+    """Every route on one footing: discounted at the savings rate, residual credited back."""
+
+    PCP = {"id": "p", "car_id": "c", "finance_type": "pcp", "status": "live", "list_price": 40000.0, "vehicle_price": 36000.0,
+           "customer_deposit": 0.0, "manufacturer_contribution": 0.0, "apr": 0.0, "num_payments": 36, "term_months": 37,
+           "gfv": 18000.0, "monthly_payment": 500.0}
+    PCH = {"id": "l", "car_id": "c", "finance_type": "pch", "status": "live", "term_months": 36, "num_rentals": 35,
+           "monthly_rental": 400.0, "initial_rental": 3600.0, "fees_gbp": 300.0}
+    CASH = {"id": "k", "car_id": "c", "finance_type": "cash", "status": "live", "list_price": 40000.0, "vehicle_price": 34000.0}
+
+    def test_at_zero_rate_and_gfv_residual_it_is_the_plain_arithmetic(self):
+        from model.deal_math import compute
+        basis = {"term_months": 37, "savings_rate_apr": 0.0, "residual_pct_of_list": 0.45, "residual_at_months": 37}
+        r = {m["id"]: m for m in compute([self.PCP, self.PCH, self.CASH], basis)}
+        # PCP: 36 × £500 paid, the car worth exactly the GFV at the end: no equity, so cost = payments / 37.
+        self.assertEqual(r["p"]["expected_value_at_end"], 18000.0)
+        self.assertAlmostEqual(r["p"]["true_monthly"], 500 * 36 / 37, places=2)
+        self.assertEqual(r["p"]["true_monthly"], r["p"]["true_monthly_floor"])
+        # Lease: everything paid spread over the term.
+        self.assertAlmostEqual(r["l"]["true_monthly"], (3600 + 35 * 400 + 300) / 36, places=2)
+        # Cash: price less the car's value at the end, spread over the standard term; floor uses the lender's GFV.
+        self.assertAlmostEqual(r["k"]["true_monthly"], (34000 - 18000) / 37, places=2)
+        self.assertAlmostEqual(r["k"]["true_monthly_floor"], (34000 - 18000) / 37, places=2)
+
+    def test_savings_rate_and_equity_move_the_routes_the_right_way(self):
+        from model.deal_math import compute
+        basis = {"term_months": 37, "savings_rate_apr": 0.04, "residual_pct_of_list": 0.55, "residual_at_months": 36}
+        r = {m["id"]: m for m in compute([self.PCP, self.PCH, self.CASH], basis)}
+        self.assertGreater(r["p"]["expected_equity"], 0, "a 55% residual beats an 45% GFV: there is equity")
+        self.assertLess(r["p"]["true_monthly"], r["p"]["true_monthly_floor"], "expected equity makes the PCP cheaper than its floor")
+        # Paying £34k up front forgoes 4% a year on it: cash gets dearer than the zero-rate arithmetic says.
+        self.assertGreater(r["k"]["true_monthly"], (34000 - r["k"]["expected_value_at_end"]) / 37)
+        # A lease has nothing coming back, so its true monthly stays within a few pounds of the plain
+        # average: the discounting and the annuity spread nearly cancel.
+        self.assertAlmostEqual(r["l"]["true_monthly"], r["l"]["effective_monthly"], delta=0.03 * r["l"]["effective_monthly"])
+        self.assertEqual(r["l"]["horizon_months"], 36)

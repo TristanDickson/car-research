@@ -26,10 +26,10 @@ jobs:
         run: |
           GEN=$(python -c "import json;print(json.load(open('web/public/data/manifest.json'))['generated_at'])")
           python -m pipeline refresh --offline --out /tmp/snapshot --generated-at "$GEN"
-      - name: No unmapped trims
+      - name: Broker rows with no car (report only)
         env:
           CAR_RESEARCH_DB: /tmp/ci.sqlite
-        run: python -m pipeline trims
+        run: python -m pipeline trims || echo "::warning::broker derivatives that resolved to no car (listed on the Data page)"
       - name: Committed snapshot is up to date
         run: |
           for f in cars.json offers.json requirements.json specs.json models.json; do

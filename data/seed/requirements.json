@@ -23,7 +23,12 @@
     "delivery_by": "2026-12-10",
     "compare_on": "total_cost",
     "gfv_is": "floor_not_forecast",
-    "base_case_equity_gbp": 0
+    "base_case_equity_gbp": 0,
+    "savings_rate_apr": 0.04,
+    "residual_pct_of_list": 0.45,
+    "residual_at_months": 36,
+    "residual_note": "Expected market value at 36 months as a share of list price, for the true-monthly comparison. An assumption until a used-market source replaces it: UK EV residuals at three years sit around 40-50% and lenders' GFVs a little under. The GFV is the floor, this is the expectation.",
+    "savings_note": "Easy-access savings rate used to discount every cash flow: money not spent on a car earns this."
   },
   "budget": {
     "monthly_ceiling_gbp": 400,
@@ -34,29 +39,158 @@
     "cash_purchase_ok": true
   },
   "hard": [
-    { "id": "bev", "label": "Battery EV", "field": "fuel", "op": "==", "value": "bev" },
-    { "id": "heat_pump", "label": "Heat pump", "field": "heat_pump", "op": "in", "value": ["standard", "pack", "option"] },
-    { "id": "internal_v2l", "label": "Internal 3-pin (230V) V2L socket in cabin", "field": "internal_v2l", "op": "in", "value": ["standard", "pack", "option"] },
-    { "id": "seats", "label": "At least 4 proper seats", "field": "seats", "op": ">=", "value": 4 },
-    { "id": "delivery", "label": "Handover by 10 Dec 2026 (new) or available now (used)", "field": "available_by", "op": "<=", "value": "2026-12-10", "applies_to": "deal" },
-    { "id": "zero_deposit", "label": "£0 customer deposit if financed", "field": "customer_deposit", "op": "==", "value": 0, "applies_to": "deal" }
+    {
+      "id": "bev",
+      "label": "Battery EV",
+      "field": "fuel",
+      "op": "==",
+      "value": "bev"
+    },
+    {
+      "id": "heat_pump",
+      "label": "Heat pump",
+      "field": "heat_pump",
+      "op": "in",
+      "value": [
+        "standard",
+        "pack",
+        "option"
+      ]
+    },
+    {
+      "id": "internal_v2l",
+      "label": "Internal 3-pin (230V) V2L socket in cabin",
+      "field": "internal_v2l",
+      "op": "in",
+      "value": [
+        "standard",
+        "pack",
+        "option"
+      ]
+    },
+    {
+      "id": "seats",
+      "label": "At least 4 proper seats",
+      "field": "seats",
+      "op": ">=",
+      "value": 4
+    },
+    {
+      "id": "delivery",
+      "label": "Handover by 10 Dec 2026 (new) or available now (used)",
+      "field": "available_by",
+      "op": "<=",
+      "value": "2026-12-10",
+      "applies_to": "deal"
+    },
+    {
+      "id": "zero_deposit",
+      "label": "£0 customer deposit if financed",
+      "field": "customer_deposit",
+      "op": "==",
+      "value": 0,
+      "applies_to": "deal"
+    }
   ],
   "preferences": [
-    { "id": "width", "label": "Narrower than Ioniq 5 (1,890mm)", "field": "width_mm", "direction": "lower", "reference": 1890, "weight": 3 },
-    { "id": "turning_circle", "label": "Tighter turning circle than Ioniq 5", "field": "turning_circle_m", "direction": "lower", "weight": 2 },
-    { "id": "range", "label": "WLTP range; ~300mi comfortable, ~240 acceptable", "field": "wltp_range_mi", "direction": "higher", "comfortable": 300, "floor": 240, "weight": 3 },
-    { "id": "dc_charge", "label": "Fast DC charging (Ioniq 5 260kW was genuinely useful)", "field": "dc_peak_kw", "direction": "higher", "comfortable": 150, "weight": 2 },
-    { "id": "monthly_effective", "label": "Effective monthly cost (handed back, £0 equity)", "field": "effective_monthly_gbp", "direction": "lower", "target": 400, "weight": 4, "applies_to": "deal" },
-    { "id": "funding_premium", "label": "Funding premium vs best confirmed cash price", "field": "funding_premium_gbp", "direction": "lower", "weight": 4, "applies_to": "deal" },
-    { "id": "established", "label": "Established model with owner evidence", "field": "model_launched", "direction": "lower", "weight": 1 }
+    {
+      "id": "width",
+      "label": "Narrower than Ioniq 5 (1,890mm)",
+      "field": "width_mm",
+      "direction": "lower",
+      "reference": 1890,
+      "weight": 3
+    },
+    {
+      "id": "turning_circle",
+      "label": "Tighter turning circle than Ioniq 5",
+      "field": "turning_circle_m",
+      "direction": "lower",
+      "weight": 2
+    },
+    {
+      "id": "range",
+      "label": "WLTP range; ~300mi comfortable, ~240 acceptable",
+      "field": "wltp_range_mi",
+      "direction": "higher",
+      "comfortable": 300,
+      "floor": 240,
+      "weight": 3
+    },
+    {
+      "id": "dc_charge",
+      "label": "Fast DC charging (Ioniq 5 260kW was genuinely useful)",
+      "field": "dc_peak_kw",
+      "direction": "higher",
+      "comfortable": 150,
+      "weight": 2
+    },
+    {
+      "id": "monthly_effective",
+      "label": "Effective monthly cost (handed back, £0 equity)",
+      "field": "effective_monthly_gbp",
+      "direction": "lower",
+      "target": 400,
+      "weight": 4,
+      "applies_to": "deal"
+    },
+    {
+      "id": "funding_premium",
+      "label": "Funding premium vs best confirmed cash price",
+      "field": "funding_premium_gbp",
+      "direction": "lower",
+      "weight": 4,
+      "applies_to": "deal"
+    },
+    {
+      "id": "established",
+      "label": "Established model with owner evidence",
+      "field": "model_launched",
+      "direction": "lower",
+      "weight": 1
+    }
   ],
   "wants": [
-    { "id": "memory_seats", "label": "Electric memory seats", "field": "memory_seats", "weight": 1 },
-    { "id": "glass_roof", "label": "Panoramic / opening roof", "field": "glass_roof", "weight": 1 },
-    { "id": "powered_sliding_doors", "label": "Powered sliding doors both sides", "field": "powered_sliding_doors", "op": ">=", "value": 2, "weight": 2 },
-    { "id": "seven_seats", "label": "Seven seats", "field": "seats", "op": ">=", "value": 7, "weight": 2 },
-    { "id": "heated_seats", "label": "Heated seats and steering wheel", "field": "heated_seats", "weight": 1 },
-    { "id": "camera_360", "label": "360 camera", "field": "camera_360", "weight": 1 }
+    {
+      "id": "memory_seats",
+      "label": "Electric memory seats",
+      "field": "memory_seats",
+      "weight": 1
+    },
+    {
+      "id": "glass_roof",
+      "label": "Panoramic / opening roof",
+      "field": "glass_roof",
+      "weight": 1
+    },
+    {
+      "id": "powered_sliding_doors",
+      "label": "Powered sliding doors both sides",
+      "field": "powered_sliding_doors",
+      "op": ">=",
+      "value": 2,
+      "weight": 2
+    },
+    {
+      "id": "seven_seats",
+      "label": "Seven seats",
+      "field": "seats",
+      "op": ">=",
+      "value": 7,
+      "weight": 2
+    },
+    {
+      "id": "heated_seats",
+      "label": "Heated seats and steering wheel",
+      "field": "heated_seats",
+      "weight": 1
+    },
+    {
+      "id": "camera_360",
+      "label": "360 camera",
+      "field": "camera_360",
+      "weight": 1
+    }
   ],
   "finance_posture": {
     "default": "pcp",

@@ -10,6 +10,8 @@ candidates scoring the same is a miss, never a guess: the row stays unmapped
 for a human to decide.
 
 Hand-curated cars are never matched this way; the seed's trim map names them.
+Twins (several derivatives of one trim and powertrain) are told apart by
+services/resolve.py, which owns the RRP, bracket and version rules.
 """
 from __future__ import annotations
 
@@ -55,8 +57,6 @@ def score(derivative: str, car: dict) -> int | None:
     for k in ("kw", "kwh"):
         if d[k] is not None and c[k] is not None and d[k] != c[k]:
             return None
-    if d["seats"] and car.get("seats") and d["seats"] != car["seats"]:
-        return None
     trim_words = tokens(trim)["words"]
     if trim_words and not trim_words <= d["words"]:
         return None

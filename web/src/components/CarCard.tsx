@@ -6,7 +6,7 @@ import { CarImage } from "@/components/CarImage";
 import { Sparkline } from "@/components/charts/Sparkline";
 import type { CarTrend } from "@/app/page";
 import { Badge } from "@/components/ui";
-import { briefTicks, budgetGap, IONIQ5_WIDTH_MM, type CarCosts } from "@/lib/costs";
+import { briefTicks, budgetGap, IONIQ5_WIDTH_MM, ROUTE_LABEL, type CarCosts } from "@/lib/costs";
 import { carName, gbp, num } from "@/lib/format";
 import { ageLabel } from "@/lib/freshness";
 import type { SnapshotCar } from "@/lib/types";
@@ -25,7 +25,7 @@ interface Props {
 const VERDICT_TONE: Record<string, "good" | "warn" | "bad" | "muted"> = { want: "good", maybe: "warn", no: "bad", control: "muted" };
 
 export function CarCard({ car, costs, trend, ceiling, starred, onStar, compared, onCompare }: Props) {
-  const gap = budgetGap(costs.monthly, ceiling);
+  const gap = budgetGap(costs.trueCost?.monthly ?? costs.monthly, ceiling);
   const widthDelta = car.width_mm != null ? car.width_mm - IONIQ5_WIDTH_MM : null;
   const route = costs.monthlyRoute === "pcp" ? costs.pcp : costs.monthlyRoute === "pch" ? costs.pch : null;
 
@@ -86,28 +86,40 @@ export function CarCard({ car, costs, trend, ceiling, starred, onStar, compared,
         </div>
 
         <div className="mt-auto rounded-lg border border-gray-800 bg-gray-950/60 p-3">
-          {costs.monthly != null ? (
+          {costs.trueCost ? (
             <>
               <div className="flex items-baseline justify-between gap-2">
-                <div>
-                  <span className="text-2xl font-semibold tabular-nums text-gray-100">{gbp(costs.monthly)}</span>
-                  <span className="text-sm text-gray-400">/mo</span>
-                  <span className="ml-2 text-xs text-gray-500">
-                    {costs.monthlyRoute === "pcp" ? "PCP, nothing down" : "lease, upfront spread"}
-                    {route?.dealer ? ` · ${route.dealer}` : ""}
-                  </span>
+                <div title="True cost per month: every payment discounted at the savings rate, the car's expected value at the end credited back, spread over the agreement. The figure in brackets assumes the car is worth only its GFV.">
+                  <span className="text-2xl font-semibold tabular-nums text-gray-100">{gbp(costs.trueCost.monthly)}</span>
+                  <span className="text-sm text-gray-400">/mo true cost</span>
+                  {costs.trueCost.floor != null && costs.trueCost.floor !== costs.trueCost.monthly && (
+                    <span className="ml-1 text-xs text-gray-500">({gbp(costs.trueCost.floor)} at the GFV floor)</span>
+                  )}
                 </div>
                 {gap != null && (
                   <Badge tone={gap <= 0 ? "good" : "warn"}>{gap <= 0 ? "within budget" : `+${gbp(gap)} over`}</Badge>
                 )}
               </div>
-              <div className="mt-1 text-sm text-gray-300">
-                {costs.threeYear != null ? <>Over the agreement, handed back: <b className="tabular-nums">{gbp(costs.threeYear)}</b></> : null}
+              <div className="mt-0.5 text-xs text-gray-500">
+                cheapest route: {ROUTE_LABEL[costs.trueCost.route]}{costs.trueCost.dealer ? ` · ${costs.trueCost.dealer}` : ""} · seen {ageLabel(costs.trueCost.lastSeenAt)}
               </div>
-              <div className="mt-0.5 text-xs text-gray-500">seen {ageLabel(route?.lastSeenAt)}</div>
             </>
           ) : (
-            <div className="text-sm text-gray-500">No current monthly price captured.</div>
+            <div className="text-sm text-gray-500">No current price to cost.</div>
+          )}
+          {costs.monthly != null && (
+            <div className="mt-2 border-t border-gray-800 pt-2 text-sm text-gray-300">
+              <div>
+                Pay monthly: <b className="tabular-nums">{gbp(costs.monthly)}</b>
+                <span className="text-xs text-gray-500">
+                  {" "}· {costs.monthlyRoute === "pcp" ? "PCP, nothing down" : "lease, upfront spread"}
+                  {route?.dealer ? ` · ${route.dealer}` : ""}
+                </span>
+              </div>
+              {costs.threeYear != null && (
+                <div className="text-xs text-gray-500">over the agreement, handed back: {gbp(costs.threeYear)} · seen {ageLabel(route?.lastSeenAt)}</div>
+              )}
+            </div>
           )}
           <div className="mt-2 border-t border-gray-800 pt-2 text-sm text-gray-300">
             {costs.cash ? (

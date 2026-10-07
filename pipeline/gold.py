@@ -8,7 +8,7 @@ import sqlite3
 from datetime import datetime, timezone
 
 from pipeline.providers.types import ParsedRecord
-from pipeline.services import autocars, match
+from pipeline.services import autocars, match, resolve
 
 PRICE_FIELDS = (
     "vehicle_price", "monthly_payment", "apr", "gfv", "customer_deposit",
@@ -35,15 +35,20 @@ def _is_auto(conn: sqlite3.Connection, car_id: str) -> bool:
 
 
 def _touch_trim_map(conn: sqlite3.Connection, site: str, key: str, car_id: str | None, status: str,
-                    label: str | None, example_url: str | None, now: str, note: str | None = None) -> None:
+                    label: str | None, example_url: str | None, now: str, note: str | None = None,
+                    method: str | None = None, evidence: str | None = None, name_key: str | None = None) -> None:
     conn.execute(
-        """INSERT INTO trim_map (source, source_key, car_id, status, label, example_url, note, first_seen_at, last_seen_at)
-           VALUES (?,?,?,?,?,?,?,?,?)
+        """INSERT INTO trim_map (source, source_key, car_id, status, label, example_url, note, first_seen_at, last_seen_at,
+             method, evidence, name_key)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
            ON CONFLICT(source, source_key) DO UPDATE SET last_seen_at=excluded.last_seen_at,
              label=COALESCE(trim_map.label, excluded.label), example_url=COALESCE(trim_map.example_url, excluded.example_url),
              car_id=CASE WHEN trim_map.status='mapped' THEN trim_map.car_id ELSE excluded.car_id END,
-             status=CASE WHEN trim_map.status='mapped' THEN trim_map.status ELSE excluded.status END""",
-        (site, key, car_id, status, label, example_url, note, now, now),
+             status=CASE WHEN trim_map.status='mapped' THEN trim_map.status ELSE excluded.status END,
+             method=CASE WHEN trim_map.status='mapped' THEN COALESCE(trim_map.method, 'manual') ELSE excluded.method END,
+             evidence=CASE WHEN trim_map.status='mapped' THEN trim_map.evidence ELSE excluded.evidence END,
+             name_key=COALESCE(excluded.name_key, trim_map.name_key)""",
+        (site, key, car_id, status, label, example_url, note, now, now, method, evidence, name_key),
     )
 
 
@@ -90,7 +95,8 @@ def resolve_car(conn: sqlite3.Connection, site: str, key: str, label: str | None
     2. Otherwise a generated car: for a Carwow CAP id the car carwow-cap:<id>
        (made here from the record's stub when the specification page has not
        produced one); for a broker's derivative text, the one generated car of
-       that make + model whose kW / kWh / trim words agree (status 'auto').
+       that make + model that services/resolve.py picks (status 'auto', with the
+       method and evidence on the row; 'conflict' when twins cannot be told apart).
     3. Otherwise the old behaviour: an 'unmapped' row the first time (bumped
        every time) so the snapshot can list what needs a human; 'ignored' rows
        are derivatives deliberately left out of the hand-curated set."""
@@ -102,34 +108,54 @@ def resolve_car(conn: sqlite3.Connection, site: str, key: str, label: str | None
         conn.execute("UPDATE trim_map SET last_seen_at=? WHERE source=? AND source_key=?", (now, site, key))
         return row["car_id"], "mapped"
 
-    auto_id = None
+    auto_id, method, evidence, nkey = None, None, None, None
     if site == "carwow-cap":
         cid = autocars.auto_id(key)
         if conn.execute("SELECT 1 FROM cars WHERE id=?", (cid,)).fetchone():
-            auto_id = cid
+            auto_id, method = cid, "cap-id"
         elif ref.get("stub"):
             ensure_auto_car(conn, autocars.from_stub(ref["stub"]), ref.get("provider") or site, None, None, now)
-            auto_id = cid
+            auto_id, method = cid, "stub"
     elif ref.get("make"):
-        hit = match.best(ref.get("derivative") or label or "", _auto_candidates(conn, ref.get("make"), ref.get("model")))
-        if hit:
-            auto_id = hit["id"]
+        res = resolve.choose(ref, _auto_candidates(conn, ref.get("make"), ref.get("model")), conn)
+        method, evidence, nkey = res.method, resolve.dump_evidence(res.evidence), resolve.name_key(ref.get("derivative") or label)
+        if res.car_id:
+            auto_id = res.car_id
+            _apply_bracket_facts(conn, auto_id, res.brackets, now)
+        elif res.method == "conflict":
+            _touch_trim_map(conn, site, key, None, "conflict", label, example_url, now, method=method, evidence=evidence, name_key=nkey)
+            return None, "conflict"
     if auto_id:
-        _touch_trim_map(conn, site, key, auto_id, "auto", label, example_url, now)
+        _touch_trim_map(conn, site, key, auto_id, "auto", label, example_url, now, method=method, evidence=evidence, name_key=nkey)
         return auto_id, "auto"
 
     if row:
-        conn.execute("UPDATE trim_map SET last_seen_at=?, label=COALESCE(label, ?), example_url=COALESCE(example_url, ?) "
-                     "WHERE source=? AND source_key=?", (now, label, example_url, site, key))
+        conn.execute("UPDATE trim_map SET last_seen_at=?, label=COALESCE(label, ?), example_url=COALESCE(example_url, ?), "
+                     "method=COALESCE(?, method), evidence=COALESCE(?, evidence), name_key=COALESCE(?, name_key) "
+                     "WHERE source=? AND source_key=?", (now, label, example_url, method, evidence, nkey, site, key))
         return None, row["status"]
     if not record_miss:
         return None, "unknown"
     conn.execute(
-        "INSERT INTO trim_map (source, source_key, car_id, status, label, example_url, first_seen_at, last_seen_at) "
-        "VALUES (?,?,NULL,'unmapped',?,?,?,?)",
-        (site, key, label, example_url, now, now),
+        "INSERT INTO trim_map (source, source_key, car_id, status, label, example_url, first_seen_at, last_seen_at, method, evidence, name_key) "
+        "VALUES (?,?,NULL,'unmapped',?,?,?,?,?,?,?)",
+        (site, key, label, example_url, now, now, method, evidence, nkey),
     )
     return None, "unmapped"
+
+
+def _apply_bracket_facts(conn: sqlite3.Connection, car_id: str, br: list[str], now: str) -> None:
+    """A broker's '[Heat Pump]' / '[7 seat]' names something about the generated
+    derivative that Carwow's pages never print: write it onto the car."""
+    if not br:
+        return
+    row = conn.execute("SELECT payload, source FROM cars WHERE id=?", (car_id,)).fetchone()
+    if not row:
+        return
+    car = json.loads(row["payload"])
+    facts = resolve.facts_from_brackets(car, br)
+    if facts and any(car.get(k) != v for k, v in facts.items()):
+        _upsert_car(conn, {**car, **facts}, row["source"], None, now)
 
 
 def _upsert_car(conn: sqlite3.Connection, r: dict, source: str, artifact_id: int | None, now: str) -> None:
@@ -294,6 +320,11 @@ def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
 
     for artifact_id, rec in records.get("offer", []):
         r = rec.row
+        # An offer key names one derivative at its source, so when resolution now
+        # puts it on a different car (a better rule, a promoted hand-curated car)
+        # its whole sighting history moves with it.
+        conn.execute("UPDATE offer_observations SET car_id=? WHERE offer_key=? AND car_id<>?",
+                     (r["car_id"], r["offer_key"], r["car_id"]))
         if _merge_sighting(conn, r, fingerprint(r), run_id):
             written += 1
             continue

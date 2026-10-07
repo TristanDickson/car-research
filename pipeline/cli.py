@@ -27,17 +27,18 @@ def _print_run(res) -> None:
 def _replay(conn) -> None:
     """data/history → DB, in dependency order: catalogue, specs (which make the
     generated cars), then the observations (whose cars must exist)."""
-    from pipeline.history import import_history, import_ledger, import_models, import_specs
+    from pipeline.history import import_history, import_ledger, import_models, import_resolutions, import_specs
 
     print(f"history: {import_models(conn)} catalogue models replayed from data/history")
     print(f"history: {import_specs(conn)} spec rows replayed from data/history")
     print(f"history: {import_history(conn)} observations replayed from data/history")
+    print(f"history: {import_resolutions(conn)} broker resolutions replayed from data/history")
     print(f"history: {import_ledger(conn)} backfilled pages noted from data/history")
 
 
 def _write_history(conn) -> None:
     from pipeline import gold
-    from pipeline.history import export_history, export_ledger, export_models, export_specs
+    from pipeline.history import export_history, export_ledger, export_models, export_resolutions, export_specs
 
     pruned = gold.prune_auto_cars(conn)
     if pruned:
@@ -45,6 +46,7 @@ def _write_history(conn) -> None:
     print(f"history: {export_history(conn)} observations written to data/history")
     print(f"history: {export_specs(conn)} spec rows written to data/history")
     print(f"history: {export_models(conn)} catalogue models written to data/history")
+    print(f"history: {export_resolutions(conn)} broker resolutions written to data/history")
     print(f"history: {export_ledger(conn)} backfilled pages noted in data/history")
 
 
@@ -235,17 +237,18 @@ def cmd_trims(args) -> int:
         return 0
     print("Unmapped trims (add to data/seed/trim_map.json with the right car_id):")
     for r in rows:
+        why = f" [{r['status']}: {(r.get('evidence') or {}).get('reason', '')}]" if r["status"] == "conflict" else ""
         print(f'  {{ "source": "{r["source"]}", "source_key": "{r["source_key"]}", "car_id": "..." }}'
-              f'   # {r["label"] or ""}  first seen {r["first_seen_at"][:10]}')
+              f'   # {r["label"] or ""}  first seen {r["first_seen_at"][:10]}{why}')
     return 1
 
 
 def cmd_deal_table(args) -> int:
     from model.deal_math import compute, print_markdown
-    from pipeline.services.snapshot import latest_offers, load_cars
+    from pipeline.services.snapshot import latest_offers, load_cars, load_requirements
 
     conn = _open()
-    print_markdown(compute(latest_offers(conn)), load_cars(conn))
+    print_markdown(compute(latest_offers(conn), load_requirements(conn).get("quoting_basis")), load_cars(conn))
     return 0
 
 

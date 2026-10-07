@@ -130,6 +130,7 @@ function CarView() {
               ["List (OTR)", gbp(c.list_price_gbp)],
               ["Government grant", c.grant_gbp ? gbp(c.grant_gbp) : "—"],
               ["List after grant", c.list_price_gbp != null ? gbp(c.list_price_gbp - (c.grant_gbp ?? 0)) : "—"],
+              ["Best true £/mo", c.deal_summary.best_true_monthly != null ? withAge(`${gbp(c.deal_summary.best_true_monthly)}/mo via ${c.deal_summary.best_true_route}`, c.deal_summary.true_monthly_by_route?.[c.deal_summary.best_true_route!]?.age_days ?? null) : "—"],
               ["Best current cash", withAge(gbp(c.deal_summary.best_cash_price), c.deal_summary.best_cash_age_days)],
               ["Best current PCP £0 down", withAge(c.deal_summary.best_pcp_monthly != null ? `${gbp(c.deal_summary.best_pcp_monthly)}/mo` : "—", c.deal_summary.best_pcp_age_days)],
               ["Best current PCH effective", withAge(c.deal_summary.best_pch_effective_monthly != null ? `${gbp(c.deal_summary.best_pch_effective_monthly)}/mo` : "—", c.deal_summary.best_pch_age_days)],
@@ -165,7 +166,7 @@ function CarView() {
 
       <Card title={`Price board · ${offers.data?.length ?? 0} offers observed`}>
         {offers.data && offers.data.length > 0 ? (
-          <OfferTable offers={offers.data} cars={new Map<string, SnapshotCar>([[c.id, c]])} staleDays={data.data?.stale_days ?? 14} showCar={false} />
+          <OfferTable offers={offers.data} cars={new Map<string, SnapshotCar>([[c.id, c]])} staleDays={data.data?.stale_days ?? 14} showCar={false} defaultSort={{ key: "true", dir: "asc" }} />
         ) : (
           <Empty>No offers observed for this trim yet.</Empty>
         )}

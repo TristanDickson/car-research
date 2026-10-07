@@ -6,11 +6,12 @@ from pathlib import Path
 
 from pipeline import gold
 from pipeline.providers import carwow_catalog, carwow_deals, carwow_specs, leaseloco
-from pipeline.providers.types import Capability, Context, Fetched, Provider, Target
+from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 from pipeline.providers.wayback import backfill_capability
 from pipeline.runner import run
 from pipeline.services import autocars, match
-from pipeline.history import export_history, export_models, export_specs, import_history, import_models, import_specs
+from pipeline.history import (export_history, export_models, export_resolutions, export_specs, import_history, import_models,
+                              import_resolutions, import_specs)
 from tests.helpers import fresh_conn, run_all
 
 FIX = Path(__file__).parent / "fixtures"
@@ -224,6 +225,53 @@ class GeneratedCars(unittest.TestCase):
         self.assertIsNone(self.conn.execute("SELECT 1 FROM cars WHERE id='carwow-cap:999'").fetchone())
 
 
+class ResolutionsRoundTrip(unittest.TestCase):
+    def test_replay_rebuilds_the_rows_and_the_facts_they_wrote_on_the_cars(self):
+        conn = fresh_conn()
+        run_all(conn)
+        for cap, rrp in (("1", 43055.0), ("2", 43955.0)):
+            gold.ensure_auto_car(conn, autocars.from_stub({"cap_id": cap, "make": "Kia", "model": "EV3", "trim": "GT-Line S",
+                                                           "engine": "150kW 81.4kWh Auto", "rrp": rrp}), "t", None, None, T)
+        ref = {"source": "leaseloco", "key": "kia|ev3|x [heat pump]", "label": "Kia EV3 150kW GT-Line S 81.4kWh 5dr Auto [Heat Pump]",
+               "make": "Kia", "model": "EV3", "derivative": "150kW GT-Line S 81.4kWh 5dr Auto [Heat Pump]"}
+        car_id, status = gold.resolve_car(conn, "leaseloco", ref["key"], ref["label"], "u", T, ref=ref)
+        self.assertEqual((car_id, status), ("carwow-cap:2", "auto"))
+        self.assertEqual(json.loads(conn.execute("SELECT payload FROM cars WHERE id='carwow-cap:2'").fetchone()[0])["heat_pump"], "standard")
+        tmp = FIX.parent / "_res.jsonl"
+        try:
+            self.assertEqual(export_resolutions(conn, tmp), 1)
+            other = fresh_conn()
+            run_all(other)
+            for cap, rrp in (("1", 43055.0), ("2", 43955.0)):
+                gold.ensure_auto_car(other, autocars.from_stub({"cap_id": cap, "make": "Kia", "model": "EV3", "trim": "GT-Line S",
+                                                                "engine": "150kW 81.4kWh Auto", "rrp": rrp}), "t", None, None, T)
+            self.assertEqual(import_resolutions(other, tmp), 1)
+            row = other.execute("SELECT car_id, status, method FROM trim_map WHERE source='leaseloco' AND source_key=?", (ref["key"],)).fetchone()
+            self.assertEqual(tuple(row), ("carwow-cap:2", "auto", "bracket"))
+            car = json.loads(other.execute("SELECT payload FROM cars WHERE id='carwow-cap:2'").fetchone()[0])
+            self.assertEqual((car["heat_pump"], car["packs"]), ("standard", ["Heat Pump"]), "the bracket's facts come back with the row")
+        finally:
+            tmp.unlink(missing_ok=True)
+
+
+class HistoryFollowsResolution(unittest.TestCase):
+    def test_an_offer_keys_sightings_move_to_the_car_it_now_resolves_to(self):
+        conn = fresh_conn()
+        run_all(conn)
+        for cap in ("1", "2"):
+            gold.ensure_auto_car(conn, autocars.from_stub({"cap_id": cap, "make": "Kia", "model": "EV3", "trim": "Air",
+                                                           "engine": "150kW 58.3kWh Auto", "rrp": 33055.0}), "t", None, None, T)
+        row = {"offer_key": "x:1", "car_id": "carwow-cap:1", "observed_at": "2026-01-01T00:00:00+00:00", "finance_type": "cash",
+               "status": "lead", "vehicle_price": 30000.0, "source": "t"}
+        gold.write(conn, "t", ("offer",), {"offer": [(None, ParsedRecord("offer", "x:1", dict(row)))]}, None)
+        later = dict(row, car_id="carwow-cap:2", observed_at="2026-02-01T00:00:00+00:00")
+        gold.write(conn, "t", ("offer",), {"offer": [(None, ParsedRecord("offer", "x:1", later))]}, None)
+        cars = {r[0] for r in conn.execute("SELECT DISTINCT car_id FROM offer_observations WHERE offer_key='x:1'")}
+        self.assertEqual(cars, {"carwow-cap:2"})
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM offer_observations WHERE offer_key='x:1'").fetchone()[0], 1,
+                         "same price a month on: one span, extended")
+
+
 class DerivativeMatcher(unittest.TestCase):
     CARS = [
         {"id": "a", "trim": "Air · 150kW 58.3kWh Auto", "variant": "150kW 58.3kWh Auto", "battery_kwh": 58.3},
@@ -281,3 +329,81 @@ class DerivativeMatcher(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ResolutionRules(unittest.TestCase):
+    """services/resolve.py: twins of one trim and powertrain, told apart by RRP, bracket, version."""
+
+    def twins(self):
+        return [
+            {"id": "carwow-cap:1", "auto": True, "trim": "GT-Line S · 150kW 81.4kWh Auto", "variant": "150kW 81.4kWh Auto",
+             "list_price_gbp": 43055.0, "version_date": "2025-10-01", "seats": 5},
+            {"id": "carwow-cap:2", "auto": True, "trim": "GT-Line S · 150kW 81.4kWh Auto", "variant": "150kW 81.4kWh Auto",
+             "list_price_gbp": 43955.0, "version_date": "2025-10-01", "seats": 5},
+        ]
+
+    def test_rrp_pins_the_twin(self):
+        from pipeline.services import resolve
+        r = resolve.choose({"derivative": "150kW GT-Line S 81.4kWh 5dr Auto", "rrp": 43955.0}, self.twins())
+        self.assertEqual((r.car_id, r.method), ("carwow-cap:2", "rrp"))
+        r = resolve.choose({"derivative": "150kW GT-Line S 81.4kWh 5dr Auto", "rrp": 43053.0}, self.twins())
+        self.assertEqual((r.car_id, r.method), ("carwow-cap:1", "rrp"), "within a few pounds counts")
+
+    def test_bracket_goes_to_the_dearer_twin_and_says_what_it_is(self):
+        from pipeline.services import resolve
+        r = resolve.choose({"derivative": "150kW GT-Line S 81.4kWh 5dr Auto [Heat Pump]"}, self.twins())
+        self.assertEqual((r.car_id, r.method, r.brackets), ("carwow-cap:2", "bracket", ["Heat Pump"]))
+        self.assertEqual(resolve.facts_from_brackets(self.twins()[1], r.brackets), {"packs": ["Heat Pump"], "heat_pump": "standard"})
+        r = resolve.choose({"derivative": "150kW GT-Line S 81.4kWh 5dr Auto [No Heat Pump]"}, self.twins())
+        self.assertEqual((r.car_id, r.method), ("carwow-cap:1", "base"))
+        self.assertEqual(resolve.facts_from_brackets(self.twins()[0], r.brackets), {"packs": ["No Heat Pump"], "heat_pump": "none"})
+        r = resolve.choose({"derivative": "150kW GT-Line S 81.4kWh 5dr Auto"}, self.twins())
+        self.assertEqual((r.car_id, r.method), ("carwow-cap:1", "base"))
+        self.assertEqual(resolve.facts_from_brackets(self.twins()[0], ["7 seat"]), {"seats": 7})
+        self.assertEqual(resolve.facts_from_brackets(self.twins()[0], ["7St"]), {"seats": 7}, "Kia's spelling")
+        self.assertEqual(resolve.pack_brackets("x [6St] [Tech Pack]"), ["Tech Pack"])
+
+    def test_three_prices_and_a_pack_is_a_conflict_not_a_guess(self):
+        from pipeline.services import resolve
+        three = self.twins() + [{"id": "carwow-cap:3", "auto": True, "trim": "GT-Line S · 150kW 81.4kWh Auto",
+                                 "variant": "150kW 81.4kWh Auto", "list_price_gbp": 45455.0, "version_date": "2025-10-01"}]
+        r = resolve.choose({"derivative": "150kW GT-Line S 81.4kWh 5dr Auto [Tech Pack]"}, three)
+        self.assertEqual((r.car_id, r.method), (None, "conflict"))
+        self.assertEqual(r.evidence["packs"], ["Tech Pack"])
+        # ... unless the broker's RRP settles it.
+        r = resolve.choose({"derivative": "150kW GT-Line S 81.4kWh 5dr Auto [Tech Pack]", "rrp": 45455.0}, three)
+        self.assertEqual((r.car_id, r.method), ("carwow-cap:3", "rrp"))
+
+    def test_identical_prices_take_the_current_version(self):
+        from pipeline.services import resolve
+        same = [dict(self.twins()[0], list_price_gbp=39995.0, version_date="2025-04-01"),
+                dict(self.twins()[1], list_price_gbp=39995.0, version_date="2026-09-30")]
+        r = resolve.choose({"derivative": "150kW GT-Line S 81.4kWh 5dr Auto"}, same)
+        self.assertEqual((r.car_id, r.method), ("carwow-cap:2", "version"))
+
+    def test_a_pin_from_one_source_is_reused_by_another(self):
+        from pipeline.services import resolve
+        conn = fresh_conn()
+        text = "150kW GT-Line S 81.4kWh 5dr Auto"
+        gold.ensure_auto_car(conn, autocars.from_stub({"cap_id": "2", "make": "Kia", "model": "EV3", "trim": "GT-Line S",
+                                                       "engine": "150kW 81.4kWh Auto", "rrp": 43955.0}), "t", None, None, T)
+        conn.execute("INSERT INTO trim_map (source, source_key, car_id, status, first_seen_at, last_seen_at, method, name_key) "
+                     "VALUES ('ncd', 'k', 'carwow-cap:2', 'auto', 't', 't', 'rrp', ?)", (resolve.name_key(text),))
+        r = resolve.choose({"derivative": text}, self.twins(), conn)
+        self.assertEqual((r.car_id, r.method), ("carwow-cap:2", "name"), "NCD's RRP pinned the dearer twin; LeaseLoco's identical name follows it")
+
+    def test_through_the_runner_the_bracket_writes_onto_the_generated_car(self):
+        conn = fresh_conn()
+        run_all(conn)
+        conn.execute("DELETE FROM trim_map WHERE source='carwow-cap' AND source_key IN ('103322','103324','103325','103326')")
+        conn.execute("DELETE FROM trim_map WHERE source='leaseloco'")
+        specs = _fixture_provider(carwow_specs, "carwow_specs", {"hyundai/kona-electric": "carwow_hyundai_kona-electric_specifications.html"})
+        run(conn, specs, ctx=Context(root=FIX))
+        deals = _fixture_provider(carwow_deals, "carwow_deals", {"hyundai/ioniq-3": "carwow_hyundai_ioniq-3_deals.html"})
+        run(conn, deals, ctx=Context(root=FIX))
+        ll = _fixture_provider(leaseloco, "leaseloco", {"hyundai/kona-electric": "leaseloco_hyundai_kona-electric.html"})
+        run(conn, ll, ctx=Context(root=FIX))
+        rows = conn.execute("SELECT source_key, car_id, method, evidence FROM trim_map WHERE source='leaseloco' AND status='auto'").fetchall()
+        self.assertTrue(rows)
+        self.assertTrue(all(r["method"] in ("trim-powertrain", "rrp", "name", "bracket", "base", "version") for r in rows), [r["method"] for r in rows])
+        self.assertTrue(all(json.loads(r["evidence"]).get("score") is not None for r in rows))

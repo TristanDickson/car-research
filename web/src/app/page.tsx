@@ -13,7 +13,7 @@ import { carName, gbp } from "@/lib/format";
 import { useCars, useDataPage, useOffers, useRequirements, useShortlist, useToggleShortlist } from "@/lib/hooks";
 import type { SnapshotCar, SnapshotOffer } from "@/lib/types";
 
-type SortKey = "monthly" | "threeYear" | "cash" | "range" | "seats" | "name";
+type SortKey = "true" | "monthly" | "threeYear" | "cash" | "range" | "seats" | "name";
 /** Cards per page: every EV on sale is ~1,500 derivatives, which no one scrolls. */
 const PAGE = 48;
 
@@ -43,7 +43,7 @@ function Pick() {
   const [onlyMeets, setOnlyMeets] = useState(true);
   const [onlyVerified, setOnlyVerified] = useState(false);
   const [onlyPriced, setOnlyPriced] = useState(false);
-  const [sort, setSort] = useState<SortKey>("monthly");
+  const [sort, setSort] = useState<SortKey>("true");
   const [compare, setCompare] = useState<string[]>([]);
   const [shown, setShown] = useState(PAGE);
   const [now] = useState(() => Date.now());
@@ -78,10 +78,11 @@ function Pick() {
       carMatches(c, filters)
       && (!onlyMeets || c.requirement_check.passes)
       && (!onlyVerified || c.requirement_check.unknown.length === 0)
-      && (!onlyPriced || costsById.get(c.id)?.monthly != null || costsById.get(c.id)?.cash));
+      && (!onlyPriced || costsById.get(c.id)?.trueCost != null || costsById.get(c.id)?.monthly != null || costsById.get(c.id)?.cash));
     const key = (c: SnapshotCar): number | string | null => {
       const k = costsById.get(c.id)!;
       switch (sort) {
+        case "true": return k.trueCost?.monthly ?? null;
         case "monthly": return k.monthly;
         case "threeYear": return k.threeYear;
         case "cash": return k.cash?.price ?? null;
@@ -113,8 +114,8 @@ function Pick() {
         title="Pick a car"
         subtitle={
           <>
-            Each card shows the cheapest way to have the car each month from the offers we have actually seen, what that adds up to
-            over the agreement, and the best price to buy it outright.
+            Each card shows the car&apos;s true cost per month from the offers we have actually seen: cash, PCP and lease on one footing,
+            discounted at the savings rate with the car&apos;s expected end value credited back (assumptions on the Data page), then what you would actually pay monthly and the best price to buy it outright.
             {ceiling != null && <> The budget line is <b>{gbp(ceiling)}/month</b>.</>} Tick cars to compare them side by side.
             {nAuto > 0 && <> <b>Shortlist</b> is the trims curated by hand; <b>Every EV</b> adds a card per derivative on sale in the UK, generated from Carwow&apos;s catalogue.</>}
           </>
@@ -135,7 +136,8 @@ function Pick() {
         <label className="flex items-center gap-2">
           Sort by
           <select value={sort} onChange={(e) => setSort(e.target.value as SortKey)} className="rounded border border-gray-700 bg-gray-900 px-2 py-1">
-            <option value="monthly">cheapest per month</option>
+            <option value="true">cheapest true cost per month</option>
+            <option value="monthly">cheapest to pay monthly</option>
             <option value="threeYear">cheapest over the agreement</option>
             <option value="cash">cheapest to buy</option>
             <option value="range">longest range</option>

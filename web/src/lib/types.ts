@@ -18,9 +18,22 @@ export interface RequirementCheck {
   unknown: string[];
 }
 
+export interface TrueMonthlyRoute {
+  offer_id: string;
+  true_monthly: number;
+  true_monthly_floor: number | null;
+  age_days: number | null;
+}
+
 export interface DealSummary {
   offers: number;
   current_offers: number;
+  /** Cheapest current offer on one footing (see model/deal_math.py): discounted at the
+   * savings rate, the car's expected end value credited back, spread over the term. */
+  best_true_monthly: number | null;
+  best_true_route: FinanceType | null;
+  best_true_offer_id: string | null;
+  true_monthly_by_route: Partial<Record<FinanceType, TrueMonthlyRoute>>;
   best_cash_price: number | null;
   best_cash_offer_id: string | null;
   best_cash_age_days: number | null;
@@ -140,6 +153,14 @@ export type FinanceType = "pcp" | "pch" | "cash" | "campaign";
 
 export interface DealMetrics {
   skipped?: string;
+  /** Every route on one footing: present cost at the savings rate, expected end value
+   * credited back, spread as an annuity over the agreement. floor = end value at the GFV. */
+  true_monthly?: number | null;
+  true_monthly_floor?: number | null;
+  pv_cost?: number | null;
+  expected_value_at_end?: number | null;
+  expected_equity?: number | null;
+  horizon_months?: number | null;
   // pcp
   list_price?: number | null;
   vehicle_price?: number;
@@ -255,6 +276,9 @@ export interface UnmappedTrim {
   example_url: string | null;
   first_seen_at: string;
   last_seen_at: string;
+  status?: "unmapped" | "conflict";
+  method?: string | null;
+  evidence?: Record<string, unknown> | null;
 }
 
 export interface DataPage {
@@ -271,6 +295,10 @@ export interface DataPage {
   unmapped_trims: UnmappedTrim[];
   offer_states: Record<string, number>;
   counts: Record<string, number>;
+  /** The quoting basis the true-monthly figures were computed with. */
+  assumptions?: Record<string, unknown>;
+  /** How resolved trim-map rows were resolved: manual, cap-id, rrp, bracket, ... */
+  resolution_methods?: Record<string, number>;
 }
 
 export interface RequirementRule {

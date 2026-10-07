@@ -22,7 +22,20 @@ export interface CashCost {
   lastSeenAt: string | null;
 }
 
+export interface TrueCost {
+  route: "pcp" | "pch" | "cash";
+  offerId: string;
+  dealer: string | null;
+  /** Present cost at the savings rate, expected end value credited back, spread over the agreement. */
+  monthly: number;
+  /** The same with the car worth only its GFV at the end. */
+  floor: number | null;
+  lastSeenAt: string | null;
+}
+
 export interface CarCosts {
+  /** Cheapest current offer on one footing across cash, PCP and lease (model/deal_math.py). */
+  trueCost: TrueCost | null;
   /** Cheapest current monthly route, if any. */
   monthly: number | null;
   monthlyRoute: "pcp" | "pch" | null;
@@ -74,6 +87,15 @@ export function carCosts(offers: SnapshotOffer[], staleDays: number, now: Date =
     if (!cash || price < cash.price) cash = { offerId: o.id, dealer: label(o), price, lastSeenAt: o.freshness.last_seen_at };
   }
 
+  let trueCost: TrueCost | null = null;
+  for (const o of current) {
+    const m = o.metrics;
+    if (m.true_monthly == null || (o.finance_type !== "pcp" && o.finance_type !== "pch" && o.finance_type !== "cash")) continue;
+    if (!trueCost || m.true_monthly < trueCost.monthly) {
+      trueCost = { route: o.finance_type, offerId: o.id, dealer: label(o), monthly: m.true_monthly, floor: m.true_monthly_floor ?? null, lastSeenAt: o.freshness.last_seen_at };
+    }
+  }
+
   const candidates: { route: "pcp" | "pch"; r: RouteCost }[] = [];
   if (pcp) candidates.push({ route: "pcp", r: pcp });
   if (pch) candidates.push({ route: "pch", r: pch });
@@ -81,6 +103,7 @@ export function carCosts(offers: SnapshotOffer[], staleDays: number, now: Date =
   const best = candidates[0] ?? null;
 
   return {
+    trueCost,
     monthly: best ? best.r.monthly : null,
     monthlyRoute: best ? best.route : null,
     threeYear: best ? best.r.threeYear : null,
@@ -108,3 +131,5 @@ export function briefTicks(c: SnapshotCar): { label: string; ok: boolean | null 
 }
 
 export const IONIQ5_WIDTH_MM = 1890;
+
+export const ROUTE_LABEL: Record<"pcp" | "pch" | "cash", string> = { pcp: "PCP", pch: "lease", cash: "buy outright" };

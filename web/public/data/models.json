@@ -80,7 +80,7 @@
   "make_name": "Alpine",
   "model": "a290",
   "model_name": "A290",
-  "priced": 7,
+  "priced": 8,
   "slug": "alpine/a290"
  },
  {
@@ -150,7 +150,7 @@
   "make_name": "Audi",
   "model": "e-tron-gt",
   "model_name": "e-tron GT",
-  "priced": 5,
+  "priced": 7,
   "slug": "audi/e-tron-gt"
  },
  {
@@ -178,7 +178,7 @@
   "make_name": "Audi",
   "model": "q4-e-tron",
   "model_name": "Q4 e-tron",
-  "priced": 22,
+  "priced": 25,
   "slug": "audi/q4-e-tron"
  },
  {
@@ -206,7 +206,7 @@
   "make_name": "Audi",
   "model": "q6-e-tron",
   "model_name": "Q6 e-tron",
-  "priced": 20,
+  "priced": 22,
   "slug": "audi/q6-e-tron"
  },
  {
@@ -262,7 +262,7 @@
   "make_name": "Audi",
   "model": "rs-e-tron-gt",
   "model_name": "RS e-tron GT",
-  "priced": 3,
+  "priced": 6,
   "slug": "audi/rs-e-tron-gt"
  },
  {
@@ -416,7 +416,7 @@
   "make_name": "BMW",
   "model": "i7",
   "model_name": "i7",
-  "priced": 18,
+  "priced": 22,
   "slug": "bmw/i7"
  },
  {
@@ -542,7 +542,7 @@
   "make_name": "BYD",
   "model": "dolphin-surf",
   "model_name": "Dolphin Surf",
-  "priced": 2,
+  "priced": 3,
   "slug": "byd/dolphin-surf"
  },
  {
@@ -696,7 +696,7 @@
   "make_name": "Cupra",
   "model": "born",
   "model_name": "Born",
-  "priced": 8,
+  "priced": 12,
   "slug": "cupra/born"
  },
  {
@@ -738,7 +738,7 @@
   "make_name": "Dacia",
   "model": "spring",
   "model_name": "Spring",
-  "priced": 2,
+  "priced": 4,
   "slug": "dacia/spring"
  },
  {
@@ -892,7 +892,7 @@
   "make_name": "Ford",
   "model": "capri",
   "model_name": "Capri",
-  "priced": 14,
+  "priced": 22,
   "slug": "ford/capri"
  },
  {
@@ -906,7 +906,7 @@
   "make_name": "Ford",
   "model": "explorer",
   "model_name": "Explorer",
-  "priced": 18,
+  "priced": 19,
   "slug": "ford/explorer"
  },
  {
@@ -934,7 +934,7 @@
   "make_name": "Ford",
   "model": "mustang-mach-e",
   "model_name": "Mustang Mach-E",
-  "priced": 11,
+  "priced": 13,
   "slug": "ford/mustang-mach-e"
  },
  {
@@ -1130,7 +1130,7 @@
   "make_name": "Hyundai",
   "model": "ioniq-5",
   "model_name": "Ioniq 5",
-  "priced": 18,
+  "priced": 19,
   "slug": "hyundai/ioniq-5"
  },
  {
@@ -1382,7 +1382,7 @@
   "make_name": "Kia",
   "model": "ev6",
   "model_name": "EV6",
-  "priced": 6,
+  "priced": 7,
   "slug": "kia/ev6"
  },
  {
@@ -1536,7 +1536,7 @@
   "make_name": "Lexus",
   "model": "rz",
   "model_name": "RZ",
-  "priced": 18,
+  "priced": 21,
   "slug": "lexus/rz"
  },
  {
@@ -2138,7 +2138,7 @@
   "make_name": "Nissan",
   "model": "ariya",
   "model_name": "Ariya",
-  "priced": 1,
+  "priced": 13,
   "slug": "nissan/ariya"
  },
  {
@@ -2362,7 +2362,7 @@
   "make_name": "Polestar",
   "model": "2",
   "model_name": "2",
-  "priced": 4,
+  "priced": 7,
   "slug": "polestar/2"
  },
  {
@@ -2390,7 +2390,7 @@
   "make_name": "Polestar",
   "model": "4",
   "model_name": "4",
-  "priced": 5,
+  "priced": 13,
   "slug": "polestar/4"
  },
  {
@@ -2530,7 +2530,7 @@
   "make_name": "Renault",
   "model": "megane-etech-electric",
   "model_name": "Megane E-Tech Electric",
-  "priced": 2,
+  "priced": 3,
   "slug": "renault/megane-etech-electric"
  },
  {
@@ -2544,7 +2544,7 @@
   "make_name": "Renault",
   "model": "scenic-e-tech",
   "model_name": "Scenic E-Tech",
-  "priced": 2,
+  "priced": 3,
   "slug": "renault/scenic-e-tech"
  },
  {
@@ -2978,7 +2978,7 @@
   "make_name": "Toyota",
   "model": "bz4x",
   "model_name": "bZ4X",
-  "priced": 9,
+  "priced": 12,
   "slug": "toyota/bz4x"
  },
  {
@@ -3286,7 +3286,7 @@
   "make_name": "Volkswagen",
   "model": "id7",
   "model_name": "ID.7",
-  "priced": 10,
+  "priced": 13,
   "slug": "volkswagen/id7"
  },
  {
@@ -3370,7 +3370,7 @@
   "make_name": "Volvo",
   "model": "ex30",
   "model_name": "EX30",
-  "priced": 15,
+  "priced": 22,
   "slug": "volvo/ex30"
  },
  {

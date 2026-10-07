@@ -98,9 +98,25 @@ def deal_summary(offers: list[dict], metrics_by_id: dict[str, dict]) -> dict:
     def age(o):
         return o["freshness"]["age_days"] if o else None
 
+    # True monthly: every current offer on one footing (see model/deal_math.py), best per route.
+    true_by_route: dict[str, dict] = {}
+    for o in current:
+        m = metrics_by_id.get(o["id"])
+        if not m or "skipped" in m or m.get("true_monthly") is None:
+            continue
+        cur = true_by_route.get(o["finance_type"])
+        if cur is None or m["true_monthly"] < cur["true_monthly"]:
+            true_by_route[o["finance_type"]] = {"offer_id": o["id"], "true_monthly": m["true_monthly"],
+                                                "true_monthly_floor": m.get("true_monthly_floor"), "age_days": age(o)}
+    best_true = min(true_by_route.items(), key=lambda kv: kv[1]["true_monthly"]) if true_by_route else None
+
     return {
         "offers": len(offers),
         "current_offers": len(current),
+        "best_true_monthly": best_true[1]["true_monthly"] if best_true else None,
+        "best_true_route": best_true[0] if best_true else None,
+        "best_true_offer_id": best_true[1]["offer_id"] if best_true else None,
+        "true_monthly_by_route": true_by_route,
         "best_cash_price": best_cash["vehicle_price"] if best_cash else None,
         "best_cash_offer_id": best_cash["id"] if best_cash else None,
         "best_cash_age_days": age(best_cash),
@@ -290,11 +306,28 @@ def latest_runs(conn: sqlite3.Connection, limit: int = 20) -> list[dict]:
 
 
 def unmapped_trims(conn: sqlite3.Connection) -> list[dict]:
+    """Broker rows that resolved to no car: 'unmapped' (nothing fits) and
+    'conflict' (twins the rules refuse to guess between), with the evidence."""
     rows = conn.execute(
-        "SELECT source, source_key, label, example_url, first_seen_at, last_seen_at FROM trim_map "
-        "WHERE status='unmapped' ORDER BY source, source_key"
+        "SELECT source, source_key, label, example_url, first_seen_at, last_seen_at, status, method, evidence FROM trim_map "
+        "WHERE status IN ('unmapped', 'conflict') ORDER BY status, source, source_key"
     ).fetchall()
-    return [dict(r) for r in rows]
+    out = []
+    for r in rows:
+        d = dict(r)
+        d["evidence"] = json.loads(d["evidence"]) if d.get("evidence") else None
+        out.append(d)
+    return out
+
+
+def resolution_methods(conn: sqlite3.Connection) -> dict[str, int]:
+    """How the resolved rows were resolved, for the Data page."""
+    out: dict[str, int] = {}
+    for method, status, n in conn.execute(
+            "SELECT method, status, COUNT(*) FROM trim_map WHERE status IN ('mapped', 'auto') GROUP BY method, status"):
+        key = method or ("manual" if status == "mapped" else "cap-id")
+        out[key] = out.get(key, 0) + n
+    return dict(sorted(out.items(), key=lambda kv: -kv[1]))
 
 
 def _provider_blurb(name: str) -> str:
@@ -328,7 +361,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
             specs_by_car.setdefault(sp["car_id"], []).append(sp)
     renders = specs_by_make(specs)
 
-    metrics = {m["id"]: m for m in compute(offers)}
+    metrics = {m["id"]: m for m in compute(offers, requirements.get("quoting_basis"))}
     for o in offers:
         m = dict(metrics.get(o["id"], {}))
         for k in ("id", "car_id", "finance_type", "status"):
@@ -374,9 +407,12 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     for m in models:
         m.update(by_slug.get((m["make"], m["model"]), {"derivatives": 0, "cars": 0, "priced": 0}))
 
+    qb = requirements.get("quoting_basis") or {}
     data_page = {
         "generated_at": generated_at,
         "stale_days": STALE_DAYS,
+        "assumptions": {k: qb.get(k) for k in ("term_months", "annual_mileage", "savings_rate_apr", "residual_pct_of_list",
+                                                 "residual_at_months", "savings_note", "residual_note")},
         "flag_labels": {k: label for k, (label, _) in FLAGS.items()},
         "providers": [
             {"name": p.name, "live": p.live, "description": _provider_blurb(p.name),
@@ -386,6 +422,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         ],
         "runs": latest_runs(conn),
         "unmapped_trims": unmapped,
+        "resolution_methods": resolution_methods(conn),
         "offer_states": states,
         "counts": {"cars": len(cars), "cars_curated": len(cars) - n_auto, "cars_generated": n_auto,
                    "offers": len(offers), "observations": n_obs, "specs": len(specs),

@@ -76,7 +76,7 @@ def _ingest(conn: sqlite3.Connection, provider: Provider, art_id: int, parsed: l
             car_id, status = gold.resolve_car(conn, ref.get("source", provider.name), ref.get("key", ""),
                                               ref.get("label"), url, now, ref=ref)
             if car_id is None:
-                n_unmapped += int(status == "unmapped")
+                n_unmapped += int(status in ("unmapped", "conflict"))
                 continue
             rec.row["car_id"] = car_id
         elif rec.kind == "spec" and not rec.row.get("car_id"):

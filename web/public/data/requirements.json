@@ -155,6 +155,11 @@
   "delivery_by": "2026-12-10",
   "gfv_is": "floor_not_forecast",
   "num_payments": 36,
+  "residual_at_months": 36,
+  "residual_note": "Expected market value at 36 months as a share of list price, for the true-monthly comparison. An assumption until a used-market source replaces it: UK EV residuals at three years sit around 40-50% and lenders' GFVs a little under. The GFV is the floor, this is the expectation.",
+  "residual_pct_of_list": 0.45,
+  "savings_note": "Easy-access savings rate used to discount every cash flow: money not spent on a car earns this.",
+  "savings_rate_apr": 0.04,
   "term_months": 37
  },
  "schema_version": 1,

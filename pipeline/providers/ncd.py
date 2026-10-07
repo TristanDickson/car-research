@@ -18,6 +18,11 @@ from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord,
 
 SITE = "ncd"
 BASE = "https://www.new-car-discount.com"
+# NCD's price and saving are on the road: price + saving sits a constant £135
+# above the manufacturer's RRP as Carwow prints it (first registration fee,
+# first-year VED, plates). Observed on 21 of 30 Hyundai/Kia rows in Oct 2026;
+# the rest were the next derivative up, which is what the offset prevents.
+OTR_EXTRAS_GBP = 135.0
 LISTINGS = {
     "hyundai/ioniq-3": "/car/hyundai/ioniq-3/hatchback/all/all",
     "hyundai/kona": "/car/hyundai/kona/hatchback/all/all",
@@ -61,7 +66,9 @@ def parse_page(page: str, make: str, url: str, observed_at: str) -> list[dict]:
             "status": "lead", "verification": "scraped", "source": "New Car Discount",
             "source_url": BASE + href.group(1), "listing_url": url,
             "car_ref": {"source": SITE, "key": norm_key(make, group_t, name_t), "label": f"{group_t} {name_t}".strip(),
-                        "make": make, "model": group_t, "derivative": name_t},
+                        "make": make, "model": group_t, "derivative": name_t,
+                        # price + stated saving - OTR extras = the RRP, which pins the derivative among same-trim twins
+                        "rrp": round(money(price.group(1)) + money(save.group(1)) - OTR_EXTRAS_GBP, 2) if save and money(save.group(1)) else None},
             "finance_type": "cash", "vehicle_price": money(price.group(1)),
             "saving_stated": money(save.group(1)) if save else None,
             "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
