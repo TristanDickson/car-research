@@ -23,6 +23,51 @@ export interface TrueMonthlyRoute {
   true_monthly: number;
   true_monthly_floor: number | null;
   age_days: number | null;
+  /** The source the cheapest figure came from, and what it printed (a price or a monthly). */
+  source?: string | null;
+  headline?: number | null;
+}
+
+/** One sighting on the common footing (model/sightings.py): a price one source
+ * showed for one subject over the days it stayed the same, costed as of `from`. */
+export interface SeriesPoint {
+  from: string;
+  to: string;
+  key: string;
+  seller?: string | null;
+  headline: number | null;
+  true_monthly: number | null;
+  true_monthly_floor?: number | null;
+  residual_source?: string | null;
+  /** Used stock only: how many examples were on sale when this one was the cheapest. */
+  n?: number;
+}
+
+/** Every sighting of one subject (a derivative, or `model:<make/model>` for used
+ * stock) by one route and one source, in date order. */
+export interface SnapshotSeries {
+  id: string;
+  subject: string;
+  car_id: string | null;
+  model: string;
+  route: Route;
+  source: string;
+  source_name: string;
+  points: SeriesPoint[];
+}
+
+/** What the used market said a model's cars of one registration year were worth, month by month. */
+export interface ResidualSeries {
+  id?: string;
+  model: string;
+  year: number;
+  points: { date: string; median: number; n: number }[];
+}
+
+export interface RouteSource extends SeriesPoint {
+  source: string;
+  source_name: string;
+  age_days: number;
 }
 
 export interface DealSummary {
@@ -34,6 +79,8 @@ export interface DealSummary {
   best_true_route: Route | null;
   best_true_offer_id: string | null;
   true_monthly_by_route: Partial<Record<Route, TrueMonthlyRoute>>;
+  /** Route → source → the cheapest current sighting costed as of the snapshot date: the one cost model. */
+  routes: Partial<Record<Route, Record<string, RouteSource>>>;
   best_cash_price: number | null;
   best_cash_offer_id: string | null;
   best_cash_age_days: number | null;
@@ -77,6 +124,8 @@ export interface Freshness {
 }
 
 export interface SnapshotCar {
+  /** make/model slugs: the subject of the model's used series. */
+  model_key?: string;
   id: string;
   specs: CarSpecSummary[];
   spec_check: { rows: SpecCheckRow[]; disagreements: number };

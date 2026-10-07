@@ -1,7 +1,10 @@
-// What a car really costs, from the current offers captured for it. Used by
-// the Pick cards and the Compare page; the full table stays on /offers.
+// What a car costs, read off the snapshot. The cost model lives in the pipeline
+// (model/sightings.py costs every sighting; deal_summary.routes carries the
+// cheapest current one per route and source, as of the snapshot date). This
+// file only picks and labels; the headline route details (dealer, term, GFV)
+// still come from the current offers for the card's small print.
 import { isCurrent } from "./freshness";
-import type { SnapshotCar, SnapshotOffer } from "./types";
+import type { Route, RouteSource, SnapshotCar, SnapshotOffer } from "./types";
 
 export interface RouteCost {
   offerId: string;
@@ -23,19 +26,24 @@ export interface CashCost {
 }
 
 export interface TrueCost {
-  route: "pcp" | "pch" | "cash" | "used";
+  route: Route;
   offerId: string;
   dealer: string | null;
+  source: string;
   /** Present cost at the savings rate, expected end value credited back, spread over the agreement. */
   monthly: number;
   /** The same with the car worth only its GFV at the end. */
   floor: number | null;
-  lastSeenAt: string | null;
+  /** What the source printed: a price, or a monthly. */
+  headline: number | null;
+  ageDays: number | null;
 }
 
 export interface CarCosts {
-  /** Cheapest current offer on one footing across cash, PCP and lease (model/deal_math.py). */
+  /** Cheapest current sighting on one footing across cash, PCP, lease and used (model/sightings.py). */
   trueCost: TrueCost | null;
+  /** Every route and source the car has a current figure for. */
+  routes: Partial<Record<Route, Record<string, RouteSource>>>;
   /** Cheapest current monthly route, if any. */
   monthly: number | null;
   monthlyRoute: "pcp" | "pch" | null;
@@ -43,12 +51,25 @@ export interface CarCosts {
   pcp: RouteCost | null;
   pch: RouteCost | null;
   cash: CashCost | null;
-  /** Cash price minus the best PCP's GFV: three-year cost if it is worth at least the floor. */
-  cashThreeYearAtFloor: number | null;
 }
 
 function label(o: SnapshotOffer): string | null {
   return o.dealer ?? o.source ?? null;
+}
+
+/** The cheapest current sighting across every route and source, from the snapshot. */
+export function trueCostOf(car: SnapshotCar | undefined): TrueCost | null {
+  let best: TrueCost | null = null;
+  for (const [route, bySource] of Object.entries(car?.deal_summary?.routes ?? {})) {
+    for (const p of Object.values(bySource ?? {})) {
+      if (p.true_monthly == null) continue;
+      if (!best || p.true_monthly < best.monthly) {
+        best = { route: route as Route, offerId: p.key, dealer: p.seller ?? null, source: p.source_name, monthly: p.true_monthly,
+                 floor: p.true_monthly_floor ?? null, headline: p.headline, ageDays: p.age_days ?? null };
+      }
+    }
+  }
+  return best;
 }
 
 export function carCosts(offers: SnapshotOffer[], staleDays: number, now: Date = new Date(), car?: SnapshotCar): CarCosts {
@@ -87,22 +108,6 @@ export function carCosts(offers: SnapshotOffer[], staleDays: number, now: Date =
     if (!cash || price < cash.price) cash = { offerId: o.id, dealer: label(o), price, lastSeenAt: o.freshness.last_seen_at };
   }
 
-  let trueCost: TrueCost | null = null;
-  for (const o of current) {
-    const m = o.metrics;
-    if (m.true_monthly == null || (o.finance_type !== "pcp" && o.finance_type !== "pch" && o.finance_type !== "cash")) continue;
-    if (!trueCost || m.true_monthly < trueCost.monthly) {
-      trueCost = { route: o.finance_type, offerId: o.id, dealer: label(o), monthly: m.true_monthly, floor: m.true_monthly_floor ?? null, lastSeenAt: o.freshness.last_seen_at };
-    }
-  }
-
-  // Buying used is costed at export from the model's stock (see snapshot.py used_summary).
-  const u = car?.used_stock;
-  if (u?.route?.true_monthly != null && (!trueCost || u.route.true_monthly < trueCost.monthly)) {
-    trueCost = { route: "used", offerId: u.cheapest.listing_key, dealer: `${u.cheapest.year ?? ""} used, ${u.cheapest.mileage?.toLocaleString("en-GB") ?? "?"} mi`.trim(),
-                 monthly: u.route.true_monthly, floor: null, lastSeenAt: null };
-  }
-
   const candidates: { route: "pcp" | "pch"; r: RouteCost }[] = [];
   if (pcp) candidates.push({ route: "pcp", r: pcp });
   if (pch) candidates.push({ route: "pch", r: pch });
@@ -110,14 +115,14 @@ export function carCosts(offers: SnapshotOffer[], staleDays: number, now: Date =
   const best = candidates[0] ?? null;
 
   return {
-    trueCost,
+    trueCost: trueCostOf(car),
+    routes: car?.deal_summary?.routes ?? {},
     monthly: best ? best.r.monthly : null,
     monthlyRoute: best ? best.route : null,
     threeYear: best ? best.r.threeYear : null,
     pcp,
     pch,
     cash,
-    cashThreeYearAtFloor: cash && pcp?.gfv != null ? cash.price - pcp.gfv : null,
   };
 }
 
@@ -139,4 +144,5 @@ export function briefTicks(c: SnapshotCar): { label: string; ok: boolean | null 
 
 export const IONIQ5_WIDTH_MM = 1890;
 
-export const ROUTE_LABEL: Record<"pcp" | "pch" | "cash" | "used", string> = { pcp: "PCP", pch: "lease", cash: "buy outright", used: "buy used" };
+export const ROUTE_LABEL: Record<Route, string> = { pcp: "PCP", pch: "lease", cash: "buy outright", used: "buy used" };
+export const ROUTES: Route[] = ["cash", "pcp", "pch", "used"];

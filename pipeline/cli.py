@@ -27,28 +27,36 @@ def _print_run(res) -> None:
 def _replay(conn) -> None:
     """data/history → DB, in dependency order: catalogue, specs (which make the
     generated cars), then the observations (whose cars must exist)."""
-    from pipeline.history import import_history, import_ledger, import_models, import_resolutions, import_specs, import_used
+    from pipeline import gold
+    from pipeline.history import (import_history, import_ledger, import_models, import_resolutions, import_specs, import_used,
+                                  import_used_observations)
 
     print(f"history: {import_models(conn)} catalogue models replayed from data/history")
     print(f"history: {import_specs(conn)} spec rows replayed from data/history")
     print(f"history: {import_history(conn)} observations replayed from data/history")
     print(f"history: {import_resolutions(conn)} broker resolutions replayed from data/history")
     print(f"history: {import_used(conn)} used listings replayed from data/history")
+    print(f"history: {import_used_observations(conn)} used asking-price spans replayed from data/history")
+    gold.backfill_used_spans(conn)
     print(f"history: {import_ledger(conn)} backfilled pages noted from data/history")
 
 
 def _write_history(conn) -> None:
     from pipeline import gold
-    from pipeline.history import export_history, export_ledger, export_models, export_resolutions, export_specs, export_used
+    from pipeline.history import (export_history, export_ledger, export_models, export_resolutions, export_specs, export_used,
+                                  export_used_observations)
 
     pruned = gold.prune_auto_cars(conn)
     if pruned:
         print(f"gold: {pruned} generated cars dropped (nothing refers to them)")
+    gold.backfill_used_spans(conn)
+    conn.commit()
     print(f"history: {export_history(conn)} observations written to data/history")
     print(f"history: {export_specs(conn)} spec rows written to data/history")
     print(f"history: {export_models(conn)} catalogue models written to data/history")
     print(f"history: {export_resolutions(conn)} broker resolutions written to data/history")
     print(f"history: {export_used(conn)} used listings written to data/history")
+    print(f"history: {export_used_observations(conn)} used asking-price spans written to data/history")
     print(f"history: {export_ledger(conn)} backfilled pages noted in data/history")
 
 

@@ -99,6 +99,10 @@ Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
 | `cinch_used` | cinch's search API, every electric car per make | cinch's own and marketplace stock with the registration, the CAP variant and the fee-inclusive price | scrapes |
 | `motorpoint_used` | motorpoint.co.uk's electric listing | the supermarket's nearly-new stock: CAP trim, year, mileage, price, branch, and the list price when new | scrapes |
 
+Every sighting on every route is kept over time, source by source, and costed on one
+footing as of its own day (`model/sightings.py`): the Trends page and each car's history
+read those series, and the car's headline figures are the same model as of today.
+
 The three used sources are folded per model: the same registration, or the same year and
 mileage where a site prints no registration, is one car. The union is the buy-used route
 and the residual evidence (what a car of the term's age asks today).

@@ -7,31 +7,37 @@ import { LineChart } from "@/components/charts/LineChart";
 import { FilterBar } from "@/components/FilterBar";
 import { WindowPicker, type Window } from "@/components/PriceHistory";
 import { Card, Empty, ErrorNote, Loading, PageHeader } from "@/components/ui";
+import { ROUTE_LABEL, ROUTES } from "@/lib/costs";
 import { carMatches, useFilters } from "@/lib/filters";
-import { carName, gbp, pct } from "@/lib/format";
+import { carName, gbp } from "@/lib/format";
+import { useCars, useSeries } from "@/lib/hooks";
+import { clipChart, latestOf, seriesToChart, valueOn, type Measure } from "@/lib/trends";
+import type { Route, SnapshotCar, SnapshotSeries } from "@/lib/types";
 
 const fullName = (c: SnapshotCar) => carName(c) + (c.packs?.length ? ` + ${c.packs.join(" + ")}` : "");
-import { useCars, useOffers } from "@/lib/hooks";
-import { dailyBest, discountSeries, lastDays, movement, type DailyPoint, type Movement, type Series } from "@/lib/trends";
-import type { SnapshotCar, SnapshotOffer } from "@/lib/types";
-
-type Metric = "discount" | "cash";
 
 interface Row {
-  car: SnapshotCar;
-  daily: DailyPoint[];
-  move: Movement | null;
-  discountNow: number | null;
-  source: string | null;
+  subject: string;
+  label: string;
+  href: string;
+  rows: SnapshotSeries[];
+  /** Cheapest current figure across sources, and the source it came from. */
+  now: number | null;
+  nowSource: string | null;
+  /** The cheapest figure at the start of the window (or the first sighting). */
+  then: number | null;
+  firstAt: number;
 }
 
 const DAY = 86_400_000;
-/** Small multiples per page; the movers table always lists every car. */
+/** Small multiples per page; the movers table always lists every row. */
 const CHARTS = 36;
 
 /**
- * Market view: how each car's best outright price has moved. One small chart
- * per car (same axis, same window) and a movers table that is the chart twin.
+ * Trends: every route, every source, over time, on one footing. One row per
+ * derivative (per model for used stock), one line per source, and a movers
+ * table that is the charts' twin. The pipeline costs each sighting as of its
+ * own day (model/sightings.py); this page only draws what it exported.
  */
 export default function MarketPage() {
   return (
@@ -41,70 +47,85 @@ export default function MarketPage() {
   );
 }
 
+const delta = (r: Row) => (r.now != null && r.then != null ? r.now - r.then : null);
+
 function Market() {
   const [filters] = useFilters();
   const cars = useCars();
-  const offers = useOffers();
+  const series = useSeries();
+  const [route, setRoute] = useState<Route>("cash");
+  const [measure, setMeasure] = useState<Measure>("true");
   const [win, setWin] = useState<Window>(90);
-  const [metric, setMetric] = useState<Metric>("discount");
   const [charts, setCharts] = useState(CHARTS);
   const [now] = useState(() => Date.now());
 
   const rows = useMemo<Row[]>(() => {
-    const byCar = new Map<string, SnapshotOffer[]>();
-    for (const o of offers.data ?? []) byCar.set(o.car_id, [...(byCar.get(o.car_id) ?? []), o]);
+    const bySubject = new Map<string, SnapshotSeries[]>();
+    for (const s of series.data ?? []) {
+      if (s.route === route) bySubject.set(s.subject, [...(bySubject.get(s.subject) ?? []), s]);
+    }
     const out: Row[] = [];
+    const seen = new Set<string>();
     for (const c of cars.data ?? []) {
       if (!carMatches(c, filters)) continue;
-      const list = byCar.get(c.id) ?? [];
-      const daily = dailyBest(list, "vehicle_price", now, (o) => o.finance_type === "cash" && !o.metrics.skipped);
-      if (!daily.length) continue;
-      const last = daily[daily.length - 1];
-      const src = list.find((o) => o.id === last.offerId);
+      const subject = route === "used" ? (c.model_key ? `model:${c.model_key}` : null) : c.id;
+      if (!subject || seen.has(subject)) continue;
+      const rs = bySubject.get(subject);
+      if (!rs?.length) continue;
+      seen.add(subject);
+      const latest = rs.map((r) => ({ r, l: latestOf(r, measure) })).filter((x) => x.l).sort((a, b) => a.l!.v - b.l!.v);
+      const firstAt = Math.min(...rs.flatMap((r) => r.points.map((p) => Date.parse(`${p.from}T00:00:00Z`))));
+      const thenT = win == null ? firstAt : now - win * DAY;
+      const thenVals = rs.map((r) => valueOn(r, measure, thenT)).filter((v): v is number => v != null);
       out.push({
-        car: c, daily, move: movement(daily, win ?? 30),
-        discountNow: c.list_price_gbp ? 1 - last.v / c.list_price_gbp : null,
-        source: src ? src.dealer ?? src.source ?? null : null,
+        subject, rows: rs, firstAt,
+        label: route === "used" ? `${c.make} ${c.model} · any trim, used` : fullName(c),
+        href: `/cars/view?id=${encodeURIComponent(c.id)}`,
+        now: latest[0]?.l?.v ?? null, nowSource: latest[0]?.r.source_name ?? null,
+        then: thenVals.length ? Math.min(...thenVals) : null,
       });
     }
-    return out.sort((a, b) => (a.move?.deltaSinceThen ?? a.move?.deltaSinceFirst ?? 0) - (b.move?.deltaSinceThen ?? b.move?.deltaSinceFirst ?? 0));
-  }, [cars.data, offers.data, win, now, filters]);
+    return out.sort((a, b) => (delta(a) ?? 0) - (delta(b) ?? 0) || (a.now ?? 0) - (b.now ?? 0));
+  }, [cars.data, series.data, route, measure, win, now, filters]);
 
   if (cars.error) return <ErrorNote error={cars.error} />;
-  if (!cars.data || !offers.data) return <Loading />;
+  if (series.error) return <ErrorNote error={series.error} />;
+  if (!cars.data || !series.data) return <Loading />;
 
-  const xDomain: [number, number] = [
-    win == null ? Math.min(...rows.map((r) => r.daily[0]?.t ?? now)) : now - win * DAY,
-    now,
-  ];
-  const fmt = metric === "discount" ? (v: number) => pct(v, 1) : (v: number) => gbp(v);
-  const seriesFor = (r: Row): Series[] => {
-    const pts = lastDays(metric === "discount" ? discountSeries(r.daily, r.car.list_price_gbp) : r.daily, win, now);
-    return pts.length ? [{ id: r.car.id, label: fullName(r.car), segments: [pts], slot: 0 }] : [];
-  };
+  const from = win == null ? Math.min(now, ...rows.map((r) => r.firstAt)) : now - win * DAY;
+  const xDomain: [number, number] = [from, now];
+  const chartFor = (r: Row) => clipChart(seriesToChart(r.rows, measure, (s) => s.source_name), win == null ? null : from);
   const day = (ms: number) => new Date(ms).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
+  const unit = measure === "true" ? "/mo" : route === "cash" || route === "used" ? "" : "/mo";
 
   return (
     <div className="space-y-5">
       <PageHeader
         title="Trends"
-        subtitle="How the best outright price of each car has moved, from every sighting we have. A nightly scrape adds a point per day; the Wayback Machine backfill and the Carwow quotes from September start the lines earlier. Every EV widens this to each derivative on sale."
+        subtitle="Every sighting of every car, by route and by source, over time. True £ per month puts cash, PCP, lease and used on one footing: each payment discounted at the savings rate, the car's expected end value credited back as the used market stood on that day, spread over the agreement. 'As printed' is the price or monthly the source showed."
       />
       <FilterBar cars={cars.data} />
       <div className="flex flex-wrap items-center gap-3 text-sm">
-        <WindowPicker value={win} onChange={setWin} />
+        <div className="flex overflow-hidden rounded border border-gray-700">
+          {ROUTES.map((r) => (
+            <button key={r} onClick={() => setRoute(r)} className={`px-3 py-1 text-xs ${r === route ? "bg-gray-700 text-gray-100" : "text-gray-400 hover:bg-gray-800"}`}>
+              {ROUTE_LABEL[r]}
+            </button>
+          ))}
+        </div>
         <label className="flex items-center gap-2">
           Show
-          <select value={metric} onChange={(e) => setMetric(e.target.value as Metric)} className="rounded border border-gray-700 bg-gray-900 px-2 py-1 text-xs">
-            <option value="discount">discount against list</option>
-            <option value="cash">best outright price</option>
+          <select value={measure} onChange={(e) => setMeasure(e.target.value as Measure)} className="rounded border border-gray-700 bg-gray-900 px-2 py-1 text-xs">
+            <option value="true">true £ per month</option>
+            <option value="headline">as printed</option>
           </select>
         </label>
-        <span className="text-gray-500">{rows.length} cars with a cash price</span>
+        <WindowPicker value={win} onChange={setWin} />
+        <span className="text-gray-500">{rows.length} {route === "used" ? "models" : "cars"} sighted · {rows.reduce((n, r) => n + r.rows.length, 0)} source lines</span>
       </div>
 
       {rows.length === 0 ? (
-        <Empty>No cash prices observed yet.</Empty>
+        <Empty>No {ROUTE_LABEL[route]} sightings for this selection yet.</Empty>
       ) : (
         <>
           <Card title="Movers">
@@ -112,29 +133,27 @@ function Market() {
               <table className="w-full text-sm">
                 <thead className="text-left text-xs uppercase text-gray-500">
                   <tr>
-                    <th className="py-1 pr-3">Car</th>
-                    <th className="py-1 pr-3 text-right">Best outright</th>
-                    <th className="py-1 pr-3 text-right">Off list</th>
+                    <th className="py-1 pr-3">{route === "used" ? "Model" : "Car"}</th>
+                    <th className="py-1 pr-3 text-right">{measure === "true" ? "True £/mo now" : "As printed now"}</th>
                     <th className="py-1 pr-3 text-right">{win == null ? "Since first seen" : `Over ${win} days`}</th>
-                    <th className="py-1 pr-3 text-right">At this price</th>
-                    <th className="py-1 pr-3">First seen</th>
-                    <th className="py-1">Where</th>
+                    <th className="py-1 pr-3 text-right">Sources</th>
+                    <th className="py-1 pr-3">Cheapest at</th>
+                    <th className="py-1">First seen</th>
                   </tr>
                 </thead>
                 <tbody>
                   {rows.map((r) => {
-                    const d = win == null ? r.move?.deltaSinceFirst ?? null : r.move?.deltaSinceThen ?? null;
+                    const d = delta(r);
                     return (
-                      <tr key={r.car.id} className="border-t border-gray-800">
-                        <td className="py-1 pr-3"><Link href={`/cars/view?id=${encodeURIComponent(r.car.id)}`} className="hover:underline">{fullName(r.car)}</Link></td>
-                        <td className="py-1 pr-3 text-right tabular-nums">{gbp(r.move?.now)}</td>
-                        <td className="py-1 pr-3 text-right tabular-nums">{r.discountNow == null ? "—" : pct(r.discountNow, 0)}</td>
+                      <tr key={r.subject} className="border-t border-gray-800">
+                        <td className="py-1 pr-3"><Link href={r.href} className="hover:underline">{r.label}</Link></td>
+                        <td className="py-1 pr-3 text-right tabular-nums">{r.now != null ? `${gbp(r.now)}${unit}` : "—"}</td>
                         <td className={`py-1 pr-3 text-right tabular-nums ${d == null ? "text-gray-500" : d < 0 ? "text-emerald-300" : d > 0 ? "text-amber-300" : ""}`}>
-                          {d == null ? "no earlier price" : d === 0 ? "unchanged" : `${d < 0 ? "−" : "+"}${gbp(Math.abs(d))}`}
+                          {d == null ? "no earlier figure" : d === 0 ? "unchanged" : `${d < 0 ? "−" : "+"}${gbp(Math.abs(d))}`}
                         </td>
-                        <td className="py-1 pr-3 text-right tabular-nums">{r.move ? `${r.move.daysAtNow}d` : "—"}</td>
-                        <td className="py-1 pr-3 text-gray-400">{r.move ? day(r.move.firstAt) : "—"}</td>
-                        <td className="py-1 text-gray-400">{r.source ?? "—"}</td>
+                        <td className="py-1 pr-3 text-right tabular-nums">{r.rows.length}</td>
+                        <td className="py-1 pr-3 text-gray-400">{r.nowSource ?? "—"}</td>
+                        <td className="py-1 text-gray-400">{day(r.firstAt)}</td>
                       </tr>
                     );
                   })}
@@ -145,10 +164,8 @@ function Market() {
 
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {rows.slice(0, charts).map((r) => (
-              <Card key={r.car.id} title={<Link href={`/cars/view?id=${encodeURIComponent(r.car.id)}`} className="normal-case tracking-normal hover:underline">{fullName(r.car)}</Link>}>
-                <LineChart series={seriesFor(r)} format={fmt} height={150} xDomain={xDomain}
-                  reference={metric === "cash" && r.car.list_price_gbp ? { value: r.car.list_price_gbp - (r.car.grant_gbp ?? 0), label: "list after grant" } : null}
-                  empty={metric === "discount" && !r.car.list_price_gbp ? "No list price to compare against." : "No price in this range."} />
+              <Card key={r.subject} title={<Link href={r.href} className="normal-case tracking-normal hover:underline">{r.label}</Link>}>
+                <LineChart series={chartFor(r)} format={(v) => gbp(v)} height={150} xDomain={xDomain} empty="Nothing sighted in this range." />
               </Card>
             ))}
           </div>

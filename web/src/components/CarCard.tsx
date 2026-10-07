@@ -101,7 +101,8 @@ export function CarCard({ car, costs, trend, ceiling, starred, onStar, compared,
                 )}
               </div>
               <div className="mt-0.5 text-xs text-gray-500">
-                cheapest route: {ROUTE_LABEL[costs.trueCost.route]}{costs.trueCost.dealer ? ` · ${costs.trueCost.dealer}` : ""}{costs.trueCost.lastSeenAt ? ` · seen ${ageLabel(costs.trueCost.lastSeenAt)}` : ""}
+                cheapest route: {ROUTE_LABEL[costs.trueCost.route]} · {costs.trueCost.source}{costs.trueCost.dealer && costs.trueCost.dealer !== costs.trueCost.source ? ` · ${costs.trueCost.dealer}` : ""}
+                {costs.trueCost.ageDays != null ? ` · seen ${costs.trueCost.ageDays === 0 ? "today" : `${costs.trueCost.ageDays}d ago`}` : ""}
               </div>
             </>
           ) : (
@@ -134,11 +135,6 @@ export function CarCard({ car, costs, trend, ceiling, starred, onStar, compared,
                   )}
                 </div>
                 {trend?.movement && <MovementLine m={trend.movement} />}
-                {costs.cashThreeYearAtFloor != null && (
-                  <div className="text-xs text-gray-500">
-                    about {gbp(costs.cashThreeYearAtFloor)} over three years if it is still worth {gbp(costs.pcp?.gfv)} (the finance company&apos;s floor)
-                  </div>
-                )}
               </>
             ) : (
               <span className="text-gray-500">No current cash price captured.</span>

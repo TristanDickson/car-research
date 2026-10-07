@@ -205,3 +205,21 @@ CREATE TABLE IF NOT EXISTS used_listings (
   run_id        INTEGER REFERENCES runs(id)
 );
 CREATE INDEX IF NOT EXISTS used_model ON used_listings(make_slug, model_slug, year);
+
+-- A used listing's asking price over time, as spans like offer_observations:
+-- one row per state, confirmed_at pushed on each unchanged re-sighting, a
+-- present=0 row when it goes. The fact behind the used route's history and the
+-- residual evidence as of any date.
+CREATE TABLE IF NOT EXISTS used_observations (
+  id            INTEGER PRIMARY KEY,
+  listing_key   TEXT NOT NULL,
+  source        TEXT NOT NULL,
+  price_gbp     REAL,
+  mileage       INTEGER,
+  observed_at   TEXT NOT NULL,
+  confirmed_at  TEXT,
+  present       INTEGER NOT NULL DEFAULT 1,
+  run_id        INTEGER REFERENCES runs(id),
+  UNIQUE (listing_key, observed_at, source)
+);
+CREATE INDEX IF NOT EXISTS ix_uobs_key ON used_observations(listing_key, observed_at);

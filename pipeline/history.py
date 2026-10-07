@@ -26,6 +26,8 @@ MODELS_PATH = ROOT / "data" / "history" / "models.jsonl"
 LEDGER_PATH = ROOT / "data" / "history" / "backfill.jsonl"
 RESOLUTIONS_PATH = ROOT / "data" / "history" / "resolutions.jsonl"
 USED_PATH = ROOT / "data" / "history" / "used.jsonl"
+USED_OBS_PATH = ROOT / "data" / "history" / "used_observations.jsonl"
+USED_OBS_COLUMNS = ("listing_key", "source", "price_gbp", "mileage", "observed_at", "confirmed_at", "present")
 USED_COLUMNS = ("listing_key", "source", "make", "make_slug", "model", "model_slug", "car_id", "price_gbp", "year", "mileage",
                 "present", "payload", "first_seen_at", "last_seen_at")
 RES_COLUMNS = ("source", "source_key", "car_id", "status", "label", "example_url", "method", "evidence", "name_key",
@@ -327,6 +329,43 @@ def import_used(conn: sqlite3.Connection, path: Path | str = USED_PATH) -> int:
                 (d["listing_key"], d["source"], d.get("make"), d.get("make_slug"), d.get("model"), d.get("model_slug"), car_id,
                  d.get("price_gbp"), d.get("year"), d.get("mileage"), int(d.get("present", 1)),
                  json.dumps(d["payload"], ensure_ascii=False, sort_keys=True), d["first_seen_at"], d["last_seen_at"]),
+            )
+            n += 1
+    conn.commit()
+    return n
+
+
+def export_used_observations(conn: sqlite3.Connection, path: Path | str = USED_OBS_PATH) -> int:
+    """Used asking prices as spans (see schema.sql used_observations)."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    rows = conn.execute(f"SELECT {', '.join(USED_OBS_COLUMNS)} FROM used_observations ORDER BY listing_key, observed_at, id").fetchall()
+    with path.open("w", encoding="utf-8") as f:
+        for r in rows:
+            f.write(json.dumps({k: r[k] for k in USED_OBS_COLUMNS}, ensure_ascii=False, sort_keys=True) + "\n")
+    return len(rows)
+
+
+def import_used_observations(conn: sqlite3.Connection, path: Path | str = USED_OBS_PATH) -> int:
+    path = Path(path)
+    if not path.exists():
+        return 0
+    n = 0
+    with path.open(encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            d = json.loads(line)
+            if not conn.execute("SELECT 1 FROM used_listings WHERE listing_key=?", (d["listing_key"],)).fetchone():
+                continue
+            conn.execute(
+                """INSERT INTO used_observations (listing_key, source, price_gbp, mileage, observed_at, confirmed_at, present)
+                   VALUES (?,?,?,?,?,?,?)
+                   ON CONFLICT(listing_key, observed_at, source) DO UPDATE SET
+                     confirmed_at=MAX(COALESCE(used_observations.confirmed_at, ''), COALESCE(excluded.confirmed_at, '')),
+                     price_gbp=excluded.price_gbp, mileage=excluded.mileage, present=excluded.present""",
+                (d["listing_key"], d["source"], d.get("price_gbp"), d.get("mileage"), d["observed_at"], d.get("confirmed_at"), int(d.get("present", 1))),
             )
             n += 1
     conn.commit()

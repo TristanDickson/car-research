@@ -4,7 +4,7 @@
 // span [observed_at, confirmed_at] it was seen over. A line for an offer is its
 // spans joined end to end; a 'gone' row breaks the line. "Best cash on day d" is
 // the minimum over the spans that cover d.
-import type { ObservationPoint, SnapshotOffer } from "./types";
+import type { SnapshotSeries, ObservationPoint, SnapshotOffer } from "./types";
 
 export interface Pt {
   t: number;
@@ -153,4 +153,68 @@ export function lastDays<T extends Pt>(points: T[], days: number | null, until: 
   if (days == null) return points;
   const from = dayStart(until) - days * DAY;
   return points.filter((p) => p.t >= from);
+}
+
+export type Measure = "true" | "headline";
+
+function pointValue(p: SnapshotSeries["points"][number], measure: Measure): number | null {
+  return measure === "true" ? p.true_monthly : p.headline;
+}
+
+const dayMs = (iso: string) => toMs(`${iso}T00:00:00Z`);
+
+/** Snapshot series (one per subject, route and source) as chart series: each
+ * sighting a flat segment from its first to its last day. */
+export function seriesToChart(rows: SnapshotSeries[], measure: Measure, label: (r: SnapshotSeries) => string): Series[] {
+  const ids = rows.map((r) => r.id).sort();
+  return rows
+    .map((r) => {
+      const segments: Pt[][] = [];
+      for (const p of r.points) {
+        const v = pointValue(p, measure);
+        if (v == null) continue;
+        const t0 = dayMs(p.from);
+        const t1 = Math.max(dayMs(p.to), t0);
+        segments.push(t1 > t0 ? [{ t: t0, v }, { t: t1, v }] : [{ t: t0, v }]);
+      }
+      return { id: r.id, label: label(r), segments, slot: ids.indexOf(r.id) };
+    })
+    .filter((s) => s.segments.length > 0);
+}
+
+/** Keep only what falls after `from` (ms), clipping a segment that straddles it. */
+export function clipChart(series: Series[], from: number | null): Series[] {
+  if (from == null) return series;
+  return series
+    .map((s) => ({
+      ...s,
+      segments: s.segments
+        .filter((seg) => seg[seg.length - 1].t >= from)
+        .map((seg) => (seg[0].t < from && seg.length > 1 ? [{ t: from, v: seg[0].v }, ...seg.slice(1)] : seg)),
+    }))
+    .filter((s) => s.segments.length > 0);
+}
+
+/** The value a series showed on day `t` (ms): the sighting whose span covers it, else none. */
+export function valueOn(r: SnapshotSeries, measure: Measure, t: number): number | null {
+  let best: number | null = null;
+  for (const p of r.points) {
+    if (dayMs(p.from) <= t && t <= dayMs(p.to) + 86_400_000 - 1) {
+      const v = pointValue(p, measure);
+      if (v != null && (best == null || v < best)) best = v;
+    }
+  }
+  return best;
+}
+
+/** The latest value a series showed, with the day it was last confirmed. */
+export function latestOf(r: SnapshotSeries, measure: Measure): { t: number; v: number; point: SnapshotSeries["points"][number] } | null {
+  let out: { t: number; v: number; point: SnapshotSeries["points"][number] } | null = null;
+  for (const p of r.points) {
+    const v = pointValue(p, measure);
+    if (v == null) continue;
+    const t = dayMs(p.to);
+    if (!out || t > out.t || (t === out.t && v < out.v)) out = { t, v, point: p };
+  }
+  return out;
 }

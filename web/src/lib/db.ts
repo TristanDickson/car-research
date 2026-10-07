@@ -9,8 +9,8 @@
 // IndexedDB.
 import Dexie, { type Table } from "dexie";
 
-import { getManifest, loadCars, loadData, loadModels, loadOffers, loadRequirements, loadSpecs } from "./snapshot";
-import type { DataPage, Requirements, SnapshotCar, SnapshotManifest, SnapshotModel, SnapshotOffer, SnapshotSpec } from "./types";
+import { getManifest, loadCars, loadData, loadModels, loadOffers, loadRequirements, loadResiduals, loadSeries, loadSpecs } from "./snapshot";
+import type { DataPage, Requirements, ResidualSeries, SnapshotCar, SnapshotManifest, SnapshotModel, SnapshotOffer, SnapshotSeries, SnapshotSpec } from "./types";
 
 export interface MetaRow {
   key: string;
@@ -28,6 +28,8 @@ export class CarResearchDB extends Dexie {
   offers!: Table<SnapshotOffer, string>;
   specs!: Table<SnapshotSpec, string>;
   models!: Table<SnapshotModel, string>;
+  series!: Table<SnapshotSeries, string>;
+  residuals!: Table<ResidualSeries, string>;
   meta!: Table<MetaRow, string>;
   shortlist!: Table<ShortlistRow, string>;
 
@@ -56,6 +58,10 @@ export class CarResearchDB extends Dexie {
     this.version(4)
       .stores({ models: "slug, make" })
       .upgrade((tx) => tx.table("meta").clear());
+    // v5 (snapshot schema 5): every sighting by route and source over time, and the residual evidence behind it.
+    this.version(5)
+      .stores({ series: "id, subject, route, source, car_id, model", residuals: "id, model" })
+      .upgrade((tx) => tx.table("meta").clear());
   }
 }
 
@@ -76,23 +82,29 @@ async function seed(): Promise<SnapshotManifest> {
   const current = await db.meta.get("generated_at");
   if (current?.value === manifest.generated_at) return manifest;
 
-  const [cars, offers, requirements, data, specs, models] = await Promise.all([
+  const [cars, offers, requirements, data, specs, models, series, residuals] = await Promise.all([
     loadCars(),
     loadOffers(),
     loadRequirements(),
     loadData().catch(() => null as DataPage | null),
     loadSpecs().catch(() => [] as SnapshotSpec[]),
     loadModels().catch(() => [] as SnapshotModel[]),
+    loadSeries().catch(() => [] as SnapshotSeries[]),
+    loadResiduals().catch(() => [] as ResidualSeries[]),
   ]);
-  await db.transaction("rw", db.cars, db.offers, db.specs, db.models, db.meta, async () => {
+  await db.transaction("rw", [db.cars, db.offers, db.specs, db.models, db.series, db.residuals, db.meta], async () => {
     await db.cars.clear();
     await db.offers.clear();
     await db.specs.clear();
     await db.models.clear();
+    await db.series.clear();
+    await db.residuals.clear();
     await db.cars.bulkPut(cars);
     await db.offers.bulkPut(offers);
     await db.specs.bulkPut(specs);
     await db.models.bulkPut(models);
+    await db.series.bulkPut(series);
+    await db.residuals.bulkPut(residuals.map((r) => ({ ...r, id: `${r.model}|${r.year}` })));
     await db.meta.bulkPut([
       { key: "generated_at", value: manifest.generated_at },
       { key: "schema_version", value: manifest.schema_version },

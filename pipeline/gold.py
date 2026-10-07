@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import sqlite3
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from pipeline.providers.types import ParsedRecord
 from pipeline.services import autocars, match, resolve
@@ -281,6 +281,52 @@ def _insert_observation(conn: sqlite3.Connection, r: dict, source: str, fp: str,
     )
 
 
+def _merge_used_sighting(conn: sqlite3.Connection, key: str, source: str, price: float | None, mileage: int | None,
+                         present: bool, now: str, run_id: int | None) -> None:
+    """The listing's asking price as spans: the same price seen again extends
+    the open span; a new price, or the listing going, opens a new one."""
+    last = conn.execute(
+        "SELECT id, price_gbp, present, observed_at FROM used_observations WHERE listing_key=? ORDER BY observed_at DESC, id DESC LIMIT 1",
+        (key,),
+    ).fetchone()
+    if last and bool(last["present"]) == present and (not present or last["price_gbp"] == price):
+        conn.execute("UPDATE used_observations SET confirmed_at=?, mileage=COALESCE(?, mileage), run_id=COALESCE(?, run_id) WHERE id=?",
+                     (now, mileage, run_id, last["id"]))
+        return
+    if last and last["observed_at"] == now:
+        conn.execute("UPDATE used_observations SET price_gbp=?, mileage=?, present=?, confirmed_at=? WHERE id=?",
+                     (price, mileage, int(present), now, last["id"]))
+        return
+    conn.execute(
+        "INSERT INTO used_observations (listing_key, source, price_gbp, mileage, observed_at, confirmed_at, present, run_id) VALUES (?,?,?,?,?,?,?,?)",
+        (key, source, price, mileage, now, now, int(present), run_id),
+    )
+
+
+def backfill_used_spans(conn: sqlite3.Connection) -> int:
+    """A span for every listing that has none yet (stock recorded before spans
+    existed): its current price from first to last sighting. Idempotent."""
+    rows = conn.execute(
+        """SELECT l.listing_key, l.source, l.price_gbp, l.mileage, l.first_seen_at, l.last_seen_at, l.present
+             FROM used_listings l WHERE NOT EXISTS (SELECT 1 FROM used_observations o WHERE o.listing_key=l.listing_key)"""
+    ).fetchall()
+    for r in rows:
+        conn.execute(
+            "INSERT INTO used_observations (listing_key, source, price_gbp, mileage, observed_at, confirmed_at, present) VALUES (?,?,?,?,?,?,1)",
+            (r["listing_key"], r["source"], r["price_gbp"], r["mileage"], r["first_seen_at"], r["last_seen_at"]),
+        )
+        if not r["present"]:
+            # Gone since its last sighting; a car seen once gets its closing row a second later.
+            gone_at = r["last_seen_at"]
+            if gone_at == r["first_seen_at"]:
+                gone_at = (datetime.fromisoformat(gone_at) + timedelta(seconds=1)).isoformat(timespec="seconds")
+            conn.execute(
+                "INSERT INTO used_observations (listing_key, source, price_gbp, mileage, observed_at, confirmed_at, present) VALUES (?,?,?,?,?,?,0)",
+                (r["listing_key"], r["source"], r["price_gbp"], r["mileage"], gone_at, gone_at),
+            )
+    return len(rows)
+
+
 def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
           records: dict[str, list[tuple[int, ParsedRecord]]], run_id: int | None, now: str | None = None) -> int:
     now = now or _now()
@@ -378,6 +424,7 @@ def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
             (r["listing_key"], source, r.get("make"), r.get("make_slug"), r.get("model"), r.get("model_slug"), car_id,
              r.get("price_gbp"), r.get("year"), r.get("mileage"), _dump(r), now, now, artifact_id, run_id),
         )
+        _merge_used_sighting(conn, r["listing_key"], source, r.get("price_gbp"), r.get("mileage"), True, now, run_id)
         used_seen.setdefault(r.get("listing_url") or "", set()).add(r["listing_key"])
         written += 1
     for listing_url, keys in used_seen.items():
@@ -386,10 +433,12 @@ def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
         # been sold or withdrawn; another source's, or a page not fetched this
         # run, is untouched.
         marks = ",".join("?" * len(keys))
-        conn.execute(f"""UPDATE used_listings SET present=0
-                          WHERE source=? AND COALESCE(json_extract(payload, '$.listing_url'), '')=? AND present=1
-                            AND listing_key NOT IN ({marks})""",
-                     (source, listing_url, *keys))
+        where = f"""source=? AND COALESCE(json_extract(payload, '$.listing_url'), '')=? AND present=1
+                    AND listing_key NOT IN ({marks})"""
+        gone = conn.execute(f"SELECT listing_key, price_gbp, mileage FROM used_listings WHERE {where}", (source, listing_url, *keys)).fetchall()
+        conn.execute(f"UPDATE used_listings SET present=0 WHERE {where}", (source, listing_url, *keys))
+        for g in gone:
+            _merge_used_sighting(conn, g["listing_key"], source, g["price_gbp"], g["mileage"], False, now, run_id)
 
     for artifact_id, rec in records.get("requirements", []):
         r = rec.row

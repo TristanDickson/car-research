@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
+import { CostHistory } from "@/components/CostHistory";
 import { EquipmentCard } from "@/components/EquipmentCard";
 import { OfferTable } from "@/components/OfferTable";
 import { PriceHistory } from "@/components/PriceHistory";
@@ -210,6 +211,10 @@ function CarView() {
       )}
 
       <EquipmentCard car={c} specs={specs.data ?? []} flagLabels={data.data?.flag_labels ?? {}} />
+
+      <Card title="True cost over time · every route, every source">
+        <CostHistory car={c} />
+      </Card>
 
       <Card title="Price over time">
         <PriceHistory car={c} offers={offers.data ?? []} />

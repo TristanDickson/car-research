@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { budgetGap, carCosts } from "./costs";
-import type { SnapshotOffer } from "./types";
+import { budgetGap, carCosts, trueCostOf } from "./costs";
+import type { SnapshotCar, SnapshotOffer } from "./types";
 
 const now = new Date("2026-10-07T00:00:00Z");
 const fresh = { state: "live" as const, stale: false, age_days: 2, first_seen_at: "2026-10-05", last_seen_at: "2026-10-05", last_checked_at: "2026-10-05", observations: 1, present: true, history: [] };
@@ -25,7 +25,22 @@ describe("carCosts", () => {
     expect(k.threeYear).toBe(20497);
     expect(k.pcp?.offerId).toBe("pcp"); // the £7,999-down one is not a £0-deposit route
     expect(k.cash?.price).toBe(27445); // stale and gone cash offers ignored
-    expect(k.cashThreeYearAtFloor).toBeCloseTo(27445 - 14039.28, 2);
+    expect(k.trueCost).toBeNull(); // the true cost is the pipeline's, not derived here
+  });
+  it("reads the cheapest true cost across routes and sources off the snapshot", () => {
+    const point = (key: string, source: string, true_monthly: number, extra: object = {}) =>
+      ({ key, from: "2026-10-05", to: "2026-10-07", headline: 1, true_monthly, source, source_name: source, age_days: 0, ...extra });
+    const car = { id: "c", deal_summary: { routes: {
+      cash: { carwow: point("cash-c", "Carwow", 560), ncd: point("cash-n", "New Car Discount", 540) },
+      pcp: { hyundai: point("pcp-h", "Hyundai UK", 430, { true_monthly_floor: 500 }) },
+      used: { cinch: point("used-1", "cinch", 254, { seller: "Corby" }) },
+    } } } as unknown as SnapshotCar;
+    const t = trueCostOf(car);
+    expect(t?.route).toBe("used");
+    expect(t?.source).toBe("cinch");
+    expect(t?.dealer).toBe("Corby");
+    expect(t?.monthly).toBe(254);
+    expect(carCosts([], 14, now, car).routes.cash?.ncd.true_monthly).toBe(540);
   });
   it("reports nothing when there are no current offers", () => {
     const k = carCosts([], 14, now);

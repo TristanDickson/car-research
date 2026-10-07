@@ -319,6 +319,34 @@ then without the electric suffix, then a short alias table of same-car spellings
 do not sell (the previous-generation e-Niro, a Mini hatch not in the catalogue) is skipped
 and counted on stderr.
 
+## Sightings: every route, every source, over time
+
+`model/sightings.py` is the one fact behind the Trends page and the car page's
+history: a *sighting* is a price one source showed for one subject over the span
+of days it stayed the same. Subjects are derivatives (an offer on a car) or, for
+used stock, the model and registration year. Routes are `cash`, `pcp`, `pch` and
+`used`; sources are a dimension of their own (`SOURCES` maps a provider to one, so
+Carwow's deal, paste and used providers are one source). Storage stays two tables
+(`offer_observations`, and `used_observations` as spans of a listing's asking
+price, closed when it goes), but the model sees one list of `Sighting` records.
+
+`cost` puts a sighting on the common footing of `deal_math` with the used market
+read *as of a date*: `residual_at` answers "what did the model's cars of that year
+ask on that day" from the used sightings themselves, counting a car once across
+sites; `floor_gfv_at` the GFV a lender guaranteed that day. History is costed as
+of each sighting's first day, so a June PCP is costed on June's evidence (none
+before 6 October 2026, so `residual_source` says so); what things cost now is the
+same function as of today. `series` groups costed sightings by subject, route and
+source (an offer as flat spans; a model's used stock as the cheapest example day by
+day); `residual_series` samples the evidence monthly; `current` picks the cheapest
+per route and source as of today, and `deal_summary.routes` carries it onto every
+car as the one cost model the app reads (`costs.ts` no longer computes anything).
+
+`pipeline/services/series.py` only loads rows and hands them to the model; the
+exporter writes `series.json` and `residuals.json`. `data/history/used_observations.jsonl`
+replays the spans; stock recorded before spans existed gets one span from its
+first to last sighting (`gold.backfill_used_spans`).
+
 ## Finance maths lives in the pipeline
 
 `model/deal_math.py` normalises PCP, PCH and cash deals: solves missing monthlies from APR, credit

@@ -111,3 +111,41 @@ export function useModels() {
     staleTime: FOREVER,
   });
 }
+
+/** Every series (schema 5): one per subject, route and source. */
+export function useSeries() {
+  return useQuery({
+    queryKey: ["series"],
+    queryFn: async () => {
+      await ensureSeeded();
+      return getDb().series.toArray();
+    },
+    staleTime: FOREVER,
+  });
+}
+
+/** A car's own series plus its model's used-stock series. */
+export function useSeriesForCar(car: { id: string; model_key?: string } | null | undefined) {
+  return useQuery({
+    queryKey: ["series", "car", car?.id ?? null],
+    queryFn: async () => {
+      await ensureSeeded();
+      const subjects = [car!.id, ...(car!.model_key ? [`model:${car!.model_key}`] : [])];
+      return getDb().series.where("subject").anyOf(subjects).toArray();
+    },
+    enabled: !!car,
+    staleTime: FOREVER,
+  });
+}
+
+export function useResidualsForModel(modelKey: string | null | undefined) {
+  return useQuery({
+    queryKey: ["residuals", modelKey ?? null],
+    queryFn: async () => {
+      await ensureSeeded();
+      return getDb().residuals.where("model").equals(modelKey as string).toArray();
+    },
+    enabled: !!modelKey,
+    staleTime: FOREVER,
+  });
+}
