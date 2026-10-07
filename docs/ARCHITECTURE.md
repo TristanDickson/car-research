@@ -136,6 +136,15 @@ New Car Discount's Kona and Ioniq 5 listings 3–4, the newer models (Ioniq 3, E
 PV5, Inster) 0–3, LeaseLoco and RRG none. Old captures of a page that has since been
 redesigned parse to zero rows, which is harmless.
 
+Chunks are time-boxed. archive.org can take a minute per index query on a bad night, so
+a chunk takes on no new page after `--budget-seconds` (20 minutes in the workflow, inside
+a 30-minute job) and exports what it has; the pages whose captures it consumed go into
+`backfill_ledger` (committed as `data/history/backfill.jsonl` by the merge job), and the
+next run skips them. `--shard i/n` splits one provider's pages across jobs
+(`carwow_deals@3/8` in the workflow matrix). Re-run the workflow until the chunks report
+nothing left; a capture folded in twice merges, never duplicates. Spec providers have no
+backfill: a spec row is current state and an older capture must not overwrite it.
+
 ## Specs (features by variant)
 
 A `spec` record is one source variant: a Carwow CAP derivative (trim equipment list +

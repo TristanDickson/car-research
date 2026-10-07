@@ -8,10 +8,17 @@
 # chunk that fails leaves the others' results intact. Re-running is safe: a
 # capture already folded in is merged, not duplicated.
 #
-# A big provider is split further: "carwow_deals@0/6" means shard 0 of 6 of
+# A big provider is split further: "carwow_deals@0/8" means shard 0 of 8 of
 # carwow_deals' pages (every EV on sale is ~180 deals pages). The merge job
 # imports the first shard of a provider with --replace-source and the rest on
 # top, so together they are that provider's whole history.
+#
+# archive.org can be slow enough (a minute per index query some nights) that a
+# chunk cannot finish its pages inside the job timeout. Each chunk therefore
+# stops taking on new pages after budget_minutes and exports what it has, and
+# records the pages it completed in a ledger (data/history/backfill.jsonl) that
+# the merge commits; the next run skips those pages. Re-run the workflow until
+# the chunks report nothing left to do.
 name: Backfill from the Wayback Machine
 
 on:
@@ -25,10 +32,13 @@ on:
         default: "7"
       providers:
         description: "JSON list of chunks: a provider, or provider@shard/shards"
-        default: '["carwow_deals@0/6","carwow_deals@1/6","carwow_deals@2/6","carwow_deals@3/6","carwow_deals@4/6","carwow_deals@5/6","leaseloco@0/3","leaseloco@1/3","leaseloco@2/3","hyundai_offers","ncd","rrg"]'
+        default: '["carwow_deals@0/8","carwow_deals@1/8","carwow_deals@2/8","carwow_deals@3/8","carwow_deals@4/8","carwow_deals@5/8","carwow_deals@6/8","carwow_deals@7/8","leaseloco@0/4","leaseloco@1/4","leaseloco@2/4","leaseloco@3/4","hyundai_offers","ncd","rrg"]'
       max_targets:
         description: "Stop after this many captures per provider (blank = all)"
         default: ""
+      budget_minutes:
+        description: "Each chunk takes on no new page after this long (the ledger resumes there next run)"
+        default: "20"
 
 permissions:
   contents: write
@@ -75,24 +85,28 @@ jobs:
           args=(--only "${{ steps.spec.outputs.provider }}" --since "${{ inputs.since }}" --every-days "${{ inputs.every_days }}" --out /tmp/snapshot)
           [ -n "${{ inputs.max_targets }}" ] && args+=(--max-targets "${{ inputs.max_targets }}")
           [ -n "${{ steps.spec.outputs.shard }}" ] && args+=(--shard "${{ steps.spec.outputs.shard }}")
+          [ -n "${{ inputs.budget_minutes }}" ] && args+=(--budget-seconds "$(( ${{ inputs.budget_minutes }} * 60 ))")
           python -u -m pipeline backfill "${args[@]}" 2>&1 | tee /tmp/backfill.log
           echo "--- derivatives in archived pages that resolved to no car (add or ignore in data/seed/trim_map.json):"
           python -m pipeline trims | tee /tmp/trims.log || true
           {
             echo "### ${{ matrix.chunk }}"
             echo '```'
-            grep -E "captures to fold in|wayback index|/backfill:|FAILED" /tmp/backfill.log || true
+            grep -E "captures to fold in|wayback index|time budget|/backfill:|FAILED" /tmp/backfill.log || true
             cat /tmp/trims.log
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Export this chunk's history
-        run: python -m pipeline export-history --source "${{ steps.spec.outputs.provider }}" --file "/tmp/history-${{ steps.spec.outputs.tag }}.jsonl"
+      - name: Export this chunk's history and ledger
+        run: |
+          mkdir -p /tmp/out
+          python -m pipeline export-history --source "${{ steps.spec.outputs.provider }}" \
+            --file "/tmp/out/history-${{ steps.spec.outputs.tag }}.jsonl" --ledger-file "/tmp/out/ledger-${{ steps.spec.outputs.tag }}.jsonl"
 
       - uses: actions/upload-artifact@v4
         with:
           name: history-${{ steps.spec.outputs.tag }}
-          path: /tmp/history-${{ steps.spec.outputs.tag }}.jsonl
+          path: /tmp/out/*.jsonl
           retention-days: 7
 
   merge:
@@ -129,6 +143,9 @@ jobs:
             fi
           done
           [ "${#replaced[@]}" -gt 0 ] || echo "no chunk results"
+          for f in /tmp/chunks/ledger-*.jsonl; do
+            [ -e "$f" ] && python -m pipeline import-history --ledger-file "$f"
+          done
           python -m pipeline export-history
           python -m pipeline export-snapshot --out web/public/data
           python -m pipeline deal-table > docs/deal-comparison.md

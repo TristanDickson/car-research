@@ -6,7 +6,10 @@ discover asks the CDX index for every 200 capture of each of the base
 capability's URLs since a date, thins them to one per week (and drops captures
 whose body digest matches the one kept before), and yields a target per capture
 (`ctx.extras["shard"] = (i, n)` keeps every n-th page only, so a big provider
-splits across jobs);
+splits across jobs; `ctx.extras["budget_seconds"]` stops taking on new pages
+after that long; a page whose captures were all consumed is recorded in the
+`backfill_ledger` table and skipped by later runs, so a run that stops at its
+budget resumes where it left off);
 fetch pulls the raw page (`/web/<ts>id_/<url>`, no toolbar); parse is the base
 parser, which reads `observed_at` and `original_url` off the target. Gold then
 folds each dated sighting into the offer's span history (`gold._merge_sighting`).
@@ -14,7 +17,9 @@ folds each dated sighting into the offer's span history (`gold._merge_sighting`)
 from __future__ import annotations
 
 import json
+import sqlite3
 import sys
+import time
 from collections.abc import Iterator
 from datetime import datetime, timezone
 from urllib.parse import urlencode
@@ -65,22 +70,64 @@ def thin(snaps: list[tuple[str, str]], every_days: int) -> list[tuple[str, str]]
     return out
 
 
+def ledger_done(conn: sqlite3.Connection | None, url: str, since: str, every: int) -> bool:
+    if conn is None:
+        return False
+    try:
+        return conn.execute("SELECT 1 FROM backfill_ledger WHERE url=? AND since=? AND every_days=?",
+                            (url, since, every)).fetchone() is not None
+    except sqlite3.OperationalError:
+        return False
+
+
+def ledger_mark(conn: sqlite3.Connection | None, url: str, since: str, every: int, source: str, captures: int) -> None:
+    if conn is None:
+        return
+    conn.execute(
+        """INSERT INTO backfill_ledger (url, since, every_days, source, captures, done_at) VALUES (?,?,?,?,?,?)
+           ON CONFLICT(url, since, every_days) DO UPDATE SET source=excluded.source, captures=excluded.captures, done_at=excluded.done_at""",
+        (url, since, every, source, captures, datetime.now(timezone.utc).isoformat(timespec="seconds")),
+    )
+
+
 def backfill_capability(base: Capability, *, since: str = DEFAULT_SINCE, every_days: int = DEFAULT_EVERY_DAYS) -> Capability:
     def discover(target: Target, ctx: Context) -> Iterator[Target]:
         since_ = str(ctx.extras.get("since") or since)
         every = int(ctx.extras.get("every_days") or every_days)
         shard, shards = ctx.extras.get("shard") or (0, 1)
+        budget = ctx.extras.get("budget_seconds")
+        conn = ctx.extras.get("db")
+        started = time.monotonic()
         ident, _, only_ts = target.identifier.partition("@")
+        pending: tuple[str, int] | None = None   # the page whose captures the runner is consuming
+
+        def settle() -> None:
+            # The runner pulls targets lazily, so by the time discover moves on
+            # to the next page every capture of the previous one has been
+            # fetched and parsed (or failed): that page is done.
+            if pending is not None:
+                ledger_mark(conn, pending[0], since_, every, base.name, pending[1])
+
         for i, t in enumerate(base.discover(Target(ident), ctx)):
             if i % shards != shard:
                 continue  # another job of the chunked backfill takes this page
             url = t.metadata["url"]
+            if not only_ts and ledger_done(conn, url, since_, every):
+                continue  # folded in by an earlier run (data/history/backfill.jsonl)
+            settle()
+            if budget is not None and pending is not None and time.monotonic() - started > float(budget):
+                # At least one page per run, so a slow archive still makes progress.
+                print(f"  time budget of {budget}s spent; stopping at {t.identifier} (the ledger resumes here next run)",
+                      file=sys.stderr, flush=True)
+                return
+            pending = None
             try:
                 snaps = thin(cdx_snapshots(url, since_, ctx), every)
             except (FetchError, ValueError) as e:
                 print(f"  wayback index for {url}: {e}", file=sys.stderr, flush=True)
                 continue
             print(f"  {t.identifier}: {len(snaps)} captures to fold in", file=sys.stderr, flush=True)
+            pending = (url, len(snaps))
             for ts, digest in snaps:
                 if only_ts and ts != only_ts:
                     continue
@@ -88,6 +135,7 @@ def backfill_capability(base: Capability, *, since: str = DEFAULT_SINCE, every_d
                     **t.metadata, "url": archive_url(ts, url), "original_url": url,
                     "observed_at": ts_to_iso(ts), "wayback_ts": ts, "wayback_digest": digest,
                 })
+        settle()
 
     def fetch(target: Target, ctx: Context) -> Fetched:
         return fetch_url(target.metadata["url"], ctx, timeout=60, retries=1)

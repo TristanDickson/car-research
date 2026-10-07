@@ -167,3 +167,17 @@ CREATE TABLE IF NOT EXISTS models (
   run_id        INTEGER REFERENCES runs(id)
 );
 CREATE INDEX IF NOT EXISTS models_electric ON models(electric, has_deals, has_specs);
+
+-- Backfill ledger: which pages the Wayback backfill has fully folded in (for a
+-- given since / every-days), so a chunked run that stops at its time budget
+-- continues from where it left off next time instead of re-querying the
+-- archive for pages it has done. Committed as data/history/backfill.jsonl.
+CREATE TABLE IF NOT EXISTS backfill_ledger (
+  url        TEXT NOT NULL,
+  since      TEXT NOT NULL,
+  every_days INTEGER NOT NULL,
+  source     TEXT,
+  captures   INTEGER,
+  done_at    TEXT NOT NULL,
+  PRIMARY KEY (url, since, every_days)
+);

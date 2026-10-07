@@ -27,16 +27,17 @@ def _print_run(res) -> None:
 def _replay(conn) -> None:
     """data/history → DB, in dependency order: catalogue, specs (which make the
     generated cars), then the observations (whose cars must exist)."""
-    from pipeline.history import import_history, import_models, import_specs
+    from pipeline.history import import_history, import_ledger, import_models, import_specs
 
     print(f"history: {import_models(conn)} catalogue models replayed from data/history")
     print(f"history: {import_specs(conn)} spec rows replayed from data/history")
     print(f"history: {import_history(conn)} observations replayed from data/history")
+    print(f"history: {import_ledger(conn)} backfilled pages noted from data/history")
 
 
 def _write_history(conn) -> None:
     from pipeline import gold
-    from pipeline.history import export_history, export_models, export_specs
+    from pipeline.history import export_history, export_ledger, export_models, export_specs
 
     pruned = gold.prune_auto_cars(conn)
     if pruned:
@@ -44,6 +45,7 @@ def _write_history(conn) -> None:
     print(f"history: {export_history(conn)} observations written to data/history")
     print(f"history: {export_specs(conn)} spec rows written to data/history")
     print(f"history: {export_models(conn)} catalogue models written to data/history")
+    print(f"history: {export_ledger(conn)} backfilled pages noted in data/history")
 
 
 def cmd_init_db(args) -> int:
@@ -151,7 +153,8 @@ def cmd_backfill(args) -> int:
         if not 0 <= shard[0] < shard[1]:
             raise SystemExit(f"--shard {args.shard}: want i/n with 0 <= i < n")
     ctx = Context(root=ROOT, delay_seconds=args.delay, max_targets=args.max_targets,
-                  extras={"since": args.since, "every_days": args.every_days, "shard": shard})
+                  extras={"since": args.since, "every_days": args.every_days, "shard": shard,
+                          "budget_seconds": args.budget_seconds})
     for name, provider in PROVIDERS.items():
         if "backfill" not in provider.capabilities or (only and name not in only):
             continue
@@ -166,23 +169,27 @@ def cmd_backfill(args) -> int:
 
 
 def cmd_export_history(args) -> int:
-    from pipeline.history import DEFAULT_PATH, export_history
+    from pipeline.history import export_history, export_ledger
     conn = _open()
     if args.file:
         n = export_history(conn, args.file, source=args.source)
         print(f"history: {n} observations written to {args.file}")
+        if args.ledger_file:
+            print(f"history: {export_ledger(conn, args.ledger_file)} backfilled pages written to {args.ledger_file}")
     else:
         _write_history(conn)
     return 0
 
 
 def cmd_import_history(args) -> int:
-    from pipeline.history import DEFAULT_PATH, import_history
+    from pipeline.history import import_history, import_ledger
     conn = _open()
     if args.file:
         n = import_history(conn, args.file, replace_source=args.replace_source)
         print(f"history: {n} observations replayed from {args.file}")
-    else:
+    if args.ledger_file:
+        print(f"history: {import_ledger(conn, args.ledger_file)} backfilled pages noted from {args.ledger_file}")
+    if not args.file and not args.ledger_file:
         _replay(conn)
     return 0
 
@@ -281,6 +288,7 @@ def main(argv=None) -> int:
     b.add_argument("--max-targets", type=int, help="Stop after this many captures per provider (for a trial run).")
     b.add_argument("--delay", type=float, default=3.0, help="Seconds between requests to the same host.")
     b.add_argument("--shard", help="i/n: only every n-th page (the i-th of them), to split one provider across jobs.")
+    b.add_argument("--budget-seconds", type=float, help="Take on no new page after this long; the ledger resumes there next run.")
     b.add_argument("--out", default=str(DEFAULT_OUT))
     b.add_argument("--generated-at")
     b.set_defaults(func=cmd_backfill)
@@ -288,10 +296,12 @@ def main(argv=None) -> int:
     eh = sub.add_parser("export-history", help="Write offer observations to data/history/observations.jsonl.")
     eh.add_argument("--file", help="Write here instead of data/history/observations.jsonl.")
     eh.add_argument("--source", help="Only this provider's observations.")
+    eh.add_argument("--ledger-file", help="Also write the backfill ledger here (with --file).")
     eh.set_defaults(func=cmd_export_history)
     ih = sub.add_parser("import-history", help="Replay data/history/observations.jsonl into the DB.")
     ih.add_argument("--file", help="Read this file instead of data/history/observations.jsonl.")
     ih.add_argument("--replace-source", help="Drop this provider's existing rows first; the file is then its whole history.")
+    ih.add_argument("--ledger-file", help="Fold this backfill ledger in (pages already done are skipped by the next backfill).")
     ih.set_defaults(func=cmd_import_history)
 
     sub.add_parser("status", help="Row counts and recent runs.").set_defaults(func=cmd_status)

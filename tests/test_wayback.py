@@ -76,5 +76,62 @@ class ThroughTheRunner(unittest.TestCase):
         self.assertEqual(payload["source_url"], carwow_deals.url_for("hyundai", "ioniq-3"))
 
 
+class LedgerAndBudget(unittest.TestCase):
+    """A chunk that stops at its time budget leaves a ledger the next run resumes from."""
+
+    def _fake_cdx(self, counts):
+        import pipeline.providers.wayback as wb
+        orig = wb.cdx_snapshots
+        seen = []
+
+        def cdx(url, since, ctx):
+            seen.append(url)
+            return [(f"2025010{i + 1}120000", f"d{i}") for i in range(counts.get(url, 0))]
+
+        wb.cdx_snapshots = cdx
+        self.addCleanup(lambda: setattr(wb, "cdx_snapshots", orig))
+        return seen
+
+    def test_pages_whose_captures_were_consumed_are_skipped_next_time(self):
+        from pipeline.db import connect, init_schema
+        from pipeline.providers import carwow_deals
+        from pipeline.providers.types import Context, Target
+        from pipeline.providers.wayback import backfill_capability
+
+        conn = connect(":memory:")
+        init_schema(conn)
+        cap = backfill_capability(carwow_deals.deals)
+        urls = [t.metadata["url"] for t in carwow_deals.discover(Target("all"), Context(root=FIX))]
+        seen = self._fake_cdx({urls[0]: 2, urls[1]: 1})
+        ctx = Context(root=FIX, extras={"db": conn, "since": "2025-01-01", "every_days": 1})
+        targets = list(cap.discover(Target("all"), ctx))
+        self.assertEqual(len(targets), 3)
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM backfill_ledger").fetchone()[0], len(urls), "every page done")
+        seen.clear()
+        self.assertEqual(list(cap.discover(Target("all"), ctx)), [])
+        self.assertEqual(seen, [], "nothing asked of the archive the second time")
+        # A different window is a different job.
+        self.assertEqual(len(list(cap.discover(Target("all"), Context(root=FIX, extras={"db": conn, "since": "2024-01-01", "every_days": 1})))), 3)
+
+    def test_budget_stops_before_a_new_page_and_the_ledger_marks_only_finished_ones(self):
+        from pipeline.db import connect, init_schema
+        from pipeline.providers import carwow_deals
+        from pipeline.providers.types import Context, Target
+        from pipeline.providers.wayback import backfill_capability
+
+        conn = connect(":memory:")
+        init_schema(conn)
+        cap = backfill_capability(carwow_deals.deals)
+        urls = [t.metadata["url"] for t in carwow_deals.discover(Target("all"), Context(root=FIX))]
+        self._fake_cdx({u: 1 for u in urls})
+        ctx = Context(root=FIX, extras={"db": conn, "since": "2025-01-01", "every_days": 1, "budget_seconds": 0})
+        gen = cap.discover(Target("all"), ctx)
+        first = next(gen)                       # the first page's capture is handed out
+        self.assertEqual(first.metadata["original_url"], urls[0])
+        self.assertEqual(list(gen), [], "no second page once the budget is spent")
+        done = [r[0] for r in conn.execute("SELECT url FROM backfill_ledger")]
+        self.assertEqual(done, [urls[0]], "the page whose capture was consumed is done; the rest wait")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -20,6 +20,8 @@ from pipeline.services import autocars
 DEFAULT_PATH = ROOT / "data" / "history" / "observations.jsonl"
 SPECS_PATH = ROOT / "data" / "history" / "specs.jsonl"
 MODELS_PATH = ROOT / "data" / "history" / "models.jsonl"
+LEDGER_PATH = ROOT / "data" / "history" / "backfill.jsonl"
+LEDGER_COLUMNS = ("url", "since", "every_days", "source", "captures", "done_at")
 MODEL_COLUMNS = ("slug", "make", "model", "make_name", "model_name", "electric", "has_deals", "has_specs", "source",
                  "payload", "first_seen_at", "last_seen_at")
 SPEC_COLUMNS = ("spec_key", "source", "make", "model", "trim", "variant", "cap_id", "version_date", "car_id", "image_url",
@@ -177,6 +179,39 @@ def import_models(conn: sqlite3.Connection, path: Path | str = MODELS_PATH) -> i
                 (d["slug"], d["make"], d["model"], d.get("make_name"), d.get("model_name"), d.get("electric"), d.get("has_deals"),
                  d.get("has_specs"), d["source"], json.dumps(d["payload"], ensure_ascii=False, sort_keys=True),
                  d["first_seen_at"], d["last_seen_at"]),
+            )
+            n += 1
+    conn.commit()
+    return n
+
+
+def export_ledger(conn: sqlite3.Connection, path: Path | str = LEDGER_PATH) -> int:
+    """Which pages the Wayback backfill has done (see providers/wayback.py)."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    rows = conn.execute(f"SELECT {', '.join(LEDGER_COLUMNS)} FROM backfill_ledger ORDER BY url, since, every_days").fetchall()
+    with path.open("w", encoding="utf-8") as f:
+        for r in rows:
+            f.write(json.dumps({k: r[k] for k in LEDGER_COLUMNS}, ensure_ascii=False, sort_keys=True) + "\n")
+    return len(rows)
+
+
+def import_ledger(conn: sqlite3.Connection, path: Path | str = LEDGER_PATH) -> int:
+    path = Path(path)
+    if not path.exists():
+        return 0
+    n = 0
+    with path.open(encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            d = json.loads(line)
+            conn.execute(
+                """INSERT INTO backfill_ledger (url, since, every_days, source, captures, done_at) VALUES (?,?,?,?,?,?)
+                   ON CONFLICT(url, since, every_days) DO UPDATE SET done_at=MAX(backfill_ledger.done_at, excluded.done_at),
+                     captures=excluded.captures, source=excluded.source""",
+                (d["url"], d["since"], int(d["every_days"]), d.get("source"), d.get("captures"), d["done_at"]),
             )
             n += 1
     conn.commit()
