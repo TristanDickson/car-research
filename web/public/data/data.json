@@ -22,7 +22,7 @@
   "series": 2921,
   "sightings": 7991,
   "sightings_costed": 7989,
-  "specs": 926,
+  "specs": 2020,
   "specs_mapped": 909,
   "trim_map_auto": 2059,
   "trim_map_mapped": 56,
@@ -61,7 +61,7 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-07T19:19:54+00:00",
+ "generated_at": "2026-10-07T19:32:08+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
@@ -264,6 +264,20 @@
    "capabilities": [
     {
      "kinds": [
+      "spec"
+     ],
+     "name": "specs",
+     "parser_version": "1"
+    }
+   ],
+   "description": "EV Database (ev-database.org/uk): the measured numbers the manufacturers'",
+   "live": true,
+   "name": "evdb"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
       "used"
      ],
      "name": "used-stock",
@@ -318,11 +332,11 @@
    "artifacts": 4,
    "capability": "offers",
    "errors": 0,
-   "finished_at": "2026-10-07T19:19:54+00:00",
+   "finished_at": "2026-10-07T19:32:08+00:00",
    "id": 2,
    "records": 4,
    "source": "carwow_paste",
-   "started_at": "2026-10-07T19:19:54+00:00",
+   "started_at": "2026-10-07T19:32:08+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -331,11 +345,11 @@
    "artifacts": 4,
    "capability": "seed",
    "errors": 0,
-   "finished_at": "2026-10-07T19:19:53+00:00",
+   "finished_at": "2026-10-07T19:32:07+00:00",
    "id": 1,
    "records": 268,
    "source": "manual_seed",
-   "started_at": "2026-10-07T19:19:53+00:00",
+   "started_at": "2026-10-07T19:32:07+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0

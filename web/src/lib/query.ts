@@ -38,7 +38,7 @@ export const RANGES: { key: RangeKey; label: string; unit: string; step?: number
   { key: "length", label: "Length", unit: "mm", step: 10 },
   { key: "boot", label: "Boot", unit: "L", step: 10 },
   { key: "power", label: "Power", unit: "hp", step: 10 },
-  { key: "dc", label: "DC peak charge", unit: "kW", step: 10 },
+  { key: "dc", label: "DC charge (peak, else 10–80% avg)", unit: "kW", step: 10 },
   { key: "year", label: "Model year", unit: "" },
 ];
 
@@ -188,7 +188,7 @@ function rangeValue(key: RangeKey, c: SnapshotCar, ctx: CarContext): number | nu
     case "length": return c.length_mm;
     case "boot": return c.boot_l;
     case "power": return c.power_hp;
-    case "dc": return c.dc_peak_kw;
+    case "dc": return c.dc_peak_kw ?? c.dc_avg_kw;
     case "year": return c.model_year;
   }
 }

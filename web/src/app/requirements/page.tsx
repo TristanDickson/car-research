@@ -15,6 +15,8 @@ const FIELDS: { key: string; label: string; kind: "tri" | "number" | "text" }[] 
   { key: "wltp_range_mi", label: "WLTP range (mi)", kind: "number" },
   { key: "battery_kwh", label: "Battery (kWh)", kind: "number" },
   { key: "dc_peak_kw", label: "DC peak charge (kW)", kind: "number" },
+  { key: "dc_avg_kw", label: "DC 10–80% average charge (kW)", kind: "number" },
+  { key: "efficiency_mi_kwh", label: "Efficiency (mi/kWh)", kind: "number" },
   { key: "dc_10_80_min", label: "10–80% (min)", kind: "number" },
   { key: "width_mm", label: "Width (mm)", kind: "number" },
   { key: "length_mm", label: "Length (mm)", kind: "number" },

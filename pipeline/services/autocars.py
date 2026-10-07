@@ -55,6 +55,7 @@ def from_spec(r: dict) -> dict:
         "wltp_range_mi": n.get("wltp_range_mi"), "power_hp": n.get("power_bhp"), "zero_to_60_s": n.get("zero_to_60_s"),
         "boot_l": n.get("boot_l"), "boot_max_l": n.get("boot_max_l"), "turning_circle_m": n.get("turning_circle_m"),
         "wheelbase_m": n.get("wheelbase_m"), "drive": n.get("drive"),
+        "efficiency_mi_kwh": n.get("efficiency_mi_kwh"), "top_speed_mph": n.get("top_speed_mph"), "ac_kw": n.get("ac_kw"),
         "heat_pump": _tri(fl.get("heat_pump")), "internal_v2l": _tri(fl.get("v2l_internal")),
         "external_v2l": _tri(fl.get("v2l_external")),
         "heated_seats": _yes(fl.get("heated_front_seats")), "camera_360": _yes(fl.get("camera_360")),

@@ -13,6 +13,7 @@ from pipeline.providers import (
     carwow_specs,
     carwow_used,
     cinch_used,
+    evdb,
     hyundai_offers,
     kia_specs,
     leaseloco,
@@ -43,6 +44,7 @@ PROVIDERS: dict[str, Provider] = {
         leaseloco.provider,
         rrg.provider,
         kia_specs.provider,
+        evdb.provider,            # measured numbers per variant; laid over the cars by model and battery at export
         carwow_used.provider,      # used stock per model: the 'buy used' route and the residual evidence
         cinch_used.provider,       # more used stock, with registrations; the snapshot folds the sources
         motorpoint_used.provider,  # nearly-new stock: what a car is worth after a PCP term

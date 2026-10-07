@@ -230,7 +230,16 @@ export interface SnapshotCar {
   power_hp?: number | null;
   architecture_v?: number | null;
   dc_peak_kw?: number | null;
+  /** Average charging power over a 10-80% rapid charge (EV Database). */
+  dc_avg_kw?: number | null;
   dc_10_80_min?: number | null;
+  ac_kw?: number | null;
+  top_speed_mph?: number | null;
+  weight_kg?: number | null;
+  tow_kg?: number | null;
+  /** Where each filled field came from, for fields the car's own source did not carry (services/facts.py). */
+  field_sources?: Record<string, string>;
+  evdb_url?: string | null;
   zero_to_62_s?: number | null;
   length_mm?: number | null;
   width_mm?: number | null;

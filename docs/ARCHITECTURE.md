@@ -339,6 +339,28 @@ page shows; `details.json` (stock by year, spec rows, the cross-check) is fetche
 demand for a car page. The app computes no cost: `deal_summary.routes` is the model's
 answer as of the snapshot, and the card reads it.
 
+## Facts with their sources
+
+A generated car knows what Carwow's specification page prints: battery, range,
+power, 0-60, boot, seats, equipment per trim. It does not print efficiency, charging
+power or dimensions. `pipeline/services/facts.py` fills the gaps at export from the
+evidence we hold and writes `field_sources` on the car (field → source), which the
+car page shows as a mark on the value:
+
+- `providers/evdb.py` reads EV Database's UK index once a night: one card per
+  variant with the measured real range, Wh/mi, kerb weight, 0-62, useable battery,
+  average rapid-charge power over 10-80%, towing, boot, price, and whether a heat
+  pump or vehicle-to-load is offered. Variants are EV Database's own, so a car takes
+  the variant of its model (longest catalogue name that starts the variant's) whose
+  useable battery fits its gross one; two variants and no battery to choose by is no
+  match, never a guess.
+- A hand-curated car's tri-state fields describe its trim, so the generated
+  derivatives of the same make, model and trim name take them where their own spec
+  said nothing (the Inster 02's cabin socket in the Tech Pack reaches every
+  `02 · …` derivative).
+
+A field the car already carries is never overwritten.
+
 ## Sightings: every route, every source, over time
 
 `model/sightings.py` is the one fact behind the Trends page and the car page's

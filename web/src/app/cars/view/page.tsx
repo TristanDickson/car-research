@@ -87,9 +87,9 @@ function CarView() {
           </div>
           <Rows
             rows={[
-              ["Heat pump", <TriBadge key="hp" value={c.heat_pump} detail={c.packs_required?.heat_pump} />],
-              ["Internal V2L", <TriBadge key="iv" value={c.internal_v2l} detail={c.packs_required?.internal_v2l} />],
-              ["External V2L", <TriBadge key="ev" value={c.external_v2l} />],
+              ["Heat pump", <span key="hp"><TriBadge value={c.heat_pump} detail={c.packs_required?.heat_pump} />{mark(c, "heat_pump")}</span>],
+              ["Internal V2L", <span key="iv"><TriBadge value={c.internal_v2l} detail={c.packs_required?.internal_v2l} />{mark(c, "internal_v2l")}</span>],
+              ["External V2L", <span key="ev"><TriBadge value={c.external_v2l} />{mark(c, "external_v2l")}</span>],
               ["Seats", num(c.seats)],
               ["Powered sliding doors", c.powered_sliding_doors != null ? String(c.powered_sliding_doors) : "—"],
               ["Memory seats", flag(c.memory_seats)],
@@ -108,20 +108,29 @@ function CarView() {
             rows={[
               ["Battery", num(c.battery_kwh, 1, " kWh")],
               ["WLTP range", num(c.wltp_range_mi, 0, " mi")],
-              ["Real range (est.)", num(c.real_range_mi, 0, " mi")],
+              ["Real range", src(c, "real_range_mi", num(c.real_range_mi, 0, " mi"))],
               ["Power", num(c.power_hp, 0, " hp")],
-              ["Architecture", num(c.architecture_v, 0, " V")],
+              ["0–62", src(c, "zero_to_62_s", num(c.zero_to_62_s, 1, " s"))],
+              ["Top speed", num(c.top_speed_mph, 0, " mph")],
+              ["Efficiency", src(c, "efficiency_mi_kwh", num(c.efficiency_mi_kwh, 1, " mi/kWh"))],
               ["DC peak", num(c.dc_peak_kw, 0, " kW")],
-              ["10–80%", num(c.dc_10_80_min, 0, " min")],
-              ["0–62", num(c.zero_to_62_s, 1, " s")],
-              ["Efficiency", num(c.efficiency_mi_kwh, 1, " mi/kWh")],
+              ["DC 10–80%, average", src(c, "dc_avg_kw", num(c.dc_avg_kw, 0, " kW"))],
+              ["10–80% time", num(c.dc_10_80_min, 0, " min")],
+              ["AC onboard", src(c, "ac_kw", num(c.ac_kw, 0, " kW"))],
               ["Length × width", `${num(c.length_mm)} × ${num(c.width_mm)} mm`],
               ["Turning circle", num(c.turning_circle_m, 1, " m")],
-              ["Boot", c.boot_l != null ? `${num(c.boot_l)} L${c.boot_max_l ? ` / ${num(c.boot_max_l)} L` : ""}` : "—"],
+              ["Boot", src(c, "boot_l", c.boot_l != null ? `${num(c.boot_l)} L${c.boot_max_l ? ` / ${num(c.boot_max_l)} L` : ""}` : "—")],
+              ["Weight", src(c, "weight_kg", num(c.weight_kg, 0, " kg"))],
+              ["Towing", src(c, "tow_kg", num(c.tow_kg, 0, " kg"))],
               ["Insurance group", c.insurance_group ?? "—"],
             ]}
           />
           {c.boot_notes && <p className="mt-2 text-xs text-gray-500">{c.boot_notes}</p>}
+          {c.field_sources && Object.keys(c.field_sources).length > 0 && (
+            <p className="mt-2 text-xs text-gray-500">
+              ° filled from {Array.from(new Set(Object.values(c.field_sources))).join("; ")}{c.evdb_url ? <> · <a href={c.evdb_url} target="_blank" rel="noreferrer" className="underline">EV Database page</a></> : null}
+            </p>
+          )}
         </Card>
 
         <Card title="List price">
@@ -164,6 +173,17 @@ function CarView() {
   );
 }
 
+
+/** A degree sign after a value another source filled in; the Spec card's footnote names it. */
+function mark(c: SnapshotCar, field: string): React.ReactNode {
+  const from = c.field_sources?.[field];
+  return from ? <span className="ml-1 text-xs text-gray-500" title={`from ${from}`}>°</span> : null;
+}
+
+function src(c: SnapshotCar, field: string, value: string): React.ReactNode {
+  const from = c.field_sources?.[field];
+  return from ? <span title={`from ${from}`}>{value}<span className="ml-0.5 text-xs text-gray-500">°</span></span> : value;
+}
 
 function flag(v: boolean | undefined): string {
   return v == null ? "—" : v ? "yes" : "no";

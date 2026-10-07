@@ -98,6 +98,7 @@ Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
 | `carwow_used` | quotes.carwow.co.uk used stock per catalogue model | every used example Carwow's partner dealers list: derivative, price, year, mileage, town | scrapes |
 | `cinch_used` | cinch's search API, every electric car per make | cinch's own and marketplace stock with the registration, the CAP variant and the fee-inclusive price | scrapes |
 | `motorpoint_used` | motorpoint.co.uk's electric listing | the supermarket's nearly-new stock: CAP trim, year, mileage, price, branch, and the list price when new | scrapes |
+| `evdb` | ev-database.org/uk, the index page | per variant: real range, efficiency, 0–62, average 10–80% rapid-charge power, useable battery, boot, weight, towing, heat pump and V2L offered; laid over the cars by model and battery at export, each filled field naming its source | scrapes |
 
 Every sighting on every route is kept over time, source by source, and costed on one
 footing as of its own day (`model/sightings.py`): the Trends page and each car's history

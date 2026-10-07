@@ -81,6 +81,8 @@ def _engines(page: str) -> dict[str, dict]:
             "zero_to_60_s": _num(pairs.get("Acceleration (0-60mph)") or pairs.get("Acceleration (0-62mph)"), "s"),
             "wltp_range_mi": _num(pairs.get("Battery range"), "miles"),
             "battery_kwh": _num(pairs.get("Battery capacity"), "kWh"),
+            "efficiency_mi_kwh": _num(pairs.get("Consumption"), "miles/kWh"),
+            "top_speed_mph": _num(pairs.get("Top speed"), "mph"),
             "first_year_tax_gbp": money(pairs.get("First year road tax")),
             "raw": pairs,
         }
@@ -126,6 +128,9 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str, mak
             numbers = dict(model_facts)
             numbers.update({k: v for k, v in e.items() if k != "raw" and v is not None})
             numbers["battery_kwh"] = e.get("battery_kwh") or _num(engine, "kWh") or model_facts.get("battery_kwh")
+            ac = next((_num(it, "kW") for it in items if re.search(r"\bAC\b.*charger|on-?board charger", it, re.I)), None)
+            if ac:
+                numbers["ac_kw"] = ac
             rows.append({
                 "spec_key": f"{SITE}:{cap}", "source": "Carwow specifications", "source_url": url,
                 "observed_at": observed_at, "make": make_name, "make_slug": make, "model": model_name, "model_slug": model,

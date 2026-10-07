@@ -77,7 +77,7 @@ export function CarCard({ car, costs, brief, ceiling, starred, onStar, compared,
           <li><span className="text-gray-500">seats</span> {num(car.seats)}</li>
           <li><span className="text-gray-500">range</span> {car.wltp_range_mi != null ? `${num(car.wltp_range_mi)} mi` : "—"}</li>
           <li><span className="text-gray-500">battery</span> {car.battery_kwh != null ? `${num(car.battery_kwh, 0)} kWh` : "—"}</li>
-          <li><span className="text-gray-500">charge</span> {car.dc_peak_kw ? `${num(car.dc_peak_kw)} kW` : "—"}</li>
+          <li title={car.dc_peak_kw ? "DC peak" : "DC 10–80% average (EV Database)"}><span className="text-gray-500">charge</span> {car.dc_peak_kw ? `${num(car.dc_peak_kw)} kW` : car.dc_avg_kw ? `${num(car.dc_avg_kw)} kW avg` : "—"}</li>
           <li title="width versus the Ioniq 5 (1,890 mm)">
             <span className="text-gray-500">width</span>{" "}
             {widthDelta == null ? "—" : widthDelta === 0 ? "same as Ioniq 5" : widthDelta < 0 ? `${-widthDelta} mm narrower` : `${widthDelta} mm wider`}

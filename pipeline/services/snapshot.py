@@ -33,6 +33,7 @@ from statistics import median
 from model.deal_math import compute, used_route
 from model.sightings import best_by_route, trend
 from pipeline.db import ROOT
+from pipeline.services import facts
 from pipeline.services import series as series_svc
 
 IMAGE_EXTS = ("jpg", "jpeg", "png", "webp")
@@ -547,6 +548,9 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         if sp.get("car_id"):
             specs_by_car.setdefault(sp["car_id"], []).append(sp)
     renders = specs_by_make(specs)
+    # Facts the cars lack, from the evidence we hold, each field naming its source (services/facts.py).
+    facts.overlay_curated(cars)
+    facts.overlay_evdb(cars, [sp for sp in specs if sp.get("provider") == "evdb"], models)
 
     # The used market, per model: the residual evidence the true-monthly needs and the 'buy used' route.
     basis = {"term_months": 37, "savings_rate_apr": 0.04, "residual_pct_of_list": 0.45, "residual_at_months": 36,
