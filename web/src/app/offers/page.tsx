@@ -2,16 +2,17 @@
 
 import { Suspense, useMemo, useState } from "react";
 
-import { FilterBar } from "@/components/FilterBar";
 import { OfferTable } from "@/components/OfferTable";
+import { QueryBar } from "@/components/QueryBar";
 import { ErrorNote, Loading, PageHeader } from "@/components/ui";
-import { offerMatches, useFilters } from "@/lib/filters";
 import { isCurrent } from "@/lib/freshness";
-import { useCars, useDataPage, useOffers } from "@/lib/hooks";
+import { useDataPage, useOffers } from "@/lib/hooks";
+import { useCarQuery } from "@/lib/useCarQuery";
 import type { FinanceType } from "@/lib/types";
 
 const TYPES: FinanceType[] = ["pcp", "pch", "cash", "campaign"];
 
+/** Every sighting as a table: the data behind the cards, filtered by the same search. Reached from the Data page. */
 export default function OffersPage() {
   return (
     <Suspense fallback={<Loading />}>
@@ -22,23 +23,24 @@ export default function OffersPage() {
 
 function Offers() {
   const offers = useOffers();
-  const cars = useCars();
   const data = useDataPage();
-  const [filters] = useFilters();
+  const { query, set, cars, rows: carRows, options, flagLabels, loading, error } = useCarQuery();
   const [types, setTypes] = useState<Set<FinanceType>>(new Set(["pcp", "pch", "cash"]));
   const [onlyCurrent, setOnlyCurrent] = useState(true);
   const [now] = useState(() => new Date());
   const staleDays = data.data?.stale_days ?? 14;
+  const nAuto = useMemo(() => (cars ?? []).filter((c) => c.auto).length, [cars]);
 
-  const carMap = useMemo(() => new Map((cars.data ?? []).map((c) => [c.id, c])), [cars.data]);
-
+  const carMap = useMemo(() => new Map((cars ?? []).map((c) => [c.id, c])), [cars]);
+  const admitted = useMemo(() => new Set(carRows.map((c) => c.id)), [carRows]);
   const rows = useMemo(
-    () => (offers.data ?? []).filter((o) => types.has(o.finance_type) && (!onlyCurrent || isCurrent(o, staleDays, now)) && offerMatches(o, carMap.get(o.car_id), filters)),
-    [offers.data, types, onlyCurrent, filters, carMap, staleDays, now],
+    () => (offers.data ?? []).filter((o) => admitted.has(o.car_id) && types.has(o.finance_type) && (!onlyCurrent || isCurrent(o, staleDays, now))),
+    [offers.data, admitted, types, onlyCurrent, staleDays, now],
   );
 
+  if (error) return <ErrorNote error={error} />;
   if (offers.error) return <ErrorNote error={offers.error} />;
-  if (!offers.data || !cars.data) return <Loading />;
+  if (loading || !offers.data || !cars) return <Loading />;
 
   function toggleType(t: FinanceType) {
     setTypes((s) => {
@@ -52,10 +54,10 @@ function Offers() {
   return (
     <div>
       <PageHeader
-        title="Offers"
-        subtitle="Every offer observed, by source and date. 'Seen' is the last time the source showed it; an active offer not seen for a fortnight is stale and drops out of the best-price summaries. The finance maths is done once at export: implied APR as a check on the stated one, what you pay if you hand back or buy, and the premium and effective rate against the best cash price for the same car."
+        title="Every offer observed"
+        subtitle="The raw sightings behind every card, for the cars the search admits. 'Seen' is the last time the source showed the offer; one not seen for a fortnight is stale and drops out of the summaries. The maths is done once at export: implied APR against the stated one, what you pay if you hand back or buy, and the true monthly."
       />
-      <FilterBar cars={cars.data} count={`${rows.length} of ${offers.data.length}`} />
+      <QueryBar query={query} set={set} options={options} flagLabels={flagLabels} nAuto={nAuto} count={`${rows.length} of ${offers.data.length} offers`} />
       <div className="mb-4 flex flex-wrap items-center gap-3 text-sm">
         {TYPES.map((t) => (
           <label key={t} className="flex items-center gap-1">
@@ -65,7 +67,7 @@ function Offers() {
         ))}
         <label className="flex items-center gap-1">
           <input type="checkbox" checked={onlyCurrent} onChange={(e) => setOnlyCurrent(e.target.checked)} />
-          Current only (hide stale, gone, expired, historical, campaign)
+          Current only
         </label>
       </div>
       <OfferTable offers={rows} cars={carMap} staleDays={staleDays} />

@@ -142,6 +142,31 @@ export interface Freshness {
   history: ObservationPoint[];
 }
 
+/** One used listing as used.json carries it (every listing ever seen; present = still on sale). */
+export interface SnapshotUsed {
+  listing_key: string;
+  provider: string;
+  source?: string | null;
+  make?: string | null;
+  make_slug?: string | null;
+  model?: string | null;
+  model_slug?: string | null;
+  /** make/model slugs, the subject of the model's used series (added at load). */
+  model_key?: string;
+  car_id?: string | null;
+  price_gbp: number | null;
+  year: number | null;
+  mileage: number | null;
+  present: boolean;
+  first_seen_at: string;
+  last_seen_at: string;
+  derivative?: string | null;
+  town?: string | null;
+  url?: string | null;
+  image_url?: string | null;
+  vrm?: string | null;
+}
+
 /** What only the car page reads, fetched on demand (details.json, keyed by car id). */
 export interface CarDetails {
   id: string;

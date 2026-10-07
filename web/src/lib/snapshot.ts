@@ -1,7 +1,7 @@
 // Fetch layer for the committed snapshot. The SPA does not read these files
 // directly on every page: db.ts seeds them into IndexedDB once per snapshot
 // generation, and pages query that local DB.
-import type { CarDetails, DataPage, Requirements, ResidualSeries, SnapshotCar, SnapshotManifest, SnapshotModel, SnapshotOffer, SnapshotSeries, SnapshotSpec } from "./types";
+import type { CarDetails, DataPage, SnapshotUsed, Requirements, ResidualSeries, SnapshotCar, SnapshotManifest, SnapshotModel, SnapshotOffer, SnapshotSeries, SnapshotSpec } from "./types";
 
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 export const SNAPSHOT_BASE = `${BASE_PATH}/data`;
@@ -26,6 +26,8 @@ export const loadSpecs = () => fetchJson<SnapshotSpec[]>("specs.json", { cache: 
 export const loadModels = () => fetchJson<SnapshotModel[]>("models.json", { cache: "no-cache" });
 export const loadSeries = () => fetchJson<SnapshotSeries[]>("series.json", { cache: "no-cache" });
 export const loadResiduals = () => fetchJson<ResidualSeries[]>("residuals.json", { cache: "no-cache" });
+/** Every used listing, fetched the first time a car page asks for a model's stock. */
+export const loadUsed = () => fetchJson<SnapshotUsed[]>("used.json", { cache: "no-cache" });
 /** Per-car detail, fetched the first time a car page needs it. */
 export const loadDetails = () => fetchJson<Record<string, Omit<CarDetails, "id">>>("details.json", { cache: "no-cache" });
 export const loadRequirements = () =>

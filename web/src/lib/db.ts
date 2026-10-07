@@ -9,8 +9,8 @@
 // IndexedDB.
 import Dexie, { type Table } from "dexie";
 
-import { getManifest, loadCars, loadData, loadDetails, loadModels, loadOffers, loadRequirements, loadResiduals, loadSeries, loadSpecs } from "./snapshot";
-import type { CarDetails, DataPage, Requirements, ResidualSeries, SnapshotCar, SnapshotManifest, SnapshotModel, SnapshotOffer, SnapshotSeries, SnapshotSpec } from "./types";
+import { getManifest, loadCars, loadData, loadDetails, loadModels, loadOffers, loadRequirements, loadResiduals, loadSeries, loadSpecs, loadUsed } from "./snapshot";
+import type { CarDetails, DataPage, Requirements, SnapshotUsed, ResidualSeries, SnapshotCar, SnapshotManifest, SnapshotModel, SnapshotOffer, SnapshotSeries, SnapshotSpec } from "./types";
 
 export interface MetaRow {
   key: string;
@@ -40,6 +40,7 @@ export class CarResearchDB extends Dexie {
   series!: Table<SnapshotSeries, string>;
   residuals!: Table<ResidualSeries, string>;
   details!: Table<CarDetails, string>;
+  used!: Table<SnapshotUsed, string>;
   meta!: Table<MetaRow, string>;
   shortlist!: Table<ShortlistRow, string>;
   settings!: Table<SettingsRow, string>;
@@ -78,6 +79,8 @@ export class CarResearchDB extends Dexie {
     this.version(6)
       .stores({ details: "id", settings: "key" })
       .upgrade((tx) => tx.table("meta").clear());
+    // v7: used listings on demand, by model, for the car page's ranked list.
+    this.version(7).stores({ used: "listing_key, model_key, car_id" });
   }
 }
 
@@ -108,7 +111,7 @@ async function seed(): Promise<SnapshotManifest> {
     loadSeries().catch(() => [] as SnapshotSeries[]),
     loadResiduals().catch(() => [] as ResidualSeries[]),
   ]);
-  await db.transaction("rw", [db.cars, db.offers, db.specs, db.models, db.series, db.residuals, db.details, db.meta, db.settings], async () => {
+  await db.transaction("rw", [db.cars, db.offers, db.specs, db.models, db.series, db.residuals, db.details, db.used, db.meta, db.settings], async () => {
     await db.cars.clear();
     await db.offers.clear();
     await db.specs.clear();
@@ -116,6 +119,7 @@ async function seed(): Promise<SnapshotManifest> {
     await db.series.clear();
     await db.residuals.clear();
     await db.details.clear();   // refetched on demand against the new snapshot
+    await db.used.clear();
     // The reader's requirements are theirs: seed them once, never overwrite on a new snapshot.
     if (!(await db.settings.get("requirements"))) {
       await db.settings.put({ key: "requirements", value: JSON.stringify(requirements), seeded_from: manifest.generated_at, updated_at: new Date().toISOString() });
@@ -227,4 +231,15 @@ export async function __resetForTests(): Promise<void> {
   }
   _seeding = null;
   await Dexie.delete("CarResearchDB");
+}
+
+/** A model's used listings (every one ever seen), fetching used.json once per snapshot. */
+export async function getUsedForModel(modelKey: string): Promise<SnapshotUsed[]> {
+  await ensureSeeded();
+  const db = getDb();
+  if ((await db.used.count()) === 0) {
+    const all = await loadUsed();
+    await db.used.bulkPut(all.map((u) => ({ ...u, model_key: `${(u.make_slug ?? "").toLowerCase()}/${u.model_slug ?? ""}` })));
+  }
+  return db.used.where("model_key").equals(modelKey).toArray();
 }

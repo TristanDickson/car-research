@@ -1,8 +1,6 @@
 export const NAV = [
   { href: "/", label: "Pick" },
   { href: "/cars", label: "Cars" },
-  { href: "/offers", label: "Offers" },
-  { href: "/market", label: "Trends" },
   { href: "/specs", label: "Specs" },
   { href: "/requirements", label: "Requirements" },
   { href: "/data", label: "Data" },
@@ -12,6 +10,7 @@ export const NAV = [
 export function activeHref(pathname: string | null): string {
   const p = (pathname ?? "/").replace(/\/+$/, "") || "/";
   if (p === "/") return "/";
+  if (p.startsWith("/offers")) return "/data";
   const hit = NAV.filter((n) => n.href !== "/" && p.startsWith(n.href)).sort(
     (a, b) => b.href.length - a.href.length,
   )[0];

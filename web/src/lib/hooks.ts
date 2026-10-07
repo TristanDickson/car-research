@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { ensureSeeded, getCarDetails, getDataPage, getDb, getRequirements, getSeedRequirements, resetRequirements, saveRequirements, toggleShortlist } from "./db";
+import { ensureSeeded, getCarDetails, getDataPage, getDb, getRequirements, getSeedRequirements, getUsedForModel, resetRequirements, saveRequirements, toggleShortlist } from "./db";
 import type { Requirements } from "./types";
 
 const FOREVER = Number.POSITIVE_INFINITY;
@@ -175,6 +175,15 @@ export function useResidualsForModel(modelKey: string | null | undefined) {
       await ensureSeeded();
       return getDb().residuals.where("model").equals(modelKey as string).toArray();
     },
+    enabled: !!modelKey,
+    staleTime: FOREVER,
+  });
+}
+
+export function useUsedForModel(modelKey: string | null | undefined) {
+  return useQuery({
+    queryKey: ["used", modelKey ?? null],
+    queryFn: () => getUsedForModel(modelKey as string),
     enabled: !!modelKey,
     staleTime: FOREVER,
   });

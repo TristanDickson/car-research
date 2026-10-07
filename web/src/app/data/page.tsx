@@ -1,18 +1,38 @@
 "use client";
 
 import Link from "next/link";
+import { useMemo, useState } from "react";
 
 import { Badge, Card, Empty, ErrorNote, Loading, PageHeader } from "@/components/ui";
 import { dateLabel } from "@/lib/format";
 import { useDataPage, useModels, useSnapshot } from "@/lib/hooks";
 
+/**
+ * Where the numbers come from and what is wrong with them. Leads with the
+ * sources and their latest runs, then the issues a reader can act on (broker
+ * rows that matched no derivative, twins the rules refused to guess between),
+ * then the catalogue coverage; the assumptions and the raw counts close the
+ * page. Every sighting ever observed is one click away.
+ */
 export default function DataPage() {
   const snap = useSnapshot();
   const models = useModels();
   const { data, error } = useDataPage();
+  const [issueFilter, setIssueFilter] = useState<"all" | "conflict" | "unmapped">("all");
+
+  const lastRun = useMemo(() => {
+    const out = new Map<string, (typeof data extends infer T ? T extends { runs: (infer R)[] } ? R : never : never)>();
+    for (const r of data?.runs ?? []) if (!out.has(r.source)) out.set(r.source, r);
+    return out;
+  }, [data]);
+
   if (error) return <ErrorNote error={error} />;
   if (data === undefined) return <Loading />;
   if (data === null) return <ErrorNote error={new Error("data.json missing from snapshot")} />;
+
+  const issues = data.unmapped_trims.filter((t) => issueFilter === "all" || (t.status ?? "unmapped") === issueFilter);
+  const conflicts = data.unmapped_trims.filter((t) => t.status === "conflict").length;
+  const counts = data.counts;
 
   return (
     <div className="space-y-6">
@@ -20,73 +40,87 @@ export default function DataPage() {
         title="Data"
         subtitle={
           <>
-            Where the numbers come from and how fresh they are. Snapshot generated {dateLabel(snap.data?.generated_at)}.
-            Offers are observations: a source is re-read, the sighting is recorded, and anything not seen for {data.stale_days} days goes stale.
+            Snapshot generated {dateLabel(snap.data?.generated_at)}. Every price is a sighting: a source is re-read nightly, the sighting is
+            recorded, and an offer not seen for {data.stale_days} days goes stale. <Link href="/offers" className="underline">Every sighting as a table</Link>.
           </>
         }
       />
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {Object.entries(data.counts).map(([k, v]) => (
-          <div key={k} className="rounded-lg border border-gray-800 bg-gray-900 p-4">
-            <div className="text-xs uppercase tracking-wide text-gray-500">{k.replaceAll("_", " ")}</div>
-            <div className="mt-1 text-2xl font-semibold tabular-nums">{v}</div>
-          </div>
-        ))}
-      </div>
 
-      <div className="grid gap-4 lg:grid-cols-2">
-        <Card title="Assumptions behind the true monthly">
-          <p className="mb-2 text-sm text-gray-400">
-            Every offer is put on one footing: each payment discounted at the savings rate, the car&apos;s expected value at the end credited
-            back (PCP: the equity above the GFV, never below zero; outright: sold), spread over the agreement. Edit these in data/seed/requirements.json.
-          </p>
-          <ul className="space-y-1 text-sm">
-            {Object.entries(data.assumptions ?? {}).filter(([, v]) => v != null && typeof v !== "string").map(([k, v]) => (
-              <li key={k} className="flex justify-between"><span>{k.replaceAll("_", " ")}</span><span className="tabular-nums">{String(v)}</span></li>
-            ))}
-          </ul>
-          {Object.entries(data.assumptions ?? {}).filter(([, v]) => typeof v === "string").map(([k, v]) => (
-            <p key={k} className="mt-2 text-xs text-gray-500">{String(v)}</p>
-          ))}
-        </Card>
-        <Card title="How broker rows were matched to derivatives">
-          <p className="mb-2 text-sm text-gray-400">
-            A Carwow CAP id is the car itself; a broker&apos;s derivative text resolves to one generated car by trim and powertrain, and
-            among same-trim twins by the broker&apos;s own RRP, by a pack in the name, or to the cheapest; ties the rules refuse to guess are conflicts below.
-          </p>
-          <ul className="space-y-1 text-sm">
-            {Object.entries(data.resolution_methods ?? {}).map(([k, v]) => (
-              <li key={k} className="flex justify-between"><span>{k}</span><span className="tabular-nums">{v}</span></li>
-            ))}
-          </ul>
-        </Card>
-        <Card title="Offer states">
-          <ul className="space-y-1 text-sm">
-            {Object.entries(data.offer_states).map(([k, v]) => (
-              <li key={k} className="flex justify-between"><span>{k}</span><span className="tabular-nums">{v}</span></li>
-            ))}
-          </ul>
-        </Card>
-        <Card title="Providers">
-          <ul className="space-y-2 text-sm">
-            {data.providers.map((p) => (
-              <li key={p.name}>
-                <span className="font-medium text-gray-100">{p.name}</span>
-                <span className="ml-2"><Badge tone={p.live ? "good" : "muted"}>{p.live ? "scrapes the web" : "offline"}</Badge></span>
-                {p.description && <div className="text-gray-400">{p.description}</div>}
-                <div className="text-xs text-gray-500">
-                  {p.capabilities.map((c) => `${c.name} → ${c.kinds.join(", ")} (parser v${c.parser_version})`).join("; ")}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </Card>
-      </div>
+      <Card title="Sources">
+        <table className="w-full text-sm">
+          <thead className="text-left text-xs uppercase text-gray-500">
+            <tr><th className="py-1 pr-3">Source</th><th className="py-1 pr-3">What it gives</th><th className="py-1 pr-3">Last run</th><th className="py-1 pr-3">Status</th><th className="py-1 pr-3 text-right">Pages</th><th className="py-1 pr-3 text-right">Records</th><th className="py-1 text-right">Unmatched</th></tr>
+          </thead>
+          <tbody>
+            {data.providers.map((p) => {
+              const r = lastRun.get(p.name);
+              return (
+                <tr key={p.name} className="border-t border-gray-800 align-top">
+                  <td className="py-1 pr-3">
+                    <div className="font-medium text-gray-100">{p.name}</div>
+                    <div className="text-xs text-gray-500">{p.live ? "scrapes the web" : "offline"} · {p.capabilities.map((c) => c.kinds.join("/")).join(", ")}</div>
+                  </td>
+                  <td className="py-1 pr-3 text-gray-300">{p.description}</td>
+                  <td className="py-1 pr-3 whitespace-nowrap text-gray-400">{r ? dateLabel(r.finished_at) : "—"}</td>
+                  <td className="py-1 pr-3">{r ? <Badge tone={r.status === "ok" ? "good" : "bad"}>{r.status}{r.errors ? ` · ${r.errors} failed` : ""}</Badge> : <Badge tone="muted">no run in this snapshot</Badge>}</td>
+                  <td className="py-1 pr-3 text-right tabular-nums">{r?.artifacts ?? "—"}</td>
+                  <td className="py-1 pr-3 text-right tabular-nums">{r?.records ?? "—"}</td>
+                  <td className="py-1 text-right tabular-nums">{r?.unmapped ?? "—"}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </Card>
 
-      <Card title={`Catalogue · ${models.data?.length ?? 0} electric models on sale (from Carwow's index)`}>
+      <Card title={`Issues · ${data.unmapped_trims.length} broker rows with no car (${conflicts} conflicts)`}>
         <p className="mb-2 text-sm text-gray-400">
-          Every model Carwow lists as electric. Deals and specs say whether Carwow has that page; derivatives is how many variants the
-          specification page lists; cars is how many car records exist for it (hand-curated plus generated); priced is how many of those have a current offer.
+          A broker&apos;s derivative text resolves to one generated car by trim and powertrain, and among same-trim twins by the broker&apos;s own RRP, a pack in the name, or the cheapest.
+          <span className="text-gray-300"> Conflicts</span> are twins the rules refuse to guess between (no RRP, no pack named, three or more prices); <span className="text-gray-300">unmapped</span> rows match no derivative at all.
+          Resolution methods so far: {Object.entries(data.resolution_methods ?? {}).map(([k, v]) => `${k} ${v}`).join(" · ")}.
+        </p>
+        <div className="mb-2 flex gap-1 text-xs">
+          {(["all", "conflict", "unmapped"] as const).map((k) => (
+            <button key={k} onClick={() => setIssueFilter(k)} className={`rounded border px-2 py-0.5 ${issueFilter === k ? "border-gray-500 bg-gray-700 text-gray-100" : "border-gray-700 text-gray-400"}`}>{k}</button>
+          ))}
+        </div>
+        {issues.length === 0 ? (
+          <Empty>Nothing here: every scraped trim resolves to a car.</Empty>
+        ) : (
+          <div className="max-h-[28rem] overflow-auto">
+            <table className="w-full text-sm">
+              <thead className="sticky top-0 bg-gray-900 text-left text-xs uppercase text-gray-500"><tr><th className="py-1 pr-3">Source</th><th className="py-1 pr-3">As printed</th><th className="py-1 pr-3">Why</th><th className="py-1">First seen</th></tr></thead>
+              <tbody>
+                {issues.map((t) => {
+                  const words = (t.label ?? "").split(/[·\s]+/).filter((w) => /^[A-Za-z]{3,}$/.test(w)).slice(0, 2).join(" ");
+                  return (
+                    <tr key={`${t.source}|${t.source_key}`} className="border-t border-gray-800 align-top">
+                      <td className="py-1 pr-3">{t.source}</td>
+                      <td className="py-1 pr-3">
+                        <div>{t.label ?? "—"}</div>
+                        <div className="font-mono text-xs text-gray-600">{t.source_key}</div>
+                        {words && <Link href={`/cars?scope=all&brief=all&q=${encodeURIComponent(words)}`} className="text-xs text-gray-400 underline">find the derivatives</Link>}
+                      </td>
+                      <td className="py-1 pr-3 text-xs text-gray-400">
+                        <Badge tone={t.status === "conflict" ? "warn" : "muted"}>{t.status ?? "unmapped"}</Badge>
+                        {t.evidence?.reason ? <div className="mt-0.5">{String(t.evidence.reason)}</div> : null}
+                        {Array.isArray(t.evidence?.prices) && t.evidence.prices.length > 0 ? (
+                          <div className="text-gray-600">twins at {(t.evidence.prices as number[]).map((p) => `£${p.toLocaleString("en-GB")}`).join(", ")}</div>
+                        ) : null}
+                      </td>
+                      <td className="py-1 whitespace-nowrap">{t.first_seen_at.slice(0, 10)}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </Card>
+
+      <Card title={`Catalogue · ${models.data?.length ?? 0} electric models on sale`}>
+        <p className="mb-2 text-sm text-gray-400">
+          Every model Carwow lists as electric. Derivatives is how many variants the specification page lists; cars how many car records exist (hand-curated plus generated); priced how many of those have a current figure on any route; used how many used examples are on sale.
         </p>
         {!models.data?.length ? (
           <Empty>No catalogue in this snapshot yet.</Empty>
@@ -101,7 +135,7 @@ export default function DataPage() {
                     <tr key={m.slug} className="border-t border-gray-800">
                       <td className="py-1 pr-3">
                         {m.cars > 0 ? (
-                          <Link href={`/cars?scope=all&make=${encodeURIComponent(m.make_name ?? m.make)}&model=${encodeURIComponent(m.model_name ?? m.model)}`} className="hover:underline">{name}</Link>
+                          <Link href={`/cars?scope=all&brief=all&make=${encodeURIComponent(m.make_name ?? m.make)}&model=${encodeURIComponent(m.model_name ?? m.model)}`} className="hover:underline">{name}</Link>
                         ) : name}
                       </td>
                       <td className="py-1 pr-3">{m.has_deals ? "yes" : "—"}</td>
@@ -120,36 +154,10 @@ export default function DataPage() {
         )}
       </Card>
 
-      <Card title={`Broker rows with no car (${data.unmapped_trims.length})`}>
-        {data.unmapped_trims.length === 0 ? (
-          <Empty>Every scraped trim resolves to a car (hand-curated, or generated from the catalogue). Broker derivatives that match no car appear here until added to data/seed/trim_map.json.</Empty>
-        ) : (
-          <table className="w-full text-sm">
-            <thead className="text-xs uppercase text-gray-500"><tr><th className="text-left">Source</th><th className="text-left">As printed</th><th className="text-left">Why</th><th className="text-left">First seen</th></tr></thead>
-            <tbody>
-              {data.unmapped_trims.map((t) => (
-                <tr key={`${t.source}|${t.source_key}`} className="border-t border-gray-800">
-                  <td className="py-1 pr-3">{t.source}</td>
-                  <td className="py-1 pr-3"><div>{t.label ?? "—"}</div><div className="font-mono text-xs text-gray-600">{t.source_key}</div></td>
-                  <td className="py-1 pr-3 text-xs text-gray-400">
-                    <Badge tone={t.status === "conflict" ? "warn" : "muted"}>{t.status ?? "unmapped"}</Badge>
-                    {t.evidence?.reason ? <div className="mt-0.5">{String(t.evidence.reason)}</div> : null}
-                    {Array.isArray(t.evidence?.prices) && t.evidence.prices.length > 0 ? (
-                      <div className="text-gray-600">twins at {(t.evidence.prices as number[]).map((p) => `£${p.toLocaleString("en-GB")}`).join(", ")}</div>
-                    ) : null}
-                  </td>
-                  <td className="py-1 whitespace-nowrap">{t.first_seen_at.slice(0, 10)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </Card>
-
       <Card title="Recent runs">
         <table className="w-full text-sm">
           <thead className="text-xs uppercase text-gray-500">
-            <tr><th className="text-left">Provider</th><th className="text-left">Capability</th><th className="text-left">Finished</th><th className="text-left">Status</th><th className="text-right">Artifacts</th><th className="text-right">Records</th><th className="text-right">Unmapped</th><th className="text-right">Failed targets</th></tr>
+            <tr><th className="text-left">Provider</th><th className="text-left">Capability</th><th className="text-left">Finished</th><th className="text-left">Status</th><th className="text-right">Pages</th><th className="text-right">Records</th><th className="text-right">Unmatched</th><th className="text-right">Failed targets</th></tr>
           </thead>
           <tbody>
             {data.runs.map((r) => (
@@ -167,6 +175,32 @@ export default function DataPage() {
           </tbody>
         </table>
       </Card>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Card title="Assumptions behind the true monthly">
+          <p className="mb-2 text-sm text-gray-400">
+            Every figure is put on one footing: each payment discounted at the savings rate, the car&apos;s expected value at the end credited back (PCP: the equity above the GFV, never below zero; outright and used: sold), spread over the agreement. These are pipeline inputs in data/seed/requirements.json.
+          </p>
+          <ul className="space-y-1 text-sm">
+            {Object.entries(data.assumptions ?? {}).filter(([, v]) => v != null && typeof v !== "string").map(([k, v]) => (
+              <li key={k} className="flex justify-between"><span>{k.replaceAll("_", " ")}</span><span className="tabular-nums">{String(v)}</span></li>
+            ))}
+          </ul>
+          {Object.entries(data.assumptions ?? {}).filter(([, v]) => typeof v === "string").map(([k, v]) => (
+            <p key={k} className="mt-2 text-xs text-gray-500">{String(v)}</p>
+          ))}
+        </Card>
+        <Card title="In this snapshot">
+          <p className="text-sm text-gray-400">
+            {counts.cars} cars ({counts.cars_curated} hand-curated, {counts.cars_generated} generated) across {counts.models} models from {counts.makes} makes ·{" "}
+            {counts.offers} offers from {counts.observations} sightings · {counts.specs} spec rows · {counts.used_listings} used listings over {counts.used_models} models,{" "}
+            {counts.models_with_used_residual} with a used-market residual · {counts.series ?? 0} series.
+          </p>
+          <p className="mt-2 text-xs text-gray-500">
+            Offer states: {Object.entries(data.offer_states).map(([k, v]) => `${k} ${v}`).join(" · ")}.
+          </p>
+        </Card>
+      </div>
     </div>
   );
 }
