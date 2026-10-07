@@ -1,25 +1,25 @@
 {
  "counts": {
-  "cars": 1575,
-  "cars_generated": 1556,
-  "cash_benchmarks": 1611,
+  "cars": 1779,
+  "cars_generated": 1760,
+  "cash_benchmarks": 1819,
   "models": 247,
-  "observations": 3182,
-  "offers": 2399,
+  "observations": 4395,
+  "offers": 2632,
   "specs": 908,
   "unmapped_trims": 0
  },
- "generated_at": "2026-10-07T00:42:06+00:00",
+ "generated_at": "2026-10-07T01:15:47+00:00",
  "runs": [
   {
    "artifacts": 4,
    "capability": "offers",
    "errors": 0,
-   "finished_at": "2026-10-07T00:42:01+00:00",
+   "finished_at": "2026-10-07T01:15:43+00:00",
    "id": 2,
    "records": 4,
    "source": "carwow_paste",
-   "started_at": "2026-10-07T00:42:01+00:00",
+   "started_at": "2026-10-07T01:15:43+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -28,11 +28,11 @@
    "artifacts": 4,
    "capability": "seed",
    "errors": 0,
-   "finished_at": "2026-10-07T00:42:00+00:00",
+   "finished_at": "2026-10-07T01:15:43+00:00",
    "id": 1,
    "records": 268,
    "source": "manual_seed",
-   "started_at": "2026-10-07T00:42:00+00:00",
+   "started_at": "2026-10-07T01:15:43+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
