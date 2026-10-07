@@ -23,7 +23,7 @@ export interface CashCost {
 }
 
 export interface TrueCost {
-  route: "pcp" | "pch" | "cash";
+  route: "pcp" | "pch" | "cash" | "used";
   offerId: string;
   dealer: string | null;
   /** Present cost at the savings rate, expected end value credited back, spread over the agreement. */
@@ -51,7 +51,7 @@ function label(o: SnapshotOffer): string | null {
   return o.dealer ?? o.source ?? null;
 }
 
-export function carCosts(offers: SnapshotOffer[], staleDays: number, now: Date = new Date()): CarCosts {
+export function carCosts(offers: SnapshotOffer[], staleDays: number, now: Date = new Date(), car?: SnapshotCar): CarCosts {
   const current = offers.filter((o) => isCurrent(o, staleDays, now) && !o.metrics.skipped);
 
   let pcp: RouteCost | null = null;
@@ -96,6 +96,13 @@ export function carCosts(offers: SnapshotOffer[], staleDays: number, now: Date =
     }
   }
 
+  // Buying used is costed at export from the model's stock (see snapshot.py used_summary).
+  const u = car?.used_stock;
+  if (u?.route?.true_monthly != null && (!trueCost || u.route.true_monthly < trueCost.monthly)) {
+    trueCost = { route: "used", offerId: u.cheapest.listing_key, dealer: `${u.cheapest.year ?? ""} used, ${u.cheapest.mileage?.toLocaleString("en-GB") ?? "?"} mi`.trim(),
+                 monthly: u.route.true_monthly, floor: null, lastSeenAt: null };
+  }
+
   const candidates: { route: "pcp" | "pch"; r: RouteCost }[] = [];
   if (pcp) candidates.push({ route: "pcp", r: pcp });
   if (pch) candidates.push({ route: "pch", r: pch });
@@ -132,4 +139,4 @@ export function briefTicks(c: SnapshotCar): { label: string; ok: boolean | null 
 
 export const IONIQ5_WIDTH_MM = 1890;
 
-export const ROUTE_LABEL: Record<"pcp" | "pch" | "cash", string> = { pcp: "PCP", pch: "lease", cash: "buy outright" };
+export const ROUTE_LABEL: Record<"pcp" | "pch" | "cash" | "used", string> = { pcp: "PCP", pch: "lease", cash: "buy outright", used: "buy used" };

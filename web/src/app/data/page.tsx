@@ -93,7 +93,7 @@ export default function DataPage() {
         ) : (
           <div className="max-h-[32rem] overflow-auto">
             <table className="w-full text-sm">
-              <thead className="sticky top-0 bg-gray-900 text-xs uppercase text-gray-500"><tr><th className="text-left">Model</th><th className="text-left">Deals</th><th className="text-left">Specs</th><th className="text-right">Derivatives</th><th className="text-right">Cars</th><th className="text-right">Priced</th><th className="text-left">Last seen</th></tr></thead>
+              <thead className="sticky top-0 bg-gray-900 text-xs uppercase text-gray-500"><tr><th className="text-left">Model</th><th className="text-left">Deals</th><th className="text-left">Specs</th><th className="text-right">Derivatives</th><th className="text-right">Cars</th><th className="text-right">Priced</th><th className="text-right">Used</th><th className="text-left">Last seen</th></tr></thead>
               <tbody>
                 {models.data.map((m) => {
                   const name = `${m.make_name ?? m.make} ${m.model_name ?? m.model}`;
@@ -109,6 +109,7 @@ export default function DataPage() {
                       <td className="py-1 text-right tabular-nums">{m.derivatives}</td>
                       <td className="py-1 text-right tabular-nums">{m.cars}</td>
                       <td className="py-1 text-right tabular-nums">{m.priced}</td>
+                      <td className="py-1 text-right tabular-nums">{m.used ?? 0}</td>
                       <td className="py-1 pl-3 whitespace-nowrap text-gray-400">{m.last_seen_at.slice(0, 10)}</td>
                     </tr>
                   );

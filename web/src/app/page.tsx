@@ -58,7 +58,7 @@ function Pick() {
     const byCar = new Map<string, SnapshotOffer[]>();
     for (const o of offerRows ?? []) byCar.set(o.car_id, [...(byCar.get(o.car_id) ?? []), o]);
     const out = new Map<string, CarCosts>();
-    for (const c of carRows ?? []) out.set(c.id, carCosts(byCar.get(c.id) ?? [], staleDays));
+    for (const c of carRows ?? []) out.set(c.id, carCosts(byCar.get(c.id) ?? [], staleDays, new Date(), c));
     return out;
   }, [carRows, offerRows, staleDays]);
 

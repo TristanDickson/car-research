@@ -25,6 +25,9 @@ SPECS_PATH = ROOT / "data" / "history" / "specs.jsonl"
 MODELS_PATH = ROOT / "data" / "history" / "models.jsonl"
 LEDGER_PATH = ROOT / "data" / "history" / "backfill.jsonl"
 RESOLUTIONS_PATH = ROOT / "data" / "history" / "resolutions.jsonl"
+USED_PATH = ROOT / "data" / "history" / "used.jsonl"
+USED_COLUMNS = ("listing_key", "source", "make", "make_slug", "model", "model_slug", "car_id", "price_gbp", "year", "mileage",
+                "present", "payload", "first_seen_at", "last_seen_at")
 RES_COLUMNS = ("source", "source_key", "car_id", "status", "label", "example_url", "method", "evidence", "name_key",
                "first_seen_at", "last_seen_at")
 LEDGER_COLUMNS = ("url", "since", "every_days", "source", "captures", "done_at")
@@ -279,6 +282,52 @@ def import_resolutions(conn: sqlite3.Connection, path: Path | str = RESOLUTIONS_
             )
             if car_id and ev and ev.get("brackets"):
                 gold._apply_bracket_facts(conn, car_id, ev["brackets"], d["last_seen_at"])
+            n += 1
+    conn.commit()
+    return n
+
+
+def export_used(conn: sqlite3.Connection, path: Path | str = USED_PATH) -> int:
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    rows = conn.execute(f"SELECT {', '.join(USED_COLUMNS)} FROM used_listings ORDER BY listing_key").fetchall()
+    with path.open("w", encoding="utf-8") as f:
+        for r in rows:
+            d = {k: r[k] for k in USED_COLUMNS}
+            d["payload"] = json.loads(d["payload"])
+            f.write(json.dumps(d, ensure_ascii=False, sort_keys=True) + "\n")
+    return len(rows)
+
+
+def import_used(conn: sqlite3.Connection, path: Path | str = USED_PATH) -> int:
+    path = Path(path)
+    if not path.exists():
+        return 0
+    n = 0
+    with path.open(encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            d = json.loads(line)
+            car_id = d.get("car_id")
+            if car_id and not conn.execute("SELECT 1 FROM cars WHERE id=?", (car_id,)).fetchone():
+                car_id = None
+            conn.execute(
+                """INSERT INTO used_listings (listing_key, source, make, make_slug, model, model_slug, car_id, price_gbp, year, mileage,
+                     present, payload, first_seen_at, last_seen_at)
+                   VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                   ON CONFLICT(listing_key) DO UPDATE SET
+                     price_gbp=CASE WHEN excluded.last_seen_at >= used_listings.last_seen_at THEN excluded.price_gbp ELSE used_listings.price_gbp END,
+                     present=CASE WHEN excluded.last_seen_at >= used_listings.last_seen_at THEN excluded.present ELSE used_listings.present END,
+                     payload=CASE WHEN excluded.last_seen_at >= used_listings.last_seen_at THEN excluded.payload ELSE used_listings.payload END,
+                     car_id=COALESCE(excluded.car_id, used_listings.car_id),
+                     first_seen_at=MIN(used_listings.first_seen_at, excluded.first_seen_at),
+                     last_seen_at=MAX(used_listings.last_seen_at, excluded.last_seen_at)""",
+                (d["listing_key"], d["source"], d.get("make"), d.get("make_slug"), d.get("model"), d.get("model_slug"), car_id,
+                 d.get("price_gbp"), d.get("year"), d.get("mileage"), int(d.get("present", 1)),
+                 json.dumps(d["payload"], ensure_ascii=False, sort_keys=True), d["first_seen_at"], d["last_seen_at"]),
+            )
             n += 1
     conn.commit()
     return n

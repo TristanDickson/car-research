@@ -181,3 +181,27 @@ CREATE TABLE IF NOT EXISTS backfill_ledger (
   done_at    TEXT NOT NULL,
   PRIMARY KEY (url, since, every_days)
 );
+
+-- Used stock: one row per used car a source lists for a model, as current
+-- stock (first / last seen, present) rather than price history. car_id links
+-- the listing to a derivative when its text names one; the residual value
+-- the true-monthly needs is read per model and registration year.
+CREATE TABLE IF NOT EXISTS used_listings (
+  listing_key   TEXT PRIMARY KEY,
+  source        TEXT NOT NULL,
+  make          TEXT,
+  make_slug     TEXT,
+  model         TEXT,
+  model_slug    TEXT,
+  car_id        TEXT REFERENCES cars(id),
+  price_gbp     REAL,
+  year          INTEGER,
+  mileage       INTEGER,
+  present       INTEGER NOT NULL DEFAULT 1,
+  payload       TEXT NOT NULL,
+  first_seen_at TEXT NOT NULL,
+  last_seen_at  TEXT NOT NULL,
+  artifact_id   INTEGER REFERENCES artifacts(id),
+  run_id        INTEGER REFERENCES runs(id)
+);
+CREATE INDEX IF NOT EXISTS used_model ON used_listings(make_slug, model_slug, year);

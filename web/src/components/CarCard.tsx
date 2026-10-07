@@ -101,7 +101,7 @@ export function CarCard({ car, costs, trend, ceiling, starred, onStar, compared,
                 )}
               </div>
               <div className="mt-0.5 text-xs text-gray-500">
-                cheapest route: {ROUTE_LABEL[costs.trueCost.route]}{costs.trueCost.dealer ? ` · ${costs.trueCost.dealer}` : ""} · seen {ageLabel(costs.trueCost.lastSeenAt)}
+                cheapest route: {ROUTE_LABEL[costs.trueCost.route]}{costs.trueCost.dealer ? ` · ${costs.trueCost.dealer}` : ""}{costs.trueCost.lastSeenAt ? ` · seen ${ageLabel(costs.trueCost.lastSeenAt)}` : ""}
               </div>
             </>
           ) : (

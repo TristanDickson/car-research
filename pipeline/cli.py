@@ -27,18 +27,19 @@ def _print_run(res) -> None:
 def _replay(conn) -> None:
     """data/history → DB, in dependency order: catalogue, specs (which make the
     generated cars), then the observations (whose cars must exist)."""
-    from pipeline.history import import_history, import_ledger, import_models, import_resolutions, import_specs
+    from pipeline.history import import_history, import_ledger, import_models, import_resolutions, import_specs, import_used
 
     print(f"history: {import_models(conn)} catalogue models replayed from data/history")
     print(f"history: {import_specs(conn)} spec rows replayed from data/history")
     print(f"history: {import_history(conn)} observations replayed from data/history")
     print(f"history: {import_resolutions(conn)} broker resolutions replayed from data/history")
+    print(f"history: {import_used(conn)} used listings replayed from data/history")
     print(f"history: {import_ledger(conn)} backfilled pages noted from data/history")
 
 
 def _write_history(conn) -> None:
     from pipeline import gold
-    from pipeline.history import export_history, export_ledger, export_models, export_resolutions, export_specs
+    from pipeline.history import export_history, export_ledger, export_models, export_resolutions, export_specs, export_used
 
     pruned = gold.prune_auto_cars(conn)
     if pruned:
@@ -47,6 +48,7 @@ def _write_history(conn) -> None:
     print(f"history: {export_specs(conn)} spec rows written to data/history")
     print(f"history: {export_models(conn)} catalogue models written to data/history")
     print(f"history: {export_resolutions(conn)} broker resolutions written to data/history")
+    print(f"history: {export_used(conn)} used listings written to data/history")
     print(f"history: {export_ledger(conn)} backfilled pages noted in data/history")
 
 
@@ -198,7 +200,7 @@ def cmd_import_history(args) -> int:
 
 def cmd_status(args) -> int:
     conn = _open()
-    for table in ("artifacts", "source_rows", "models", "cars", "trim_map", "offer_observations", "specs", "requirements", "runs"):
+    for table in ("artifacts", "source_rows", "models", "cars", "trim_map", "offer_observations", "specs", "used_listings", "requirements", "runs"):
         n = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
         print(f"{table:19s} {n}")
     n_auto = conn.execute("SELECT COUNT(*) FROM cars WHERE json_extract(payload, '$.auto') = 1").fetchone()[0]

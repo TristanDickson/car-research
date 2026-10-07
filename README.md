@@ -95,6 +95,7 @@ Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
 | `rrg` | rrg-group.com Kia PV5 offers | the dealer's PCP example for the PV5 7-seat | scrapes |
 | `carwow_specs` | carwow.co.uk `/specifications` per catalogue model | equipment per trim, numbers per engine, CAP ids with version dates, an image per derivative; a generated car for every derivative nobody curates | scrapes |
 | `kia_specs` | kia.com/uk `/specification` per model | grade × feature ticks, numbers per powertrain, seat variants | scrapes |
+| `carwow_used` | quotes.carwow.co.uk used stock per catalogue model | every used example Carwow's dealers list: derivative, price, year, mileage, town; the buy-used route and the residual evidence | scrapes |
 
 Every scrape is an observation: the body is kept (Bronze), parsed (Silver), resolved to a car
 (one of our 19 curated trims through the trim map, else the generated car for that Carwow
@@ -141,10 +142,13 @@ savings rate (money not spent on a car earns it), the car's expected value at th
 credited back (owned outright: sold; PCP: the equity above the GFV, never below zero;
 lease: nothing), and the present cost is spread as a monthly over the agreement. The
 Pick cards lead with it, the Cars table and every price board rank by it, and the
-bracketed figure is the GFV floor (the car worth only what a lender guarantees). The two
-assumptions, the savings rate and the expected residual as a share of list, live in
-`data/seed/requirements.json` and show on the Data page; the residual is a placeholder
-until a used-market source replaces it.
+bracketed figure is the GFV floor (the car worth only what a lender guarantees). The car's
+value at the end of the term comes from the used market where Carwow's dealers list
+enough examples of that age (the median asking price), else from the best GFV known for
+the car grown at the savings rate, else from the flat assumption in
+`data/seed/requirements.json`; each figure says which. Buying used is the fourth route:
+the cheapest example of the model listed now, costed the same way, competes with the
+finance routes on the cards, and the car page lists the stock by registration year.
 
 Broker leases and prices land on the right derivative by rules with evidence (see
 `docs/ARCHITECTURE.md`, "Resolving broker rows"): the broker's own RRP where it prints

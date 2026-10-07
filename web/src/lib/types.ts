@@ -31,9 +31,9 @@ export interface DealSummary {
   /** Cheapest current offer on one footing (see model/deal_math.py): discounted at the
    * savings rate, the car's expected end value credited back, spread over the term. */
   best_true_monthly: number | null;
-  best_true_route: FinanceType | null;
+  best_true_route: Route | null;
   best_true_offer_id: string | null;
-  true_monthly_by_route: Partial<Record<FinanceType, TrueMonthlyRoute>>;
+  true_monthly_by_route: Partial<Record<Route, TrueMonthlyRoute>>;
   best_cash_price: number | null;
   best_cash_offer_id: string | null;
   best_cash_age_days: number | null;
@@ -141,6 +141,29 @@ export interface SnapshotCar {
   picks: HouseholdPick[];
   requirement_check: RequirementCheck;
   deal_summary: DealSummary;
+  /** The model's used stock (Carwow's partner dealers): the buy-used route and the residual evidence. */
+  used_stock?: UsedSummary | null;
+}
+
+export interface UsedListing {
+  listing_key: string;
+  price_gbp: number;
+  year: number | null;
+  mileage: number | null;
+  derivative: string | null;
+  town: string | null;
+  url: string | null;
+  image_url?: string | null;
+  age_days?: number | null;
+}
+
+export interface UsedSummary {
+  count: number;
+  cheapest: UsedListing;
+  by_year: Record<string, { n: number; median: number; min: number }>;
+  /** What examples registered term-years ago ask today, when there are enough of them. */
+  residual: { value: number; source: string; n: number; year: number } | null;
+  route: { true_monthly: number | null; pv_cost: number; expected_value_at_end: number; residual_source: string; age_years: number | null; horizon_months: number };
 }
 
 export interface HouseholdPick {
@@ -150,6 +173,8 @@ export interface HouseholdPick {
 }
 
 export type FinanceType = "pcp" | "pch" | "cash" | "campaign";
+/** A route on the true-monthly footing: the three finance types plus buying used. */
+export type Route = "pcp" | "pch" | "cash" | "used";
 
 export interface DealMetrics {
   skipped?: string;
@@ -159,6 +184,8 @@ export interface DealMetrics {
   true_monthly_floor?: number | null;
   pv_cost?: number | null;
   expected_value_at_end?: number | null;
+  /** used-market (the model's stock at that age), gfv-grown (the lender's floor at the savings rate), assumption */
+  residual_source?: string;
   expected_equity?: number | null;
   horizon_months?: number | null;
   // pcp
@@ -396,4 +423,5 @@ export interface SnapshotModel {
   derivatives: number;
   cars: number;
   priced: number;
+  used?: number;
 }

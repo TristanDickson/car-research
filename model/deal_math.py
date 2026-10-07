@@ -91,6 +91,30 @@ def residual_value(list_price, months, basis):
     return list_price * pct ** (months / at)
 
 
+def gfv_grown(gfv, months, basis):
+    """A lender's guaranteed value, grown at the savings rate over the term: the
+    GFV is the floor a lender was happy to stand behind, so the expectation sits
+    above it by about the rate they would have discounted at."""
+    if not gfv:
+        return None
+    r = basis.get("savings_rate_apr") or 0.0
+    return gfv * (1 + r) ** (months / 12)
+
+
+def expected_value(car_id, list_price, months, basis, residuals=None, gfv=None):
+    """(value, source) at `months`: the used market's own figure for the model
+    at that age when the export computed one, else the best GFV known for the
+    car grown at the savings rate, else the flat share-of-list assumption."""
+    r = (residuals or {}).get(car_id)
+    if r and r.get("value"):
+        return float(r["value"]), r.get("source") or "used-market"
+    v = gfv_grown(gfv, months, basis)
+    if v:
+        return v, "gfv-grown"
+    v = residual_value(list_price, months, basis)
+    return v, ("assumption" if v else "none")
+
+
 def true_monthly(outflows, inflows, horizon, basis):
     """(pv_cost, true_monthly): flows as [(month, amount)], discounted at the
     savings rate, the net present cost spread as an annuity over `horizon` months."""
@@ -120,7 +144,7 @@ def payment_flows(d, n, m, first, gfv):
     return flows
 
 
-def pcp_metrics(d, best_cash, basis=None):
+def pcp_metrics(d, best_cash, basis=None, residuals=None, floor_gfv=None):
     basis = basis or DEFAULT_BASIS
     out = {"id": d["id"], "car_id": d["car_id"], "finance_type": "pcp", "status": d["status"]}
     n = d.get("num_payments")
@@ -189,12 +213,12 @@ def pcp_metrics(d, best_cash, basis=None):
     # True monthly: deposit + fees now, the payments, and at the end the option to
     # buy at the GFV and sell at the expected value (worth max(V - GFV, 0)).
     outflows = [(0, dep + fees), (1, first)] + [(k, m) for k in range(2, n + 1)]
-    v = residual_value(d.get("list_price") or price, n + 1, basis)
+    v, v_src = expected_value(d["car_id"], d.get("list_price") or price, n + 1, basis, residuals, gfv or floor_gfv)
     equity = max((v or 0.0) - gfv, 0.0) if v is not None else 0.0
     pv, tm = true_monthly(outflows, [(n + 1, equity)], n + 1, basis)
     pv_floor, tm_floor = true_monthly(outflows, [], n + 1, basis)
     out.update({
-        "expected_value_at_end": round(v, 2) if v is not None else None,
+        "expected_value_at_end": round(v, 2) if v is not None else None, "residual_source": v_src,
         "expected_equity": round(equity, 2),
         "pv_cost": pv, "true_monthly": tm,
         "pv_cost_floor": pv_floor, "true_monthly_floor": tm_floor,
@@ -243,7 +267,7 @@ def pch_metrics(d, basis=None):
     return out
 
 
-def cash_metrics(d, basis=None, floor_gfv=None):
+def cash_metrics(d, basis=None, floor_gfv=None, residuals=None):
     basis = basis or DEFAULT_BASIS
     out = {
         "id": d["id"], "car_id": d["car_id"], "finance_type": "cash", "status": d["status"],
@@ -253,10 +277,10 @@ def cash_metrics(d, basis=None, floor_gfv=None):
     # True monthly: the price now (money that would otherwise earn the savings
     # rate), the car sold at its expected value at the end of the standard term.
     horizon = int(basis.get("term_months") or 37)
-    v = residual_value(d.get("list_price") or d["vehicle_price"], horizon, basis)
+    v, v_src = expected_value(d["car_id"], d.get("list_price") or d["vehicle_price"], horizon, basis, residuals, floor_gfv)
     pv, tm = true_monthly([(0, d["vehicle_price"])], [(horizon, v or 0.0)], horizon, basis)
-    out.update({"expected_value_at_end": round(v, 2) if v is not None else None, "pv_cost": pv, "true_monthly": tm,
-                "horizon_months": horizon})
+    out.update({"expected_value_at_end": round(v, 2) if v is not None else None, "residual_source": v_src,
+                "pv_cost": pv, "true_monthly": tm, "horizon_months": horizon})
     if floor_gfv:
         # The floor: the car worth only what a lender guarantees for it.
         pv_f, tm_f = true_monthly([(0, d["vehicle_price"])], [(horizon, floor_gfv)], horizon, basis)
@@ -264,8 +288,10 @@ def cash_metrics(d, basis=None, floor_gfv=None):
     return out
 
 
-def compute(deals, basis=None):
-    """`basis` is requirements.json's quoting_basis (term, savings rate, residual assumption)."""
+def compute(deals, basis=None, residuals=None):
+    """`basis` is requirements.json's quoting_basis (term, savings rate, residual
+    assumption); `residuals` {car_id: {value, source}} is what the used market
+    says a car is worth at the end of the term, where the export found evidence."""
     basis = {**DEFAULT_BASIS, **(basis or {})}
     cash = [d for d in deals if d["finance_type"] == "cash" and d.get("vehicle_price")]
     best_cash = {}
@@ -282,11 +308,11 @@ def compute(deals, basis=None):
     for d in deals:
         t = d["finance_type"]
         if t == "pcp":
-            results.append(pcp_metrics(d, best_cash.get(d["car_id"]), basis))
+            results.append(pcp_metrics(d, best_cash.get(d["car_id"]), basis, residuals, floor_gfv.get(d["car_id"])))
         elif t == "pch":
             results.append(pch_metrics(d, basis))
         elif t == "cash":
-            results.append(cash_metrics(d, basis, floor_gfv.get(d["car_id"])))
+            results.append(cash_metrics(d, basis, floor_gfv.get(d["car_id"]), residuals))
         else:
             results.append({"id": d["id"], "car_id": d["car_id"], "finance_type": t, "status": d["status"],
                             "apr": d.get("apr"), "manufacturer_contribution": d.get("manufacturer_contribution"),
@@ -354,3 +380,20 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def used_route(price, age_years, basis, value_at_end=None):
+    """The 'buy used' route for one listing: the price now, the car sold after the
+    standard term at `value_at_end` (the used market's figure for the model at
+    age + term where the export found one), else on the flat curve from here.
+    Returns the metrics dict the other routes produce."""
+    horizon = int(basis.get("term_months") or 37)
+    v = value_at_end
+    src = "used-market"
+    if not v:
+        pct, at = basis.get("residual_pct_of_list"), basis.get("residual_at_months") or 36
+        v = price * (pct ** (horizon / at)) if pct else 0.0
+        src = "assumption"
+    pv, tm = true_monthly([(0, price)], [(horizon, v)], horizon, basis)
+    return {"finance_type": "used", "vehicle_price": price, "age_years": age_years, "expected_value_at_end": round(v, 2),
+            "residual_source": src, "pv_cost": pv, "true_monthly": tm, "horizon_months": horizon}

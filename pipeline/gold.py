@@ -359,6 +359,33 @@ def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
         )
         written += 1
 
+    used_seen: dict[tuple[str, str], set[str]] = {}
+    for artifact_id, rec in records.get("used", []):
+        r = rec.row
+        car_id = None
+        ref = r.get("car_ref") or {}
+        if ref.get("make"):
+            # Link to a derivative where the text names one; never a trim-map row (stock is not an offer).
+            res = resolve.choose(ref, _auto_candidates(conn, ref.get("make"), ref.get("model")), conn)
+            car_id = res.car_id
+        conn.execute(
+            """INSERT INTO used_listings (listing_key, source, make, make_slug, model, model_slug, car_id, price_gbp, year, mileage,
+                 present, payload, first_seen_at, last_seen_at, artifact_id, run_id)
+               VALUES (?,?,?,?,?,?,?,?,?,?,1,?,?,?,?,?)
+               ON CONFLICT(listing_key) DO UPDATE SET price_gbp=excluded.price_gbp, mileage=excluded.mileage, present=1,
+                 car_id=COALESCE(excluded.car_id, used_listings.car_id), payload=excluded.payload,
+                 last_seen_at=excluded.last_seen_at, artifact_id=excluded.artifact_id, run_id=excluded.run_id""",
+            (r["listing_key"], source, r.get("make"), r.get("make_slug"), r.get("model"), r.get("model_slug"), car_id,
+             r.get("price_gbp"), r.get("year"), r.get("mileage"), _dump(r), now, now, artifact_id, run_id),
+        )
+        used_seen.setdefault((r.get("make_slug"), r.get("model_slug")), set()).add(r["listing_key"])
+        written += 1
+    for (mk, mo), keys in used_seen.items():
+        # A listing not on the model's page this run has been sold or withdrawn.
+        marks = ",".join("?" * len(keys))
+        conn.execute(f"UPDATE used_listings SET present=0 WHERE make_slug=? AND model_slug=? AND present=1 AND listing_key NOT IN ({marks})",
+                     (mk, mo, *keys))
+
     for artifact_id, rec in records.get("requirements", []):
         r = rec.row
         conn.execute(

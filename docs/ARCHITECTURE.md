@@ -17,6 +17,7 @@ providers (discover → fetch → parse)       pipeline/providers/*      Python,
    leaseloco       leaseloco.com (live)      best personal lease per derivative/profile (ex-VAT → inc.)
    rrg             rrg-group.com (live)      dealer PCP example for the PV5 7-seat
    kia_specs       kia.com/uk (live)         grade × feature ticks, numbers per powertrain, seat variants
+   carwow_used     quotes.carwow.co.uk        used stock per model: derivative, price, year, mileage (the buy-used route; residual evidence)
         │  Bronze  artifacts            every fetched body, sha256-addressed, supersede chain
         │  Silver  source_rows          one row per parsed record, in the source's vocabulary
         │  Gold    models               the catalogue: <make>/<model>, names, electric / has_deals / has_specs
@@ -24,9 +25,10 @@ providers (discover → fetch → parse)       pipeline/providers/*      Python,
         │          trim_map             (site, trim-as-printed) → car_id; 'auto' = a generated car; misses 'unmapped'
         │          offer_observations   one row per offer key per sighting (present / gone)
         │          specs                one row per source variant: equipment, flags, numbers, image
+        │          used_listings        used stock as current state (present / gone), linked to a derivative where named
         ▼          requirements
 SQLite  data/car-research.sqlite            gitignored: a dev-machine artifact
-        │  ⇄ data/history/{observations,specs,models,resolutions,backfill}.jsonl  COMMITTED: every refresh
+        │  ⇄ data/history/{observations,specs,models,resolutions,used,backfill}.jsonl  COMMITTED: every refresh
         │                                      rewrites them, every run (CI, a fresh clone) replays them first
         ▼  export_snapshot()                 pipeline/services/snapshot.py
 JSON    web/public/data/{manifest,cars,offers,requirements,data}.json   COMMITTED on main
@@ -287,6 +289,23 @@ assumptions, shown on the Data page, until a used-market source replaces the res
 With V = GFV the PCP figure is today's hand-back arithmetic, so `true_monthly_floor` is
 the pessimistic case. The exporter puts the best current true monthly per route on
 each car (`deal_summary.true_monthly_by_route`) and the app ranks offers by it.
+
+Where V comes from, in order (`deal_math.expected_value`, reported as `residual_source`):
+
+1. **used-market**: the median asking price of the model's used examples registered
+   term-years ago (three or more of them), from `carwow_used`. Carwow's partner dealers'
+   stock, so a few to a few dozen cars per model; model-level, not per trim.
+2. **gfv-grown**: the highest GFV any lender guarantees for the car, grown at the savings
+   rate over the term. The lender stood behind the floor; the expectation sits above it by
+   about the rate they discounted at. No forecasting beyond that.
+3. **assumption**: the flat share of list from `quoting_basis`.
+
+`carwow_used` is also the fourth route. Per model the cheapest car listed now is costed
+like the others (price now, sold after the term at what examples that much older ask
+today, else on the flat curve), lands in `deal_summary.true_monthly_by_route.used` and
+competes with the finance routes on the Pick cards; the car page lists the stock by
+registration year. Used stock is current state, not history: a listing not on the
+model's page any more is marked gone, and `data/history/used.jsonl` replays it.
 
 ## Finance maths lives in the pipeline
 

@@ -134,7 +134,8 @@ function CarView() {
               ["Best current cash", withAge(gbp(c.deal_summary.best_cash_price), c.deal_summary.best_cash_age_days)],
               ["Best current PCP £0 down", withAge(c.deal_summary.best_pcp_monthly != null ? `${gbp(c.deal_summary.best_pcp_monthly)}/mo` : "—", c.deal_summary.best_pcp_age_days)],
               ["Best current PCH effective", withAge(c.deal_summary.best_pch_effective_monthly != null ? `${gbp(c.deal_summary.best_pch_effective_monthly)}/mo` : "—", c.deal_summary.best_pch_age_days)],
-              ["Used from (Carwow)", gbp(c.used_from_gbp)],
+              ["Used from (Carwow)", c.used_stock ? `${gbp(c.used_stock.cheapest.price_gbp)} (${c.used_stock.cheapest.year ?? "?"})` : gbp(c.used_from_gbp)],
+              ["Expected value at term end", c.used_stock?.residual ? `${gbp(c.used_stock.residual.value)} · ${c.used_stock.residual.n} × ${c.used_stock.residual.year} examples` : "from the GFV or the assumption"],
               ["Expensive-car VED", c.expensive_car_supplement ? "yes (£440/yr)" : "no"],
             ]}
           />
@@ -155,6 +156,49 @@ function CarView() {
         <Card title="Notes">
           <p className="text-sm text-gray-300">{c.notes}</p>
           <p className="mt-2 text-xs text-gray-500">verification: {c.verification ?? "—"}</p>
+        </Card>
+      )}
+
+      {c.used_stock && (
+        <Card title={`Buy used · ${c.used_stock.count} example${c.used_stock.count === 1 ? "" : "s"} of this model on Carwow`}>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="text-sm text-gray-300">
+              <div>
+                Cheapest: <b className="tabular-nums">{gbp(c.used_stock.cheapest.price_gbp)}</b> · {c.used_stock.cheapest.year ?? "?"} · {num(c.used_stock.cheapest.mileage)} miles
+                {c.used_stock.cheapest.town ? ` · ${c.used_stock.cheapest.town}` : ""}
+              </div>
+              <div className="text-xs text-gray-500">{c.used_stock.cheapest.derivative}</div>
+              {c.used_stock.cheapest.url && (
+                <a href={c.used_stock.cheapest.url} target="_blank" rel="noreferrer" className="text-xs text-gray-400 underline">listing</a>
+              )}
+              <div className="mt-2">
+                True cost as a route: <b className="tabular-nums">{c.used_stock.route.true_monthly != null ? `${gbp(c.used_stock.route.true_monthly)}/mo` : "—"}</b>
+                <span className="text-xs text-gray-500">
+                  {" "}· sold after the term at {gbp(c.used_stock.route.expected_value_at_end)} ({c.used_stock.route.residual_source === "used-market" ? "what examples that much older ask today" : "on the flat assumption"})
+                </span>
+              </div>
+            </div>
+            <div>
+              <div className="mb-1 text-xs uppercase tracking-wide text-gray-500">Asking prices by registration year</div>
+              <table className="w-full text-sm">
+                <tbody>
+                  {Object.entries(c.used_stock.by_year).sort((a, b) => Number(b[0]) - Number(a[0])).map(([y, v]) => (
+                    <tr key={y} className="border-t border-gray-800">
+                      <td className="py-0.5 pr-3">{y}</td>
+                      <td className="py-0.5 pr-3 text-right tabular-nums">{v.n} listed</td>
+                      <td className="py-0.5 pr-3 text-right tabular-nums">from {gbp(v.min)}</td>
+                      <td className="py-0.5 text-right tabular-nums">median {gbp(v.median)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {c.used_stock.residual && (
+                <p className="mt-2 text-xs text-gray-500">
+                  The {c.used_stock.residual.year} median ({gbp(c.used_stock.residual.value)}, {c.used_stock.residual.n} cars) is the end-of-term value used for this car&apos;s PCP equity and outright cost.
+                </p>
+              )}
+            </div>
+          </div>
         </Card>
       )}
 

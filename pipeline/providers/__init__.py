@@ -11,6 +11,7 @@ from pipeline.providers import (
     carwow_deals,
     carwow_paste,
     carwow_specs,
+    carwow_used,
     hyundai_offers,
     kia_specs,
     leaseloco,
@@ -40,6 +41,7 @@ PROVIDERS: dict[str, Provider] = {
         leaseloco.provider,
         rrg.provider,
         kia_specs.provider,
+        carwow_used.provider,      # used stock per model: the 'buy used' route and the residual evidence
     )
 }
 
