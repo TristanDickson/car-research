@@ -15,6 +15,7 @@
 | Lexus RZ Urban · 300e 150kW 71 kWh Auto | illustrative | £45,722 | £4,500 | £9,144 | £410 × 36 | 0.0% / 0.5% | £17,730 (38.8%) | £23,904 | £41,634 | £412 | £664 | £399 | £45,721 | £-4,087 | -4.8% |
 | Vauxhall Mokka Electric Design · 115kW Griffin 54kWh Auto | illustrative | £26,475 | £3,500 | £5,294 | £303 × 36 | 7.9% / 8.5% | £10,315 (39.0%) | £16,202 | £26,517 | £3,542 | £450 | £205 | £24,612 | £1,905 | 4.2% |
 | Citroen e-SpaceTourer You · 100kW M49kWh Auto | illustrative | £31,474 | £0 | £6,294 | £441 × 37 | 6.9% / 7.5% | £13,318 (42.3%) | £22,611 | £35,929 | £4,455 | £611 | £321 | £29,960 | £5,969 | 10.6% |
+| Vauxhall Grandland Electric Design · 157kW 73kWh Auto | illustrative | £33,251 | £2,500 | £4,147 | £317 × 36 | 7.9% / 8.2% | £20,991 (63.1%) | £15,559 | £36,550 | £5,798 | £432 | £156 | £33,333 | £3,217 | 4.2% |
 | Citroen e-C3 Aircross Plus · 83kW 44kWh Auto | illustrative | £20,131 | £378 | £4,026 | £193 × 37 | 6.9% / 7.2% | £11,619 (57.7%) | £11,167 | £22,786 | £3,033 | £302 | £111 | £19,832 | £2,954 | 7.0% |
 | Peugeot e-308 Allure · 115kW 54kWh Auto | illustrative | £31,765 | £2,500 | £6,352 | £364 × 37 | 6.9% / 7.4% | £13,617 (42.9%) | £19,820 | £33,437 | £4,172 | £536 | £251 | £27,357 | £6,080 | 11.6% |
 | Fiat Grande Panda Electric La Prima · 83kW 44kWh Auto | illustrative | £21,610 | £150 | £4,621 | £264 × 36 | 8.9% / 9.3% | £11,225 (51.9%) | £14,125 | £25,350 | £3,890 | £392 | £156 | £23,078 | £2,272 | 5.1% |
@@ -25,11 +26,13 @@
 | Fiat 500 Electric Convertible Standard · 87kW 42kWh Auto | illustrative | £27,727 | £1,000 | £5,845 | £285 × 36 | 0.0% / 0.6% | £10,928 (39.4%) | £16,105 | £27,033 | £306 | £447 | £276 | £28,526 | £-1,493 | -2.9% |
 | Citroen e-Berlingo Plus · 100kW M 52kWh Auto | illustrative | £30,435 | £3,000 | £6,086 | £359 × 37 | 6.9% / 7.5% | £11,906 (39.1%) | £19,369 | £31,275 | £3,840 | £523 | £255 | £23,520 | £7,755 | 17.8% |
 | Fiat 600e Icon · 115kW 54kWh Auto | illustrative | £28,197 | £700 | £5,939 | £270 × 36 | 3.2% / 3.6% | £13,797 (48.9%) | £15,659 | £29,456 | £1,959 | £435 | £216 | £26,368 | £3,088 | 6.0% |
+| Peugeot E-5008 Allure · 157kW 73kWh Auto | illustrative | £43,685 | £1,100 | £8,736 | £367 × 37 | 2.9% / 3.2% | £23,169 (53.0%) | £22,315 | £45,484 | £2,899 | £603 | £289 | £33,164 | £12,320 | 17.7% |
 | Abarth 600e Standard · 175kW 54kWh Auto | illustrative | £31,012 | £1,300 | £6,203 | £161 × 36 | 0.0% / 0.3% | £17,877 (57.6%) | £11,999 | £29,876 | £163 | £333 | £156 | £30,711 | £-835 | -1.3% |
 | Citroen e-C5 Aircross You · 157kW 73kWh Auto | illustrative | £30,915 | £1,500 | £6,182 | £246 × 37 | 5.9% / 6.2% | £18,048 (58.4%) | £15,284 | £33,332 | £3,917 | £413 | £140 | £29,943 | £3,389 | 5.2% |
 | Citroen e-C4 You · 100kW 50kWh Auto | illustrative | £25,280 | £1,000 | £5,055 | £344 × 37 | 5.9% / 6.6% | £9,420 (37.3%) | £17,783 | £27,203 | £2,923 | £481 | £265 | £23,756 | £3,447 | 7.9% |
 | Volvo EX30 Core · 200kW Single Motor 51kWh Auto | illustrative | £35,160 | £0 | £7,032 | £398 × 36 | 0.0% / 0.0% | £13,821 (39.3%) | £21,360 | £35,181 | £21 | £593 | £397 | £33,060 | £2,121 | 3.5% |
 | Polestar 4 Long Range Single Motor · 200kW 100kWh Auto | illustrative | £50,750 | £0 | £10,150 | £557 × 36 | 0.0% / 0.0% | £20,574 (40.5%) | £30,202 | £50,776 | £26 | £839 | £556 | £50,750 | £26 | 0.0% |
+| Toyota bZ4X Pure · 150kW 71.4kWh Auto | illustrative | £35,495 | £4,000 | £7,099 | £310 × 36 | 0.0% / 0.6% | £13,568 (38.2%) | £18,259 | £31,826 | £332 | £507 | £301 | £35,495 | £-3,668 | -5.6% |
 | Renault 4 E-Tech Evolution · 110kW 52kWh Comfort range Auto | illustrative | £21,331 | £250 | £4,266 | £192 × 36 | 6.9% / 7.0% | £13,019 (61.0%) | £11,178 | £24,197 | £3,116 | £310 | £105 | £23,580 | £617 | 1.2% |
 | Jeep Avenger Electric Longitude · 115kW e-Longitude 54kWh Auto | illustrative | £26,258 | £4,200 | £6,171 | £176 × 36 | 4.9% / 5.2% | £11,718 (44.6%) | £12,507 | £24,225 | £2,167 | £347 | £116 | £27,037 | £-2,812 | -5.5% |
 | Hyundai Inster 01 · 71kW 42kWh Auto | illustrative | £21,459 | £2,950 | £4,291 | £140 × 36 | 0.0% / 0.1% | £9,213 (42.9%) | £9,331 | £18,544 | £35 | £259 | £139 | £19,505 | £-961 | -2.5% |
@@ -135,6 +138,7 @@
 | Ford Mustang Mach-E Premium · 276kW 88kWh AWD Auto | lead | 48 | £6,648 | £554 × 47 | £0 | £32,686 | £681 | 5000 |
 | Ford Mustang Mach-E Select · 197kW 73kWh RWD Auto | lead | 48 | £4,437 | £370 × 47 | £358 | £22,174 | £462 | 6000 |
 | Ford Mustang Mach-E GT · 358kW 91kWh AWD Auto | lead | 48 | £7,634 | £636 × 47 | £0 | £37,533 | £782 | 5000 |
+| Leapmotor C10 Standard · 160kW 70kWh Auto | lead | 24 | £2,537 | £211 × 23 | £0 | £7,399 | £308 | 5000 |
 | BYD Sealion 7 Comfort · 230kW 83kWh Auto | lead | 36 | £4,368 | £364 × 35 | £0 | £17,109 | £475 | 10000 |
 | BYD Sealion 7 Design · 390kW AWD 83kWh Auto | lead | 24 | £3,229 | £359 × 23 | £400 | £11,883 | £495 | 5000 |
 | Lexus RZ Premium + · 450e 230kW Direct4 71 kWh Auto | lead | 48 | £6,806 | £1,134 × 47 | £295 | £60,411 | £1,259 | 10000 |
@@ -544,7 +548,7 @@
 | Volvo EX30 Plus · 315kW P8 69kWh AWD Auto | lead | 36 | £4,432 | £369 × 35 | £0 | £17,360 | £482 | 10000 |
 | Volvo EX30 Ultra · 200kW P5 Long Range 69kWh Auto | lead | 48 | £5,474 | £456 × 47 | £0 | £26,916 | £561 | 10000 |
 | Volvo EX30 Ultra · 315kW P8 69kWh AWD Auto | lead | 48 | £5,157 | £430 × 47 | £350 | £25,703 | £535 | 8000 |
-| Kia EV9 GT-Line S · 282kW 99.8kWh AWD Auto | lead | 48 | £8,469 | £706 × 47 | £300 | £41,940 | £874 | 5000 |
+| Kia EV9 GT-Line S · 282kW 99.8kWh AWD (6St) Auto | lead | 48 | £8,469 | £706 × 47 | £300 | £41,940 | £874 | 5000 |
 | Kia EV9 GT-Line S · 282kW 99.8kWh AWD Auto | lead | 48 | £8,523 | £710 × 47 | £300 | £42,205 | £879 | 5000 |
 | Peugeot E-208 Allure · 100kW 50kWh Auto | lead | 48 | £4,615 | £385 × 47 | £350 | £23,043 | £480 | 10000 |
 | Peugeot E-208 Allure · 115kW 51kWh Auto | lead | 48 | £4,679 | £390 × 47 | £350 | £23,357 | £487 | 10000 |
@@ -869,6 +873,8 @@
 | Volkswagen ID.7 Match Pro S · 210kW 86kWh Auto | lead | £59,580 | £59,580 | £0 |
 | Volkswagen ID.7 GTX · 250kW 4MOTION 86kWh Auto | lead | £62,010 | £62,010 | £0 |
 | Volkswagen ID.7 GTX · 250kW 4MOTION 86kWh Auto | lead | £63,110 | £63,110 | £0 |
+| Toyota bZ4X Motion · 160kW 71.4kWh Auto AWD | lead | £52,110 | £49,543 | £2,567 |
+| Toyota bZ4X Vision · 160kW 71.4kWh Auto AWD | lead | £54,010 | £51,348 | £2,662 |
 | Mercedes-Benz EQE Sport Edition · EQE 350+ 215kW 96kWh Auto | lead | £69,105 | £69,105 | £0 |
 | Mercedes-Benz EQE AMG Line Edition · EQE 350+ 215kW 96kWh Auto | lead | £74,605 | £74,605 | £0 |
 | Mercedes-Benz EQE AMG Line Night Edition · EQE 350+ 215kW AMG Line Nt Ed Prem 96kWh Auto | lead | £79,605 | £79,605 | £0 |
@@ -879,6 +885,21 @@
 | Audi Q4 e-tron S Line · 125kW 35 55kWh Auto | lead | £54,105 | £49,361 | £4,744 |
 | Audi Q4 e-tron S Line · 125kW 35 55kWh Auto | lead | £49,610 | £45,153 | £4,457 |
 | Audi Q4 e-tron S Line · 125kW 35 55kWh Auto | lead | £51,105 | £46,586 | £4,519 |
+| Volvo EC40 Plus · 185kW Extended Range 78kWh Auto | lead | £54,305 | £52,305 | £2,000 |
+| Volvo EC40 Ultra · 185kW Extended Range 78kWh Auto | lead | £58,355 | £55,855 | £2,500 |
+| Volvo EC40 Plus Black Edition · 185kW Ext Range 78kWh Auto | lead | £55,055 | £53,055 | £2,000 |
+| Volvo EC40 Ultra Black Edition · 185kW Ext Range 78kWh Auto | lead | £58,605 | £56,105 | £2,500 |
+| Skoda Enyaq Edition · 210kW 85 82kWh Auto | lead | £44,540 | £44,290 | £250 |
+| Skoda Enyaq Edition · 210kW 85 82kWh Auto | lead | £46,690 | £46,440 | £250 |
+| Skoda Enyaq Edition · 210kW 85 82KWh Auto | lead | £48,945 | £48,695 | £250 |
+| Skoda Enyaq Sportline Plus · 210kW 85x 82kWh 4x4 Auto | lead | £48,605 | £48,355 | £250 |
+| Skoda Enyaq Sportline Plus · 210kW 85x 82kWh 4x4 Auto | lead | £50,640 | £50,390 | £250 |
+| Skoda Enyaq Sportline Plus · 210kW 85x 82kWh 4x4 Auto | lead | £52,585 | £52,325 | £260 |
+| Skoda Enyaq Edition · 210kW 85 82kWh Auto | lead | £45,920 | £45,670 | £250 |
+| Skoda Enyaq Edition · 210kW 85 82kWh Auto | lead | £48,070 | £47,820 | £250 |
+| Skoda Enyaq Edition · 210kW 85 82kWh Auto | lead | £50,325 | £50,075 | £250 |
+| Peugeot E-2008 Allure · 100kW 50kWh Auto | lead | £34,400 | £24,059 | £10,341 |
+| Peugeot E-2008 GT · 100kW 50kWh Auto | lead | £36,550 | £25,010 | £11,540 |
 | Hyundai Kona Electric Advance · 115kW 48kWh Auto | lead | £34,995 | £30,995 | £4,000 |
 | Hyundai Kona Electric Advance · 115kW 48kWh Auto | lead | £35,595 | £31,595 | £4,000 |
 | Mercedes-Benz EQB AMG Line Executive · EQB 250+ 140kW 70.5kWh Auto | lead | £55,060 | £55,060 | £0 |
@@ -937,6 +958,8 @@
 | Audi A6 Sportback e-tron Edition 1 · 315kW Quattro 100kWh Auto | lead | £86,735 | £79,865 | £6,870 |
 | Audi A6 Sportback e-tron Edition 1 · 315kW Quattro 100kWh Auto | lead | £89,035 | £81,981 | £7,054 |
 | Audi A6 Sportback e-tron Edition 1 · 315kW Quattro 100kWh Auto | lead | £83,540 | £76,926 | £6,614 |
+| Toyota bZ4X Vision · 150kW 71.4kWh Auto | lead | £49,360 | £43,503 | £5,857 |
+| Toyota bZ4X Vision · 160kW 71.4kWh Auto AWD | lead | £51,960 | £45,843 | £6,117 |
 | BYD Dolphin Active · 70kW 44.9kWh Auto | lead | £26,205 | £23,750 | £2,455 |
 | BYD Dolphin Boost · 130kW 44.9kWh Auto | lead | £27,205 | £24,950 | £2,255 |
 | Audi Q6 e-tron Sportback Sport · 285kW Quattro 100kWh Auto | lead | £72,015 | £66,323 | £5,692 |
@@ -1000,6 +1023,12 @@
 | Hyundai Kona Electric Ultimate · 160kW 65kWh Auto | lead | £41,000 | £34,875 | £6,125 |
 | Hyundai Kona Electric Ultimate · 160kW 65kWh Auto | lead | £40,300 | £34,256 | £6,044 |
 | Hyundai Kona Electric Ultimate · 160kW 65kWh Auto | lead | £41,900 | £35,672 | £6,228 |
+| Vauxhall Grandland Electric GS · 157kW 73kWh Auto | lead | £38,505 | £31,976 | £6,529 |
+| Vauxhall Grandland Electric Ultimate · 157kW 73kWh Auto | lead | £40,795 | £34,860 | £5,935 |
+| Toyota bZ4X Motion · 150kW 71.4kWh Auto | lead | £46,195 | £38,594 | £7,601 |
+| Toyota bZ4X Vision · 160kW 71.4kWh Auto AWD 11kW | lead | £52,395 | £44,267 | £8,128 |
+| Toyota bZ4X Motion · 160kW 71.4kWh Auto AWD | lead | £47,945 | £40,195 | £7,750 |
+| Toyota bZ4X Vision · 160kW 71.4kWh Auto AWD | lead | £51,545 | £43,489 | £8,056 |
 | Citroen e-C3 Aircross Plus · 83kW 44kWh Auto | lead | £23,095 | £19,832 | £3,263 |
 | Audi Q6 e-tron Sport · 285kW Quattro 100kWh Auto | lead | £69,515 | £61,277 | £8,238 |
 | Audi Q6 e-tron S Line · 285kW Quattro 100kWh Auto | lead | £72,515 | £63,917 | £8,598 |
@@ -1057,6 +1086,7 @@
 | Polestar 2 Standard Range Prime · 200kW 70kWh Standard Range SM Prime Auto | lead | £46,260 | £42,760 | £3,500 |
 | Polestar 2 Long Range Prime · 220kW 82kWh Long Range SM Prime Auto | lead | £50,260 | £46,760 | £3,500 |
 | Polestar 2 Long Range Prime · 310kW 82kWh Long Range DM Prime 4WD Auto | lead | £54,260 | £50,760 | £3,500 |
+| Vauxhall Grandland Electric Design · 157kW 73kWh Auto | lead | £36,955 | £33,333 | £3,622 |
 | Peugeot e-308 SW Allure · 115kW 54kWh Auto | lead | £36,160 | £27,990 | £8,170 |
 | Peugeot e-308 SW GT · 115kW 54kWh Auto | lead | £38,410 | £29,812 | £8,598 |
 | BYD Dolphin Surf Active · 65kW 30kWh Auto | lead | £18,675 | £17,598 | £1,077 |
@@ -1101,6 +1131,7 @@
 | Ford Explorer Style · 125kW 52kWh Auto | lead | £41,485 | £35,001 | £6,484 |
 | Ford Explorer Style · 125kW 52kWh Auto | lead | £40,185 | £33,779 | £6,406 |
 | Ford Explorer Style · 125kW 52kWh Auto | lead | £42,385 | £35,847 | £6,538 |
+| Renault Scenic E-Tech Iconic Esprit Alpine · 160kW 87kWh Long Range AT | lead | £41,995 | £34,887 | £7,108 |
 | Audi Q4 e-tron Sport · 210kW 45 82kWh Auto | lead | £51,360 | £45,324 | £6,036 |
 | Audi Q4 e-tron Sport · 210kW 45 82kWh Auto | lead | £52,110 | £46,014 | £6,096 |
 | Audi Q4 e-tron Sport · 210kW 45 82kWh Auto | lead | £55,855 | £49,460 | £6,395 |
@@ -1141,6 +1172,15 @@
 | Citroen e-C4 Max · 115kW 54kWh Auto | lead | £31,505 | £26,351 | £5,154 |
 | Citroen e-Berlingo Plus · 100kW M 52kWh Auto | lead | £31,390 | £23,520 | £7,870 |
 | Citroen e-Berlingo Plus · 100kW XL 52kWh Auto | lead | £32,290 | £24,231 | £8,059 |
+| Mercedes-Benz EQS AMG Line · EQS 450+ 265kW 118kWh Auto | lead | £112,620 | £112,620 | £0 |
+| Mercedes-Benz EQS AMG Line · EQS 450+ 265kW Premium+ 118kWh Auto | lead | £119,620 | £119,620 | £0 |
+| Mercedes-Benz EQS Business Class · EQS 450+ 265kW 118kWh Auto | lead | £119,620 | £119,620 | £0 |
+| Mercedes-Benz EQS AMG Line · EQS 350 215kW 96kWh Auto | lead | £99,845 | £99,845 | £0 |
+| Mercedes-Benz EQS AMG Line · EQS 350 215kW Premium+ 96kWh Auto | lead | £106,845 | £106,845 | £0 |
+| Mercedes-Benz EQS Business Class · EQS 350 215kW 96kWh Auto | lead | £106,845 | £106,845 | £0 |
+| Mercedes-Benz EQS AMG Line · EQS 450 4M 265kW Premium 118kWh Auto | lead | £115,920 | £115,920 | £0 |
+| Mercedes-Benz EQS AMG Line · EQS 450 4M 265kW Premium+ 118kWh Auto | lead | £122,920 | £122,920 | £0 |
+| Mercedes-Benz EQS Business Class · EQS 450 265kW 118kWh Auto | lead | £122,920 | £122,920 | £0 |
 | Volvo EX30 Plus · 200kW Single Motor 51kWh Auto | lead | £35,160 | £35,160 | £0 |
 | Volvo EX30 Plus · 200kW SM Extended Range 69kWh Auto | lead | £39,860 | £39,860 | £0 |
 | Volvo EX30 Plus · 315kW Twin Motor Performance 69kWh Auto | lead | £42,360 | £42,360 | £0 |
@@ -1218,6 +1258,8 @@
 | Cupra Born VZ · 240kW e-Boost 79kWh Auto | lead | £44,820 | £35,687 | £9,133 |
 | Cupra Born V3 · 170kW e-Boost 79kWh Auto | lead | £41,805 | £32,883 | £8,922 |
 | Toyota Proace City Verso Electric Shuttle · 100kW Long 50kWh Auto | lead | £34,223 | £32,723 | £1,500 |
+| Toyota bZ4X Motion · 160kW 71.4kWh Auto AWD 11kW | lead | £49,475 | £49,475 | £0 |
+| Toyota bZ4X Pure · 150kW 71.4kWh Auto | lead | £36,995 | £35,495 | £1,500 |
 | Renault 4 E-Tech Evolution · 110kW 52kWh Comfort range Auto | lead | £27,195 | £23,580 | £3,615 |
 | Renault 4 E-Tech Techno · 110kW 52kWh Comfort range Auto | lead | £29,195 | £25,420 | £3,775 |
 | Renault 4 E-Tech Iconic · 110kW 52kWh Comfort range Auto | lead | £31,195 | £27,260 | £3,935 |
@@ -1957,7 +1999,7 @@
 | Kia EV9 Air · 149kW 99.8kWh Auto | lead | £66,645 | £60,722 | £5,923 |
 | Kia EV9 GT-Line · 282kW 99.8kWh AWD Auto | lead | £74,645 | £68,002 | £6,643 |
 | Kia EV9 GT-Line S · 282kW 99.8kWh AWD Auto | lead | £77,645 | £70,732 | £6,913 |
-| Kia EV9 GT-Line S · 282kW 99.8kWh AWD Auto | lead | £78,645 | £71,642 | £7,003 |
+| Kia EV9 GT-Line S · 282kW 99.8kWh AWD (6St) Auto | lead | £78,645 | £71,642 | £7,003 |
 | Kia EV9 GT · 374kW 99.8kWh AWD Auto | lead | £82,845 | £75,464 | £7,381 |
 | Kia EV9 GT · 374kW 99.8kWh AWD Auto | lead | £83,845 | £76,374 | £7,471 |
 | Kia PV5 Passenger Essential · 89kW Standard Range 52kWh Auto | lead | £33,195 | £30,077 | £3,118 |

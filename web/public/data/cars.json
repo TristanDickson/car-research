@@ -1542,12 +1542,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107332&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 49195.0,
+  "list_price_gbp": 55325.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -1568,7 +1568,7 @@
   "trim": "M Sport · 230kW xDrive30 65kWh Auto",
   "variant": "230kW xDrive30 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -2062,12 +2062,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104040&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 43885.0,
+  "list_price_gbp": 50015.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -2088,7 +2088,7 @@
   "trim": "xLine · 230kW xDrive30 65kWh Auto",
   "variant": "230kW xDrive30 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -2114,12 +2114,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107332&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 46635.0,
+  "list_price_gbp": 52765.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -2140,7 +2140,7 @@
   "trim": "M Sport · 230kW xDrive30 65kWh Auto",
   "variant": "230kW xDrive30 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -2166,12 +2166,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107332&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 50075.0,
+  "list_price_gbp": 56205.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -2192,7 +2192,7 @@
   "trim": "M Sport · 230kW xDrive30 65kWh Auto",
   "variant": "230kW xDrive30 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -9451,12 +9451,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=108307&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 78645.0,
+  "list_price_gbp": 77025.0,
   "make": "Kia",
   "make_slug": "kia",
   "model": "EV9",
   "model_slug": "ev9",
-  "model_year": 2026,
+  "model_year": null,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -9474,10 +9474,10 @@
    "rows": []
   },
   "specs": [],
-  "trim": "GT-Line S · 282kW 99.8kWh AWD Auto",
-  "variant": "282kW 99.8kWh AWD Auto",
+  "trim": "GT-Line S · 282kW 99.8kWh AWD (6St) Auto",
+  "variant": "282kW 99.8kWh AWD (6St) Auto",
   "verification": "scraped",
-  "version_date": "2026-04-01"
+  "version_date": null
  },
  {
   "auto": true,
@@ -14075,12 +14075,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107332&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 49835.0,
+  "list_price_gbp": 55965.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -14101,7 +14101,7 @@
   "trim": "M Sport · 230kW xDrive30 65kWh Auto",
   "variant": "230kW xDrive30 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -14377,12 +14377,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107328&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 37945.0,
+  "list_price_gbp": 44095.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -14403,7 +14403,7 @@
   "trim": "Sport · 150kW eDrive20 65kWh Auto",
   "variant": "150kW eDrive20 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -14554,12 +14554,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104040&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 39945.0,
+  "list_price_gbp": 46095.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -14580,7 +14580,7 @@
   "trim": "xLine · 150kW eDrive20 65kWh Auto",
   "variant": "150kW eDrive20 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -14731,12 +14731,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107332&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 42695.0,
+  "list_price_gbp": 48845.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -14757,7 +14757,7 @@
   "trim": "M Sport · 150kW eDrive20 65kWh Auto",
   "variant": "150kW eDrive20 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -14783,12 +14783,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107332&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 45255.0,
+  "list_price_gbp": 51405.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -14809,7 +14809,7 @@
   "trim": "M Sport · 150kW eDrive20 65kWh Auto",
   "variant": "150kW eDrive20 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -14835,12 +14835,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107332&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 46135.0,
+  "list_price_gbp": 52285.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -14861,7 +14861,7 @@
   "trim": "M Sport · 150kW eDrive20 65kWh Auto",
   "variant": "150kW eDrive20 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -14887,12 +14887,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107332&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 45895.0,
+  "list_price_gbp": 52045.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -14913,7 +14913,7 @@
   "trim": "M Sport · 150kW eDrive20 65kWh Auto",
   "variant": "150kW eDrive20 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -14939,12 +14939,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107332&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 46775.0,
+  "list_price_gbp": 52925.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -14965,7 +14965,7 @@
   "trim": "M Sport · 150kW eDrive20 65kWh Auto",
   "variant": "150kW eDrive20 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -15168,12 +15168,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104058&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 38405.0,
+  "list_price_gbp": 38005.0,
   "make": "MINI",
   "make_slug": "mini",
   "model": "Countryman Electric",
   "model_slug": "countryman-electric",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -15194,7 +15194,7 @@
   "trim": "E Classic · 150kW 66kWh Auto",
   "variant": "150kW 66kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-06-26"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -15272,12 +15272,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104058&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 41905.0,
+  "list_price_gbp": 41505.0,
   "make": "MINI",
   "make_slug": "mini",
   "model": "Countryman Electric",
   "model_slug": "countryman-electric",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -15298,7 +15298,7 @@
   "trim": "SE Classic · 230kW ALL4 66kWh Auto",
   "variant": "230kW ALL4 66kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-05-28"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -15501,12 +15501,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104072&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 40905.0,
+  "list_price_gbp": 40505.0,
   "make": "MINI",
   "make_slug": "mini",
   "model": "Countryman Electric",
   "model_slug": "countryman-electric",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -15527,7 +15527,7 @@
   "trim": "E Exclusive · 150kW 66kWh Auto",
   "variant": "150kW 66kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-06-26"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -15605,12 +15605,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104072&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 44405.0,
+  "list_price_gbp": 44005.0,
   "make": "MINI",
   "make_slug": "mini",
   "model": "Countryman Electric",
   "model_slug": "countryman-electric",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -15631,7 +15631,7 @@
   "trim": "SE Exclusive · 230kW ALL4 66kWh Auto",
   "variant": "230kW ALL4 66kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-05-28"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -15657,12 +15657,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104072&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 47205.0,
+  "list_price_gbp": 46805.0,
   "make": "MINI",
   "make_slug": "mini",
   "model": "Countryman Electric",
   "model_slug": "countryman-electric",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -15683,7 +15683,7 @@
   "trim": "SE Exclusive · 230kW ALL4 66kWh Auto",
   "variant": "230kW ALL4 66kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-05-28"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -15886,12 +15886,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104086&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 42105.0,
+  "list_price_gbp": 41705.0,
   "make": "MINI",
   "make_slug": "mini",
   "model": "Countryman Electric",
   "model_slug": "countryman-electric",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -15912,7 +15912,7 @@
   "trim": "E Sport · 150kW 66kWh Auto",
   "variant": "150kW 66kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-06-26"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -15938,12 +15938,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104086&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 44905.0,
+  "list_price_gbp": 44505.0,
   "make": "MINI",
   "make_slug": "mini",
   "model": "Countryman Electric",
   "model_slug": "countryman-electric",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -15964,7 +15964,7 @@
   "trim": "E Sport · 150kW 66kWh Auto",
   "variant": "150kW 66kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-06-26"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -16042,12 +16042,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104086&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 45605.0,
+  "list_price_gbp": 45205.0,
   "make": "MINI",
   "make_slug": "mini",
   "model": "Countryman Electric",
   "model_slug": "countryman-electric",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -16068,7 +16068,7 @@
   "trim": "SE Sport · 230kW ALL4 66kWh Auto",
   "variant": "230kW ALL4 66kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-05-28"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -16094,12 +16094,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104086&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 48405.0,
+  "list_price_gbp": 48005.0,
   "make": "MINI",
   "make_slug": "mini",
   "model": "Countryman Electric",
   "model_slug": "countryman-electric",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -16120,7 +16120,7 @@
   "trim": "SE Sport · 230kW ALL4 66kWh Auto",
   "variant": "230kW ALL4 66kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-05-28"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -16298,6 +16298,474 @@
  },
  {
   "auto": true,
+  "cap_id": "104178",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:104178",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 44540.0,
+  "make": "Skoda",
+  "make_slug": "skoda",
+  "model": "Enyaq",
+  "model_slug": "enyaq",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Edition · 210kW 85 82kWh Auto",
+  "variant": "210kW 85 82kWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "104179",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:104179",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 46690.0,
+  "make": "Skoda",
+  "make_slug": "skoda",
+  "model": "Enyaq",
+  "model_slug": "enyaq",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Edition · 210kW 85 82kWh Auto",
+  "variant": "210kW 85 82kWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "104180",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:104180",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 48945.0,
+  "make": "Skoda",
+  "make_slug": "skoda",
+  "model": "Enyaq",
+  "model_slug": "enyaq",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Edition · 210kW 85 82KWh Auto",
+  "variant": "210kW 85 82KWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "104181",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:104181",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=108100&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 48605.0,
+  "make": "Skoda",
+  "make_slug": "skoda",
+  "model": "Enyaq",
+  "model_slug": "enyaq",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Sportline Plus · 210kW 85x 82kWh 4x4 Auto",
+  "variant": "210kW 85x 82kWh 4x4 Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "104182",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:104182",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=108100&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 50640.0,
+  "make": "Skoda",
+  "make_slug": "skoda",
+  "model": "Enyaq",
+  "model_slug": "enyaq",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Sportline Plus · 210kW 85x 82kWh 4x4 Auto",
+  "variant": "210kW 85x 82kWh 4x4 Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "104183",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:104183",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=108100&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 52585.0,
+  "make": "Skoda",
+  "make_slug": "skoda",
+  "model": "Enyaq",
+  "model_slug": "enyaq",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Sportline Plus · 210kW 85x 82kWh 4x4 Auto",
+  "variant": "210kW 85x 82kWh 4x4 Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "104215",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:104215",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 45920.0,
+  "make": "Skoda",
+  "make_slug": "skoda",
+  "model": "Enyaq",
+  "model_slug": "enyaq",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Edition · 210kW 85 82kWh Auto",
+  "variant": "210kW 85 82kWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "104216",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:104216",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 48070.0,
+  "make": "Skoda",
+  "make_slug": "skoda",
+  "model": "Enyaq",
+  "model_slug": "enyaq",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Edition · 210kW 85 82kWh Auto",
+  "variant": "210kW 85 82kWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "104217",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:104217",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107223&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 50325.0,
+  "make": "Skoda",
+  "make_slug": "skoda",
+  "model": "Enyaq",
+  "model_slug": "enyaq",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Edition · 210kW 85 82kWh Auto",
+  "variant": "210kW 85 82kWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
   "cap_id": "104251",
   "deal_summary": {
    "best_cash_age_days": 1,
@@ -16320,12 +16788,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104040&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 47325.0,
+  "list_price_gbp": 53455.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -16346,7 +16814,7 @@
   "trim": "xLine · 230kW xDrive30 65kWh Auto",
   "variant": "230kW xDrive30 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -16372,12 +16840,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104040&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 46445.0,
+  "list_price_gbp": 52575.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -16398,7 +16866,7 @@
   "trim": "xLine · 230kW xDrive30 65kWh Auto",
   "variant": "230kW xDrive30 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -16424,12 +16892,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104040&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 42505.0,
+  "list_price_gbp": 48655.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -16450,7 +16918,7 @@
   "trim": "xLine · 150kW eDrive20 65kWh Auto",
   "variant": "150kW eDrive20 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -16476,12 +16944,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104040&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 43385.0,
+  "list_price_gbp": 49535.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -16502,7 +16970,7 @@
   "trim": "xLine · 150kW eDrive20 65kWh Auto",
   "variant": "150kW eDrive20 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -20048,7 +20516,7 @@
   "make_slug": "vauxhall",
   "model": "Vivaro Life Electric",
   "model_slug": "vivaro-e",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -20069,7 +20537,7 @@
   "trim": "Combi · 100kW 75kWh Auto",
   "variant": "100kW 75kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-10-05"
+  "version_date": "2025-08-04"
  },
  {
   "auto": true,
@@ -20220,12 +20688,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104633&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 43610.0,
+  "list_price_gbp": 43405.0,
   "make": "Vauxhall",
   "make_slug": "vauxhall",
   "model": "Vivaro Life Electric",
   "model_slug": "vivaro-e",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -20246,7 +20714,7 @@
   "trim": "Design · 100kW 75kWh Auto",
   "variant": "100kW 75kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-10-05"
+  "version_date": "2025-08-04"
  },
  {
   "auto": true,
@@ -20397,12 +20865,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104635&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 48785.0,
+  "list_price_gbp": 48580.0,
   "make": "Vauxhall",
   "make_slug": "vauxhall",
   "model": "Vivaro Life Electric",
   "model_slug": "vivaro-e",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -20423,7 +20891,7 @@
   "trim": "Ultimate · 100kW 75kWh Auto",
   "variant": "100kW 75kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-10-05"
+  "version_date": "2025-08-04"
  },
  {
   "auto": true,
@@ -20449,12 +20917,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104635&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 49525.0,
+  "list_price_gbp": 49320.0,
   "make": "Vauxhall",
   "make_slug": "vauxhall",
   "model": "Vivaro Life Electric",
   "model_slug": "vivaro-e",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -20475,7 +20943,7 @@
   "trim": "Ultimate · 100kW 75kWh Auto",
   "variant": "100kW 75kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-10-05"
+  "version_date": "2025-08-04"
  },
  {
   "auto": true,
@@ -20501,12 +20969,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104635&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 48935.0,
+  "list_price_gbp": 48730.0,
   "make": "Vauxhall",
   "make_slug": "vauxhall",
   "model": "Vivaro Life Electric",
   "model_slug": "vivaro-e",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -20527,7 +20995,7 @@
   "trim": "Ultimate · 100kW 75kWh Auto",
   "variant": "100kW 75kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-10-05"
+  "version_date": "2025-08-04"
  },
  {
   "auto": true,
@@ -20678,12 +21146,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104635&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 50425.0,
+  "list_price_gbp": 50220.0,
   "make": "Vauxhall",
   "make_slug": "vauxhall",
   "model": "Vivaro Life Electric",
   "model_slug": "vivaro-e",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -20704,7 +21172,7 @@
   "trim": "Ultimate · 100kW XL 75kWh Auto",
   "variant": "100kW XL 75kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-10-05"
+  "version_date": "2025-08-04"
  },
  {
   "auto": true,
@@ -23390,6 +23858,110 @@
   "wheelbase_m": 3.28,
   "wltp_range_mi": 216.0,
   "zero_to_60_s": 13.1
+ },
+ {
+  "auto": true,
+  "cap_id": "104772",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:104772",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=103136&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 34400.0,
+  "make": "Peugeot",
+  "make_slug": "peugeot",
+  "model": "E-2008",
+  "model_slug": "e-2008",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Allure · 100kW 50kWh Auto",
+  "variant": "100kW 50kWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "104773",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:104773",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=103137&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 36550.0,
+  "make": "Peugeot",
+  "make_slug": "peugeot",
+  "model": "E-2008",
+  "model_slug": "e-2008",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "GT · 100kW 50kWh Auto",
+  "variant": "100kW 50kWh Auto",
+  "verification": "scraped",
+  "version_date": null
  },
  {
   "auto": true,
@@ -28625,6 +29197,58 @@
  },
  {
   "auto": true,
+  "cap_id": "105309",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:105309",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=105308&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 54305.0,
+  "make": "Volvo",
+  "make_slug": "volvo",
+  "model": "EC40",
+  "model_slug": "ec40",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Plus · 185kW Extended Range 78kWh Auto",
+  "variant": "185kW Extended Range 78kWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
   "battery_kwh": 82.0,
   "boot_l": 404.0,
   "boot_max_l": 1310.0,
@@ -28746,6 +29370,58 @@
   "wheelbase_m": 2.7,
   "wltp_range_mi": 339.3,
   "zero_to_60_s": 4.7
+ },
+ {
+  "auto": true,
+  "cap_id": "105311",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:105311",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107377&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 58355.0,
+  "make": "Volvo",
+  "make_slug": "volvo",
+  "model": "EC40",
+  "model_slug": "ec40",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Ultra · 185kW Extended Range 78kWh Auto",
+  "variant": "185kW Extended Range 78kWh Auto",
+  "verification": "scraped",
+  "version_date": null
  },
  {
   "auto": true,
@@ -28922,6 +29598,162 @@
   "variant": "150kW 71.4kWh Auto",
   "verification": "scraped",
   "version_date": "2026-08-03"
+ },
+ {
+  "auto": true,
+  "cap_id": "105325",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:105325",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=99720&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 49340.0,
+  "make": "Toyota",
+  "make_slug": "toyota",
+  "model": "bZ4X",
+  "model_slug": "bz4x",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Motion · 160kW 71.4kWh Auto AWD 11kW",
+  "variant": "160kW 71.4kWh Auto AWD 11kW",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "105326",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:105326",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=99720&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 46740.0,
+  "make": "Toyota",
+  "make_slug": "toyota",
+  "model": "bZ4X",
+  "model_slug": "bz4x",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Motion · 150kW 71.4kWh Auto",
+  "variant": "150kW 71.4kWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "105327",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:105327",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=99728&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 52940.0,
+  "make": "Toyota",
+  "make_slug": "toyota",
+  "model": "bZ4X",
+  "model_slug": "bz4x",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Vision · 160kW 71.4kWh Auto AWD 11kW",
+  "variant": "160kW 71.4kWh Auto AWD 11kW",
+  "verification": "scraped",
+  "version_date": null
  },
  {
   "auto": true,
@@ -35548,6 +36380,162 @@
  },
  {
   "auto": true,
+  "cap_id": "105940",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:105940",
+  "image": null,
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 112560.0,
+  "make": "Mercedes-Benz",
+  "make_slug": "mercedes",
+  "model": "EQS",
+  "model_slug": "eqs",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "AMG Line · EQS 450+ 265kW 118kWh Auto",
+  "variant": "EQS 450+ 265kW 118kWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "105941",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:105941",
+  "image": null,
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 119560.0,
+  "make": "Mercedes-Benz",
+  "make_slug": "mercedes",
+  "model": "EQS",
+  "model_slug": "eqs",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "AMG Line · EQS 450+ 265kW Premium+ 118kWh Auto",
+  "variant": "EQS 450+ 265kW Premium+ 118kWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "105942",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:105942",
+  "image": null,
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 119560.0,
+  "make": "Mercedes-Benz",
+  "make_slug": "mercedes",
+  "model": "EQS",
+  "model_slug": "eqs",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Business Class · EQS 450+ 265kW 118kWh Auto",
+  "variant": "EQS 450+ 265kW 118kWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
   "battery_kwh": 90.0,
   "boot_l": 1410.0,
   "boot_max_l": 5010.0,
@@ -36525,6 +37513,162 @@
  },
  {
   "auto": true,
+  "cap_id": "106055",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:106055",
+  "image": null,
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 99785.0,
+  "make": "Mercedes-Benz",
+  "make_slug": "mercedes",
+  "model": "EQS",
+  "model_slug": "eqs",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "AMG Line · EQS 350 215kW 96kWh Auto",
+  "variant": "EQS 350 215kW 96kWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "106056",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:106056",
+  "image": null,
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 106785.0,
+  "make": "Mercedes-Benz",
+  "make_slug": "mercedes",
+  "model": "EQS",
+  "model_slug": "eqs",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "AMG Line · EQS 350 215kW Premium+ 96kWh Auto",
+  "variant": "EQS 350 215kW Premium+ 96kWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "106057",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:106057",
+  "image": null,
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 106785.0,
+  "make": "Mercedes-Benz",
+  "make_slug": "mercedes",
+  "model": "EQS",
+  "model_slug": "eqs",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Business Class · EQS 350 215kW 96kWh Auto",
+  "variant": "EQS 350 215kW 96kWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
   "battery_kwh": 59.0,
   "boot_l": 385.0,
   "boot_max_l": null,
@@ -36931,6 +38075,58 @@
  },
  {
   "auto": true,
+  "cap_id": "106067",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:106067",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=105308&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 55055.0,
+  "make": "Volvo",
+  "make_slug": "volvo",
+  "model": "EC40",
+  "model_slug": "ec40",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Plus Black Edition · 185kW Ext Range 78kWh Auto",
+  "variant": "185kW Ext Range 78kWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
   "battery_kwh": 82.0,
   "boot_l": 404.0,
   "boot_max_l": 1310.0,
@@ -37052,6 +38248,58 @@
   "wheelbase_m": 2.7,
   "wltp_range_mi": 336.8,
   "zero_to_60_s": 4.6
+ },
+ {
+  "auto": true,
+  "cap_id": "106069",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:106069",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107377&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 58605.0,
+  "make": "Volvo",
+  "make_slug": "volvo",
+  "model": "EC40",
+  "model_slug": "ec40",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Ultra Black Edition · 185kW Ext Range 78kWh Auto",
+  "variant": "185kW Ext Range 78kWh Auto",
+  "verification": "scraped",
+  "version_date": null
  },
  {
   "auto": true,
@@ -37868,7 +39116,7 @@
    "best_pcp_monthly": null,
    "best_pcp_offer_id": null,
    "current_offers": 2,
-   "offers": 2
+   "offers": 3
   },
   "doors": 5,
   "drive": "Front wheel drive",
@@ -42108,6 +43356,162 @@
   "wheelbase_m": 3.24,
   "wltp_range_mi": 286.0,
   "zero_to_60_s": 7.9
+ },
+ {
+  "auto": true,
+  "cap_id": "106467",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 2
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:106467",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=108545&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 37355.0,
+  "make": "Vauxhall",
+  "make_slug": "vauxhall",
+  "model": "Grandland Electric",
+  "model_slug": "grandland-electric",
+  "model_year": 2025,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Design · 157kW 73kWh Auto",
+  "variant": "157kW 73kWh Auto",
+  "verification": "scraped",
+  "version_date": "2025-03-12"
+ },
+ {
+  "auto": true,
+  "cap_id": "106468",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:106468",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=108545&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 38505.0,
+  "make": "Vauxhall",
+  "make_slug": "vauxhall",
+  "model": "Grandland Electric",
+  "model_slug": "grandland-electric",
+  "model_year": 2025,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "GS · 157kW 73kWh Auto",
+  "variant": "157kW 73kWh Auto",
+  "verification": "scraped",
+  "version_date": "2025-03-12"
+ },
+ {
+  "auto": true,
+  "cap_id": "106469",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:106469",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107798&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 39995.0,
+  "make": "Vauxhall",
+  "make_slug": "vauxhall",
+  "model": "Grandland Electric",
+  "model_slug": "grandland-electric",
+  "model_year": 2025,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Ultimate · 157kW 73kWh Auto",
+  "variant": "157kW 73kWh Auto",
+  "verification": "scraped",
+  "version_date": "2025-04-01"
  },
  {
   "auto": true,
@@ -59079,12 +60483,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107294&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 47675.0,
+  "list_price_gbp": 53825.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -59105,7 +60509,7 @@
   "trim": "Shadow Edition · 150kW eDrive20 Shadow Ed 65kWh Auto",
   "variant": "150kW eDrive20 Shadow Ed 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -59131,12 +60535,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107294&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 48555.0,
+  "list_price_gbp": 54705.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -59157,7 +60561,7 @@
   "trim": "Shadow Edition · 150kW eDrive20 Shadow Ed 65kWh Auto",
   "variant": "150kW eDrive20 Shadow Ed 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -59308,12 +60712,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107294&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 51615.0,
+  "list_price_gbp": 57745.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -59334,7 +60738,7 @@
   "trim": "Shadow Edition · 230kW xDrive30 Shadow Ed 65kWh Auto",
   "variant": "230kW xDrive30 Shadow Ed 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -59485,12 +60889,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107294&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 52495.0,
+  "list_price_gbp": 58625.0,
   "make": "BMW",
   "make_slug": "bmw",
   "model": "iX1",
   "model_slug": "ix1",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -59511,7 +60915,7 @@
   "trim": "Shadow Edition · 230kW xDrive30 Shadow Ed 65kWh Auto",
   "variant": "230kW xDrive30 Shadow Ed 65kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-07-23"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -62305,12 +63709,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104072&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 43705.0,
+  "list_price_gbp": 43305.0,
   "make": "MINI",
   "make_slug": "mini",
   "model": "Countryman Electric",
   "model_slug": "countryman-electric",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -62331,7 +63735,7 @@
   "trim": "E Exclusive · 150kW 66kWh Auto",
   "variant": "150kW 66kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-06-26"
+  "version_date": "2025-03-01"
  },
  {
   "auto": true,
@@ -63059,6 +64463,58 @@
   "wheelbase_m": 2.79,
   "wltp_range_mi": 372.0,
   "zero_to_60_s": 7.9
+ },
+ {
+  "auto": true,
+  "cap_id": "107370",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:107370",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104304&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 41995.0,
+  "make": "Renault",
+  "make_slug": "renault",
+  "model": "Scenic E-Tech",
+  "model_slug": "scenic-e-tech",
+  "model_year": 2025,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Iconic Esprit Alpine · 160kW 87kWh Long Range AT",
+  "variant": "160kW 87kWh Long Range AT",
+  "verification": "scraped",
+  "version_date": "2025-08-29"
  },
  {
   "auto": true,
@@ -69061,12 +70517,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107477&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 53550.0,
+  "list_price_gbp": 53035.0,
   "make": "Volkswagen",
   "make_slug": "volkswagen",
   "model": "ID.7",
   "model_slug": "id7",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -69087,7 +70543,7 @@
   "trim": "Match Pro Plus · 210kW 77kWh Auto",
   "variant": "210kW 77kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-10-01"
+  "version_date": "2025-10-01"
  },
  {
   "auto": true,
@@ -69113,12 +70569,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107477&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 54410.0,
+  "list_price_gbp": 53185.0,
   "make": "Volkswagen",
   "make_slug": "volkswagen",
   "model": "ID.7",
   "model_slug": "id7",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -69139,7 +70595,7 @@
   "trim": "Match Pro Plus · 210kW 77kWh Auto",
   "variant": "210kW 77kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-10-01"
+  "version_date": "2025-10-01"
  },
  {
   "auto": true,
@@ -69165,12 +70621,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107477&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 56430.0,
+  "list_price_gbp": 55185.0,
   "make": "Volkswagen",
   "make_slug": "volkswagen",
   "model": "ID.7",
   "model_slug": "id7",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -69191,7 +70647,7 @@
   "trim": "Match Pro Plus · 210kW 77kWh Auto",
   "variant": "210kW 77kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-10-01"
+  "version_date": "2025-10-01"
  },
  {
   "auto": true,
@@ -69341,12 +70797,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107481&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 57035.0,
+  "list_price_gbp": 56520.0,
   "make": "Volkswagen",
   "make_slug": "volkswagen",
   "model": "ID.7",
   "model_slug": "id7",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -69367,7 +70823,7 @@
   "trim": "Match Pro S Plus · 210kW 86kWh Auto",
   "variant": "210kW 86kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-10-01"
+  "version_date": "2025-10-01"
  },
  {
   "auto": true,
@@ -69393,12 +70849,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107481&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 57895.0,
+  "list_price_gbp": 56670.0,
   "make": "Volkswagen",
   "make_slug": "volkswagen",
   "model": "ID.7",
   "model_slug": "id7",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -69419,7 +70875,7 @@
   "trim": "Match Pro S Plus · 210kW 86kWh Auto",
   "variant": "210kW 86kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-10-01"
+  "version_date": "2025-10-01"
  },
  {
   "auto": true,
@@ -69693,12 +71149,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=107485&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 60835.0,
+  "list_price_gbp": 60340.0,
   "make": "Volkswagen",
   "make_slug": "volkswagen",
   "model": "ID.7",
   "model_slug": "id7",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -69719,7 +71175,7 @@
   "trim": "GTX Plus · 250kW 4MOTION 86kWh Auto",
   "variant": "250kW 4MOTION 86kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-10-01"
+  "version_date": "2025-10-01"
  },
  {
   "auto": true,
@@ -74540,7 +75996,7 @@
    "best_pcp_monthly": null,
    "best_pcp_offer_id": null,
    "current_offers": 2,
-   "offers": 2
+   "offers": 3
   },
   "doors": 5,
   "drive": "Rear wheel drive",
@@ -80777,6 +82233,162 @@
  },
  {
   "auto": true,
+  "cap_id": "108234",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:108234",
+  "image": null,
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 115920.0,
+  "make": "Mercedes-Benz",
+  "make_slug": "mercedes",
+  "model": "EQS",
+  "model_slug": "eqs",
+  "model_year": 2025,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "AMG Line · EQS 450 4M 265kW Premium 118kWh Auto",
+  "variant": "EQS 450 4M 265kW Premium 118kWh Auto",
+  "verification": "scraped",
+  "version_date": "2025-10-07"
+ },
+ {
+  "auto": true,
+  "cap_id": "108235",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:108235",
+  "image": null,
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 122920.0,
+  "make": "Mercedes-Benz",
+  "make_slug": "mercedes",
+  "model": "EQS",
+  "model_slug": "eqs",
+  "model_year": 2025,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "AMG Line · EQS 450 4M 265kW Premium+ 118kWh Auto",
+  "variant": "EQS 450 4M 265kW Premium+ 118kWh Auto",
+  "verification": "scraped",
+  "version_date": "2025-10-07"
+ },
+ {
+  "auto": true,
+  "cap_id": "108236",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:108236",
+  "image": null,
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 122920.0,
+  "make": "Mercedes-Benz",
+  "make_slug": "mercedes",
+  "model": "EQS",
+  "model_slug": "eqs",
+  "model_year": 2025,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Business Class · EQS 450 265kW 118kWh Auto",
+  "variant": "EQS 450 265kW 118kWh Auto",
+  "verification": "scraped",
+  "version_date": "2025-10-07"
+ },
+ {
+  "auto": true,
   "battery_kwh": 112.0,
   "boot_l": 365.0,
   "boot_max_l": 1128.0,
@@ -82151,12 +83763,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=108307&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 83845.0,
+  "list_price_gbp": 83185.0,
   "make": "Kia",
   "make_slug": "kia",
   "model": "EV9",
   "model_slug": "ev9",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -82177,7 +83789,7 @@
   "trim": "GT · 374kW 99.8kWh AWD Auto",
   "variant": "374kW 99.8kWh AWD Auto",
   "verification": "scraped",
-  "version_date": "2026-04-01"
+  "version_date": "2025-06-18"
  },
  {
   "auto": true,
@@ -102318,7 +103930,7 @@
   "make_slug": "ford",
   "model": "Puma Gen-E",
   "model_slug": "puma-gen-e",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -102339,7 +103951,7 @@
   "trim": "Select · 124kW 47kWh Auto",
   "variant": "124kW 47kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-08-07"
+  "version_date": "2025-11-17"
  },
  {
   "auto": true,
@@ -102370,7 +103982,7 @@
   "make_slug": "ford",
   "model": "Puma Gen-E",
   "model_slug": "puma-gen-e",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -102391,7 +104003,7 @@
   "trim": "Select · 124kW 47kWh Auto",
   "variant": "124kW 47kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-08-07"
+  "version_date": "2025-11-17"
  },
  {
   "auto": true,
@@ -102422,7 +104034,7 @@
   "make_slug": "ford",
   "model": "Puma Gen-E",
   "model_slug": "puma-gen-e",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -102443,7 +104055,7 @@
   "trim": "Select · 124kW 47kWh Auto",
   "variant": "124kW 47kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-08-07"
+  "version_date": "2025-11-17"
  },
  {
   "auto": true,
@@ -102599,7 +104211,7 @@
   "make_slug": "ford",
   "model": "Puma Gen-E",
   "model_slug": "puma-gen-e",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -102620,7 +104232,7 @@
   "trim": "Premium · 124kW 47kWh Auto",
   "variant": "124kW 47kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-08-07"
+  "version_date": "2025-11-17"
  },
  {
   "auto": true,
@@ -106719,12 +108331,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=106870&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 65785.0,
+  "list_price_gbp": 65735.0,
   "make": "Audi",
   "make_slug": "audi",
   "model": "A6 Sportback e-tron",
   "model_slug": "a6-sportback-e-tron",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -106745,7 +108357,7 @@
   "trim": "Sport · 210kW 83kWh Auto",
   "variant": "210kW 83kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-05-12"
+  "version_date": "2025-12-09"
  },
  {
   "auto": true,
@@ -106771,12 +108383,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=106869&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 69285.0,
+  "list_price_gbp": 69235.0,
   "make": "Audi",
   "make_slug": "audi",
   "model": "A6 Sportback e-tron",
   "model_slug": "a6-sportback-e-tron",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -106797,7 +108409,7 @@
   "trim": "S Line · 210kW 83kWh Auto",
   "variant": "210kW 83kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-05-12"
+  "version_date": "2025-12-09"
  },
  {
   "auto": true,
@@ -107619,12 +109231,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=106870&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 74110.0,
+  "list_price_gbp": 74060.0,
   "make": "Audi",
   "make_slug": "audi",
   "model": "A6 Sportback e-tron",
   "model_slug": "a6-sportback-e-tron",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -107645,7 +109257,7 @@
   "trim": "Sport · 315kW Quattro 100kWh Auto",
   "variant": "315kW Quattro 100kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-05-12"
+  "version_date": "2025-12-09"
  },
  {
   "auto": true,
@@ -107671,12 +109283,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=106869&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 77610.0,
+  "list_price_gbp": 77560.0,
   "make": "Audi",
   "make_slug": "audi",
   "model": "A6 Sportback e-tron",
   "model_slug": "a6-sportback-e-tron",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -107697,7 +109309,7 @@
   "trim": "S Line · 315kW Quattro 100kWh Auto",
   "variant": "315kW Quattro 100kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-05-12"
+  "version_date": "2025-12-09"
  },
  {
   "auto": true,
@@ -107847,12 +109459,12 @@
   "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=109408&filter%5Bsize%5D=800",
   "image_url": null,
   "internal_v2l": "unknown",
-  "list_price_gbp": 80210.0,
+  "list_price_gbp": 80160.0,
   "make": "Audi",
   "make_slug": "audi",
   "model": "A6 Sportback e-tron",
   "model_slug": "a6-sportback-e-tron",
-  "model_year": 2026,
+  "model_year": 2025,
   "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
   "picks": [],
   "requirement_check": {
@@ -107873,7 +109485,7 @@
   "trim": "Black Edition · 315kW Quattro 100kWh Auto",
   "variant": "315kW Quattro 100kWh Auto",
   "verification": "scraped",
-  "version_date": "2026-05-12"
+  "version_date": "2025-12-09"
  },
  {
   "auto": true,
@@ -160495,6 +162107,162 @@
  },
  {
   "auto": true,
+  "cap_id": "99710",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:99710",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=99720&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 52110.0,
+  "make": "Toyota",
+  "make_slug": "toyota",
+  "model": "bZ4X",
+  "model_slug": "bz4x",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Motion · 160kW 71.4kWh Auto AWD",
+  "variant": "160kW 71.4kWh Auto AWD",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "99716",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:99716",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=99728&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 54010.0,
+  "make": "Toyota",
+  "make_slug": "toyota",
+  "model": "bZ4X",
+  "model_slug": "bz4x",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Vision · 160kW 71.4kWh Auto AWD",
+  "variant": "160kW 71.4kWh Auto AWD",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "99719",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 2
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:99719",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=110537&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 42860.0,
+  "make": "Toyota",
+  "make_slug": "toyota",
+  "model": "bZ4X",
+  "model_slug": "bz4x",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Pure · 150kW 71.4kWh Auto",
+  "variant": "150kW 71.4kWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
   "battery_kwh": 71.4,
   "boot_l": 452.0,
   "boot_max_l": null,
@@ -160619,6 +162387,58 @@
  },
  {
   "auto": true,
+  "cap_id": "99724",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:99724",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=99720&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 47810.0,
+  "make": "Toyota",
+  "make_slug": "toyota",
+  "model": "bZ4X",
+  "model_slug": "bz4x",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Motion · 160kW 71.4kWh Auto AWD",
+  "variant": "160kW 71.4kWh Auto AWD",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
   "battery_kwh": 71.4,
   "boot_l": 452.0,
   "boot_max_l": null,
@@ -160740,6 +162560,162 @@
   "wheelbase_m": 2.85,
   "wltp_range_mi": 313.0,
   "zero_to_60_s": 7.5
+ },
+ {
+  "auto": true,
+  "cap_id": "99729",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:99729",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=99728&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 49350.0,
+  "make": "Toyota",
+  "make_slug": "toyota",
+  "model": "bZ4X",
+  "model_slug": "bz4x",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Vision · 150kW 71.4kWh Auto",
+  "variant": "150kW 71.4kWh Auto",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "99730",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:99730",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=99728&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 51410.0,
+  "make": "Toyota",
+  "make_slug": "toyota",
+  "model": "bZ4X",
+  "model_slug": "bz4x",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Vision · 160kW 71.4kWh Auto AWD",
+  "variant": "160kW 71.4kWh Auto AWD",
+  "verification": "scraped",
+  "version_date": null
+ },
+ {
+  "auto": true,
+  "cap_id": "99731",
+  "deal_summary": {
+   "best_cash_age_days": null,
+   "best_cash_offer_id": null,
+   "best_cash_price": null,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "current_offers": 0,
+   "offers": 1
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:99731",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=99728&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 51950.0,
+  "make": "Toyota",
+  "make_slug": "toyota",
+  "model": "bZ4X",
+  "model_slug": "bz4x",
+  "model_year": null,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "Vision · 160kW 71.4kWh Auto AWD",
+  "variant": "160kW 71.4kWh Auto AWD",
+  "verification": "scraped",
+  "version_date": null
  },
  {
   "auto": true,

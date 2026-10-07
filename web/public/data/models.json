@@ -1820,7 +1820,7 @@
   "slug": "mercedes/eqe-suv"
  },
  {
-  "cars": 9,
+  "cars": 18,
   "derivatives": 0,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -2212,7 +2212,7 @@
   "slug": "omoda/omoda-e5"
  },
  {
-  "cars": 4,
+  "cars": 6,
   "derivatives": 4,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -2534,7 +2534,7 @@
   "slug": "renault/megane-etech-electric"
  },
  {
-  "cars": 2,
+  "cars": 3,
   "derivatives": 2,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -2604,7 +2604,7 @@
   "slug": "skoda/elroq"
  },
  {
-  "cars": 88,
+  "cars": 97,
   "derivatives": 12,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -2968,7 +2968,7 @@
   "slug": "tesla/model-y-premium"
  },
  {
-  "cars": 9,
+  "cars": 19,
   "derivatives": 6,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -3136,7 +3136,7 @@
   "slug": "vauxhall/frontera-electric"
  },
  {
-  "cars": 5,
+  "cars": 8,
   "derivatives": 5,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -3332,7 +3332,7 @@
   "slug": "volvo/c40-recharge"
  },
  {
-  "cars": 14,
+  "cars": 18,
   "derivatives": 14,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
