@@ -154,7 +154,8 @@ class NameMatching(unittest.TestCase):
                         {"make": "fiat", "model": "500-electric", "make_name": "Fiat", "model_name": "500e"},
                         {"make": "fiat", "model": "500-convertible", "make_name": "Fiat", "model_name": "500 Convertible"},
                         {"make": "volvo", "model": "c40-recharge", "make_name": "Volvo", "model_name": "C40 Recharge"},
-                        {"make": "volvo", "model": "ec40", "make_name": "Volvo", "model_name": "EC40"}]
+                        {"make": "volvo", "model": "ec40", "make_name": "Volvo", "model_name": "EC40"},
+                        {"make": "mini", "model": "electric", "make_name": "MINI", "model_name": None}]
 
     def slug(self, make, model):
         m = match_model(make, model, self.MODELS)
@@ -172,6 +173,7 @@ class NameMatching(unittest.TestCase):
         self.assertEqual(self.slug("POLESTAR", "4 Coupe"), "polestar/4")
         self.assertEqual(self.slug("Fiat", "500"), "fiat/500-electric")
         self.assertEqual((self.slug("Volvo", "C40"), self.slug("Volvo", "EC40")), ("volvo/c40-recharge", "volvo/ec40"))
+        self.assertEqual((self.slug("MINI", "Hatchback"), self.slug("MINI", "COOPER")), ("mini/electric", "mini/electric"))
 
     def test_what_we_do_not_sell_stays_unmatched(self):
         self.assertIsNone(self.slug("Kia", "e-Niro"), "the previous generation is not the Niro EV")

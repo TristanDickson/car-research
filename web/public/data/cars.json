@@ -29475,6 +29475,3276 @@
  },
  {
   "auto": true,
+  "battery_kwh": 41.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "104111",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104111",
+   "best_cash_price": 26905.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104111",
+     "true_monthly": 439.68,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": null,
+  "id": "carwow-cap:104111",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104111&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104111&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 26905.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 184.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:104111",
+  "specs": [
+   {
+    "features": 75,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": null,
+     "heated_rear_seats": null,
+     "heated_steering_wheel": "standard",
+     "hud": null,
+     "keyless": null,
+     "leather": null,
+     "led_headlights": "standard",
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": null
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 41.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "135kW 41kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 184.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 186.4,
+     "zero_to_60_s": 7.3
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:104111",
+    "variant": "Cooper Electric E Classic 135kW 41kWh Auto"
+   }
+  ],
+  "trim": "E Classic · 135kW 41kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "135kW 41kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-06-26",
+  "wheelbase_m": null,
+  "wltp_range_mi": 186.4,
+  "zero_to_60_s": 7.3
+ },
+ {
+  "auto": true,
+  "battery_kwh": 41.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "104112",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104112",
+   "best_cash_price": 28905.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104112",
+     "true_monthly": 497.16,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": null,
+  "id": "carwow-cap:104112",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104111&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104111&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 26905.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 184.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:104112",
+  "specs": [
+   {
+    "features": 75,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": null,
+     "heated_rear_seats": null,
+     "heated_steering_wheel": "standard",
+     "hud": null,
+     "keyless": null,
+     "leather": null,
+     "led_headlights": "standard",
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": null
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 41.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "135kW41kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 184.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 185.8,
+     "zero_to_60_s": 7.3
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:104112",
+    "variant": "Cooper Electric E Classic 135kW41kWh Auto"
+   }
+  ],
+  "trim": "E Classic · 135kW41kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "135kW41kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-05-28",
+  "wheelbase_m": null,
+  "wltp_range_mi": 185.8,
+  "zero_to_60_s": 7.3
+ },
+ {
+  "auto": true,
+  "cap_id": "104113",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104113",
+   "best_cash_price": 31305.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104113",
+     "true_monthly": 566.14,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:104113",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104111&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 31305.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "E Classic · 135kW41kWh Auto",
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "135kW41kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-05-28"
+ },
+ {
+  "auto": true,
+  "battery_kwh": 54.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "104114",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104114",
+   "best_cash_price": 29905.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104114",
+     "true_monthly": 525.91,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": null,
+  "id": "carwow-cap:104114",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104114&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104114&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 29905.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 218.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:104114",
+  "specs": [
+   {
+    "features": 79,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": null,
+     "heated_rear_seats": null,
+     "heated_steering_wheel": "standard",
+     "hud": null,
+     "keyless": null,
+     "leather": null,
+     "led_headlights": null,
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": null
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 54.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "160kW 54kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 218.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 244.2,
+     "zero_to_60_s": 6.7
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:104114",
+    "variant": "Cooper Electric SE Classic 160kW 54kWh Auto"
+   }
+  ],
+  "trim": "SE Classic · 160kW 54kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "160kW 54kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-06-26",
+  "wheelbase_m": null,
+  "wltp_range_mi": 244.2,
+  "zero_to_60_s": 6.7
+ },
+ {
+  "auto": true,
+  "battery_kwh": 54.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "104115",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104115",
+   "best_cash_price": 32305.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104115",
+     "true_monthly": 594.88,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": null,
+  "id": "carwow-cap:104115",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104114&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104114&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 29905.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 218.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:104115",
+  "specs": [
+   {
+    "features": 79,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": null,
+     "heated_rear_seats": null,
+     "heated_steering_wheel": "standard",
+     "hud": null,
+     "keyless": null,
+     "leather": null,
+     "led_headlights": null,
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": null
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 54.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "160kW54kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 218.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 245.4,
+     "zero_to_60_s": 6.7
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:104115",
+    "variant": "Cooper Electric SE Classic 160kW54kWh Auto"
+   }
+  ],
+  "trim": "SE Classic · 160kW54kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "160kW54kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-05-28",
+  "wheelbase_m": null,
+  "wltp_range_mi": 245.4,
+  "zero_to_60_s": 6.7
+ },
+ {
+  "auto": true,
+  "battery_kwh": 41.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "104116",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104116",
+   "best_cash_price": 29105.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104116",
+     "true_monthly": 502.91,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": null,
+  "id": "carwow-cap:104116",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104116&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104116&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 29105.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 184.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:104116",
+  "specs": [
+   {
+    "features": 77,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": null,
+     "heated_rear_seats": null,
+     "heated_steering_wheel": "standard",
+     "hud": null,
+     "keyless": null,
+     "leather": null,
+     "led_headlights": "standard",
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": null
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 41.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "135kW 41kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 184.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 186.4,
+     "zero_to_60_s": 7.3
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:104116",
+    "variant": "Cooper Electric E Exclusive 135kW 41kWh Auto"
+   }
+  ],
+  "trim": "E Exclusive · 135kW 41kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "135kW 41kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-06-26",
+  "wheelbase_m": null,
+  "wltp_range_mi": 186.4,
+  "zero_to_60_s": 7.3
+ },
+ {
+  "auto": true,
+  "battery_kwh": 41.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "104117",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104117",
+   "best_cash_price": 31105.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104117",
+     "true_monthly": 560.39,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": null,
+  "id": "carwow-cap:104117",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104116&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104116&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 29105.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 184.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:104117",
+  "specs": [
+   {
+    "features": 77,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": null,
+     "heated_rear_seats": null,
+     "heated_steering_wheel": "standard",
+     "hud": null,
+     "keyless": null,
+     "leather": null,
+     "led_headlights": "standard",
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": null
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 41.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "135kW41kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 184.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 185.8,
+     "zero_to_60_s": 7.3
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:104117",
+    "variant": "Cooper Electric E Exclusive 135kW41kWh Auto"
+   }
+  ],
+  "trim": "E Exclusive · 135kW41kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "135kW41kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-05-28",
+  "wheelbase_m": null,
+  "wltp_range_mi": 185.8,
+  "zero_to_60_s": 7.3
+ },
+ {
+  "auto": true,
+  "cap_id": "104118",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104118",
+   "best_cash_price": 33505.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104118",
+     "true_monthly": 629.37,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:104118",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104116&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 33505.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "E Exclusive · 135kW41kWh Auto",
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "135kW41kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-05-28"
+ },
+ {
+  "auto": true,
+  "battery_kwh": 54.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "104119",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104119",
+   "best_cash_price": 32105.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104119",
+     "true_monthly": 589.14,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": null,
+  "id": "carwow-cap:104119",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104119&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104119&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 32105.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 218.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:104119",
+  "specs": [
+   {
+    "features": 78,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": null,
+     "heated_rear_seats": null,
+     "heated_steering_wheel": "standard",
+     "hud": null,
+     "keyless": null,
+     "leather": null,
+     "led_headlights": null,
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": null
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 54.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "160kW 54kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 218.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 244.2,
+     "zero_to_60_s": 6.7
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:104119",
+    "variant": "Cooper Electric SE Exclusive 160kW 54kWh Auto"
+   }
+  ],
+  "trim": "SE Exclusive · 160kW 54kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "160kW 54kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-06-26",
+  "wheelbase_m": null,
+  "wltp_range_mi": 244.2,
+  "zero_to_60_s": 6.7
+ },
+ {
+  "auto": true,
+  "battery_kwh": 54.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "104120",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104120",
+   "best_cash_price": 34505.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104120",
+     "true_monthly": 658.11,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": null,
+  "id": "carwow-cap:104120",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104119&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104119&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 32105.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 218.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:104120",
+  "specs": [
+   {
+    "features": 78,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": null,
+     "heated_rear_seats": null,
+     "heated_steering_wheel": "standard",
+     "hud": null,
+     "keyless": null,
+     "leather": null,
+     "led_headlights": null,
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": null
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 54.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "160kW54kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 218.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 245.4,
+     "zero_to_60_s": 6.7
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:104120",
+    "variant": "Cooper Electric SE Exclusive 160kW54kWh Auto"
+   }
+  ],
+  "trim": "SE Exclusive · 160kW54kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "160kW54kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-05-28",
+  "wheelbase_m": null,
+  "wltp_range_mi": 245.4,
+  "zero_to_60_s": 6.7
+ },
+ {
+  "auto": true,
+  "cap_id": "104121",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104121",
+   "best_cash_price": 37005.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104121",
+     "true_monthly": 729.97,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:104121",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104116&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 37005.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "SE Exclusive · 160kW54kWh Auto",
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "160kW54kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-05-28"
+ },
+ {
+  "auto": true,
+  "battery_kwh": 41.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "104122",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104122",
+   "best_cash_price": 30405.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104122",
+     "true_monthly": 540.28,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": null,
+  "id": "carwow-cap:104122",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104122&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104122&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 30405.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 184.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:104122",
+  "specs": [
+   {
+    "features": 83,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": null,
+     "heated_rear_seats": null,
+     "heated_steering_wheel": "standard",
+     "hud": null,
+     "keyless": null,
+     "leather": null,
+     "led_headlights": "standard",
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": null
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 41.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "135kW 41kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 184.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 186.4,
+     "zero_to_60_s": 7.3
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:104122",
+    "variant": "Cooper Electric E Sport 135kW 41kWh Auto"
+   }
+  ],
+  "trim": "E Sport · 135kW 41kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "135kW 41kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-06-26",
+  "wheelbase_m": null,
+  "wltp_range_mi": 186.4,
+  "zero_to_60_s": 7.3
+ },
+ {
+  "auto": true,
+  "battery_kwh": 41.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "104123",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104123",
+   "best_cash_price": 32405.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104123",
+     "true_monthly": 597.76,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": null,
+  "id": "carwow-cap:104123",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104122&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104122&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 30405.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 184.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:104123",
+  "specs": [
+   {
+    "features": 83,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": null,
+     "heated_rear_seats": null,
+     "heated_steering_wheel": "standard",
+     "hud": null,
+     "keyless": null,
+     "leather": null,
+     "led_headlights": "standard",
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": null
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 41.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "135kW41kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 184.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 185.8,
+     "zero_to_60_s": 7.3
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:104123",
+    "variant": "Cooper Electric E Sport 135kW41kWh Auto"
+   }
+  ],
+  "trim": "E Sport · 135kW41kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "135kW41kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-05-28",
+  "wheelbase_m": null,
+  "wltp_range_mi": 185.8,
+  "zero_to_60_s": 7.3
+ },
+ {
+  "auto": true,
+  "cap_id": "104124",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104124",
+   "best_cash_price": 34805.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104124",
+     "true_monthly": 666.74,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:104124",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104122&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 34805.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "E Sport · 135kW41kWh Auto",
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "135kW41kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-05-28"
+ },
+ {
+  "auto": true,
+  "cap_id": "104125",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104125",
+   "best_cash_price": 37305.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104125",
+     "true_monthly": 738.59,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:104125",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104122&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 37305.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "E Sport · 135kW41kWh Auto",
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "135kW41kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-05-28"
+ },
+ {
+  "auto": true,
+  "battery_kwh": 54.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "104126",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104126",
+   "best_cash_price": 33405.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104126",
+     "true_monthly": 626.5,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": null,
+  "id": "carwow-cap:104126",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104126&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104126&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 33405.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 218.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:104126",
+  "specs": [
+   {
+    "features": 84,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": null,
+     "heated_rear_seats": null,
+     "heated_steering_wheel": "standard",
+     "hud": null,
+     "keyless": null,
+     "leather": null,
+     "led_headlights": null,
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": null
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 54.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "160kW 54kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 218.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 244.2,
+     "zero_to_60_s": 6.7
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:104126",
+    "variant": "Cooper Electric SE Sport 160kW 54kWh Auto"
+   }
+  ],
+  "trim": "SE Sport · 160kW 54kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "160kW 54kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-06-26",
+  "wheelbase_m": null,
+  "wltp_range_mi": 244.2,
+  "zero_to_60_s": 6.7
+ },
+ {
+  "auto": true,
+  "battery_kwh": 54.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "104127",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104127",
+   "best_cash_price": 35805.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104127",
+     "true_monthly": 695.48,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": null,
+  "id": "carwow-cap:104127",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104126&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104126&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 33405.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 218.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:104127",
+  "specs": [
+   {
+    "features": 84,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": null,
+     "heated_rear_seats": null,
+     "heated_steering_wheel": "standard",
+     "hud": null,
+     "keyless": null,
+     "leather": null,
+     "led_headlights": null,
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": null
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 54.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "160kW54kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 218.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 245.4,
+     "zero_to_60_s": 6.7
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:104127",
+    "variant": "Cooper Electric SE Sport 160kW54kWh Auto"
+   }
+  ],
+  "trim": "SE Sport · 160kW54kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "160kW54kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-05-28",
+  "wheelbase_m": null,
+  "wltp_range_mi": 245.4,
+  "zero_to_60_s": 6.7
+ },
+ {
+  "auto": true,
+  "cap_id": "104128",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:104128",
+   "best_cash_price": 38305.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:104128",
+     "true_monthly": 767.33,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:104128",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=104122&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 38305.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "SE Sport · 160kW54kWh Auto",
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "160kW54kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-05-28"
+ },
+ {
+  "auto": true,
   "battery_kwh": 84.0,
   "boot_l": 480.0,
   "boot_max_l": 1540.0,
@@ -151285,6 +154555,212 @@
  },
  {
   "auto": true,
+  "battery_kwh": 41.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "108669",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:108669",
+   "best_cash_price": 27205.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:108669",
+     "true_monthly": 448.3,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": true,
+  "id": "carwow-cap:108669",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=108669&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=108669&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 27205.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 184.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:108669",
+  "specs": [
+   {
+    "features": 82,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": "standard",
+     "heated_rear_seats": null,
+     "heated_steering_wheel": null,
+     "hud": "standard",
+     "keyless": null,
+     "leather": null,
+     "led_headlights": "standard",
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": "standard"
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 41.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "135kW 41kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 184.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 186.4,
+     "zero_to_60_s": 7.3
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:108669",
+    "variant": "Cooper Electric E Monochrome 135kW 41kWh Auto"
+   }
+  ],
+  "trim": "E Monochrome · 135kW 41kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "135kW 41kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-06-26",
+  "wheelbase_m": null,
+  "wltp_range_mi": 186.4,
+  "zero_to_60_s": 7.3
+ },
+ {
+  "auto": true,
   "battery_kwh": 54.0,
   "boot_l": 310.0,
   "boot_max_l": 1060.0,
@@ -169016,6 +172492,1096 @@
   "variant": "150kW 75kWh Auto",
   "verification": "scraped",
   "version_date": "2026-05-13"
+ },
+ {
+  "auto": true,
+  "battery_kwh": 41.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "109223",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:109223",
+   "best_cash_price": 32705.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:109223",
+     "true_monthly": 606.38,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": null,
+  "id": "carwow-cap:109223",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=109223&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=109223&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 32705.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 184.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:109223",
+  "specs": [
+   {
+    "features": 87,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": null,
+     "heated_rear_seats": null,
+     "heated_steering_wheel": "standard",
+     "hud": null,
+     "keyless": null,
+     "leather": "standard",
+     "led_headlights": null,
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": null
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 41.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "135kW 41kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 184.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 186.4,
+     "zero_to_60_s": 7.3
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:109223",
+    "variant": "Cooper Electric E Paul Smith Edition 135kW 41kWh Auto"
+   }
+  ],
+  "trim": "E Paul Smith Edition · 135kW 41kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "135kW 41kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-06-26",
+  "wheelbase_m": null,
+  "wltp_range_mi": 186.4,
+  "zero_to_60_s": 7.3
+ },
+ {
+  "auto": true,
+  "battery_kwh": 54.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "109224",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:109224",
+   "best_cash_price": 33705.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:109224",
+     "true_monthly": 635.12,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": null,
+  "id": "carwow-cap:109224",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=109224&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=109224&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 33705.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 218.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:109224",
+  "specs": [
+   {
+    "features": 88,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": null,
+     "heated_rear_seats": null,
+     "heated_steering_wheel": "standard",
+     "hud": null,
+     "keyless": null,
+     "leather": "standard",
+     "led_headlights": null,
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": null
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 54.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "160kW 54kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 218.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 244.2,
+     "zero_to_60_s": 6.7
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:109224",
+    "variant": "Cooper Electric SE Paul Smith Edition 160kW 54kWh Auto"
+   }
+  ],
+  "trim": "SE Paul Smith Edition · 160kW 54kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "160kW 54kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-06-26",
+  "wheelbase_m": null,
+  "wltp_range_mi": 244.2,
+  "zero_to_60_s": 6.7
+ },
+ {
+  "auto": true,
+  "cap_id": "109225",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:109225",
+   "best_cash_price": 37605.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:109225",
+     "true_monthly": 747.21,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:109225",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=109223&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 37605.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "E Paul Smith Edition · 135kW E Paul Smith Ed 41kWh Auto",
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "135kW E Paul Smith Ed 41kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-05-28"
+ },
+ {
+  "auto": true,
+  "cap_id": "109226",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:109226",
+   "best_cash_price": 38605.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:109226",
+     "true_monthly": 775.95,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "id": "carwow-cap:109226",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=109223&filter%5Bsize%5D=800",
+  "image_url": null,
+  "internal_v2l": "unknown",
+  "list_price_gbp": 38605.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). The specification page did not list this derivative when last read.",
+  "picks": [],
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l",
+    "seats"
+   ]
+  },
+  "source_kind": "stub",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "specs": [],
+  "trim": "SE Paul Smith Edition · 160kW SE Paul Smith Ed 54kWh Auto",
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "160kW SE Paul Smith Ed 54kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-05-28"
+ },
+ {
+  "auto": true,
+  "battery_kwh": 41.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "109227",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:109227",
+   "best_cash_price": 35105.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:109227",
+     "true_monthly": 675.36,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": null,
+  "id": "carwow-cap:109227",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=109223&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=109223&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 32705.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 184.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:109227",
+  "specs": [
+   {
+    "features": 87,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": null,
+     "heated_rear_seats": null,
+     "heated_steering_wheel": "standard",
+     "hud": null,
+     "keyless": null,
+     "leather": "standard",
+     "led_headlights": null,
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": null
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 41.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "135kW E Paul Smith Ed 41kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 184.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 180.2,
+     "zero_to_60_s": 7.3
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:109227",
+    "variant": "Cooper Electric E Paul Smith Edition 135kW E Paul Smith Ed 41kWh Auto"
+   }
+  ],
+  "trim": "E Paul Smith Edition · 135kW E Paul Smith Ed 41kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "135kW E Paul Smith Ed 41kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-05-28",
+  "wheelbase_m": null,
+  "wltp_range_mi": 180.2,
+  "zero_to_60_s": 7.3
+ },
+ {
+  "auto": true,
+  "battery_kwh": 54.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "109228",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:109228",
+   "best_cash_price": 36105.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:109228",
+     "true_monthly": 704.1,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": null,
+  "id": "carwow-cap:109228",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=109224&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=109224&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 33705.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 218.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:109228",
+  "specs": [
+   {
+    "features": 88,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": null,
+     "heated_rear_seats": null,
+     "heated_steering_wheel": "standard",
+     "hud": null,
+     "keyless": null,
+     "leather": "standard",
+     "led_headlights": null,
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": null
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 54.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "160kW SE Paul Smith Ed 54kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 218.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 240.5,
+     "zero_to_60_s": 6.7
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:109228",
+    "variant": "Cooper Electric SE Paul Smith Edition 160kW SE Paul Smith Ed 54kWh Auto"
+   }
+  ],
+  "trim": "SE Paul Smith Edition · 160kW SE Paul Smith Ed 54kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "160kW SE Paul Smith Ed 54kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-05-28",
+  "wheelbase_m": null,
+  "wltp_range_mi": 240.5,
+  "zero_to_60_s": 6.7
  },
  {
   "auto": true,
@@ -195547,6 +200113,212 @@
   "wheelbase_m": 2.97,
   "wltp_range_mi": 503.0,
   "zero_to_60_s": 3.9
+ },
+ {
+  "auto": true,
+  "battery_kwh": 54.0,
+  "boot_l": 210.0,
+  "boot_max_l": 800.0,
+  "camera_360": null,
+  "cap_id": "109835",
+  "deal_summary": {
+   "best_cash_age_days": 0,
+   "best_cash_offer_id": "carwow:cash:109835",
+   "best_cash_price": 29105.0,
+   "best_pch_age_days": null,
+   "best_pch_effective_monthly": null,
+   "best_pch_offer_id": null,
+   "best_pcp_age_days": null,
+   "best_pcp_monthly": null,
+   "best_pcp_offer_id": null,
+   "best_true_monthly": 201.6,
+   "best_true_offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+   "best_true_route": "used",
+   "current_offers": 1,
+   "offers": 1,
+   "true_monthly_by_route": {
+    "cash": {
+     "age_days": 0,
+     "offer_id": "carwow:cash:109835",
+     "true_monthly": 502.91,
+     "true_monthly_floor": null
+    },
+    "used": {
+     "age_days": 0,
+     "offer_id": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+     "true_monthly": 201.6,
+     "true_monthly_floor": null
+    }
+   }
+  },
+  "doors": 3,
+  "drive": "Front wheel drive",
+  "external_v2l": "unknown",
+  "fuel": "bev",
+  "glass_roof": null,
+  "grant_gbp": null,
+  "heat_pump": "unknown",
+  "heated_seats": true,
+  "id": "carwow-cap:109835",
+  "image": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=109835&filter%5Bsize%5D=800",
+  "image_url": "https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D=109835&filter%5Bsize%5D=800",
+  "internal_v2l": "unknown",
+  "list_price_gbp": 29105.0,
+  "make": "MINI",
+  "make_slug": "mini",
+  "memory_seats": true,
+  "model": "Cooper Electric",
+  "model_slug": "electric",
+  "model_year": 2026,
+  "notes": "Generated from Carwow's specification page for this derivative. Equipment is listed per trim, so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.",
+  "picks": [],
+  "power_hp": 218.0,
+  "requirement_check": {
+   "failures": [],
+   "passes": true,
+   "unknown": [
+    "heat_pump",
+    "internal_v2l"
+   ]
+  },
+  "seats": 4,
+  "source_kind": "spec",
+  "spec_check": {
+   "disagreements": 0,
+   "rows": []
+  },
+  "spec_key": "carwow-cap:109835",
+  "specs": [
+   {
+    "features": 82,
+    "flags": {
+     "adaptive_cruise": null,
+     "blind_spot": null,
+     "bose_harman": null,
+     "camera_360": null,
+     "carplay": null,
+     "digital_key": null,
+     "electric_seats": null,
+     "glass_roof": null,
+     "heat_pump": null,
+     "heated_front_seats": "standard",
+     "heated_rear_seats": null,
+     "heated_steering_wheel": null,
+     "hud": "standard",
+     "keyless": null,
+     "leather": null,
+     "led_headlights": "standard",
+     "matrix_led": null,
+     "memory_seats": "standard",
+     "nav": "standard",
+     "powered_sliding_doors": null,
+     "powered_tailgate": null,
+     "rear_privacy_glass": null,
+     "three_pin_socket": null,
+     "tow_prep": null,
+     "v2l_any": null,
+     "v2l_external": null,
+     "v2l_internal": null,
+     "ventilated_seats": null,
+     "wireless_charging": "standard"
+    },
+    "last_seen_at": "2026-10-07T11:03:35+00:00",
+    "numbers": {
+     "battery_kwh": 54.0,
+     "boot_l": 210.0,
+     "boot_max_l": 800.0,
+     "doors": 3,
+     "drive": "Front wheel drive",
+     "engine": "160kW 54kWh Auto",
+     "first_year_tax_gbp": 10.0,
+     "fuel": "Electric",
+     "power_bhp": 218.0,
+     "seats": 4,
+     "turning_circle_m": 10.8,
+     "used_from_gbp": 20290.0,
+     "wheelbase_m": null,
+     "wltp_range_mi": 244.2,
+     "zero_to_60_s": 6.7
+    },
+    "options": 0,
+    "provider": "carwow_specs",
+    "spec_key": "carwow-cap:109835",
+    "variant": "Cooper Electric SE Monochrome 160kW 54kWh Auto"
+   }
+  ],
+  "trim": "SE Monochrome · 160kW 54kWh Auto",
+  "turning_circle_m": 10.8,
+  "used_from_gbp": 20290.0,
+  "used_stock": {
+   "by_year": {
+    "2020": {
+     "median": 12399,
+     "min": 12199.0,
+     "n": 3
+    },
+    "2021": {
+     "median": 13899,
+     "min": 11499.0,
+     "n": 9
+    },
+    "2022": {
+     "median": 14524,
+     "min": 11899.0,
+     "n": 14
+    },
+    "2023": {
+     "median": 13099,
+     "min": 12599.0,
+     "n": 19
+    },
+    "2024": {
+     "median": 26224,
+     "min": 23549.0,
+     "n": 2
+    }
+   },
+   "cheapest": {
+    "age_days": 0,
+    "derivative": "135kW Cooper S Level 1 33kWh 3dr Auto",
+    "image_url": "https://eu.cdn.autosonshow.tv/2657/cinch/ND71USF/06_md.jpg",
+    "listing_key": "cinch:76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "mileage": 40745,
+    "price_gbp": 11499.0,
+    "source": "cinch",
+    "sources": null,
+    "town": "Corby",
+    "url": "https://www.cinch.co.uk/used-cars/mini/hatchback/details/76492c18-af7a-497f-a7f0-4dde1304f14b",
+    "year": 2021
+   },
+   "count": 47,
+   "residual": {
+    "n": 19,
+    "source": "used-market",
+    "value": 13099,
+    "year": 2023
+   },
+   "route": {
+    "age_years": 5,
+    "expected_value_at_end": 5061.04,
+    "finance_type": "used",
+    "horizon_months": 37,
+    "pv_cost": 7014.44,
+    "residual_source": "assumption",
+    "true_monthly": 201.6,
+    "vehicle_price": 11499.0
+   },
+   "sources": {
+    "Carwow used stock": 10,
+    "Motorpoint": 13,
+    "cinch": 34
+   }
+  },
+  "variant": "160kW 54kWh Auto",
+  "verification": "scraped",
+  "version_date": "2026-06-26",
+  "wheelbase_m": null,
+  "wltp_range_mi": 244.2,
+  "zero_to_60_s": 6.7
  },
  {
   "auto": true,

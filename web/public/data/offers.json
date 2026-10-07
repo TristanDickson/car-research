@@ -220579,5 +220579,1773 @@
   "stock_status": 0,
   "term_months": 48,
   "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104111",
+  "car_ref": {
+   "key": "104111",
+   "label": "MINI Cooper Electric 135kW 41kWh Auto · E Classic · RRP £26,905",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104111",
+    "engine": "135kW 41kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 26905.0,
+    "trim": "E Classic",
+    "version_date": "2026-06-26"
+   }
+  },
+  "carwow_title": "Cooper Electric 135kW 41kWh Auto",
+  "carwow_trim": "E Classic",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 26905.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104111",
+  "list_price": 26905.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 26905.0,
+   "pv_cost": 15298.03,
+   "residual_source": "used-market",
+   "true_monthly": 439.68,
+   "vehicle_price": 26905.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104111",
+  "pcp_finance_price": 26905.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104111 / car_104111_2026-06-26",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 26905.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104112",
+  "car_ref": {
+   "key": "104112",
+   "label": "MINI Cooper Electric 135kW41kWh Auto · E Classic · RRP £28,905",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104112",
+    "engine": "135kW41kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 28905.0,
+    "trim": "E Classic",
+    "version_date": "2026-05-28"
+   }
+  },
+  "carwow_title": "Cooper Electric 135kW41kWh Auto",
+  "carwow_trim": "E Classic",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 28905.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104112",
+  "list_price": 28905.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 28905.0,
+   "pv_cost": 17298.03,
+   "residual_source": "used-market",
+   "true_monthly": 497.16,
+   "vehicle_price": 28905.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104112",
+  "pcp_finance_price": 28905.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104112 / car_104112_2026-05-28",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 28905.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104113",
+  "car_ref": {
+   "key": "104113",
+   "label": "MINI Cooper Electric 135kW41kWh Auto · E Classic · RRP £31,305",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104113",
+    "engine": "135kW41kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 31305.0,
+    "trim": "E Classic",
+    "version_date": "2026-05-28"
+   }
+  },
+  "carwow_title": "Cooper Electric 135kW41kWh Auto",
+  "carwow_trim": "E Classic",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 31305.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104113",
+  "list_price": 31305.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 31305.0,
+   "pv_cost": 19698.03,
+   "residual_source": "used-market",
+   "true_monthly": 566.14,
+   "vehicle_price": 31305.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104113",
+  "pcp_finance_price": 31305.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104113 / car_104113_2026-05-28",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 31305.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104114",
+  "car_ref": {
+   "key": "104114",
+   "label": "MINI Cooper Electric 160kW 54kWh Auto · SE Classic · RRP £29,905",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104114",
+    "engine": "160kW 54kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 29905.0,
+    "trim": "SE Classic",
+    "version_date": "2026-06-26"
+   }
+  },
+  "carwow_title": "Cooper Electric 160kW 54kWh Auto",
+  "carwow_trim": "SE Classic",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 29905.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104114",
+  "list_price": 29905.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 29905.0,
+   "pv_cost": 18298.03,
+   "residual_source": "used-market",
+   "true_monthly": 525.91,
+   "vehicle_price": 29905.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104114",
+  "pcp_finance_price": 29905.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104114 / car_104114_2026-06-26",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 29905.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104115",
+  "car_ref": {
+   "key": "104115",
+   "label": "MINI Cooper Electric 160kW54kWh Auto · SE Classic · RRP £32,305",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104115",
+    "engine": "160kW54kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 32305.0,
+    "trim": "SE Classic",
+    "version_date": "2026-05-28"
+   }
+  },
+  "carwow_title": "Cooper Electric 160kW54kWh Auto",
+  "carwow_trim": "SE Classic",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 32305.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104115",
+  "list_price": 32305.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 32305.0,
+   "pv_cost": 20698.03,
+   "residual_source": "used-market",
+   "true_monthly": 594.88,
+   "vehicle_price": 32305.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104115",
+  "pcp_finance_price": 32305.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104115 / car_104115_2026-05-28",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 32305.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104116",
+  "car_ref": {
+   "key": "104116",
+   "label": "MINI Cooper Electric 135kW 41kWh Auto · E Exclusive · RRP £29,105",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104116",
+    "engine": "135kW 41kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 29105.0,
+    "trim": "E Exclusive",
+    "version_date": "2026-06-26"
+   }
+  },
+  "carwow_title": "Cooper Electric 135kW 41kWh Auto",
+  "carwow_trim": "E Exclusive",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 29105.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104116",
+  "list_price": 29105.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 29105.0,
+   "pv_cost": 17498.03,
+   "residual_source": "used-market",
+   "true_monthly": 502.91,
+   "vehicle_price": 29105.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104116",
+  "pcp_finance_price": 29105.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104116 / car_104116_2026-06-26",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 29105.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104117",
+  "car_ref": {
+   "key": "104117",
+   "label": "MINI Cooper Electric 135kW41kWh Auto · E Exclusive · RRP £31,105",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104117",
+    "engine": "135kW41kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 31105.0,
+    "trim": "E Exclusive",
+    "version_date": "2026-05-28"
+   }
+  },
+  "carwow_title": "Cooper Electric 135kW41kWh Auto",
+  "carwow_trim": "E Exclusive",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 31105.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104117",
+  "list_price": 31105.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 31105.0,
+   "pv_cost": 19498.03,
+   "residual_source": "used-market",
+   "true_monthly": 560.39,
+   "vehicle_price": 31105.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104117",
+  "pcp_finance_price": 31105.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104117 / car_104117_2026-05-28",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 31105.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104118",
+  "car_ref": {
+   "key": "104118",
+   "label": "MINI Cooper Electric 135kW41kWh Auto · E Exclusive · RRP £33,505",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104118",
+    "engine": "135kW41kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 33505.0,
+    "trim": "E Exclusive",
+    "version_date": "2026-05-28"
+   }
+  },
+  "carwow_title": "Cooper Electric 135kW41kWh Auto",
+  "carwow_trim": "E Exclusive",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 33505.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104118",
+  "list_price": 33505.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 33505.0,
+   "pv_cost": 21898.03,
+   "residual_source": "used-market",
+   "true_monthly": 629.37,
+   "vehicle_price": 33505.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104118",
+  "pcp_finance_price": 33505.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104118 / car_104118_2026-05-28",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 33505.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104119",
+  "car_ref": {
+   "key": "104119",
+   "label": "MINI Cooper Electric 160kW 54kWh Auto · SE Exclusive · RRP £32,105",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104119",
+    "engine": "160kW 54kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 32105.0,
+    "trim": "SE Exclusive",
+    "version_date": "2026-06-26"
+   }
+  },
+  "carwow_title": "Cooper Electric 160kW 54kWh Auto",
+  "carwow_trim": "SE Exclusive",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 32105.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104119",
+  "list_price": 32105.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 32105.0,
+   "pv_cost": 20498.03,
+   "residual_source": "used-market",
+   "true_monthly": 589.14,
+   "vehicle_price": 32105.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104119",
+  "pcp_finance_price": 32105.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104119 / car_104119_2026-06-26",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 32105.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104120",
+  "car_ref": {
+   "key": "104120",
+   "label": "MINI Cooper Electric 160kW54kWh Auto · SE Exclusive · RRP £34,505",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104120",
+    "engine": "160kW54kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 34505.0,
+    "trim": "SE Exclusive",
+    "version_date": "2026-05-28"
+   }
+  },
+  "carwow_title": "Cooper Electric 160kW54kWh Auto",
+  "carwow_trim": "SE Exclusive",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 34505.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104120",
+  "list_price": 34505.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 34505.0,
+   "pv_cost": 22898.03,
+   "residual_source": "used-market",
+   "true_monthly": 658.11,
+   "vehicle_price": 34505.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104120",
+  "pcp_finance_price": 34505.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104120 / car_104120_2026-05-28",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 34505.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104121",
+  "car_ref": {
+   "key": "104121",
+   "label": "MINI Cooper Electric 160kW54kWh Auto · SE Exclusive · RRP £37,005",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104121",
+    "engine": "160kW54kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 37005.0,
+    "trim": "SE Exclusive",
+    "version_date": "2026-05-28"
+   }
+  },
+  "carwow_title": "Cooper Electric 160kW54kWh Auto",
+  "carwow_trim": "SE Exclusive",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 37005.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104121",
+  "list_price": 37005.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 37005.0,
+   "pv_cost": 25398.03,
+   "residual_source": "used-market",
+   "true_monthly": 729.97,
+   "vehicle_price": 37005.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104121",
+  "pcp_finance_price": 37005.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104121 / car_104121_2026-05-28",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 37005.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104122",
+  "car_ref": {
+   "key": "104122",
+   "label": "MINI Cooper Electric 135kW 41kWh Auto · E Sport · RRP £30,405",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104122",
+    "engine": "135kW 41kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 30405.0,
+    "trim": "E Sport",
+    "version_date": "2026-06-26"
+   }
+  },
+  "carwow_title": "Cooper Electric 135kW 41kWh Auto",
+  "carwow_trim": "E Sport",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 30405.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104122",
+  "list_price": 30405.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 30405.0,
+   "pv_cost": 18798.03,
+   "residual_source": "used-market",
+   "true_monthly": 540.28,
+   "vehicle_price": 30405.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104122",
+  "pcp_finance_price": 30405.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104122 / car_104122_2026-06-26",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 30405.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104123",
+  "car_ref": {
+   "key": "104123",
+   "label": "MINI Cooper Electric 135kW41kWh Auto · E Sport · RRP £32,405",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104123",
+    "engine": "135kW41kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 32405.0,
+    "trim": "E Sport",
+    "version_date": "2026-05-28"
+   }
+  },
+  "carwow_title": "Cooper Electric 135kW41kWh Auto",
+  "carwow_trim": "E Sport",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 32405.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104123",
+  "list_price": 32405.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 32405.0,
+   "pv_cost": 20798.03,
+   "residual_source": "used-market",
+   "true_monthly": 597.76,
+   "vehicle_price": 32405.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104123",
+  "pcp_finance_price": 32405.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104123 / car_104123_2026-05-28",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 32405.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104124",
+  "car_ref": {
+   "key": "104124",
+   "label": "MINI Cooper Electric 135kW41kWh Auto · E Sport · RRP £34,805",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104124",
+    "engine": "135kW41kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 34805.0,
+    "trim": "E Sport",
+    "version_date": "2026-05-28"
+   }
+  },
+  "carwow_title": "Cooper Electric 135kW41kWh Auto",
+  "carwow_trim": "E Sport",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 34805.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104124",
+  "list_price": 34805.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 34805.0,
+   "pv_cost": 23198.03,
+   "residual_source": "used-market",
+   "true_monthly": 666.74,
+   "vehicle_price": 34805.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104124",
+  "pcp_finance_price": 34805.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104124 / car_104124_2026-05-28",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 34805.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104125",
+  "car_ref": {
+   "key": "104125",
+   "label": "MINI Cooper Electric 135kW41kWh Auto · E Sport · RRP £37,305",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104125",
+    "engine": "135kW41kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 37305.0,
+    "trim": "E Sport",
+    "version_date": "2026-05-28"
+   }
+  },
+  "carwow_title": "Cooper Electric 135kW41kWh Auto",
+  "carwow_trim": "E Sport",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 37305.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104125",
+  "list_price": 37305.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 37305.0,
+   "pv_cost": 25698.03,
+   "residual_source": "used-market",
+   "true_monthly": 738.59,
+   "vehicle_price": 37305.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104125",
+  "pcp_finance_price": 37305.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104125 / car_104125_2026-05-28",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 37305.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104126",
+  "car_ref": {
+   "key": "104126",
+   "label": "MINI Cooper Electric 160kW 54kWh Auto · SE Sport · RRP £33,405",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104126",
+    "engine": "160kW 54kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 33405.0,
+    "trim": "SE Sport",
+    "version_date": "2026-06-26"
+   }
+  },
+  "carwow_title": "Cooper Electric 160kW 54kWh Auto",
+  "carwow_trim": "SE Sport",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 33405.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104126",
+  "list_price": 33405.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 33405.0,
+   "pv_cost": 21798.03,
+   "residual_source": "used-market",
+   "true_monthly": 626.5,
+   "vehicle_price": 33405.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104126",
+  "pcp_finance_price": 33405.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104126 / car_104126_2026-06-26",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 33405.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104127",
+  "car_ref": {
+   "key": "104127",
+   "label": "MINI Cooper Electric 160kW54kWh Auto · SE Sport · RRP £35,805",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104127",
+    "engine": "160kW54kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 35805.0,
+    "trim": "SE Sport",
+    "version_date": "2026-05-28"
+   }
+  },
+  "carwow_title": "Cooper Electric 160kW54kWh Auto",
+  "carwow_trim": "SE Sport",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 35805.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104127",
+  "list_price": 35805.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 35805.0,
+   "pv_cost": 24198.03,
+   "residual_source": "used-market",
+   "true_monthly": 695.48,
+   "vehicle_price": 35805.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104127",
+  "pcp_finance_price": 35805.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104127 / car_104127_2026-05-28",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 35805.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:104128",
+  "car_ref": {
+   "key": "104128",
+   "label": "MINI Cooper Electric 160kW54kWh Auto · SE Sport · RRP £38,305",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "104128",
+    "engine": "160kW54kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 38305.0,
+    "trim": "SE Sport",
+    "version_date": "2026-05-28"
+   }
+  },
+  "carwow_title": "Cooper Electric 160kW54kWh Auto",
+  "carwow_trim": "SE Sport",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 38305.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:104128",
+  "list_price": 38305.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 38305.0,
+   "pv_cost": 26698.03,
+   "residual_source": "used-market",
+   "true_monthly": 767.33,
+   "vehicle_price": 38305.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:104128",
+  "pcp_finance_price": 38305.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 104128 / car_104128_2026-05-28",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 38305.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:108669",
+  "car_ref": {
+   "key": "108669",
+   "label": "MINI Cooper Electric 135kW 41kWh Auto · E Monochrome · RRP £27,205",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "108669",
+    "engine": "135kW 41kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 27205.0,
+    "trim": "E Monochrome",
+    "version_date": "2026-06-26"
+   }
+  },
+  "carwow_title": "Cooper Electric 135kW 41kWh Auto",
+  "carwow_trim": "E Monochrome",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 27205.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:108669",
+  "list_price": 27205.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 27205.0,
+   "pv_cost": 15598.03,
+   "residual_source": "used-market",
+   "true_monthly": 448.3,
+   "vehicle_price": 27205.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:108669",
+  "pcp_finance_price": 27205.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 108669 / car_108669_2026-06-26",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 27205.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:109223",
+  "car_ref": {
+   "key": "109223",
+   "label": "MINI Cooper Electric 135kW 41kWh Auto · E Paul Smith Edition · RRP £32,705",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "109223",
+    "engine": "135kW 41kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 32705.0,
+    "trim": "E Paul Smith Edition",
+    "version_date": "2026-06-26"
+   }
+  },
+  "carwow_title": "Cooper Electric 135kW 41kWh Auto",
+  "carwow_trim": "E Paul Smith Edition",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 32705.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:109223",
+  "list_price": 32705.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 32705.0,
+   "pv_cost": 21098.03,
+   "residual_source": "used-market",
+   "true_monthly": 606.38,
+   "vehicle_price": 32705.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:109223",
+  "pcp_finance_price": 32705.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 109223 / car_109223_2026-06-26",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 32705.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:109224",
+  "car_ref": {
+   "key": "109224",
+   "label": "MINI Cooper Electric 160kW 54kWh Auto · SE Paul Smith Edition · RRP £33,705",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "109224",
+    "engine": "160kW 54kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 33705.0,
+    "trim": "SE Paul Smith Edition",
+    "version_date": "2026-06-26"
+   }
+  },
+  "carwow_title": "Cooper Electric 160kW 54kWh Auto",
+  "carwow_trim": "SE Paul Smith Edition",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 33705.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:109224",
+  "list_price": 33705.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 33705.0,
+   "pv_cost": 22098.03,
+   "residual_source": "used-market",
+   "true_monthly": 635.12,
+   "vehicle_price": 33705.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:109224",
+  "pcp_finance_price": 33705.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 109224 / car_109224_2026-06-26",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 33705.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:109225",
+  "car_ref": {
+   "key": "109225",
+   "label": "MINI Cooper Electric 135kW E Paul Smith Ed 41kWh Auto · E Paul Smith Edition · RRP £37,605",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "109225",
+    "engine": "135kW E Paul Smith Ed 41kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 37605.0,
+    "trim": "E Paul Smith Edition",
+    "version_date": "2026-05-28"
+   }
+  },
+  "carwow_title": "Cooper Electric 135kW E Paul Smith Ed 41kWh Auto",
+  "carwow_trim": "E Paul Smith Edition",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 37605.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:109225",
+  "list_price": 37605.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 37605.0,
+   "pv_cost": 25998.03,
+   "residual_source": "used-market",
+   "true_monthly": 747.21,
+   "vehicle_price": 37605.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:109225",
+  "pcp_finance_price": 37605.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 109225 / car_109225_2026-05-28",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 37605.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:109226",
+  "car_ref": {
+   "key": "109226",
+   "label": "MINI Cooper Electric 160kW SE Paul Smith Ed 54kWh Auto · SE Paul Smith Edition · RRP £38,605",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "109226",
+    "engine": "160kW SE Paul Smith Ed 54kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 38605.0,
+    "trim": "SE Paul Smith Edition",
+    "version_date": "2026-05-28"
+   }
+  },
+  "carwow_title": "Cooper Electric 160kW SE Paul Smith Ed 54kWh Auto",
+  "carwow_trim": "SE Paul Smith Edition",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 38605.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:109226",
+  "list_price": 38605.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 38605.0,
+   "pv_cost": 26998.03,
+   "residual_source": "used-market",
+   "true_monthly": 775.95,
+   "vehicle_price": 38605.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:109226",
+  "pcp_finance_price": 38605.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 109226 / car_109226_2026-05-28",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 38605.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:109227",
+  "car_ref": {
+   "key": "109227",
+   "label": "MINI Cooper Electric 135kW E Paul Smith Ed 41kWh Auto · E Paul Smith Edition · RRP £35,105",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "109227",
+    "engine": "135kW E Paul Smith Ed 41kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 35105.0,
+    "trim": "E Paul Smith Edition",
+    "version_date": "2026-05-28"
+   }
+  },
+  "carwow_title": "Cooper Electric 135kW E Paul Smith Ed 41kWh Auto",
+  "carwow_trim": "E Paul Smith Edition",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 35105.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:109227",
+  "list_price": 35105.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 35105.0,
+   "pv_cost": 23498.03,
+   "residual_source": "used-market",
+   "true_monthly": 675.36,
+   "vehicle_price": 35105.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:109227",
+  "pcp_finance_price": 35105.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 109227 / car_109227_2026-05-28",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 35105.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:109228",
+  "car_ref": {
+   "key": "109228",
+   "label": "MINI Cooper Electric 160kW SE Paul Smith Ed 54kWh Auto · SE Paul Smith Edition · RRP £36,105",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "109228",
+    "engine": "160kW SE Paul Smith Ed 54kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 36105.0,
+    "trim": "SE Paul Smith Edition",
+    "version_date": "2026-05-28"
+   }
+  },
+  "carwow_title": "Cooper Electric 160kW SE Paul Smith Ed 54kWh Auto",
+  "carwow_trim": "SE Paul Smith Edition",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 36105.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:109228",
+  "list_price": 36105.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 36105.0,
+   "pv_cost": 24498.03,
+   "residual_source": "used-market",
+   "true_monthly": 704.1,
+   "vehicle_price": 36105.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:109228",
+  "pcp_finance_price": 36105.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 109228 / car_109228_2026-05-28",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 36105.0,
+  "verification": "scraped"
+ },
+ {
+  "captured_at": "2026-10-07",
+  "car_id": "carwow-cap:109835",
+  "car_ref": {
+   "key": "109835",
+   "label": "MINI Cooper Electric 160kW 54kWh Auto · SE Monochrome · RRP £29,105",
+   "source": "carwow-cap",
+   "stub": {
+    "cap_id": "109835",
+    "engine": "160kW 54kWh Auto",
+    "make": "MINI",
+    "make_slug": "mini",
+    "model": "Cooper Electric",
+    "model_slug": "electric",
+    "rrp": 29105.0,
+    "trim": "SE Monochrome",
+    "version_date": "2026-06-26"
+   }
+  },
+  "carwow_title": "Cooper Electric 160kW 54kWh Auto",
+  "carwow_trim": "SE Monochrome",
+  "finance_type": "cash",
+  "freshness": {
+   "age_days": 0,
+   "first_seen_at": "2026-10-07T11:03:37+00:00",
+   "history": [
+    {
+     "confirmed_at": null,
+     "observed_at": "2026-10-07T11:03:37+00:00",
+     "present": true,
+     "source": "carwow_deals",
+     "vehicle_price": 29105.0
+    }
+   ],
+   "last_checked_at": "2026-10-07T11:03:37+00:00",
+   "last_seen_at": "2026-10-07T11:03:37+00:00",
+   "observations": 1,
+   "present": true,
+   "stale": false,
+   "state": "lead"
+  },
+  "id": "carwow:cash:109835",
+  "list_price": 29105.0,
+  "metrics": {
+   "discount_vs_list": 0.0,
+   "expected_value_at_end": 13099.0,
+   "horizon_months": 37,
+   "list_price": 29105.0,
+   "pv_cost": 17498.03,
+   "residual_source": "used-market",
+   "true_monthly": 502.91,
+   "vehicle_price": 29105.0
+  },
+  "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
+  "observed_at": "2026-10-07T11:03:37+00:00",
+  "offer_key": "carwow:cash:109835",
+  "pcp_finance_price": 29105.0,
+  "pcp_finance_price_delta": 0.0,
+  "present": 1,
+  "provider": "carwow_deals",
+  "saving_stated": 0.0,
+  "source": "Carwow best price",
+  "source_ref": "CAP 109835 / car_109835_2026-06-26",
+  "source_url": "https://www.carwow.co.uk/mini/electric/deals",
+  "status": "lead",
+  "vehicle_price": 29105.0,
+  "verification": "scraped"
  }
 ]

@@ -2903,6 +2903,32 @@
 | Kia PV5 Passenger Elite 71.2kWh 7-seat | lead |  | £38,572 |  |
 | Kia PV5 Passenger Essential 71.2kWh 7-seat | lead |  | £32,739 |  |
 | Kia PV5 Passenger Plus 71.2kWh 7-seat | lead |  | £35,593 |  |
+| MINI Cooper Electric E Classic · 135kW 41kWh Auto | lead | £26,905 | £26,905 | £0 |
+| MINI Cooper Electric E Classic · 135kW41kWh Auto | lead | £28,905 | £28,905 | £0 |
+| MINI Cooper Electric E Classic · 135kW41kWh Auto | lead | £31,305 | £31,305 | £0 |
+| MINI Cooper Electric SE Classic · 160kW 54kWh Auto | lead | £29,905 | £29,905 | £0 |
+| MINI Cooper Electric SE Classic · 160kW54kWh Auto | lead | £32,305 | £32,305 | £0 |
+| MINI Cooper Electric E Exclusive · 135kW 41kWh Auto | lead | £29,105 | £29,105 | £0 |
+| MINI Cooper Electric E Exclusive · 135kW41kWh Auto | lead | £31,105 | £31,105 | £0 |
+| MINI Cooper Electric E Exclusive · 135kW41kWh Auto | lead | £33,505 | £33,505 | £0 |
+| MINI Cooper Electric SE Exclusive · 160kW 54kWh Auto | lead | £32,105 | £32,105 | £0 |
+| MINI Cooper Electric SE Exclusive · 160kW54kWh Auto | lead | £34,505 | £34,505 | £0 |
+| MINI Cooper Electric SE Exclusive · 160kW54kWh Auto | lead | £37,005 | £37,005 | £0 |
+| MINI Cooper Electric E Sport · 135kW 41kWh Auto | lead | £30,405 | £30,405 | £0 |
+| MINI Cooper Electric E Sport · 135kW41kWh Auto | lead | £32,405 | £32,405 | £0 |
+| MINI Cooper Electric E Sport · 135kW41kWh Auto | lead | £34,805 | £34,805 | £0 |
+| MINI Cooper Electric E Sport · 135kW41kWh Auto | lead | £37,305 | £37,305 | £0 |
+| MINI Cooper Electric SE Sport · 160kW 54kWh Auto | lead | £33,405 | £33,405 | £0 |
+| MINI Cooper Electric SE Sport · 160kW54kWh Auto | lead | £35,805 | £35,805 | £0 |
+| MINI Cooper Electric SE Sport · 160kW54kWh Auto | lead | £38,305 | £38,305 | £0 |
+| MINI Cooper Electric E Monochrome · 135kW 41kWh Auto | lead | £27,205 | £27,205 | £0 |
+| MINI Cooper Electric E Paul Smith Edition · 135kW 41kWh Auto | lead | £32,705 | £32,705 | £0 |
+| MINI Cooper Electric SE Paul Smith Edition · 160kW 54kWh Auto | lead | £33,705 | £33,705 | £0 |
+| MINI Cooper Electric E Paul Smith Edition · 135kW E Paul Smith Ed 41kWh Auto | lead | £37,605 | £37,605 | £0 |
+| MINI Cooper Electric SE Paul Smith Edition · 160kW SE Paul Smith Ed 54kWh Auto | lead | £38,605 | £38,605 | £0 |
+| MINI Cooper Electric E Paul Smith Edition · 135kW E Paul Smith Ed 41kWh Auto | lead | £35,105 | £35,105 | £0 |
+| MINI Cooper Electric SE Paul Smith Edition · 160kW SE Paul Smith Ed 54kWh Auto | lead | £36,105 | £36,105 | £0 |
+| MINI Cooper Electric SE Monochrome · 160kW 54kWh Auto | lead | £29,105 | £29,105 | £0 |
 
 ## Not computed
 

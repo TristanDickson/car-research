@@ -27,6 +27,7 @@ MODEL_ALIASES = {
     ("kgm-motors", "korandoemotion"): "korando-e-motion", ("kgm-motors", "torres"): "torres-evx",
     ("lexus", "ux"): "ux-300e",
     ("mg", "mgs5"): "s5-ev",
+    ("mini", "hatchback"): "electric", ("mini", "cooper"): "electric",   # under the electric filter, the Cooper Electric
     ("omoda", "5"): "omoda-e5",
     ("polestar", "4coupe"): "4",
     ("skoda", "enyaqiv"): "enyaq", ("skoda", "citigo"): "citigo-e-iv",
