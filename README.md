@@ -95,7 +95,13 @@ Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
 | `rrg` | rrg-group.com Kia PV5 offers | the dealer's PCP example for the PV5 7-seat | scrapes |
 | `carwow_specs` | carwow.co.uk `/specifications` per catalogue model | equipment per trim, numbers per engine, CAP ids with version dates, an image per derivative; a generated car for every derivative nobody curates | scrapes |
 | `kia_specs` | kia.com/uk `/specification` per model | grade × feature ticks, numbers per powertrain, seat variants | scrapes |
-| `carwow_used` | quotes.carwow.co.uk used stock per catalogue model | every used example Carwow's dealers list: derivative, price, year, mileage, town; the buy-used route and the residual evidence | scrapes |
+| `carwow_used` | quotes.carwow.co.uk used stock per catalogue model | every used example Carwow's partner dealers list: derivative, price, year, mileage, town | scrapes |
+| `cinch_used` | cinch's search API, every electric car per make | cinch's own and marketplace stock with the registration, the CAP variant and the fee-inclusive price | scrapes |
+| `motorpoint_used` | motorpoint.co.uk's electric listing | the supermarket's nearly-new stock: CAP trim, year, mileage, price, branch, and the list price when new | scrapes |
+
+The three used sources are folded per model: the same registration, or the same year and
+mileage where a site prints no registration, is one car. The union is the buy-used route
+and the residual evidence (what a car of the term's age asks today).
 
 Every scrape is an observation: the body is kept (Bronze), parsed (Silver), resolved to a car
 (one of our 19 curated trims through the trim map, else the generated car for that Carwow

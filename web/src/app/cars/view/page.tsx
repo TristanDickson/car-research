@@ -134,7 +134,7 @@ function CarView() {
               ["Best current cash", withAge(gbp(c.deal_summary.best_cash_price), c.deal_summary.best_cash_age_days)],
               ["Best current PCP £0 down", withAge(c.deal_summary.best_pcp_monthly != null ? `${gbp(c.deal_summary.best_pcp_monthly)}/mo` : "—", c.deal_summary.best_pcp_age_days)],
               ["Best current PCH effective", withAge(c.deal_summary.best_pch_effective_monthly != null ? `${gbp(c.deal_summary.best_pch_effective_monthly)}/mo` : "—", c.deal_summary.best_pch_age_days)],
-              ["Used from (Carwow)", c.used_stock ? `${gbp(c.used_stock.cheapest.price_gbp)} (${c.used_stock.cheapest.year ?? "?"})` : gbp(c.used_from_gbp)],
+              ["Used from", c.used_stock ? `${gbp(c.used_stock.cheapest.price_gbp)} (${c.used_stock.cheapest.year ?? "?"})` : gbp(c.used_from_gbp)],
               ["Expected value at term end", c.used_stock?.residual ? `${gbp(c.used_stock.residual.value)} · ${c.used_stock.residual.n} × ${c.used_stock.residual.year} examples` : "from the GFV or the assumption"],
               ["Expensive-car VED", c.expensive_car_supplement ? "yes (£440/yr)" : "no"],
             ]}
@@ -160,7 +160,7 @@ function CarView() {
       )}
 
       {c.used_stock && (
-        <Card title={`Buy used · ${c.used_stock.count} example${c.used_stock.count === 1 ? "" : "s"} of this model on Carwow`}>
+        <Card title={`Buy used · ${c.used_stock.count} example${c.used_stock.count === 1 ? "" : "s"} of this model on ${Object.keys(c.used_stock.sources ?? {}).join(", ") || "Carwow"}`}>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="text-sm text-gray-300">
               <div>
@@ -169,7 +169,14 @@ function CarView() {
               </div>
               <div className="text-xs text-gray-500">{c.used_stock.cheapest.derivative}</div>
               {c.used_stock.cheapest.url && (
-                <a href={c.used_stock.cheapest.url} target="_blank" rel="noreferrer" className="text-xs text-gray-400 underline">listing</a>
+                <a href={c.used_stock.cheapest.url} target="_blank" rel="noreferrer" className="text-xs text-gray-400 underline">
+                  listing on {c.used_stock.cheapest.sources?.join(" and ") ?? c.used_stock.cheapest.source ?? "the source"}
+                </a>
+              )}
+              {c.used_stock.sources && Object.keys(c.used_stock.sources).length > 1 && (
+                <div className="mt-1 text-xs text-gray-500">
+                  {Object.entries(c.used_stock.sources).map(([s, n]) => `${s} ${n}`).join(" · ")} listings; the same car on two sites counts once.
+                </div>
               )}
               <div className="mt-2">
                 True cost as a route: <b className="tabular-nums">{c.used_stock.route.true_monthly != null ? `${gbp(c.used_stock.route.true_monthly)}/mo` : "—"}</b>

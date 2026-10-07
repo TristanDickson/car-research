@@ -359,7 +359,7 @@ def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
         )
         written += 1
 
-    used_seen: dict[tuple[str, str], set[str]] = {}
+    used_seen: dict[str, set[str]] = {}
     for artifact_id, rec in records.get("used", []):
         r = rec.row
         car_id = None
@@ -378,13 +378,18 @@ def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
             (r["listing_key"], source, r.get("make"), r.get("make_slug"), r.get("model"), r.get("model_slug"), car_id,
              r.get("price_gbp"), r.get("year"), r.get("mileage"), _dump(r), now, now, artifact_id, run_id),
         )
-        used_seen.setdefault((r.get("make_slug"), r.get("model_slug")), set()).add(r["listing_key"])
+        used_seen.setdefault(r.get("listing_url") or "", set()).add(r["listing_key"])
         written += 1
-    for (mk, mo), keys in used_seen.items():
-        # A listing not on the model's page this run has been sold or withdrawn.
+    for listing_url, keys in used_seen.items():
+        # A listing missing from the page it came from (a model's cards on Carwow,
+        # a make's stock on cinch, the whole electric listing on Motorpoint) has
+        # been sold or withdrawn; another source's, or a page not fetched this
+        # run, is untouched.
         marks = ",".join("?" * len(keys))
-        conn.execute(f"UPDATE used_listings SET present=0 WHERE make_slug=? AND model_slug=? AND present=1 AND listing_key NOT IN ({marks})",
-                     (mk, mo, *keys))
+        conn.execute(f"""UPDATE used_listings SET present=0
+                          WHERE source=? AND COALESCE(json_extract(payload, '$.listing_url'), '')=? AND present=1
+                            AND listing_key NOT IN ({marks})""",
+                     (source, listing_url, *keys))
 
     for artifact_id, rec in records.get("requirements", []):
         r = rec.row

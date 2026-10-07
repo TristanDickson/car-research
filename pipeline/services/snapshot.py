@@ -8,7 +8,7 @@ Layout (schema_version 4):
     data.json           providers, recent runs, unmapped trims, offer states, catalogue counts
     specs.json          every scraped variant: equipment list, canonical flags, numbers, image
     models.json         the catalogue: every electric model Carwow lists, with what we hold for it
-    used.json           used stock per model (Carwow's partner dealers): price, year, mileage, derivative
+    used.json           used stock per model (Carwow, cinch, Motorpoint): price, year, mileage, derivative, site
 
 An offer's current values are its latest observation. Freshness is derived here
 from the observation history, never typed by hand:
@@ -20,6 +20,7 @@ Finance maths is computed here, once, so the browser never needs its own copy.
 from __future__ import annotations
 
 import json
+import re
 import sqlite3
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -244,7 +245,7 @@ def load_used(conn: sqlite3.Connection) -> list[dict]:
                     "year": r["year"], "mileage": r["mileage"], "present": bool(r["present"]),
                     "first_seen_at": r["first_seen_at"], "last_seen_at": r["last_seen_at"],
                     "derivative": p.get("derivative"), "town": p.get("town"), "url": p.get("source_url"),
-                    "image_url": p.get("image_url"), "source": p.get("source")})
+                    "image_url": p.get("image_url"), "source": p.get("source"), "vrm": p.get("vrm")})
     return out
 
 
@@ -259,6 +260,47 @@ def car_slugs(car: dict, specs_by_car: dict[str, list[dict]]) -> tuple[str, str]
 MIN_USED_EVIDENCE = 3
 
 
+def _vrm(l: dict) -> str | None:
+    v = re.sub(r"\s+", "", l.get("vrm") or "").upper()
+    return v or None
+
+
+def dedupe_listings(listings: list[dict]) -> list[dict]:
+    """One row per car across the sources. A car listed on two sites is the
+    same car when the registrations match, or, where a site prints none, when
+    the registration year and mileage match a registered listing's or each
+    other's. The cheapest listing still on sale stands for the car and names
+    every site under 'sources'."""
+    by_vrm: dict[str, list[dict]] = {}
+    for l in listings:
+        if _vrm(l):
+            by_vrm.setdefault(_vrm(l), []).append(l)
+    ym_of_vrm: dict[tuple, str] = {}
+    for v, members in by_vrm.items():
+        for l in members:
+            if l.get("year") and l.get("mileage"):
+                ym_of_vrm.setdefault((l["year"], l["mileage"]), v)
+    by_ym: dict[tuple, list[dict]] = {}
+    rest: list[list[dict]] = []
+    for l in listings:
+        if _vrm(l):
+            continue
+        ym = (l["year"], l["mileage"]) if l.get("year") and l.get("mileage") else None
+        if ym and ym in ym_of_vrm:
+            by_vrm[ym_of_vrm[ym]].append(l)
+        elif ym:
+            by_ym.setdefault(ym, []).append(l)
+        else:
+            rest.append([l])
+    out: list[dict] = []
+    for members in [*by_vrm.values(), *by_ym.values(), *rest]:
+        live = [l for l in members if l.get("present")] or members
+        best = min(live, key=lambda l: l.get("price_gbp") or float("inf"))
+        sources = sorted({l.get("source") or l.get("provider") or "?" for l in members})
+        out.append(dict(best, sources=sources) if len(members) > 1 else best)
+    return out
+
+
 def used_evidence(listings: list[dict], today: date, basis: dict) -> dict:
     """What a model's used stock says a car is worth after the standard term:
     the median asking price of examples registered term-years ago, when there
@@ -266,7 +308,7 @@ def used_evidence(listings: list[dict], today: date, basis: dict) -> dict:
     year, for the car page."""
     term_years = max(1, round((basis.get("term_months") or 37) / 12))
     target_year = today.year - term_years
-    present = [l for l in listings if l["present"] and l.get("price_gbp") and l.get("year")]
+    present = [l for l in dedupe_listings(listings) if l["present"] and l.get("price_gbp") and l.get("year")]
     by_year: dict[int, dict] = {}
     for y in sorted({l["year"] for l in present}):
         prices = sorted(l["price_gbp"] for l in present if l["year"] == y)
@@ -282,10 +324,14 @@ def used_summary(listings: list[dict], evidence: dict, basis: dict, today: date)
     """The 'buy used' route for a model: its cheapest listing on sale now, costed
     like the other routes (price now, sold after the term at what the model's
     stock says a car that much older asks today)."""
-    present = [l for l in listings if l["present"] and l.get("price_gbp")]
+    present = [l for l in dedupe_listings(listings) if l["present"] and l.get("price_gbp")]
     if not present:
         return None
     cheapest = min(present, key=lambda l: l["price_gbp"])
+    sources: dict[str, int] = {}
+    for l in listings:
+        if l["present"] and l.get("price_gbp"):
+            sources[l.get("source") or l.get("provider") or "?"] = sources.get(l.get("source") or l.get("provider") or "?", 0) + 1
     age = (today.year - cheapest["year"]) if cheapest.get("year") else None
     v_end = None
     if age is not None:
@@ -295,8 +341,9 @@ def used_summary(listings: list[dict], evidence: dict, basis: dict, today: date)
     route = used_route(cheapest["price_gbp"], age, basis, v_end)
     return {
         "count": len(present),
-        "cheapest": {k: cheapest.get(k) for k in ("listing_key", "price_gbp", "year", "mileage", "derivative", "town", "url", "image_url")}
+        "cheapest": {k: cheapest.get(k) for k in ("listing_key", "price_gbp", "year", "mileage", "derivative", "town", "url", "image_url", "source", "sources")}
                     | {"age_days": (today - date.fromisoformat(cheapest["last_seen_at"][:10])).days},
+        "sources": sources,
         "by_year": evidence["by_year"], "residual": evidence["residual"], "route": route,
     }
 
@@ -499,7 +546,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         t["priced"] += int(c["deal_summary"]["current_offers"] > 0)
     for m in models:
         m.update(by_slug.get((m["make"], m["model"]), {"derivatives": 0, "cars": 0, "priced": 0}))
-        m["used"] = sum(1 for l in used_by_model.get((m["make"], m["model"]), []) if l["present"])
+        m["used"] = sum(1 for l in dedupe_listings(used_by_model.get((m["make"], m["model"]), [])) if l["present"])
 
     qb = requirements.get("quoting_basis") or {}
     data_page = {

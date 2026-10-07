@@ -18,6 +18,8 @@ providers (discover → fetch → parse)       pipeline/providers/*      Python,
    rrg             rrg-group.com (live)      dealer PCP example for the PV5 7-seat
    kia_specs       kia.com/uk (live)         grade × feature ticks, numbers per powertrain, seat variants
    carwow_used     quotes.carwow.co.uk        used stock per model: derivative, price, year, mileage (the buy-used route; residual evidence)
+   cinch_used      search-api...cinch.co.uk   used stock per make (electric), with registrations; folded with the others per model
+   motorpoint_used motorpoint.co.uk           the supermarket's electric stock, nearly new; list price when new per car
         │  Bronze  artifacts            every fetched body, sha256-addressed, supersede chain
         │  Silver  source_rows          one row per parsed record, in the source's vocabulary
         │  Gold    models               the catalogue: <make>/<model>, names, electric / has_deals / has_specs
@@ -293,19 +295,29 @@ each car (`deal_summary.true_monthly_by_route`) and the app ranks offers by it.
 Where V comes from, in order (`deal_math.expected_value`, reported as `residual_source`):
 
 1. **used-market**: the median asking price of the model's used examples registered
-   term-years ago (three or more of them), from `carwow_used`. Carwow's partner dealers'
-   stock, so a few to a few dozen cars per model; model-level, not per trim.
+   term-years ago (three or more of them), across `carwow_used`, `cinch_used` and
+   `motorpoint_used` with the same car listed twice counted once
+   (`snapshot.dedupe_listings`: the same registration, or the same year and mileage where a
+   site prints none). Model-level, not per trim.
 2. **gfv-grown**: the highest GFV any lender guarantees for the car, grown at the savings
    rate over the term. The lender stood behind the floor; the expectation sits above it by
    about the rate they discounted at. No forecasting beyond that.
 3. **assumption**: the flat share of list from `quoting_basis`.
 
-`carwow_used` is also the fourth route. Per model the cheapest car listed now is costed
+The used stock is also the fourth route. Per model the cheapest car listed now is costed
 like the others (price now, sold after the term at what examples that much older ask
 today, else on the flat curve), lands in `deal_summary.true_monthly_by_route.used` and
 competes with the finance routes on the Pick cards; the car page lists the stock by
-registration year. Used stock is current state, not history: a listing not on the
-model's page any more is marked gone, and `data/history/used.jsonl` replays it.
+registration year and names the sites. Used stock is current state, not history: a
+listing missing from the page it came from (a model's cards on Carwow, a make's stock on
+cinch, the whole electric listing on Motorpoint) is marked gone, another source's stock
+for the model is untouched, and `data/history/used.jsonl` replays it all.
+
+Each retailer names the model its own way ('Kona', 'ID.4', 'MG4', '4 Coupe');
+`providers/used_match.py` files a listing under the catalogue model by letters and digits,
+then without the electric suffix, then a short alias table of same-car spellings. What we
+do not sell (the previous-generation e-Niro, a Mini hatch not in the catalogue) is skipped
+and counted on stderr.
 
 ## Finance maths lives in the pipeline
 

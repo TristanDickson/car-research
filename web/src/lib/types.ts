@@ -155,11 +155,17 @@ export interface UsedListing {
   url: string | null;
   image_url?: string | null;
   age_days?: number | null;
+  /** Which site lists it; 'sources' names every site when the same car is on more than one. */
+  source?: string | null;
+  sources?: string[] | null;
 }
 
 export interface UsedSummary {
+  /** Distinct cars on sale now (a car on two sites counts once). */
   count: number;
   cheapest: UsedListing;
+  /** Listings per site before folding duplicates. */
+  sources?: Record<string, number>;
   by_year: Record<string, { n: number; median: number; min: number }>;
   /** What examples registered term-years ago ask today, when there are enough of them. */
   residual: { value: number; source: string; n: number; year: number } | null;
