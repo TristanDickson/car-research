@@ -209,10 +209,34 @@ def _best_steps(cs: list[Costed]) -> list[dict]:
     return steps
 
 
-def series(costed: list[Costed]) -> list[dict]:
+def gone_dates(sightings: list[Sighting]) -> dict[str, list[str]]:
+    """key → the days it was seen gone, for the gaps in a line."""
+    out: dict[str, list[str]] = {}
+    for s in sightings:
+        if not s.present:
+            out.setdefault(s.key, []).append(s.seen_from[:10])
+    return {k: sorted(v) for k, v in out.items()}
+
+
+def _held(points: list[dict], gone: dict[str, list[str]]) -> list[dict]:
+    """An offer's price holds from one sighting to the next that confirmed or
+    changed it, unless it was seen gone in between (the archive's captures are
+    sparse; the line should not fall to dots)."""
+    by_key: dict[str, list[dict]] = {}
+    for p in points:
+        by_key.setdefault(p["key"], []).append(p)
+    for key, ps in by_key.items():
+        ps.sort(key=lambda p: p["from"])
+        for a, b in zip(ps, ps[1:]):
+            if a["to"] < b["from"] and not any(a["to"] < g <= b["from"] for g in gone.get(key, ())):
+                a["to"] = b["from"]
+    return sorted(points, key=lambda p: (p["from"], p["key"]))
+
+
+def series(costed: list[Costed], gone: dict[str, list[str]] | None = None) -> list[dict]:
     """Costed sightings grouped by subject, route and source: an offer's
-    sightings as flat spans; a model's used stock as the cheapest example day
-    by day."""
+    sightings as flat spans held to the next sighting; a model's used stock as
+    the cheapest example day by day."""
     groups: dict[tuple[str, str, str], list[Costed]] = {}
     for c in costed:
         groups.setdefault((subject(c.sighting), c.sighting.route, c.sighting.source), []).append(c)
@@ -220,9 +244,10 @@ def series(costed: list[Costed]) -> list[dict]:
     for (subj, route, src), cs in sorted(groups.items()):
         cs.sort(key=lambda c: (c.sighting.seen_from, c.sighting.key))
         first = cs[0].sighting
+        points = _best_steps(cs) if route == "used" else _held([_point(c) for c in cs], gone or {})
         out.append({"id": f"{subj}|{route}|{src}", "subject": subj, "car_id": first.car_id if route != "used" else None,
                     "model": first.model, "route": route, "source": src, "source_name": source_name(src),
-                    "points": [_slim(p) for p in (_best_steps(cs) if route == "used" else [_point(c) for c in cs])]})
+                    "points": [_slim(p) for p in points]})
     return out
 
 

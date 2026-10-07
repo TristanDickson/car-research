@@ -11,7 +11,7 @@ import json
 import sqlite3
 from datetime import date
 
-from model.sightings import Sighting, cost_all, current, residual_series, series, source_of
+from model.sightings import Sighting, cost_all, current, gone_dates, residual_series, series, source_of
 
 
 def offer_sightings(conn: sqlite3.Connection, model_of: dict[str, str]) -> list[Sighting]:
@@ -51,5 +51,5 @@ def build(conn: sqlite3.Connection, model_of: dict[str, str], basis: dict, today
     sightings = offer_sightings(conn, model_of) + used_sightings(conn)
     history = cost_all(sightings, basis)
     now = cost_all(sightings, basis, as_of=today)
-    return {"series": series(history), "residuals": residual_series([s for s in sightings if s.route == "used"], today),
+    return {"series": series(history, gone_dates(sightings)), "residuals": residual_series([s for s in sightings if s.route == "used"], today),
             "current": current(now, today, stale_days), "sightings": len(sightings), "costed": len(history)}

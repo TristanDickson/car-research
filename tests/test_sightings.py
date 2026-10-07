@@ -6,7 +6,7 @@ from datetime import date
 from pathlib import Path
 
 from model.deal_math import DEFAULT_BASIS, used_route
-from model.sightings import (Costed, Sighting, best_by_route, cost, cost_all, current, floor_gfv_at, residual_at,
+from model.sightings import (Costed, Sighting, best_by_route, cost, cost_all, current, floor_gfv_at, gone_dates, residual_at,
                              residual_series, series, source_of, subject)
 from pipeline import gold
 from pipeline.history import export_used_observations, import_used_observations
@@ -106,6 +106,16 @@ class Series(unittest.TestCase):
         self.assertEqual([(p["from"], p["to"], p["key"]) for p in steps], [("2026-10-01", "2026-10-04", "u1"), ("2026-10-04", "2026-10-07", "u2")],
                          "a model's used stock is the cheapest example, as steps")
         self.assertEqual(steps[1]["n"], 2)
+
+    def test_an_offer_holds_to_its_next_sighting_unless_seen_gone_between(self):
+        sightings = [offer("k", "cash", "carwow", CASH, "2025-06-01", "2025-06-01"),
+                     offer("k", "cash", "carwow", {**CASH, "vehicle_price": 33000.0}, "2025-08-01", "2025-08-01"),
+                     offer("k", "cash", "carwow", {**CASH, "vehicle_price": 33000.0}, "2025-09-15", "2025-09-15", present=False),
+                     offer("k", "cash", "carwow", {**CASH, "vehicle_price": 32000.0}, "2026-02-01", "2026-10-06")]
+        pts = series(cost_all(sightings, BASIS), gone_dates(sightings))[0]["points"]
+        self.assertEqual([(p["from"], p["to"]) for p in pts], [("2025-06-01", "2025-08-01"), ("2025-08-01", "2025-08-01"), ("2026-02-01", "2026-10-06")],
+                         "June held to August's capture; August not held across the September gone; February's span as confirmed")
+        self.assertEqual(gone_dates(sightings), {"k": ["2025-09-15"]})
 
     def test_residual_series_samples_the_evidence_monthly(self):
         stock = [used(f"s{i}", 20000 + i * 1000, 2023, "2026-08-15", "2026-10-07", vrm=f"V{i}") for i in range(3)]
