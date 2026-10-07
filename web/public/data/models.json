@@ -112,7 +112,7 @@
   "slug": "audi/a6-avant-e-tron"
  },
  {
-  "cars": 17,
+  "cars": 32,
   "derivatives": 12,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -700,7 +700,7 @@
   "slug": "cupra/born"
  },
  {
-  "cars": 6,
+  "cars": 8,
   "derivatives": 6,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -938,7 +938,7 @@
   "slug": "ford/mustang-mach-e"
  },
  {
-  "cars": 11,
+  "cars": 18,
   "derivatives": 6,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -1806,7 +1806,7 @@
   "slug": "mercedes/eqe"
  },
  {
-  "cars": 9,
+  "cars": 18,
   "derivatives": 9,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -1988,7 +1988,7 @@
   "slug": "mg/im6"
  },
  {
-  "cars": 2,
+  "cars": 8,
   "derivatives": 2,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -2282,7 +2282,7 @@
   "slug": "peugeot/e-308-sw"
  },
  {
-  "cars": 3,
+  "cars": 5,
   "derivatives": 3,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -2352,7 +2352,7 @@
   "slug": "polestar/1"
  },
  {
-  "cars": 4,
+  "cars": 11,
   "derivatives": 4,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -2380,7 +2380,7 @@
   "slug": "polestar/3"
  },
  {
-  "cars": 5,
+  "cars": 24,
   "derivatives": 5,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -2492,7 +2492,7 @@
   "slug": "porsche/taycan-gts-sport-turismo"
  },
  {
-  "cars": 5,
+  "cars": 8,
   "derivatives": 3,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -2520,7 +2520,7 @@
   "slug": "renault/5-e-tech"
  },
  {
-  "cars": 2,
+  "cars": 6,
   "derivatives": 2,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -3066,7 +3066,7 @@
   "slug": "toyota/urban-cruiser"
  },
  {
-  "cars": 3,
+  "cars": 8,
   "derivatives": 3,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -3080,7 +3080,7 @@
   "slug": "vauxhall/astra-electric"
  },
  {
-  "cars": 6,
+  "cars": 11,
   "derivatives": 6,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -3122,7 +3122,7 @@
   "slug": "vauxhall/corsa-electric"
  },
  {
-  "cars": 6,
+  "cars": 10,
   "derivatives": 6,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -3150,7 +3150,7 @@
   "slug": "vauxhall/grandland-electric"
  },
  {
-  "cars": 4,
+  "cars": 6,
   "derivatives": 4,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -3276,7 +3276,7 @@
   "slug": "volkswagen/id5"
  },
  {
-  "cars": 10,
+  "cars": 20,
   "derivatives": 4,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -3360,7 +3360,7 @@
   "slug": "volvo/es90"
  },
  {
-  "cars": 15,
+  "cars": 23,
   "derivatives": 15,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -3388,7 +3388,7 @@
   "slug": "volvo/ex30-cross-country"
  },
  {
-  "cars": 19,
+  "cars": 21,
   "derivatives": 19,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
