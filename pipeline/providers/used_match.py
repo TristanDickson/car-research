@@ -23,16 +23,19 @@ MODEL_ALIASES = {
     ("ds", "ds3crossback"): "3-crossback-e-tense",
     ("gwm", "funkycat"): "ora-03", ("gwm", "ora03"): "ora-03",
     ("honda", "hondae"): "e",
-    ("kgm-motors", "korandoemotion"): "korando-e-motion",
+    ("ds", "ds3"): "3-e-tense",
+    ("kgm-motors", "korandoemotion"): "korando-e-motion", ("kgm-motors", "torres"): "torres-evx",
     ("lexus", "ux"): "ux-300e",
+    ("mg", "mgs5"): "s5-ev",
     ("omoda", "5"): "omoda-e5",
     ("polestar", "4coupe"): "4",
     ("skoda", "enyaqiv"): "enyaq", ("skoda", "citigo"): "citigo-e-iv",
-    ("smart", "forfour"): "eq-forfour",
+    ("smart", "forfour"): "eq-forfour", ("smart", "hashtag1"): "1", ("smart", "hashtag3"): "3", ("smart", "hashtag5"): "smart-5",
     ("volkswagen", "golf"): "e-golf",
+    ("volvo", "c40"): "c40-recharge",   # the EC40 is the same car renamed, so 'C40' alone is ambiguous without this
 }
 # What a catalogue model name carries that a retailer's leaves out.
-ELECTRIC_SUFFIXES = ("electric", "recharge", "etech", "ev", "e")
+ELECTRIC_SUFFIXES = ("electric", "recharge", "etense", "etech", "ev", "e")
 
 
 def norm(s: str | None) -> str:
@@ -41,13 +44,12 @@ def norm(s: str | None) -> str:
 
 def bare(s: str | None) -> str:
     """The model name without its electric marker: 'Kona Electric' → 'kona',
-    '500e' → '500', 'e-2008' → '2008', 'e-C4' → 'c4'."""
-    k = norm(s)
+    '500e' → '500', 'e-2008' → '2008', 'e-Berlingo' → 'berlingo'."""
+    k = norm(re.sub(r"^e[- ](?=\w)", "", s or "", flags=re.I))
     for suf in ELECTRIC_SUFFIXES:
-        if k.endswith(suf) and len(k) > len(suf) + 1:
-            k = k[: -len(suf)]
-            break
-    return re.sub(r"^e(?=\d|c\d)", "", k)
+        if k.endswith(suf) and len(k) > len(suf):
+            return k[: -len(suf)]
+    return k
 
 
 def make_slugs(make: str, models: list[dict]) -> set[str]:

@@ -8,19 +8,19 @@
   "offers": 2898,
   "specs": 908,
   "unmapped_trims": 259,
-  "used_listings": 0
+  "used_listings": 2388
  },
- "generated_at": "2026-10-07T08:42:21+00:00",
+ "generated_at": "2026-10-07T09:28:13+00:00",
  "runs": [
   {
    "artifacts": 4,
    "capability": "offers",
    "errors": 0,
-   "finished_at": "2026-10-07T08:42:21+00:00",
+   "finished_at": "2026-10-07T09:28:12+00:00",
    "id": 2,
    "records": 4,
    "source": "carwow_paste",
-   "started_at": "2026-10-07T08:42:21+00:00",
+   "started_at": "2026-10-07T09:28:12+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -29,11 +29,11 @@
    "artifacts": 4,
    "capability": "seed",
    "errors": 0,
-   "finished_at": "2026-10-07T08:42:20+00:00",
+   "finished_at": "2026-10-07T09:28:12+00:00",
    "id": 1,
    "records": 268,
    "source": "manual_seed",
-   "started_at": "2026-10-07T08:42:20+00:00",
+   "started_at": "2026-10-07T09:28:12+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0

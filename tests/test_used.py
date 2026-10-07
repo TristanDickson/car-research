@@ -152,7 +152,9 @@ class NameMatching(unittest.TestCase):
                         {"make": "polestar", "model": "4", "make_name": "Polestar", "model_name": "4"},
                         {"make": "polestar", "model": "4-suv", "make_name": "Polestar", "model_name": "4 SUV"},
                         {"make": "fiat", "model": "500-electric", "make_name": "Fiat", "model_name": "500e"},
-                        {"make": "fiat", "model": "500-convertible", "make_name": "Fiat", "model_name": "500 Convertible"}]
+                        {"make": "fiat", "model": "500-convertible", "make_name": "Fiat", "model_name": "500 Convertible"},
+                        {"make": "volvo", "model": "c40-recharge", "make_name": "Volvo", "model_name": "C40 Recharge"},
+                        {"make": "volvo", "model": "ec40", "make_name": "Volvo", "model_name": "EC40"}]
 
     def slug(self, make, model):
         m = match_model(make, model, self.MODELS)
@@ -169,12 +171,14 @@ class NameMatching(unittest.TestCase):
         self.assertEqual(self.slug("BMW", "i4 Gran Coupe"), "bmw/i4")
         self.assertEqual(self.slug("POLESTAR", "4 Coupe"), "polestar/4")
         self.assertEqual(self.slug("Fiat", "500"), "fiat/500-electric")
+        self.assertEqual((self.slug("Volvo", "C40"), self.slug("Volvo", "EC40")), ("volvo/c40-recharge", "volvo/ec40"))
 
     def test_what_we_do_not_sell_stays_unmatched(self):
         self.assertIsNone(self.slug("Kia", "e-Niro"), "the previous generation is not the Niro EV")
         self.assertIsNone(self.slug("Alfa Romeo", "Junior"))
         self.assertIsNone(self.slug("Hyundai", "i10"))
-        self.assertEqual((bare("Kona Electric"), bare("500e"), bare("e-2008"), bare("e-C4"), bare("EV6")), ("kona", "500", "2008", "c4", "ev6"))
+        self.assertEqual((bare("Kona Electric"), bare("500e"), bare("e-2008"), bare("e-C4"), bare("e-Berlingo"), bare("3 E-Tense"), bare("EV6")),
+                         ("kona", "500", "2008", "c4", "berlingo", "3", "ev6"))
 
 
 class StockAcrossSources(unittest.TestCase):

@@ -16,7 +16,7 @@
   "models": 247,
   "models_with_deals": 176,
   "models_with_specs": 217,
-  "models_with_used_residual": 0,
+  "models_with_used_residual": 44,
   "observations": 5527,
   "offers": 2898,
   "specs": 908,
@@ -24,8 +24,8 @@
   "trim_map_auto": 2059,
   "trim_map_mapped": 56,
   "trim_map_unmapped": 259,
-  "used_listings": 0,
-  "used_models": 0
+  "used_listings": 2388,
+  "used_models": 143
  },
  "flag_labels": {
   "adaptive_cruise": "Adaptive cruise control",
@@ -58,7 +58,7 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-07T08:42:21+00:00",
+ "generated_at": "2026-10-07T09:28:13+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
@@ -270,6 +270,34 @@
    "description": "Carwow's used stock per model: the deal cards behind https://www.carwow.co.uk/<make>/<model>/used",
    "live": true,
    "name": "carwow_used"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "used"
+     ],
+     "name": "used-stock",
+     "parser_version": "1"
+    }
+   ],
+   "description": "cinch's used stock: every electric car it lists, per make.",
+   "live": true,
+   "name": "cinch_used"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "used"
+     ],
+     "name": "used-stock",
+     "parser_version": "1"
+    }
+   ],
+   "description": "Motorpoint's used stock: every electric car it has, from the one listing.",
+   "live": true,
+   "name": "motorpoint_used"
   }
  ],
  "resolution_methods": {
@@ -287,11 +315,11 @@
    "artifacts": 4,
    "capability": "offers",
    "errors": 0,
-   "finished_at": "2026-10-07T08:42:21+00:00",
+   "finished_at": "2026-10-07T09:28:12+00:00",
    "id": 2,
    "records": 4,
    "source": "carwow_paste",
-   "started_at": "2026-10-07T08:42:21+00:00",
+   "started_at": "2026-10-07T09:28:12+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -300,11 +328,11 @@
    "artifacts": 4,
    "capability": "seed",
    "errors": 0,
-   "finished_at": "2026-10-07T08:42:20+00:00",
+   "finished_at": "2026-10-07T09:28:12+00:00",
    "id": 1,
    "records": 268,
    "source": "manual_seed",
-   "started_at": "2026-10-07T08:42:20+00:00",
+   "started_at": "2026-10-07T09:28:12+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
