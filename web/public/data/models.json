@@ -28,7 +28,7 @@
   "slug": "abarth/500e-cabrio"
  },
  {
-  "cars": 2,
+  "cars": 4,
   "derivatives": 2,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -70,7 +70,7 @@
   "slug": "aion/v"
  },
  {
-  "cars": 7,
+  "cars": 8,
   "derivatives": 7,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -98,7 +98,7 @@
   "slug": "alpine/a390"
  },
  {
-  "cars": 27,
+  "cars": 43,
   "derivatives": 13,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -140,7 +140,7 @@
   "slug": "audi/e-tron"
  },
  {
-  "cars": 5,
+  "cars": 8,
   "derivatives": 2,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -182,7 +182,7 @@
   "slug": "audi/q4-e-tron"
  },
  {
-  "cars": 21,
+  "cars": 66,
   "derivatives": 16,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -196,7 +196,7 @@
   "slug": "audi/q4-e-tron-sportback"
  },
  {
-  "cars": 20,
+  "cars": 34,
   "derivatives": 12,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -518,7 +518,7 @@
   "slug": "byd/atto-3-evo"
  },
  {
-  "cars": 2,
+  "cars": 4,
   "derivatives": 2,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -602,7 +602,7 @@
   "slug": "citroen/e-berlingo"
  },
  {
-  "cars": 3,
+  "cars": 4,
   "derivatives": 3,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -616,7 +616,7 @@
   "slug": "citroen/e-c3"
  },
  {
-  "cars": 3,
+  "cars": 5,
   "derivatives": 3,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -658,7 +658,7 @@
   "slug": "citroen/e-c4-x"
  },
  {
-  "cars": 6,
+  "cars": 7,
   "derivatives": 6,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -686,7 +686,7 @@
   "slug": "citroen/e-spacetourer"
  },
  {
-  "cars": 9,
+  "cars": 14,
   "derivatives": 9,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -812,7 +812,7 @@
   "slug": "ds/no-8"
  },
  {
-  "cars": 2,
+  "cars": 4,
   "derivatives": 2,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -910,7 +910,7 @@
   "slug": "ford/explorer"
  },
  {
-  "cars": 6,
+  "cars": 13,
   "derivatives": 6,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -1120,7 +1120,7 @@
   "slug": "hyundai/ioniq-3"
  },
  {
-  "cars": 18,
+  "cars": 22,
   "derivatives": 10,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -1260,7 +1260,7 @@
   "slug": "jeep/avenger-electric"
  },
  {
-  "cars": 6,
+  "cars": 7,
   "derivatives": 6,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -1372,7 +1372,7 @@
   "slug": "kia/ev5"
  },
  {
-  "cars": 6,
+  "cars": 7,
   "derivatives": 12,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -1792,7 +1792,7 @@
   "slug": "mercedes/eqc"
  },
  {
-  "cars": 7,
+  "cars": 14,
   "derivatives": 7,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,
@@ -2198,7 +2198,7 @@
   "slug": "nissan/micra"
  },
  {
-  "cars": 2,
+  "cars": 4,
   "derivatives": 2,
   "first_seen_at": "2026-10-06T23:07:01+00:00",
   "has_deals": true,

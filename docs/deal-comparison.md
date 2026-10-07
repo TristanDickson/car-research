@@ -2,6 +2,15 @@
 
 | Car | Status | Price | Contrib | Deposit | Monthly × n | APR stated / implied | GFV (% price) | Paid if handed back | Paid if bought | Cost of credit | Eff. monthly (hand back) | Monthly at 0% | Best cash | Funding premium vs cash | Eff. rate vs cash |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Abarth 600e Scorpionissima · 207kW 54kWh Auto | illustrative | £40,280 | £1,275 | £8,055 | £463 × 36 | 7.1% / 7.6% | £20,062 (49.8%) | £24,723 | £44,785 | £5,780 | £687 | £302 | £33,251 | £11,534 | 17.8% |
+| Citroen e-C3 Plus · 83kW 44kWh Auto | illustrative | £21,295 | £0 | £4,258 | £241 × 37 | 5.9% / 6.4% | £10,868 (51.0%) | £13,175 | £24,043 | £2,748 | £356 | £167 | £18,281 | £5,762 | 15.6% |
+| Citroen e-C3 Aircross Plus · 83kW 44kWh Auto | illustrative | £20,131 | £378 | £4,026 | £193 × 37 | 6.9% / 7.2% | £11,619 (57.7%) | £11,167 | £22,786 | £3,033 | £302 | £111 | £19,832 | £2,954 | 7.0% |
+| Fiat Grande Panda Electric La Prima · 83kW 44kWh Auto | illustrative | £21,610 | £150 | £4,621 | £264 × 36 | 8.9% / 9.3% | £11,225 (51.9%) | £14,125 | £25,350 | £3,890 | £392 | £156 | £23,078 | £2,272 | 5.1% |
+| Fiat 500 Electric Convertible Standard · 87kW 42kWh Auto | illustrative | £27,727 | £1,000 | £5,845 | £285 × 36 | 0.0% / 0.6% | £10,928 (39.4%) | £16,105 | £27,033 | £306 | £447 | £276 | £28,526 | £-1,493 | -2.9% |
+| Fiat 600e Icon · 115kW 54kWh Auto | illustrative | £28,197 | £700 | £5,939 | £270 × 36 | 3.2% / 3.6% | £13,797 (48.9%) | £15,659 | £29,456 | £1,959 | £435 | £216 | £26,368 | £3,088 | 6.0% |
+| Abarth 600e Standard · 175kW 54kWh Auto | illustrative | £31,012 | £1,300 | £6,203 | £161 × 36 | 0.0% / 0.3% | £17,877 (57.6%) | £11,999 | £29,876 | £163 | £333 | £156 | £30,711 | £-835 | -1.3% |
+| Citroen e-C5 Aircross You · 157kW 73kWh Auto | illustrative | £30,915 | £1,500 | £6,182 | £246 × 37 | 5.9% / 6.2% | £18,048 (58.4%) | £15,284 | £33,332 | £3,917 | £413 | £140 | £29,943 | £3,389 | 5.2% |
+| Citroen e-C3 Aircross Plus · 83kW Extended Range 54kWh Auto | illustrative | £21,820 | £879 | £4,363 | £177 × 36 | 5.9% / 6.2% | £12,933 (59.3%) | £10,735 | £23,668 | £2,727 | £298 | £101 | £21,340 | £2,328 | 5.2% |
 | Hyundai Kona Electric Advance 65kWh | live | £34,150 | £2,000 | £3,500 | £450 × 36 | 0.0% / -0.0% | £12,464 (36.5%) | £19,686 | £32,150 | £-0 | £532 | £450 | £23,588 | £8,562 | 18.2% |
 | Hyundai Ioniq 5 Long range (current car) | historical | £43,000 | £0 | £0 | £540 × 36 | 0.0% / 0.4% | £24,000 (55.8%) | £19,440 | £43,440 | £440 | £540 | £528 |  |  |  |
 | Hyundai Kona Electric Advance 65kWh | expired | £28,000 | £0 | £3,000 | £359 × 36 | 0.0% / 0.0% | £12,069 (43.1%) | £15,931 | £28,000 | £0 | £431 | £359 | £23,588 | £4,412 | 9.0% |
@@ -784,10 +793,126 @@
 
 | Car | Status | List | Price | Off list |
 |---|---|---:|---:|---:|
+| Ford Focus Titanium X · 1.0 EcoBoost Hybrid mHEV 155 Auto | lead | £32,550 | £29,646 | £2,904 |
+| Ford Focus Titanium · 1.0 EcoBoost Hybrid mHEV | lead | £28,500 | £25,961 | £2,539 |
+| Ford Focus Titanium X · 1.0 EcoBoost Hybrid mHEV | lead | £30,700 | £27,963 | £2,737 |
+| Mercedes-Benz EQE Sport Edition · EQE 350+ 215kW 96kWh Auto | lead | £69,105 | £69,105 | £0 |
+| Mercedes-Benz EQE AMG Line Edition · EQE 350+ 215kW 96kWh Auto | lead | £74,605 | £74,605 | £0 |
+| Mercedes-Benz EQE AMG Line Night Edition · EQE 350+ 215kW AMG Line Nt Ed Prem 96kWh Auto | lead | £79,605 | £79,605 | £0 |
+| Mercedes-Benz EQE AMG Line Night Edition · EQE 350+ 215kW AMG Line Nt Ed Prem+ 96kWh Auto | lead | £86,605 | £86,605 | £0 |
+| Mercedes-Benz EQE AMG Line Edition · EQE 500 4M 300kW 91kWh Auto | lead | £82,605 | £82,605 | £0 |
+| Mercedes-Benz EQE AMG Line Night Edition · EQE 500 4M 300kW AMG Ln Night Ed Prem 91kWh At | lead | £87,605 | £87,605 | £0 |
+| Mercedes-Benz EQE AMG Line Night Edition · EQE500 4M 300kW AMG Ln Night Ed Prem+ 91kWh At | lead | £94,605 | £94,605 | £0 |
+| Audi e-tron GT S Launch Edition · 435kW 105kWh Auto | lead | £128,390 | £116,162 | £12,228 |
+| Audi A6 Avant e-tron Launch Edition · 270kW Performance 100kWh Auto | lead | £86,575 | £86,575 | £0 |
+| Cupra Born VZ First Edition · 240kW e-Boost 79kWh Auto | lead | £47,175 | £46,232 | £943 |
+| Cupra Born V3 · 170kW e-Boost 77kWh Auto | lead | £41,805 | £40,970 | £835 |
+| Audi Q4 Sportback e-tron Sport · 125kW 35 55kWh Auto | lead | £53,065 | £49,124 | £3,941 |
+| Audi Q4 Sportback e-tron S Line · 125kW 35 55kWh Auto | lead | £55,615 | £51,481 | £4,134 |
+| Audi Q4 Sportback e-tron Black Edition · 125kW 35 55kWh Auto | lead | £53,370 | £49,406 | £3,964 |
+| Audi Q4 Sportback e-tron Black Edition · 125kW 35 55kWh Black Ed Auto | lead | £54,865 | £50,788 | £4,077 |
+| Audi Q4 Sportback e-tron Black Edition · 125kW 35 55kWh Black Ed Auto | lead | £57,865 | £53,561 | £4,304 |
+| Audi Q4 Sportback e-tron Sport · 125kW 35 55kWh Auto | lead | £48,570 | £44,968 | £3,602 |
+| Audi Q4 Sportback e-tron Sport · 125kW 35 55kWh Auto | lead | £50,065 | £46,350 | £3,715 |
+| Audi Q4 Sportback e-tron S Line · 125kW 35 55kWh Auto | lead | £51,120 | £47,326 | £3,794 |
+| Audi Q4 Sportback e-tron S Line · 125kW 35 55kWh Auto | lead | £52,615 | £48,708 | £3,907 |
+| BYD Dolphin Active · 70kW 44.9kWh Auto | lead | £26,205 | £23,750 | £2,455 |
+| BYD Dolphin Boost · 130kW 44.9kWh Auto | lead | £27,205 | £24,950 | £2,255 |
+| Alpine A290 Premiere Edition · 160kW 52kWh Auto | lead | £38,500 | £38,500 | £0 |
+| Ford Focus ST-Line X · 1.0 EcoBoost Hybrid mHEV 155 Auto | lead | £33,610 | £30,962 | £2,648 |
+| Ford Focus Active X · 1.0 EcoBoost Hybrid mHEV 155 Auto | lead | £33,610 | £30,962 | £2,648 |
+| Ford Focus ST-Line X · 1.0 EcoBoost Hybrid mHEV | lead | £31,760 | £29,260 | £2,500 |
+| Ford Focus Active X · 1.0 EcoBoost Hybrid mHEV | lead | £31,760 | £29,260 | £2,500 |
+| OMODA E5 Comfort · 150KW 61kWh Auto | lead | £33,065 | £27,865 | £5,200 |
+| OMODA E5 Noble · 150KW 61kWh Auto | lead | £34,565 | £29,125 | £5,440 |
+| Citroen e-C5 Aircross Max · 157kW 73kWh Auto | lead | £39,345 | £35,982 | £3,363 |
+| Hyundai Ioniq 5 Ultimate · 168kW 84 kWh Auto | lead | £54,160 | £47,323 | £6,837 |
+| Hyundai Ioniq 5 Ultimate · 239kW 84 kWh AWD Auto Tech Max/Vision | lead | £57,660 | £50,473 | £7,187 |
+| Hyundai Ioniq 5 Ultimate · 168kW 84 kWh Auto | lead | £52,910 | £46,198 | £6,712 |
+| Hyundai Ioniq 5 Ultimate · 239kW 84 kWh AWD Auto | lead | £56,410 | £49,348 | £7,062 |
+| Citroen e-C3 Aircross Plus · 83kW 44kWh Auto | lead | £23,095 | £19,832 | £3,263 |
+| Audi Q6 e-tron Sport · 285kW Quattro 100kWh Auto | lead | £69,515 | £61,277 | £8,238 |
+| Audi Q6 e-tron S Line · 285kW Quattro 100kWh Auto | lead | £72,515 | £63,917 | £8,598 |
+| Audi Q6 e-tron Edition 1 · 285kW Quattro 100kWh Auto | lead | £77,515 | £68,317 | £9,198 |
+| Audi Q6 e-tron Sport · 285kW Quattro 100kWh Auto | lead | £72,710 | £64,089 | £8,621 |
+| Audi Q6 e-tron S Line · 285kW Qtro 100kWh Auto | lead | £75,710 | £66,729 | £8,981 |
+| Audi Q6 e-tron Edition 1 · 285kW Qtro 100kWh Auto | lead | £80,710 | £71,129 | £9,581 |
+| Fiat 500 Electric Convertible Standard · 87kW 42kWh Auto | lead | £31,035 | £28,526 | £2,509 |
+| Fiat 500 Electric Convertible Red · 87kW 42kWh Auto | lead | £31,035 | £28,226 | £2,809 |
+| Audi A6 Avant e-tron Sport · 270kW Performance 100kWh Auto | lead | £73,505 | £64,207 | £9,298 |
+| Audi A6 Avant e-tron S Line · 270kW Performance 100kWh Auto | lead | £77,305 | £67,521 | £9,784 |
+| Audi A6 Avant e-tron Edition 1 · 270kW Performance 100kWh Auto | lead | £79,110 | £69,095 | £10,015 |
+| Audi A6 Avant e-tron Edition 1 · 270kW Performance 100kWh Auto | lead | £82,305 | £71,881 | £10,424 |
+| Audi A6 Avant e-tron Edition 1 · 270kW Performance 100kWh Ed 1 Auto | lead | £84,605 | £73,886 | £10,719 |
+| Audi A6 Avant e-tron S Line · 210kW 83kWh Auto | lead | £71,035 | £62,053 | £8,982 |
+| Audi A6 Avant e-tron Sport · 210kW 83kWh Auto | lead | £67,235 | £58,740 | £8,495 |
+| Audi A6 Avant e-tron S Line · 315kW Quattro 100kWh Auto | lead | £82,405 | £71,968 | £10,437 |
+| Audi A6 Avant e-tron Sport · 315kW Quattro 100kWh Auto | lead | £78,605 | £68,654 | £9,951 |
+| Audi A6 Avant e-tron Edition 1 · 210kW 83kWh Auto | lead | £76,035 | £66,413 | £9,622 |
+| Audi A6 Avant e-tron Edition 1 · 210kW 83kWh Auto | lead | £72,840 | £63,627 | £9,213 |
+| Audi A6 Avant e-tron Edition 1 · 210kW 83kWh Auto | lead | £78,335 | £68,419 | £9,916 |
+| Audi A6 Avant e-tron Edition 1 · 315kW Quattro 100kWh Auto | lead | £84,210 | £73,542 | £10,668 |
+| Audi A6 Avant e-tron Edition 1 · 315kW Quattro 100kWh Auto | lead | £89,705 | £78,334 | £11,371 |
+| Audi A6 Avant e-tron Edition 1 · 315kW Quattro 100kWh Auto | lead | £87,405 | £76,328 | £11,077 |
+| Citroen e-C3 Plus · 83kW 44kWh Auto | lead | £22,095 | £18,281 | £3,814 |
 | Hyundai Ioniq 5 Ultimate · 168kW 84 kWh Auto | lead |  | £39,490 |  |
 | Hyundai Ioniq 5 Ultimate · 168kW 84 kWh Auto | lead |  | £38,627 |  |
 | Hyundai Ioniq 5 Ultimate · 239kW 84 kWh AWD Auto | lead |  | £41,905 |  |
 | Hyundai Ioniq 5 Ultimate · 239kW 84 kWh AWD Auto | lead |  | £41,042 |  |
+| Abarth 600e Standard · 175kW 54kWh Auto | lead | £33,995 | £30,711 | £3,284 |
+| Abarth 600e Scorpionissima · 207kW 54kWh Auto | lead | £37,995 | £33,251 | £4,744 |
+| Audi Q4 Sportback e-tron Sport · 210kW 45 82kWh Auto | lead | £52,860 | £46,704 | £6,156 |
+| Audi Q4 Sportback e-tron Sport · 210kW 45 82kWh Auto | lead | £53,610 | £47,394 | £6,216 |
+| Audi Q4 Sportback e-tron Sport · 210kW 45 82kWh Auto | lead | £57,355 | £50,840 | £6,515 |
+| Audi Q4 Sportback e-tron S Line · 210kW 45 82kWh Auto | lead | £55,410 | £49,050 | £6,360 |
+| Audi Q4 Sportback e-tron S Line · 210kW 45 82kWh Auto | lead | £56,160 | £49,740 | £6,420 |
+| Audi Q4 Sportback e-tron S Line · 210kW 45 82kWh Auto | lead | £59,905 | £53,186 | £6,719 |
+| Audi Q4 Sportback e-tron Black Edition · 210kW 45 82kWh Auto | lead | £57,660 | £51,120 | £6,540 |
+| Audi Q4 Sportback e-tron Black Edition · 210kW 45 82kWh Auto | lead | £58,410 | £51,810 | £6,600 |
+| Audi Q4 Sportback e-tron Black Edition · 210kW 45 82kWh Auto | lead | £62,155 | £55,256 | £6,899 |
+| Audi Q4 Sportback e-tron Sport · 210kW 45 Quattro 82kWh Auto | lead | £54,290 | £48,020 | £6,270 |
+| Audi Q4 Sportback e-tron Sport · 210kW 45 Quattro 82kWh Auto | lead | £55,040 | £48,710 | £6,330 |
+| Audi Q4 Sportback e-tron Sport · 210kW 45 Qtro 82kWh Auto | lead | £58,785 | £52,155 | £6,630 |
+| Audi Q4 Sportback e-tron S Line · 210kW 45 Quattro 82kWh Auto | lead | £56,840 | £50,366 | £6,474 |
+| Audi Q4 Sportback e-tron S Line · 210kW 45 Quattro 82kWh Auto | lead | £57,590 | £51,056 | £6,534 |
+| Audi Q4 Sportback e-tron S Line · 210kW 45 Qtro 82kWh Auto | lead | £61,335 | £54,501 | £6,834 |
+| Audi Q4 Sportback e-tron Black Edition · 210kW 45 Quattro 82kWh Auto | lead | £59,090 | £52,436 | £6,654 |
+| Audi Q4 Sportback e-tron Black Edition · 210kW 45 Qtro 82kWh Black Ed Auto | lead | £59,840 | £53,126 | £6,714 |
+| Audi Q4 Sportback e-tron Black Edition · 210kW 45 Qtro 82kWh Black Ed Auto | lead | £63,585 | £56,571 | £7,014 |
+| Audi Q4 Sportback e-tron Sport · 250kW 55 Quattro 82kWh Auto | lead | £59,240 | £52,574 | £6,666 |
+| Audi Q4 Sportback e-tron Sport · 250kW 55 Quattro 82kWh Auto | lead | £59,990 | £53,264 | £6,726 |
+| Audi Q4 Sportback e-tron Sport · 250kW 55 Qtro 82kWh Auto | lead | £63,735 | £56,709 | £7,026 |
+| Audi Q4 Sportback e-tron S Line · 250kW 55 Quattro 82kWh Auto | lead | £61,790 | £54,920 | £6,870 |
+| Audi Q4 Sportback e-tron S Line · 250kW 55 Quattro 82kWh Auto | lead | £62,540 | £55,610 | £6,930 |
+| Audi Q4 Sportback e-tron S Line · 250kW 55 Qtro 82kWh Auto | lead | £66,285 | £59,055 | £7,230 |
+| Audi Q4 Sportback e-tron Black Edition · 250kW 55 Quattro 82kWh Auto | lead | £64,040 | £56,990 | £7,050 |
+| Audi Q4 Sportback e-tron Black Edition · 250kW 55 Qtro 82kWh Black Ed Auto | lead | £64,790 | £57,680 | £7,110 |
+| Audi Q4 Sportback e-tron Black Edition · 250kW 55 Qtro 82kWh Black Ed Auto | lead | £68,535 | £61,125 | £7,410 |
+| Audi Q4 Sportback e-tron Sport · 150kW 40 63kWh Auto | lead | £48,160 | £42,380 | £5,780 |
+| Audi Q4 Sportback e-tron Sport · 150kW 40 63kWh Auto | lead | £49,655 | £43,756 | £5,899 |
+| Audi Q4 Sportback e-tron Sport · 150kW 40 63kWh Auto | lead | £52,655 | £46,516 | £6,139 |
+| Audi Q4 Sportback e-tron S Line · 150kW 40 63kWh Auto | lead | £50,710 | £44,726 | £5,984 |
+| Audi Q4 Sportback e-tron S Line · 150kW 40 63kWh Auto | lead | £52,205 | £46,102 | £6,103 |
+| Audi Q4 Sportback e-tron S Line · 150kW 40 63kWh Auto | lead | £55,205 | £48,862 | £6,343 |
+| Audi Q4 Sportback e-tron Black Edition · 150kW 40 63kWh Auto | lead | £52,960 | £46,796 | £6,164 |
+| Audi Q4 Sportback e-tron Black Edition · 150kW 40 63kWh Auto | lead | £54,455 | £48,172 | £6,283 |
+| Audi Q4 Sportback e-tron Black Edition · 150kW 40 63kWh Auto | lead | £57,455 | £50,932 | £6,523 |
+| Audi Q6 e-tron Edition 1 · 225kW Performance 100kWh Auto | lead | £75,210 | £65,276 | £9,934 |
+| Audi Q6 e-tron Sport · 225kW Performance 100kWh Auto | lead | £67,260 | £58,126 | £9,134 |
+| Audi Q6 e-tron S Line · 225kW Performance 100kWh Auto | lead | £70,260 | £60,826 | £9,434 |
+| Audi Q6 e-tron Edition 1 · 225kW Performance 100kWh Auto | lead | £72,015 | £62,400 | £9,615 |
+| Audi Q6 e-tron Sport · 185kW 83kWh Auto | lead | £63,760 | £54,976 | £8,784 |
+| Audi Q6 e-tron S Line · 185kW 83kWh Auto | lead | £66,760 | £57,676 | £9,084 |
+| Audi Q6 e-tron Edition 1 · 185kW 83kWh Auto | lead | £68,515 | £59,250 | £9,265 |
+| Audi Q6 e-tron Edition 1 · 185kW 83kWh Auto | lead | £71,710 | £62,126 | £9,584 |
+| Cupra Born V3 · 170kW e-Boost 59kWh Auto | lead | £39,210 | £30,469 | £8,741 |
+| Cupra Born VZ · 240kW e-Boost 79kWh Auto | lead | £44,820 | £35,687 | £9,133 |
+| Cupra Born V3 · 170kW e-Boost 79kWh Auto | lead | £41,805 | £32,883 | £8,922 |
+| Audi e-tron GT S Vorsprung · 435kW 105kWh Auto | lead | £130,775 | £115,841 | £14,934 |
+| Audi e-tron GT Vorsprung · 370kW 105kWh Quattro Auto | lead | £108,105 | £95,778 | £12,327 |
+| Citroen e-C3 Aircross Plus · 83kW Extended Range 54kWh Auto | lead | £24,995 | £21,340 | £3,655 |
+| Jeep Compass Electric First Edition · 157kW 74kWh Auto | lead | £39,300 | £39,300 | £0 |
+| Kia EV6 Air SR · 125kW 63kWh Auto | lead | £39,235 | £35,390 | £3,845 |
 | Kia PV5 Passenger Plus 71.2kWh 7-seat | lead | £40,275 | £35,009 | £5,266 |
 | Hyundai Ioniq 3 Ultimate 61kWh | lead | £31,195 | £27,445 | £3,750 |
 | Kia EV6 GT-Line S 77.4kWh (2024, used) | lead |  | £26,995 |  |
