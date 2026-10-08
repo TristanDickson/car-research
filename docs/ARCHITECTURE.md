@@ -390,6 +390,21 @@ car page shows as a mark on the value:
   said nothing (the Inster 02's cabin socket in the Tech Pack reaches every
   `02 · …` derivative).
 
+The derivative registry (`providers/carwow_model.py`, Gold `derivatives`,
+`data/history/derivatives.jsonl`) is the third overlay. Carwow's public model
+page prints every derivative by its CAP name with the brackets CAP uses to mark
+a variant: `71kW 01 42kWh 5dr Auto [No Heat Pump]` next to `71kW 01 42kWh 5dr
+Auto`. The specification page lists one derivative per trim and engine and names
+the trim only, so those two looked the same there. `facts.overlay_derivatives`
+reads the name: `[No Heat Pump]` is none; a trim that has a no-heat-pump version
+has the heat pump as standard on its other derivatives; `[Heat Pump]` and a seat
+count say what they say; a pack in brackets is a pack; the RRP fills a missing
+list price; and the trim's own description on the specification page ("…
+including a heat pump …") stands in where the name says nothing. A derivative no
+spec page listed gets a stub car from the registry, so the Inster 02 with the
+heat pump (CAP 106646, £27,115) exists even though Carwow's specification page
+only lists the £24,740 version.
+
 A field the car already carries is never overwritten.
 
 ## Sightings: every route, every source, over time

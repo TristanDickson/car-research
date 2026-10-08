@@ -93,6 +93,7 @@ Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
 | `ncd` | new-car-discount.com model listings | broker all-in cash price per derivative | scrapes |
 | `leaseloco` | leaseloco.com model pages (the known ones plus a guess per catalogue model; a 404 is skipped) | best personal-lease deal per derivative and profile, VAT added | scrapes |
 | `rrg` | rrg-group.com Kia PV5 offers | the dealer's PCP example for the PV5 7-seat | scrapes |
+| `carwow_model` | carwow.co.uk `/<make>/<model>`, the public model page | the derivative registry: every derivative by its CAP name with the brackets CAP prints (`[No Heat Pump]`, `[Heat Pump]`, `[7 seat]`), RRP, engine and version date; a stub car for any derivative the specification page omits, and the facts the brackets and their twins carry | scrapes |
 | `carwow_specs` | carwow.co.uk `/specifications` per catalogue model | equipment per trim, numbers per engine, CAP ids with version dates, an image per derivative; a generated car for every derivative nobody curates | scrapes |
 | `kia_specs` | kia.com/uk `/specification` per model | grade × feature ticks, numbers per powertrain, seat variants | scrapes |
 | `carwow_used` | quotes.carwow.co.uk used stock per catalogue model | every used example Carwow's partner dealers list: derivative, price, year, mileage, town | scrapes |
@@ -310,6 +311,13 @@ rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Context log
 
+- **2026-10-08** The derivative registry: Carwow's public model page names every
+  derivative as CAP does, brackets included, so `[No Heat Pump]` versions and their
+  standard twins are told apart, derivatives the specification page omits get a stub
+  car, and the trim description stands in where the name says nothing. In the app
+  every figure is as of today (a price confirmed last night holds until seen gone or
+  stale), a longer lease is costed on the rentals within the reader's term, and a
+  progress bar shows the snapshot loading and the figures being recomputed.
 - **2026-10-08** The cost model moved into the browser. The pipeline exports facts only
   (every price as a span of days, every used asking price, the cars); the app costs every
   sighting under the reader's own term, savings rate and residual assumption, once per

@@ -7,7 +7,7 @@
 import type { Route, SnapshotCar, SnapshotSighting, SnapshotUsedSpan } from "../types";
 import type { Basis } from "./dealMath";
 import { offersFrom, toSighting } from "./offers";
-import { bestByRoute, costAll, current, goneDates, residualAt, residualSeries, series, trend, usedStock, type CurrentPoint, type ResidualRow, type SeriesRow, type Sighting, type Trend, type UsedStock } from "./sightings";
+import { bestByRoute, costAll, current, goneDates, markCurrent, residualAt, residualSeries, series, trend, usedStock, type CurrentPoint, type ResidualRow, type SeriesRow, type Sighting, type Trend, type UsedStock } from "./sightings";
 
 /** What a car costs today, every route and source, with the movement of its best cash price and its model's used stock. */
 export interface CarCostRow {
@@ -31,15 +31,6 @@ export interface ComputeInput {
   staleDays: number;
 }
 
-/** The last day anything was observed: "now" for the evidence (a used span confirmed
- * last night is today's stock; the wall clock may be days past the last crawl). */
-export function observedAsOf(sightings: SnapshotSighting[], usedSpans: SnapshotUsedSpan[], today: string): string {
-  let last = "";
-  for (const s of sightings) if (s.present && s.to > last) last = s.to;
-  for (const u of usedSpans) if (u.present && u.to > last) last = u.to;
-  return last && last < today ? last : today;
-}
-
 export interface ComputeResult {
   cars: CarCostRow[];
   series: SeriesRow[];
@@ -55,12 +46,12 @@ export function usedToSighting(u: SnapshotUsedSpan): Sighting {
 
 export function computeAll(input: ComputeInput): ComputeResult {
   const t0 = Date.now();
-  const offerSpans = input.sightings.filter((s) => s.route === "cash" || s.route === "pcp" || s.route === "pch").map(toSighting);
-  const used = input.usedSpans.map(usedToSighting);
-  const all = [...offerSpans, ...used];
-  const asOf = observedAsOf(input.sightings, input.usedSpans, input.today);
+  // A key's latest state holds until seen gone or stale, so a price confirmed last night is today's.
+  const all = markCurrent([...input.sightings.filter((s) => s.route === "cash" || s.route === "pcp" || s.route === "pch").map(toSighting),
+                           ...input.usedSpans.map(usedToSighting)], input.today, input.staleDays);
+  const used = all.filter((s) => s.route === "used");
   const history = costAll(all, input.basis);
-  const now = costAll(all, input.basis, asOf);
+  const now = costAll(all, input.basis, input.today);
   const rows = series(history, goneDates(all));
   const cur = current(now, input.today, input.staleDays);
   const cashSeries = new Map<string, SeriesRow[]>();
@@ -77,14 +68,14 @@ export function computeAll(input: ComputeInput): ComputeResult {
     const routes = { ...(cur.get(c.id) ?? {}), ...(cur.get(`model:${model}`) ?? {}) };
     let stock = stockByModel.get(model);
     if (stock === undefined && model) {
-      stock = usedStock(model, used, asOf, input.basis);
+      stock = usedStock(model, used, input.today, input.basis);
       stockByModel.set(model, stock);
     }
-    const tr = trend(cashSeries.get(c.id) ?? [], asOf);
+    const tr = trend(cashSeries.get(c.id) ?? [], input.today);
     if (!Object.keys(routes).length && !tr && !(stock && stock.count)) continue;
     cars.push({ id: c.id, model, routes, best: bestByRoute(routes), trend: tr, stock: stock && stock.count ? stock : null });
   }
-  const offers = offersFrom(input.sightings, input.basis, input.today, input.staleDays, residualAt(used), asOf);
-  return { cars, series: rows, residuals: residualSeries(used, asOf), offers,
+  const offers = offersFrom(input.sightings, input.basis, input.today, input.staleDays, residualAt(used));
+  return { cars, series: rows, residuals: residualSeries(used, input.today), offers,
            stats: { sightings: all.length, costed: history.length, ms: Date.now() - t0 } };
 }

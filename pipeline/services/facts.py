@@ -11,6 +11,12 @@ Two overlays, both pure (cars in, cars out), applied at export:
 - A hand-curated car's tri-state fields (heat pump, cabin socket, external
   V2L) describe its trim, so the generated derivatives of the same make, model
   and trim take them where their own spec row said nothing.
+- The derivative registry (providers/carwow_model.py) names every derivative
+  as CAP does, brackets included. '[No Heat Pump]' says none; a trim that has a
+  no-heat-pump version has the heat pump as standard on its other derivatives;
+  '[Heat Pump]' and a seat count say what they say; and the trim's description
+  on the specification page ('... including a heat pump ...') stands in where
+  the name says nothing. The RRP fills a missing list price.
 
 `field_sources` on the car names where each filled field came from; a field
 the car already carried is never overwritten.
@@ -105,6 +111,100 @@ def overlay_evdb(cars: list[dict], evdb_rows: list[dict], catalogue: list[dict])
             src["external_v2l"] = label
             filled += 1
         c["evdb_url"] = v.get("source_url")
+    return filled
+
+
+NO_HEAT_PUMP = "no heat pump"
+HEAT_PUMP_SENTENCE = re.compile(r"[^.]*\bheat pump\b[^.]*", re.I)
+
+
+def description_says_heat_pump(desc: str | None) -> bool:
+    """A trim description that lists the heat pump as fitted, not as an option or an absence."""
+    for m in HEAT_PUMP_SENTENCE.finditer(desc or ""):
+        sent = m.group(0).lower()
+        if not re.search(r"option|no heat pump|without|not (fitted|available|included)|lacks", sent):
+            return True
+    return False
+
+
+def overlay_derivatives(cars: list[dict], derivatives: list[dict], descriptions: dict[str, str] | None = None) -> int:
+    """What a derivative's CAP name and its trim's twins say, onto the generated
+    cars. `descriptions` maps car id → the trim description its spec page printed.
+    Returns how many fields were filled."""
+    by_cap = {d["cap_id"]: d for d in derivatives}
+    twins: dict[tuple, list[dict]] = {}
+    for d in derivatives:
+        twins.setdefault((d.get("make_slug"), d.get("model_slug"), norm(d.get("trim"))), []).append(d)
+    filled = 0
+    for c in cars:
+        if not c.get("auto"):
+            continue
+        d = by_cap.get(str(c.get("cap_id") or ""))
+        src = c.setdefault("field_sources", {})
+        if d:
+            low = [b.lower() for b in d.get("brackets") or []]
+            label = f"Carwow derivative name · {d['name']}"
+            c["cap_name"] = d["name"]
+            if c.get("heat_pump") in (None, "unknown"):
+                if any(b == NO_HEAT_PUMP for b in low):
+                    c["heat_pump"], src["heat_pump"] = "none", label
+                    filled += 1
+                elif any("heat pump" in b and not b.startswith("no ") for b in low):
+                    c["heat_pump"], src["heat_pump"] = "standard", label
+                    filled += 1
+                elif any(NO_HEAT_PUMP in (b.lower() for b in t.get("brackets") or []) for t in twins.get((d.get("make_slug"), d.get("model_slug"), norm(d.get("trim"))), [])):
+                    c["heat_pump"] = "standard"
+                    src["heat_pump"] = f"Carwow derivative names · {d['trim']} has a [No Heat Pump] version; this is not it"
+                    filled += 1
+            for b in d.get("brackets") or []:
+                m = re.fullmatch(r"(\d)\s*seats?", b.strip(), re.I)
+                if m and c.get("seats") is None:
+                    c["seats"], src["seats"] = int(m.group(1)), label
+                    filled += 1
+            packs = [b for b in d.get("brackets") or [] if not b.lower().startswith("no ") and not re.fullmatch(r"\d\s*seats?", b.strip(), re.I)]
+            if packs and set(packs) - set(c.get("packs") or []):
+                c["packs"] = sorted(set(c.get("packs") or []) | set(packs))
+                src["packs"] = label
+                filled += 1
+            if c.get("list_price_gbp") in (None, "") and d.get("rrp"):
+                c["list_price_gbp"], src["list_price_gbp"] = d["rrp"], label
+                filled += 1
+        if c.get("heat_pump") in (None, "unknown") and description_says_heat_pump((descriptions or {}).get(c["id"])):
+            c["heat_pump"], src["heat_pump"] = "standard", "Carwow trim description"
+            filled += 1
+    return filled
+
+
+# Numbers a derivative shares with every other derivative of its model and engine.
+ENGINE_FIELDS = ("battery_kwh", "wltp_range_mi", "power_hp", "zero_to_60_s", "top_speed_mph", "efficiency_mi_kwh", "ac_kw",
+                 "seats", "doors", "boot_l", "boot_max_l", "turning_circle_m", "wheelbase_m", "drive")
+
+
+def overlay_engine_twins(cars: list[dict]) -> int:
+    """A stub (a derivative only a deals or model page printed) takes the numbers
+    of a spec-built derivative of the same make, model and engine: the battery,
+    range, power and body are the engine's and the body's, not the trim's.
+    Only where every such twin agrees; a field the stub carries is kept."""
+    twins: dict[tuple, list[dict]] = {}
+    for c in cars:
+        if c.get("auto") and c.get("source_kind") == "spec" and c.get("variant"):
+            twins.setdefault((norm(c.get("make")), norm(c.get("model")), norm(c.get("variant"))), []).append(c)
+    filled = 0
+    for g in cars:
+        if not (g.get("auto") and g.get("source_kind") == "stub" and g.get("variant")):
+            continue
+        same = twins.get((norm(g.get("make")), norm(g.get("model")), norm(g.get("variant"))))
+        if not same:
+            continue
+        src = g.setdefault("field_sources", {})
+        for field in ENGINE_FIELDS:
+            if g.get(field) not in (None, ""):
+                continue
+            vals = {c.get(field) for c in same if c.get(field) not in (None, "")}
+            if len(vals) == 1:
+                g[field] = vals.pop()
+                src[field] = f"Carwow specification · {same[0]['id']} (same engine)"
+                filled += 1
     return filled
 
 

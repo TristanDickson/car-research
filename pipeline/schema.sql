@@ -168,6 +168,28 @@ CREATE TABLE IF NOT EXISTS models (
 );
 CREATE INDEX IF NOT EXISTS models_electric ON models(electric, has_deals, has_specs);
 
+-- The derivative registry: every derivative of every model as Carwow's model
+-- page prints it, by CAP name with its brackets ('[No Heat Pump]'), RRP and
+-- version date. A derivative no spec page lists gets a stub car from here; the
+-- brackets tell the facts overlay what the name says. Committed as
+-- data/history/derivatives.jsonl.
+CREATE TABLE IF NOT EXISTS derivatives (
+  cap_id        TEXT PRIMARY KEY,
+  make_slug     TEXT NOT NULL,
+  model_slug    TEXT NOT NULL,
+  name          TEXT NOT NULL,
+  trim          TEXT,
+  engine        TEXT,
+  rrp           REAL,
+  version_date  TEXT,
+  payload       TEXT NOT NULL,
+  first_seen_at TEXT NOT NULL,
+  last_seen_at  TEXT NOT NULL,
+  artifact_id   INTEGER REFERENCES artifacts(id),
+  run_id        INTEGER REFERENCES runs(id)
+);
+CREATE INDEX IF NOT EXISTS derivatives_model ON derivatives(make_slug, model_slug);
+
 -- Backfill ledger: which pages the Wayback backfill has fully folded in (for a
 -- given since / every-days), so a chunked run that stops at its time budget
 -- continues from where it left off next time instead of re-querying the

@@ -14,6 +14,7 @@ import Dexie, { type Table } from "dexie";
 import { basisOf, type Basis } from "./model/dealMath";
 import { computeAll, type CarCostRow } from "./model/recompute";
 import type { ResidualRow, SeriesRow } from "./model/sightings";
+import { setProgress } from "./progress";
 import { getManifest, loadCars, loadData, loadDetails, loadModels, loadRequirements, loadSightings, loadSpecs, loadUsed, loadUsedSpans } from "./snapshot";
 import type { CarDetails, DataPage, Requirements, SnapshotCar, SnapshotManifest, SnapshotModel, SnapshotOffer, SnapshotSighting, SnapshotSpec, SnapshotUsed, SnapshotUsedSpan } from "./types";
 
@@ -118,6 +119,7 @@ async function seed(): Promise<SnapshotManifest> {
   const current = await db.meta.get("generated_at");
   if (current?.value === manifest.generated_at) return manifest;
 
+  setProgress({ label: "Downloading the snapshot", done: 0, total: 2 });
   const [cars, sightings, usedSpans, requirements, data, specs, models] = await Promise.all([
     loadCars(),
     loadSightings().catch(() => [] as SnapshotSighting[]),
@@ -127,6 +129,7 @@ async function seed(): Promise<SnapshotManifest> {
     loadSpecs().catch(() => [] as SnapshotSpec[]),
     loadModels().catch(() => [] as SnapshotModel[]),
   ]);
+  setProgress({ label: "Storing the facts", done: 1, total: 2 });
   await db.transaction("rw", [db.cars, db.sightings, db.used_spans, db.specs, db.models, db.details, db.used, db.meta, db.settings], async () => {
     await db.cars.clear();
     await db.sightings.clear();
@@ -151,6 +154,7 @@ async function seed(): Promise<SnapshotManifest> {
       { key: "data", value: JSON.stringify(data) },
     ]);
   });
+  setProgress(null);
   return manifest;
 }
 
@@ -216,24 +220,38 @@ async function recompute(): Promise<void> {
   const key = costKey(manifest.generated_at, basis, today);
   const have = await db.meta.get("costed");
   if (have?.value === key) return;
-  const t0 = Date.now();
-  const [sightings, usedSpans, cars, stale] = await Promise.all([db.sightings.toArray(), db.used_spans.toArray(), db.cars.toArray(), staleDays(db)]);
-  const t1 = Date.now();
-  const r = computeAll({ sightings, usedSpans, cars, basis, today, staleDays: stale });
-  const t2 = Date.now();
-  await db.transaction("rw", [db.costs, db.series, db.residuals, db.offers, db.meta], async () => {
-    await db.costs.clear();
-    await db.series.clear();
-    await db.residuals.clear();
-    await db.offers.clear();
-    await db.costs.bulkPut(r.cars);
-    await db.series.bulkPut(r.series);
-    await db.residuals.bulkPut(r.residuals);
-    await db.offers.bulkPut(r.offers);
-    const stats: ComputeStats = { key, computed_at: new Date().toISOString(), sightings: r.stats.sightings, costed: r.stats.costed,
+  const STEPS = 7;
+  const step = (n: number, label: string) => setProgress({ label, done: n, total: STEPS });
+  try {
+    step(0, "Reading the facts");
+    const t0 = Date.now();
+    const [sightings, usedSpans, cars, stale] = await Promise.all([db.sightings.toArray(), db.used_spans.toArray(), db.cars.toArray(), staleDays(db)]);
+    const t1 = Date.now();
+    step(1, `Costing ${(sightings.length + usedSpans.length).toLocaleString("en-GB")} sightings over ${basis.term_months} months at ${(basis.savings_rate_apr * 100).toFixed(1)}%`);
+    await new Promise((r) => setTimeout(r, 0));   // let the bar paint before the model runs
+    const r = computeAll({ sightings, usedSpans, cars, basis, today, staleDays: stale });
+    const t2 = Date.now();
+    await db.transaction("rw", [db.costs, db.series, db.residuals, db.offers, db.meta], async () => {
+      step(2, "Storing what every car costs");
+      await db.costs.clear();
+      await db.costs.bulkPut(r.cars);
+      step(3, "Storing every series");
+      await db.series.clear();
+      await db.series.bulkPut(r.series);
+      step(4, "Storing the residual evidence");
+      await db.residuals.clear();
+      await db.residuals.bulkPut(r.residuals);
+      step(5, "Storing every offer");
+      await db.offers.clear();
+      await db.offers.bulkPut(r.offers);
+      step(6, "Done");
+      const stats: ComputeStats = { key, computed_at: new Date().toISOString(), sightings: r.stats.sightings, costed: r.stats.costed,
                                   cars: r.cars.length, series: r.series.length, offers: r.offers.length, ms: r.stats.ms, read_ms: t1 - t0, write_ms: Date.now() - t2 };
-    await db.meta.bulkPut([{ key: "costed", value: key }, { key: "compute_stats", value: JSON.stringify(stats) }]);
-  });
+      await db.meta.bulkPut([{ key: "costed", value: key }, { key: "compute_stats", value: JSON.stringify(stats) }]);
+    });
+  } finally {
+    setProgress(null);
+  }
 }
 
 /** Make sure the stored results match the current snapshot, basis and day. One pass at a time. */

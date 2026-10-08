@@ -9,6 +9,7 @@ data/history instead.
 from pipeline.providers import (
     carwow_catalog,
     carwow_deals,
+    carwow_model,
     carwow_paste,
     carwow_specs,
     carwow_used,
@@ -38,6 +39,7 @@ PROVIDERS: dict[str, Provider] = {
         carwow_paste.provider,
         carwow_catalog.provider,   # the model list the Carwow + LeaseLoco scrapers discover from
         carwow_specs.provider,     # before deals: a derivative's generated car comes from its spec
+        carwow_model.provider,     # the derivative registry: every CAP name with its brackets; stubs for what the spec page omits
         carwow_deals.provider,
         hyundai_offers.provider,
         ncd.provider,

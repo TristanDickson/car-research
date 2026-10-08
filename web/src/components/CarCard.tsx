@@ -39,15 +39,14 @@ export function printed(t: TrueCost): string {
   }
 }
 
-/** What the comparable figure assumes at the reader's horizon, when the deal does not run exactly to it. */
+/** What the comparable figure assumes when the deal's length is not the reader's term; null when it is. */
 export function atHorizonNote(t: TrueCost, horizon: number): string | null {
   switch (t.atHorizon) {
     case "settle_early": return `${t.ownHorizonMonths}-month deal settled at month ${horizon}, car sold`;
     case "balloon_then_keep": return `${t.ownHorizonMonths}-month deal; balloon paid, car kept to month ${horizon} and sold`;
-    case "lease_ends": return `${t.ownHorizonMonths}-month lease; per month of its own term`;
-    case "lease_runs_on": return `${t.ownHorizonMonths}-month lease runs past month ${horizon}; per month of its own term`;
-    case "as_agreed": return t.route === "pcp" ? null : null;
-    case "sold": return null;
+    case "lease_ends": return `${t.ownHorizonMonths}-month lease; the same cost per month assumed to continue`;
+    case "lease_cut": return `${t.ownHorizonMonths}-month lease; the rentals within ${horizon} months`;
+    default: return null;
   }
 }
 
@@ -138,9 +137,9 @@ export function CarCard({ car, costs, brief, ceiling, horizon, starred, onStar, 
                     const best = t.route === costs.trueCost?.route;
                     const note = atHorizonNote(t, horizon);
                     return (
-                      <tr key={r} className={best ? "text-gray-100" : "text-gray-400"} title={note ?? undefined}>
+                      <tr key={r} className={best ? "text-gray-100" : "text-gray-400"} title={[`${t.sourceName}${t.dealer && t.dealer !== t.sourceName ? ` · ${t.dealer}` : ""}`, note].filter(Boolean).join(" · ")}>
                         <td className="py-0.5 pr-2 font-medium">{ROUTE_SHORT[r]}</td>
-                        <td className="py-0.5 pr-2 text-right tabular-nums">{gbp(t.monthly)}/mo{note ? <span className="text-gray-500">°</span> : ""}</td>
+                        <td className="py-0.5 pr-2 text-right tabular-nums">{gbp(t.monthly)}/mo</td>
                         <td className="py-0.5 pr-2 text-right text-gray-500" title="The deal as the source printed it">{printed(t)}</td>
                         <td className="py-0.5 text-right tabular-nums text-gray-500" title="Expected value of the car at the end under this route">
                           {t.endValue != null ? `worth ${gbp(t.endValue)} at end` : ""}
@@ -150,9 +149,6 @@ export function CarCard({ car, costs, brief, ceiling, horizon, starred, onStar, 
                   })}
                 </tbody>
               </table>
-              {routes.some((r) => atHorizonNote(costs.byRoute[r]!, horizon)) && (
-                <div className="mt-1 text-[11px] text-gray-500">° {routes.filter((r) => atHorizonNote(costs.byRoute[r]!, horizon)).map((r) => `${ROUTE_SHORT[r]}: ${atHorizonNote(costs.byRoute[r]!, horizon)}`).join(" · ")}</div>
-              )}
             </>
           ) : (
             <div className="text-sm text-gray-500">No current price to cost.</div>

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { DEFAULT_BASIS, usedRoute, type Basis, type DealFields } from "./dealMath";
 import { pcpOverHorizon } from "./horizon";
-import { bestByRoute, cost, costAll, current, floorGfvAt, goneDates, residualAt, residualSeries, series, subject, trend, usedStock, type Sighting } from "./sightings";
+import { bestByRoute, cost, costAll, current, floorGfvAt, goneDates, markCurrent, residualAt, residualSeries, series, subject, trend, usedStock, type Sighting } from "./sightings";
 
 const BASIS: Basis = { ...DEFAULT_BASIS, term_months: 37, savings_rate_apr: 0.04, residual_pct_of_list: 0.45, residual_at_months: 36 };
 const MODEL = "hyundai/ioniq-5";
@@ -103,12 +103,19 @@ describe("the reader's horizon", () => {
     expect(own.true_monthly).toBe(overH.own_true_monthly);
     expect(own.own_horizon_months).toBe(49);
   });
-  it("a lease keeps its own-term figure and says how its length relates", () => {
+  it("a longer lease is costed on the rentals that fall within the horizon; a shorter one keeps its own per-month figure", () => {
     const lease = (term: number, n: number) => offer("l", "pch", "leaseloco", { term_months: term, num_rentals: n, monthly_rental: 300, initial_rental: 2700 }, "2026-10-01", "2026-10-07");
     const kinds = [24, 37, 48].map((t) => cost(lease(t, t - 1), BASIS, residualAt([]), floorGfvAt([]), "2026-10-07")!);
-    expect(kinds.map((c) => c.at_horizon)).toEqual(["lease_ends", "as_agreed", "lease_runs_on"]);
-    expect(kinds.map((c) => c.horizon_months)).toEqual([24, 37, 48]);
+    expect(kinds.map((c) => c.at_horizon)).toEqual(["lease_ends", "as_agreed", "lease_cut"]);
+    expect(kinds.map((c) => c.horizon_months)).toEqual([37, 37, 37]);
+    expect(kinds[0].true_monthly).toBe(kinds[0].own_true_monthly);
     expect(kinds[1].true_monthly).toBe(kinds[1].own_true_monthly);
+    // 48 months: the initial rental and 36 of the 47 rentals, spread over 37 months: dearer per month than over its own term.
+    const zero = { ...BASIS, savings_rate_apr: 0 };
+    const cut = cost(lease(48, 47), zero, residualAt([]), floorGfvAt([]), "2026-10-07")!;
+    expect(cut.pv_cost).toBe(2700 + 36 * 300);
+    expect(cut.true_monthly).toBeCloseTo((2700 + 36 * 300) / 37, 2);
+    expect(cut.true_monthly!).toBeGreaterThan(cut.own_true_monthly!);
   });
 });
 
@@ -189,17 +196,20 @@ describe("series", () => {
 });
 
 describe("recompute", () => {
-  it("reads 'now' as the last day anything was observed, not the wall clock", async () => {
-    const { computeAll, observedAsOf } = await import("./recompute");
+  it("a price confirmed last night is still today's: the latest state of a key holds until seen gone or stale", async () => {
+    const { computeAll } = await import("./recompute");
     type S = import("../types").SnapshotSighting;
     type U = import("../types").SnapshotUsedSpan;
     const spans: S[] = [{ key: "k", car_id: "car-a", model: MODEL, route: "cash", source: "ncd", provider: "ncd", status: "live", seller: null, from: "2026-10-01", to: "2026-10-07", present: true, deal: { ...CASH } }];
     const usedSpans: U[] = [0, 1, 2].map((i) => ({ key: `u${i}`, source: "cinch", model: MODEL, car_id: null, year: 2023, price: 20000 + i * 1000, mileage: i + 1, vrm: `V${i}`, town: null, from: "2026-10-01", to: "2026-10-07", present: true }));
-    expect(observedAsOf(spans, usedSpans, "2026-10-09")).toBe("2026-10-07");
     const r = computeAll({ sightings: spans, usedSpans, cars: [{ id: "car-a", model_key: MODEL }], basis: BASIS, today: "2026-10-09", staleDays: 14 });
     const row = r.cars[0];
     expect(row.stock?.count).toBe(3);                                   // yesterday's stock is today's stock
     expect(row.routes.cash!.ncd.residual_source).toBe("used-market");   // and the evidence behind the cash route
     expect(row.routes.cash!.ncd.age_days).toBe(2);                      // but the age is real
+    const stale = computeAll({ sightings: spans, usedSpans, cars: [{ id: "car-a", model_key: MODEL }], basis: BASIS, today: "2026-11-09", staleDays: 14 });
+    expect([Object.keys(stale.cars[0].routes), stale.cars[0].stock]).toEqual([[], null]);   // a month on with no sighting, nothing is current (the trend remains)
+    const marked = markCurrent([used("a", 1, 2023, "2026-10-01", "2026-10-07"), used("a", 2, 2023, "2026-10-08", "2026-10-08", { present: false })], "2026-10-09", 14);
+    expect(marked.map((s) => !!s.current)).toEqual([false, false]);     // seen gone: the earlier state is not current
   });
 });

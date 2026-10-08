@@ -7,8 +7,9 @@ data/history/specs.jsonl and models.jsonl carry the scraped specs and the
 catalogue the same way; resolutions.jsonl the broker rows' resolution (which
 derivative, how, with what evidence) and backfill.jsonl the backfill ledger.
 Replay order matters: models, then specs (which make the generated cars), then
-observations (whose car must exist), then resolutions (whose car must exist, and
-whose brackets are written back onto the generated cars).
+the derivative registry (derivatives.jsonl: stub cars for what the specs omit),
+then observations (whose car must exist), then resolutions (whose car must
+exist, and whose brackets are written back onto the generated cars).
 """
 from __future__ import annotations
 
@@ -27,6 +28,8 @@ LEDGER_PATH = ROOT / "data" / "history" / "backfill.jsonl"
 RESOLUTIONS_PATH = ROOT / "data" / "history" / "resolutions.jsonl"
 USED_PATH = ROOT / "data" / "history" / "used.jsonl"
 USED_OBS_PATH = ROOT / "data" / "history" / "used_observations.jsonl"
+DERIVATIVES_PATH = ROOT / "data" / "history" / "derivatives.jsonl"
+DERIVATIVE_COLUMNS = ("cap_id", "make_slug", "model_slug", "name", "trim", "engine", "rrp", "version_date", "payload", "first_seen_at", "last_seen_at")
 USED_OBS_COLUMNS = ("listing_key", "source", "price_gbp", "mileage", "observed_at", "confirmed_at", "present")
 USED_COLUMNS = ("listing_key", "source", "make", "make_slug", "model", "model_slug", "car_id", "price_gbp", "year", "mileage",
                 "present", "payload", "first_seen_at", "last_seen_at")
@@ -330,6 +333,36 @@ def import_used(conn: sqlite3.Connection, path: Path | str = USED_PATH) -> int:
                  d.get("price_gbp"), d.get("year"), d.get("mileage"), int(d.get("present", 1)),
                  json.dumps(d["payload"], ensure_ascii=False, sort_keys=True), d["first_seen_at"], d["last_seen_at"]),
             )
+            n += 1
+    conn.commit()
+    return n
+
+
+def export_derivatives(conn: sqlite3.Connection, path: Path | str = DERIVATIVES_PATH) -> int:
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    rows = conn.execute(f"SELECT {', '.join(DERIVATIVE_COLUMNS)} FROM derivatives ORDER BY make_slug, model_slug, cap_id").fetchall()
+    with path.open("w", encoding="utf-8") as f:
+        for r in rows:
+            d = {k: r[k] for k in DERIVATIVE_COLUMNS}
+            d["payload"] = json.loads(d["payload"])
+            f.write(json.dumps(d, ensure_ascii=False, sort_keys=True) + "\n")
+    return len(rows)
+
+
+def import_derivatives(conn: sqlite3.Connection, path: Path | str = DERIVATIVES_PATH) -> int:
+    """Replay the registry; a derivative with no car gets its stub back."""
+    path = Path(path)
+    if not path.exists():
+        return 0
+    n = 0
+    with path.open(encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            d = json.loads(line)
+            gold.upsert_derivative(conn, d["payload"], "carwow_model", None, None, d["last_seen_at"], d["first_seen_at"], d["last_seen_at"])
             n += 1
     conn.commit()
     return n

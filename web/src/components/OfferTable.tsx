@@ -143,11 +143,11 @@ export function OfferTable({ offers, cars, staleDays, showCar = true, defaultSor
       render: (o) => {
         const c = o.comparable;
         if (!c || c.true_monthly == null) return o.metrics.true_monthly != null ? <span className="text-gray-500" title="not current">{gbp(o.metrics.true_monthly)}</span> : "—";
-        const kind = c.at_horizon === "settle_early" ? "settled early" : c.at_horizon === "balloon_then_keep" ? "balloon paid, kept" : c.at_horizon === "lease_ends" || c.at_horizon === "lease_runs_on" ? "own term" : null;
+        const kind = c.at_horizon === "settle_early" ? "settled at the horizon, car sold" : c.at_horizon === "balloon_then_keep" ? "balloon paid, car kept and sold at the horizon"
+          : c.at_horizon === "lease_cut" ? "the rentals within the horizon" : c.at_horizon === "lease_ends" ? "the same cost per month assumed to continue" : null;
         return (
           <span className="font-medium text-gray-100" title={kind ? `${c.own_horizon_months}-month deal: ${kind}; ${gbp(c.own_true_monthly)}/mo over its own term` : undefined}>
             {gbp(c.true_monthly)}
-            {kind && <span className="font-normal text-gray-500"> {kind}</span>}
           </span>
         );
       },

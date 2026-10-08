@@ -125,6 +125,8 @@ export interface SnapshotCar {
   id: string;
   /** How many spec rows describe this car (details.json has them). */
   spec_count?: number;
+  /** The derivative's CAP name as Carwow's model page prints it, brackets included. */
+  cap_name?: string;
   /** Canonical equipment flags merged from the car's spec rows: standard beats option beats unlisted. */
   flags?: Record<string, FlagState>;
   make: string;

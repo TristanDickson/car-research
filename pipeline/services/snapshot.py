@@ -340,6 +340,14 @@ def load_used_spans(conn: sqlite3.Connection) -> list[dict]:
              "from": r["observed_at"][:10], "to": (r["confirmed_at"] or r["observed_at"])[:10], "present": bool(r["present"])} for r in rows]
 
 
+def load_derivatives(conn: sqlite3.Connection) -> list[dict]:
+    """The registry: every derivative by CAP name, with its brackets."""
+    try:
+        return [json.loads(r["payload"]) for r in conn.execute("SELECT payload FROM derivatives ORDER BY cap_id")]
+    except sqlite3.OperationalError:
+        return []
+
+
 def load_models(conn: sqlite3.Connection) -> list[dict]:
     """The catalogue (electric models only), with per-model counts of what we hold."""
     try:
@@ -478,7 +486,10 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
             specs_by_car.setdefault(sp["car_id"], []).append(sp)
     renders = specs_by_make(specs)
     # Facts the cars lack, from the evidence we hold, each field naming its source (services/facts.py).
+    derivatives = load_derivatives(conn)
     facts.overlay_curated(cars)
+    facts.overlay_derivatives(cars, derivatives, {cid: next((sp["description"] for sp in rows if sp.get("description")), "") for cid, rows in specs_by_car.items()})
+    facts.overlay_engine_twins(cars)
     facts.overlay_evdb(cars, [sp for sp in specs if sp.get("provider") == "evdb"], models)
 
     # Every price ever seen, as spans: the facts the browser costs under the reader's basis.
@@ -558,6 +569,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
                    "trim_map_mapped": conn.execute("SELECT COUNT(*) FROM trim_map WHERE status='mapped'").fetchone()[0],
                    "trim_map_auto": conn.execute("SELECT COUNT(*) FROM trim_map WHERE status='auto'").fetchone()[0],
                    "trim_map_unmapped": len(unmapped),
+                   "derivatives": len(derivatives),
                    "models": len(models), "makes": len({m["make"] for m in models}),
                    "models_with_deals": sum(1 for m in models if m["has_deals"]),
                    "models_with_specs": sum(1 for m in models if m["has_specs"]),

@@ -42,7 +42,24 @@ export interface Sighting {
   seller: string | null;
   /** Offers: what the source implied at the time (live, lead, derived, ...). */
   status?: string | null;
+  /** The key's latest state, present and confirmed within the stale window: still on
+   * offer today though last confirmed earlier (markCurrent). */
+  current?: boolean;
 }
+
+/** Flag each key's latest state as current when it is present and was confirmed within `staleDays` of today. */
+export function markCurrent(sightings: Sighting[], today: string, staleDays: number): Sighting[] {
+  const latest = new Map<string, Sighting>();
+  for (const s of sightings) {
+    const cur = latest.get(s.key);
+    if (!cur || s.from > cur.from || (s.from === cur.from && s.to > cur.to)) latest.set(s.key, s);
+  }
+  const cutoff = addDays(today, -staleDays);
+  return sightings.map((s) => (latest.get(s.key) === s && s.present && s.to.slice(0, 10) >= cutoff ? { ...s, current: true } : s));
+}
+
+/** Was the sighting live on `iso`: within its span, or current and the day is after it. */
+export const liveOn = (s: Sighting, iso: string): boolean => s.from.slice(0, 10) <= iso && (iso <= s.to.slice(0, 10) || !!s.current);
 
 /** What a series is about: the derivative, or the model for used stock. */
 export const subject = (s: Sighting): string => (s.route !== "used" && s.car_id ? s.car_id : `model:${s.model}`);
@@ -68,7 +85,7 @@ function median(sorted: number[]): number {
  * registration still prints the mileage, and the same mileage as a registered
  * listing is the same car. */
 export function liveCars(spans: Sighting[], iso: string): { car: string; price: number; s: Sighting }[] {
-  const live = spans.filter((s) => s.present && s.from <= iso && iso <= s.to && num(s.deal.price) != null);
+  const live = spans.filter((s) => s.present && liveOn(s, iso) && num(s.deal.price) != null);
   const plateByMileage = new Map<number, string>();
   for (const s of live) {
     const vrm = s.deal.vrm as string | undefined, mi = num(s.deal.mileage);
@@ -126,7 +143,7 @@ export function floorGfvAt(offers: Sighting[]): FloorGfvAt {
   return (carId, iso) => {
     let best: number | null = null;
     for (const s of by.get(carId ?? "") ?? []) {
-      if (s.from <= iso && iso <= s.to) best = Math.max(best ?? -Infinity, s.deal.gfv as number);
+      if (liveOn(s, iso)) best = Math.max(best ?? -Infinity, s.deal.gfv as number);
     }
     return best;
   };
@@ -229,7 +246,7 @@ export function cost(s: Sighting, basis: Basis, residual: ResidualAt, floorGfv: 
       if (m.skipped || m.true_monthly == null) return null;
       headline = m.effective_monthly ?? num(d.monthly_rental);
       own = { tm: m.true_monthly, floor: m.true_monthly_floor ?? null, pv: m.pv_cost ?? null, months: m.term_months ?? H };
-      const h = pchOverHorizon(own.months, own.pv ?? 0, own.tm, H);
+      const h = pchOverHorizon(m.initial_rental ?? 0, m.fees ?? 0, m.num_rentals ?? 0, m.monthly_rental ?? 0, own.months, own.tm, H, basis);
       hz = { tm: h.true_monthly, floor: h.true_monthly_floor, pv: h.pv_cost, months: h.horizon_months, kind: h.at_horizon, end: null, src: null };
     } else if (s.route === "cash") {
       m = cashMetrics(d, basis, floorGfv(s.car_id, asOf), residualsFor(s, H, asOf, residual));
@@ -498,7 +515,7 @@ export function usedStock(model: string, spans: Sighting[], today: string, basis
   const mine = spans.filter((s) => s.model === model);
   const live = liveCars(mine, today);
   const sources: Record<string, number> = {};
-  for (const s of mine) if (s.present && s.from <= today && today <= s.to && num(s.deal.price) != null) sources[s.source] = (sources[s.source] ?? 0) + 1;
+  for (const s of mine) if (s.present && liveOn(s, today) && num(s.deal.price) != null) sources[s.source] = (sources[s.source] ?? 0) + 1;
   const byYear: Record<string, { n: number; median: number; min: number }> = {};
   const years = Array.from(new Set(live.map((c) => num(c.s.deal.year)).filter((y): y is number => y != null))).sort();
   for (const y of years) {

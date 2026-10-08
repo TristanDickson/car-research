@@ -51,7 +51,7 @@ function CarView() {
         title={carName(c)}
         subtitle={
           <>
-            {c.body ?? ""} · {c.model_year ?? ""} {c.used ? "· used" : ""} ·{" "}
+            {c.cap_name ? <><span className="text-gray-300">{c.cap_name}</span> · </> : null}{c.body ?? ""} · {c.model_year ?? ""} {c.used ? "· used" : ""} ·{" "}
             <Link href={c.auto ? "/cars?scope=all" : "/cars"} className="underline">all cars</Link>
             {c.auto && (
               <>

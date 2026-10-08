@@ -193,6 +193,27 @@ def ensure_auto_car(conn: sqlite3.Connection, car: dict, source: str, artifact_i
     return True
 
 
+def upsert_derivative(conn: sqlite3.Connection, r: dict, source: str, artifact_id: int | None, run_id: int | None, now: str,
+                      first_seen_at: str | None = None, last_seen_at: str | None = None) -> None:
+    """A row of the registry, and a stub car for a derivative nothing else described
+    (a spec-built car keeps its place; a stub never replaces anything)."""
+    conn.execute(
+        """INSERT INTO derivatives (cap_id, make_slug, model_slug, name, trim, engine, rrp, version_date, payload,
+             first_seen_at, last_seen_at, artifact_id, run_id)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+           ON CONFLICT(cap_id) DO UPDATE SET
+             make_slug=excluded.make_slug, model_slug=excluded.model_slug, name=excluded.name, trim=excluded.trim, engine=excluded.engine,
+             rrp=COALESCE(excluded.rrp, derivatives.rrp), version_date=COALESCE(excluded.version_date, derivatives.version_date),
+             payload=excluded.payload, first_seen_at=MIN(derivatives.first_seen_at, excluded.first_seen_at),
+             last_seen_at=MAX(derivatives.last_seen_at, excluded.last_seen_at), artifact_id=excluded.artifact_id, run_id=excluded.run_id""",
+        (r["cap_id"], r["make_slug"], r["model_slug"], r["name"], r.get("trim"), r.get("engine"), r.get("rrp"), r.get("version_date"),
+         _dump(r), first_seen_at or now, last_seen_at or now, artifact_id, run_id),
+    )
+    stub = {"cap_id": r["cap_id"], "make": r.get("make") or r["make_slug"], "make_slug": r["make_slug"], "model": r.get("model") or r["model_slug"],
+            "model_slug": r["model_slug"], "trim": r.get("trim"), "engine": r.get("engine"), "rrp": r.get("rrp"), "version_date": r.get("version_date")}
+    ensure_auto_car(conn, autocars.from_stub(stub), source, artifact_id, run_id, now)
+
+
 def prune_auto_cars(conn: sqlite3.Connection) -> int:
     """Drop generated cars nothing refers to any more (their derivative was mapped
     to a hand-curated car and no observation or spec still points at them)."""
@@ -200,7 +221,8 @@ def prune_auto_cars(conn: sqlite3.Connection) -> int:
         """SELECT id FROM cars WHERE json_extract(payload, '$.auto') = 1
              AND id NOT IN (SELECT car_id FROM offer_observations)
              AND id NOT IN (SELECT car_id FROM specs WHERE car_id IS NOT NULL)
-             AND id NOT IN (SELECT car_id FROM trim_map WHERE car_id IS NOT NULL AND status='mapped')"""
+             AND id NOT IN (SELECT car_id FROM trim_map WHERE car_id IS NOT NULL AND status='mapped')
+             AND id NOT IN (SELECT 'carwow-cap:' || cap_id FROM derivatives)"""
     ).fetchall()
     for r in rows:
         conn.execute("DELETE FROM trim_map WHERE car_id=? AND status='auto'", (r["id"],))
@@ -403,6 +425,10 @@ def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
             (r["spec_key"], source, r.get("make"), r.get("model"), r.get("trim"), r.get("variant"), r.get("cap_id"),
              r.get("version_date"), r.get("car_id"), r.get("image_url"), fp, _dump(r), now, now, now, artifact_id, run_id),
         )
+        written += 1
+
+    for artifact_id, rec in records.get("derivative", []):
+        upsert_derivative(conn, rec.row, source, artifact_id, run_id, now)
         written += 1
 
     used_seen: dict[str, set[str]] = {}

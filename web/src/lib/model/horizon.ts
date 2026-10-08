@@ -13,23 +13,27 @@
 //   PCP shorter                   pay the balloon when it falls due, keep the car
 //                                 to the horizon, sell it then
 //   PCP the same length           buy at the GFV and sell: the equity, never below zero
-//   lease of another length       its own-term figure (ending a lease early is
-//                                 priced by the lender, not by arithmetic), flagged
+//   lease longer than the horizon the rentals that fall within the horizon (what the
+//                                 lender would charge to leave early is ignored: the
+//                                 point is comparing deals, and depreciation in the
+//                                 third and fourth year is much alike)
+//   lease shorter                 its own-term figure: the same cost per month is
+//                                 assumed to continue to the horizon
 //   cash, used                    the price now, sold at the horizon
 //
 // `pcpOverHorizon` and friends return the comparable figure and the assumption
 // it rests on; `basis.compare_over` picks which figure ranks.
-import { annuityFactor, expectedValue, monthlyRate, npv, pcpOutflows, pcpTerms, round2, trueMonthly, type Basis, type DealFields, type Flow, type Residuals } from "./dealMath";
+import { annuityFactor, expectedValue, monthlyRate, npv, pchOutflows, pcpOutflows, pcpTerms, round2, trueMonthly, type Basis, type DealFields, type Flow, type Residuals } from "./dealMath";
 
 /** What the figure assumes happens at the horizon. */
-export type AtHorizon = "as_agreed" | "settle_early" | "balloon_then_keep" | "lease_ends" | "lease_runs_on" | "sold";
+export type AtHorizon = "as_agreed" | "settle_early" | "balloon_then_keep" | "lease_ends" | "lease_cut" | "sold";
 
 export const AT_HORIZON_LABEL: Record<AtHorizon, string> = {
   as_agreed: "runs the full term, then buy at the GFV and sell",
-  settle_early: "settled early at the horizon (remaining payments and balloon at the deal's rate), car sold",
+  settle_early: "settled at the horizon (remaining payments and balloon at the deal's rate), car sold",
   balloon_then_keep: "balloon paid when due, car kept to the horizon and sold then",
-  lease_ends: "lease ends before the horizon; per month of its own term",
-  lease_runs_on: "lease runs past the horizon; per month of its own term (ending early costs more)",
+  lease_ends: "lease ends before the horizon; the same cost per month assumed to continue",
+  lease_cut: "the rentals that fall within the horizon",
   sold: "sold at the horizon at its expected value",
 };
 
@@ -96,11 +100,18 @@ export function pcpOverHorizon(d: DealFields, horizon: number, basis: Basis, res
            expected_value_at_end: v != null ? round2(v) : null, residual_source: vSrc };
 }
 
-/** A lease is its own-term figure whatever the horizon; the kind says how the lengths relate. */
-export function pchOverHorizon(term: number, pvCost: number, trueMonthlyOwn: number | null, horizon: number): HorizonCost {
-  const H = Math.trunc(horizon);
-  return { horizon_months: term, at_horizon: term === H ? "as_agreed" : term < H ? "lease_ends" : "lease_runs_on",
-           pv_cost: pvCost, true_monthly: trueMonthlyOwn, pv_cost_floor: pvCost, true_monthly_floor: trueMonthlyOwn,
+/** A lease over the horizon: the rentals that fall within it when the lease is longer;
+ * its own per-month figure when shorter (the same cost assumed to continue). */
+export function pchOverHorizon(init: number, fees: number, n: number, m: number, term: number, trueMonthlyOwn: number | null,
+                               horizon: number, basis: Basis): HorizonCost {
+  const H = Math.max(1, Math.trunc(horizon));
+  if (term <= H) {
+    const pv = presentValue(pchOutflows(init, fees, n, m), basis);
+    return { horizon_months: H, at_horizon: term === H ? "as_agreed" : "lease_ends", pv_cost: round2(pv), true_monthly: trueMonthlyOwn,
+             pv_cost_floor: round2(pv), true_monthly_floor: trueMonthlyOwn, expected_value_at_end: null, residual_source: "none" };
+  }
+  const [pv, tm] = trueMonthly(pchOutflows(init, fees, Math.min(n, H - 1), m), [], H, basis);
+  return { horizon_months: H, at_horizon: "lease_cut", pv_cost: pv, true_monthly: tm, pv_cost_floor: pv, true_monthly_floor: tm,
            expected_value_at_end: null, residual_source: "none" };
 }
 

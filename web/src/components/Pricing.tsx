@@ -57,7 +57,7 @@ export function Pricing({ car, costs, horizon, sources, staleDays }: { car: Snap
           const on = r === active;
           const note = t ? atHorizonNote(t, horizon) : null;
           return (
-            <button key={r} onClick={() => setRoute(r)} disabled={!available.includes(r)}
+            <button key={r} onClick={() => setRoute(r)} disabled={!available.includes(r)} title={note ?? undefined}
               className={`rounded-lg border p-3 text-left disabled:opacity-40 ${on ? "border-sky-600 bg-sky-950/30" : "border-gray-800 bg-gray-950/60 hover:border-gray-600"}`}>
               <div className="flex items-baseline justify-between">
                 <span className="text-xs uppercase tracking-wide text-gray-400">{ROUTE_SHORT[r]}</span>
@@ -69,7 +69,6 @@ export function Pricing({ car, costs, horizon, sources, staleDays }: { car: Snap
                   <div className="text-xs text-gray-300">{printed(t)}</div>
                   <div className="text-xs text-gray-500">{t.sourceName}{t.dealer && t.dealer !== t.sourceName ? ` · ${t.dealer}` : ""}</div>
                   <div className="text-xs text-gray-500">{t.endValue != null ? `worth ${gbp(t.endValue)} at the end (${t.residualSource ?? "?"})` : "nothing comes back"}</div>
-                  {note && <div className="mt-1 text-[11px] text-amber-200/80">{note}{t.ownMonthly != null && t.ownMonthly !== t.monthly ? `; ${gbp(t.ownMonthly)}/mo over its own ${t.ownHorizonMonths} mo` : ""}</div>}
                 </>
               ) : (
                 <div className="mt-1 text-sm text-gray-500">{available.includes(r) ? "no current figure; history below" : "nothing seen"}</div>

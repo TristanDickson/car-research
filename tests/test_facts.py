@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 from pipeline.providers import evdb
-from pipeline.services.facts import model_of, overlay_curated, overlay_evdb, pick_variant
+from pipeline.services.facts import model_of, overlay_curated, overlay_engine_twins, overlay_evdb, pick_variant
 
 FIX = Path(__file__).parent / "fixtures"
 CATALOGUE = [
@@ -85,6 +85,20 @@ class Overlays(unittest.TestCase):
         self.assertEqual(g02["field_sources"]["internal_v2l"], "hand-curated · hyundai-inster-49-02")
         self.assertEqual(g02["packs_required"], {"internal_v2l": "Tech Pack"})
         self.assertEqual((g01["heat_pump"], g01["internal_v2l"]), ("none", "unknown"), "a different trim takes nothing; a known value is kept")
+
+    def test_a_stub_takes_the_numbers_of_its_engine_twin_on_the_spec_page(self):
+        spec = {"id": "carwow-cap:110532", "auto": True, "source_kind": "spec", "make": "Hyundai", "model": "Inster", "variant": "85kW 49kWh Auto",
+                "battery_kwh": 49.0, "wltp_range_mi": 229.0, "seats": 4, "power_hp": 115.0, "boot_l": 280.0}
+        spec2 = {"id": "carwow-cap:110536", "auto": True, "source_kind": "spec", "make": "Hyundai", "model": "Inster", "variant": "85kW 49kWh Auto",
+                 "battery_kwh": 49.0, "wltp_range_mi": 229.0, "seats": 4, "power_hp": 115.0, "boot_l": 238.0}
+        stub = {"id": "carwow-cap:106646", "auto": True, "source_kind": "stub", "make": "Hyundai", "model": "Inster", "variant": "85kW 49kWh Auto", "seats": None}
+        other = {"id": "carwow-cap:1", "auto": True, "source_kind": "stub", "make": "Hyundai", "model": "Inster", "variant": "71kW 42kWh Auto"}
+        n = overlay_engine_twins([spec, spec2, stub, other])
+        self.assertEqual((stub["battery_kwh"], stub["wltp_range_mi"], stub["seats"], stub["power_hp"]), (49.0, 229.0, 4, 115.0))
+        self.assertNotIn("boot_l", stub, "the twins disagree on the boot, so nothing is copied")
+        self.assertEqual(stub["field_sources"]["seats"], "Carwow specification · carwow-cap:110532 (same engine)")
+        self.assertNotIn("battery_kwh", other, "no twin with that engine")
+        self.assertEqual(n, 4)
 
 
 if __name__ == "__main__":

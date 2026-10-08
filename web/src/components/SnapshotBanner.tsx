@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 
+import { ProgressBar } from "@/components/ui";
 import { useSnapshot } from "@/lib/hooks";
 import { dateLabel } from "@/lib/format";
+import { useProgress } from "@/lib/progress";
 import { getManifest, SUPPORTED_SCHEMA_VERSION } from "@/lib/snapshot";
 
 // Freshness of the data in the local DB, with a manual re-check against the
@@ -11,6 +13,7 @@ import { getManifest, SUPPORTED_SCHEMA_VERSION } from "@/lib/snapshot";
 // it is called out loudly.
 export function SnapshotBanner() {
   const { data: manifest, error } = useSnapshot();
+  const progress = useProgress();
   const [msg, setMsg] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -63,6 +66,9 @@ export function SnapshotBanner() {
           {busy ? "Checking…" : "Check for new data"}
         </button>
       </div>
+      {progress && (
+        <div className="mx-auto max-w-[1600px] px-4 pb-2 sm:px-6"><ProgressBar p={progress} className="max-w-xl" /></div>
+      )}
     </div>
   );
 }

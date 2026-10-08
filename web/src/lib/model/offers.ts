@@ -36,10 +36,10 @@ export function toSighting(s: SnapshotSighting): Sighting {
            present: s.present, deal: s.deal as DealFields, seller: s.seller, status: s.status };
 }
 
-/** One row per offer key: the latest span's payload, its freshness (as of `today`,
- * the wall clock), metrics and the comparable figure (as of `asOf`, the last day
- * anything was observed, which is when the evidence was read). */
-export function offersFrom(spans: SnapshotSighting[], basis: Basis, today: string, staleDays: number, residual?: ResidualAt, asOf: string = today): SnapshotOffer[] {
+/** One row per offer key: the latest span's payload, its freshness, metrics and the
+ * comparable figure, as of today. `residual` is the used market (read over spans
+ * already marked current). */
+export function offersFrom(spans: SnapshotSighting[], basis: Basis, today: string, staleDays: number, residual?: ResidualAt): SnapshotOffer[] {
   const byKey = new Map<string, SnapshotSighting[]>();
   for (const s of spans) {
     const list = byKey.get(s.key);
@@ -59,16 +59,16 @@ export function offersFrom(spans: SnapshotSighting[], basis: Basis, today: strin
   const residuals: Residuals = {};
   for (const { s } of latest) {
     if (s.car_id && !(s.car_id in residuals)) {
-      const ev = res(s.model, yearOf(asOf) - yearsOf(H), asOf);
+      const ev = res(s.model, yearOf(today) - yearsOf(H), today);
       if (ev) residuals[s.car_id] = { value: ev[0], source: "used-market", n: ev[1] };
     }
   }
   const metrics = compute(deals, basis, residuals);
-  const floor = floorGfvAt(latest.filter(({ s }) => s.present).map(({ s }) => toSighting(s)));
+  const floor = floorGfvAt(latest.filter(({ s, f }) => s.present && !f.stale).map(({ s }) => ({ ...toSighting(s), current: true })));
   return latest.map(({ key, s, f }, i) => {
     const m = { ...metrics[i] } as Record<string, unknown>;
     for (const k of ["id", "car_id", "finance_type", "status"]) delete m[k];
-    const costed = s.present && s.route !== "campaign" ? cost(toSighting(s), basis, res, floor, asOf) : null;
+    const costed = s.present && s.route !== "campaign" ? cost({ ...toSighting(s), current: !f.stale }, basis, res, floor, today) : null;
     return {
       ...(s.deal as Record<string, unknown>), id: key, car_id: s.car_id, provider: s.provider, finance_type: s.route as FinanceType, status: s.status,
       captured_at: (s.deal.captured_at as string | undefined) ?? s.from, freshness: f, metrics: m,
