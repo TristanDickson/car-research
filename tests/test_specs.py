@@ -26,6 +26,15 @@ class Flags(unittest.TestCase):
         self.assertEqual((kia["heat_pump"], kia["v2l_internal"], kia["v2l_external"], kia["heated_front_seats"]), ("option", "standard", "standard", "standard"))
         self.assertIsNone(flags_for([])["heat_pump"])
 
+    def test_carwow_s_configurator_wording_and_the_charging_cable(self):
+        pack = flags_for(["V2L - Internal 3 pin plug 230V 3.6kW", "Digital key 2 Touch NFC type"])
+        self.assertEqual((pack["v2l_internal"], pack["v2l_external"], pack["three_pin_socket"], pack["digital_key"]), ("standard", None, "standard", "standard"))
+        cable = flags_for(["Charging cable - Emergency 3 pin connector mode 2 (ICCB)", "12V power outlet in front console"])
+        self.assertIsNone(cable["three_pin_socket"], "the three-pin charging cable is not a socket in the car")
+        self.assertIsNone(cable["v2l_internal"])
+        ext = flags_for(["V2L external adaptor"])
+        self.assertEqual((ext["v2l_external"], ext["v2l_internal"]), ("standard", None))
+
 
 class CarwowSpecs(unittest.TestCase):
     def test_kona_trims(self):

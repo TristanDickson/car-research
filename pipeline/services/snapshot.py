@@ -31,6 +31,7 @@ from pathlib import Path
 
 from pipeline.db import ROOT
 from pipeline.services import claims
+from pipeline.services.features import flags_for
 
 IMAGE_EXTS = ("jpg", "jpeg", "png", "webp")
 
@@ -122,6 +123,8 @@ def load_specs(conn: sqlite3.Connection) -> list[dict]:
     out = []
     for r in conn.execute("SELECT * FROM specs ORDER BY make, model, trim, spec_key"):
         p = json.loads(r["payload"])
+        if p.get("features") is not None and r["source"] != "evdb":
+            p["flags"] = flags_for(p.get("features") or [], p.get("options") or [])   # the patterns move; the stored list is the fact
         p.update({
             "spec_key": r["spec_key"], "provider": r["source"], "car_id": r["car_id"],
             "first_seen_at": r["first_seen_at"], "last_seen_at": r["last_seen_at"], "changed_at": r["changed_at"],

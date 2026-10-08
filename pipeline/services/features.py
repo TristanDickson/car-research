@@ -14,8 +14,8 @@ FLAGS: dict[str, tuple[str, str]] = {
     "heat_pump": ("Heat pump", r"\bheat pump\b"),
     # Kia lists the cabin socket as plain "Vehicle-to-Load (V2L) Capability" and the
     # exterior one as "... with Adapter"; Carwow says "- Inside" / "- Outside".
-    "v2l_internal": ("Internal V2L socket", r"(v2l|vehicle.to.load)(?!.*(outside|exterior|outdoor|adapt[eo]r|charge port)).*(inside|interior|indoor|cabin|in-car|socket|capability$|capability\)?$)|(interior|indoor|cabin).*(v2l|vehicle.to.load)"),
-    "v2l_external": ("External V2L", r"(v2l|vehicle.to.load).*(outside|exterior|outdoor|adapt[eo]r|charge port)|(exterior|outdoor).*(v2l|vehicle.to.load)"),
+    "v2l_internal": ("Internal V2L socket", r"(v2l|vehicle.to.load)(?!.*(outside|exterior|outdoor|external|adapt[eo]r|charge port)).*(inside|interior|internal|indoor|cabin|in-car|socket|plug|capability$|capability\)?$)|(interior|internal|indoor|cabin).*(v2l|vehicle.to.load)"),
+    "v2l_external": ("External V2L", r"(v2l|vehicle.to.load).*(outside|exterior|external|outdoor|adapt[eo]r|charge port)|(exterior|external|outdoor).*(v2l|vehicle.to.load)"),
     "v2l_any": ("V2L (any)", r"v2l|vehicle.to.load"),
     "heated_front_seats": ("Heated front seats", r"heated (front )?seats?|front seats? heat"),
     "heated_rear_seats": ("Heated rear seats", r"heated (rear|outer rear) seats?|rear seats? heat"),
@@ -41,7 +41,8 @@ FLAGS: dict[str, tuple[str, str]] = {
     "nav": ("Built-in navigation", r"navigation|sat nav|satnav"),
     "carplay": ("Apple CarPlay / Android Auto", r"carplay|android auto"),
     "bose_harman": ("Premium audio", r"bose|harman|krell|meridian|premium (sound|audio)"),
-    "three_pin_socket": ("3-pin socket mentioned", r"3.pin|three.pin|230v|220v|domestic socket"),
+    # A socket in the car, not the three-pin charging cable (ICCB / mode 2) every EV ships with.
+    "three_pin_socket": ("3-pin socket mentioned", r"^(?!.*(cable|connector|iccb|mode 2|charger|charging)).*(3.pin|three.pin|230v|220v|domestic socket)"),
 }
 
 _COMPILED = {k: re.compile(p, re.I) for k, (_, p) in FLAGS.items()}
