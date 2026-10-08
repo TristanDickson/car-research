@@ -1,4 +1,8 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element */
+import { useState } from "react";
+
 import type { SnapshotCar } from "@/lib/types";
 
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -11,8 +15,9 @@ export function imageSrc(c: SnapshotCar): string | null {
 
 export function CarImage({ car, className = "" }: { car: SnapshotCar; className?: string }) {
   const src = imageSrc(car);
-  if (src) {
-    return <img src={src} alt={`${car.make} ${car.model}`} className={`h-full w-full object-cover ${className}`} loading="lazy" />;
+  const [failed, setFailed] = useState<string | null>(null);   // the src that failed (offline, or gone at the source)
+  if (src && failed !== src) {
+    return <img src={src} alt={`${car.make} ${car.model}`} className={`h-full w-full object-cover ${className}`} loading="lazy" onError={() => setFailed(src)} />;
   }
   return (
     <div className={`flex h-full w-full flex-col items-center justify-center bg-gray-800 text-gray-500 ${className}`}>
@@ -21,7 +26,7 @@ export function CarImage({ car, className = "" }: { car: SnapshotCar; className?
         <rect x="6" y="24" width="52" height="9" rx="3" />
         <circle cx="18" cy="34" r="4" /><circle cx="46" cy="34" r="4" />
       </svg>
-      <span className="mt-1 text-xs">no photo yet</span>
+      <span className="mt-1 text-xs">{src ? "photo unavailable" : "no photo yet"}</span>
     </div>
   );
 }

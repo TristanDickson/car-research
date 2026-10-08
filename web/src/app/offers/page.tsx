@@ -30,7 +30,6 @@ function Offers() {
   const [onlyCurrent, setOnlyCurrent] = useState(true);
   const [now] = useState(() => new Date());
   const staleDays = data.data?.stale_days ?? 14;
-  const nAuto = useMemo(() => (cars ?? []).filter((c) => c.auto).length, [cars]);
 
   const carMap = useMemo(() => new Map((cars ?? []).map((c) => [c.id, c])), [cars]);
   const admitted = useMemo(() => new Set(carRows.map((c) => c.id)), [carRows]);
@@ -58,7 +57,7 @@ function Offers() {
         title="Every offer observed"
         subtitle="Every offer behind the cards, for the cars the search admits: its latest state as the source printed it, how fresh it is, and the maths done in this browser under your basis (implied APR against the stated one, what you pay if you hand back or buy, the true monthly). 'Seen' is the last time the source showed the offer; one not seen for a fortnight is stale and drops out of the summaries."
       />
-      <QueryBar query={query} set={set} options={options} flagLabels={flagLabels} nAuto={nAuto} count={`${rows.length} of ${offers.data.length} offers`} />
+      <QueryBar query={query} set={set} options={options} flagLabels={flagLabels} count={`${rows.length} of ${offers.data.length} offers`} />
       <div className="mb-4 flex flex-wrap items-center gap-3 text-sm">
         {TYPES.map((t) => (
           <label key={t} className="flex items-center gap-1">

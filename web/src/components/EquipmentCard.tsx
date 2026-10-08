@@ -37,13 +37,13 @@ export function EquipmentCard({ car, specs, specCheck, flagLabels }: { car: Snap
   return (
     <Card title="Equipment (scraped)">
       <div className="mb-3 flex flex-wrap items-center gap-2 text-sm text-gray-400">
-        <span>What the sources list for this variant, against the hand-entered brief fields.</span>
+        <span>What the sources list for this variant, against the hand-entered fields.</span>
         <Link href={specsHref} className="underline">Compare every {car.model} variant →</Link>
       </div>
       {(specCheck?.rows?.length ?? 0) > 0 && (
         <table className="mb-4 w-full text-sm">
           <thead className="text-left text-xs uppercase text-gray-500">
-            <tr><th className="py-1 pr-3">Brief field</th><th className="py-1 pr-3">Entered</th><th className="py-1 pr-3">Source</th><th className="py-1 pr-3">Source says</th><th className="py-1">Verdict</th></tr>
+            <tr><th className="py-1 pr-3">Field</th><th className="py-1 pr-3">Entered</th><th className="py-1 pr-3">Source</th><th className="py-1 pr-3">Source says</th><th className="py-1">Verdict</th></tr>
           </thead>
           <tbody>
             {specCheck!.rows.map((r, i) => (

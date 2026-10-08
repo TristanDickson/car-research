@@ -9,8 +9,8 @@ import { Pricing } from "@/components/Pricing";
 import { Badge, Card, Empty, ErrorNote, Loading, PageHeader, TriBadge } from "@/components/ui";
 import { carCosts, ROUTE_LABEL } from "@/lib/costs";
 import { carName, gbp, num } from "@/lib/format";
-import { briefPacks, evaluateBrief } from "@/lib/brief";
-import { useBasis, useCar, useCarDetails, useCostsForCar, useDataPage, useRequirements, useShortlist, useSpecsForCar, useToggleShortlist } from "@/lib/hooks";
+import { useBasis, useCar, useCarDetails, useCostsForCar, useDataPage, useSpecsForCar } from "@/lib/hooks";
+import { carPacks } from "@/lib/query";
 import type { SnapshotCar } from "@/lib/types";
 
 // Static export: no dynamic segments, so the car id rides a query param.
@@ -30,19 +30,15 @@ function CarView() {
   const details = useCarDetails(id);
   const costRow = useCostsForCar(id);
   const basis = useBasis();
-  const reqs = useRequirements();
   const data = useDataPage();
-  const { data: shortlist } = useShortlist();
-  const toggle = useToggleShortlist();
 
   if (!id) return <Empty>No car selected.</Empty>;
   if (car.error) return <ErrorNote error={car.error} />;
   if (car.data === undefined || costRow.data === undefined) return <Loading />;
   if (car.data === null) return <Empty>Unknown car id: {id}</Empty>;
   const c = car.data;
-  const picked = (shortlist ?? []).some((s) => s.car_id === c.id);
-  const brief = evaluateBrief(reqs.data?.hard, c);
-  const packs = briefPacks(reqs.data?.hard, c);
+  const packs = carPacks(c);
+  const flagLabels = data.data?.flag_labels ?? {};
   const costs = carCosts(c, costRow.data, data.data?.sources);
   const horizon = basis.data?.term_months ?? 37;
 
@@ -53,7 +49,7 @@ function CarView() {
         subtitle={
           <>
             {c.cap_name ? <><span className="text-gray-300">{c.cap_name}</span> · </> : null}{c.body ?? ""} · {c.model_year ?? ""} {c.used ? "· used" : ""} ·{" "}
-            <Link href={c.auto ? "/cars?scope=all" : "/cars"} className="underline">all cars</Link>
+            <Link href="/cars" className="underline">all cars</Link>
             {c.auto && (
               <>
                 {" · "}
@@ -63,7 +59,7 @@ function CarView() {
                 {c.make_slug && c.model_slug && (
                   <>
                     {" "}
-                    <Link href={`/cars?scope=all&make=${encodeURIComponent(c.make)}&model=${encodeURIComponent(c.model)}`} className="underline">
+                    <Link href={`/cars?make=${encodeURIComponent(c.make)}&model=${encodeURIComponent(c.model)}`} className="underline">
                       every {c.make} {c.model} derivative
                     </Link>
                   </>
@@ -72,23 +68,10 @@ function CarView() {
             )}
           </>
         }
-        right={
-          <button
-            onClick={() => toggle.mutate(c.id)}
-            className="rounded border border-gray-700 px-3 py-1 text-sm hover:bg-gray-800"
-          >
-            {picked ? "★ Shortlisted" : "☆ Shortlist"}
-          </button>
-        }
       />
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <Card title="Brief">
-          <div className="mb-3">
-            {brief.status === "pass" && <Badge tone="good">meets your hard requirements</Badge>}
-            {brief.status === "fail" && <Badge tone="bad">fails: {brief.failedLabels.join(", ")}</Badge>}
-            {brief.status === "unknown" && <Badge tone="muted">not confirmed: {brief.unknownLabels.join(", ")}</Badge>}
-          </div>
+        <Card title="Key equipment">
           <Rows
             rows={[
               ["Heat pump", <span key="hp"><TriBadge value={c.heat_pump} detail={c.packs_required?.heat_pump} />{mark(c, "heat_pump")}</span>],
@@ -103,10 +86,9 @@ function CarView() {
             ]}
           />
           {packs.length > 0 && (
-            <p className="mt-2 text-xs text-amber-200/80">Needs {packs.map((p) => `${p.pack}${p.price != null ? ` (${gbp(p.price)})` : ""} for ${p.label}`).join(", ")}.</p>
-          )}
-          {brief.unknown.length > 0 && (
-            <p className="mt-2 text-xs text-gray-500">No source has confirmed: {brief.unknownLabels.join(", ")}. <Link href="/requirements" className="underline">Your rules</Link>.</p>
+            <p className="mt-2 text-xs text-amber-200/80">
+              {packs.map((p) => `${p.pack}${p.price != null ? ` (${gbp(p.price)})` : ""}: ${p.flags.map((f) => flagLabels[f] ?? f.replaceAll("_", " ")).join(", ")}`).join(" · ")}
+            </p>
           )}
           {c.disagreements && Object.keys(c.disagreements).length > 0 && (
             <p className="mt-2 text-xs text-gray-500">Sources disagree on {Object.entries(c.disagreements).map(([k, v]) => `${k.replaceAll("_", " ")} (${v.join(" vs ")})`).join("; ")}.</p>

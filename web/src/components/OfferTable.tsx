@@ -212,10 +212,10 @@ export function OfferTable({ offers, cars, staleDays, showCar = true, defaultSor
 
   return (
     <div>
-      <DataTable rows={offers} columns={columns} rowKey={(o) => o.id} defaultSort={defaultSort ?? { key: "seen", dir: "desc" }} dense />
+      <DataTable rows={offers} columns={columns} rowKey={(o) => o.id} defaultSort={defaultSort ?? { key: "seen", dir: "desc" }} dense prefsKey={showCar ? "offers" : "car-offers"} />
       <p className="mt-2 text-xs text-gray-500">
         * monthly solved from APR, credit and GFV (derived, not a quote). PCP totals are the payments then the balloon.
-        True £/mo puts cash, PCP and lease on one footing over your term (savings rate and residual assumption on the Requirements page), computed in this browser;
+        True £/mo puts cash, PCP and lease on one footing over your term (savings rate and residual assumption in Settings), computed in this browser;
         the bracketed figure is the GFV floor. Stale = an active offer not seen for more than {staleDays} days.
       </p>
     </div>

@@ -5,23 +5,21 @@ import Link from "next/link";
 import { CarImage } from "@/components/CarImage";
 import { Sparkline } from "@/components/charts/Sparkline";
 import { Badge } from "@/components/ui";
-import type { Brief, BriefPack } from "@/lib/brief";
 import { budgetGap, IONIQ5_WIDTH_MM, ROUTE_SHORT, ROUTES, type CarCosts, type TrueCost } from "@/lib/costs";
 import { carName, gbp, num } from "@/lib/format";
 import type { Trend } from "@/lib/model/sightings";
+import type { SearchPack } from "@/lib/query";
 import type { SnapshotCar } from "@/lib/types";
 
 interface Props {
   car: SnapshotCar;
   costs: CarCosts;
-  brief: Brief;
-  /** Packs the brief needs on this car, priced. */
-  packs?: BriefPack[];
+  /** Packs the search's equipment needs on this car, priced. */
+  packs?: SearchPack[];
+  flagLabels?: Record<string, string>;
   ceiling: number | null;
   /** The reader's term, the months every comparable figure is spread over. */
   horizon: number;
-  starred: boolean;
-  onStar: () => void;
   compared: boolean;
   onCompare: () => void;
 }
@@ -58,7 +56,7 @@ export function atHorizonNote(t: TrueCost, horizon: number): string | null {
  * expected to be worth at the end), the cheapest marked; then the deal as the
  * source printed it.
  */
-export function CarCard({ car, costs, brief, packs = [], ceiling, horizon, starred, onStar, compared, onCompare }: Props) {
+export function CarCard({ car, costs, packs = [], flagLabels = {}, ceiling, horizon, compared, onCompare }: Props) {
   const gap = budgetGap(costs.trueCost?.monthly ?? costs.monthly, ceiling);
   const widthDelta = car.width_mm != null ? car.width_mm - IONIQ5_WIDTH_MM : null;
   const routes = ROUTES.filter((r) => costs.byRoute[r]);
@@ -74,13 +72,6 @@ export function CarCard({ car, costs, brief, packs = [], ceiling, horizon, starr
             </Badge>
           ))}
         </div>
-        <button
-          onClick={onStar}
-          aria-label={starred ? "Remove from my shortlist" : "Add to my shortlist"}
-          className={`absolute right-2 top-2 rounded-full bg-gray-950/70 px-2 py-0.5 text-lg ${starred ? "text-amber-300" : "text-gray-400 hover:text-gray-100"}`}
-        >
-          {starred ? "★" : "☆"}
-        </button>
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-4">
@@ -112,16 +103,9 @@ export function CarCard({ car, costs, brief, packs = [], ceiling, horizon, starr
           </li>
         </ul>
 
-        <div className="flex flex-wrap gap-1.5" title={brief.status === "unknown" ? `Not confirmed: ${brief.unknownLabels.join(", ")}` : undefined}>
-          {brief.rules.map((t) => (
-            <Badge key={t.id} tone={t.ok === true ? "good" : t.ok === false ? "bad" : "muted"}>
-              {t.ok === true ? "✓" : t.ok === false ? "✗" : "?"} {t.label}
-            </Badge>
-          ))}
-        </div>
         {packs.length > 0 && (
-          <div className="text-xs text-amber-200/80" title="The brief is met only with these packs; the prices are what the configurator asks for them.">
-            needs {packs.map((p) => `${p.pack}${p.price != null ? ` (${gbp(p.price)})` : ""} for ${p.label}`).join(", ")}
+          <div className="text-xs text-amber-200/80" title="Equipment the search asks for comes on this car only in these packs; the prices are what the configurator asks.">
+            needs {packs.map((p) => `${p.pack}${p.price != null ? ` (${gbp(p.price)})` : ""} for ${flagLabels[p.flag] ?? p.flag.replaceAll("_", " ")}`).join(", ")}
           </div>
         )}
 

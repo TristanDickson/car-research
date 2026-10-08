@@ -1,15 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useState } from "react";
 
 import { CarCard } from "@/components/CarCard";
 import { QueryBar } from "@/components/QueryBar";
 import { Empty, ErrorNote, Loading, PageHeader } from "@/components/ui";
 import { gbp } from "@/lib/format";
-import { briefPacks } from "@/lib/brief";
-import { useBasis, useRequirements, useToggleShortlist } from "@/lib/hooks";
-import { allCars, withQuery } from "@/lib/query";
+import { useBasis } from "@/lib/hooks";
+import { searchPacks } from "@/lib/query";
 import { useCarQuery } from "@/lib/useCarQuery";
 
 /** Cards per page: every EV on sale is ~2,000 derivatives, which no one scrolls. */
@@ -25,12 +24,9 @@ export default function PickPage() {
 
 function Pick() {
   const { query, set, cars, rows, ctxOf, options, flagLabels, budgetCeiling, loading, error } = useCarQuery();
-  const toggle = useToggleShortlist();
   const basis = useBasis();
-  const reqs = useRequirements();
   const [compare, setCompare] = useState<string[]>([]);
   const [shown, setShown] = useState(PAGE);
-  const nAuto = useMemo(() => (cars ?? []).filter((c) => c.auto).length, [cars]);
 
   if (error) return <ErrorNote error={error} />;
   if (loading || !cars) return <Loading />;
@@ -46,24 +42,16 @@ function Pick() {
           <>
             Each card puts every way of having the car on one footing: cash, PCP, lease and used as a true cost per month over{" "}
             <b>{basis.data?.term_months ?? 37} months</b> at your savings rate, with what the car is expected to be worth at the end, and the deal as printed beside it.{" "}
-            {budgetCeiling != null && <>Your budget line is <b>{gbp(budgetCeiling)}/month</b>.</>} <Link href="/requirements" className="underline">Change the term, rate or budget</Link>.
+            {budgetCeiling != null && <>Your budget line is <b>{gbp(budgetCeiling)}/month</b>.</>} <Link href="/settings" className="underline">Change the term, rate or budget</Link>.
             Tick cars to compare them side by side.
           </>
         }
       />
 
-      <QueryBar query={query} set={set} options={options} flagLabels={flagLabels} nAuto={nAuto} count={`${rows.length} cars`} />
+      <QueryBar query={query} set={set} options={options} flagLabels={flagLabels} count={`${rows.length} of ${cars.length} cars`} />
 
       {rows.length === 0 ? (
-        <Empty>
-          Nothing matches. Loosen a filter.
-          {!allCars(query) && nAuto > 0 && (
-            <>
-              {" "}
-              <Link href={withQuery("/", { ...query, scope: "all" })} className="underline">Look across every EV on sale</Link> ({nAuto} more derivatives).
-            </>
-          )}
-        </Empty>
+        <Empty>Nothing matches. Loosen a filter.</Empty>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {rows.slice(0, shown).map((c) => {
@@ -73,12 +61,10 @@ function Pick() {
                 key={c.id}
                 car={c}
                 costs={ctx.costs}
-                brief={ctx.brief}
-                packs={briefPacks(reqs.data?.hard, c)}
+                packs={searchPacks(query, c)}
+                flagLabels={flagLabels}
                 ceiling={budgetCeiling}
                 horizon={basis.data?.term_months ?? 37}
-                starred={ctx.starred}
-                onStar={() => toggle.mutate(c.id)}
                 compared={compare.includes(c.id)}
                 onCompare={() => toggleCompare(c.id)}
               />

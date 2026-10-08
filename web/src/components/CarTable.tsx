@@ -7,7 +7,6 @@ import { Badge, TriBadge } from "@/components/ui";
 import { printed } from "@/components/CarCard";
 import { ROUTE_SHORT } from "@/lib/costs";
 import { carName, gbp, num } from "@/lib/format";
-import { useShortlist, useToggleShortlist } from "@/lib/hooks";
 import type { CarContext } from "@/lib/query";
 import type { SnapshotCar } from "@/lib/types";
 
@@ -15,35 +14,18 @@ function ageHint(days: number | null): string | undefined {
   return days == null ? undefined : `last seen ${days === 0 ? "today" : `${days} day${days === 1 ? "" : "s"} ago`}`;
 }
 
-/** One row per car; `ctxOf` carries the brief verdict and the stored costs (lib/useCarQuery). */
+/** One row per car; `ctxOf` carries the stored costs (lib/useCarQuery). The reader picks the columns and their order. */
 export function CarTable({ cars, ctxOf, horizon }: { cars: SnapshotCar[]; ctxOf: (c: SnapshotCar) => CarContext; horizon: number }) {
-  const { data: shortlist } = useShortlist();
-  const toggle = useToggleShortlist();
-  const picked = new Set((shortlist ?? []).map((s) => s.car_id));
-  const briefOf = (c: SnapshotCar) => ctxOf(c).brief;
   const costsOf = (c: SnapshotCar) => ctxOf(c).costs;
 
   const columns: Column<SnapshotCar>[] = [
     {
-      key: "pick",
-      header: "★",
-      title: "Shortlist (saved in this browser)",
-      render: (c) => (
-        <button
-          onClick={() => toggle.mutate(c.id)}
-          aria-label={picked.has(c.id) ? "Remove from shortlist" : "Add to shortlist"}
-          className={picked.has(c.id) ? "text-amber-300" : "text-gray-600 hover:text-gray-300"}
-        >
-          {picked.has(c.id) ? "★" : "☆"}
-        </button>
-      ),
-    },
-    {
       key: "car",
       header: "Car",
+      pinned: true,
       sortValue: (c) => carName(c),
       render: (c) => (
-        <div>
+        <div className="min-w-[8rem] max-w-[12rem] sm:max-w-[20rem]">
           <Link href={`/cars/view?id=${encodeURIComponent(c.id)}`} className="font-medium text-gray-100 hover:underline">
             {carName(c)}
           </Link>
@@ -55,29 +37,9 @@ export function CarTable({ cars, ctxOf, horizon }: { cars: SnapshotCar[]; ctxOf:
       ),
     },
     {
-      key: "req",
-      header: "Brief",
-      title: "Your hard requirements (Requirements page): pass, fail, or not confirmed where the car carries no value",
-      sortValue: (c) => ({ pass: 0, unknown: 1, fail: 2 }[briefOf(c).status]),
-      render: (c) => {
-        const b = briefOf(c);
-        if (b.status === "pass") return <Badge tone="good">meets</Badge>;
-        if (b.status === "fail") return <Badge tone="bad" title={`fails: ${b.failedLabels.join(", ")}`}>fails · {b.failedLabels.join(", ")}</Badge>;
-        return <Badge tone="muted" title={`not confirmed: ${b.unknownLabels.join(", ")}`}>unconfirmed · {b.unknownLabels.join(", ")}</Badge>;
-      },
-    },
-    { key: "seats", header: "Seats", align: "right", sortValue: (c) => c.seats, render: (c) => num(c.seats) },
-    { key: "kwh", header: "kWh", align: "right", sortValue: (c) => c.battery_kwh, render: (c) => num(c.battery_kwh, 1) },
-    { key: "range", header: "WLTP mi", align: "right", sortValue: (c) => c.wltp_range_mi, render: (c) => num(c.wltp_range_mi) },
-    { key: "dc", header: "DC kW", align: "right", sortValue: (c) => c.dc_peak_kw, render: (c) => num(c.dc_peak_kw) },
-    { key: "width", header: "Width", align: "right", title: "mm (Ioniq 5 = 1,890)", sortValue: (c) => c.width_mm, render: (c) => num(c.width_mm) },
-    { key: "hp", header: "Heat pump", render: (c) => <TriBadge value={c.heat_pump} detail={c.packs_required?.heat_pump} /> },
-    { key: "v2l", header: "Int. V2L", render: (c) => <TriBadge value={c.internal_v2l} detail={c.packs_required?.internal_v2l} /> },
-    { key: "list", header: "List", align: "right", sortValue: (c) => c.list_price_gbp, render: (c) => gbp(c.list_price_gbp) },
-    { key: "grant", header: "Grant", align: "right", sortValue: (c) => c.grant_gbp, render: (c) => (c.grant_gbp ? gbp(c.grant_gbp) : "—") },
-    {
       key: "true",
       header: `True £/mo · ${horizon} mo`,
+      label: "True £/month",
       align: "right",
       title: `Cheapest current figure on one footing across cash, PCP, lease and used over ${horizon} months: payments discounted at your savings rate, the car's expected end value credited back`,
       sortValue: (c) => costsOf(c).trueCost?.monthly,
@@ -91,6 +53,14 @@ export function CarTable({ cars, ctxOf, horizon }: { cars: SnapshotCar[]; ctxOf:
         ) : "—";
       },
     },
+    { key: "seats", header: "Seats", align: "right", sortValue: (c) => c.seats, render: (c) => num(c.seats) },
+    { key: "range", header: "WLTP mi", label: "WLTP range (mi)", align: "right", sortValue: (c) => c.wltp_range_mi, render: (c) => num(c.wltp_range_mi) },
+    { key: "width", header: "Width", label: "Width (mm)", align: "right", title: "mm (Ioniq 5 = 1,890)", sortValue: (c) => c.width_mm, render: (c) => num(c.width_mm) },
+    { key: "hp", header: "Heat pump", render: (c) => <TriBadge value={c.heat_pump} detail={c.packs_required?.heat_pump} /> },
+    { key: "v2l", header: "Int. V2L", label: "Cabin socket (internal V2L)", render: (c) => <TriBadge value={c.internal_v2l} detail={c.packs_required?.internal_v2l} /> },
+    { key: "kwh", header: "kWh", label: "Battery (kWh)", align: "right", sortValue: (c) => c.battery_kwh, render: (c) => num(c.battery_kwh, 1) },
+    { key: "dc", header: "DC kW", label: "DC peak (kW)", align: "right", sortValue: (c) => c.dc_peak_kw, render: (c) => num(c.dc_peak_kw) },
+    { key: "list", header: "List", label: "List price", align: "right", sortValue: (c) => c.list_price_gbp, render: (c) => gbp(c.list_price_gbp) },
     {
       key: "cash",
       header: "Best cash",
@@ -123,7 +93,16 @@ export function CarTable({ cars, ctxOf, horizon }: { cars: SnapshotCar[]; ctxOf:
       sortValue: (c) => costsOf(c).byRoute.used?.headline,
       render: (c) => { const t = costsOf(c).byRoute.used; return t ? <span title={`${printed(t)} · ${t.sourceName}`}>{gbp(t.headline)}</span> : "—"; },
     },
+    { key: "grant", header: "Grant", align: "right", sortValue: (c) => c.grant_gbp, render: (c) => (c.grant_gbp ? gbp(c.grant_gbp) : "—") },
+    { key: "ev2l", header: "Ext. V2L", label: "External V2L", hidden: true, render: (c) => <TriBadge value={c.external_v2l} detail={c.packs_required?.external_v2l} /> },
+    { key: "length", header: "Length", label: "Length (mm)", align: "right", hidden: true, sortValue: (c) => c.length_mm, render: (c) => num(c.length_mm) },
+    { key: "turn", header: "Turn m", label: "Turning circle (m)", align: "right", hidden: true, sortValue: (c) => c.turning_circle_m, render: (c) => num(c.turning_circle_m, 1) },
+    { key: "boot", header: "Boot L", label: "Boot (L)", align: "right", hidden: true, sortValue: (c) => c.boot_l, render: (c) => num(c.boot_l) },
+    { key: "power", header: "hp", label: "Power (hp)", align: "right", hidden: true, sortValue: (c) => c.power_hp, render: (c) => num(c.power_hp) },
+    { key: "eff", header: "mi/kWh", label: "Efficiency (mi/kWh)", align: "right", hidden: true, sortValue: (c) => c.efficiency_mi_kwh, render: (c) => num(c.efficiency_mi_kwh, 1) },
+    { key: "charge", header: "10–80 min", label: "DC 10–80% (min)", align: "right", hidden: true, sortValue: (c) => c.dc_10_80_min, render: (c) => num(c.dc_10_80_min) },
+    { key: "year", header: "Year", label: "Model year", align: "right", hidden: true, sortValue: (c) => c.model_year, render: (c) => (c.model_year ? String(c.model_year) : "—") },
   ];
 
-  return <DataTable rows={cars} columns={columns} rowKey={(c) => c.id} defaultSort={{ key: "car", dir: "asc" }} dense />;
+  return <DataTable rows={cars} columns={columns} rowKey={(c) => c.id} defaultSort={{ key: "car", dir: "asc" }} dense prefsKey="cars" />;
 }

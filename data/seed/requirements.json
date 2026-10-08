@@ -40,6 +40,18 @@
     "liquidity_constraint": false,
     "cash_purchase_ok": true
   },
+  "searches": [
+    {
+      "name": "My brief",
+      "query": "listed=flag:heat_pump,flag:v2l_internal&r.seats=4-",
+      "default": true,
+      "note": "Heat pump and a cabin socket, fitted or available (a pack or an option counts), and at least four seats. What Pick, Cars and Specs open on; the reader's own copy lives in the browser."
+    },
+    {
+      "name": "Hand-curated",
+      "query": "standard=curated"
+    }
+  ],
   "hard": [
     {
       "id": "bev",

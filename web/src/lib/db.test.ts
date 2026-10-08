@@ -1,7 +1,7 @@
 import "fake-indexeddb/auto";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { __clearSeedingMemoForTests, __resetForTests, ensureComputed, ensureSeeded, getDb, getRequirements, saveRequirements } from "./db";
+import { __clearSeedingMemoForTests, __resetForTests, checkForUpdate, deleteSearch, ensureComputed, ensureSeeded, getCarDetails, getDb, getRequirements, getSearches, resetSearches, saveRequirements, saveSearch } from "./db";
 
 type Files = Record<string, unknown>;
 
@@ -36,7 +36,10 @@ function snapshot(generated_at: string, carIds: string[]) {
       span("p1", carIds[0], "pcp", { list_price: 30000, vehicle_price: 27000, customer_deposit: 0, apr: 0.069, num_payments: 48, term_months: 49, gfv: 11000, monthly_payment: 380 }),
     ],
     "used_spans.json": [2021, 2021, 2021].map((year, i) => ({ key: `u${i}`, source: "cinch", model: "hyundai/ioniq-3", car_id: null, year, price: 12000 + i * 500, mileage: 10000 + i, vrm: `V${i}`, town: null, from: "2026-09-01", to: today, present: true })),
-    "requirements.json": { as_of: "2026-10-06", hard: [], preferences: [], wants: [], quoting_basis: { term_months: 37, savings_rate_apr: 0.04, residual_pct_of_list: 0.45, residual_at_months: 36 } },
+    "requirements.json": { as_of: "2026-10-06", hard: [], preferences: [], wants: [], quoting_basis: { term_months: 37, savings_rate_apr: 0.04, residual_pct_of_list: 0.45, residual_at_months: 36 },
+                           searches: [{ name: "Hand-curated", query: "standard=curated" }, { name: "My brief", query: "r.seats=4-&listed=flag:heat_pump,flag:v2l_internal", default: true }] },
+    "details.json": Object.fromEntries(carIds.map((id) => [id, { specs: [], spec_check: { rows: [], disagreements: 0 }, requirement_check: { passes: true, failures: [], unknown: [] } }])),
+    "used.json": [],
     "data.json": { generated_at, stale_days: 14, providers: [], runs: [], unmapped_trims: [], offer_states: {}, counts: {}, sources: { carwow: "Carwow" } },
   };
 }
@@ -63,26 +66,57 @@ describe("IndexedDB seeding from the snapshot", () => {
     expect(count(calls, "cars.json")).toBe(1);
   });
 
-  it("on reload with the same snapshot it re-checks the manifest only", async () => {
+  it("on reload it reads the stored snapshot without touching the network; the update check asks for the manifest", async () => {
     const calls = serve(snapshot("2026-10-06T10:00:00Z", ["a", "b"]));
     await ensureSeeded();
+    await new Promise((r) => setTimeout(r, 50));   // let the background fetch of the on-demand files finish
     __clearSeedingMemoForTests();
-    await ensureSeeded();
+    const before = calls.length;
+    const m = await ensureSeeded();
+    expect(m.generated_at).toBe("2026-10-06T10:00:00Z");
+    expect(calls.length).toBe(before);
+    expect(await checkForUpdate()).toBe("current");
     expect(count(calls, "manifest.json")).toBe(2);
     expect(count(calls, "cars.json")).toBe(1);
     expect(await getDb().cars.count()).toBe(2);
   });
 
-  it("re-seeds and replaces rows when a newer snapshot is published", async () => {
+  it("works offline from the stored snapshot, car details included", async () => {
+    serve(snapshot("2026-10-06T10:00:00Z", ["a", "b"]));
+    await ensureSeeded();
+    await new Promise((r) => setTimeout(r, 50));   // the on-demand files are fetched in the background
+    expect(await getDb().details.count()).toBe(2);
+    __clearSeedingMemoForTests();
+    vi.unstubAllGlobals();
+    vi.stubGlobal("fetch", vi.fn(async () => { throw new TypeError("Failed to fetch"); }));
+    expect((await ensureSeeded()).generated_at).toBe("2026-10-06T10:00:00Z");
+    expect(await checkForUpdate()).toBe("offline");
+    expect(await getCarDetails("a")).toBeTruthy();
+    expect(await getDb().cars.count()).toBe(2);
+  });
+
+  it("swaps in a newer snapshot when the update check finds one", async () => {
     serve(snapshot("2026-10-06T10:00:00Z", ["a", "b"]));
     await ensureSeeded();
     __clearSeedingMemoForTests();
     vi.unstubAllGlobals();
     serve(snapshot("2026-10-07T09:00:00Z", ["c"]));
-    const m = await ensureSeeded();
-    expect(m.generated_at).toBe("2026-10-07T09:00:00Z");
+    expect((await ensureSeeded()).generated_at).toBe("2026-10-06T10:00:00Z");   // the stored one first
+    expect(await checkForUpdate()).toBe("updated");
+    expect((await ensureSeeded()).generated_at).toBe("2026-10-07T09:00:00Z");
     expect((await getDb().cars.toArray()).map((c) => c.id)).toEqual(["c"]);
     expect((await getDb().meta.get("generated_at"))?.value).toBe("2026-10-07T09:00:00Z");
+  });
+
+  it("does not download a data format this build cannot read", async () => {
+    serve(snapshot("2026-10-06T10:00:00Z", ["a"]));
+    await ensureSeeded();
+    vi.unstubAllGlobals();
+    const next = snapshot("2026-10-07T09:00:00Z", ["c"]);
+    const calls = serve({ ...next, "manifest.json": { ...next["manifest.json"], schema_version: "8" } });
+    expect(await checkForUpdate()).toBe("app-outdated");
+    expect(count(calls, "cars.json")).toBe(0);
+    expect((await getDb().cars.toArray()).map((c) => c.id)).toEqual(["a"]);
   });
 
   it("surfaces a failed manifest fetch and lets the next call retry", async () => {
@@ -91,6 +125,62 @@ describe("IndexedDB seeding from the snapshot", () => {
     vi.unstubAllGlobals();
     serve(snapshot("2026-10-06T10:00:00Z", ["a"]));
     expect((await ensureSeeded()).counts.cars).toBe(1);
+  });
+});
+
+describe("saved searches", () => {
+  beforeEach(async () => {
+    await __resetForTests();
+  });
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("are seeded from the snapshot once, in one spelling, with the seed's default", async () => {
+    serve(snapshot("2026-10-06T10:00:00Z", ["a"]));
+    const list = await getSearches();
+    expect(list.searches.map((x) => x.name)).toEqual(["Hand-curated", "My brief"]);
+    expect(list.default_id).toBe(list.searches[1].id);
+    expect(list.searches[1].query).toBe("r.seats=4-&listed=flag%3Aheat_pump%2Cflag%3Av2l_internal");
+  });
+
+  it("save under a name, replace by the same name, delete the default and the next one takes over, reset to the seed", async () => {
+    serve(snapshot("2026-10-06T10:00:00Z", ["a"]));
+    let list = await saveSearch("Seven seats", "r.seats=7-");
+    expect(list.searches.map((x) => x.name)).toEqual(["Hand-curated", "My brief", "Seven seats"]);
+    list = await saveSearch("seven seats ", "r.seats=7-&sort=range");
+    expect(list.searches).toHaveLength(3);
+    expect(list.searches[2].query).toBe("sort=range&r.seats=7-");
+    list = await deleteSearch(list.default_id!);
+    expect(list.searches.map((x) => x.name)).toEqual(["Hand-curated", "seven seats"]);   // the name as last typed
+    expect(list.default_id).toBe(list.searches[0].id);
+    list = await resetSearches();
+    expect(list.searches.map((x) => x.name)).toEqual(["Hand-curated", "My brief"]);
+  });
+
+  it("a list begun before the snapshot carried seeded searches gets them once, keeping the reader's own", async () => {
+    const old = snapshot("2026-10-06T10:00:00Z", ["a"]);
+    const { searches: _drop, ...bare } = old["requirements.json"];
+    serve({ ...old, "requirements.json": bare });
+    expect((await getSearches()).searches).toEqual([]);
+    await saveSearch("Mine", "make=Kia");
+    vi.unstubAllGlobals();
+    serve(snapshot("2026-10-07T09:00:00Z", ["c"]));
+    expect(await checkForUpdate()).toBe("updated");
+    const list = await getSearches();
+    expect(list.searches.map((x) => x.name)).toEqual(["Mine", "Hand-curated", "My brief"]);
+    expect(list.default_id).toBe(list.searches[0].id);
+    await deleteSearch(list.searches[1].id);
+    expect((await getSearches()).searches.map((x) => x.name)).toEqual(["Mine", "My brief"]);   // not merged back in
+  });
+
+  it("survive a new snapshot", async () => {
+    serve(snapshot("2026-10-06T10:00:00Z", ["a"]));
+    await saveSearch("Mine", "make=Kia");
+    vi.unstubAllGlobals();
+    serve(snapshot("2026-10-07T09:00:00Z", ["c"]));
+    expect(await checkForUpdate()).toBe("updated");
+    expect((await getSearches()).searches.map((x) => x.name)).toContain("Mine");
   });
 });
 

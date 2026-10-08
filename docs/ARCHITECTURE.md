@@ -39,8 +39,9 @@ JSON    web/public/data/{manifest,cars,offers,requirements,data}.json   COMMITTE
         │   offers = latest observation per key + finance maths + freshness (state, age, history)
         ▼  push to main → Actions → next build (output: export) → Pages
 SPA     web/                                 Next.js 16 App Router, Tailwind 4, react-query, Dexie
-        │  on load: fetch manifest → if generated_at changed, bulk-load JSON into IndexedDB
-        ▼  pages query IndexedDB (public tables) + the user's shortlist (private table)
+        │  first load: download the snapshot into IndexedDB; after that read it from there,
+        │  no network, and fetch a newer cut in the background (a service worker keeps the app)
+        ▼  pages query IndexedDB (public tables) + the reader's saved searches and settings
 ```
 
 ## Offers are observations
@@ -301,7 +302,7 @@ max(V − GFV, 0). Outright and used: the price now, the car sold at V after the
 floor variant uses the highest GFV any lender guarantees for the car. V and the rate come
 from the reader's quoting basis (`requirements.quoting_basis`: `term_months`,
 `savings_rate_apr`, `residual_pct_of_list` at `residual_at_months` on a smooth curve
-`pct ** (t / at)`, `compare_over`), edited on the Requirements page. With V = GFV the PCP
+`pct ** (t / at)`, `compare_over`), edited in Settings. With V = GFV the PCP
 figure is today's hand-back arithmetic, so `true_monthly_floor` is the pessimistic case.
 
 `model/deal_math.py` is the same arithmetic in Python. It is the oracle, not the exporter:
@@ -352,25 +353,29 @@ way ('Kona', 'ID.4', 'MG4', '4 Coupe'); `providers/used_match.py` files a listin
 the catalogue model by letters and digits, then without the electric suffix, then a short
 alias table of same-car spellings.
 
-## The app: one query, three views, the reader's own brief
+## The app: one search, three views, saved searches
 
 `web/src/lib/query.ts` is the one search behind the cards (`/`), the table
-(`/cars`) and the specs grid (`/specs`): scope, make, model, text, year; a min/max
-for every number a car carries or costs; a tri-state chip for every canonical
-equipment flag and for the routes a car can be had by (standard → standard or option
-→ hidden), combined with 'all' or 'any'; the brief filter; the sort. It lives in the
-URL, so a view is a link and switching view keeps it. `useCarQuery` applies it once
-per page over the car records plus a context the records do not carry (the brief
-verdict, the costs, the shortlist).
+(`/cars`) and the specs grid (`/specs`): make, model, text, year; a min/max for every
+number a car carries or costs (turning circle included); a tri-state chip for every
+canonical equipment flag, for the routes a car can be had by and for hand-curated
+(standard → standard, pack or option → hidden), combined with 'all' or 'any'; the sort.
+It lives in the URL, so a view is a link and switching view keeps it. `useCarQuery`
+applies it once per page over the car records plus the costs they do not carry. A car
+no source has a value for is left out by a chip or a bound that asks about it.
 
-The brief is the reader's data: `data/seed/requirements.json` seeds an IndexedDB
-settings row once, the Requirements page edits it (budget, hard rules on any car
-field, preference weights), and `lib/brief.ts` evaluates it in the browser with three
-states: meets, fails, not confirmed. The quoting basis stays a pipeline input, since
-every cost in the snapshot was computed with it. `cars.json` carries only what every
-page shows; `details.json` (stock by year, spec rows, the cross-check) is fetched on
-demand for a car page. The app computes no cost: `deal_summary.routes` is the model's
-answer as of the snapshot, and the card reads it.
+A saved search is that query string with a name, kept in the IndexedDB settings
+(`lib/db.ts` `getSearches`, `saveSearch`, …). `data/seed/requirements.json` `searches`
+seeds the list once (and folds in once for a list begun before the snapshot carried
+any); the default one is what a search view opens on when the app loads, and after that
+the last search used follows the reader between views until they change it. The bar's
+picker loads one, **Save…** names the current one, and Settings renames, deletes and
+picks the default. The card's pack line is `searchPacks`: for each equipment chip the
+search sets to "standard, pack or option", the pack the car needs for it and its price.
+Settings also holds the budget line and the quoting basis. Tables built on
+`components/DataTable` take a `prefsKey`: the reader shows, hides and reorders their
+columns (`lib/columns.ts`, kept in localStorage per table), and a `pinned` column (the
+car) stays first and in view when the table scrolls sideways.
 
 ## Facts: one claim store, one resolver
 
@@ -415,8 +420,8 @@ source sets aside is kept on the car as `overruled`, so the car page can say tha
 table ticked the heat pump the configurator does not sell on that trim. Every resolved field names
 its claim (`field_sources`), `flags` carries all 29 equipment flags with a verdict
 (standard, pack, option, none), `packs_required` and `pack_prices_gbp` say which pack a
-"pack" verdict leans on and what it costs, and the brief in the app prices the packs a car
-needs (`lib/brief.ts` `briefPacks`). Nothing in the resolver names a feature: the heat
+"pack" verdict leans on and what it costs, and the app prices the packs a car needs for
+the equipment a search asks for (`lib/query.ts` `searchPacks`). Nothing in the resolver names a feature: the heat
 pump, the cabin socket and the powered tailgate are three flags among the 29
 `services/features.py` knows, resolved by the same rules.
 
@@ -475,8 +480,8 @@ series, the residual evidence, and every offer's latest state with its freshness
 normalisation (`offers`) out. `lib/db.ts` runs it after seeding and whenever the stored
 key (snapshot `generated_at`, the basis, the day) differs from the one the results were
 computed under, writes the results to IndexedDB in one transaction, and `saveRequirements`
-runs it again before resolving, so a change to the term or the rate on the Requirements
-page recomputes everything once and every page re-reads. ~8,000 sightings cost twice
+runs it again before resolving, so a change to the term or the rate in Settings
+recomputes everything once and every page re-reads. ~8,000 sightings cost twice
 (history and today) in well under a second; the Data page shows the last run.
 
 Nothing is costed at render time: `lib/costs.ts` turns a car's stored row into what a card
@@ -494,35 +499,39 @@ every series at the snapped date, arrow-key focus) and `Sparkline.tsx` the stat-
 version. Colours are assigned by sorted offer id so a filter never repaints a line; the
 palette was validated against the app's dark surface. Every chart has a table twin.
 
-## Filters in the app
-
-`web/src/lib/filters.ts` holds one filter set (scope, make, model, variant text, model
-year) in the URL query; `FilterBar` renders it and every list page applies `carMatches`,
-`offerMatches` or `specMatches`. Scope is `""` (the hand-curated shortlist) or `all`
-(every EV: the generated cars too); it is not a narrowing, so `clear` keeps it and an
-empty result offers the switch. Model matching is forgiving ("Kona" matches "Kona
-Electric"); the year is a car's model year or a Carwow derivative version's year. The
-Pick page shows 48 cards at a time and Trends 36 charts, with "show more" buttons, since
-every EV is ~1,500 derivatives; Specs shows the first 60 columns until a filter narrows it.
+Model matching is forgiving ("Kona" matches "Kona Electric"); the year is a car's model
+year or a Carwow derivative version's year. The Pick page shows 48 cards at a time with a
+"show more" button, since every EV is ~2,000 derivatives; Specs pages its columns 40 at a
+time.
 
 ## Browser-side database
 
 `web/src/lib/db.ts` opens `CarResearchDB` (Dexie):
 
 - **facts** `cars`, `sightings`, `used_spans`, `specs`, `models`, `meta` (and `details`,
-  `used` on demand) — cleared and bulk-loaded from the snapshot whenever
-  `manifest.generated_at` differs from the stored one. Seeding is memoised per session; a
-  reload re-checks only the manifest.
+  `used`, fetched in the background after each download) — downloaded once and then read
+  with no network: `ensureSeeded` returns the stored snapshot whenever there is one this
+  build can read (`meta.manifest`), and only a first visit or a new data format waits on a
+  download. `checkForUpdate` asks the site for the manifest afterwards (the banner calls it
+  once per load and when the browser comes back online) and, when the site has a newer
+  cut, replaces the facts in one transaction and the pages re-read; offline it reports so
+  and the stored copy stays.
 - **results** `costs`, `series`, `residuals`, `offers` — what the cost model makes of the
   facts under the reader's basis as of today; rewritten by `ensureComputed` when the
   snapshot, the basis or the day changes (`meta.costed` holds the key they were computed
   under, `meta.compute_stats` the last run).
-- **private** `shortlist`, `settings` (the reader's requirements, including the quoting
-  basis) — never leave the browser, survive reseeds.
+- **private** `settings` (the saved searches; the budget line and the quoting basis) —
+  never leave the browser, survive new snapshots.
 
-Pages use react-query hooks (`lib/hooks.ts`) over Dexie queries; saving the requirements
-invalidates every results query. The snapshot banner shows the loaded generation and can
-re-check Pages for a newer one.
+Pages use react-query hooks (`lib/hooks.ts`) over Dexie queries; saving the settings
+invalidates every results query. The snapshot banner shows the stored generation, runs the
+background check, and can be asked to check again.
+
+The app itself is kept by a service worker: `web/scripts/build-sw.mjs` runs after
+`next build`, lists every built file except the snapshot's JSON (IndexedDB holds that) and
+writes `out/sw.js`, which caches them under a name hashed from their contents, serves them
+cache-first (a page by its directory address, an RSC payload whatever its `_rsc` query), and
+drops the previous build's cache when a new one installs.
 
 ## Deploy
 
@@ -588,4 +597,5 @@ Python ≥ 3.11, stdlib only so far. Node 22.
   change, and stores the results. `model/deal_math.py` stays as the oracle behind the shared
   fixture and the markdown deal table.
 - **Public data in IndexedDB as well as private.** Matches the "dump it all into a local DB on load"
-  pattern; filtering and sorting stay instant and the app works offline after first load.
+  pattern; filtering and sorting stay instant, and with the service worker the app opens and
+  works offline after the first load.

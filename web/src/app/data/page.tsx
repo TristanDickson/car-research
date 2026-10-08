@@ -102,7 +102,7 @@ export default function DataPage() {
                       <td className="py-1 pr-3">
                         <div>{t.label ?? "—"}</div>
                         <div className="font-mono text-xs text-gray-600">{t.source_key}</div>
-                        {words && <Link href={`/cars?scope=all&brief=all&q=${encodeURIComponent(words)}`} className="text-xs text-gray-400 underline">find the derivatives</Link>}
+                        {words && <Link href={`/cars?q=${encodeURIComponent(words)}`} className="text-xs text-gray-400 underline">find the derivatives</Link>}
                       </td>
                       <td className="py-1 pr-3 text-xs text-gray-400">
                         <Badge tone={t.status === "conflict" ? "warn" : "muted"}>{t.status ?? "unmapped"}</Badge>
@@ -138,7 +138,7 @@ export default function DataPage() {
                     <tr key={m.slug} className="border-t border-gray-800">
                       <td className="py-1 pr-3">
                         {m.cars > 0 ? (
-                          <Link href={`/cars?scope=all&brief=all&make=${encodeURIComponent(m.make_name ?? m.make)}&model=${encodeURIComponent(m.model_name ?? m.model)}`} className="hover:underline">{name}</Link>
+                          <Link href={`/cars?make=${encodeURIComponent(m.make_name ?? m.make)}&model=${encodeURIComponent(m.model_name ?? m.model)}`} className="hover:underline">{name}</Link>
                         ) : name}
                       </td>
                       <td className="py-1 pr-3">{m.has_deals ? "yes" : "—"}</td>
@@ -183,7 +183,7 @@ export default function DataPage() {
         <Card title="Costed in this browser">
           <p className="mb-2 text-sm text-gray-400">
             The pipeline exports facts only: every price as a span of days it held, every used asking price, every car. This browser puts them on one footing under your
-            basis (<Link href="/requirements" className="underline">Requirements</Link>) and stores the results; a change to the term or the rate recomputes everything.
+            basis (<Link href="/settings" className="underline">Settings</Link>) and stores the results; a change to the term or the rate recomputes everything.
           </p>
           {basis.data && (
             <ul className="space-y-1 text-sm">

@@ -79,7 +79,7 @@ export interface CarDetails {
   id: string;
   specs: CarSpecSummary[];
   spec_check: { rows: SpecCheckRow[]; disagreements: number };
-  /** The seed requirements' verdict at export; the app evaluates its own copy (lib/brief.ts). */
+  /** The seed requirements' verdict at export (the pipeline's deal table); the app does not read it. */
   requirement_check: RequirementCheck;
 }
 

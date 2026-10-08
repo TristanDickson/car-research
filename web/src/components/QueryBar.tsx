@@ -4,8 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-import type { BriefFilter } from "@/lib/brief";
-import { allCars, cycleFacet, EMPTY_QUERY, FIXED_FACETS, FLAG_GROUPS, isNarrowed, RANGES, SORTS, withQuery, type FacetState, type Query, type QueryOptions, type Range, type RangeKey } from "@/lib/query";
+import { useSaveSearch, useSearches } from "@/lib/hooks";
+import { cycleFacet, describeQuery, EMPTY_QUERY, FIXED_FACETS, FLAG_GROUPS, isNarrowed, loaded, RANGES, serializeQuery, SORTS, withQuery, type FacetState, type Query, type QueryOptions, type Range, type RangeKey } from "@/lib/query";
 
 const VIEWS = [
   { href: "/", label: "Cards" },
@@ -19,14 +19,15 @@ interface Props {
   options: QueryOptions;
   flagLabels: Record<string, string>;
   count: string;
-  /** How many generated cars 'Every EV' would add. */
-  nAuto: number;
 }
+
+/** The saved search last loaded in this app load: the name the save prompt offers. */
+let lastLoaded: string | null = null;
 
 const sel = "rounded border border-gray-700 bg-gray-900 px-2 py-1 text-sm text-gray-100";
 const seg = (on: boolean) => `px-2.5 py-1 ${on ? "bg-gray-700 text-gray-100" : "text-gray-400 hover:text-gray-100"}`;
 
-const STATE_LABEL: Record<FacetState, string> = { off: "", standard: "standard", listed: "std or option", hide: "hidden" };
+const STATE_LABEL: Record<FacetState, string> = { off: "", standard: "standard", listed: "std, pack or option", hide: "hidden" };
 const STATE_CLASS: Record<FacetState, string> = {
   off: "border-gray-700 text-gray-300 hover:border-gray-500",
   standard: "border-emerald-500 bg-emerald-950/40 text-emerald-200",
@@ -35,15 +36,34 @@ const STATE_CLASS: Record<FacetState, string> = {
 };
 
 /**
- * The one search for every car view. The top row narrows (scope, make,
- * model, text, year), judges (the brief), orders (sort) and switches view;
- * the panel below it holds every facet as a tri-state chip (standard → std or
+ * The one search for every car view. The top row loads or saves a named search,
+ * narrows (make, model, text, year), orders (sort) and switches view; the panel
+ * below it holds every facet as a tri-state chip (standard → standard, pack or
  * option → hidden, all of them combined with 'all' or 'any') and a min/max for
  * every number a car carries. The whole state is the URL.
  */
-export function QueryBar({ query: f, set, options, flagLabels, count, nAuto }: Props) {
+export function QueryBar({ query: f, set, options, flagLabels, count }: Props) {
   const pathname = usePathname() ?? "/";
-  const [open, setOpen] = useState(isNarrowed(f) && (Object.keys(f.facets).length > 0 || Object.keys(f.ranges).length > 0));
+  const searches = useSearches();
+  const save = useSaveSearch();
+  const list = searches.data?.searches ?? [];
+  const here = serializeQuery(f);
+  const match = list.find((x) => x.query === here);
+  const load = (id: string) => {
+    const hit = list.find((x) => x.id === id);
+    if (!hit) return;
+    lastLoaded = hit.name;
+    set({ ...EMPTY_QUERY, ...loaded(hit.query) });
+  };
+  const saveAs = () => {
+    const name = window.prompt(`Name this search\n${describeQuery(f, flagLabels)}`, lastLoaded ?? "");
+    if (!name?.trim()) return;
+    const clash = list.find((x) => x.name.trim().toLowerCase() === name.trim().toLowerCase());
+    if (clash && !window.confirm(`Replace the saved search “${clash.name}”?`)) return;
+    lastLoaded = name.trim();
+    save.mutate({ name, query: here });
+  };
+  const [open, setOpen] = useState(false);
   const withCurrent = (list: string[], cur: string) => (cur && !list.includes(cur) ? [cur, ...list] : list);
   const makes = withCurrent(options.makes, f.make), models = withCurrent(options.models, f.model), years = withCurrent(options.years, f.year);
   const active = Object.keys(f.facets).length + Object.keys(f.ranges).length;
@@ -61,7 +81,7 @@ export function QueryBar({ query: f, set, options, flagLabels, count, nAuto }: P
   for (const [k, label] of Object.entries(flagLabels)) {
     if (!placed.has(k)) grouped.set("Other equipment", [...(grouped.get("Other equipment") ?? []), { token: `flag:${k}`, label }]);
   }
-  const order = ["The brief", "Can be had by", "Comfort", "Driving", "Other equipment", "Provenance"];
+  const order = ["Essentials", "Can be had by", "Comfort", "Driving", "Other equipment", "Provenance"];
   const groups = [...grouped.entries()].sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0]));
 
   const setRange = (key: RangeKey, i: 0 | 1, v: string) => {
@@ -84,12 +104,16 @@ export function QueryBar({ query: f, set, options, flagLabels, count, nAuto }: P
             </Link>
           ))}
         </div>
-        {nAuto > 0 && (
-          <div role="group" aria-label="Scope" className="flex overflow-hidden rounded border border-gray-700 bg-gray-900">
-            <button type="button" className={seg(!allCars(f))} onClick={() => set({ scope: "" })} title="The trims curated by hand">Shortlist</button>
-            <button type="button" className={seg(allCars(f))} onClick={() => set({ scope: "all" })} title={`Every EV on sale: ${nAuto} more derivatives`}>Every EV</button>
-          </div>
-        )}
+        <span className="flex items-center gap-1">
+          <select aria-label="Saved search" value={match?.id ?? ""} onChange={(e) => load(e.target.value)} className={`${sel} max-w-[14rem]`} title={describeQuery(f, flagLabels)}>
+            {!match && <option value="">Unsaved search</option>}
+            {list.map((x) => <option key={x.id} value={x.id}>{x.name}{x.id === searches.data?.default_id ? " · default" : ""}</option>)}
+          </select>
+          {!match && (
+            <button type="button" onClick={saveAs} className="rounded border border-gray-700 px-2 py-1 text-gray-300 hover:text-gray-100" title="Save this search under a name">Save…</button>
+          )}
+          <Link href="/settings" className="px-1 text-xs text-gray-500 hover:text-gray-200" title="Rename, delete or pick the default search">manage</Link>
+        </span>
         <select aria-label="Make" value={f.make} onChange={(e) => set({ make: e.target.value })} className={sel}>
           <option value="">All makes</option>
           {makes.map((m) => <option key={m} value={m}>{m}</option>)}
@@ -103,11 +127,6 @@ export function QueryBar({ query: f, set, options, flagLabels, count, nAuto }: P
           <option value="">Any year</option>
           {years.map((y) => <option key={y} value={y}>{y}</option>)}
         </select>
-        <select aria-label="Brief" value={f.brief} onChange={(e) => set({ brief: e.target.value as BriefFilter })} className={sel} title="Your hard requirements (Requirements page)">
-          <option value="pass">meets the brief, confirmed</option>
-          <option value="pass-or-unknown">meets it or not yet confirmed</option>
-          <option value="all">any car</option>
-        </select>
         <select aria-label="Sort" value={f.sort || "true"} onChange={(e) => set({ sort: e.target.value === "true" ? "" : e.target.value })} className={sel}>
           {SORTS.map((s) => <option key={s.key} value={s.key}>{s.label}</option>)}
         </select>
@@ -115,15 +134,16 @@ export function QueryBar({ query: f, set, options, flagLabels, count, nAuto }: P
           {open ? "Hide filters" : "Filters"}{active ? ` · ${active}` : ""}
         </button>
         {isNarrowed(f) && (
-          <button type="button" onClick={() => set({ ...EMPTY_QUERY, scope: f.scope, sort: f.sort })} className="text-gray-400 hover:text-gray-100">clear</button>
+          <button type="button" onClick={() => set({ ...EMPTY_QUERY, sort: f.sort })} className="text-gray-400 hover:text-gray-100" title="Every car">clear</button>
         )}
         <span className="text-gray-500">{count}</span>
       </div>
+      {!open && isNarrowed(f) && <p className="text-xs text-gray-500">{describeQuery(f, flagLabels)}</p>}
 
       {open && (
         <div className="rounded-lg border border-gray-800 bg-gray-900 p-3">
           <div className="mb-3 flex flex-wrap items-center gap-3 text-xs text-gray-400">
-            <span>Click a chip: <span className="text-emerald-200">standard</span> → <span className="text-sky-200">standard or option</span> → <span className="text-rose-200">hidden</span> → off.</span>
+            <span>Click a chip: <span className="text-emerald-200">standard</span> → <span className="text-sky-200">standard, pack or option</span> → <span className="text-rose-200">hidden</span> → off. A car no source has a value for is left out.</span>
             <span className="flex items-center gap-1">
               Wanted chips must
               <span className="flex overflow-hidden rounded border border-gray-700">
@@ -143,7 +163,7 @@ export function QueryBar({ query: f, set, options, flagLabels, count, nAuto }: P
                       return (
                         <button key={fx.token} type="button" onClick={() => set(cycleFacet(f, fx.token, fx.twoState))}
                           className={`rounded border px-2 py-0.5 text-xs ${STATE_CLASS[state]}`}
-                          title={state === "off" ? "Click to require it" : state === "standard" ? "Standard only; click for standard or option" : state === "listed" ? "Standard or option; click to hide cars that have it" : "Hidden; click to reset"}>
+                          title={state === "off" ? "Click to require it" : state === "standard" ? "Standard only; click for standard, pack or option" : state === "listed" ? "Standard, pack or option; click to hide cars that have it" : "Hidden; click to reset"}>
                           {fx.label}{state !== "off" && !fx.twoState ? <span className="ml-1 opacity-70">· {STATE_LABEL[state]}</span> : state === "hide" ? <span className="ml-1 opacity-70">· hidden</span> : null}
                         </button>
                       );

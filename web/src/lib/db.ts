@@ -1,21 +1,24 @@
 // IndexedDB (Dexie) is the browser-side database.
 //
-//   facts    cars / sightings / used_spans / specs / models / meta — seeded from
-//            the committed snapshot on load and re-seeded whenever
-//            manifest.generated_at changes (the pipeline publishes a new cut).
+//   facts    cars / sightings / used_spans / specs / models / meta — downloaded
+//            from the published snapshot the first time, then read from here on
+//            every load without touching the network. checkForUpdate() asks the
+//            site for a newer cut in the background and swaps it in when there is
+//            one; offline, the stored copy is simply what the app shows.
 //   results  costs / series / residuals / offers — what the one cost model
 //            (lib/model) makes of the facts under the reader's basis, as of
 //            today; recomputed whenever the snapshot, the basis or the day
 //            changes, and read by every page. Nothing is costed at render time.
-//   private  shortlist / settings — the reader's own picks and brief, this
-//            browser only, kept across reseeds.
+//   private  settings — the reader's saved searches and settings (quoting basis,
+//            budget line), this browser only, kept across new snapshots.
 import Dexie, { type Table } from "dexie";
 
 import { basisOf, type Basis } from "./model/dealMath";
 import { computeAll, type CarCostRow } from "./model/recompute";
 import type { ResidualRow, SeriesRow } from "./model/sightings";
 import { setProgress } from "./progress";
-import { getManifest, loadCars, loadData, loadDetails, loadModels, loadRequirements, loadSightings, loadSpecs, loadUsed, loadUsedSpans } from "./snapshot";
+import { canonical } from "./query";
+import { getManifest, loadCars, loadData, loadDetails, loadModels, loadRequirements, loadSightings, loadSpecs, loadUsed, loadUsedSpans, SUPPORTED_SCHEMA_VERSION } from "./snapshot";
 import type { CarDetails, DataPage, Requirements, SnapshotCar, SnapshotManifest, SnapshotModel, SnapshotOffer, SnapshotSighting, SnapshotSpec, SnapshotUsed, SnapshotUsedSpan } from "./types";
 
 export const DEFAULT_STALE_DAYS = 14;
@@ -23,12 +26,6 @@ export const DEFAULT_STALE_DAYS = 14;
 export interface MetaRow {
   key: string;
   value: string;
-}
-
-export interface ShortlistRow {
-  car_id: string;
-  added_at: string;
-  note: string | null;
 }
 
 /** The reader's own copy of a document (the requirements): seeded once from the
@@ -53,7 +50,6 @@ export class CarResearchDB extends Dexie {
   residuals!: Table<ResidualRow, string>;
   offers!: Table<SnapshotOffer, string>;
   meta!: Table<MetaRow, string>;
-  shortlist!: Table<ShortlistRow, string>;
   settings!: Table<SettingsRow, string>;
 
   constructor() {
@@ -98,6 +94,8 @@ export class CarResearchDB extends Dexie {
     this.version(8)
       .stores({ sightings: "++id, key, car_id, route, source, model", used_spans: "++id, key, model, source", costs: "id, model" })
       .upgrade((tx) => tx.table("meta").clear());
+    // v9: saved searches replace the starred list.
+    this.version(9).stores({ shortlist: null });
   }
 }
 
@@ -113,53 +111,72 @@ export function getDb(): CarResearchDB {
   return _db;
 }
 
+/** The snapshot this browser holds, if it holds a complete one. */
+async function storedManifest(db: CarResearchDB): Promise<SnapshotManifest | null> {
+  const [row, gen] = await Promise.all([db.meta.get("manifest"), db.meta.get("generated_at")]);
+  if (!row || !gen) return null;
+  const m = JSON.parse(row.value) as SnapshotManifest;
+  return m.generated_at === gen.value ? m : null;
+}
+
+/** Download a published snapshot and replace the stored facts with it in one transaction. */
+async function download(manifest: SnapshotManifest): Promise<void> {
+  const db = getDb();
+  setProgress({ label: `Downloading the snapshot of ${manifest.generated_at.slice(0, 10)}`, done: 0, total: 2 });
+  try {
+    const [cars, sightings, usedSpans, requirements, data, specs, models] = await Promise.all([
+      loadCars(),
+      loadSightings().catch(() => [] as SnapshotSighting[]),
+      loadUsedSpans().catch(() => [] as SnapshotUsedSpan[]),
+      loadRequirements(),
+      loadData().catch(() => null as DataPage | null),
+      loadSpecs().catch(() => [] as SnapshotSpec[]),
+      loadModels().catch(() => [] as SnapshotModel[]),
+    ]);
+    setProgress({ label: "Storing the facts", done: 1, total: 2 });
+    await db.transaction("rw", [db.cars, db.sightings, db.used_spans, db.specs, db.models, db.details, db.used, db.meta, db.settings], async () => {
+      await db.cars.clear();
+      await db.sightings.clear();
+      await db.used_spans.clear();
+      await db.specs.clear();
+      await db.models.clear();
+      await db.details.clear();   // refilled in the background against the new snapshot
+      await db.used.clear();
+      // The reader's settings are theirs: seed them once, never overwrite on a new snapshot.
+      if (!(await db.settings.get("requirements"))) {
+        await db.settings.put({ key: "requirements", value: JSON.stringify(requirements), seeded_from: manifest.generated_at, updated_at: new Date().toISOString() });
+      }
+      await db.cars.bulkPut(cars);
+      await db.sightings.bulkAdd(sightings);
+      await db.used_spans.bulkAdd(usedSpans);
+      await db.specs.bulkPut(specs);
+      await db.models.bulkPut(models);
+      await db.meta.bulkPut([
+        { key: "generated_at", value: manifest.generated_at },
+        { key: "schema_version", value: manifest.schema_version },
+        { key: "manifest", value: JSON.stringify(manifest) },
+        { key: "requirements", value: JSON.stringify(requirements) },
+        { key: "data", value: JSON.stringify(data) },
+      ]);
+    });
+  } finally {
+    setProgress(null);
+  }
+}
+
+/** The stored snapshot when there is one this app can read, with no network at all; otherwise a download. */
 async function seed(): Promise<SnapshotManifest> {
   const db = getDb();
+  const stored = await storedManifest(db);
+  if (stored && stored.schema_version === SUPPORTED_SCHEMA_VERSION) return stored;
   const manifest = await getManifest();
-  const current = await db.meta.get("generated_at");
-  if (current?.value === manifest.generated_at) return manifest;
-
-  setProgress({ label: "Downloading the snapshot", done: 0, total: 2 });
-  const [cars, sightings, usedSpans, requirements, data, specs, models] = await Promise.all([
-    loadCars(),
-    loadSightings().catch(() => [] as SnapshotSighting[]),
-    loadUsedSpans().catch(() => [] as SnapshotUsedSpan[]),
-    loadRequirements(),
-    loadData().catch(() => null as DataPage | null),
-    loadSpecs().catch(() => [] as SnapshotSpec[]),
-    loadModels().catch(() => [] as SnapshotModel[]),
-  ]);
-  setProgress({ label: "Storing the facts", done: 1, total: 2 });
-  await db.transaction("rw", [db.cars, db.sightings, db.used_spans, db.specs, db.models, db.details, db.used, db.meta, db.settings], async () => {
-    await db.cars.clear();
-    await db.sightings.clear();
-    await db.used_spans.clear();
-    await db.specs.clear();
-    await db.models.clear();
-    await db.details.clear();   // refetched on demand against the new snapshot
-    await db.used.clear();
-    // The reader's requirements are theirs: seed them once, never overwrite on a new snapshot.
-    if (!(await db.settings.get("requirements"))) {
-      await db.settings.put({ key: "requirements", value: JSON.stringify(requirements), seeded_from: manifest.generated_at, updated_at: new Date().toISOString() });
-    }
-    await db.cars.bulkPut(cars);
-    await db.sightings.bulkAdd(sightings);
-    await db.used_spans.bulkAdd(usedSpans);
-    await db.specs.bulkPut(specs);
-    await db.models.bulkPut(models);
-    await db.meta.bulkPut([
-      { key: "generated_at", value: manifest.generated_at },
-      { key: "schema_version", value: manifest.schema_version },
-      { key: "requirements", value: JSON.stringify(requirements) },
-      { key: "data", value: JSON.stringify(data) },
-    ]);
-  });
-  setProgress(null);
+  await download(manifest);
+  void fillOnDemand();
   return manifest;
 }
 
-/** Make sure the local DB holds the current snapshot. Memoised as a promise so
- * concurrent first-load callers share one seeding pass; a failure re-arms it. */
+/** Make sure the local DB holds a snapshot. Memoised as a promise so concurrent
+ * first-load callers share one pass; a failure re-arms it. */
 export function ensureSeeded(): Promise<SnapshotManifest> {
   if (_seeding === null) {
     _seeding = seed().catch((e) => {
@@ -168,6 +185,62 @@ export function ensureSeeded(): Promise<SnapshotManifest> {
     });
   }
   return _seeding;
+}
+
+/** current: the stored snapshot is the latest; updated: a newer one was downloaded and stored;
+ * offline: the site could not be reached; app-outdated: the site publishes a data format this
+ * build cannot read (a reload picks up the new app). */
+export type UpdateResult = "current" | "updated" | "offline" | "app-outdated";
+let _checking: Promise<UpdateResult> | null = null;
+
+/** Ask the site for a newer snapshot and swap it in. Never needed for the app to work. */
+export function checkForUpdate(): Promise<UpdateResult> {
+  if (_checking === null) {
+    _checking = (async (): Promise<UpdateResult> => {
+      const have = await ensureSeeded();
+      let latest: SnapshotManifest;
+      try {
+        latest = await getManifest();
+      } catch {
+        return "offline";
+      }
+      if (latest.schema_version !== SUPPORTED_SCHEMA_VERSION) return "app-outdated";
+      if (latest.generated_at === have.generated_at) return "current";
+      try {
+        await download(latest);
+      } catch {
+        return "offline";
+      }
+      _seeding = Promise.resolve(latest);
+      void fillOnDemand();
+      return "updated";
+    })().finally(() => { _checking = null; });
+  }
+  return _checking;
+}
+
+/** The files a car page reads on demand, fetched once per snapshot so the car pages work offline too. */
+async function fillDetails(): Promise<void> {
+  const db = getDb();
+  if ((await db.details.count()) > 0) return;
+  const all = await loadDetails();
+  await db.details.bulkPut(Object.entries(all).map(([cid, d]) => ({ id: cid, ...d })));
+}
+
+async function fillUsed(): Promise<void> {
+  const db = getDb();
+  if ((await db.used.count()) > 0) return;
+  const all = await loadUsed();
+  await db.used.bulkPut(all.map((u) => ({ ...u, model_key: `${(u.make_slug ?? "").toLowerCase()}/${u.model_slug ?? ""}` })));
+}
+
+async function fillOnDemand(): Promise<void> {
+  try {
+    await fillDetails();
+    await fillUsed();
+  } catch {
+    /* offline or a missing file: the car page fetches it when asked */
+  }
 }
 
 export const todayIso = (): string => new Date().toISOString().slice(0, 10);
@@ -281,7 +354,7 @@ export async function getSeedRequirements(): Promise<Requirements | null> {
   return row ? (JSON.parse(row.value) as Requirements) : null;
 }
 
-/** Save the reader's brief; a changed quoting basis recomputes every stored figure before this resolves. */
+/** Save the reader's settings (budget line, quoting basis); a changed basis recomputes every stored figure before this resolves. */
 export async function saveRequirements(doc: Requirements): Promise<void> {
   const db = getDb();
   const cur = await db.settings.get("requirements");
@@ -296,18 +369,14 @@ export async function resetRequirements(): Promise<Requirements | null> {
   return seed;
 }
 
-/** A car's on-demand detail, fetching details.json once per snapshot. */
+/** A car's on-demand detail (details.json, stored once per snapshot). */
 export async function getCarDetails(id: string): Promise<CarDetails | null> {
   await ensureSeeded();
   const db = getDb();
   const hit = await db.details.get(id);
   if (hit) return hit;
-  if ((await db.details.count()) === 0) {
-    const all = await loadDetails();
-    await db.details.bulkPut(Object.entries(all).map(([cid, d]) => ({ id: cid, ...d })));
-    return (await db.details.get(id)) ?? null;
-  }
-  return null;
+  await fillDetails();
+  return (await db.details.get(id)) ?? null;
 }
 
 export async function getDataPage(): Promise<DataPage | null> {
@@ -316,15 +385,92 @@ export async function getDataPage(): Promise<DataPage | null> {
   return row ? (JSON.parse(row.value) as DataPage | null) : null;
 }
 
-export async function toggleShortlist(carId: string): Promise<boolean> {
+// ---------------------------------------------------------------- saved searches
+
+/** A search with a name: the query string the search bar writes (lib/query.ts). */
+export interface SavedSearch {
+  id: string;
+  name: string;
+  query: string;
+}
+
+export interface SearchList {
+  searches: SavedSearch[];
+  /** What a search view opens on when the app loads. */
+  default_id: string | null;
+}
+
+/** The searches the snapshot's requirements.json seeds (data/seed/requirements.json `searches`). */
+async function seededSearches(db: CarResearchDB): Promise<SearchList> {
+  const row = await db.meta.get("requirements");
+  const doc = row ? (JSON.parse(row.value) as Requirements | null) : null;
+  const seeded = Array.isArray(doc?.searches) ? (doc!.searches as { name?: unknown; query?: unknown; default?: unknown }[]) : [];
+  const searches = seeded.filter((x) => x.name).map((x, i) => ({ id: `seed-${i + 1}`, name: String(x.name), query: canonical(String(x.query ?? "")) }));
+  const d = seeded.findIndex((x) => x.default);
+  return { searches, default_id: d >= 0 && searches[d] ? searches[d].id : searches[0]?.id ?? null };
+}
+
+/** Write the list; `seeded` records that the snapshot's seeded searches have been folded in. */
+async function putSearches(list: SearchList, seeded: boolean): Promise<SearchList> {
+  await getDb().settings.put({ key: "searches", value: JSON.stringify(list), seeded_from: seeded ? "seed" : "", updated_at: new Date().toISOString() });
+  return list;
+}
+
+const lower = (s: string) => s.trim().toLowerCase();
+
+/** The reader's saved searches. The snapshot's seeded ones join the list once: on first use,
+ * or, for a list begun before the snapshot carried any, when a snapshot that does arrives. */
+export async function getSearches(): Promise<SearchList> {
+  await ensureSeeded();
   const db = getDb();
-  const existing = await db.shortlist.get(carId);
-  if (existing) {
-    await db.shortlist.delete(carId);
-    return false;
-  }
-  await db.shortlist.put({ car_id: carId, added_at: new Date().toISOString(), note: null });
-  return true;
+  const row = await db.settings.get("searches");
+  if (row?.seeded_from === "seed") return JSON.parse(row.value) as SearchList;
+  const seed = await seededSearches(db);
+  if (!row) return seed.searches.length ? putSearches(seed, true) : seed;
+  const list = JSON.parse(row.value) as SearchList;
+  if (!seed.searches.length) return list;
+  const names = new Set(list.searches.map((x) => lower(x.name)));
+  return putSearches({ searches: [...list.searches, ...seed.searches.filter((x) => !names.has(lower(x.name)))], default_id: list.default_id ?? seed.default_id }, true);
+}
+
+/** Write a change to the list, keeping whether the seed has been folded in. */
+async function change(list: SearchList): Promise<SearchList> {
+  return putSearches(list, (await getDb().settings.get("searches"))?.seeded_from === "seed");
+}
+
+const sameName = (a: string, b: string) => lower(a) === lower(b);
+
+/** Save a search under a name; the same name again replaces it. The first one saved is the default. */
+export async function saveSearch(name: string, query: string): Promise<SearchList> {
+  const list = await getSearches();
+  const qs = canonical(query);
+  const hit = list.searches.find((x) => sameName(x.name, name));
+  const searches = hit
+    ? list.searches.map((x) => (x.id === hit.id ? { ...x, name: name.trim(), query: qs } : x))
+    : [...list.searches, { id: `s-${Date.now().toString(36)}`, name: name.trim(), query: qs }];
+  return change({ searches, default_id: list.default_id ?? searches[0]?.id ?? null });
+}
+
+export async function renameSearch(id: string, name: string): Promise<SearchList> {
+  const list = await getSearches();
+  return change({ ...list, searches: list.searches.map((x) => (x.id === id ? { ...x, name: name.trim() || x.name } : x)) });
+}
+
+export async function deleteSearch(id: string): Promise<SearchList> {
+  const list = await getSearches();
+  const searches = list.searches.filter((x) => x.id !== id);
+  return change({ searches, default_id: list.default_id === id ? searches[0]?.id ?? null : list.default_id });
+}
+
+export async function setDefaultSearch(id: string): Promise<SearchList> {
+  const list = await getSearches();
+  return change({ ...list, default_id: list.searches.some((x) => x.id === id) ? id : list.default_id });
+}
+
+/** Back to the seeded searches: the only time the reader's list is overwritten. */
+export async function resetSearches(): Promise<SearchList> {
+  const seed = await seededSearches(getDb());
+  return putSearches(seed, seed.searches.length > 0);
 }
 
 /** Test hook: forget the in-memory handle and seeding memo but keep the stored
@@ -336,6 +482,7 @@ export function __clearSeedingMemoForTests(): void {
   }
   _seeding = null;
   _computing = null;
+  _checking = null;
 }
 
 /** Test hook: drop the database and re-arm seeding. */
@@ -346,16 +493,13 @@ export async function __resetForTests(): Promise<void> {
   }
   _seeding = null;
   _computing = null;
+  _checking = null;
   await Dexie.delete("CarResearchDB");
 }
 
-/** A model's used listings (every one ever seen), fetching used.json once per snapshot. */
+/** A model's used listings (every one ever seen; used.json, stored once per snapshot). */
 export async function getUsedForModel(modelKey: string): Promise<SnapshotUsed[]> {
   await ensureSeeded();
-  const db = getDb();
-  if ((await db.used.count()) === 0) {
-    const all = await loadUsed();
-    await db.used.bulkPut(all.map((u) => ({ ...u, model_key: `${(u.make_slug ?? "").toLowerCase()}/${u.model_slug ?? ""}` })));
-  }
-  return db.used.where("model_key").equals(modelKey).toArray();
+  await fillUsed();
+  return getDb().used.where("model_key").equals(modelKey).toArray();
 }

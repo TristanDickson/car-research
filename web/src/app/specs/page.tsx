@@ -69,7 +69,6 @@ function Specs() {
   const [showAll, setShowAll] = useState(false);
   const [needle, setNeedle] = useState("");
   const [page, setPage] = useState(0);
-  const nAuto = useMemo(() => (cars ?? []).filter((c) => c.auto).length, [cars]);
 
   // One spec column per car in the result set, in the result's order.
   const columns = useMemo(() => {
@@ -119,19 +118,19 @@ function Specs() {
   if (specs.error) return <ErrorNote error={specs.error} />;
   if (loading || !cars || !specs.data) return <Loading />;
 
-  const th = "sticky left-0 z-10 bg-gray-900 py-1 pr-3 text-left font-normal text-gray-400";
+  const th = "sticky left-0 z-10 bg-gray-900 py-1 pr-3 text-left font-normal text-gray-400 w-32 max-w-[8rem] sm:w-56 sm:max-w-none";
   const noSpec = rows.length - new Set(columns.map((c) => c.car.id)).size;
 
   return (
     <div className="space-y-4">
       <PageHeader
         title="Specs"
-        subtitle="Every derivative the search admits, side by side: the numbers and every piece of equipment its spec source lists. ✓ is standard, opt is an option, – is not listed. The canonical flags are the same ones the brief and the filters use."
+        subtitle="Every derivative the search admits, side by side, in the search's order: the numbers and every piece of equipment its spec source lists. ✓ is standard, opt is an option, – is not listed. The canonical flags are the same ones the filters use."
       />
-      <QueryBar query={query} set={set} options={options} flagLabels={flagLabels} nAuto={nAuto}
+      <QueryBar query={query} set={set} options={options} flagLabels={flagLabels}
         count={`${columns.length} columns for ${rows.length} cars${noSpec ? ` (${noSpec} without a spec row)` : ""}`} />
       {cols.length === 0 ? (
-        <Empty>No spec rows for this search. Widen it, or switch to Every EV.</Empty>
+        <Empty>No spec rows for this search. Widen it.</Empty>
       ) : (
         <div className="rounded-lg border border-gray-800 bg-gray-900">
           <div className="flex flex-wrap items-center gap-3 border-b border-gray-800 px-3 py-2 text-sm">
@@ -152,7 +151,7 @@ function Specs() {
             <table className="min-w-full text-sm">
               <thead className="sticky top-0 z-20 bg-gray-900">
                 <tr className="align-bottom">
-                  <th className={`${th} w-56 z-30`}>Variant</th>
+                  <th className={`${th} z-30`}>Variant</th>
                   {cols.map(({ car, spec: s }) => (
                     <th key={s.spec_key} className="min-w-[9rem] px-2 pb-2 text-left font-normal">
                       {s.image_url && <img src={s.image_url} alt="" className="mb-1 h-14 w-32 rounded object-cover" loading="lazy" />}
@@ -160,7 +159,7 @@ function Specs() {
                       <div className="text-gray-300">{s.trim}{s.seats ? ` · ${s.seats} seats` : ""}</div>
                       <div className="text-xs text-gray-500">{s.engine ?? s.powertrain}</div>
                       <div className="mt-1 flex flex-wrap gap-1">
-                        <Badge tone="muted" title={s.source}>{s.provider === "carwow_specs" ? "Carwow" : "Kia UK"}</Badge>
+                        <Badge tone="muted" title={s.source}>{s.provider === "carwow_specs" ? "Carwow" : s.provider === "hyundai_specs" ? "Hyundai UK" : "Kia UK"}</Badge>
                         {(s.version_date ?? s.model_year_hint) && <Badge tone="muted" title="derivative version">{(s.version_date ?? s.model_year_hint)!.slice(0, 7)}</Badge>}
                       </div>
                     </th>

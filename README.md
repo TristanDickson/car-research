@@ -63,8 +63,8 @@ pipeline reads Carwow's model index each night (~250 electric models from ~50 ma
 scrapes the specification and deals page of each, and generates a car record per
 derivative nobody has curated (~1,500), with its equipment, numbers, image, Carwow's cash
 price and PCP example, and LeaseLoco's leases where the derivative text can be matched.
-In the app, **Shortlist** is the curated set and **Every EV** is the lot; the brief is
-checked against both. See "Every EV on sale" below.
+In the app every search covers the lot; the curated trims are a filter ("Hand-curated")
+and a seeded saved search. See "Every EV on sale" below.
 
 ## How it fits together
 
@@ -108,7 +108,7 @@ Every sighting on every route is kept over time, source by source, and exported 
 spans. The browser costs them on one footing as of their own day
 (`web/src/lib/model/sightings.ts`): each car's history reads those series, and the car's
 headline figures are the same model as of today, under the term and savings rate the
-reader sets on the Requirements page.
+reader sets in Settings.
 
 The three used sources are folded per model: the same registration, or the same year and
 mileage where a site prints no registration, is one car. The union is the buy-used route
@@ -142,15 +142,14 @@ hand-written model list:
    what the deals page prints (trim, engine, RRP). A spec-built car replaces a stub; nothing
    replaces a hand-curated car, and a derivative promoted to one later simply maps over it.
    Tri-state fields are `unknown` when the source does not list the item: an equipment list
-   without "heat pump" is not proof there is none, so such cars meet the brief as "yes?" and
-   the Pick page's *Verified only* box drops them.
+   without "heat pump" is not proof there is none. A search that asks for an item leaves
+   out the cars no source has a value for.
 4. Broker rows (LeaseLoco, NCD) name derivatives in their own words; `services/match.py`
    resolves them to the one generated car of that make and model whose kW, kWh and trim
    words agree, and refuses ties (those stay unmapped for a human).
 
 `python -m pipeline models` prints the catalogue with what has been scraped per model. The
-Data page shows the same table; **Shortlist / Every EV** on the filter bar switches every
-page between the curated trims and the whole market (`?scope=all` in the URL).
+Data page shows the same table.
 
 ## The true monthly
 
@@ -165,7 +164,7 @@ examples of that age (the median asking price), else from the best GFV known for
 grown at the savings rate, else from the flat assumption; each figure says which.
 
 The term, the savings rate, the residual assumption and how deals of other lengths rank
-are the reader's, set on the Requirements page and kept in the browser; the pipeline
+are the reader's, set in Settings and kept in the browser; the pipeline
 exports facts and nothing else. Changing them recomputes every figure in the browser
 (`web/src/lib/model`, pinned to `model/deal_math.py` by a shared fixture). Deals of other
 lengths are costed over the reader's term with the assumption stated beside the real deal:
@@ -219,17 +218,28 @@ normalised into canonical flags (`pipeline/services/features.py`: heat pump, int
 and external V2L, heated seats, 360 camera, powered tailgate, and so on) so the same
 question can be asked of both sources. The **Specs** page is a feature-by-variant matrix
 with the shared make / model / variant / year filter; the car page's **Equipment** card
-shows what the sources list for that exact variant next to the hand-entered brief fields,
+shows what the sources list for that exact variant next to the hand-entered fields,
 and `spec_check` names any disagreement (today: Carwow lists an interior V2L socket on the
 Kona Advance and N Line, which the model-year 27 spec sheet contradicts; ask the dealer).
 
 Hyundai UK has no spec page that can be read without a browser; Carwow covers its models.
 
-## Filters
+## Searches
 
-One make / model / variant-text / model-year bar scopes the Pick, Cars, Offers, Trends and
-Specs pages. It lives in the URL (`?make=Kia&model=EV3&q=gt-line&year=2026`), so a
-filtered view is a link and the filter follows you between pages.
+One search bar drives Pick, Cars, Specs and Offers: make, model, text, year, a min/max on
+every number (width, length, turning circle, range, price …), a chip per equipment flag,
+and the sort. It lives in the URL (`?make=Kia&model=EV3&q=gt-line&year=2026`), so a
+search is a link and it follows you between pages. A search can be saved under a name and
+loaded from the bar; the default one is what those pages open on. Saved searches live in
+the browser and are managed in Settings; `data/seed/requirements.json` seeds two ("My
+brief": heat pump and cabin socket fitted or available, four or more seats; and
+"Hand-curated"). On Cars, **Columns** picks which columns show and in what order (kept per
+browser), and the car stays pinned on the left when the table scrolls sideways.
+
+The app works offline once it has loaded: the snapshot is stored in IndexedDB and read
+without the network, a newer one is fetched in the background when the site is reachable,
+and a service worker (written at build time by `web/scripts/build-sw.mjs`) keeps the app
+itself.
 
 ## Repo layout
 
@@ -247,7 +257,7 @@ web/src/lib/model/      the cost model the app runs: dealMath.ts (the port, chec
 data/seed/              hand-captured cars (19), offers (29), requirements, trim map (50 mapped, the rest ignored on purpose)
 data/pastes/            pasted source pages, one file each (carwow: 4, richmond: 2)
 data/history/           the committed sighting log, scraped specs and the catalogue, rewritten by every refresh
-web/                    Next.js static SPA: pick, compare, cars, car detail (price board, history, equipment), specs, requirements (the reader's brief and quoting basis), data, offers
+web/                    Next.js static SPA: pick, compare, cars, car detail (price board, history, equipment), specs, settings (saved searches, budget line, quoting basis), data, offers
   public/data/          the committed snapshot the SPA reads
 docs/                   requirements, research notes, architecture, generated deal table,
   transcripts/          raw source conversations (contact details redacted)
@@ -314,6 +324,16 @@ rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Context log
 
+- **2026-10-08** Saved searches replace the Requirements page, the stars and the
+  Shortlist / Every EV switch. A search (the bar's state, in the URL) can be saved under a
+  name; the default one is what Pick, Cars and Specs open on, and the search then follows
+  you between them. The hard rules, preferences and wants editors are gone (preferences and
+  wants never did anything); Settings keeps the budget line and the quoting basis. The card's
+  pack line now names the packs behind the equipment the search asks for. Cars gains a
+  column chooser (show, hide, reorder; kept per browser) with the car pinned on the left for
+  a phone held sideways, and turning circle joins the ranges. The app now works offline: the
+  stored snapshot is used without waiting on the network, a newer one is fetched in the
+  background, and a service worker keeps the built app.
 - **2026-10-08** Hyundai's own configurator settles the Inster. `hyundai_configurator`
   reads the GraphQL endpoint behind hyundai.com/uk's build-and-price pages: every orderable
   configuration with its price and the packages in that price. It says the heat pump is a

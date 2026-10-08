@@ -2,9 +2,8 @@
 
 import { useMemo } from "react";
 
-import { evaluateBrief, type Brief } from "./brief";
 import { carCosts, type CarCosts } from "./costs";
-import { useCars, useCosts, useDataPage, useRequirements, useShortlist } from "./hooks";
+import { useCars, useCosts, useDataPage, useRequirements, useSearches } from "./hooks";
 import { compareBy, matches, queryOptions, useQuery, type CarContext, type Query, type QueryOptions } from "./query";
 import type { SnapshotCar } from "./types";
 
@@ -23,27 +22,27 @@ export interface CarQueryResult {
   error: unknown;
 }
 
-/** The one result set behind the cards, the table and the specs grid. */
+/** The one result set behind the cards, the table and the specs grid. A view whose URL
+ * carries no search opens on the last one used, else the reader's default saved search. */
 export function useCarQuery(): CarQueryResult {
-  const [query, set] = useQuery();
+  const searches = useSearches();
+  const list = searches.data;
+  const defaultQs = list === undefined ? undefined : list.searches.find((s) => s.id === list.default_id)?.query ?? null;
+  const [query, set, ready] = useQuery(searches.error ? null : defaultQs);
   const cars = useCars();
   const costRows = useCosts();
   const reqs = useRequirements();
   const data = useDataPage();
-  const shortlist = useShortlist();
 
-  const rules = reqs.data?.hard;
   const names = data.data?.sources;
-  const starred = useMemo(() => new Set((shortlist.data ?? []).map((s) => s.car_id)), [shortlist.data]);
   const ctxById = useMemo(() => {
     const out = new Map<string, CarContext>();
     for (const c of cars.data ?? []) {
-      const brief: Brief = evaluateBrief(rules, c);
       const costs: CarCosts = carCosts(c, costRows.data?.get(c.id), names);
-      out.set(c.id, { brief, costs, starred: starred.has(c.id) });
+      out.set(c.id, { costs });
     }
     return out;
-  }, [cars.data, costRows.data, names, rules, starred]);
+  }, [cars.data, costRows.data, names]);
   const ctxOf = (c: SnapshotCar) => ctxById.get(c.id)!;
 
   const rows = useMemo(() => {
@@ -58,7 +57,7 @@ export function useCarQuery(): CarQueryResult {
     query, set, cars: cars.data, rows, ctxOf, options,
     flagLabels: data.data?.flag_labels ?? {},
     budgetCeiling: budget?.monthly_ceiling_gbp ?? null,
-    loading: !cars.data || reqs.data === undefined || costRows.data === undefined,
+    loading: !ready || !cars.data || reqs.data === undefined || costRows.data === undefined,
     error: cars.error ?? reqs.error ?? costRows.error ?? null,
   };
 }

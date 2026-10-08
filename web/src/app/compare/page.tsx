@@ -113,7 +113,7 @@ function Compare() {
         </table>
       </div>
       <p className="text-xs text-gray-500">
-        True cost puts cash, PCP, lease and used on one footing over your term (Requirements page), from prices seen in the last {staleDays} days. &quot;Pay monthly&quot; is the cheapest PCP or lease as printed.
+        True cost puts cash, PCP, lease and used on one footing over your term (Settings), from prices seen in the last {staleDays} days. &quot;Pay monthly&quot; is the cheapest PCP or lease as printed.
       </p>
     </div>
   );

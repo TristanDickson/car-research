@@ -1,28 +1,27 @@
 import { describe, expect, it } from "vitest";
 
-import type { Brief } from "./brief";
 import type { CarCosts, TrueCost } from "./costs";
-import { cycleFacet, EMPTY_QUERY, matches, parseQuery, serializeQuery, type CarContext, type Query } from "./query";
+import { canonical, carPacks, cycleFacet, describeQuery, EMPTY_QUERY, matches, parseQuery, searchPacks, serializeQuery, type CarContext, type Query } from "./query";
 import type { SnapshotCar } from "./types";
 
 const car = (over: Partial<SnapshotCar>): SnapshotCar =>
   ({ id: "c", make: "Hyundai", model: "Kona Electric", trim: "Ultimate", picks: [], ...over }) as unknown as SnapshotCar;
 
-const brief = (status: Brief["status"]): Brief => ({ status, failures: [], unknown: [], failedLabels: [], unknownLabels: [], rules: [] });
 const costs = (over: Partial<CarCosts> = {}): CarCosts =>
   ({ trueCost: null, byRoute: {}, sources: 0, monthly: null, monthlyRoute: null, threeYear: null, cash: null, trend: null, stock: null, ...over });
 const tc = (over: Partial<TrueCost>): TrueCost =>
   ({ route: "pcp", offerId: "p", dealer: null, source: "carwow", sourceName: "Carwow", monthly: 350, floor: null, headline: 300, endValue: null, residualSource: null,
      ageDays: 0, horizonMonths: 37, atHorizon: "as_agreed", ownMonthly: 350, ownHorizonMonths: 37, terms: { paid: null }, ...over });
-const ctx = (over: Partial<CarContext> = {}): CarContext => ({ brief: brief("pass"), costs: costs(), starred: false, ...over });
+const ctx = (over: Partial<CarContext> = {}): CarContext => ({ costs: costs(), ...over });
 
 describe("query", () => {
   it("round-trips through the URL", () => {
-    const q: Query = { ...EMPTY_QUERY, scope: "all", q: "ultimate", make: "Hyundai", mode: "any", brief: "pass",
-      ranges: { true: [200, 400], seats: [5, null] }, facets: { "flag:heat_pump": "standard", "route:used": "hide", "flag:glass_roof": "listed" } };
+    const q: Query = { ...EMPTY_QUERY, q: "ultimate", make: "Hyundai", mode: "any",
+      ranges: { true: [200, 400], seats: [5, null], turn: [null, 10.5] }, facets: { "flag:heat_pump": "standard", "route:used": "hide", "flag:glass_roof": "listed" } };
     const qs = serializeQuery(q);
     expect(qs).toContain("r.true=200-400");
     expect(qs).toContain("r.seats=5-");
+    expect(qs).toContain("r.turn=-10.5");
     expect(parseQuery(new URLSearchParams(qs))).toEqual(q);
     expect(serializeQuery(EMPTY_QUERY)).toBe("");
   });
@@ -44,7 +43,7 @@ describe("query", () => {
 
   it("standard, listed and hide read the car's flags; all and any combine the wanted ones", () => {
     const c = car({ auto: true, flags: { heat_pump: "standard", glass_roof: "option" } });
-    const base: Query = { ...EMPTY_QUERY, scope: "all" };
+    const base: Query = { ...EMPTY_QUERY };
     expect(matches(c, ctx(), { ...base, facets: { "flag:heat_pump": "standard" } })).toBe(true);
     expect(matches(c, ctx(), { ...base, facets: { "flag:glass_roof": "standard" } })).toBe(false);
     expect(matches(c, ctx(), { ...base, facets: { "flag:glass_roof": "listed" } })).toBe(true);
@@ -55,24 +54,45 @@ describe("query", () => {
     expect(matches(c, ctx(), { ...base, facets: two, mode: "any" })).toBe(true);
   });
 
-  it("ranges read costs and fields and drop cars that carry no value; the brief and scope gate first", () => {
-    const c = car({ seats: 5, wltp_range_mi: 282 });
+  it("ranges read costs and fields and drop cars that carry no value; an empty search admits every car", () => {
+    const c = car({ seats: 5, wltp_range_mi: 282, turning_circle_m: 10.2 });
     const k = ctx({ costs: costs({ trueCost: tc({}), byRoute: {} }) });
     expect(matches(c, k, { ...EMPTY_QUERY, ranges: { true: [300, 400] } })).toBe(true);
     expect(matches(c, k, { ...EMPTY_QUERY, ranges: { true: [null, 300] } })).toBe(false);
     expect(matches(c, k, { ...EMPTY_QUERY, ranges: { dc: [100, null] } })).toBe(false);
-    expect(matches(c, ctx({ brief: brief("fail") }), { ...EMPTY_QUERY })).toBe(false);
-    expect(matches(c, ctx({ brief: brief("unknown") }), { ...EMPTY_QUERY })).toBe(true);
-    expect(matches(c, ctx({ brief: brief("unknown") }), { ...EMPTY_QUERY, brief: "pass" })).toBe(false);
-    expect(matches(car({ auto: true }), ctx(), { ...EMPTY_QUERY })).toBe(false);
-    expect(matches(car({ auto: true }), ctx(), { ...EMPTY_QUERY, scope: "all" })).toBe(true);
+    expect(matches(c, k, { ...EMPTY_QUERY, ranges: { turn: [null, 10.5] } })).toBe(true);
+    expect(matches(c, k, { ...EMPTY_QUERY, ranges: { turn: [null, 10] } })).toBe(false);
+    expect(matches(car({ auto: true }), ctx(), { ...EMPTY_QUERY })).toBe(true);
+    expect(matches(car({}), ctx(), { ...EMPTY_QUERY })).toBe(true);
   });
 
   it("routes and provenance are facets too", () => {
     const c = car({});
-    const k = ctx({ costs: costs({ byRoute: { used: tc({ route: "used", offerId: "u", source: "cinch", monthly: 250, headline: 14000 }) } }), starred: true });
+    const k = ctx({ costs: costs({ byRoute: { used: tc({ route: "used", offerId: "u", source: "cinch", monthly: 250, headline: 14000 }) } }) });
     expect(matches(c, k, { ...EMPTY_QUERY, facets: { "route:used": "standard" } })).toBe(true);
     expect(matches(c, k, { ...EMPTY_QUERY, facets: { "route:pcp": "standard" } })).toBe(false);
-    expect(matches(c, k, { ...EMPTY_QUERY, facets: { starred: "standard", curated: "standard" } })).toBe(true);
+    expect(matches(c, k, { ...EMPTY_QUERY, facets: { curated: "standard" } })).toBe(true);
+    expect(matches(car({ auto: true }), k, { ...EMPTY_QUERY, facets: { curated: "standard" } })).toBe(false);
+  });
+
+  it("old links' scope and brief parameters are ignored; a saved search compares in one spelling", () => {
+    expect(parseQuery(new URLSearchParams("scope=all&brief=all&make=Kia"))).toEqual({ ...EMPTY_QUERY, ranges: {}, facets: {}, make: "Kia" });
+    expect(canonical("r.seats=4-&listed=flag%3Av2l_internal%2Cflag%3Aheat_pump")).toBe(canonical("listed=flag:heat_pump,flag:v2l_internal&r.seats=4-"));
+  });
+
+  it("the packs a car needs are the ones behind the equipment the search asks for", () => {
+    const c = car({ flags: { heat_pump: "pack", v2l_internal: "pack", camera_360: "pack" },
+      packs_required: { heat_pump: "Heat Pump", internal_v2l: "Tech Pack", camera_360: "Tech Pack" }, pack_prices_gbp: { "Heat Pump": 760, "Tech Pack": 500 } });
+    const q: Query = { ...EMPTY_QUERY, facets: { "flag:heat_pump": "listed", "flag:v2l_internal": "listed", "flag:glass_roof": "standard" } };
+    expect(searchPacks(q, c)).toEqual([{ flag: "heat_pump", pack: "Heat Pump", price: 760 }, { flag: "v2l_internal", pack: "Tech Pack", price: 500 }]);
+    expect(searchPacks(EMPTY_QUERY, c)).toEqual([]);
+    expect(carPacks(c)).toEqual([{ pack: "Heat Pump", price: 760, flags: ["heat_pump"] }, { pack: "Tech Pack", price: 500, flags: ["v2l_internal", "camera_360"] }]);
+  });
+
+  it("describes a search in words", () => {
+    const q = parseQuery(new URLSearchParams("listed=flag:heat_pump,flag:v2l_internal&r.seats=4-&r.width=-1890&sort=range"));
+    expect(describeQuery(q, { heat_pump: "Heat pump", v2l_internal: "Internal V2L socket" }))
+      .toBe("Heat pump: standard, pack or option · Internal V2L socket: standard, pack or option · Seats ≥ 4 · Width ≤ 1,890 mm · sorted by longest range");
+    expect(describeQuery(EMPTY_QUERY, {})).toBe("every car");
   });
 });

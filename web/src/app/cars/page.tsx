@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useMemo } from "react";
+import { Suspense } from "react";
 
 import { CarTable } from "@/components/CarTable";
 import { QueryBar } from "@/components/QueryBar";
@@ -19,8 +19,6 @@ export default function CarsPage() {
 function Cars() {
   const { query, set, cars, rows, ctxOf, options, flagLabels, loading, error } = useCarQuery();
   const basis = useBasis();
-  const nAuto = useMemo(() => (cars ?? []).filter((c) => c.auto).length, [cars]);
-  const inScope = useMemo(() => (cars ?? []).filter((c) => query.scope === "all" || !c.auto).length, [cars, query.scope]);
 
   if (error) return <ErrorNote error={error} />;
   if (loading || !cars) return <Loading />;
@@ -29,9 +27,9 @@ function Cars() {
     <div>
       <PageHeader
         title="Cars"
-        subtitle="The same search as the cards, one row per derivative: the shortlist curated by hand, and with Every EV a row per derivative on sale. The brief column is your Requirements page applied to each row."
+        subtitle="The same search as the cards, one row per derivative. Pick the columns and their order with Columns; the car stays in view when the table scrolls sideways."
       />
-      <QueryBar query={query} set={set} options={options} flagLabels={flagLabels} nAuto={nAuto} count={`${rows.length} of ${inScope}`} />
+      <QueryBar query={query} set={set} options={options} flagLabels={flagLabels} count={`${rows.length} of ${cars.length}`} />
       <CarTable cars={rows} ctxOf={ctxOf} horizon={basis.data?.term_months ?? 37} />
     </div>
   );

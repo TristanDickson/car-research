@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { ensureComputed, ensureSeeded, getBasis, getCarDetails, getComputeStats, getDataPage, getDb, getRequirements, getSeedRequirements, getUsedForModel, resetRequirements, saveRequirements, toggleShortlist } from "./db";
+import { deleteSearch, ensureComputed, ensureSeeded, getBasis, getCarDetails, getComputeStats, getDataPage, getDb, getRequirements, getSearches, getSeedRequirements, getUsedForModel, renameSearch, resetRequirements, resetSearches, saveRequirements, saveSearch, setDefaultSearch, type SearchList } from "./db";
 import type { CarCostRow } from "./model/recompute";
 import type { Requirements } from "./types";
 
@@ -128,21 +128,21 @@ export function useCarDetails(id: string | null | undefined) {
   });
 }
 
-export function useShortlist() {
-  return useQuery({
-    queryKey: ["shortlist"],
-    queryFn: () => getDb().shortlist.toArray(),
-    staleTime: FOREVER,
-  });
+export function useSearches() {
+  return useQuery({ queryKey: ["searches"], queryFn: getSearches, staleTime: FOREVER });
 }
 
-export function useToggleShortlist() {
+/** One mutation per change to the saved searches; each writes the list and refreshes it. */
+function useSearchMutation<A>(fn: (a: A) => Promise<SearchList>) {
   const qc = useQueryClient();
-  return useMutation({
-    mutationFn: toggleShortlist,
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["shortlist"] }),
-  });
+  return useMutation({ mutationFn: fn, onSuccess: (list) => qc.setQueryData(["searches"], list) });
 }
+
+export const useSaveSearch = () => useSearchMutation(({ name, query }: { name: string; query: string }) => saveSearch(name, query));
+export const useRenameSearch = () => useSearchMutation(({ id, name }: { id: string; name: string }) => renameSearch(id, name));
+export const useDeleteSearch = () => useSearchMutation((id: string) => deleteSearch(id));
+export const useSetDefaultSearch = () => useSearchMutation((id: string) => setDefaultSearch(id));
+export const useResetSearches = () => useSearchMutation((_: void) => resetSearches());
 
 export function useSpecs() {
   return useQuery({
