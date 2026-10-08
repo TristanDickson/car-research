@@ -71,12 +71,12 @@ checked against both. See "Every EV on sale" below.
 ```
 data/seed/*.json ─────────────┐
 data/pastes/carwow/*.txt ─────┼─▶ pipeline (Python) ─▶ SQLite ─▶ web/public/data/*.json (committed)
-Carwow catalogue ─▶ live      │     bronze/silver/gold           offers = latest sighting + maths + freshness
-  scrapers (5 sites) ─────────┘     trim map resolves each       push main ─▶ Pages ─▶ SPA
-data/history/*.jsonl ─────────┘     source's trim naming, else   SPA loads JSON into IndexedDB
-   (committed sighting log, specs   a generated car per
-    and catalogue, replayed so CI   Carwow derivative
-    needs no network)
+Carwow catalogue ─▶ live      │     bronze/silver/gold           facts only: cars, every price as a span
+  scrapers (8 sites) ─────────┘     trim map resolves each       of days, used asking prices, specs
+data/history/*.jsonl ─────────┘     source's trim naming, else   push main ─▶ Pages ─▶ SPA
+   (committed sighting log, specs   a generated car per         SPA loads the facts into IndexedDB and
+    and catalogue, replayed so CI   Carwow derivative           costs every sighting under the reader's
+    needs no network)                                            own term and rate (web/src/lib/model)
 ```
 
 Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
@@ -100,9 +100,11 @@ Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
 | `motorpoint_used` | motorpoint.co.uk's electric listing | the supermarket's nearly-new stock: CAP trim, year, mileage, price, branch, and the list price when new | scrapes |
 | `evdb` | ev-database.org/uk, the index page | per variant: real range, efficiency, 0–62, average 10–80% rapid-charge power, useable battery, boot, weight, towing, heat pump and V2L offered; laid over the cars by model and battery at export, each filled field naming its source | scrapes |
 
-Every sighting on every route is kept over time, source by source, and costed on one
-footing as of its own day (`model/sightings.py`): the Trends page and each car's history
-read those series, and the car's headline figures are the same model as of today.
+Every sighting on every route is kept over time, source by source, and exported as
+spans. The browser costs them on one footing as of their own day
+(`web/src/lib/model/sightings.ts`): each car's history reads those series, and the car's
+headline figures are the same model as of today, under the term and savings rate the
+reader sets on the Requirements page.
 
 The three used sources are folded per model: the same registration, or the same year and
 mileage where a site prints no registration, is one car. The union is the buy-used route
@@ -148,18 +150,23 @@ page between the curated trims and the whole market (`?scope=all` in the URL).
 
 ## The true monthly
 
-Cash, PCP and lease are compared on one footing. Every payment is discounted at the
+Cash, PCP, lease and used are compared on one footing. Every payment is discounted at the
 savings rate (money not spent on a car earns it), the car's expected value at the end is
-credited back (owned outright: sold; PCP: the equity above the GFV, never below zero;
-lease: nothing), and the present cost is spread as a monthly over the agreement. The
-Pick cards lead with it, the Cars table and every price board rank by it, and the
+credited back (owned outright or used: sold; PCP: the equity above the GFV, never below
+zero; lease: nothing), and the present cost is spread as a monthly over the reader's term.
+The Pick cards lead with it, the Cars table and every price board rank by it, and the
 bracketed figure is the GFV floor (the car worth only what a lender guarantees). The car's
-value at the end of the term comes from the used market where Carwow's dealers list
-enough examples of that age (the median asking price), else from the best GFV known for
-the car grown at the savings rate, else from the flat assumption in
-`data/seed/requirements.json`; each figure says which. Buying used is the fourth route:
-the cheapest example of the model listed now, costed the same way, competes with the
-finance routes on the cards, and the car page lists the stock by registration year.
+value at the end comes from the used market where the three used sources list enough
+examples of that age (the median asking price), else from the best GFV known for the car
+grown at the savings rate, else from the flat assumption; each figure says which.
+
+The term, the savings rate, the residual assumption and how deals of other lengths rank
+are the reader's, set on the Requirements page and kept in the browser; the pipeline
+exports facts and nothing else. Changing them recomputes every figure in the browser
+(`web/src/lib/model`, pinned to `model/deal_math.py` by a shared fixture). Deals of other
+lengths are costed over the reader's term with the assumption stated beside the real deal:
+a longer PCP settled early and the car sold, a shorter one's balloon paid and the car kept,
+a lease over its own term; or, by choice, each deal over its own term.
 
 Broker leases and prices land on the right derivative by rules with evidence (see
 `docs/ARCHITECTURE.md`, "Resolving broker rows"): the broker's own RRP where it prints
@@ -178,8 +185,7 @@ price with the span of dates it was seen over. The app draws them on three level
   payments by offer as step lines through their sightings, with a crosshair that reads
   every line at a date, the list-after-grant line for reference, and the same data as
   a table underneath.
-- **Trends page**: a movers table (best price, discount against list, change over the
-  window, days at this price) and one small chart per car on a shared axis.
+- **Sort by "biggest price fall"** on the Pick and Cars views for the movers.
 
 The nightly scrape adds a point per car per day. Older points come from two places:
 the hand-captured offers and Carwow quotes keep their original dates, and `pipeline
@@ -227,16 +233,17 @@ filtered view is a link and the filter follows you between pages.
 pipeline/               Python package: providers, SQLite medallion, snapshot exporter, history, CLI
   providers/            manual_seed, carwow_paste, carwow_catalog (the model index), and the live scrapers (carwow_specs, carwow_deals, hyundai_offers, ncd, leaseloco, rrg, kia_specs)
                         http.py (polite fetch: UA, per-host delay, retry) and parse.py (money/pct/text/key helpers)
-  services/snapshot.py  Gold → web/public/data: offers with metrics + freshness, requirement checks, data page, catalogue
+  services/snapshot.py  Gold → web/public/data: cars, every price as spans (sightings, used spans), specs, catalogue, data page; no costs
   services/autocars.py  a car record from a Carwow spec row (or a deals-page stub) for every derivative nobody curates
   services/match.py     broker derivative text → the one generated car whose kW / kWh / trim words agree
   history.py            offer_observations ⇄ data/history/observations.jsonl, specs ⇄ specs.jsonl, models ⇄ models.jsonl (CI and a fresh clone replay all three)
   services/features.py  equipment wording → canonical flags (heat pump, internal V2L, …) shared by every spec source
-model/deal_math.py      PCP / PCH / cash normalisation (pinned by tests/test_deal_math.py)
+model/deal_math.py      PCP / PCH / cash / used normalisation in Python: the oracle behind tests/fixtures/cost_cases.json (model/cost_fixture.py) and the markdown deal table
+web/src/lib/model/      the cost model the app runs: dealMath.ts (the port, checked against the fixture), horizon.ts (deals of other lengths over the reader's term), sightings.ts (every route and source over time), recompute.ts (one pass, stored in IndexedDB)
 data/seed/              hand-captured cars (19), offers (29), requirements, trim map (50 mapped, the rest ignored on purpose)
 data/pastes/            pasted source pages, one file each (carwow: 4, richmond: 2)
 data/history/           the committed sighting log, scraped specs and the catalogue, rewritten by every refresh
-web/                    Next.js static SPA: pick, compare, cars, car detail (price board, history, equipment), offers, trends, specs, requirements, data
+web/                    Next.js static SPA: pick, compare, cars, car detail (price board, history, equipment), specs, requirements (the reader's brief and quoting basis), data, offers
   public/data/          the committed snapshot the SPA reads
 docs/                   requirements, research notes, architecture, generated deal table,
   transcripts/          raw source conversations (contact details redacted)
@@ -302,6 +309,13 @@ rejected by that rule fails in two seconds with no runner and no logs.
   `packs_required` naming the pack. These two fields drive most trim decisions.
 
 ## Context log
+
+- **2026-10-08** The cost model moved into the browser. The pipeline exports facts only
+  (every price as a span of days, every used asking price, the cars); the app costs every
+  sighting under the reader's own term, savings rate and residual assumption, once per
+  change, and stores the results in IndexedDB. Deals of different lengths are costed over
+  the reader's term with the assumption stated beside the deal as printed. The Python
+  arithmetic stays as the oracle behind a shared fixture.
 
 - **2026-10-06** Specs: Carwow specification pages and Kia UK specification tables scraped
   per variant, normalised to canonical feature flags, shown as a Specs matrix and an

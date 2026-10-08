@@ -4,7 +4,7 @@ import { useMemo } from "react";
 
 import { evaluateBrief, type Brief } from "./brief";
 import { carCosts, type CarCosts } from "./costs";
-import { useCars, useDataPage, useRequirements, useShortlist } from "./hooks";
+import { useCars, useCosts, useDataPage, useRequirements, useShortlist } from "./hooks";
 import { compareBy, matches, queryOptions, useQuery, type CarContext, type Query, type QueryOptions } from "./query";
 import type { SnapshotCar } from "./types";
 
@@ -27,21 +27,23 @@ export interface CarQueryResult {
 export function useCarQuery(): CarQueryResult {
   const [query, set] = useQuery();
   const cars = useCars();
+  const costRows = useCosts();
   const reqs = useRequirements();
   const data = useDataPage();
   const shortlist = useShortlist();
 
   const rules = reqs.data?.hard;
+  const names = data.data?.sources;
   const starred = useMemo(() => new Set((shortlist.data ?? []).map((s) => s.car_id)), [shortlist.data]);
   const ctxById = useMemo(() => {
     const out = new Map<string, CarContext>();
     for (const c of cars.data ?? []) {
       const brief: Brief = evaluateBrief(rules, c);
-      const costs: CarCosts = carCosts(c);
+      const costs: CarCosts = carCosts(c, costRows.data?.get(c.id), names);
       out.set(c.id, { brief, costs, starred: starred.has(c.id) });
     }
     return out;
-  }, [cars.data, rules, starred]);
+  }, [cars.data, costRows.data, names, rules, starred]);
   const ctxOf = (c: SnapshotCar) => ctxById.get(c.id)!;
 
   const rows = useMemo(() => {
@@ -56,7 +58,7 @@ export function useCarQuery(): CarQueryResult {
     query, set, cars: cars.data, rows, ctxOf, options,
     flagLabels: data.data?.flag_labels ?? {},
     budgetCeiling: budget?.monthly_ceiling_gbp ?? null,
-    loading: !cars.data || reqs.data === undefined,
-    error: cars.error ?? reqs.error ?? null,
+    loading: !cars.data || reqs.data === undefined || costRows.data === undefined,
+    error: cars.error ?? reqs.error ?? costRows.error ?? null,
   };
 }

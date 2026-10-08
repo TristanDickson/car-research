@@ -6,15 +6,18 @@ import { CarImage } from "@/components/CarImage";
 import { Sparkline } from "@/components/charts/Sparkline";
 import { Badge } from "@/components/ui";
 import type { Brief } from "@/lib/brief";
-import { budgetGap, IONIQ5_WIDTH_MM, ROUTE_SHORT, ROUTES, type CarCosts } from "@/lib/costs";
+import { budgetGap, IONIQ5_WIDTH_MM, ROUTE_SHORT, ROUTES, type CarCosts, type TrueCost } from "@/lib/costs";
 import { carName, gbp, num } from "@/lib/format";
-import type { CashTrend, SnapshotCar } from "@/lib/types";
+import type { Trend } from "@/lib/model/sightings";
+import type { SnapshotCar } from "@/lib/types";
 
 interface Props {
   car: SnapshotCar;
   costs: CarCosts;
   brief: Brief;
   ceiling: number | null;
+  /** The reader's term, the months every comparable figure is spread over. */
+  horizon: number;
   starred: boolean;
   onStar: () => void;
   compared: boolean;
@@ -25,12 +28,36 @@ const VERDICT_TONE: Record<string, "good" | "warn" | "bad" | "muted"> = { want: 
 
 const seen = (days: number | null | undefined) => (days == null ? "" : days === 0 ? "seen today" : `seen ${days}d ago`);
 
+/** The deal as the source printed it, in a few words. */
+export function printed(t: TrueCost): string {
+  const d = t.terms;
+  switch (t.route) {
+    case "pcp": return `${gbp(d.monthly)} × ${d.payments ?? "?"}${d.derived ? "*" : ""}${d.deposit ? `, ${gbp(d.deposit)} down` : ", £0 down"}${d.gfv ? `, GFV ${gbp(d.gfv)}` : ""}`;
+    case "pch": return `${gbp(d.monthly)} × ${d.rentals ?? "?"}${d.initial ? `, ${gbp(d.initial)} up front` : ""}${d.term_months ? `, ${d.term_months} mo` : ""}`;
+    case "cash": return `${gbp(d.price)} outright`;
+    case "used": return `${gbp(d.price)}${d.year ? `, ${d.year}` : ""}${d.mileage != null ? `, ${num(d.mileage)} mi` : ""}`;
+  }
+}
+
+/** What the comparable figure assumes at the reader's horizon, when the deal does not run exactly to it. */
+export function atHorizonNote(t: TrueCost, horizon: number): string | null {
+  switch (t.atHorizon) {
+    case "settle_early": return `${t.ownHorizonMonths}-month deal settled at month ${horizon}, car sold`;
+    case "balloon_then_keep": return `${t.ownHorizonMonths}-month deal; balloon paid, car kept to month ${horizon} and sold`;
+    case "lease_ends": return `${t.ownHorizonMonths}-month lease; per month of its own term`;
+    case "lease_runs_on": return `${t.ownHorizonMonths}-month lease runs past month ${horizon}; per month of its own term`;
+    case "as_agreed": return t.route === "pcp" ? null : null;
+    case "sold": return null;
+  }
+}
+
 /**
  * One car. The cost block shows every route the car can be had by, on one
- * footing (true £ per month, with what the car is expected to be worth at the
- * end of the term), the cheapest marked; then what you would actually pay.
+ * footing (true £ per month over the reader's horizon, with what the car is
+ * expected to be worth at the end), the cheapest marked; then the deal as the
+ * source printed it.
  */
-export function CarCard({ car, costs, brief, ceiling, starred, onStar, compared, onCompare }: Props) {
+export function CarCard({ car, costs, brief, ceiling, horizon, starred, onStar, compared, onCompare }: Props) {
   const gap = budgetGap(costs.trueCost?.monthly ?? costs.monthly, ceiling);
   const widthDelta = car.width_mm != null ? car.width_mm - IONIQ5_WIDTH_MM : null;
   const routes = ROUTES.filter((r) => costs.byRoute[r]);
@@ -96,9 +123,9 @@ export function CarCard({ car, costs, brief, ceiling, starred, onStar, compared,
           {routes.length ? (
             <>
               <div className="flex items-baseline justify-between gap-2">
-                <div title="True cost per month: every payment discounted at the savings rate, the car's expected value at the end credited back, spread over the agreement.">
+                <div title={`True cost per month over ${horizon} months: every payment discounted at your savings rate, the car's expected value at the end credited back.`}>
                   <span className="text-2xl font-semibold tabular-nums text-gray-100">{gbp(costs.trueCost!.monthly)}</span>
-                  <span className="text-sm text-gray-400">/mo true cost</span>
+                  <span className="text-sm text-gray-400">/mo over {horizon} mo</span>
                 </div>
                 {gap != null && (
                   <Badge tone={gap <= 0 ? "good" : "warn"}>{gap <= 0 ? "within budget" : `+${gbp(gap)} over`}</Badge>
@@ -109,12 +136,13 @@ export function CarCard({ car, costs, brief, ceiling, starred, onStar, compared,
                   {routes.map((r) => {
                     const t = costs.byRoute[r]!;
                     const best = t.route === costs.trueCost?.route;
+                    const note = atHorizonNote(t, horizon);
                     return (
-                      <tr key={r} className={best ? "text-gray-100" : "text-gray-400"}>
+                      <tr key={r} className={best ? "text-gray-100" : "text-gray-400"} title={note ?? undefined}>
                         <td className="py-0.5 pr-2 font-medium">{ROUTE_SHORT[r]}</td>
-                        <td className="py-0.5 pr-2 text-right tabular-nums">{gbp(t.monthly)}/mo</td>
-                        <td className="py-0.5 pr-2 text-right tabular-nums" title="What the source printed">{t.headline != null ? (r === "cash" || r === "used" ? gbp(t.headline) : `${gbp(t.headline)}/mo`) : "—"}</td>
-                        <td className="py-0.5 text-right tabular-nums text-gray-500" title="Expected value of the car at the end of the term under this route">
+                        <td className="py-0.5 pr-2 text-right tabular-nums">{gbp(t.monthly)}/mo{note ? <span className="text-gray-500">°</span> : ""}</td>
+                        <td className="py-0.5 pr-2 text-right text-gray-500" title="The deal as the source printed it">{printed(t)}</td>
+                        <td className="py-0.5 text-right tabular-nums text-gray-500" title="Expected value of the car at the end under this route">
                           {t.endValue != null ? `worth ${gbp(t.endValue)} at end` : ""}
                         </td>
                       </tr>
@@ -122,6 +150,9 @@ export function CarCard({ car, costs, brief, ceiling, starred, onStar, compared,
                   })}
                 </tbody>
               </table>
+              {routes.some((r) => atHorizonNote(costs.byRoute[r]!, horizon)) && (
+                <div className="mt-1 text-[11px] text-gray-500">° {routes.filter((r) => atHorizonNote(costs.byRoute[r]!, horizon)).map((r) => `${ROUTE_SHORT[r]}: ${atHorizonNote(costs.byRoute[r]!, horizon)}`).join(" · ")}</div>
+              )}
             </>
           ) : (
             <div className="text-sm text-gray-500">No current price to cost.</div>
@@ -132,12 +163,12 @@ export function CarCard({ car, costs, brief, ceiling, starred, onStar, compared,
                 Buy outright: <b className="tabular-nums">{gbp(costs.cash.price)}</b>
                 <span className="text-xs text-gray-500">{costs.cash.dealer ? ` · ${costs.cash.dealer}` : ""}{costs.cash.ageDays != null ? ` · ${seen(costs.cash.ageDays)}` : ""}</span>
               </div>
-              {car.deal_summary.trend && car.deal_summary.trend.spark.length >= 2 && (
-                <Sparkline points={car.deal_summary.trend.spark.map(([d, v]) => ({ t: Date.parse(`${d}T00:00:00Z`), v }))} title={`Best outright price, last ${car.deal_summary.trend.spark.length} readings`} />
+              {costs.trend && costs.trend.spark.length >= 2 && (
+                <Sparkline points={costs.trend.spark.map(([d, v]) => ({ t: Date.parse(`${d}T00:00:00Z`), v }))} title={`Best outright price, last ${costs.trend.spark.length} readings`} />
               )}
             </div>
           )}
-          {car.deal_summary.trend && <MovementLine m={car.deal_summary.trend} />}
+          {costs.trend && <MovementLine m={costs.trend} />}
         </div>
 
         <div className="flex items-center justify-between text-sm">
@@ -153,7 +184,7 @@ export function CarCard({ car, costs, brief, ceiling, starred, onStar, compared,
   );
 }
 
-function MovementLine({ m }: { m: CashTrend }) {
+function MovementLine({ m }: { m: Trend }) {
   const day = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
   const d = m.delta;
   if (d == null) return <div className="text-xs text-gray-500">first seen {day(m.first_at)}; no earlier price to compare</div>;

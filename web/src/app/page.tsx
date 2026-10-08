@@ -7,7 +7,7 @@ import { CarCard } from "@/components/CarCard";
 import { QueryBar } from "@/components/QueryBar";
 import { Empty, ErrorNote, Loading, PageHeader } from "@/components/ui";
 import { gbp } from "@/lib/format";
-import { useToggleShortlist } from "@/lib/hooks";
+import { useBasis, useToggleShortlist } from "@/lib/hooks";
 import { allCars, withQuery } from "@/lib/query";
 import { useCarQuery } from "@/lib/useCarQuery";
 
@@ -25,6 +25,7 @@ export default function PickPage() {
 function Pick() {
   const { query, set, cars, rows, ctxOf, options, flagLabels, budgetCeiling, loading, error } = useCarQuery();
   const toggle = useToggleShortlist();
+  const basis = useBasis();
   const [compare, setCompare] = useState<string[]>([]);
   const [shown, setShown] = useState(PAGE);
   const nAuto = useMemo(() => (cars ?? []).filter((c) => c.auto).length, [cars]);
@@ -41,8 +42,9 @@ function Pick() {
         title="Pick a car"
         subtitle={
           <>
-            Each card puts every way of having the car on one footing: cash, PCP, lease and used as a true cost per month, with what the car
-            is expected to be worth at the end of the term. {budgetCeiling != null && <>Your budget line is <b>{gbp(budgetCeiling)}/month</b> (<Link href="/requirements" className="underline">change it</Link>).</>}{" "}
+            Each card puts every way of having the car on one footing: cash, PCP, lease and used as a true cost per month over{" "}
+            <b>{basis.data?.term_months ?? 37} months</b> at your savings rate, with what the car is expected to be worth at the end, and the deal as printed beside it.{" "}
+            {budgetCeiling != null && <>Your budget line is <b>{gbp(budgetCeiling)}/month</b>.</>} <Link href="/requirements" className="underline">Change the term, rate or budget</Link>.
             Tick cars to compare them side by side.
           </>
         }
@@ -71,6 +73,7 @@ function Pick() {
                 costs={ctx.costs}
                 brief={ctx.brief}
                 ceiling={budgetCeiling}
+                horizon={basis.data?.term_months ?? 37}
                 starred={ctx.starred}
                 onStar={() => toggle.mutate(c.id)}
                 compared={compare.includes(c.id)}

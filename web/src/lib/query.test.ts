@@ -1,16 +1,19 @@
 import { describe, expect, it } from "vitest";
 
 import type { Brief } from "./brief";
-import type { CarCosts } from "./costs";
+import type { CarCosts, TrueCost } from "./costs";
 import { cycleFacet, EMPTY_QUERY, matches, parseQuery, serializeQuery, type CarContext, type Query } from "./query";
 import type { SnapshotCar } from "./types";
 
 const car = (over: Partial<SnapshotCar>): SnapshotCar =>
-  ({ id: "c", make: "Hyundai", model: "Kona Electric", trim: "Ultimate", picks: [], deal_summary: { routes: {} }, ...over }) as unknown as SnapshotCar;
+  ({ id: "c", make: "Hyundai", model: "Kona Electric", trim: "Ultimate", picks: [], ...over }) as unknown as SnapshotCar;
 
 const brief = (status: Brief["status"]): Brief => ({ status, failures: [], unknown: [], failedLabels: [], unknownLabels: [], rules: [] });
 const costs = (over: Partial<CarCosts> = {}): CarCosts =>
-  ({ trueCost: null, byRoute: {}, sources: 0, monthly: null, monthlyRoute: null, threeYear: null, pcp: null, pch: null, cash: null, ...over });
+  ({ trueCost: null, byRoute: {}, sources: 0, monthly: null, monthlyRoute: null, threeYear: null, cash: null, trend: null, stock: null, ...over });
+const tc = (over: Partial<TrueCost>): TrueCost =>
+  ({ route: "pcp", offerId: "p", dealer: null, source: "carwow", sourceName: "Carwow", monthly: 350, floor: null, headline: 300, endValue: null, residualSource: null,
+     ageDays: 0, horizonMonths: 37, atHorizon: "as_agreed", ownMonthly: 350, ownHorizonMonths: 37, terms: { paid: null }, ...over });
 const ctx = (over: Partial<CarContext> = {}): CarContext => ({ brief: brief("pass"), costs: costs(), starred: false, ...over });
 
 describe("query", () => {
@@ -54,7 +57,7 @@ describe("query", () => {
 
   it("ranges read costs and fields and drop cars that carry no value; the brief and scope gate first", () => {
     const c = car({ seats: 5, wltp_range_mi: 282 });
-    const k = ctx({ costs: costs({ trueCost: { route: "pcp", offerId: "p", dealer: null, source: "Carwow", monthly: 350, floor: null, headline: 300, endValue: null, ageDays: 0 }, byRoute: {} }) });
+    const k = ctx({ costs: costs({ trueCost: tc({}), byRoute: {} }) });
     expect(matches(c, k, { ...EMPTY_QUERY, ranges: { true: [300, 400] } })).toBe(true);
     expect(matches(c, k, { ...EMPTY_QUERY, ranges: { true: [null, 300] } })).toBe(false);
     expect(matches(c, k, { ...EMPTY_QUERY, ranges: { dc: [100, null] } })).toBe(false);
@@ -67,7 +70,7 @@ describe("query", () => {
 
   it("routes and provenance are facets too", () => {
     const c = car({});
-    const k = ctx({ costs: costs({ byRoute: { used: { route: "used", offerId: "u", dealer: null, source: "cinch", monthly: 250, floor: null, headline: 14000, endValue: null, ageDays: 0 } } }), starred: true });
+    const k = ctx({ costs: costs({ byRoute: { used: tc({ route: "used", offerId: "u", source: "cinch", monthly: 250, headline: 14000 }) } }), starred: true });
     expect(matches(c, k, { ...EMPTY_QUERY, facets: { "route:used": "standard" } })).toBe(true);
     expect(matches(c, k, { ...EMPTY_QUERY, facets: { "route:pcp": "standard" } })).toBe(false);
     expect(matches(c, k, { ...EMPTY_QUERY, facets: { starred: "standard", curated: "standard" } })).toBe(true);

@@ -32,7 +32,7 @@ jobs:
         run: python -m pipeline trims || echo "::warning::broker derivatives that resolved to no car (listed on the Data page)"
       - name: Committed snapshot is up to date
         run: |
-          for f in cars.json offers.json requirements.json specs.json models.json; do
+          for f in cars.json sightings.json used_spans.json requirements.json specs.json models.json; do
             if ! diff -q /tmp/snapshot/$f web/public/data/$f; then
               echo "::error::web/public/data/$f is stale. Run: make snapshot"
               exit 1

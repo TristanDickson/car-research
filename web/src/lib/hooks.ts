@@ -1,9 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { ensureSeeded, getCarDetails, getDataPage, getDb, getRequirements, getSeedRequirements, getUsedForModel, resetRequirements, saveRequirements, toggleShortlist } from "./db";
+import { ensureComputed, ensureSeeded, getBasis, getCarDetails, getComputeStats, getDataPage, getDb, getRequirements, getSeedRequirements, getUsedForModel, resetRequirements, saveRequirements, toggleShortlist } from "./db";
+import type { CarCostRow } from "./model/recompute";
 import type { Requirements } from "./types";
 
 const FOREVER = Number.POSITIVE_INFINITY;
+/** Everything the cost model produced; a basis change invalidates the lot. */
+const COMPUTED = ["costs", "series", "residuals", "offers", "basis", "compute"];
 
 export function useSnapshot() {
   return useQuery({ queryKey: ["snapshot"], queryFn: ensureSeeded, staleTime: FOREVER, retry: 1 });
@@ -32,11 +35,44 @@ export function useCar(id: string | null) {
   });
 }
 
+/** What every car costs today under the reader's basis, by car id (lib/model/recompute). */
+export function useCosts() {
+  return useQuery({
+    queryKey: ["costs"],
+    queryFn: async () => {
+      await ensureComputed();
+      return new Map((await getDb().costs.toArray()).map((r) => [r.id, r] as [string, CarCostRow]));
+    },
+    staleTime: FOREVER,
+  });
+}
+
+export function useCostsForCar(id: string | null | undefined) {
+  return useQuery({
+    queryKey: ["costs", id ?? null],
+    queryFn: async () => {
+      await ensureComputed();
+      return (await getDb().costs.get(id as string)) ?? null;
+    },
+    enabled: !!id,
+    staleTime: FOREVER,
+  });
+}
+
+export function useBasis() {
+  return useQuery({ queryKey: ["basis"], queryFn: getBasis, staleTime: FOREVER });
+}
+
+export function useComputeStats() {
+  return useQuery({ queryKey: ["compute"], queryFn: getComputeStats, staleTime: FOREVER });
+}
+
+/** Every offer as derived from its spans: latest state, freshness, normalisation. */
 export function useOffers() {
   return useQuery({
     queryKey: ["offers"],
     queryFn: async () => {
-      await ensureSeeded();
+      await ensureComputed();
       return getDb().offers.orderBy("captured_at").toArray();
     },
     staleTime: FOREVER,
@@ -47,7 +83,7 @@ export function useOffersForCar(carId: string | null) {
   return useQuery({
     queryKey: ["offers", "car", carId],
     queryFn: async () => {
-      await ensureSeeded();
+      await ensureComputed();
       return getDb().offers.where("car_id").equals(carId as string).toArray();
     },
     enabled: !!carId,
@@ -71,7 +107,7 @@ export function useSaveRequirements() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (doc: Requirements) => saveRequirements(doc),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["requirements"] }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["requirements"] }); for (const k of COMPUTED) qc.invalidateQueries({ queryKey: [k] }); },
   });
 }
 
@@ -79,7 +115,7 @@ export function useResetRequirements() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: () => resetRequirements(),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["requirements"] }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["requirements"] }); for (const k of COMPUTED) qc.invalidateQueries({ queryKey: [k] }); },
   });
 }
 
@@ -142,24 +178,12 @@ export function useModels() {
   });
 }
 
-/** Every series (schema 5): one per subject, route and source. */
-export function useSeries() {
-  return useQuery({
-    queryKey: ["series"],
-    queryFn: async () => {
-      await ensureSeeded();
-      return getDb().series.toArray();
-    },
-    staleTime: FOREVER,
-  });
-}
-
-/** A car's own series plus its model's used-stock series. */
+/** A car's own series plus its model's used-stock series, computed under the reader's basis. */
 export function useSeriesForCar(car: { id: string; model_key?: string } | null | undefined) {
   return useQuery({
     queryKey: ["series", "car", car?.id ?? null],
     queryFn: async () => {
-      await ensureSeeded();
+      await ensureComputed();
       const subjects = [car!.id, ...(car!.model_key ? [`model:${car!.model_key}`] : [])];
       return getDb().series.where("subject").anyOf(subjects).toArray();
     },
@@ -172,7 +196,7 @@ export function useResidualsForModel(modelKey: string | null | undefined) {
   return useQuery({
     queryKey: ["residuals", modelKey ?? null],
     queryFn: async () => {
-      await ensureSeeded();
+      await ensureComputed();
       return getDb().residuals.where("model").equals(modelKey as string).toArray();
     },
     enabled: !!modelKey,

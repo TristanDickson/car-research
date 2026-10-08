@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 
+import { atHorizonNote, printed } from "@/components/CarCard";
 import { LineChart } from "@/components/charts/LineChart";
 import { OfferTable } from "@/components/OfferTable";
 import { WindowPicker, type Window } from "@/components/PriceHistory";
@@ -9,21 +10,23 @@ import { Badge, Card, Empty } from "@/components/ui";
 import { ROUTE_LABEL, ROUTE_SHORT, ROUTES, type CarCosts } from "@/lib/costs";
 import { gbp, num } from "@/lib/format";
 import { useOffersForCar, useResidualsForModel, useSeriesForCar, useUsedForModel } from "@/lib/hooks";
+import type { UsedStock } from "@/lib/model/sightings";
 import { clipChart, latestOf, seriesToChart, type Measure } from "@/lib/trends";
-import type { CarDetails, Route, SnapshotCar, SnapshotUsed } from "@/lib/types";
+import type { Route, SnapshotCar, SnapshotUsed } from "@/lib/types";
 
 const DAY = 86_400_000;
 const day = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "2-digit", timeZone: "UTC" });
 
 /**
  * Everything about what the car costs, under one route selector: the cheapest
- * figure per route with its end value, then for the chosen route the true cost
- * over time by source, the price as printed over time, and a ranked list of
- * every current source. Buying used reads the model's listings; the residual
- * evidence sits with it. No cost is computed here: the series and the route
- * figures come from model/sightings.py.
+ * figure per route with its end value and the deal as printed, then for the
+ * chosen route the true cost over time by source, the price as printed over
+ * time, and a ranked list of every current source. Buying used reads the
+ * model's listings; the residual evidence sits with it. Nothing is costed
+ * here: every figure comes from the stored results of lib/model, computed
+ * under the reader's basis.
  */
-export function Pricing({ car, costs, details, staleDays }: { car: SnapshotCar; costs: CarCosts; details: CarDetails | null | undefined; staleDays: number }) {
+export function Pricing({ car, costs, horizon, sources, staleDays }: { car: SnapshotCar; costs: CarCosts; horizon: number; sources: Record<string, string>; staleDays: number }) {
   const series = useSeriesForCar(car);
   const offers = useOffersForCar(car.id);
   const used = useUsedForModel(car.model_key ?? null);
@@ -31,6 +34,7 @@ export function Pricing({ car, costs, details, staleDays }: { car: SnapshotCar; 
   const [route, setRoute] = useState<Route | null>(null);
   const [win, setWin] = useState<Window>(null);
   const [now] = useState(() => Date.now());
+  const name = (s: string) => sources[s] ?? s;
 
   const available = ROUTES.filter((r) => costs.byRoute[r] || series.data?.some((s) => s.route === r));
   const active: Route | null = route && available.includes(route) ? route : costs.trueCost?.route ?? available[0] ?? null;
@@ -38,11 +42,10 @@ export function Pricing({ car, costs, details, staleDays }: { car: SnapshotCar; 
   const from = win == null ? null : now - win * DAY;
   const firstAt = Math.min(now, ...rows.flatMap((r) => r.points.map((p) => Date.parse(`${p.from}T00:00:00Z`))));
   const xDomain: [number, number] = [from ?? firstAt, now];
-  const chart = (measure: Measure) => clipChart(seriesToChart(rows, measure, (s) => s.source_name), from);
+  const chart = (measure: Measure) => clipChart(seriesToChart(rows, measure, (s) => name(s.source)), from);
   const latest = rows.map((r) => ({ r, l: latestOf(r, "true") })).sort((a, b) => (a.l?.v ?? Infinity) - (b.l?.v ?? Infinity));
 
-  const routeOffers = useMemo(() => (offers.data ?? []).filter((o) => o.finance_type === active), [offers.data, active]);
-  const stock = details?.used_stock ?? null;
+  const routeOffers = (offers.data ?? []).filter((o) => o.finance_type === active);
   const byYear = [...(residuals.data ?? [])].sort((a, b) => b.year - a.year);
 
   return (
@@ -52,6 +55,7 @@ export function Pricing({ car, costs, details, staleDays }: { car: SnapshotCar; 
           const t = costs.byRoute[r];
           const best = t && t.route === costs.trueCost?.route;
           const on = r === active;
+          const note = t ? atHorizonNote(t, horizon) : null;
           return (
             <button key={r} onClick={() => setRoute(r)} disabled={!available.includes(r)}
               className={`rounded-lg border p-3 text-left disabled:opacity-40 ${on ? "border-sky-600 bg-sky-950/30" : "border-gray-800 bg-gray-950/60 hover:border-gray-600"}`}>
@@ -61,11 +65,11 @@ export function Pricing({ car, costs, details, staleDays }: { car: SnapshotCar; 
               </div>
               {t ? (
                 <>
-                  <div className="mt-1 text-xl font-semibold tabular-nums text-gray-100">{gbp(t.monthly)}<span className="text-sm font-normal text-gray-400">/mo true</span></div>
-                  <div className="text-xs text-gray-400">
-                    {t.headline != null ? (r === "cash" || r === "used" ? gbp(t.headline) : `${gbp(t.headline)}/mo`) : "—"} as printed · {t.source}
-                  </div>
-                  <div className="text-xs text-gray-500">{t.endValue != null ? `worth ${gbp(t.endValue)} at the end of the term` : ""}</div>
+                  <div className="mt-1 text-xl font-semibold tabular-nums text-gray-100">{gbp(t.monthly)}<span className="text-sm font-normal text-gray-400">/mo over {t.horizonMonths} mo</span></div>
+                  <div className="text-xs text-gray-300">{printed(t)}</div>
+                  <div className="text-xs text-gray-500">{t.sourceName}{t.dealer && t.dealer !== t.sourceName ? ` · ${t.dealer}` : ""}</div>
+                  <div className="text-xs text-gray-500">{t.endValue != null ? `worth ${gbp(t.endValue)} at the end (${t.residualSource ?? "?"})` : "nothing comes back"}</div>
+                  {note && <div className="mt-1 text-[11px] text-amber-200/80">{note}{t.ownMonthly != null && t.ownMonthly !== t.monthly ? `; ${gbp(t.ownMonthly)}/mo over its own ${t.ownHorizonMonths} mo` : ""}</div>}
                 </>
               ) : (
                 <div className="mt-1 text-sm text-gray-500">{available.includes(r) ? "no current figure; history below" : "nothing seen"}</div>
@@ -97,14 +101,14 @@ export function Pricing({ car, costs, details, staleDays }: { car: SnapshotCar; 
             <div className="mb-1 text-xs uppercase tracking-wide text-gray-500">Sources, cheapest first</div>
             <table className="w-full text-sm">
               <thead className="text-left text-xs uppercase text-gray-500">
-                <tr><th className="py-1 pr-3">Source</th><th className="py-1 pr-3 text-right">True £/mo</th><th className="py-1 pr-3 text-right">As printed</th><th className="py-1 pr-3">End value from</th><th className="py-1 pr-3">Seller</th><th className="py-1">Last confirmed</th></tr>
+                <tr><th className="py-1 pr-3">Source</th><th className="py-1 pr-3 text-right">True £/mo</th><th className="py-1 pr-3">As printed</th><th className="py-1 pr-3">End value from</th><th className="py-1 pr-3">Seller</th><th className="py-1">Last confirmed</th></tr>
               </thead>
               <tbody>
                 {latest.map(({ r, l }) => (
                   <tr key={r.id} className="border-t border-gray-800">
-                    <td className="py-1 pr-3">{r.source_name}{active === "used" && l?.point.n ? <span className="text-xs text-gray-500"> · {l.point.n} on sale</span> : null}</td>
-                    <td className="py-1 pr-3 text-right tabular-nums">{l?.point.true_monthly != null ? gbp(l.point.true_monthly) : "—"}</td>
-                    <td className="py-1 pr-3 text-right tabular-nums">{l?.point.headline != null ? gbp(l.point.headline) : "—"}</td>
+                    <td className="py-1 pr-3">{name(r.source)}{active === "used" && l?.point.n ? <span className="text-xs text-gray-500"> · {l.point.n} on sale</span> : null}</td>
+                    <td className="py-1 pr-3 text-right tabular-nums">{l?.point.true_monthly != null ? gbp(l.point.true_monthly) : "—"}<span className="text-xs text-gray-500">{l ? ` / ${l.point.horizon_months} mo` : ""}</span></td>
+                    <td className="py-1 pr-3 text-xs text-gray-300">{l ? printed({ route: active, terms: l.point.terms } as Parameters<typeof printed>[0]) : "—"}</td>
                     <td className="py-1 pr-3 text-xs text-gray-400">{l?.point.residual_source ?? "—"}</td>
                     <td className="py-1 pr-3 text-xs text-gray-400">{l?.point.seller ?? "—"}</td>
                     <td className="py-1 text-xs text-gray-400">{l ? day(l.point.to) : "—"}</td>
@@ -119,7 +123,7 @@ export function Pricing({ car, costs, details, staleDays }: { car: SnapshotCar; 
             <div>
               <div className="mb-1 text-xs uppercase tracking-wide text-gray-500">Every {ROUTE_LABEL[active]} offer observed · {routeOffers.length}</div>
               {routeOffers.length ? (
-                <OfferTable offers={routeOffers} cars={new Map([[car.id, car]])} staleDays={staleDays} showCar={false} defaultSort={{ key: "true", dir: "asc" }} />
+                <OfferTable offers={routeOffers} cars={new Map([[car.id, car]])} staleDays={staleDays} showCar={false} defaultSort={{ key: "true", dir: "asc" }} horizon={horizon} />
               ) : (
                 <Empty>No {ROUTE_LABEL[active]} offer observed for this derivative.</Empty>
               )}
@@ -127,7 +131,7 @@ export function Pricing({ car, costs, details, staleDays }: { car: SnapshotCar; 
           )}
 
           {active === "used" && (
-            <UsedStock car={car} listings={used.data ?? []} stock={stock} byYear={byYear} />
+            <UsedStockView car={car} listings={used.data ?? []} stock={costs.stock} byYear={byYear} />
           )}
         </div>
       )}
@@ -135,7 +139,7 @@ export function Pricing({ car, costs, details, staleDays }: { car: SnapshotCar; 
   );
 }
 
-function UsedStock({ car, listings, stock, byYear }: { car: SnapshotCar; listings: SnapshotUsed[]; stock: CarDetails["used_stock"]; byYear: { year: number; points: { date: string; median: number; n: number }[] }[] }) {
+function UsedStockView({ car, listings, stock, byYear }: { car: SnapshotCar; listings: SnapshotUsed[]; stock: UsedStock | null; byYear: { year: number; points: { date: string; median: number; n: number }[] }[] }) {
   const [all, setAll] = useState(false);
   const live = useMemo(() => listings.filter((l) => l.present && l.price_gbp != null).sort((a, b) => (a.price_gbp ?? 0) - (b.price_gbp ?? 0)), [listings]);
   const shown = all ? live : live.slice(0, 25);
@@ -143,7 +147,7 @@ function UsedStock({ car, listings, stock, byYear }: { car: SnapshotCar; listing
     <div className="grid gap-4 lg:grid-cols-[1fr_minmax(18rem,24rem)]">
       <div>
         <div className="mb-1 text-xs uppercase tracking-wide text-gray-500">
-          {car.make} {car.model} on sale used · {live.length} listing{live.length === 1 ? "" : "s"}{stock?.sources ? ` · ${Object.entries(stock.sources).map(([s, n]) => `${s} ${n}`).join(", ")}` : ""}
+          {car.make} {car.model} on sale used · {live.length} listing{live.length === 1 ? "" : "s"}{stock?.sources ? ` · ${Object.entries(stock.sources).map(([s, n]) => `${s} ${n}`).join(", ")}` : ""}{stock ? ` · ${stock.count} distinct cars` : ""}
         </div>
         {live.length === 0 ? (
           <Empty>No used example of this model on the sites we read.</Empty>

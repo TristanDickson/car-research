@@ -14,6 +14,8 @@ interface Props {
   staleDays: number;
   showCar?: boolean;
   defaultSort?: { key: string; dir: "asc" | "desc" };
+  /** The reader's term: what the comparable figure is spread over. */
+  horizon?: number;
 }
 
 function monthly(o: SnapshotOffer): string {
@@ -33,7 +35,7 @@ function effMonthly(o: SnapshotOffer): number | null {
   return null;
 }
 
-export function OfferTable({ offers, cars, staleDays, showCar = true, defaultSort }: Props) {
+export function OfferTable({ offers, cars, staleDays, showCar = true, defaultSort, horizon = 37 }: Props) {
   const now = new Date();
   const columns: Column<SnapshotOffer>[] = [
     {
@@ -134,16 +136,34 @@ export function OfferTable({ offers, cars, staleDays, showCar = true, defaultSor
     },
     {
       key: "true",
-      header: "True £/mo",
-      title: "Every route on one footing: each payment discounted at the savings rate, the car's expected value at the end credited back (PCP: equity above the GFV, never below zero; outright: sold), spread over the agreement. In brackets: the same with the car worth only its GFV.",
+      header: `True £/mo · ${horizon} mo`,
+      title: `Every route on one footing over your ${horizon}-month term: each payment discounted at your savings rate, the car's expected value at the end credited back (PCP: equity above the GFV, never below zero; outright: sold). A deal of another length says what is assumed at month ${horizon}.`,
+      align: "right",
+      sortValue: (o) => o.comparable?.true_monthly ?? o.metrics.true_monthly,
+      render: (o) => {
+        const c = o.comparable;
+        if (!c || c.true_monthly == null) return o.metrics.true_monthly != null ? <span className="text-gray-500" title="not current">{gbp(o.metrics.true_monthly)}</span> : "—";
+        const kind = c.at_horizon === "settle_early" ? "settled early" : c.at_horizon === "balloon_then_keep" ? "balloon paid, kept" : c.at_horizon === "lease_ends" || c.at_horizon === "lease_runs_on" ? "own term" : null;
+        return (
+          <span className="font-medium text-gray-100" title={kind ? `${c.own_horizon_months}-month deal: ${kind}; ${gbp(c.own_true_monthly)}/mo over its own term` : undefined}>
+            {gbp(c.true_monthly)}
+            {kind && <span className="font-normal text-gray-500"> {kind}</span>}
+          </span>
+        );
+      },
+    },
+    {
+      key: "own",
+      header: "Own term",
+      title: "The same figure over the deal's own term (in brackets: the car worth only its GFV at the end)",
       align: "right",
       sortValue: (o) => o.metrics.true_monthly,
       render: (o) =>
         o.metrics.true_monthly != null ? (
-          <span className="font-medium text-gray-100">
-            {gbp(o.metrics.true_monthly)}
+          <span className="tabular-nums text-gray-300">
+            {gbp(o.metrics.true_monthly)}<span className="text-xs text-gray-500"> / {o.metrics.horizon_months} mo</span>
             {o.metrics.true_monthly_floor != null && o.metrics.true_monthly_floor !== o.metrics.true_monthly && (
-              <span className="font-normal text-gray-500"> ({gbp(o.metrics.true_monthly_floor)})</span>
+              <span className="text-gray-500"> ({gbp(o.metrics.true_monthly_floor)})</span>
             )}
           </span>
         ) : (
@@ -194,9 +214,9 @@ export function OfferTable({ offers, cars, staleDays, showCar = true, defaultSor
     <div>
       <DataTable rows={offers} columns={columns} rowKey={(o) => o.id} defaultSort={defaultSort ?? { key: "seen", dir: "desc" }} dense />
       <p className="mt-2 text-xs text-gray-500">
-        * monthly solved from APR, credit and GFV (derived, not a quote). PCP totals assume 36 payments then the balloon at month 37.
-        True £/mo puts cash, PCP and lease on one footing (savings rate and residual assumptions on the Data page); the bracketed figure is the GFV floor.
-        Stale = an active offer not seen for more than {staleDays} days.
+        * monthly solved from APR, credit and GFV (derived, not a quote). PCP totals are the payments then the balloon.
+        True £/mo puts cash, PCP and lease on one footing over your term (savings rate and residual assumption on the Requirements page), computed in this browser;
+        the bracketed figure is the GFV floor. Stale = an active offer not seen for more than {staleDays} days.
       </p>
     </div>
   );

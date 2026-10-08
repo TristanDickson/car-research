@@ -5,13 +5,13 @@ import unittest
 from datetime import date
 from pathlib import Path
 
-from model.deal_math import DEFAULT_BASIS, compute, expected_value, used_route
+from model.deal_math import DEFAULT_BASIS, compute, expected_value
 from pipeline.history import export_used, import_used
 from pipeline.providers import carwow_used, cinch_used, motorpoint_used
 from pipeline.providers.types import Capability, Context, Fetched, Provider, Target
 from pipeline.providers.used_match import bare, match_model
 from pipeline.runner import run
-from pipeline.services.snapshot import dedupe_listings, used_evidence, used_summary
+from pipeline.services.snapshot import dedupe_listings
 from tests.helpers import fresh_conn, run_all
 
 FIX = Path(__file__).parent / "fixtures"
@@ -202,16 +202,6 @@ class StockAcrossSources(unittest.TestCase):
         self.assertEqual(by_key["a"]["sources"], ["Carwow used stock", "cinch"], "the cheapest live listing stands, naming both sites")
         self.assertNotIn("sources", by_key["d"])
 
-    def test_evidence_and_the_route_count_cars_not_listings(self):
-        basis = {**DEFAULT_BASIS, "term_months": 37}
-        listings = [self.listing("a", "Carwow used stock", 20000, mileage=1), self.listing("b", "cinch", 20099, mileage=1, vrm="A1"),
-                    self.listing("c", "cinch", 22000, mileage=2, vrm="A2"), self.listing("d", "Motorpoint", 21000, mileage=3)]
-        ev = used_evidence(listings, date(2026, 10, 7), basis)
-        self.assertEqual(ev["by_year"][2023], {"n": 3, "median": 21000, "min": 20000})
-        s = used_summary(listings, ev, basis, date(2026, 10, 7))
-        self.assertEqual((s["count"], s["sources"], s["cheapest"]["listing_key"], s["cheapest"]["sources"]),
-                         (3, {"Carwow used stock": 1, "cinch": 2, "Motorpoint": 1}, "a", ["Carwow used stock", "cinch"]))
-
 
 class UsedInGold(unittest.TestCase):
     def setUp(self):
@@ -277,18 +267,9 @@ class UsedInGold(unittest.TestCase):
 
 
 class ResidualEvidence(unittest.TestCase):
+    """How evidence reaches the deal maths (the oracle); reading the evidence from
+    the spans is the browser's (web/src/lib/model/sightings.ts)."""
     BASIS = {**DEFAULT_BASIS, "term_months": 37, "savings_rate_apr": 0.04, "residual_pct_of_list": 0.45, "residual_at_months": 36}
-
-    def listings(self, years_prices):
-        return [{"listing_key": f"k{i}", "present": True, "price_gbp": p, "year": y, "last_seen_at": "2026-10-07T00:00:00+00:00"}
-                for i, (y, p) in enumerate(years_prices)]
-
-    def test_three_examples_of_the_right_age_make_a_residual(self):
-        ev = used_evidence(self.listings([(2023, 20000), (2023, 22000), (2023, 21000), (2022, 15000)]), date(2026, 10, 7), self.BASIS)
-        self.assertEqual((ev["target_year"], ev["residual"]), (2023, {"value": 21000, "source": "used-market", "n": 3, "year": 2023}))
-        ev = used_evidence(self.listings([(2023, 20000), (2023, 22000)]), date(2026, 10, 7), self.BASIS)
-        self.assertIsNone(ev["residual"], "two is not evidence")
-        self.assertEqual(ev["by_year"][2023], {"n": 2, "median": 21000, "min": 20000})
 
     def test_expected_value_prefers_evidence_then_the_grown_gfv_then_the_assumption(self):
         v, src = expected_value("c", 40000.0, 37, self.BASIS, {"c": {"value": 21000, "source": "used-market"}}, gfv=18000.0)
@@ -310,18 +291,6 @@ class ResidualEvidence(unittest.TestCase):
         self.assertEqual((r["k"]["residual_source"], r["k"]["expected_value_at_end"]), ("used-market", 21000.0))
         r = {m["id"]: m for m in compute([pcp, cash], self.BASIS)}
         self.assertEqual((r["p"]["residual_source"], r["k"]["residual_source"]), ("gfv-grown", "gfv-grown"), "the cash route borrows the car's GFV")
-
-    def test_the_used_route_costs_a_listing_like_the_others(self):
-        ev = used_evidence(self.listings([(2024, 19000), (2021, 12000), (2021, 12500), (2021, 11500)]), date(2026, 10, 7), self.BASIS)
-        s = used_summary(self.listings([(2024, 19000), (2021, 12000), (2021, 12500), (2021, 11500)]), ev, self.BASIS, date(2026, 10, 7))
-        self.assertEqual((s["count"], s["cheapest"]["price_gbp"], s["cheapest"]["year"]), (4, 11500, 2021))
-        self.assertEqual(s["route"]["residual_source"], "assumption", "nothing listed from 2018 to say what a 2021 car is worth in 2029")
-        self.assertAlmostEqual(s["route"]["true_monthly"], used_route(11500, 5, self.BASIS)["true_monthly"])
-        # A 2024 car's end value is what 2021 cars ask today: three of them, median £12,000.
-        s2 = used_summary(self.listings([(2024, 19000), (2021, 12000), (2021, 12500), (2021, 11500)]), ev, self.BASIS, date(2026, 10, 7))
-        route_2024 = used_route(19000, 2, self.BASIS, 12000)
-        self.assertEqual(route_2024["residual_source"], "used-market")
-        self.assertLess(route_2024["true_monthly"], used_route(19000, 2, self.BASIS)["true_monthly"] + 1)
 
 
 if __name__ == "__main__":

@@ -4,7 +4,8 @@
 // span [observed_at, confirmed_at] it was seen over. A line for an offer is its
 // spans joined end to end; a 'gone' row breaks the line. "Best cash on day d" is
 // the minimum over the spans that cover d.
-import type { SnapshotSeries, ObservationPoint, SnapshotOffer } from "./types";
+import type { Point, SeriesRow } from "./model/sightings";
+import type { ObservationPoint, SnapshotOffer } from "./types";
 
 export interface Pt {
   t: number;
@@ -157,15 +158,15 @@ export function lastDays<T extends Pt>(points: T[], days: number | null, until: 
 
 export type Measure = "true" | "headline";
 
-function pointValue(p: SnapshotSeries["points"][number], measure: Measure): number | null {
+function pointValue(p: Point, measure: Measure): number | null {
   return measure === "true" ? p.true_monthly : p.headline;
 }
 
 const dayMs = (iso: string) => toMs(`${iso}T00:00:00Z`);
 
-/** Snapshot series (one per subject, route and source) as chart series: each
- * sighting a flat segment from its first to its last day. */
-export function seriesToChart(rows: SnapshotSeries[], measure: Measure, label: (r: SnapshotSeries) => string): Series[] {
+/** Series (one per subject, route and source, from the stored results) as chart
+ * series: each sighting a flat segment from its first to its last day. */
+export function seriesToChart(rows: SeriesRow[], measure: Measure, label: (r: SeriesRow) => string): Series[] {
   const ids = rows.map((r) => r.id).sort();
   return rows
     .map((r) => {
@@ -196,7 +197,7 @@ export function clipChart(series: Series[], from: number | null): Series[] {
 }
 
 /** The value a series showed on day `t` (ms): the sighting whose span covers it, else none. */
-export function valueOn(r: SnapshotSeries, measure: Measure, t: number): number | null {
+export function valueOn(r: SeriesRow, measure: Measure, t: number): number | null {
   let best: number | null = null;
   for (const p of r.points) {
     if (dayMs(p.from) <= t && t <= dayMs(p.to) + 86_400_000 - 1) {
@@ -208,8 +209,8 @@ export function valueOn(r: SnapshotSeries, measure: Measure, t: number): number 
 }
 
 /** The latest value a series showed, with the day it was last confirmed. */
-export function latestOf(r: SnapshotSeries, measure: Measure): { t: number; v: number; point: SnapshotSeries["points"][number] } | null {
-  let out: { t: number; v: number; point: SnapshotSeries["points"][number] } | null = null;
+export function latestOf(r: SeriesRow, measure: Measure): { t: number; v: number; point: Point } | null {
+  let out: { t: number; v: number; point: Point } | null = null;
   for (const p of r.points) {
     const v = pointValue(p, measure);
     if (v == null) continue;

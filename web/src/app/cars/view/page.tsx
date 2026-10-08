@@ -10,7 +10,7 @@ import { Badge, Card, Empty, ErrorNote, Loading, PageHeader, TriBadge } from "@/
 import { carCosts, ROUTE_LABEL } from "@/lib/costs";
 import { carName, gbp, num } from "@/lib/format";
 import { evaluateBrief } from "@/lib/brief";
-import { useCar, useCarDetails, useDataPage, useRequirements, useShortlist, useSpecsForCar, useToggleShortlist } from "@/lib/hooks";
+import { useBasis, useCar, useCarDetails, useCostsForCar, useDataPage, useRequirements, useShortlist, useSpecsForCar, useToggleShortlist } from "@/lib/hooks";
 import type { SnapshotCar } from "@/lib/types";
 
 // Static export: no dynamic segments, so the car id rides a query param.
@@ -28,6 +28,8 @@ function CarView() {
   const car = useCar(id);
   const specs = useSpecsForCar(id);
   const details = useCarDetails(id);
+  const costRow = useCostsForCar(id);
+  const basis = useBasis();
   const reqs = useRequirements();
   const data = useDataPage();
   const { data: shortlist } = useShortlist();
@@ -35,12 +37,13 @@ function CarView() {
 
   if (!id) return <Empty>No car selected.</Empty>;
   if (car.error) return <ErrorNote error={car.error} />;
-  if (car.data === undefined) return <Loading />;
+  if (car.data === undefined || costRow.data === undefined) return <Loading />;
   if (car.data === null) return <Empty>Unknown car id: {id}</Empty>;
   const c = car.data;
   const picked = (shortlist ?? []).some((s) => s.car_id === c.id);
   const brief = evaluateBrief(reqs.data?.hard, c);
-  const costs = carCosts(c);
+  const costs = carCosts(c, costRow.data, data.data?.sources);
+  const horizon = basis.data?.term_months ?? 37;
 
   return (
     <div className="space-y-6">
@@ -139,9 +142,9 @@ function CarView() {
               ["List (OTR)", gbp(c.list_price_gbp)],
               ["Government grant", c.grant_gbp ? gbp(c.grant_gbp) : "—"],
               ["List after grant", c.list_price_gbp != null ? gbp(c.list_price_gbp - (c.grant_gbp ?? 0)) : "—"],
-              ["Cheapest way to have it", costs.trueCost ? `${gbp(costs.trueCost.monthly)}/mo true · ${ROUTE_LABEL[costs.trueCost.route]} (${costs.trueCost.source})` : "—"],
+              [`Cheapest way to have it, over ${horizon} mo`, costs.trueCost ? `${gbp(costs.trueCost.monthly)}/mo · ${ROUTE_LABEL[costs.trueCost.route]} (${costs.trueCost.sourceName})` : "—"],
               ["Sources pricing it today", String(costs.sources)],
-              ["Expected value at term end", c.used_stock?.residual ? `${gbp(c.used_stock.residual.value)} · ${c.used_stock.residual.n} × ${c.used_stock.residual.year} examples` : "from the GFV or the assumption"],
+              ["Expected value at term end", costs.stock?.residual ? `${gbp(costs.stock.residual.value)} · ${costs.stock.residual.n} × ${costs.stock.residual.year} examples` : "from the GFV or the assumption"],
               ["Expensive-car VED", c.expensive_car_supplement ? "yes (£440/yr)" : "no"],
             ]}
           />
@@ -165,7 +168,7 @@ function CarView() {
         </Card>
       )}
 
-      <Pricing car={c} costs={costs} details={details.data} staleDays={data.data?.stale_days ?? 14} />
+      <Pricing car={c} costs={costs} horizon={horizon} sources={data.data?.sources ?? {}} staleDays={data.data?.stale_days ?? 14} />
 
       <EquipmentCard car={c} specs={specs.data ?? []} specCheck={details.data?.spec_check} flagLabels={data.data?.flag_labels ?? {}} />
 

@@ -155,7 +155,9 @@
  "quoting_basis": {
   "annual_mileage": 6000,
   "base_case_equity_gbp": 0,
+  "compare_note": "How deals of different lengths are ranked: 'horizon' costs every deal over term_months (a longer PCP settled early, a shorter one's balloon paid and the car kept, a lease over its own term); 'own' ranks each deal over its own term.",
   "compare_on": "total_cost",
+  "compare_over": "horizon",
   "customer_deposit_gbp": 0,
   "delivery_by": "2026-12-10",
   "gfv_is": "floor_not_forecast",

@@ -5,7 +5,8 @@ import { useMemo, useState } from "react";
 
 import { Badge, Card, Empty, ErrorNote, Loading, PageHeader } from "@/components/ui";
 import { dateLabel } from "@/lib/format";
-import { useDataPage, useModels, useSnapshot } from "@/lib/hooks";
+import { pct } from "@/lib/format";
+import { useBasis, useComputeStats, useDataPage, useModels, useSnapshot } from "@/lib/hooks";
 
 /**
  * Where the numbers come from and what is wrong with them. Leads with the
@@ -17,6 +18,8 @@ import { useDataPage, useModels, useSnapshot } from "@/lib/hooks";
 export default function DataPage() {
   const snap = useSnapshot();
   const models = useModels();
+  const basis = useBasis();
+  const computed = useComputeStats();
   const { data, error } = useDataPage();
   const [issueFilter, setIssueFilter] = useState<"all" | "conflict" | "unmapped">("all");
 
@@ -177,24 +180,30 @@ export default function DataPage() {
       </Card>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <Card title="Assumptions behind the true monthly">
+        <Card title="Costed in this browser">
           <p className="mb-2 text-sm text-gray-400">
-            Every figure is put on one footing: each payment discounted at the savings rate, the car&apos;s expected value at the end credited back (PCP: the equity above the GFV, never below zero; outright and used: sold), spread over the agreement. These are pipeline inputs in data/seed/requirements.json.
+            The pipeline exports facts only: every price as a span of days it held, every used asking price, every car. This browser puts them on one footing under your
+            basis (<Link href="/requirements" className="underline">Requirements</Link>) and stores the results; a change to the term or the rate recomputes everything.
           </p>
-          <ul className="space-y-1 text-sm">
-            {Object.entries(data.assumptions ?? {}).filter(([, v]) => v != null && typeof v !== "string").map(([k, v]) => (
-              <li key={k} className="flex justify-between"><span>{k.replaceAll("_", " ")}</span><span className="tabular-nums">{String(v)}</span></li>
-            ))}
-          </ul>
-          {Object.entries(data.assumptions ?? {}).filter(([, v]) => typeof v === "string").map(([k, v]) => (
-            <p key={k} className="mt-2 text-xs text-gray-500">{String(v)}</p>
-          ))}
+          {basis.data && (
+            <ul className="space-y-1 text-sm">
+              <li className="flex justify-between"><span>term</span><span className="tabular-nums">{basis.data.term_months} months</span></li>
+              <li className="flex justify-between"><span>savings rate</span><span className="tabular-nums">{pct(basis.data.savings_rate_apr)}</span></li>
+              <li className="flex justify-between"><span>residual assumption</span><span className="tabular-nums">{pct(basis.data.residual_pct_of_list, 0)} of list at {basis.data.residual_at_months} months</span></li>
+              <li className="flex justify-between"><span>deals of other lengths</span><span>{basis.data.compare_over === "own" ? "each over its own term" : `every deal over ${basis.data.term_months} months`}</span></li>
+            </ul>
+          )}
+          {computed.data && (
+            <p className="mt-2 text-xs text-gray-500">
+              Last computed {dateLabel(computed.data.computed_at)}: {computed.data.sightings.toLocaleString("en-GB")} sightings, {computed.data.costed.toLocaleString("en-GB")} costed, {computed.data.cars.toLocaleString("en-GB")} cars priced, {computed.data.series.toLocaleString("en-GB")} series, {computed.data.offers.toLocaleString("en-GB")} offers, in {computed.data.ms} ms (plus {computed.data.read_ms} ms reading the facts and {computed.data.write_ms} ms storing the results).
+              The GFV a lender guarantees is the floor; the used market&apos;s own prices for the model at that age are the expectation where there are enough of them (three or more cars).
+            </p>
+          )}
         </Card>
         <Card title="In this snapshot">
           <p className="text-sm text-gray-400">
             {counts.cars} cars ({counts.cars_curated} hand-curated, {counts.cars_generated} generated) across {counts.models} models from {counts.makes} makes ·{" "}
-            {counts.offers} offers from {counts.observations} sightings · {counts.specs} spec rows · {counts.used_listings} used listings over {counts.used_models} models,{" "}
-            {counts.models_with_used_residual} with a used-market residual · {counts.series ?? 0} series.
+            {counts.offers} offers from {counts.observations} sightings · {counts.used_spans ?? 0} used asking-price spans · {counts.specs} spec rows · {counts.used_listings} used listings over {counts.used_models} models.
           </p>
           <p className="mt-2 text-xs text-gray-500">
             Offer states: {Object.entries(data.offer_states).map(([k, v]) => `${k} ${v}`).join(" · ")}.

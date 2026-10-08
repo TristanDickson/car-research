@@ -18,99 +18,6 @@ export interface RequirementCheck {
   unknown: string[];
 }
 
-export interface TrueMonthlyRoute {
-  offer_id: string;
-  true_monthly: number;
-  true_monthly_floor: number | null;
-  age_days: number | null;
-  /** The source the cheapest figure came from, and what it printed (a price or a monthly). */
-  source?: string | null;
-  headline?: number | null;
-}
-
-/** One sighting on the common footing (model/sightings.py): a price one source
- * showed for one subject over the days it stayed the same, costed as of `from`. */
-export interface SeriesPoint {
-  from: string;
-  to: string;
-  key: string;
-  seller?: string | null;
-  headline: number | null;
-  true_monthly: number | null;
-  true_monthly_floor?: number | null;
-  residual_source?: string | null;
-  /** Used stock only: how many examples were on sale when this one was the cheapest. */
-  n?: number;
-}
-
-/** Every sighting of one subject (a derivative, or `model:<make/model>` for used
- * stock) by one route and one source, in date order. */
-export interface SnapshotSeries {
-  id: string;
-  subject: string;
-  car_id: string | null;
-  model: string;
-  route: Route;
-  source: string;
-  source_name: string;
-  points: SeriesPoint[];
-}
-
-/** What the used market said a model's cars of one registration year were worth, month by month. */
-export interface ResidualSeries {
-  id?: string;
-  model: string;
-  year: number;
-  points: { date: string; median: number; n: number }[];
-}
-
-export interface RouteSource {
-  key: string;
-  source: string;
-  source_name: string;
-  seller?: string | null;
-  true_monthly: number | null;
-  true_monthly_floor?: number | null;
-  /** What the source printed: a price, or a monthly. */
-  headline: number | null;
-  /** What the car is expected to be worth at the end of the term under this route. */
-  end_value?: number | null;
-  residual_source?: string | null;
-  age_days: number;
-  /** Last day the sighting was confirmed. */
-  to?: string;
-}
-
-export interface DealSummary {
-  offers: number;
-  current_offers: number;
-  /** Cheapest current offer on one footing (see model/deal_math.py): discounted at the
-   * savings rate, the car's expected end value credited back, spread over the term. */
-  best_true_monthly: number | null;
-  best_true_route: Route | null;
-  best_true_offer_id: string | null;
-  /** Not exported any more: lib/costs.ts routeCosts derives it from routes. */
-  true_monthly_by_route?: Partial<Record<Route, TrueMonthlyRoute>>;
-  /** Route → source → the cheapest current sighting costed as of the snapshot date: the one cost model. */
-  routes: Partial<Record<Route, Record<string, RouteSource>>>;
-  /** Movement of the best cash price, for the card. */
-  trend?: CashTrend | null;
-  best_pcp_total?: number | null;
-  best_pcp_dealer?: string | null;
-  best_pch_total?: number | null;
-  best_pch_dealer?: string | null;
-  best_cash_dealer?: string | null;
-  best_cash_price: number | null;
-  best_cash_offer_id: string | null;
-  best_cash_age_days: number | null;
-  best_pcp_monthly: number | null;
-  best_pcp_offer_id: string | null;
-  best_pcp_age_days: number | null;
-  best_pch_effective_monthly: number | null;
-  best_pch_offer_id: string | null;
-  best_pch_age_days: number | null;
-}
-
 /** gone = the latest check did not find the offer; expired = past valid_to or
  * the source said so; otherwise the status the source implied when last seen. */
 export type OfferState = "live" | "lead" | "derived" | "illustrative" | "campaign" | "expired" | "historical" | "gone";
@@ -174,30 +81,46 @@ export interface CarDetails {
   spec_check: { rows: SpecCheckRow[]; disagreements: number };
   /** The seed requirements' verdict at export; the app evaluates its own copy (lib/brief.ts). */
   requirement_check: RequirementCheck;
-  used_stock?: UsedSummary | null;
 }
 
-/** A model's used stock in brief: what every page needs; details.json has the rest. */
-export interface UsedStockBrief {
-  count: number;
-  sources?: Record<string, number>;
-  residual: { value: number; source: string; n: number; year: number } | null;
-  cheapest: { listing_key: string; price_gbp: number; year: number | null; mileage: number | null; source?: string | null; url?: string | null };
+/** One offer observation span as sightings.json carries it: a price one source
+ * showed for one derivative over the days it stayed the same, with the payload
+ * the browser costs (lib/model). */
+export interface SnapshotSighting {
+  key: string;
+  car_id: string;
+  /** make/model slugs. */
+  model: string;
+  route: FinanceType;
+  /** The site (a source id; data.json names it), and the provider that read it. */
+  source: string;
+  provider: string;
+  status: string;
+  seller: string | null;
+  from: string;
+  to: string;
+  present: boolean;
+  deal: Record<string, unknown>;
 }
 
-/** Movement of the cheapest cash price across sources (model/sightings.trend). */
-export interface CashTrend {
-  now: number;
-  then: number | null;
-  delta: number | null;
-  window_days: number;
-  first_at: string;
-  days_at_now: number;
-  spark: [string, number][];
+/** One used listing's asking-price span (used_spans.json). */
+export interface SnapshotUsedSpan {
+  key: string;
+  source: string;
+  model: string;
+  car_id: string | null;
+  year: number | null;
+  price: number | null;
+  mileage: number | null;
+  vrm: string | null;
+  town: string | null;
+  from: string;
+  to: string;
+  present: boolean;
 }
 
 export interface SnapshotCar {
-  /** make/model slugs: the subject of the model's used series. */
+  /** make/model slugs: the subject of the model's used spans. */
   model_key?: string;
   id: string;
   /** How many spec rows describe this car (details.json has them). */
@@ -272,9 +195,6 @@ export interface SnapshotCar {
   /** Committed photo path (prefix with the base path) or image_url, resolved at export. */
   image?: string | null;
   picks: HouseholdPick[];
-  deal_summary: DealSummary;
-  /** The model's used stock in brief: the buy-used route and the residual evidence. */
-  used_stock?: UsedStockBrief | null;
 }
 
 export interface UsedListing {
@@ -290,18 +210,6 @@ export interface UsedListing {
   /** Which site lists it; 'sources' names every site when the same car is on more than one. */
   source?: string | null;
   sources?: string[] | null;
-}
-
-export interface UsedSummary {
-  /** Distinct cars on sale now (a car on two sites counts once). */
-  count: number;
-  cheapest: UsedListing;
-  /** Listings per site before folding duplicates. */
-  sources?: Record<string, number>;
-  by_year: Record<string, { n: number; median: number; min: number }>;
-  /** What examples registered term-years ago ask today, when there are enough of them. */
-  residual: { value: number; source: string; n: number; year: number } | null;
-  route: { true_monthly: number | null; pv_cost: number; expected_value_at_end: number; residual_source: string; age_years: number | null; horizon_months: number };
 }
 
 export interface HouseholdPick {
@@ -326,6 +234,8 @@ export interface DealMetrics {
   residual_source?: string;
   expected_equity?: number | null;
   horizon_months?: number | null;
+  /** A campaign (terms only, nothing to cost) keeps its APR for the table. */
+  apr?: number | null;
   // pcp
   list_price?: number | null;
   vehicle_price?: number;
@@ -412,12 +322,13 @@ export interface SnapshotOffer {
   num_payments_stated?: number | null;
   condition?: string;
   location?: string | null;
-  car_ref?: { source: string; key: string; label?: string };
-  car_facts?: Record<string, unknown>;
   metrics: DealMetrics;
+  /** The figure the cards rank by (over the reader's horizon or the deal's own term), and the deal's own-term figure. */
+  comparable?: { true_monthly: number | null; horizon_months: number; at_horizon: string; own_true_monthly: number | null; own_horizon_months: number; end_value: number | null } | null;
 }
 
-/** Kept for readability at call sites: a deal is one offer's latest observation. */
+/** An offer as the browser derives it from its spans (lib/model/offers.ts): the
+ * latest state, its freshness, and the normalisation under the reader's basis. */
 export type SnapshotDeal = SnapshotOffer;
 
 export interface RunRow {
@@ -454,14 +365,15 @@ export interface DataPage {
     name: string;
     live?: boolean;
     description?: string;
+    source?: string;
     capabilities: { name: string; kinds: string[]; parser_version: string }[];
   }[];
   runs: RunRow[];
   unmapped_trims: UnmappedTrim[];
   offer_states: Record<string, number>;
   counts: Record<string, number>;
-  /** The quoting basis the true-monthly figures were computed with. */
-  assumptions?: Record<string, unknown>;
+  /** Source id → display name (several providers read the same site). */
+  sources?: Record<string, string>;
   /** How resolved trim-map rows were resolved: manual, cap-id, rrp, bracket, ... */
   resolution_methods?: Record<string, number>;
 }

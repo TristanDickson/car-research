@@ -6,7 +6,7 @@ import { OfferTable } from "@/components/OfferTable";
 import { QueryBar } from "@/components/QueryBar";
 import { ErrorNote, Loading, PageHeader } from "@/components/ui";
 import { isCurrent } from "@/lib/freshness";
-import { useDataPage, useOffers } from "@/lib/hooks";
+import { useBasis, useDataPage, useOffers } from "@/lib/hooks";
 import { useCarQuery } from "@/lib/useCarQuery";
 import type { FinanceType } from "@/lib/types";
 
@@ -24,6 +24,7 @@ export default function OffersPage() {
 function Offers() {
   const offers = useOffers();
   const data = useDataPage();
+  const basis = useBasis();
   const { query, set, cars, rows: carRows, options, flagLabels, loading, error } = useCarQuery();
   const [types, setTypes] = useState<Set<FinanceType>>(new Set(["pcp", "pch", "cash"]));
   const [onlyCurrent, setOnlyCurrent] = useState(true);
@@ -55,7 +56,7 @@ function Offers() {
     <div>
       <PageHeader
         title="Every offer observed"
-        subtitle="The raw sightings behind every card, for the cars the search admits. 'Seen' is the last time the source showed the offer; one not seen for a fortnight is stale and drops out of the summaries. The maths is done once at export: implied APR against the stated one, what you pay if you hand back or buy, and the true monthly."
+        subtitle="Every offer behind the cards, for the cars the search admits: its latest state as the source printed it, how fresh it is, and the maths done in this browser under your basis (implied APR against the stated one, what you pay if you hand back or buy, the true monthly). 'Seen' is the last time the source showed the offer; one not seen for a fortnight is stale and drops out of the summaries."
       />
       <QueryBar query={query} set={set} options={options} flagLabels={flagLabels} nAuto={nAuto} count={`${rows.length} of ${offers.data.length} offers`} />
       <div className="mb-4 flex flex-wrap items-center gap-3 text-sm">
@@ -70,7 +71,7 @@ function Offers() {
           Current only
         </label>
       </div>
-      <OfferTable offers={rows} cars={carMap} staleDays={staleDays} />
+      <OfferTable offers={rows} cars={carMap} staleDays={staleDays} horizon={basis.data?.term_months ?? 37} />
     </div>
   );
 }

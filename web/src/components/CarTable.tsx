@@ -4,21 +4,24 @@ import Link from "next/link";
 
 import { DataTable, type Column } from "@/components/DataTable";
 import { Badge, TriBadge } from "@/components/ui";
+import { printed } from "@/components/CarCard";
+import { ROUTE_SHORT } from "@/lib/costs";
 import { carName, gbp, num } from "@/lib/format";
-import { evaluateBrief } from "@/lib/brief";
-import { useRequirements, useShortlist, useToggleShortlist } from "@/lib/hooks";
+import { useShortlist, useToggleShortlist } from "@/lib/hooks";
+import type { CarContext } from "@/lib/query";
 import type { SnapshotCar } from "@/lib/types";
 
 function ageHint(days: number | null): string | undefined {
-  return days == null ? undefined : `last seen ${days === 0 ? "today" : `${days} day${days === 1 ? "" : "s"} ago`} (at snapshot time)`;
+  return days == null ? undefined : `last seen ${days === 0 ? "today" : `${days} day${days === 1 ? "" : "s"} ago`}`;
 }
 
-export function CarTable({ cars }: { cars: SnapshotCar[] }) {
+/** One row per car; `ctxOf` carries the brief verdict and the stored costs (lib/useCarQuery). */
+export function CarTable({ cars, ctxOf, horizon }: { cars: SnapshotCar[]; ctxOf: (c: SnapshotCar) => CarContext; horizon: number }) {
   const { data: shortlist } = useShortlist();
   const toggle = useToggleShortlist();
-  const reqs = useRequirements();
   const picked = new Set((shortlist ?? []).map((s) => s.car_id));
-  const briefOf = (c: SnapshotCar) => evaluateBrief(reqs.data?.hard, c);
+  const briefOf = (c: SnapshotCar) => ctxOf(c).brief;
+  const costsOf = (c: SnapshotCar) => ctxOf(c).costs;
 
   const columns: Column<SnapshotCar>[] = [
     {
@@ -74,51 +77,51 @@ export function CarTable({ cars }: { cars: SnapshotCar[] }) {
     { key: "grant", header: "Grant", align: "right", sortValue: (c) => c.grant_gbp, render: (c) => (c.grant_gbp ? gbp(c.grant_gbp) : "—") },
     {
       key: "true",
-      header: "True £/mo",
+      header: `True £/mo · ${horizon} mo`,
       align: "right",
-      title: "Cheapest current offer on one footing across cash, PCP and lease (discounted at the savings rate, expected end value credited back)",
-      sortValue: (c) => c.deal_summary.best_true_monthly,
-      render: (c) =>
-        c.deal_summary.best_true_monthly != null ? (
-          <span title={`via ${c.deal_summary.best_true_route}`}>
-            {gbp(c.deal_summary.best_true_monthly)}
-            <span className="text-xs text-gray-500"> {c.deal_summary.best_true_route}</span>
+      title: `Cheapest current figure on one footing across cash, PCP, lease and used over ${horizon} months: payments discounted at your savings rate, the car's expected end value credited back`,
+      sortValue: (c) => costsOf(c).trueCost?.monthly,
+      render: (c) => {
+        const t = costsOf(c).trueCost;
+        return t ? (
+          <span title={`${ROUTE_SHORT[t.route]} · ${t.sourceName} · ${printed(t)}`}>
+            {gbp(t.monthly)}
+            <span className="text-xs text-gray-500"> {ROUTE_SHORT[t.route].toLowerCase()}</span>
           </span>
-        ) : (
-          "—"
-        ),
+        ) : "—";
+      },
     },
     {
       key: "cash",
       header: "Best cash",
       align: "right",
       title: "Lowest current cash / outright price captured (not stale, not gone)",
-      sortValue: (c) => c.deal_summary.best_cash_price,
-      render: (c) => <span title={ageHint(c.deal_summary.best_cash_age_days)}>{gbp(c.deal_summary.best_cash_price)}</span>,
+      sortValue: (c) => costsOf(c).cash?.price,
+      render: (c) => { const k = costsOf(c).cash; return <span title={ageHint(k?.ageDays ?? null)}>{gbp(k?.price)}</span>; },
     },
     {
       key: "pcp",
-      header: "Best PCP £0 down",
+      header: "PCP £/mo",
       align: "right",
-      title: "Lowest monthly on a current £0-deposit PCP",
-      sortValue: (c) => c.deal_summary.best_pcp_monthly,
-      render: (c) => (
-        <span title={ageHint(c.deal_summary.best_pcp_age_days)}>
-          {c.deal_summary.best_pcp_monthly != null ? `${gbp(c.deal_summary.best_pcp_monthly)}/mo` : "—"}
-        </span>
-      ),
+      title: "Cheapest current PCP as printed (monthly × payments, deposit, GFV in the tooltip)",
+      sortValue: (c) => costsOf(c).byRoute.pcp?.headline,
+      render: (c) => { const t = costsOf(c).byRoute.pcp; return t ? <span title={`${printed(t)} · ${t.sourceName}${t.ageDays != null ? ` · ${ageHint(t.ageDays)}` : ""}`}>{gbp(t.headline)}/mo</span> : "—"; },
     },
     {
       key: "pch",
-      header: "Best PCH eff.",
+      header: "Lease £/mo",
       align: "right",
-      title: "Lowest effective monthly on a current lease (initial rental spread over the term)",
-      sortValue: (c) => c.deal_summary.best_pch_effective_monthly,
-      render: (c) => (
-        <span title={ageHint(c.deal_summary.best_pch_age_days)}>
-          {c.deal_summary.best_pch_effective_monthly != null ? `${gbp(c.deal_summary.best_pch_effective_monthly)}/mo` : "—"}
-        </span>
-      ),
+      title: "Cheapest current lease as printed (initial rental spread over the term in the tooltip)",
+      sortValue: (c) => costsOf(c).byRoute.pch?.headline,
+      render: (c) => { const t = costsOf(c).byRoute.pch; return t ? <span title={`${printed(t)} · ${t.sourceName}${t.ageDays != null ? ` · ${ageHint(t.ageDays)}` : ""}`}>{gbp(t.headline)}/mo</span> : "—"; },
+    },
+    {
+      key: "used",
+      header: "Used from",
+      align: "right",
+      title: "Cheapest used example of the model on sale",
+      sortValue: (c) => costsOf(c).byRoute.used?.headline,
+      render: (c) => { const t = costsOf(c).byRoute.used; return t ? <span title={`${printed(t)} · ${t.sourceName}`}>{gbp(t.headline)}</span> : "—"; },
     },
   ];
 

@@ -1,16 +1,23 @@
 // IndexedDB (Dexie) is the browser-side database.
 //
-//   public  cars / deals / meta  — seeded from the committed snapshot on load and
-//           re-seeded whenever manifest.generated_at changes (the pipeline
-//           publishes a new cut). Pages query these tables, not the JSON files.
-//   private shortlist            — the user's own picks, this browser only.
-//
-// Same split as etf-tool: public data committed and served, private data in
-// IndexedDB.
+//   facts    cars / sightings / used_spans / specs / models / meta — seeded from
+//            the committed snapshot on load and re-seeded whenever
+//            manifest.generated_at changes (the pipeline publishes a new cut).
+//   results  costs / series / residuals / offers — what the one cost model
+//            (lib/model) makes of the facts under the reader's basis, as of
+//            today; recomputed whenever the snapshot, the basis or the day
+//            changes, and read by every page. Nothing is costed at render time.
+//   private  shortlist / settings — the reader's own picks and brief, this
+//            browser only, kept across reseeds.
 import Dexie, { type Table } from "dexie";
 
-import { getManifest, loadCars, loadData, loadDetails, loadModels, loadOffers, loadRequirements, loadResiduals, loadSeries, loadSpecs, loadUsed } from "./snapshot";
-import type { CarDetails, DataPage, Requirements, SnapshotUsed, ResidualSeries, SnapshotCar, SnapshotManifest, SnapshotModel, SnapshotOffer, SnapshotSeries, SnapshotSpec } from "./types";
+import { basisOf, type Basis } from "./model/dealMath";
+import { computeAll, type CarCostRow } from "./model/recompute";
+import type { ResidualRow, SeriesRow } from "./model/sightings";
+import { getManifest, loadCars, loadData, loadDetails, loadModels, loadRequirements, loadSightings, loadSpecs, loadUsed, loadUsedSpans } from "./snapshot";
+import type { CarDetails, DataPage, Requirements, SnapshotCar, SnapshotManifest, SnapshotModel, SnapshotOffer, SnapshotSighting, SnapshotSpec, SnapshotUsed, SnapshotUsedSpan } from "./types";
+
+export const DEFAULT_STALE_DAYS = 14;
 
 export interface MetaRow {
   key: string;
@@ -34,13 +41,16 @@ export interface SettingsRow {
 
 export class CarResearchDB extends Dexie {
   cars!: Table<SnapshotCar, string>;
-  offers!: Table<SnapshotOffer, string>;
+  sightings!: Table<SnapshotSighting & { id?: number }, number>;
+  used_spans!: Table<SnapshotUsedSpan & { id?: number }, number>;
   specs!: Table<SnapshotSpec, string>;
   models!: Table<SnapshotModel, string>;
-  series!: Table<SnapshotSeries, string>;
-  residuals!: Table<ResidualSeries, string>;
   details!: Table<CarDetails, string>;
   used!: Table<SnapshotUsed, string>;
+  costs!: Table<CarCostRow, string>;
+  series!: Table<SeriesRow, string>;
+  residuals!: Table<ResidualRow, string>;
+  offers!: Table<SnapshotOffer, string>;
   meta!: Table<MetaRow, string>;
   shortlist!: Table<ShortlistRow, string>;
   settings!: Table<SettingsRow, string>;
@@ -81,11 +91,18 @@ export class CarResearchDB extends Dexie {
       .upgrade((tx) => tx.table("meta").clear());
     // v7: used listings on demand, by model, for the car page's ranked list.
     this.version(7).stores({ used: "listing_key, model_key, car_id" });
+    // v8 (snapshot schema 7): the pipeline exports facts only. The spans are
+    // seeded; costs, series, residuals and offers are computed here under the
+    // reader's basis and stored.
+    this.version(8)
+      .stores({ sightings: "++id, key, car_id, route, source, model", used_spans: "++id, key, model, source", costs: "id, model" })
+      .upgrade((tx) => tx.table("meta").clear());
   }
 }
 
 let _db: CarResearchDB | null = null;
 let _seeding: Promise<SnapshotManifest> | null = null;
+let _computing: Promise<void> | null = null;
 
 export function getDb(): CarResearchDB {
   if (typeof indexedDB === "undefined") {
@@ -101,23 +118,21 @@ async function seed(): Promise<SnapshotManifest> {
   const current = await db.meta.get("generated_at");
   if (current?.value === manifest.generated_at) return manifest;
 
-  const [cars, offers, requirements, data, specs, models, series, residuals] = await Promise.all([
+  const [cars, sightings, usedSpans, requirements, data, specs, models] = await Promise.all([
     loadCars(),
-    loadOffers(),
+    loadSightings().catch(() => [] as SnapshotSighting[]),
+    loadUsedSpans().catch(() => [] as SnapshotUsedSpan[]),
     loadRequirements(),
     loadData().catch(() => null as DataPage | null),
     loadSpecs().catch(() => [] as SnapshotSpec[]),
     loadModels().catch(() => [] as SnapshotModel[]),
-    loadSeries().catch(() => [] as SnapshotSeries[]),
-    loadResiduals().catch(() => [] as ResidualSeries[]),
   ]);
-  await db.transaction("rw", [db.cars, db.offers, db.specs, db.models, db.series, db.residuals, db.details, db.used, db.meta, db.settings], async () => {
+  await db.transaction("rw", [db.cars, db.sightings, db.used_spans, db.specs, db.models, db.details, db.used, db.meta, db.settings], async () => {
     await db.cars.clear();
-    await db.offers.clear();
+    await db.sightings.clear();
+    await db.used_spans.clear();
     await db.specs.clear();
     await db.models.clear();
-    await db.series.clear();
-    await db.residuals.clear();
     await db.details.clear();   // refetched on demand against the new snapshot
     await db.used.clear();
     // The reader's requirements are theirs: seed them once, never overwrite on a new snapshot.
@@ -125,11 +140,10 @@ async function seed(): Promise<SnapshotManifest> {
       await db.settings.put({ key: "requirements", value: JSON.stringify(requirements), seeded_from: manifest.generated_at, updated_at: new Date().toISOString() });
     }
     await db.cars.bulkPut(cars);
-    await db.offers.bulkPut(offers);
+    await db.sightings.bulkAdd(sightings);
+    await db.used_spans.bulkAdd(usedSpans);
     await db.specs.bulkPut(specs);
     await db.models.bulkPut(models);
-    await db.series.bulkPut(series);
-    await db.residuals.bulkPut(residuals.map((r) => ({ ...r, id: `${r.model}|${r.year}` })));
     await db.meta.bulkPut([
       { key: "generated_at", value: manifest.generated_at },
       { key: "schema_version", value: manifest.schema_version },
@@ -152,14 +166,94 @@ export function ensureSeeded(): Promise<SnapshotManifest> {
   return _seeding;
 }
 
-/** The reader's requirements (settings), else the snapshot's seed. */
-export async function getRequirements(): Promise<Requirements | null> {
-  await ensureSeeded();
-  const db = getDb();
+export const todayIso = (): string => new Date().toISOString().slice(0, 10);
+
+async function readRequirements(db: CarResearchDB): Promise<Requirements | null> {
   const own = await db.settings.get("requirements");
   if (own) return JSON.parse(own.value) as Requirements;
   const row = await db.meta.get("requirements");
   return row ? (JSON.parse(row.value) as Requirements) : null;
+}
+
+/** The reader's quoting basis: the settings' copy, else the seed's. */
+export async function getBasis(): Promise<Basis> {
+  await ensureSeeded();
+  const reqs = await readRequirements(getDb());
+  return basisOf(reqs?.quoting_basis);
+}
+
+async function staleDays(db: CarResearchDB): Promise<number> {
+  const row = await db.meta.get("data");
+  const data = row ? (JSON.parse(row.value) as DataPage | null) : null;
+  return data?.stale_days ?? DEFAULT_STALE_DAYS;
+}
+
+/** What the stored results were computed from: the snapshot, the basis, the day. */
+function costKey(generatedAt: string, basis: Basis, today: string): string {
+  return JSON.stringify({ generatedAt, basis, today });
+}
+
+/** Statistics of the last recompute, for the Data page. */
+export interface ComputeStats {
+  key: string;
+  computed_at: string;
+  sightings: number;
+  costed: number;
+  cars: number;
+  series: number;
+  offers: number;
+  /** Milliseconds: the model itself, reading the facts, writing the results. */
+  ms: number;
+  read_ms: number;
+  write_ms: number;
+}
+
+async function recompute(): Promise<void> {
+  const db = getDb();
+  const manifest = await ensureSeeded();
+  const basis = basisOf((await readRequirements(db))?.quoting_basis);
+  const today = todayIso();
+  const key = costKey(manifest.generated_at, basis, today);
+  const have = await db.meta.get("costed");
+  if (have?.value === key) return;
+  const t0 = Date.now();
+  const [sightings, usedSpans, cars, stale] = await Promise.all([db.sightings.toArray(), db.used_spans.toArray(), db.cars.toArray(), staleDays(db)]);
+  const t1 = Date.now();
+  const r = computeAll({ sightings, usedSpans, cars, basis, today, staleDays: stale });
+  const t2 = Date.now();
+  await db.transaction("rw", [db.costs, db.series, db.residuals, db.offers, db.meta], async () => {
+    await db.costs.clear();
+    await db.series.clear();
+    await db.residuals.clear();
+    await db.offers.clear();
+    await db.costs.bulkPut(r.cars);
+    await db.series.bulkPut(r.series);
+    await db.residuals.bulkPut(r.residuals);
+    await db.offers.bulkPut(r.offers);
+    const stats: ComputeStats = { key, computed_at: new Date().toISOString(), sightings: r.stats.sightings, costed: r.stats.costed,
+                                  cars: r.cars.length, series: r.series.length, offers: r.offers.length, ms: r.stats.ms, read_ms: t1 - t0, write_ms: Date.now() - t2 };
+    await db.meta.bulkPut([{ key: "costed", value: key }, { key: "compute_stats", value: JSON.stringify(stats) }]);
+  });
+}
+
+/** Make sure the stored results match the current snapshot, basis and day. One pass at a time. */
+export function ensureComputed(): Promise<void> {
+  if (_computing === null) {
+    _computing = recompute().finally(() => { _computing = null; });
+  }
+  return _computing;
+}
+
+export async function getComputeStats(): Promise<ComputeStats | null> {
+  await ensureComputed();
+  const row = await getDb().meta.get("compute_stats");
+  return row ? (JSON.parse(row.value) as ComputeStats) : null;
+}
+
+/** The reader's requirements (settings), else the snapshot's seed. */
+export async function getRequirements(): Promise<Requirements | null> {
+  await ensureSeeded();
+  return readRequirements(getDb());
 }
 
 /** The snapshot's seed copy (data/seed/requirements.json), for reset and for showing what changed. */
@@ -169,10 +263,12 @@ export async function getSeedRequirements(): Promise<Requirements | null> {
   return row ? (JSON.parse(row.value) as Requirements) : null;
 }
 
+/** Save the reader's brief; a changed quoting basis recomputes every stored figure before this resolves. */
 export async function saveRequirements(doc: Requirements): Promise<void> {
   const db = getDb();
   const cur = await db.settings.get("requirements");
   await db.settings.put({ key: "requirements", value: JSON.stringify(doc), seeded_from: cur?.seeded_from ?? "", updated_at: new Date().toISOString() });
+  await ensureComputed();
 }
 
 /** Back to the seed: the only time the reader's copy is overwritten. */
@@ -221,6 +317,7 @@ export function __clearSeedingMemoForTests(): void {
     _db = null;
   }
   _seeding = null;
+  _computing = null;
 }
 
 /** Test hook: drop the database and re-arm seeding. */
@@ -230,6 +327,7 @@ export async function __resetForTests(): Promise<void> {
     _db = null;
   }
   _seeding = null;
+  _computing = null;
   await Dexie.delete("CarResearchDB");
 }
 

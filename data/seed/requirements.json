@@ -27,6 +27,8 @@
     "savings_rate_apr": 0.04,
     "residual_pct_of_list": 0.45,
     "residual_at_months": 36,
+    "compare_over": "horizon",
+    "compare_note": "How deals of different lengths are ranked: 'horizon' costs every deal over term_months (a longer PCP settled early, a shorter one's balloon paid and the car kept, a lease over its own term); 'own' ranks each deal over its own term.",
     "residual_note": "Expected market value at 36 months as a share of list price, for the true-monthly comparison. An assumption until a used-market source replaces it: UK EV residuals at three years sit around 40-50% and lenders' GFVs a little under. The GFV is the floor, this is the expectation.",
     "savings_note": "Easy-access savings rate used to discount every cash flow: money not spent on a car earns this."
   },

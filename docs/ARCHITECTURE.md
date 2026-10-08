@@ -55,9 +55,9 @@ id, later a dealer URL plus trim). The exporter derives, per key:
 | `stale` | an active offer not seen for more than 14 days (`STALE_DAYS`) |
 | `history` | every sighting with its price-bearing fields, so a price change is a diff, not an overwrite |
 
-Only **current** offers (active state, not stale) feed a car's best-cash / best-PCP / best-PCH
-summary. The SPA recomputes age and staleness from `last_seen_at` at view time, so an
-un-refreshed deployment still greys out old offers. Re-running a provider over an unchanged
+Only **current** offers (active state, not stale) feed a car's best per route and source;
+freshness is derived in the browser from the spans (`lib/model/offers.ts`), as of today, so
+an un-refreshed deployment still greys out old offers. Re-running a provider over an unchanged
 page is idempotent (same key, same observed time, same artifact).
 
 ## Trim map (the small resolution problem)
@@ -255,17 +255,28 @@ car facts, the dealer) and reconciles the payment count against the page's own t
 | Deploy | `pages-deploy.yml`: Actions artifact, SPA 404 fallback, `.nojekyll` | same workflow, single checkout |
 | CI | `frontend-ci.yml`, `pages-build-check.yml`, `backend-ci.yml` | `web-ci.yml`, `pipeline-ci.yml` (adds a snapshot-freshness check) |
 
-## Snapshot contract (schema_version 4)
+## Snapshot contract (schema_version 7)
+
+The pipeline exports facts and knows nothing of the reader: no term, no savings rate,
+no residual assumption. Every cost is computed in the browser (see "The cost model lives
+in the browser").
 
 | File | Shape |
 | --- | --- |
-| `manifest.json` | `{schema_version, generated_at, counts:{cars,cars_generated,models,offers,observations,cash_benchmarks,unmapped_trims,specs}, runs:[…]}` |
-| `cars.json` | car records (hand-curated, and generated ones with `auto: true`, `source_kind`, `cap_id`, `model_slug`) plus `requirement_check` `{passes, failures[], unknown[]}` and `deal_summary` (best current cash / PCP / PCH with the age of each) |
-| `models.json` | the catalogue: every electric model, printed names, has_deals / has_specs, and per model how many derivatives, cars and priced cars we hold |
-| `offers.json` | latest observation of each offer plus `metrics` (from `model/deal_math.py`) and `freshness` (state, stale, age, first/last seen, history) |
+| `manifest.json` | `{schema_version, generated_at, counts:{cars,cars_generated,models,offers,observations,used_spans,cash_benchmarks,unmapped_trims,specs,used_listings}, runs:[…]}` |
+| `cars.json` | car records (hand-curated, and generated ones with `auto: true`, `source_kind`, `cap_id`, `model_slug`) with their facts, `model_key`, `flags`, `spec_count`, `image`, `picks`; no costs |
+| `details.json` | per car id: spec rows, the hand-versus-source check, the seed's requirement check; fetched on demand |
+| `sightings.json` | every offer observation span: `{key, car_id, model, route, source, provider, status, seller, from, to, present, deal}` where `deal` is the full price-bearing payload |
+| `used_spans.json` | every used listing's asking-price spans: `{key, source, model, car_id, year, price, mileage, vrm, town, from, to, present}` |
+| `used.json` | used stock per model: every listing ever seen (derivative, site, link, present) |
+| `models.json` | the catalogue: every electric model, printed names, has_deals / has_specs, and per model how many derivatives, cars, cars with a live sighting and used examples we hold |
 | `specs.json` | every scraped variant: features, options, canonical flags, numbers, image, provider, car_id when mapped |
-| `requirements.json` | the requirements document verbatim |
-| `data.json` | providers, recent runs, unmapped trims, offer-state counts, catalogue counts: the SPA's Data page |
+| `requirements.json` | the requirements document as seeded; the reader edits their own copy in the browser |
+| `data.json` | providers, `sources` (id → name), recent runs, unmapped trims, offer-state counts, catalogue counts: the SPA's Data page |
+
+`source` on a span is the site, not the provider: `snapshot.SOURCES` folds Carwow's deal,
+paste and used providers into one source, so the same derivative and route can be read
+site by site.
 
 `generated_at` can be pinned (`--generated-at`) so CI can rebuild the snapshot and diff it
 against the committed one deterministically.
@@ -273,51 +284,71 @@ against the committed one deterministically.
 Bump `SCHEMA_VERSION` in `pipeline/services/snapshot.py` and `SUPPORTED_SCHEMA_VERSION` in
 `web/src/lib/snapshot.ts` together on any incompatible change; the banner warns on skew.
 
-Files are written with `sort_keys` and `indent=1` so git diffs of the data are readable. Every
-commit of `web/public/data` is a dated market snapshot, which is the price history.
+The big arrays are compact JSON; `requirements.json`, `data.json` and `manifest.json` are
+pretty-printed. Every commit of `web/public/data` is a dated market snapshot, which is the
+price history.
 
 ## The true monthly
 
-`model/deal_math.py` puts every route on one footing (`true_monthly`): each cash flow
-discounted at the savings rate (money not spent on a car earns it), the car's expected
-value at the end credited back, the present cost spread as an annuity over the
-agreement. Lease: initial rental and fees now, the rentals, nothing back. PCP: deposit
-and payments, then the option to buy at the GFV and sell at the expected value, worth
-max(V − GFV, 0). Outright: the price now, the car sold at V after the standard term; the
-floor variant uses the highest GFV any lender guarantees for the car. V comes from
-`requirements.json` `quoting_basis.residual_pct_of_list` at `residual_at_months` on a
-smooth curve (pct ** (t / at)); `savings_rate_apr` is the discount rate. Both are
-assumptions, shown on the Data page, until a used-market source replaces the residual.
-With V = GFV the PCP figure is today's hand-back arithmetic, so `true_monthly_floor` is
-the pessimistic case. The exporter puts the best current true monthly per route on
-each car (`deal_summary.true_monthly_by_route`) and the app ranks offers by it.
+`web/src/lib/model/dealMath.ts` puts every route on one footing (`true_monthly`): each
+cash flow discounted at the savings rate (money not spent on a car earns it), the car's
+expected value at the end credited back, the present cost spread as an annuity over the
+months. Lease: initial rental and fees now, the rentals, nothing back. PCP: deposit and
+payments, then the option to buy at the GFV and sell at the expected value, worth
+max(V − GFV, 0). Outright and used: the price now, the car sold at V after the term; the
+floor variant uses the highest GFV any lender guarantees for the car. V and the rate come
+from the reader's quoting basis (`requirements.quoting_basis`: `term_months`,
+`savings_rate_apr`, `residual_pct_of_list` at `residual_at_months` on a smooth curve
+`pct ** (t / at)`, `compare_over`), edited on the Requirements page. With V = GFV the PCP
+figure is today's hand-back arithmetic, so `true_monthly_floor` is the pessimistic case.
 
-Where V comes from, in order (`deal_math.expected_value`, reported as `residual_source`):
+`model/deal_math.py` is the same arithmetic in Python. It is the oracle, not the exporter:
+`python3 -m model.cost_fixture > tests/fixtures/cost_cases.json` writes what it says a set
+of deals cost, `tests/test_deal_math.py` asserts the file is still what the module
+computes, and `web/src/lib/model/dealMath.test.ts` asserts the port reproduces every
+number. It also prints the markdown deal table (`python -m pipeline deal-table`).
+
+Where V comes from, in order (`expectedValue`, reported as `residual_source`):
 
 1. **used-market**: the median asking price of the model's used examples registered
    term-years ago (three or more of them), across `carwow_used`, `cinch_used` and
-   `motorpoint_used` with the same car listed twice counted once
-   (`snapshot.dedupe_listings`: the same registration, or the same year and mileage where a
-   site prints none). Model-level, not per trim.
-2. **gfv-grown**: the highest GFV any lender guarantees for the car, grown at the savings
-   rate over the term. The lender stood behind the floor; the expectation sits above it by
-   about the rate they discounted at. No forecasting beyond that.
-3. **assumption**: the flat share of list from `quoting_basis`.
+   `motorpoint_used` with the same car listed twice counted once (the same registration,
+   or the same mileage where a site prints none). Model-level, not per trim, and read
+   *as of a date* from the used spans (`sightings.residualAt`).
+2. **gfv-grown**: the highest GFV any lender guarantees for the car that day, grown at
+   the savings rate over the term. The lender stood behind the floor; the expectation
+   sits above it by about the rate they discounted at. No forecasting beyond that.
+3. **assumption**: the flat share of list from the basis.
 
-The used stock is also the fourth route. Per model the cheapest car listed now is costed
-like the others (price now, sold after the term at what examples that much older ask
-today, else on the flat curve), lands in `deal_summary.true_monthly_by_route.used` and
-competes with the finance routes on the Pick cards; the car page lists the stock by
-registration year and names the sites. Used stock is current state, not history: a
-listing missing from the page it came from (a model's cards on Carwow, a make's stock on
-cinch, the whole electric listing on Motorpoint) is marked gone, another source's stock
-for the model is untouched, and `data/history/used.jsonl` replays it all.
+### Deals of different lengths
 
-Each retailer names the model its own way ('Kona', 'ID.4', 'MG4', '4 Coupe');
-`providers/used_match.py` files a listing under the catalogue model by letters and digits,
-then without the electric suffix, then a short alias table of same-car spellings. What we
-do not sell (the previous-generation e-Niro, a Mini hatch not in the catalogue) is skipped
-and counted on stderr.
+A 25-month lease, a 37-month PCP and a 49-month PCP are not the same purchase. Each
+deal's true monthly over its own term is an equivalent-annual-cost figure (it assumes you
+would repeat a similar deal), which is one honest way to rank them; the default is the
+other: cost every deal over the reader's term and say what has to happen at that month
+(`web/src/lib/model/horizon.ts`, `at_horizon` on every point):
+
+| Deal | At the reader's horizon H |
+| --- | --- |
+| PCP longer than H | `settle_early`: the payments still owed and the balloon discounted at the deal's rate (stated APR, else implied) are paid at H; the car is sold at V(H) |
+| PCP shorter than H | `balloon_then_keep`: the balloon is paid when due, the car kept to H and sold at V(H) |
+| PCP of length H | `as_agreed`: buy at the GFV and sell; the equity, never below zero |
+| lease of another length | `lease_ends` / `lease_runs_on`: its own-term figure, flagged (ending a lease early is priced by the lender, not by arithmetic) |
+| cash, used | `sold` at H |
+
+Every point carries both figures (`true_monthly` over `horizon_months`, and
+`own_true_monthly` over `own_horizon_months`) and the deal as printed (`terms`), so the
+cards show the comparable number with the real deal beside it and a one-line note when
+the two lengths differ. `compare_over: "own"` in the basis ranks by the own-term figure
+instead.
+
+Buying used is the fourth route: the cheapest example of the model listed now, costed the
+same way (price now, sold after the term at what examples that much older ask today, else
+on the flat curve), competes with the finance routes on the Pick cards; the car page lists
+the stock by registration year and names the sites. Each retailer names the model its own
+way ('Kona', 'ID.4', 'MG4', '4 Coupe'); `providers/used_match.py` files a listing under
+the catalogue model by letters and digits, then without the electric suffix, then a short
+alias table of same-car spellings.
 
 ## The app: one query, three views, the reader's own brief
 
@@ -363,41 +394,41 @@ A field the car already carries is never overwritten.
 
 ## Sightings: every route, every source, over time
 
-`model/sightings.py` is the one fact behind the Trends page and the car page's
-history: a *sighting* is a price one source showed for one subject over the span
-of days it stayed the same. Subjects are derivatives (an offer on a car) or, for
-used stock, the model and registration year. Routes are `cash`, `pcp`, `pch` and
-`used`; sources are a dimension of their own (`SOURCES` maps a provider to one, so
-Carwow's deal, paste and used providers are one source). Storage stays two tables
-(`offer_observations`, and `used_observations` as spans of a listing's asking
-price, closed when it goes), but the model sees one list of `Sighting` records.
+`web/src/lib/model/sightings.ts` is the one fact behind every price in the app: a
+*sighting* is a price one source showed for one subject over the span of days it stayed
+the same. Subjects are derivatives (an offer on a car) or, for used stock, the model and
+registration year. Routes are `cash`, `pcp`, `pch` and `used`; sources are a dimension of
+their own. The pipeline stores two tables (`offer_observations`, and `used_observations`
+as spans of a listing's asking price, closed when it goes) and exports them as
+`sightings.json` and `used_spans.json`; the model sees one list of `Sighting` records.
 
-`cost` puts a sighting on the common footing of `deal_math` with the used market
-read *as of a date*: `residual_at` answers "what did the model's cars of that year
-ask on that day" from the used sightings themselves, counting a car once across
-sites; `floor_gfv_at` the GFV a lender guaranteed that day. History is costed as
-of each sighting's first day, so a June PCP is costed on June's evidence (none
-before 6 October 2026, so `residual_source` says so); what things cost now is the
-same function as of today. `series` groups costed sightings by subject, route and
-source (an offer as flat spans; a model's used stock as the cheapest example day by
-day); `residual_series` samples the evidence monthly; `current` picks the cheapest
-per route and source as of today, and `deal_summary.routes` carries it onto every
-car as the one cost model the app reads (`costs.ts` no longer computes anything).
+`cost` puts a sighting on the common footing of `dealMath` with the used market read *as
+of a date*: `residualAt` answers "what did the model's cars of that year ask on that day"
+from the used spans themselves, counting a car once across sites; `floorGfvAt` the GFV a
+lender guaranteed that day. History is costed as of each sighting's first day, so a June
+PCP is costed on June's evidence (none before 6 October 2026, so `residual_source` says
+so); what things cost now is the same function as of today. `series` groups costed
+sightings by subject, route and source (an offer as flat spans held to its next sighting
+unless seen gone between; a model's used stock as the cheapest example day by day);
+`residualSeries` samples the evidence monthly; `current` picks the cheapest per route and
+source as of today; `trend` reads the movement of the best cash price; `usedStock` the
+model's stock by registration year.
 
-`pipeline/services/series.py` only loads rows and hands them to the model; the
-exporter writes `series.json` and `residuals.json`. `data/history/used_observations.jsonl`
-replays the spans; stock recorded before spans existed gets one span from its
-first to last sighting (`gold.backfill_used_spans`).
+## The cost model lives in the browser
 
-## Finance maths lives in the pipeline
+The pipeline exports facts; the browser owns the one cost model and every page reads its
+stored results. `web/src/lib/model/recompute.ts` (`computeAll`) is pure: spans, cars, the
+basis and today in; per car the current best per route and source (`costs`), every
+series, the residual evidence, and every offer's latest state with its freshness and
+normalisation (`offers`) out. `lib/db.ts` runs it after seeding and whenever the stored
+key (snapshot `generated_at`, the basis, the day) differs from the one the results were
+computed under, writes the results to IndexedDB in one transaction, and `saveRequirements`
+runs it again before resolving, so a change to the term or the rate on the Requirements
+page recomputes everything once and every page re-reads. ~8,000 sightings cost twice
+(history and today) in well under a second; the Data page shows the last run.
 
-`model/deal_math.py` normalises PCP, PCH and cash deals: solves missing monthlies from APR, credit
-and GFV; back-solves the implied APR as a check on the stated one; computes paid-if-handed-back,
-paid-if-bought, cost of credit, effective monthly, and, against the lowest cash price captured
-for the same car, the acquisition penalty, funding premium and effective annual rate. It runs once
-at export time and the results ride in `deals[].metrics`, so the browser has no finance code to
-drift. Conventions: payments at months 1..n, balloon at n+1, APR as an effective annual rate.
-`tests/test_deal_math.py` pins it to the real Carwow quotes.
+Nothing is costed at render time: `lib/costs.ts` turns a car's stored row into what a card
+or table shows, and `lib/useCarQuery.ts` joins the rows to the cars once per page.
 
 ## Trends in the app
 
@@ -426,13 +457,20 @@ every EV is ~1,500 derivatives; Specs shows the first 60 columns until a filter 
 
 `web/src/lib/db.ts` opens `CarResearchDB` (Dexie):
 
-- **public** `cars`, `deals`, `meta` — cleared and bulk-loaded from the snapshot whenever
-  `manifest.generated_at` differs from the stored one. Seeding is memoised per session; a reload
-  re-checks only the manifest.
-- **private** `shortlist` — the user's picks. Never leaves the browser.
+- **facts** `cars`, `sightings`, `used_spans`, `specs`, `models`, `meta` (and `details`,
+  `used` on demand) — cleared and bulk-loaded from the snapshot whenever
+  `manifest.generated_at` differs from the stored one. Seeding is memoised per session; a
+  reload re-checks only the manifest.
+- **results** `costs`, `series`, `residuals`, `offers` — what the cost model makes of the
+  facts under the reader's basis as of today; rewritten by `ensureComputed` when the
+  snapshot, the basis or the day changes (`meta.costed` holds the key they were computed
+  under, `meta.compute_stats` the last run).
+- **private** `shortlist`, `settings` (the reader's requirements, including the quoting
+  basis) — never leave the browser, survive reseeds.
 
-Pages use react-query hooks (`lib/hooks.ts`) over Dexie queries. The snapshot banner shows the
-loaded generation and can re-check Pages for a newer one.
+Pages use react-query hooks (`lib/hooks.ts`) over Dexie queries; saving the requirements
+invalidates every results query. The snapshot banner shows the loaded generation and can
+re-check Pages for a newer one.
 
 ## Deploy
 
@@ -492,6 +530,10 @@ Python ≥ 3.11, stdlib only so far. Node 22.
 - **Next.js static export, not Vite.** Mirrors the two most recent reference repos so the layout,
   data client and deploy workflow are familiar. No server mode is built.
 - **No Tremor.** Plain Tailwind tables; fewer dependencies, no React 19 / Tailwind 4 friction.
-- **Finance maths in Python at export, not in the browser.** One implementation, pinned by tests.
+- **The cost model in the browser, the pipeline exporting facts.** The term, the savings
+  rate and the residual assumption are the reader's, so the pipeline knows nothing of them;
+  one TypeScript implementation costs every sighting under the reader's basis, once per
+  change, and stores the results. `model/deal_math.py` stays as the oracle behind the shared
+  fixture and the markdown deal table.
 - **Public data in IndexedDB as well as private.** Matches the "dump it all into a local DB on load"
   pattern; filtering and sorting stay instant and the app works offline after first load.

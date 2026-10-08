@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Badge, Card, ErrorNote, Loading, PageHeader } from "@/components/ui";
 import { useRequirements, useResetRequirements, useSaveRequirements, useSeedRequirements } from "@/lib/hooks";
+import { basisOf } from "@/lib/model/dealMath";
 import type { RequirementRule, Requirements } from "@/lib/types";
 
 /** Car fields a rule can test, with the kind of value they take. */
@@ -35,16 +36,19 @@ const fieldKind = (key: string | undefined) => FIELDS.find((f) => f.key === key)
 /**
  * The reader's brief, kept in this browser (IndexedDB settings): seeded once
  * from data/seed/requirements.json, edited here, and only ever overwritten by
- * the reset button. The quoting basis is a pipeline input, shown but not
- * editable here: every cost in the snapshot was computed with it.
+ * the reset button. The quoting basis (term, savings rate, residual assumption,
+ * how deals of other lengths rank) is the reader's too: every figure on every
+ * page is recomputed from the exported facts when it changes.
  */
 export default function RequirementsPage() {
   const own = useRequirements();
   const seed = useSeedRequirements();
   const save = useSaveRequirements();
   const reset = useResetRequirements();
-  const [doc, setDoc] = useState<Requirements | null>(null);
-  useEffect(() => { if (own.data) setDoc(own.data); }, [own.data]);
+  // The reader's edits, layered over the stored copy until the save lands; the stored copy wins once it changes.
+  const [draft, setDraft] = useState<{ base: Requirements | null; doc: Requirements } | null>(null);
+  const stored = own.data ?? null;
+  const doc = draft && draft.base === stored ? draft.doc : stored;
 
   if (own.error) return <ErrorNote error={own.error} />;
   if (!doc) return <Loading />;
@@ -52,11 +56,14 @@ export default function RequirementsPage() {
   const edited = seed.data ? JSON.stringify(seed.data) !== JSON.stringify(doc) : false;
   const update = (patch: Partial<Requirements>) => {
     const next = { ...doc, ...patch };
-    setDoc(next);
+    setDraft({ base: stored, doc: next });
     save.mutate(next);
   };
   const budget = (doc.budget ?? {}) as Record<string, unknown>;
   const setBudget = (k: string, v: unknown) => update({ budget: { ...budget, [k]: v } });
+  const qb = (doc.quoting_basis ?? {}) as Record<string, unknown>;
+  const basis = basisOf(qb);
+  const setBasis = (k: string, v: unknown) => update({ quoting_basis: { ...qb, [k]: v } });
 
   return (
     <div className="space-y-6">
@@ -64,8 +71,8 @@ export default function RequirementsPage() {
         title="Requirements"
         subtitle={
           <>
-            Your brief, kept in this browser and applied everywhere a car is judged. {edited ? <Badge tone="warn">edited from the seed</Badge> : <Badge tone="muted">as seeded</Badge>}
-            {save.isPending && <span className="ml-2 text-xs text-gray-500">saving…</span>}
+            Your brief, kept in this browser and applied everywhere a car is judged or costed. {edited ? <Badge tone="warn">edited from the seed</Badge> : <Badge tone="muted">as seeded</Badge>}
+            {save.isPending && <span className="ml-2 text-xs text-gray-500">saving and recomputing every figure…</span>}
           </>
         }
         right={
@@ -108,11 +115,25 @@ export default function RequirementsPage() {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <Card title="Quoting basis · pipeline inputs">
-          <p className="mb-2 text-xs text-gray-500">
-            Every true monthly in the snapshot was computed with these (term, savings rate, residual assumption), so they cannot be changed here. Edit <code>data/seed/requirements.json</code> and let the nightly run recompute.
-          </p>
-          <KV obj={doc.quoting_basis} />
+        <Card title="Quoting basis · how every figure is computed">
+          <div className="space-y-2 text-sm">
+            <NumberField label="Term (months)" value={basis.term_months} onChange={(v) => setBasis("term_months", v ?? 37)} />
+            <NumberField label="Savings rate (% a year)" value={Math.round(basis.savings_rate_apr * 10000) / 100} step={0.25} onChange={(v) => setBasis("savings_rate_apr", (v ?? 0) / 100)} />
+            <NumberField label="Residual assumption (% of list)" value={Math.round(basis.residual_pct_of_list * 1000) / 10} step={1} onChange={(v) => setBasis("residual_pct_of_list", (v ?? 45) / 100)} />
+            <NumberField label="… at (months)" value={basis.residual_at_months} onChange={(v) => setBasis("residual_at_months", v ?? 36)} />
+            <NumberField label="Annual mileage" value={typeof qb.annual_mileage === "number" ? qb.annual_mileage : undefined} step={1000} onChange={(v) => setBasis("annual_mileage", v)} />
+            <label className="flex items-center justify-between gap-3">
+              <span className="text-gray-300">Rank deals of other lengths</span>
+              <select value={basis.compare_over} onChange={(e) => setBasis("compare_over", e.target.value)} className="rounded border border-gray-700 bg-gray-950 px-2 py-1 text-gray-100">
+                <option value="horizon">over my term ({basis.term_months} months)</option>
+                <option value="own">each over its own term</option>
+              </select>
+            </label>
+            <p className="text-xs text-gray-500">
+              Every payment is discounted at the savings rate (money not spent on a car earns this) and the car&apos;s expected value at the end is credited back: what the used market asks for the model at that age where there are enough examples, else the lender&apos;s GFV grown at the rate, else this share of list.
+              Over your term, a longer PCP is settled early and the car sold; a shorter one pays its balloon and keeps the car to the end; a lease of another length keeps its own-term figure and says so.
+            </p>
+          </div>
         </Card>
         <Card title="Household"><KV obj={doc.household} /></Card>
         <Card title="Context"><KV obj={doc.context} /><KV obj={doc.finance_posture} /></Card>
@@ -121,12 +142,13 @@ export default function RequirementsPage() {
   );
 }
 
-function NumberField({ label, value, onChange }: { label: string; value: number | undefined; onChange: (v: number | undefined) => void }) {
+function NumberField({ label, value, step, onChange }: { label: string; value: number | undefined; step?: number; onChange: (v: number | undefined) => void }) {
   return (
     <label className="flex items-center justify-between gap-3">
       <span className="text-gray-300">{label}</span>
       <input
         type="number"
+        step={step}
         value={value ?? ""}
         onChange={(e) => onChange(e.target.value === "" ? undefined : Number(e.target.value))}
         className="w-28 rounded border border-gray-700 bg-gray-950 px-2 py-1 text-right tabular-nums text-gray-100"

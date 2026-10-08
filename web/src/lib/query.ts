@@ -285,7 +285,7 @@ export function sortKey(sort: string, c: SnapshotCar, ctx: CarContext): number |
     case "monthly": return k.monthly;
     case "threeYear": return k.threeYear;
     case "cash": return k.cash?.price ?? null;
-    case "fell": return c.deal_summary.trend?.delta ?? null;
+    case "fell": return ctx.costs.trend?.delta ?? null;
     case "range": return c.wltp_range_mi == null ? null : -c.wltp_range_mi;
     case "seats": return c.seats == null ? null : -c.seats;
     case "name": return carName(c);

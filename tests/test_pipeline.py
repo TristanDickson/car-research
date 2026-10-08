@@ -120,16 +120,18 @@ class SeedImportAndExport(unittest.TestCase):
             details = json.loads((out / "details.json").read_text())
             for c in cars:
                 c["requirement_check"] = details[c["id"]]["requirement_check"]
-            offers = json.loads((out / "offers.json").read_text())
+            spans = json.loads((out / "sightings.json").read_text())
             data = json.loads((out / "data.json").read_text())
             self.assertEqual(len(cars), manifest["counts"]["cars"])
-            self.assertEqual(len(offers), manifest["counts"]["offers"])
+            self.assertEqual(len({s["key"] for s in spans}), manifest["counts"]["offers"])
             self.assertEqual(manifest["counts"]["offers"], 29 + 4)
             self.assertEqual([p["name"] for p in data["providers"]][:2], ["manual_seed", "carwow_paste"])
             self.assertEqual(data["unmapped_trims"], [])
+            for s in spans:
+                self.assertEqual(set(s) >= {"key", "car_id", "route", "source", "from", "to", "present", "deal", "status"}, True)
+                self.assertNotIn("metrics", s, "costs are the browser's")
+            offers = latest_offers(self.conn)
             for o in offers:
-                self.assertIn("metrics", o)
-                self.assertIn("freshness", o)
                 self.assertIn(o["freshness"]["state"], {"live", "lead", "derived", "illustrative", "campaign", "expired", "historical", "gone"})
             by_id = {c["id"]: c for c in cars}
             for c in cars:
@@ -138,10 +140,11 @@ class SeedImportAndExport(unittest.TestCase):
             self.assertEqual(by_id["kia-pv5-passenger-71-elite-7seat"]["picks"][0]["verdict"], "want")
             kona = by_id["hyundai-kona-65-ultimate"]
             self.assertTrue(kona["requirement_check"]["passes"])
-            self.assertEqual(kona["deal_summary"]["best_cash_price"], 26966)
-            self.assertAlmostEqual(kona["deal_summary"]["best_pcp_monthly"], 546.64)
-            self.assertEqual(kona["deal_summary"]["best_pcp_offer_id"], "carwow:deal:aea9f090b32568c0f0326d4ef6cf6299")
-            self.assertEqual(kona["deal_summary"]["best_pcp_age_days"], 1)
+            self.assertNotIn("deal_summary", kona, "the pipeline exports facts; the browser costs them")
+            kona_pcp = [s for s in spans if s["car_id"] == kona["id"] and s["route"] == "pcp" and s["key"] == "carwow:deal:aea9f090b32568c0f0326d4ef6cf6299"]
+            self.assertEqual(len(kona_pcp), 1)
+            self.assertAlmostEqual(kona_pcp[0]["deal"]["monthly_payment"], 546.64)
+            self.assertEqual((kona_pcp[0]["source"], kona_pcp[0]["to"]), ("carwow", "2026-10-05"))
             self.assertFalse(by_id["hyundai-kona-65-advance"]["requirement_check"]["passes"])
             ev6 = by_id["kia-ev6-77-gtlines-2024-used"]["requirement_check"]
             self.assertTrue(ev6["passes"])

@@ -1,24 +1,25 @@
 """Static snapshot exporter: Gold → a directory of JSON the SPA reads.
 
-Layout (schema_version 4):
+The pipeline exports facts and knows nothing of the reader: no term, no savings
+rate, no residual assumption. The browser holds the one cost model
+(web/src/lib/model) and computes every figure from these files under the
+reader's own basis, recomputing when it changes.
+
+Layout (schema_version 7):
     manifest.json       {schema_version, generated_at, counts, runs}
-    cars.json           [car + deal_summary]; hand-curated and generated (auto: true); what every page loads
-    details.json        {car id: used stock by year, spec rows, the cross-check, the seed's brief check}; on demand
-    offers.json         [latest observation of each offer + metrics + freshness]
-    requirements.json   the requirements document as-is
-    data.json           providers, recent runs, unmapped trims, offer states, catalogue counts
+    cars.json           hand-curated and generated cars (auto: true) with their facts; what every page loads
+    details.json        {car id: spec rows, the cross-check, the seed's brief check}; on demand
+    sightings.json      every offer observation span: a price one source showed for one derivative over
+                        the days it stayed the same, with the full price-bearing payload
+    used_spans.json     every used listing's asking-price spans, with the listing's year, mileage and plate
+    used.json           used stock per model: every listing ever seen (derivative, site, link, present)
     specs.json          every scraped variant: equipment list, canonical flags, numbers, image
     models.json         the catalogue: every electric model Carwow lists, with what we hold for it
-    used.json           used stock per model (Carwow, cinch, Motorpoint): price, year, mileage, derivative, site
-    series.json         every sighting by subject, route and source, costed as of its day (model/sightings.py)
-    residuals.json      what the used market said each model's cars of each year were worth, month by month
+    requirements.json   the requirements document as seeded (the reader edits their own copy in the browser)
+    data.json           providers, source names, recent runs, unmapped trims, offer states, counts
 
-An offer's current values are its latest observation. Freshness is derived here
-from the observation history, never typed by hand:
-    state   gone (latest check did not find it) | expired (valid_to passed or the
-            source said so) | otherwise the observed status (live, lead, ...)
-    stale   an active offer whose last sighting is older than STALE_DAYS
-Finance maths is computed here, once, so the browser never needs its own copy.
+A span's freshness (gone, expired, stale) and every cost are derived in the
+browser from the spans; `latest_offers` here serves the markdown deal table.
 """
 from __future__ import annotations
 
@@ -28,18 +29,13 @@ import sqlite3
 from datetime import date, datetime, timezone
 from pathlib import Path
 
-from statistics import median
-
-from model.deal_math import compute, used_route
-from model.sightings import best_by_route, trend
 from pipeline.db import ROOT
 from pipeline.services import facts
-from pipeline.services import series as series_svc
 
 IMAGE_EXTS = ("jpg", "jpeg", "png", "webp")
 
 # Bump on any incompatible shape change; the SPA warns loudly on skew.
-SCHEMA_VERSION = "6"
+SCHEMA_VERSION = "7"
 
 # Spec payload fields kept in data/history/specs.jsonl but not shipped in specs.json.
 SPEC_PRIVATE = ("raw_numbers", "description", "observed_at")
@@ -91,24 +87,6 @@ def _is_current(o: dict) -> bool:
     return f["state"] in ACTIVE_STATUSES and not f["stale"]
 
 
-ROUTE_POINT_KEYS = ("key", "source", "source_name", "seller", "true_monthly", "true_monthly_floor", "headline", "end_value",
-                    "residual_source", "age_days", "to")
-
-
-def _slim_routes(routes: dict[str, dict[str, dict]]) -> dict[str, dict[str, dict]]:
-    """route → source → the fields a card or table shows."""
-    return {route: {src: {k: p.get(k) for k in ROUTE_POINT_KEYS} for src, p in by_src.items()} for route, by_src in routes.items()}
-
-
-def _slim_stock(stock: dict | None) -> dict | None:
-    """What every page needs of a model's used stock; details.json has the rest."""
-    if not stock:
-        return None
-    ch = stock["cheapest"]
-    return {"count": stock["count"], "sources": stock.get("sources"), "residual": stock.get("residual"),
-            "cheapest": {k: ch.get(k) for k in ("listing_key", "price_gbp", "year", "mileage", "source", "url")}}
-
-
 # A hand-curated car's own tri-state fields, as the canonical flags the specs use.
 CAR_FIELD_FLAGS = {"heat_pump": "heat_pump", "internal_v2l": "v2l_internal", "external_v2l": "v2l_external"}
 
@@ -141,62 +119,6 @@ def merged_flags(specs: list[dict]) -> dict[str, str | None]:
             else:
                 out.setdefault(k, v)
     return out
-
-
-def deal_summary(offers: list[dict], metrics_by_id: dict[str, dict], used: dict | None = None,
-                 routes: dict[str, dict[str, dict]] | None = None) -> dict:
-    """The car's headline figures. `routes` (route → source → the cheapest
-    current sighting costed as of today, from model/sightings) is the one cost
-    model; the per-offer metrics only decorate the offer table."""
-    current = [o for o in offers if _is_current(o)]
-    cash = [o for o in current if o["finance_type"] == "cash" and o.get("vehicle_price")]
-    best_cash = min(cash, key=lambda o: o["vehicle_price"]) if cash else None
-
-    pcps = []
-    for o in current:
-        m = metrics_by_id.get(o["id"])
-        if o["finance_type"] == "pcp" and m and "skipped" not in m and (o.get("customer_deposit") or 0) == 0:
-            pcps.append((o, m))
-    best_pcp = min(pcps, key=lambda om: om[1]["monthly_payment"]) if pcps else None
-
-    pchs = [(o, metrics_by_id[o["id"]]) for o in current
-            if o["finance_type"] == "pch" and o["id"] in metrics_by_id and "skipped" not in metrics_by_id[o["id"]]]
-    best_pch = min(pchs, key=lambda om: om[1]["effective_monthly"]) if pchs else None
-
-    def age(o):
-        return o["freshness"]["age_days"] if o else None
-
-    # True monthly: every current sighting on one footing (model/sightings), best per route and per source.
-    routes = routes or {}
-    true_by_route: dict[str, dict] = {}
-    for route, p in best_by_route(routes).items():
-        true_by_route[route] = {"offer_id": p["key"], "true_monthly": p["true_monthly"], "true_monthly_floor": p.get("true_monthly_floor"),
-                                "age_days": p.get("age_days"), "source": p.get("source"), "headline": p.get("headline")}
-    best_true = min(true_by_route.items(), key=lambda kv: kv[1]["true_monthly"]) if true_by_route else None
-
-    return {
-        "offers": len(offers),
-        "current_offers": len(current),
-        "best_true_monthly": best_true[1]["true_monthly"] if best_true else None,
-        "best_true_route": best_true[0] if best_true else None,
-        "best_true_offer_id": best_true[1]["offer_id"] if best_true else None,
-        "true_monthly_by_route": true_by_route,
-        "routes": routes,
-        "best_cash_price": best_cash["vehicle_price"] if best_cash else None,
-        "best_cash_offer_id": best_cash["id"] if best_cash else None,
-        "best_cash_age_days": age(best_cash),
-        "best_pcp_monthly": best_pcp[1]["monthly_payment"] if best_pcp else None,
-        "best_pcp_offer_id": best_pcp[0]["id"] if best_pcp else None,
-        "best_pcp_age_days": age(best_pcp[0]) if best_pcp else None,
-        "best_pcp_total": best_pcp[1].get("paid_if_handed_back") if best_pcp else None,
-        "best_pcp_dealer": (best_pcp[0].get("dealer") or best_pcp[0].get("source")) if best_pcp else None,
-        "best_pch_total": best_pch[1].get("total_cost") if best_pch else None,
-        "best_pch_dealer": (best_pch[0].get("dealer") or best_pch[0].get("source")) if best_pch else None,
-        "best_cash_dealer": (best_cash.get("dealer") or best_cash.get("source")) if best_cash else None,
-        "best_pch_effective_monthly": best_pch[1]["effective_monthly"] if best_pch else None,
-        "best_pch_offer_id": best_pch[0]["id"] if best_pch else None,
-        "best_pch_age_days": age(best_pch[0]) if best_pch else None,
-    }
 
 
 def load_picks(root: Path) -> dict[str, list[dict]]:
@@ -320,9 +242,6 @@ def car_slugs(car: dict, specs_by_car: dict[str, list[dict]]) -> tuple[str, str]
             car.get("model_slug") or via.get("model_slug") or "")
 
 
-MIN_USED_EVIDENCE = 3
-
-
 def _vrm(l: dict) -> str | None:
     v = re.sub(r"\s+", "", l.get("vrm") or "").upper()
     return v or None
@@ -364,51 +283,61 @@ def dedupe_listings(listings: list[dict]) -> list[dict]:
     return out
 
 
-def used_evidence(listings: list[dict], today: date, basis: dict) -> dict:
-    """What a model's used stock says a car is worth after the standard term:
-    the median asking price of examples registered term-years ago, when there
-    are at least MIN_USED_EVIDENCE of them. Also the medians per registration
-    year, for the car page."""
-    term_years = max(1, round((basis.get("term_months") or 37) / 12))
-    target_year = today.year - term_years
-    present = [l for l in dedupe_listings(listings) if l["present"] and l.get("price_gbp") and l.get("year")]
-    by_year: dict[int, dict] = {}
-    for y in sorted({l["year"] for l in present}):
-        prices = sorted(l["price_gbp"] for l in present if l["year"] == y)
-        by_year[y] = {"n": len(prices), "median": round(median(prices)), "min": prices[0]}
-    ev = by_year.get(target_year)
-    residual = None
-    if ev and ev["n"] >= MIN_USED_EVIDENCE:
-        residual = {"value": ev["median"], "source": "used-market", "n": ev["n"], "year": target_year}
-    return {"by_year": by_year, "residual": residual, "target_year": target_year, "term_years": term_years}
+# Provider → (source id, display name). Several providers read the same site, so a
+# source is a dimension of its own: the same derivative and route can be read
+# site by site. A fact about the pipeline, not about the reader.
+SOURCES = {
+    "carwow_deals": ("carwow", "Carwow"), "carwow_paste": ("carwow", "Carwow"), "carwow_used": ("carwow", "Carwow"),
+    "hyundai_offers": ("hyundai", "Hyundai UK"), "ncd": ("ncd", "New Car Discount"), "leaseloco": ("leaseloco", "LeaseLoco"),
+    "rrg": ("rrg", "RRG"), "manual_seed": ("manual", "Hand-entered"),
+    "cinch_used": ("cinch", "cinch"), "motorpoint_used": ("motorpoint", "Motorpoint"),
+}
 
 
-def used_summary(listings: list[dict], evidence: dict, basis: dict, today: date) -> dict | None:
-    """The 'buy used' route for a model: its cheapest listing on sale now, costed
-    like the other routes (price now, sold after the term at what the model's
-    stock says a car that much older asks today)."""
-    present = [l for l in dedupe_listings(listings) if l["present"] and l.get("price_gbp")]
-    if not present:
-        return None
-    cheapest = min(present, key=lambda l: l["price_gbp"])
-    sources: dict[str, int] = {}
-    for l in listings:
-        if l["present"] and l.get("price_gbp"):
-            sources[l.get("source") or l.get("provider") or "?"] = sources.get(l.get("source") or l.get("provider") or "?", 0) + 1
-    age = (today.year - cheapest["year"]) if cheapest.get("year") else None
-    v_end = None
-    if age is not None:
-        later = evidence["by_year"].get(cheapest["year"] - evidence["term_years"])
-        if later and later["n"] >= MIN_USED_EVIDENCE:
-            v_end = later["median"]
-    route = used_route(cheapest["price_gbp"], age, basis, v_end)
-    return {
-        "count": len(present),
-        "cheapest": {k: cheapest.get(k) for k in ("listing_key", "price_gbp", "year", "mileage", "derivative", "town", "url", "image_url", "source", "sources")}
-                    | {"age_days": (today - date.fromisoformat(cheapest["last_seen_at"][:10])).days},
-        "sources": sources,
-        "by_year": evidence["by_year"], "residual": evidence["residual"], "route": route,
-    }
+def source_of(provider: str) -> str:
+    return SOURCES.get(provider, (provider, provider))[0]
+
+
+def source_names() -> dict[str, str]:
+    return {sid: name for sid, name in SOURCES.values()}
+
+
+# Payload fields a span does not need to carry: identity the span itself states, or
+# what no page reads.
+SPAN_PAYLOAD_DROP = ("car_ref", "car_facts", "offer_key", "observed_at", "present", "id", "car_id")
+
+
+def load_sightings(conn: sqlite3.Connection, model_of: dict[str, str]) -> list[dict]:
+    """Every offer observation span, with its payload: the fact the browser costs."""
+    rows = conn.execute(
+        "SELECT offer_key, car_id, source, observed_at, confirmed_at, present, finance_type, status, seller, payload "
+        "FROM offer_observations ORDER BY offer_key, observed_at, source"
+    ).fetchall()
+    out = []
+    for r in rows:
+        deal = json.loads(r["payload"])
+        for k in SPAN_PAYLOAD_DROP:
+            deal.pop(k, None)
+        out.append({"key": r["offer_key"], "car_id": r["car_id"], "model": model_of.get(r["car_id"], ""), "route": r["finance_type"],
+                    "source": source_of(r["source"]), "provider": r["source"], "status": r["status"],
+                    "seller": r["seller"] or deal.get("dealer"), "from": r["observed_at"][:10], "to": (r["confirmed_at"] or r["observed_at"])[:10],
+                    "present": bool(r["present"]), "deal": deal})
+    return out
+
+
+def load_used_spans(conn: sqlite3.Connection) -> list[dict]:
+    """Every used listing's asking-price spans, with what the residual evidence needs of the listing."""
+    try:
+        rows = conn.execute(
+            "SELECT o.listing_key, o.source, l.car_id, l.make_slug, l.model_slug, l.year, o.mileage, o.price_gbp, o.observed_at, "
+            "o.confirmed_at, o.present, json_extract(l.payload, '$.vrm') AS vrm, json_extract(l.payload, '$.town') AS town "
+            "FROM used_observations o JOIN used_listings l ON l.listing_key = o.listing_key ORDER BY o.listing_key, o.observed_at"
+        ).fetchall()
+    except sqlite3.OperationalError:
+        return []
+    return [{"key": r["listing_key"], "source": source_of(r["source"]), "model": f"{(r['make_slug'] or '').lower()}/{r['model_slug'] or ''}",
+             "car_id": r["car_id"], "year": r["year"], "price": r["price_gbp"], "mileage": r["mileage"], "vrm": r["vrm"], "town": r["town"],
+             "from": r["observed_at"][:10], "to": (r["confirmed_at"] or r["observed_at"])[:10], "present": bool(r["present"])} for r in rows]
 
 
 def load_models(conn: sqlite3.Connection) -> list[dict]:
@@ -552,50 +481,23 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     facts.overlay_curated(cars)
     facts.overlay_evdb(cars, [sp for sp in specs if sp.get("provider") == "evdb"], models)
 
-    # The used market, per model: the residual evidence the true-monthly needs and the 'buy used' route.
-    basis = {"term_months": 37, "savings_rate_apr": 0.04, "residual_pct_of_list": 0.45, "residual_at_months": 36,
-             **(requirements.get("quoting_basis") or {})}
+    # Every price ever seen, as spans: the facts the browser costs under the reader's basis.
+    model_of = {c["id"]: "/".join(car_slugs(c, specs_by_car)) for c in cars}
+    sightings = load_sightings(conn, model_of)
+    used_spans = load_used_spans(conn)
+    live_cars = {s["car_id"] for s in sightings if s["present"] and s["route"] in ("cash", "pcp", "pch")}
+
     used_by_model: dict[tuple[str, str], list[dict]] = {}
     for l in used:
         used_by_model.setdefault(((l.get("make_slug") or "").lower(), l.get("model_slug") or ""), []).append(l)
-    evidence = {k: used_evidence(v, today, basis) for k, v in used_by_model.items()}
-    used_summaries = {k: used_summary(v, evidence[k], basis, today) for k, v in used_by_model.items()}
-    residuals = {}
-    for c in cars:
-        ev = evidence.get(car_slugs(c, specs_by_car))
-        if ev and ev["residual"]:
-            residuals[c["id"]] = ev["residual"]
 
-    metrics = {m["id"]: m for m in compute(offers, basis, residuals)}
-    for o in offers:
-        m = dict(metrics.get(o["id"], {}))
-        for k in ("id", "car_id", "finance_type", "status"):
-            m.pop(k, None)
-        o["metrics"] = m
-
-    # Every sighting of every route, source by source, over time (model/sightings).
-    model_of = {c["id"]: "/".join(car_slugs(c, specs_by_car)) for c in cars}
-    sightings = series_svc.build(conn, model_of, basis, today, STALE_DAYS)
-
-    by_car: dict[str, list[dict]] = {}
-    for o in offers:
-        by_car.setdefault(o["car_id"], []).append(o)
-    series_by_subject: dict[str, list[dict]] = {}
-    for sr in sightings["series"]:
-        series_by_subject.setdefault((sr["subject"], sr["route"]), []).append(sr)
     # cars.json is what every page loads, so it carries the card and the table;
-    # what only the car page reads (stock by year, spec rows, the cross-check)
-    # goes to details.json, fetched on demand.
+    # what only the car page reads (spec rows, the cross-check) goes to
+    # details.json, fetched on demand.
     details: dict[str, dict] = {}
     for c in cars:
         slugs = car_slugs(c, specs_by_car)
-        c["model_key"] = "/".join(slugs)   # the subject of the model's used series
-        stock = used_summaries.get(slugs)
-        routes = {**sightings["current"].get(c["id"], {}), **sightings["current"].get(f"model:{'/'.join(slugs)}", {})}
-        c["deal_summary"] = deal_summary(by_car.get(c["id"], []), metrics, stock, routes)
-        c["deal_summary"]["routes"] = _slim_routes(routes)
-        c["deal_summary"].pop("true_monthly_by_route", None)   # the app derives it from routes (lib/costs.ts routeCosts)
-        c["deal_summary"]["trend"] = trend(series_by_subject.get((c["id"], "cash"), []), today)
+        c["model_key"] = "/".join(slugs)   # the subject of the model's used spans
         c["picks"] = picks.get(c["id"], [])
         mine = specs_by_car.get(c["id"], [])
         spec_rows = [{"spec_key": sp["spec_key"], "provider": sp["provider"], "variant": sp.get("variant"),
@@ -604,13 +506,11 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         c["spec_count"] = len(mine)
         c["flags"] = car_flags(c, mine)
         c["image"] = car_image(root, c, next((sp for sp in mine if sp.get("image_url")), None)) or fallback_image(c, renders)
-        c["used_stock"] = _slim_stock(stock)
         details[c["id"]] = {
             "requirement_check": evaluate_hard(requirements, c),   # the seed's view; the app evaluates its own copy
             "specs": spec_rows,
             # A generated car's fields come from its spec, so there is nothing to cross-check.
             "spec_check": {"rows": [], "disagreements": 0} if c.get("auto") else spec_check(c, mine),
-            "used_stock": stock,
         }
         if c.get("auto"):
             c["notes"] = None   # the boilerplate is implied by source_kind
@@ -619,36 +519,31 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     for o in offers:
         s = o["freshness"]["state"] + (" (stale)" if o["freshness"]["stale"] else "")
         states[s] = states.get(s, 0) + 1
-    n_obs = conn.execute("SELECT COUNT(*) FROM offer_observations").fetchone()[0]
     unmapped = unmapped_trims(conn)
     n_auto = sum(1 for c in cars if c.get("auto"))
     from pipeline.services.features import FLAGS
 
-    # Per-model tallies for the catalogue page: derivatives (spec rows), cars, cars with a current price.
+    # Per-model tallies for the catalogue page: derivatives (spec rows), cars, cars with a live sighting.
     by_slug: dict[tuple[str, str], dict] = {}
     for sp in specs:
         k = ((sp.get("make_slug") or sp.get("make") or "").lower(), sp.get("model_slug") or "")
         by_slug.setdefault(k, {"derivatives": 0, "cars": 0, "priced": 0})["derivatives"] += 1
     for c in cars:
-        # A hand-curated car has no slugs of its own; its mapped Carwow spec knows them.
-        via = next((sp for sp in specs_by_car.get(c["id"], []) if sp.get("model_slug")), {})
-        k = ((c.get("make_slug") or via.get("make_slug") or c.get("make") or "").lower(), c.get("model_slug") or via.get("model_slug") or "")
+        k = tuple(car_slugs(c, specs_by_car))
         t = by_slug.setdefault(k, {"derivatives": 0, "cars": 0, "priced": 0})
         t["cars"] += 1
-        t["priced"] += int(c["deal_summary"]["current_offers"] > 0 or bool(c["deal_summary"]["routes"]))
+        t["priced"] += int(c["id"] in live_cars)
     for m in models:
         m.update(by_slug.get((m["make"], m["model"]), {"derivatives": 0, "cars": 0, "priced": 0}))
         m["used"] = sum(1 for l in dedupe_listings(used_by_model.get((m["make"], m["model"]), [])) if l["present"])
 
-    qb = requirements.get("quoting_basis") or {}
     data_page = {
         "generated_at": generated_at,
         "stale_days": STALE_DAYS,
-        "assumptions": {k: qb.get(k) for k in ("term_months", "annual_mileage", "savings_rate_apr", "residual_pct_of_list",
-                                                 "residual_at_months", "savings_note", "residual_note")},
+        "sources": source_names(),
         "flag_labels": {k: label for k, (label, _) in FLAGS.items()},
         "providers": [
-            {"name": p.name, "live": p.live, "description": _provider_blurb(p.name),
+            {"name": p.name, "live": p.live, "description": _provider_blurb(p.name), "source": source_of(p.name),
              "capabilities": [{"name": c.name, "kinds": list(c.kinds), "parser_version": c.parser_version}
                               for c in p.capabilities.values()]}
             for p in PROVIDERS.values()
@@ -658,7 +553,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         "resolution_methods": resolution_methods(conn),
         "offer_states": states,
         "counts": {"cars": len(cars), "cars_curated": len(cars) - n_auto, "cars_generated": n_auto,
-                   "offers": len(offers), "observations": n_obs, "specs": len(specs),
+                   "offers": len(offers), "observations": len(sightings), "specs": len(specs),
                    "specs_mapped": sum(1 for sp in specs if sp.get("car_id")),
                    "trim_map_mapped": conn.execute("SELECT COUNT(*) FROM trim_map WHERE status='mapped'").fetchone()[0],
                    "trim_map_auto": conn.execute("SELECT COUNT(*) FROM trim_map WHERE status='auto'").fetchone()[0],
@@ -666,10 +561,9 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
                    "models": len(models), "makes": len({m["make"] for m in models}),
                    "models_with_deals": sum(1 for m in models if m["has_deals"]),
                    "models_with_specs": sum(1 for m in models if m["has_specs"]),
-                   "sightings": sightings["sightings"], "sightings_costed": sightings["costed"], "series": len(sightings["series"]),
+                   "sightings": len(sightings) + len(used_spans), "used_spans": len(used_spans),
                    "used_listings": sum(1 for l in used if l["present"]),
-                   "used_models": sum(1 for v in used_by_model.values() if any(l["present"] for l in v)),
-                   "models_with_used_residual": sum(1 for e in evidence.values() if e["residual"])},
+                   "used_models": sum(1 for v in used_by_model.values() if any(l["present"] for l in v))},
     }
     manifest = {
         "schema_version": SCHEMA_VERSION,
@@ -679,7 +573,8 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
             "cars_generated": n_auto,
             "models": len(models),
             "offers": len(offers),
-            "observations": n_obs,
+            "observations": len(sightings),
+            "used_spans": len(used_spans),
             "cash_benchmarks": sum(1 for o in offers if o["finance_type"] == "cash"),
             "unmapped_trims": len(unmapped),
             "specs": len(specs),
@@ -693,13 +588,12 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     _write(out / "specs.json", [{k: v for k, v in sp.items() if k not in SPEC_PRIVATE} for sp in specs])
     _write(out / "models.json", models)
     _write(out / "used.json", used)
-    _write(out / "series.json", sightings["series"])
-    _write(out / "residuals.json", sightings["residuals"])
-    _write(out / "offers.json", offers)
+    _write(out / "sightings.json", sightings)
+    _write(out / "used_spans.json", used_spans)
     _write(out / "requirements.json", requirements, pretty=True)
     _write(out / "data.json", data_page, pretty=True)
     _write(out / "manifest.json", manifest, pretty=True)
-    legacy = out / "deals.json"
-    if legacy.exists():
-        legacy.unlink()
+    for legacy in ("deals.json", "offers.json", "series.json", "residuals.json"):
+        if (out / legacy).exists():
+            (out / legacy).unlink()
     return manifest

@@ -1,13 +1,4 @@
 {
- "assumptions": {
-  "annual_mileage": 6000,
-  "residual_at_months": 36,
-  "residual_note": "Expected market value at 36 months as a share of list price, for the true-monthly comparison. An assumption until a used-market source replaces it: UK EV residuals at three years sit around 40-50% and lenders' GFVs a little under. The GFV is the floor, this is the expectation.",
-  "residual_pct_of_list": 0.45,
-  "savings_note": "Easy-access savings rate used to discount every cash flow: money not spent on a car earns this.",
-  "savings_rate_apr": 0.04,
-  "term_months": 37
- },
  "counts": {
   "cars": 1953,
   "cars_curated": 19,
@@ -16,19 +7,17 @@
   "models": 248,
   "models_with_deals": 177,
   "models_with_specs": 218,
-  "models_with_used_residual": 45,
   "observations": 5553,
   "offers": 2924,
-  "series": 2921,
-  "sightings": 7991,
-  "sightings_costed": 7989,
+  "sightings": 7998,
   "specs": 2020,
   "specs_mapped": 909,
   "trim_map_auto": 2059,
   "trim_map_mapped": 56,
   "trim_map_unmapped": 259,
   "used_listings": 2445,
-  "used_models": 144
+  "used_models": 144,
+  "used_spans": 2445
  },
  "flag_labels": {
   "adaptive_cruise": "Adaptive cruise control",
@@ -61,7 +50,7 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-07T19:32:08+00:00",
+ "generated_at": "2026-10-08T01:37:04+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
@@ -90,7 +79,8 @@
    ],
    "description": "The hand-curated seed data (data/seed/*.json) as a provider.",
    "live": false,
-   "name": "manual_seed"
+   "name": "manual_seed",
+   "source": "manual"
   },
   {
    "capabilities": [
@@ -104,7 +94,8 @@
    ],
    "description": "Carwow dealer-offer pages pasted as text (data/pastes/carwow/*.txt).",
    "live": false,
-   "name": "carwow_paste"
+   "name": "carwow_paste",
+   "source": "carwow"
   },
   {
    "capabilities": [
@@ -118,7 +109,8 @@
    ],
    "description": "The catalogue of every EV on sale in the UK, from Carwow's own index pages.",
    "live": true,
-   "name": "carwow_catalog"
+   "name": "carwow_catalog",
+   "source": "carwow_catalog"
   },
   {
    "capabilities": [
@@ -132,7 +124,8 @@
    ],
    "description": "Carwow model specification pages: https://www.carwow.co.uk/<make>/<model>/specifications",
    "live": true,
-   "name": "carwow_specs"
+   "name": "carwow_specs",
+   "source": "carwow_specs"
   },
   {
    "capabilities": [
@@ -153,7 +146,8 @@
    ],
    "description": "Carwow public model deals pages: https://www.carwow.co.uk/<make>/<model>/deals",
    "live": true,
-   "name": "carwow_deals"
+   "name": "carwow_deals",
+   "source": "carwow"
   },
   {
    "capabilities": [
@@ -174,7 +168,8 @@
    ],
    "description": "Hyundai UK per-model offer pages: /uk/en/offers/new-cars/model/offer.<model>.html",
    "live": true,
-   "name": "hyundai_offers"
+   "name": "hyundai_offers",
+   "source": "hyundai"
   },
   {
    "capabilities": [
@@ -195,7 +190,8 @@
    ],
    "description": "New Car Discount model listings: https://www.new-car-discount.com/car/<make>/<model>/<body>/all/all",
    "live": true,
-   "name": "ncd"
+   "name": "ncd",
+   "source": "ncd"
   },
   {
    "capabilities": [
@@ -216,7 +212,8 @@
    ],
    "description": "LeaseLoco model pages: https://www.leaseloco.com/car-leasing/<make>/<model>",
    "live": true,
-   "name": "leaseloco"
+   "name": "leaseloco",
+   "source": "leaseloco"
   },
   {
    "capabilities": [
@@ -237,7 +234,8 @@
    ],
    "description": "RRG Kia PV5 offers page: representative Kia Finance PCP examples in plain text.",
    "live": true,
-   "name": "rrg"
+   "name": "rrg",
+   "source": "rrg"
   },
   {
    "capabilities": [
@@ -258,7 +256,8 @@
    ],
    "description": "Kia UK model specification pages: https://www.kia.com/uk/new-cars/<model>/specification/",
    "live": true,
-   "name": "kia_specs"
+   "name": "kia_specs",
+   "source": "kia_specs"
   },
   {
    "capabilities": [
@@ -272,7 +271,8 @@
    ],
    "description": "EV Database (ev-database.org/uk): the measured numbers the manufacturers'",
    "live": true,
-   "name": "evdb"
+   "name": "evdb",
+   "source": "evdb"
   },
   {
    "capabilities": [
@@ -286,7 +286,8 @@
    ],
    "description": "Carwow's used stock per model: the deal cards behind https://www.carwow.co.uk/<make>/<model>/used",
    "live": true,
-   "name": "carwow_used"
+   "name": "carwow_used",
+   "source": "carwow"
   },
   {
    "capabilities": [
@@ -300,7 +301,8 @@
    ],
    "description": "cinch's used stock: every electric car it lists, per make.",
    "live": true,
-   "name": "cinch_used"
+   "name": "cinch_used",
+   "source": "cinch"
   },
   {
    "capabilities": [
@@ -314,7 +316,8 @@
    ],
    "description": "Motorpoint's used stock: every electric car it has, from the one listing.",
    "live": true,
-   "name": "motorpoint_used"
+   "name": "motorpoint_used",
+   "source": "motorpoint"
   }
  ],
  "resolution_methods": {
@@ -332,11 +335,11 @@
    "artifacts": 4,
    "capability": "offers",
    "errors": 0,
-   "finished_at": "2026-10-07T19:32:08+00:00",
+   "finished_at": "2026-10-08T01:37:04+00:00",
    "id": 2,
    "records": 4,
    "source": "carwow_paste",
-   "started_at": "2026-10-07T19:32:08+00:00",
+   "started_at": "2026-10-08T01:37:04+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -345,16 +348,26 @@
    "artifacts": 4,
    "capability": "seed",
    "errors": 0,
-   "finished_at": "2026-10-07T19:32:07+00:00",
+   "finished_at": "2026-10-08T01:37:02+00:00",
    "id": 1,
    "records": 268,
    "source": "manual_seed",
-   "started_at": "2026-10-07T19:32:07+00:00",
+   "started_at": "2026-10-08T01:37:02+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
   }
  ],
+ "sources": {
+  "carwow": "Carwow",
+  "cinch": "cinch",
+  "hyundai": "Hyundai UK",
+  "leaseloco": "LeaseLoco",
+  "manual": "Hand-entered",
+  "motorpoint": "Motorpoint",
+  "ncd": "New Car Discount",
+  "rrg": "RRG"
+ },
  "stale_days": 14,
  "unmapped_trims": [
   {

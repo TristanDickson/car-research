@@ -1,7 +1,10 @@
 """Regression tests: the normalisation must reproduce the real Carwow / dealer
 figures (pasted pages + seed) and the ChatGPT-derived estimates."""
+import json
 import unittest
+from pathlib import Path
 
+from model.cost_fixture import FIXTURE, build
 from model.deal_math import compute
 from pipeline.services.snapshot import latest_offers
 from tests.helpers import fresh_conn, run_all
@@ -122,3 +125,16 @@ class TrueMonthly(unittest.TestCase):
         # average: the discounting and the annuity spread nearly cancel.
         self.assertAlmostEqual(r["l"]["true_monthly"], r["l"]["effective_monthly"], delta=0.03 * r["l"]["effective_monthly"])
         self.assertEqual(r["l"]["horizon_months"], 36)
+
+
+class SharedFixture(unittest.TestCase):
+    """tests/fixtures/cost_cases.json is what this module said the cases cost when
+    it was last regenerated (python3 -m model.cost_fixture); the browser's port
+    checks itself against the same file, so the file must stay what the model says."""
+
+    def test_the_committed_fixture_is_what_the_model_computes_now(self):
+        committed = json.loads(Path(FIXTURE).read_text(encoding="utf-8"))
+        now = json.loads(json.dumps(build(), sort_keys=True))
+        self.assertEqual(committed["deal_cases"], now["deal_cases"],
+                         "model/deal_math.py changed: regenerate with `python3 -m model.cost_fixture > tests/fixtures/cost_cases.json`")
+        self.assertEqual(committed["used_cases"], now["used_cases"])
