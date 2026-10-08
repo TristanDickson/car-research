@@ -472,6 +472,11 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     # the level it speaks of (derivative, trim, engine, model, variant, pack),
     # resolved by one precedence order, each field naming its source (services/claims.py).
     derivatives = load_derivatives(conn)
+    # A hand-curated car is a derivative too: the trim map says which, so it inherits what is said of that derivative.
+    cap_of = {r["car_id"]: r["source_key"] for r in conn.execute("SELECT car_id, source_key FROM trim_map WHERE source='carwow-cap' AND status='mapped' AND car_id IS NOT NULL")}
+    for c in cars:
+        if not c.get("auto") and not c.get("cap_id") and cap_of.get(c["id"]):
+            c["cap_id"] = cap_of[c["id"]]
     store = claims.build_store(cars, specs, models, derivatives, load_options(conn), load_broker_names(conn))
     resolved = claims.resolve_all(cars, store)
 
