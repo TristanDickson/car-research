@@ -1,0 +1,359 @@
+INSTER
+Technical, Specifications and Pricing
+
+                                        Image for illustrative purposes only. Data correct October 2026.
+INSTER
+Technical
+                                                                                  42kWh Standard Range                               49kWh Long Range
+                                                                                         MY27                                             MY27
+ELECTRIC MOTOR
+Electric Motor Type                                                     Permanent Magnet Synchronous Motor (PMSM)        Permanent Magnet Synchronous Motor (PMSM)
+Electric Motor Max Power (PS/kW)                                                       97 / 71.1 (PS/KW)                               115 / 85.5 (PS/KW)
+Electric Motor Torque (Nm/lbs ft)                                                    147 / 108 (Nm/lbs ft)                            147 / 108 (Nm/lbs ft)
+0-62mph (seconds)                                                                            11.7                                            10.6v
+Top Speed (mph)                                                                               87                                               93
+HIGH VOLTAGE BATTERY
+Battery Type                                                                         Lithium-ion Polymer                              Lithium-ion Polymer
+Battery Power (kW)                                                                           85.4                                             96.5
+Battery Capacity (kWh/Ah)                                                                  42 / 158                                         49 / 158
+Voltage                                                                                      266                                              310
+CHARGING
+Charging Port                                                                        CCS Combo / Type 2                               CCS Combo / Type 2
+Estimated Charging Emergency 3 Pin Connector (ICCB) 2.3kW (10-100%)**                    16 hr 58 min                                     19 hr 31 min
+Estimated Charging Wallbox 7.4kW single phase (10-100%) **                                6 hr 6 min                                      6 hr 44 min
+Estimated Charging Wallbox 11kW 3 phase (10-100%)**                                       4 hr 0 min                                      4 hr 35 min
+Estimated Public 50kW CCS (10-80%) **                                                       55 min                                           55 min
+Estimated Public 150kW CCS (10-80%) **                                               30 min @ 73kW max                                30 min @ 85kW max
+On Board Charger (kW)                                                                        10.5                                             10.5
+SUSPENSION
+Front                                                                               MacPherson Strut Type                            MacPherson Strut Type
+Rear                                                                          CTBA (Coupled Torsion Beam Axle)                 CTBA (Coupled Torsion Beam Axle)
+
+STEERING
+System                                                                      Motor Driven Power Steering (C-MDPS)             Motor Driven Power Steering (C-MDPS)
+Steering Wheel Lock to Lock Turns                                                            2.58                                             2.58
+Turning Circle (metres)                                                                      10.6                                             10.6
+
+BRAKE
+System                                                                  Power Assisted Braking System with ABS and EBD   Power Assisted Braking System with ABS and EBD
+Front                                                                                   Ventilated Disc                                  Ventilated Disc
+Rear                                                                                      Solid Disc                                       Solid Disc
+
+DIMENSIONS
+Overall Length (mm)                                                                          3825                                     3825 (3845 CROSS)
+
+Overall Width (mm) (Excluding Door Mirrors)                                                  1610                                             1610
+
+Overall Width (mm) (Including Door Mirrors)                                                  1875                                             1875
+Wheelbase (mm)                                                                              2580                                             2580
+INSTER
+Technical
+                                                   42kWh Standard Range   49kWh Long Range
+                                                          MY27                 MY27
+WEIGHT AND CAPACITY
+Kerb Weight (kg)                                         1305-1393            1335-1423
+Payload (kg)                                              425-337              410-322
+Gross Vehicle Weight (kg)                                   1730                 1745
+Noseweight (kg)                                              75                   75
+Max Roof Weight (kg)                                        100                  100
+Max Tow Weight (kg) - Braked                                 0                    0
+Max Tow Weight (kg) - Unbraked                               0                    0
+Gross Train Weight (kg)                                     1730                 1745
+
+INSTER 01
+Front Tyre                                               185/65 R15           185/65 R15
+Rear Tyre                                                185/65 R15           185/65 R15
+Front Wheel                                               5.5J x 15            5.5J x 15
+Rear Wheel                                                5.5J x 15            5.5J x 15
+Front Track                                                 1414                 1414
+Rear Track                                                  1425                 1425
+Overall Height (mm)                                         1575                 1575
+Luggage Capacity VDA (litres) - Seats Up                    280                  280
+Luggage Capacity VDA (litres) - Seats Down                 1059                 1059
+CO2 Emissions (g/km)                                         0                    0
+Maximum Potential EV Driving Range - Miles (Km)*         203 (327)*           229 (369)*
+Electric Driving Efficiency (kWh per 100Km)*               14.3*                14.9*
+
+INSTER 02
+Front Tyre                                               205/45 R17           205/45 R17
+Rear Tyre                                                205/45 R17           205/45 R17
+Front Wheel                                               6.5J x 17            6.5J x 17
+Rear Wheel                                                6.5J x 17            6.5J x 17
+Front Track                                                1402                 1402
+Rear Track                                                  1414                 1414
+Overall Height (mm)                                         1610                 1610
+Luggage Capacity VDA (litres) - Seats Up                  238-351              238-351
+Luggage Capacity VDA (litres) - Seats Down                 1059                 1059
+CO2 Emissions (g/km)                                         0                    0
+Maximum Potential EV Driving Range - Miles (Km)*         188 (303)*           223 (359)*
+Electric Driving Efficiency (kWh per 100Km)*                15.6                 15.1*
+INSTER
+Technical
+                                                                                                          42kWh Standard Range                                                                49kWh Long Range
+                                                                                                                 MY27                                                                              MY27
+ INSTER CROSS
+ Front Tyre                                                                                                            -                                                                          205/45 R17
+ Rear Tyre                                                                                                             -                                                                          205/45 R17
+ Front Wheel                                                                                                           -                                                                           6.5J x 17
+ Rear Wheel                                                                                                            -                                                                           6.5J x 17
+ Front Track                                                                                                           -                                                                            1402
+ Rear Track                                                                                                            -                                                                             1414
+ Overall Height (mm)                                                                                                   -                                                                             1610
+ Luggage Capacity VDA (litres) - Seats Up                                                                              -                                                                           238-351
+ Luggage Capacity VDA (litres) - Seats Down                                                                            -                                                                            1059
+ CO2 Emissions (g/km)                                                                                                  -                                                                              0
+ Maximum Potential EV Driving Range - Miles (Km)*                                                                      -                                                                          223 (359)*
+ Electric Driving Efficiency (kWh per 100Km)*                                                                          -                                                                             15.1*
+
+
+
+
+*Maximum range according to WLTP combined cycle. Actual range will vary depending on factors including road conditions, outdoor temperature, driving style, use of climate control and
+battery condition.
+
+** Hyundai test data for comparison purposes. Actual time will vary and is dependent on several factors including battery temperature, condition and age, ambient temperature and the power
+provided by the charger. Charge time increases in cold weather and if battery temperature activates safeguarding technology.
+INSTER
+Specifications
+                                                                                     INSTER 01   INSTER 02   INSTER 02   INSTER CROSS
+                                                                                       MY27        MY26        MY27          MY27
+POWERTRAIN
+42kWh Battery | 97PS / 71.1kW Motor                                                      ●           -           ●            -
+49kWh Battery | 115PS / 85.5kW Motor                                                     ●           ●           -            ●
+EXTERIOR
+15" Alloy Wheels                                                                         ●           -           -            -
+17" Alloy Wheels                                                                                     ●           ●            ●
+Door Mirrors - Body Coloured                                                             ●           ●           ●            ●
+Exterior Door Handles - Body Coloured                                                    ●           ●           ●            ●
+CROSS Exterior Design Pack - Front and Rear Bumpers, Side Skirts, 17" Alloy Wheels       -           -           -            ●
+Rear Spoiler with Integrated Brake Light                                                 ●           ●           ●            ●
+Roof Rails                                                                               -           ●           ●            ●
+Wheel Arch Inserts - Black                                                               ●           ●           ●            ●
+INTERIOR STYLING
+Interior Door Handles - Metal Paint Effect                                               -           ●           ●            ●
+Steering Wheel - Artifical Leather wrapped                                               ●           -           ●            ●
+Steering Wheel - Leather wrapped                                                         -           ●           -            -
+SEATING
+4 Seats                                                                                  ●           ●           ●            ●
+Adjustable Head Restraints                                                               ●           ●           ●            ●
+Driver's Seat Height Adjustment (Manual)                                                 ●           ●           ●            ●
+Front Seats - Heated                                                                     -           ●           ●            ●
+Head Restraints -Vertical Adjustment (Rear)                                              ●           ●           ●            ●
+Rear Occupant Alert                                                                      ●           ●           ●            ●
+Rear Seats - Split Folding (50/50)                                                       ●           ●           ●            ●
+Rear Seats - Reclining                                                                   -           ●           ●            ●
+Rear seats - Sliding                                                                     -           ●           ●            ●
+Seat Trim - Cloth                                                                        ●           ●           ●            ●
+VENTILATION & VISIBILITY
+Air Conditioning - Climate Control Single Zone                                           ●           ●           ●            ●
+Ambient Lighting - Interior                                                              -           ●           ●            ●
+Automatic Dimming Rear View Mirror                                                       -           ●           ●            ●
+Automatic Headlights with Dusk Sensor                                                    ●           ●           ●            ●
+Automatic Windscreen Wipers with Rain Sensor                                             ●           ●           ●            ●
+Daytime Running Lights - LED                                                             ●           ●           ●            ●
+Headlights - Halogen MFR                                                                 ●           -           -            -
+INSTER
+Specifications                                                              INSTER 01   INSTER 02   INSTER 02   INSTER CROSS
+                                                                              MY27        MY26        MY27          MY27
+VENTILATION & VISIBILITY – continued
+Headlights - Full Projection LED                                                -           ●           ●            ●
+Indicator Lights - Door Mirror                                                  ●           ●           ●            ●
+Interior Light - Front Bulb Type                                                ●           -           -            -
+Interior Light - Front LED                                                      -           ●           ●            ●
+Interior Light - Centre Bulb Type                                               ●           -           -            -
+Interior Light - Centre LED                                                     -           ●           ●            ●
+Interior Light - Luggage Compartment Bulb Type                                  ●           -           -            -
+Interior Light - Luggage Compartment LED                                        -           ●           ●            ●
+Privacy Glass - Rear Windows and Tailgate                                       -           ●           ●            ●
+Rear Lights - Bulb Type                                                         ●           -           -            -
+Rear Lights - LED                                                               -           ●           ●            ●
+Sunroof - Electric Opening Glass                                                -           -           -            ●
+Windscreen Auto Defog Function                                                  ●           ●           ●            ●
+CONVENIENCE
+12V Power Outlet - Front                                                        ●           ●           ●            ●
+Charging cable - 7 Pin Type 2 Mode 3 (Wallbox)                                  ●           ●           ●            ●
+Cruise Control - Smart Cruise Control (SCC) with Stop and Go Function           ●           ●           ●            ●
+Door Mirrors - Electric Adjustment and Heated with Power Folding Function       ●           ●           ●            ●
+Electric Windows - Front and Rear                                               ●           ●           ●            ●
+Electric Windows - Front with Anti-Trap Mechanism and One Touch Control         -           ●           ●            ●
+Floor Mats                                                                      ●           ●           ●            ●
+Front Seat Back Panel (Driver)                                                  -           ●           ●            ●
+Heated Steering Wheel                                                           -           ●           ●            ●
+Luggage Board                                                                   ●           ●           ●            ●
+Luggage Shelf                                                                   ●           ●           ●            ●
+Parking Brake - Electric                                                        ●           ●           ●            ●
+Parking Sensors - Rear                                                          ●           -           -            -
+Parking Sensors - Front and Rear                                                -           ●           ●            ●
+Parking System - Rear Camera and Guidance System                                ●           ●           ●            ●
+Shift by Wire (SBW) - Column Mounted Shifter                                    ●           ●           ●            ●
+Smart Key - Keyless Entry with Start/Stop Button                                ●           ●           ●            ●
+Steering Column - Height and Reach Adjustable                                   ●           ●           ●            ●
+Sun Visor - with Vanity Mirror (Driver)                                         ●           ●           ●            ●
+Sun Visor - with Illuminated Vanity Mirror (Driver and Passenger)               -           ●           ●            ●
+Temporary Mobility Kit                                                          ●           ●           ●            ●
+Trailer Wiring Package                                                          ●           ●           ●            ●
+INSTER
+Specifications
+                                                                                     INSTER 01   INSTER 02   INSTER 02   INSTER CROSS
+                                                                                       MY27        MY26        MY27          MY27
+TECHNOLOGY & ENTERTAINMENT
+Bluetooth® Connectivity with Voice Recognition                                           ●           ●           ●            ●
+Driver's Supervision Instrument Cluster with 10.25" LCD Display                          ●           ●           ●            ●
+Navigation Infotainment - 10.25" Touchscreen with Navigation                             ●           ●           ●            ●
+Radio - Digital DAB                                                                      ●           ●           ●            ●
+Smartphone Integration - Apple CarPlay™ and Android Auto™                                ●           ●           ●            ●
+Speakers - Front and Rear                                                                ●           ●           ●            ●
+Speakers - Tweeters                                                                      -           ●           ●            ●
+Steering Wheel Audio, Phone and Cruise Controls                                          ●           ●           ●            ●
+USB Port - Front (C Type)                                                                ●           ●           ●            ●
+USB Charger - Front (C Type)                                                             ●           ●           ●            ●
+USB Charger - Rear (C Type)                                                              -           ●           ●            ●
+Wireless Phone Charging Pad                                                              -           ●           ●            ●
+SAFETY & SECURITY
+Airbags - Front, Front Side and Curtain                                                  ●           ●           ●            ●
+Anti-lock Brake System (ABS)                                                             ●           ●           ●            ●
+Blind Spot Collision Avoidance Assist (BCA)                                              -           -           -            ●
+Blind Spot View Monitor (BVM)                                                            -           -           -            ●
+Central Locking - Remote Control                                                         ●           ●           ●            ●
+Driver Status Monitor - In Cabin Camera (ICC)                                            ●           ●           ●            ●
+eCall                                                                                    ●           ●           ●            ●
+Electronic Stability Control (ESC)                                                       ●           ●           ●            ●
+Forward Collision Avoidance Assist (FCA 1.5) - Car, Pedestrian, Cycle and Junction
+Turning
+                                                                                         ●           ●           ●            ●
+
+Highway Drive Assist (1.5)                                                               ●           ●           ●            ●
+Hill-start Assist Control (HAC)                                                          ●           ●           ●            ●
+Immobiliser                                                                              ●           ●           ●            ●
+Intelligent Speed Limit Assist (ISLA)                                                    ●           ●           ●            ●
+Lane Keep Assist (LKA)                                                                   ●           ●           ●            ●
+Lane Follow Assist (LFA)                                                                 ●           ●           ●            ●
+Parking Collision Avoidance Assist - Reverse (PCA-R)                                     -           -           -            ●
+Surround View Monitor (SVM)                                                              -           -           -            ●
+Tyre Pressure Monitoring System (TPMS)                                                   ●           ●           ●            ●
+INSTER
+Specifications
+                                                                                                       INSTER 01                                   INSTER 02                                  INSTER 02     INSTER CROSS
+                                                                                                         MY27                                        MY26                                       MY27            MY27
+
+ CUSTOMER OPTIONS
+ Solid (Atlas White)                                                                                         ●                                          ●                                            ●           ●
+ Metallic / Pearl / Special Paint                                                                            ●                                          ●                                            ●           ●
+ Heat Pump and Battery Heater                                                                                ●                                Standard on MY26                               ● 49kWh only        ●
+ WARRANTY
+ 12 Years Anti-Perforation Warranty                                                                          ●                                          ●                                            ●           ●
+ Eight Year 100,000 High Voltage Battery Warranty                                                            ●                                          ●                                            ●           ●
+ Five Year Annual Vehicle Health Checks                                                                      ●                                          ●                                            ●           ●
+ Five Year Unlimited Mileage Warranty                                                                        ●                                          ●                                            ●           ●
+ Hyundai Roadside Assistance                                                                                 ●                                          ●                                            ●           ●
+ SUBSCRIPTIONS
+ 10.25” Touchscreen Satellite Navigation including Bluelink connectivity (10 years
+ LITE subscription, 3 years PLUS & 6 months free trial for PRO)‡
+                                                                                                             ●                                          ●                                            ●           ●
+
+
+
+
+†Compatible Smartphone, Bluelink App and active subscription with an eligible subscription plan. Convenience aid only. Not intended as a permanent key replacement.
+
+‡After the free 10-year Bluelink® LITE subscription period ends, access to Bluelink features will expire unless a paid subscription plan is selected. Users may choose to upgrade to a higher-tier
+subscription at any time before the expiration of the LITE free plan
+
+
+
+
+ KEY
+
+   ● Standard
+   ● Optional
+   - Not Available
+INSTER
+Pricing - Effective from 1st October 2026.
+
+MY26
+                                                                                                                                      RECOMMENDED                             MONTHLY BIK   MONTHLY BIK
+                                      CO2 EMISSIONS                INSURANCE      VED   VED   BASIC RETAIL               RETAIL                       P11D        BIK TAX %
+      TRIM             FUEL TYPE                                                                              VAT £                    ON THE ROAD                             PAYABLE AT    PAYABLE AT
+                                          (WLTP)                   GROUP(1-50)   BAND    £      PRICE £                  PRICE £                     VALUE £       2024/25
+                                                                                                                                         PRICE £                                  20%           40%
+
+   01 42kWh              Battery
+                                               0                       21D        A     £10     £19,137.50   £3,827.50   £22,965.00     £23,755.00   £23,690.00      4%          £15.79        £31.59
+     MY26                Electric
+
+
+   01 49kWh              Battery
+                                               0                       23D        A     £10     £20,429.17   £4,085.83   £24,515.00     £25,305.00   £25,240.00      4%          £16.83        £33.65
+     MY26                Electric
+
+
+   02 49kWh              Battery
+                                               0                       23D        A     £10     £21,937.50   £4,387.50   £26,325.00     £27,115.00   £27,050.00      4%          £18.03        £36.07
+     MY26                Electric
+
+
+  CROSS 49kWh            Battery
+                                               0                       23D        A     £10     £23,712.50   £4,742.50   £28,455.00     £29,245.00   £29,180.00      4%          £19.45        £38.91
+     MY26                Electric
+
+ *MY26 available from stock only. Not available to factory order
+
+
+
+MY27
+                                                                                                                                      RECOMMENDED                             MONTHLY BIK   MONTHLY BIK
+                                      CO2 EMISSIONS                INSURANCE      VED   VED   BASIC RETAIL                RETAIL                       P11D       BIK TAX %
+      TRIM             FUEL TYPE                                                                               VAT £                   ON THE ROAD                             PAYABLE AT    PAYABLE AT
+                                          (WLTP)                   GROUP(1-50)   BAND    £      PRICE £                   PRICE £                     VALUE £      2024/25
+                                                                                                                                         PRICE £                                  20%           40%
+
+                         Battery
+   01 42kWh              Electric
+                                               0                       21D        A     £10     £18,504.17   £3,700.83   £22,205.00     £22,995.00   £22,930.00      4%          £15.29        £30.57
+
+
+
+                         Battery
+   01 49kWh              Electric
+                                               0                       23D        A     £10     £19,795.83   £3,959.17   £23,755.00     £24,545.00   £24,480.00      4%          £16.32        £32.64
+
+
+
+                         Battery
+   02 42kWh              Electric
+                                               0                       21D        A     £10     £19,958.33   £3,991.67   £23,950.00     £24,740.00   £24,675.00      4%          £16.45        £32.90
+
+
+
+                         Battery
+   02 49kWh              Electric
+                                               0                       21D        A     £10     £21,250.00   £4,250.00   £25,500.00     £26,290.00   £26,225.00      4%          £17.48        £34.97
+
+
+
+                         Battery
+ CROSS 49kWh             Electric
+                                               0                       23D        A     £10     £23,025.00   £4,605.00   £27,630.00     £28,420.00   £28,355.00      4%          £18.90        £37.81
+INSTER
+Pricing
+
+  OPTIONAL EXTRAS                                                                                                                                                            VARIANT                  BASIC RETAIL PRICE                         VAT                      RETAIL PRICE
+
+
+  Solid Paint (Atlas White)                                                                                                                                                      All                           £308.33                          £61.67                        £370.00
+
+
+                                                                                                                                                                      Jungle Khaki: All trims
+  Special Paint (Jungle Khaki, Glow Mint)                                                                                                                                                                       £579.17                         £115.83                       £695.00
+                                                                                                                                                                     Glow Mint: 01 & 02 MY27
+
+
+  Metallic / Pearl Paint                                                                                                                                                         All                            £579.17                         £115.83                       £695.00
+
+
+
+
+Features and options may vary between model trims. Please check model availability and full specification details with your local Hyundai retailer. The information on this document is relevant for new factory orders only and is accurate at time of publication. While we do our best to ensure
+that the information provided is accurate and up to date, we make no guarantee. In particular, while every effort is made to ensure that the price, specifications and equipment shown are correct at the time of publication, our products are being updated regularly and therefore the published
+specification is subject to change.
+

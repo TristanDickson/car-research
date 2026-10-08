@@ -193,3 +193,25 @@ class ThroughTheRunner(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class MakerTableWording(unittest.TestCase):
+    """Hyundai's tables say 'Front Seats - Heated'; Carwow's lists say 'ventilated disc brakes' and
+    'tinted windscreen', which are not seats or privacy glass."""
+
+    def test_hyundai_seat_rows(self):
+        from pipeline.services.features import flags_for
+        f = flags_for(["Front Seats - Heated", "Rear Seats (Outer) - Heated", "Front Seats - Ventilated", "Privacy Glass - Rear Side and Tailgate"])
+        self.assertEqual((f["heated_front_seats"], f["heated_rear_seats"], f["ventilated_seats"], f["rear_privacy_glass"]), ("standard",) * 4)
+        self.assertEqual(flags_for(["Heated and ventilated front seats"])["heated_front_seats"], "standard")
+
+    def test_brakes_windscreens_and_storage_are_not_seats_or_privacy_glass(self):
+        from pipeline.services.features import flags_for
+        f = flags_for(["Front ventilated disc brakes", "Ventilated wireless mobile phone charger (50W)", "Central front armrest with ventilated storage compartment",
+                       "Ventilated 2nd row seats", "Rear Seats 2nd row - Ventilated", "Tinted (green glass) front windscreen", "Acoustic and tinted windscreen",
+                       "Rear windscreen - Heated and Tinted"])
+        self.assertIsNone(f.get("ventilated_seats"))
+        self.assertIsNone(f.get("rear_privacy_glass"))
+        self.assertEqual(flags_for(["Dark tinted rear windows"])["rear_privacy_glass"], "standard")
+        self.assertEqual(flags_for(["Tinted glass"])["rear_privacy_glass"], "standard")
+

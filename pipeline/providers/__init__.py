@@ -17,6 +17,7 @@ from pipeline.providers import (
     cinch_used,
     evdb,
     hyundai_offers,
+    hyundai_specs,
     kia_specs,
     leaseloco,
     manual_seed,
@@ -47,7 +48,8 @@ PROVIDERS: dict[str, Provider] = {
         ncd.provider,
         leaseloco.provider,
         rrg.provider,
-        kia_specs.provider,
+        kia_specs.provider,       # the makers' own grade tables: what each trim is fitted with, by the maker's word
+        hyundai_specs.provider,
         evdb.provider,            # measured numbers per variant; laid over the cars by model and battery at export
         carwow_used.provider,      # used stock per model: the 'buy used' route and the residual evidence
         cinch_used.provider,       # more used stock, with registrations; the snapshot folds the sources

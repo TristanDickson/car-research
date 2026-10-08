@@ -1,0 +1,401 @@
+IONIQ 5
+Technical, Specifications and Pricing
+Model Year 27
+
+
+
+
+                                        Image for illustrative purposes only. Data correct October 2026.
+IONIQ 5
+Technical
+                                                                                       63 kWh 170 PS RWD                                              84 kWh 228 PS RWD                                              84 kWh 325 PS AWD
+
+ ELECTRIC MOTOR
+                                                                           Permanent Magnet Synchronous Motor (PMSM)                      Permanent Magnet Synchronous Motor (PMSM)                      Permanent Magnet Synchronous Motor (PMSM)
+ Electric Motor Type
+                                                                                         REAR - 2WD                                                      REAR - 2WD                                                 REAR & FRONT - AWD
+
+ Electric Motor Max Power (PS/kW)                                                              170 / 125                                                      228 / 168                                                      325 / 239
+ Electric Motor Torque (Nm/lbs ft)                                                           350 / 258.2                                                     350 / 258.2                                                    605 / 258.2
+ 0-62mph (seconds)                                                                                8.5                                                            7.5                                                            5.3
+ Top Speed (kph / mph)                                                                         185/ 114                                                       185/ 114                                                        185/ 114
+ Max Net Power (MVRIS)                                                                            125                                                            168                                                            239
+ Maximum 30 Minutes Power                                                                         42                                                             56                                                              81
+ Operating Voltage (MVRIS)                                                                       520                                                            690                                                             670
+ HIGH VOLTAGE BATTERY
+ Battery Type                                                                                Lithium - Ion                                                  Lithium - Ion                                                   Lithium - Ion
+ Battery Power (kW)                                                                              195                                                             277                                                            277
+ Battery Capacity (kWh)                                                                           63                                                             84                                                              84
+ Configuration ( Cells )                                                                288 Cells (24 Modules)                                         384 Cells (32 Modules)                                         384 Cells (32 Modules)
+ CHARGING
+ Charging Port                                                                                   CCS                                                            CCS                                                             CCS
+ Estimated Charging Wallbox 7.2kW single phase (10-100%)**                                       TBC                                                            TBC                                                             TBC
+ Estimated Charging Wallbox 10.5 kW 3 phase (10-100%)**                                      5 hr 50 min                                                     7 hr 35 min                                                    7 hr 35 min
+ Estimated Public 50kW CCS (10-80%)**                                                        0 hr 58 min                                                     1 hr 16 min                                                     1 hr 16 min
+ Estimated Public 350kW CCS (10-80%)**                                                        0 hr 18 min                                                    0 hr 18 min                                                    0 hr 18 min
+ Max DC charging (kW)                                                                            260                                                            260                                                             260
+ On Board Charger (kW)                                                                           10.5                                                           10.5                                                            10.5
+
+ SUSPENSION
+ Front                                                                                  MacPherson Strut Type                                          MacPherson Strut Type                                          MacPherson Strut Type
+ Rear                                                                                          Multilink                                                      Multilink                                                       Multilink
+
+ STEERING
+ System                                                                             RACK & PINION R-MDPS TYPE                                      RACK & PINION R-MDPS TYPE                                      RACK & PINION R-MDPS TYPE
+ Steering Wheel Lock to Lock Turns                                                               2.67                                                           2.67                                                            2.67
+ Turning Circle (metres)                                                                         11.98                                                          11.98                                                           11.98
+
+
+
+
+*350 kW ultra-fast charger required for quickest charge times - chargers are currently available on selected arterial routes – see Charge myHyundai map for details. Not currently available in Northern Ireland. Hyundai
+test data for comparison purposes. Actual time may vary from stated times/ranges and is dependent on several factors including battery temperature, condition and age, ambient temperature and the power provided
+by the charger. Charge time increases in cold weather and if battery temperature activates safeguarding technology. In optimal conditions, the new IONIQ 5 is capable of accepting power at up to 260 kW.
+
+**Hyundai test data for comparison purposes. Actual time will vary and is dependent on several factors including battery temperature, condition and age, ambient temperature and the power provided by the charger.
+Charge time increases in cold weather and if battery temperature activates safeguarding technology.
+IONIQ 5
+Technical
+                                                       63 kWh 170 PS RWD      84 kWh 228 PS RWD      84 kWh 325 PS AWD
+
+BRAKE
+Front (mm)                                                     325                    345                   345
+Rear (mm)                                                      325                    345                   345
+
+DIMENSIONS
+Overall Length (mm)                                           4655                   4655                   4655
+Overall Width (mm) (Including Door Mirrors)                   1890                   1890                   1890
+Wheelbase (mm)                                                3000                   3000                  3000
+
+WEIGHT AND CAPACITY ( Core / N Line)
+Kerb Weight (kg) Min- Max                                  1880 - 1960            1985 - 2085            2100 - 2190
+Payload (kg)                                                510 - 590              505 - 605              495 - 585
+Gross Vehicle Weight (kg)                                     2470                   2590                   2685
+Max Tow Weight (kg) - Braked                                   750                   1600                   1600
+Max Tow Weight (kg) - Unbraked                                 750                    750                   750
+Gross Train Weight (kg)                                       3220                   4190                   4285
+Noseweight (kg)                                                100                    100                   100
+Max Roof Weight (kg)                                           80                     80                     80
+
+ADVANCE
+Front Tyre                                                  235/55R19              235/55R19
+Rear Tyre                                                   235/55R19              235/55R19
+Front Wheel                                            7.5JX19, OFFSET 49.5   7.5JX19, OFFSET 49.5
+Rear Wheel                                             7.5JX19, OFFSET 49.5   7.5JX19, OFFSET 49.5
+Front Track                                                   1638                   1638
+Rear Track                                                    1647                   1647
+Overall Height (mm)                                           1605                   1605
+Luggage Capacity VDA (litres) - Seats Up                       520                    520
+Luggage Capacity VDA (litres) - Seats Down                    1580                   1580
+CO2 Emissions (g/km)                                            0                      0
+Electric Range - Combined (Miles / Km)                      273 / 440              354 / 570
+Electric Driving Efficiency Combined (kWh per 100Km)          15.58                  16.04
+IONIQ 5
+Technical
+                                                       63 kWh 170 PS RWD      84 kWh 228 PS RWD      84 kWh 325 PS AWD
+
+PREMIUM
+Front Tyre                                                  235/55R19              235/55R19
+Rear Tyre                                                   235/55R19              235/55R19
+Front Wheel                                            7.5JX19, OFFSET 49.5   7.5JX19, OFFSET 49.5
+Rear Wheel                                             7.5JX19, OFFSET 49.5   7.5JX19, OFFSET 49.5
+Front Track                                                   1638                   1638
+Rear Track                                                    1647                   1647
+Overall Height (mm)                                           1605                   1605
+Luggage Capacity VDA (litres) - Seats Up                       520                    520
+Luggage Capacity VDA (litres) - Seats Down                    1580                   1580
+CO2 Emissions (g/km)                                            0                      0
+Electric Range - Combined (Miles / Km)                      273 / 440              354 / 570
+Electric Driving Efficiency Combined (kWh per 100Km)          15.58                  16.04
+
+N LINE
+Front Tyre                                                                         255/45R20              255/45R20
+Rear Tyre                                                                          255/45R20              255/45R20
+Front Wheel                                                                   8.5JX20, OFFSET 54.5   7 8.5JX20, OFFSET 54.5
+Rear Wheel                                                                    8.5JX20, OFFSET 54.5   8.5JX20, OFFSET 54.5
+Front Track                                                                          1628                    1628
+Rear Track                                                                           1637                    1637
+Overall Height (mm)                                                                  1605                    1605
+Luggage Capacity VDA (litres) - Seats Up                                              520                     520
+Luggage Capacity VDA (litres) - Seats Down                                           1580                    1580
+CO2 Emissions (g/km)                                                                   0                       0
+Electric Range - Combined (Miles / Km)                                             320 / 515               307 / 495
+Electric Driving Efficiency Combined (kWh per 100Km)                                  17.2                   18.11
+IONIQ 5
+Technical
+                                                       63 kWh 170 PS RWD   84 kWh 228 PS RWD      84 kWh 325 PS AWD
+
+ULTIMATE
+Front Tyre                                                                      255/45R20              255/45R20
+Rear Tyre                                                                       255/45R20              255/45R20
+Front Wheel                                                                8.5JX20, OFFSET 54.5   8.5JX20, OFFSET 54.5
+Rear Wheel                                                                 8.5JX20, OFFSET 54.5   8.5JX20, OFFSET 54.5
+Front Track                                                                       1628                    1628
+Rear Track                                                                        1637                    1637
+Overall Height (mm)                                                               1605                    1605
+Luggage Capacity VDA (litres) - Seats Up                                           520                     520
+Luggage Capacity VDA (litres) - Seats Down                                        1580                    1580
+CO2 Emissions (g/km)                                                                0                       0
+Electric Range - Combined (Miles / Km)                                          329/ 530                 311/500
+Electric Driving Efficiency Combined (kWh per 100Km)                              16.99                   18.21
+
+N LINE S
+Front Tyre                                                                      255/45R20              255/45R20
+Rear Tyre                                                                       255/45R20              255/45R20
+Front Wheel                                                                8.5JX20, OFFSET 54.5   7 8.5JX20, OFFSET 54.5
+Rear Wheel                                                                 8.5JX20, OFFSET 54.5   8.5JX20, OFFSET 54.5
+Front Track                                                                       1628                    1628
+Rear Track                                                                        1637                    1637
+Overall Height (mm)                                                               1605                    1605
+Luggage Capacity VDA (litres) - Seats Up                                           520                     520
+Luggage Capacity VDA (litres) - Seats Down                                        1580                    1580
+CO2 Emissions (g/km)                                                                0                       0
+Electric Range - Combined (Miles / Km)                                          320 / 515               307 / 495
+Electric Driving Efficiency Combined (kWh per 100Km)                               17.2                   18.11
+IONIQ 5
+Specifications
+                                                                                        ADVANCE   PREMIUM   N LINE   ULTIMATE   N LINE S
+
+ENGINE & TRANSMISSION
+63 kWh 170 PS RWD                                                                          ●         ●        -         -          -
+84 kWh 228 PS RWD                                                                          ●         ●        ●         ●          ●
+84 kWh 325 PS AWD                                                                          -         -        ●         ●          ●
+COMFORT & CONVENIENCE
+12.3” Touchscreen Satellite Navigation including Bluelink connectivity (10 years LITE
+subscription, 3 years PLUS & 6 months free trial for PRO)*
+                                                                                           ●         ●        ●         ●          ●
+
+Air Conditioning - Climate Control (Dual Zone)                                             ●         ●        ●         ●          ●
+Automatic Windscreen Wipers with Rain Sensor                                               ●         ●        ●         ●          ●
+Battery Heating System with Pre-Conditioning                                               ●         ●        ●         ●          ●
+Blind Spot Collision Avoidance Assist (BCA)                                                -         ●        ●         ●          ●
+Blind Spot View Monitor (BVM)                                                              -         -        -         ●          ●
+Bluetooth® Connectivity with Voice Recognition**                                           ●         ●        ●         ●          ●
+Central Locking - Remote Control**                                                         ●         ●        ●         ●          ●
+Digital Clock                                                                              ●         ●        ●         ●          ●
+Digital Key**                                                                              -         -        -         ●          ●
+Drive Mode Select - Eco / Normal / Sport / Snow / My Drive                                 ●         ●        ●         ●          ●
+Driver's Supervision Instrument Cluster with full TFT Display (12.3")                      ●         ●        ●         ●          ●
+Forward Collision Avoidance Assist (FCA 1.5) - Car, Pedestrian, Cycle                      ●         -        -         -          -
+Forward Collision Avoidance Assist (FCA2.0) - FCA 1.5 + Junction ( Turning)                -         ●        ●         ●          ●
+HDA - Highway Drive Assist Level 1.5                                                       ●         -        -         -          -
+HDA - Highway Drive Assist Level 2.0                                                       -         ●        ●         ●          ●
+Head Up Display (HUD)                                                                      -         -        -         ●          ●
+Heat Pump***                                                                               ●***      ●***     ●         ●          ●
+Immobiliser                                                                                ●         ●        ●         ●          ●
+Inside Rear View Mirror - Night and Day                                                    ●         -        -         -          -
+Inside Rear View Mirror - Electrochromic                                                   -         ●        ●         -          -
+Inside Rear View Mirror - Electrochromic and Digital                                       -         -        -         ●          ●
+Intelligent Speed Limit Assist (ISLA)                                                      ●         ●        ●         ●          ●
+Lane Follow Assist - Level 2                                                               ●         ●        ●         ●          ●
+Lane Keep Assist (LKA) - Line and Road Edge                                                ●         ●        ●         ●          ●
+Over the air Updates                                                                       ●         ●        ●         ●          ●
+Parking Distance Warning (PDW); Forward / Reverse                                          ●         ●        ●         ●          ●
+Parking System - Smart Park Assist                                                         -         -        -         ●          ●
+Power Outlet - Front console                                                               ●         ●        ●         ●          ●
+Power Outlet - Luggage Compartment                                                         -         ●        ●         ●          ●
+IONIQ 5
+Specifications
+                                                                               ADVANCE   PREMIUM   N LINE   ULTIMATE   N LINE S
+
+COMFORT & CONVENIENCE – continued
+Rear Door Blinds - Manual                                                         -         -        -         ●          ●
+Rear Armrest with Cupholders                                                      ●         ●        ●         ●          ●
+Rear Occupancy Alert                                                              ●         ●        ●         ●          ●
+Rear View Monitor with Dynamic Parking Guidance                                   ●         ●        ●         ●          ●
+Side Mirror - Digital                                                             -         -        -         ●          ●
+Smart Cruise Control with Stop & Go                                               ●         ●        ●         ●          ●
+Smart Electric Tailgate - Hand's Free Opening Function                            -         ●        ●         ●          ●
+Smart Key - Keyless Entry with Power On/Off Button                                ●         ●        ●         ●          ●
+Smart Regenerative Braking                                                        ●         ●        ●         ●          ●
+Speakers - BOSE Premium Audio - Seven Speakers + One Subwoofer                    -         -        -         ●          ●
+Steering Wheel Audio Controls                                                     ●         ●        ●         ●          ●
+Surround View Monitor (SVM)                                                       -         -        -         ●          ●
+Trailer Wiring Package                                                            ●         ●        ●         ●          ●
+Tyre Pressure Monitoring System (TPMS) with Individual Tyre Pressure Warning      ●         ●        ●         ●          ●
+USB Connectivity Port - One Front                                                 ●         ●        ●         ●          ●
+USB Port - 2 Inside Centre Console                                                ●         ●        ●         ●          ●
+V2L - Vehicle to Load - Inside                                                    -         ●        ●         ●          ●
+Windscreen Auto Defog Function                                                    ●         ●        ●         ●          ●
+Wireless Phone Charger                                                            -         ●        ●         ●          ●
+eCall                                                                             ●         ●        ●         ●          ●
+EXTERIOR					
+19" Alloy Wheels                                                                  ●         ●        -         -          -
+20" Alloy Wheels                                                                  -         -        -         ●          -
+20" Alloy Wheels (N Line design)                                                  -         -        ●         -          ●
+Black Hyundai ‘H’ badges Front / Rear                                             -         -        ●         -          ●
+Beltline - Black Glossy                                                           -         -        ●         ●          ●
+Daytime Running Lights - LED                                                      ●         ●        ●         ●          ●
+Door Mirrors - Black and Body Coloured                                            ●         ●        -         -          -
+Door Mirrors - Glossy Black and body Coloured                                     -         -        ●         ●          ●
+Door Mirrors - Electric Adjustment and Heated with Power Folding Function         ●         ●        ●         ●          ●
+Exterior Door Handles - Flush Manual                                              ●         ●        -         -          -
+Exterior Door Handles - Flush Auto                                                -         -        ●         ●          ●
+LED Headlights - MFR                                                              ●         -        -         -          -
+LED Headlights with Intelligent Front Lighting System                             -         ●        ●         ●          ●
+IONIQ 5
+Specifications
+                                                                                             ADVANCE   PREMIUM   N LINE   ULTIMATE   N LINE S
+
+EXTERIOR – continued				
+Positioning Lights - LED                                                                        ●         ●        ●         ●          ●
+Rear Combination Lights - LED                                                                   ●         ●        ●         ●          ●
+Rear Spoiler with Integrated LED Brake Light                                                    ●         ●        ●         ●          ●
+Side Body Moulding - Chrome                                                                     -         -        -         ●          -
+Temporary Mobility Kit                                                                          ●         ●        ●         ●          ●
+Vision Roof                                                                                     -         -        -         ●          ●
+Windows - Rear Tailgate - Heated and Tinted                                                     ●         ●        -         -          -
+Windows - Rear and Tailgate - Privacy Glass                                                     -         -        ●         ●          ●
+Windows - Front and Rear - Laminated Glazing                                                    -         -        -         ●          ●
+Windscreen Wiper with Aero Wiper Blade                                                          ●         ●        ●         ●          ●
+Windscreen and Front Windows - Solar Glass                                                      -         -        -         ●          ●
+Windscreen with Acoustic Film                                                                   ●         ●        ●         ●          ●
+INTERIOR
+Ambient Lighting - Interior (64 Colours)                                                        -         ●        ●         ●          ●
+Boot - LED light                                                                                ●         ●        ●         ●          ●
+Centre Console - Sliding                                                                        -         -        ●         ●          ●
+Courtesy Light Rear - LED                                                                       ●         ●        ●         ●          -
+Door Scuff - Deluxe Plate                                                                       -         -        ●         ●          ●
+Electric Windows - with One touch                                                               ●         ●        ●         ●          ●
+Frunk - Under Bonnet Storage                                                                    ●         ●        ●         ●          ●
+Heated Steering Wheel                                                                           ●         ●        ●         ●          ●
+Leather Wrapped Steering Wheel                                                                  ●         ●        ●         ●          ●
+Luggage Cover                                                                                   ●         ●        ●         ●          ●
+Luggage Hooks                                                                                   ●         ●        ●         ●          ●
+Steering Wheel - Leather 3 Spoke                                                                ●         ●        ●         ●          ●
+Sun Visors - with Driver and Passenger Illuminated Vanity Mirrors and Driver Ticket Holder      ●         ●        ●         ●          ●
+SAFETY
+Airbags - Front Thorax and Pelvis, Curtain Airbags                                              ●         ●        ●         ●          ●
+Anti-lock Brake System (ABS)                                                                    ●         ●        ●         ●          ●
+Battery Heating System with Pre-Conditionning                                                   ●         ●        ●         ●          ●
+Childproof Rear Door Locks - Manual                                                             ●         ●        ●         ●          ●
+Parking Brake - Electric with Auto Hold Function                                                ●         ●        ●         ●          ●
+IONIQ 5
+Specifications
+                                                                                                            ADVANCE                          PREMIUM                            N LINE                  ULTIMATE   N LINE S
+
+SAFETY – continued
+Parking System - Parking Collision Avoidance Assist -Reverse (PCA-R)                                              -                                -                                -                      ●          ●
+Shift by Wire Gear Selector (SBW)                                                                                ●                                 ●                                ●                      ●          ●
+Steering Column - Height and Reach Adjustable                                                                    ●                                 ●                                ●                      ●          ●
+Driver Distraction Warning (DDW)                                                                                 ●                                 ●                                ●                      ●          ●
+SEATING					
+Driver's Seat Lumbar Support (Electric)                                                                          ●                                 ●                                ●                      ●          ●
+Passenger's Seat Lumbar Support (Electric)                                                                        -                                ●                                ●                      ●          ●
+Front Seats - Electric Adjustments                                                                                -                                ●                                ●                      ●          ●
+Front Seats - Heated                                                                                             ●                                 ●                                ●                      ●          ●
+Front Seats - Ventilated                                                                                          -                                -                                -                      ●          ●
+Front Seats - Manual Adjustments                                                                                 ●                                 -                                -                      -          -
+Front Seats - Memory Driver Side                                                                                  -                                -                                -                      ●          ●
+Front Seat Back Pockets - Driver and Passenger Seat                                                              ●                                 ●                                ●                      ●          ●
+Front Seats - Premium Relaxation Seats - Driver and Passenger                                                     -                                -                                -                      ●          ●
+Headrest - Up Down and Sliding                                                                                   ●                                 ●                                ●                      ●          ●
+Rear Seats (Outer) - Heated                                                                                       -                                -                                -                      ●          ●
+Rear Seats (Second Row) - Split Folding (60/40)                                                                  ●                                 ●                                ●                      ●          ●
+Rear Seats - Easy Remote Folding                                                                                  -                                -                                -                      ●          ●
+Rear Seats - Manual Sliding                                                                                      ●                                 ●                                ●                      ●          -
+Rear Seats - Electric Sliding                                                                                     -                                -                                -                      ●          ●
+Seat Trim - Cloth                                                                                                ●                                 -                                -                      -          -
+Seat Trim - Part Cloth and Leather                                                                                -                                ●                                ●                      -          -
+Seat Trim - Leather Trim (seat facings only)                                                                      -                                -                                -                      ●          -
+
+
+
+
+                           * After the free 10-year Bluelink® LITE subscription period ends, access to Bluelink features will expire unless a paid subscription plan is selected. Users may choose to
+ KEY                       upgrade to a higher-tier subscription at any time before the expiration of the LITE free plan.
+                           ** Requires compatible smartphone, Bluelink App and active subscription with an eligible subscription plan.
+ ● Standard                *** Heat pump is only standard on the 84kWh battery (N/A on 63kWh) for Advance and Premium.
+ ● Optional
+  - Not Available
+IONIQ 5
+Pricing - Effective from 1st October 2026.
+                          FUEL      CO2 EMISSIONS   INSURANCE      VED FIRST    BASIC                    RETAIL       RECOMMENDED          P11D                   MONTHLY BIK    MONTHLY BIK
+         TRIM                                                                                 VAT                                                     BIK BAND
+                          TYPE          G/KM*       GROUP (1-50)   YEAR COST    RETAIL                   PRICE       ON THE ROAD PRICE    VALUE                  PAYABLE AT 20% PAYABLE AT 40%
+
+ Advance 63 kWh 170PS
+                         Electric         0             33E           £10      £33,254.17   £6,650.83   £39,905.00       £40,695.00      £40,630.00     4%           27.09           54.17
+        RWD
+
+ Advance 84 kWh 228PS
+                         Electric         0             38E           £10      £36,170.83   £7,234.17   £43,405.00       £44,195.00      £44,130.00     4%           29.42           58.84
+         RWD
+
+ Premium 63 kWh 170PS
+                         Electric         0             34E           £10      £35,387.50   £7,077.50   £42,465.00       £43,255.00      £43,190.00     4%           28.79           57.59
+        RWD
+
+ Premium 84 kWh 228PS
+                         Electric         0             38E           £10      £38,304.17   £7,660.83   £45,965.00       £46,755.00      £46,690.00     4%            31.13          62.25
+        RWD
+
+  N Line 84 kWh 228PS
+                         Electric         0             38E           £10      £39,554.17   £7,910.83   £47,465.00       £48,255.00      £48,190.00     4%            32.13          64.25
+          RWD
+
+  N Line 84 kWh 325PS
+                         Electric         0             41E           £10      £42,470.83   £8,494.17   £50,965.00       £51,755.00      £51,690.00     4%           34.46           68.92
+          RWD
+
+ Ultimate 84 kWh 228PS
+                         Electric         0             38E           £10      £41,220.83   £8,244.17   £49,465.00       £50,255.00      £50,190.00     4%           33.46           66.92
+          RWD
+
+ Ultimate 84 kWh 325PS
+                         Electric         0             41E           £10      £44,137.50   £8,827.50   £52,965.00       £53,755.00      £53,690.00     4%           35.79           71.59
+          RWD
+
+ N Line S 84 kWh 228PS
+                         Electric         0             39E           £10      £43,720.83   £8,744.17   £52,465.00       £53,255.00      £53,190.00     4%           35.46           70.92
+          RWD
+
+ N Line S 84 kWh 325PS
+                         Electric         0             41E           £10      £46,637.50   £9,327.50   £55,965.00       £56,755.00      £56,690.00     4%            37.79          75.59
+          RWD
+IONIQ 5
+Pricing
+
+  OPTIONAL EXTRAS                                                                                                                                                                                             BASIC RETAIL PRICE                       VAT                RETAIL PRICE
+
+  Special Solid Paint (Atlas White)
+                                                                                                                                                                                                                       £350.00                       £70.00                   £420.00
+  All trims
+
+
+  Metallic / Pearl Paint
+                                                                                                                                                                                                                       £662.50                       £132.50                  £795.00
+  All trims
+
+
+  Matt Paint
+                                                                                                                                                                                                                       £1,079.17                     £215.83                 £1,295.00
+  All trims
+
+
+  Seat Trim - Moonlight Grey Leather (Seat Facings Only)
+                                                                                                                                                                                                                        £0.00                         £0.00                    £0.00
+  Available on Ultimate trim only
+
+
+  Tech Pack (Remote Smart Park Assist, Parking Collision Avoidance Assist , Surround View Monitor, Blind Spot View Monitor)
+                                                                                                                                                                                                                      £1,250.00                      £250.00                 £1,500.00
+  Available on Ultimate trim only
+
+
+  Zen Pack (Front Relaxation Seats, Driver Memory Seats, Vision Roof, Electric Sliding Rear Seats)
+                                                                                                                                                                                                                      £2,083.33                      £416.67                 £2,500.00
+  Available on Ultimate trim only
+
+
+  Digital Mirrors
+                                                                                                                                                                                                                      £1,041.67                      £208.33                 £1,250.00
+  Available on N Line S trim only
+
+
+
+
+Features and options may vary between model trims. Please check model availability and full specification details with your local Hyundai retailer. The information on this document is relevant for new factory orders only and is accurate at time of publication. While we do our best to ensure
+that the information provided is accurate and up to date, we make no guarantee. In particular, while every effort is made to ensure that the price, specifications and equipment shown are correct at the time of publication, our products are being updated regularly and therefore the published
+specification is subject to change.
+

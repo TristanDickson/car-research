@@ -97,6 +97,7 @@ Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
 | `carwow_options` | quotes.carwow.co.uk's configurator, one page per derivative | every option and pack the derivative can be ordered with, with prices and what each pack bundles; a feature in neither is not available on that derivative | scrapes |
 | `carwow_specs` | carwow.co.uk `/specifications` per catalogue model | equipment per trim, numbers per engine, CAP ids with version dates, an image per derivative; a generated car for every derivative nobody curates | scrapes |
 | `kia_specs` | kia.com/uk `/specification` per model | grade × feature ticks, numbers per powertrain, seat variants | scrapes |
+| `hyundai_specs` | hyundai.com/uk `/models/<model>/downloads.html`, the Tech & Spec guide PDF it links (needs `pdftotext` from poppler-utils, or pypdf) | the maker's own table per trim: ● / - per item, battery-qualified ticks (`● 49kWh only`, a footnote's `N/A on 63kWh`), which batteries each trim is sold with, packs with contents, price and the trims they are offered on | scrapes |
 | `carwow_used` | quotes.carwow.co.uk used stock per catalogue model | every used example Carwow's partner dealers list: derivative, price, year, mileage, town | scrapes |
 | `cinch_used` | cinch's search API, every electric car per make | cinch's own and marketplace stock with the registration, the CAP variant and the fee-inclusive price | scrapes |
 | `motorpoint_used` | motorpoint.co.uk's electric listing | the supermarket's nearly-new stock: CAP trim, year, mileage, price, branch, and the list price when new | scrapes |
@@ -233,7 +234,7 @@ filtered view is a link and the filter follows you between pages.
 
 ```
 pipeline/               Python package: providers, SQLite medallion, snapshot exporter, history, CLI
-  providers/            manual_seed, carwow_paste, carwow_catalog (the model index), and the live scrapers (carwow_specs, carwow_deals, hyundai_offers, ncd, leaseloco, rrg, kia_specs)
+  providers/            manual_seed, carwow_paste, carwow_catalog (the model index), and the live scrapers (carwow_specs, carwow_deals, hyundai_offers, ncd, leaseloco, rrg, kia_specs, hyundai_specs)
                         http.py (polite fetch: UA, per-host delay, retry) and parse.py (money/pct/text/key helpers)
   services/snapshot.py  Gold → web/public/data: cars, every price as spans (sightings, used spans), specs, catalogue, data page; no costs
   services/autocars.py  a car record from a Carwow spec row (or a deals-page stub) for every derivative nobody curates
@@ -312,6 +313,16 @@ rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Context log
 
+- **2026-10-08** The makers' own tables rank with CAP's brackets. `hyundai_specs` reads
+  Hyundai UK's Tech & Spec guide PDF per model (● / - per trim, `● 49kWh only`, footnotes,
+  the batteries each trim is sold with, packs with prices); it and `kia_specs` feed the claim
+  store as kind `maker`, the same strength as a `[No Heat Pump]` bracket, so where the two
+  differ the car shows both sides instead of one quietly winning (the MY27 Inster: CAP names
+  the 01, 02 49 kWh and Cross `[No Heat Pump]`; Hyundai's table ticks them). A tick that
+  holds for one battery only speaks at a new trim-and-battery level. A maker's `-` is not
+  fitted as standard: a pack or option offered on the trim upgrades it (the Kona Advance's
+  heated seats are its £600 Comfort Pack). Ventilated brake discs and tinted windscreens no
+  longer read as ventilated seats and privacy glass.
 - **2026-10-08** One fact store for every car field (`pipeline/services/claims.py`): every
   source emits claims about a derivative, a trim, an engine, a model, an EV Database
   variant or a pack; a derivative inherits by level and the packs it includes or is

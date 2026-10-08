@@ -17,6 +17,7 @@ providers (discover → fetch → parse)       pipeline/providers/*      Python,
    leaseloco       leaseloco.com (live)      best personal lease per derivative/profile (ex-VAT → inc.)
    rrg             rrg-group.com (live)      dealer PCP example for the PV5 7-seat
    kia_specs       kia.com/uk (live)         grade × feature ticks, numbers per powertrain, seat variants
+   hyundai_specs   hyundai.com/uk (live)     the Tech & Spec guide PDF per model: ● / - per trim, battery-qualified ticks, packs with prices
    carwow_used     quotes.carwow.co.uk        used stock per model: derivative, price, year, mileage (the buy-used route; residual evidence)
    cinch_used      search-api...cinch.co.uk   used stock per make (electric), with registrations; folded with the others per model
    motorpoint_used motorpoint.co.uk           the supermarket's electric stock, nearly new; list price when new per car
@@ -380,7 +381,8 @@ derivative inherits what is said about the levels it belongs to:
 | --- | --- | --- |
 | own | a hand-curated car record | `data/seed/cars.json` |
 | derivative | a CAP derivative id | the registry's CAP name and brackets (`carwow_model`), the configurator page (`carwow_options`), a specification row's numbers, a broker's derivative name |
-| trim | make, model, trim | Carwow's standard-equipment list and trim description, Kia's grade table, a curated car's reading of its trim |
+| trim_battery | make, model, trim, battery | a maker's tick that holds for one battery only (`● 49kWh only`, 'only standard on the 84kWh battery'), and a maker's row for a trim sold with one battery |
+| trim | make, model, trim | Carwow's standard-equipment list and trim description, the makers' grade tables (`kia_specs`, `hyundai_specs`), a curated car's reading of its trim |
 | engine | make, model, engine | battery, range, power, from any specification row with that engine |
 | model | make, model | body numbers; what EV Database says of every variant when they agree |
 | variant | an EV Database variant, matched by battery | measured numbers, availability |
@@ -390,14 +392,21 @@ Two edges join them: a derivative **includes** a pack (`[Tech Pack]` in its CAP 
 curated car's packs, a pack fitted by default) and a subject **offers** a pack at a price
 (the configurator, a curated car's `packs_required`). A claim is `(field, value, kind,
 source, label)`; the kind says what sort of evidence it is, and for equipment the kinds
-rank: curated, named (a bracket), named_twin (a trim with a `[No X]` version has X on its
-other derivatives), included (through an included pack), curated_twin, listed (a standard
-list, or fitted by default), described, offered (through a pack, with its price), option
-(on its own, with its price), available (EV Database), absent (not in a complete standard
-list, or not offered as an option or pack). Numbers rank by level, nearest first.
+rank: curated; named (a bracket) and maker (the maker's own table: ● fitted, - not
+fitted), the same strength; named_twin (a trim with a `[No X]` version has X on its other
+derivatives), included (through an included pack), curated_twin, listed (a standard list,
+or fitted by default), described, offered (through a pack, with its price), option (on its
+own, with its price), available (EV Database), absent (not in a complete standard list,
+or not offered as an option or pack). Numbers rank by level, nearest first.
 
-The resolver takes a field's strongest bucket and requires it to agree; a disagreement is
-unknown and both sides are kept on the car (`disagreements`). Every resolved field names
+The resolver takes a field's strongest kind across the car's levels and requires it to
+agree; a disagreement is unknown and both sides are kept on the car (`disagreements`). So
+CAP's `[No Heat Pump]` on the derivative and Hyundai's ● on the trim are weighed together
+and shown, rather than one quietly winning. A verdict of none means not fitted as
+standard: where a pack or an option offers the item, the answer is that pack or option,
+whoever said none. A maker's grade with several columns (Kia's with-heat-pump column, two
+powertrains) speaks for the trim where the columns agree; where they differ the plainest
+column speaks weakly and the bracket or the battery level decides. Every resolved field names
 its claim (`field_sources`), `flags` carries all 29 equipment flags with a verdict
 (standard, pack, option, none), `packs_required` and `pack_prices_gbp` say which pack a
 "pack" verdict leans on and what it costs, and the brief in the app prices the packs a car
@@ -409,6 +418,16 @@ The configurator page (`providers/carwow_options.py`, Gold `options`,
 `data/history/options.jsonl`) is read for every derivative the registry or a
 specification row names: its JSON block lists every option and pack with prices and
 contents, so "not offered" is evidence rather than silence.
+
+The makers' tables are the other side of the scale. `providers/kia_specs.py` reads
+kia.com's grade × feature grid; `providers/hyundai_specs.py` reads the Tech & Spec guide
+PDF Hyundai UK publishes per model (layout text via `pdftotext`, else pypdf): one row per
+trim from the latest model year's column, with the items ticked, the items dashed, the
+ticks qualified by battery, the batteries the pricing table sells the trim with, and the
+packs the OPTIONAL EXTRAS table prices with their contents and the trims they are offered
+on. The PDF prints one glyph for standard and for optional, so an item a pack offered on
+the trim bundles is read as that pack's; a dash on an accessory row (an exterior V2L
+adaptor) is read as sold separately.
 
 ## Sightings: every route, every source, over time
 

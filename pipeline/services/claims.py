@@ -6,6 +6,8 @@ inherits what is said about the levels it belongs to:
     own         a hand-curated car record (its own id)
     derivative  a CAP derivative id: a registry name and its brackets, a
                 configurator page, a specification row's numbers, a broker's name
+    trim_battery  make, model, trim, battery: what the maker's table says is fitted
+                only with one battery ('● 49kWh only')
     trim        make, model, trim: a standard-equipment list, a description, a
                 manufacturer's grade table, what a curated car says of its trim
     engine      make, model, engine: battery, range, power
@@ -20,6 +22,8 @@ source, label), and the kind says what sort of evidence it is:
 
     curated       the household's own reading of the car
     named         the CAP name's brackets: '[No Heat Pump]', '[Heat Pump]', '[7 seat]'
+    maker         the maker's own grade table (Kia UK, Hyundai UK): ● fitted, - not
+                  available; ranked with `named`, so the two must agree
     named_twin    a trim with a '[No X]' version has X on its other derivatives
     included      fitted through a pack the derivative includes
     curated_twin  a curated car's reading of its trim, for the trim's other derivatives
@@ -33,7 +37,10 @@ source, label), and the kind says what sort of evidence it is:
 
 The resolver walks a car's subjects, ranks the claims for each field by kind
 (equipment) or by level (numbers), takes the strongest bucket, and requires the
-bucket to agree; a disagreement is unknown, kept with both sides. Every resolved
+bucket to agree; a disagreement is unknown, kept with both sides. Equipment
+buckets by kind across levels: CAP's '[No Heat Pump]' on the derivative and
+the maker's ● on the trim are the same strength, so they are weighed together
+and shown as a disagreement when they differ, rather than one quietly winning. Every resolved
 field records the claim it came from. Nothing here names a particular feature:
 heat pump, cabin socket and powered tailgate are three of the 29 flags
 services/features.py knows, resolved by the same rules.
@@ -64,12 +71,16 @@ NUMBER_ALIASES = {"zero_to_60_s": "zero_to_62_s", "power_bhp": "power_hp", "kerb
 EVDB_NUMBERS = ("efficiency_mi_kwh", "zero_to_62_s", "dc_avg_kw", "boot_l", "weight_kg", "tow_kg", "real_range_mi", "seats", "ac_kw")
 EVDB_FLAGS = {"heat_pump": "heat_pump", "v2l_external": "v2l_external"}
 
-EQUIP_ORDER = ("curated", "named", "named_twin", "included", "curated_twin", "listed", "described", "offered", "option", "available", "absent")
-LEVEL_ORDER = ("own", "derivative", "trim", "engine", "model", "variant")
+EQUIP_TIERS = (("curated",), ("named", "maker"), ("named_twin",), ("included",), ("curated_twin",), ("listed",), ("described",),
+               ("offered",), ("option",), ("available",), ("absent",))
+EQUIP_ORDER = tuple(k for tier in EQUIP_TIERS for k in tier)
+EQUIP_RANK = {k: i for i, tier in enumerate(EQUIP_TIERS) for k in tier}
+LEVEL_ORDER = ("own", "derivative", "trim_battery", "trim", "engine", "model", "variant")
 NUMBER_KINDS = ("curated", "named", "measured", "listed")
 PRICES = ("list_price_gbp", "used_from_gbp")   # drift with time: the latest sighting wins, never a disagreement
 NUMBER_TOLERANCE = 0.05                         # numbers within 5% of each other are the same number (wheels, rounding)
 COMPLETE_LIST = 40   # a standard-equipment list this long is read as the whole of it
+MAKER_PROVIDERS = ("kia_specs", "hyundai_specs")
 SEATS_RE = re.compile(r"^\s*(\d)\s*-?\s*(?:seat|seats|seater|st)\b", re.I)
 
 
@@ -93,6 +104,10 @@ def model_key(make: str | None, model: str | None) -> str:
 
 def trim_subject(make, model, trim) -> str:
     return f"trim:{model_key(make, model)}|{norm(trim_head(trim))}"
+
+
+def trim_battery_subject(make, model, trim, kwh) -> str:
+    return f"trimbattery:{model_key(make, model)}|{norm(trim_head(trim))}|{float(kwh):g}"
 
 
 def engine_subject(make, model, engine) -> str:
@@ -127,6 +142,7 @@ class Store:
         self.offers: dict[str, dict[str, tuple[str, float | None]]] = {}   # subject → {pack subject: (name, price)}
         self.variants: dict[str, list[dict]] = {}           # model key → EV Database rows
         self.names: dict[str, str] = {}                     # derivative subject → CAP name
+        self.trim_batteries: dict[str, set[float]] = {}     # trim subject → the kWh the maker sells it with
 
     def add(self, subject: str, claim: Claim) -> None:
         self.claims.setdefault(subject, []).append(claim)
@@ -248,21 +264,75 @@ def from_carwow_spec(store: Store, row: dict) -> None:
         store.add(tsub, Claim(k, "standard", "described", src, f"Carwow trim description · {trim}"))
 
 
-def from_kia_spec(store: Store, row: dict) -> None:
-    """A Kia UK grade × powertrain row: the grade's ticks, options and blanks."""
-    trim = row.get("trim") or ""
-    if re.search(r"\bheat pump\b", trim, re.I):
-        return   # the with-heat-pump variant of a grade: the CAP bracket carries that
-    tsub = trim_subject(row.get("make"), row.get("model"), trim)
-    src = "Kia UK specification"
-    fl = row.get("flags") or flags_for(row.get("features") or [], row.get("options") or [])
-    for k, v in fl.items():
-        if v == "standard":
-            store.add(tsub, Claim(k, "standard", "listed", src, f"{src} · {trim}"))
-        elif v == "option":
-            store.add(tsub, Claim(k, "option", "option", src, f"{src} · {trim} options"))
-        elif len(row.get("features") or []) >= COMPLETE_LIST:
-            store.add(tsub, Claim(k, "none", "absent", src, f"not in {src} for {trim}"))
+def _maker_verdicts(row: dict) -> dict[str, str]:
+    """Every flag a maker's row speaks to: standard (●), option (○, an extra), none (a printed -),
+    or unlisted (a complete list that prints no blanks of its own does not name it: not fitted,
+    but weakly, since a wording the flag's pattern misses would otherwise read as a firm no).
+    A qualified item ('49kWh only') is none of these: the row says nothing of it at trim level."""
+    out = {k: v for k, v in flags_for(row.get("features") or [], row.get("options") or []).items() if v}
+    if row.get("absent") is not None:
+        for k, v in flags_for(row["absent"]).items():
+            if v == "standard" and k not in out:
+                out[k] = "none"
+    elif len(row.get("features") or []) >= COMPLETE_LIST:
+        for k in EQUIPMENT:
+            out.setdefault(k, "unlisted")
+    return out
+
+
+def from_maker_specs(store: Store, rows: list[dict]) -> None:
+    """The maker's own grade tables (Kia UK, Hyundai UK): one row per grade × powertrain (× seats).
+
+    A grade's rows speak for the trim where they all agree; where they differ (Kia's with-heat-pump
+    column, two powertrains with different kit) the plainest column speaks weakly, below a CAP name,
+    and the fact is left to the battery level or the bracket. A row with one battery also speaks at trim-and-battery level,
+    and a qualified tick ('● 49kWh only', 'only standard on the 84kWh battery') speaks there alone.
+    A pack in the maker's extras list is offered on the trims it names, with its price."""
+    groups: dict[tuple[str, str], list[tuple[dict, dict]]] = {}
+    for row in rows:
+        make, model, trim = row.get("make"), row.get("model"), row.get("trim") or ""
+        src = row.get("source") or "maker specification"
+        verdicts = _maker_verdicts(row)
+        tsub = trim_subject(make, model, trim)
+        head = trim_head(trim) or trim
+        groups.setdefault((tsub, f"{src} · {head}"), []).append((row, verdicts))
+        kwh = (row.get("numbers") or {}).get("battery_kwh")
+        kwhs = [float(kwh)] if kwh else [float(b) for b in row.get("batteries") or []]
+        store.trim_batteries.setdefault(tsub, set()).update(kwhs)
+        if len(kwhs) == 1:
+            groups.setdefault((trim_battery_subject(make, model, trim, kwhs[0]), f"{src} · {head} {kwhs[0]:g} kWh"), []).append((row, verdicts))
+        for q in row.get("qualified") or []:
+            hit = [k for k, v in flags_for([q["item"]]).items() if v == "standard"]
+            for value, key in (("standard", "standard_kwh"), ("none", "none_kwh")):
+                for b in q.get(key) or []:
+                    for k in hit:
+                        store.add(trim_battery_subject(make, model, trim, b), Claim(k, value, "maker", src, f"{src} · {head} {float(b):g} kWh · {q['item']}: {q['note']}"))
+        for p in row.get("packs") or []:
+            ps = pack_subject(make, model, p["name"])
+            for k, v in flags_for(p.get("items") or []).items():
+                if v == "standard":
+                    store.add(ps, Claim(k, "standard", "pack_contents", src, f"{src} · {p['name']}"))
+            store.offer(tsub, ps, p["name"], p.get("price"))
+    for (sub, label), members in groups.items():
+        src = members[0][0].get("source") or "maker specification"
+        for k in EQUIPMENT:
+            said = [v.get(k) for _, v in members if v.get(k)]
+            vals = {"none" if v == "unlisted" else v for v in said}
+            if not vals:
+                continue
+            if len(vals) == 1:
+                v = next(iter(vals))
+                if v == "option":
+                    store.add(sub, Claim(k, "option", "option", src, f"{label} options"))
+                elif v == "none" and "unlisted" in said:
+                    store.add(sub, Claim(k, "none", "absent", src, f"not in {label}"))
+                else:
+                    store.add(sub, Claim(k, v, "maker", src, label))
+                continue
+            # The grade's columns differ (a with-heat-pump column, a better-equipped powertrain): the
+            # plainest column speaks for the trim, weakly, and the CAP name or configurator says the rest.
+            v = min(vals, key=lambda t: TRI_RANK[t])
+            store.add(sub, Claim(k, v, "option" if v == "option" else "absent", src, f"{label} (its columns differ; the plainest says {v})"))
 
 
 def from_evdb(store: Store, rows: list[dict], catalogue: list[dict]) -> None:
@@ -360,8 +430,7 @@ def build_store(cars: list[dict], specs: list[dict], catalogue: list[dict], deri
     for sp in specs:
         if sp.get("provider") == "carwow_specs":
             from_carwow_spec(store, sp)
-        elif sp.get("provider") == "kia_specs":
-            from_kia_spec(store, sp)
+    from_maker_specs(store, [sp for sp in specs if sp.get("provider") in MAKER_PROVIDERS])
     from_evdb(store, [sp for sp in specs if sp.get("provider") == "evdb"], catalogue)
     from_registry(store, derivatives)
     names = {d["cap_id"]: (d.get("make") or d.get("make_slug"), d.get("model") or d.get("model_slug")) for d in derivatives}
@@ -385,14 +454,21 @@ class Resolved:
     disagreement: list[Claim] | None = None
 
 
-def _subjects(car: dict, variant: dict | None) -> list[tuple[str, str]]:
+def _subjects(car: dict, variant: dict | None, store: Store | None = None) -> list[tuple[str, str]]:
     out: list[tuple[str, str]] = []
     if not car.get("auto"):
         out.append(("own", f"own:{car['id']}"))
     if car.get("cap_id"):
         out.append(("derivative", f"derivative:{car['cap_id']}"))
     make, model = car.get("make"), car.get("model")
-    out.append(("trim", trim_subject(make, model, car.get("trim"))))
+    tsub = trim_subject(make, model, car.get("trim"))
+    kwh = car.get("battery_kwh")
+    known = (store.trim_batteries.get(tsub) if store else None) or set()
+    if kwh and known:
+        near = min(known, key=lambda b: abs(b - float(kwh)))
+        if abs(near - float(kwh)) <= max(3.0, 0.1 * near):   # the maker's nominal kWh against a source's usable or rounded one
+            out.append(("trim_battery", trim_battery_subject(make, model, car.get("trim"), near)))
+    out.append(("trim", tsub))
     if car.get("variant"):
         out.append(("engine", engine_subject(make, model, car.get("variant"))))
     out.append(("model", model_subject(make, model)))
@@ -401,9 +477,10 @@ def _subjects(car: dict, variant: dict | None) -> list[tuple[str, str]]:
     return out
 
 
-def _agree(cands: list[tuple[tuple, Claim]]) -> Resolved:
-    best = cands[0][0]
-    bucket = [c for r, c in cands if r == best]
+def _agree(cands: list[tuple[tuple, Claim]], bucket_of=lambda rank: rank) -> Resolved:
+    """The strongest bucket of a sorted candidate list must agree, else it is unknown with both sides."""
+    best = bucket_of(cands[0][0])
+    bucket = [c for r, c in cands if bucket_of(r) == best]
     vals = {c.value for c in bucket}
     if len(vals) == 1:
         return Resolved(bucket[0].value, bucket[0])
@@ -418,24 +495,33 @@ def _agree(cands: list[tuple[tuple, Claim]]) -> Resolved:
 
 
 def resolve_equipment(field: str, subjects: list[tuple[str, str]], store: Store) -> Resolved:
+    """Is it fitted? The strongest kind of claim across the car's levels must agree (standard, none,
+    or what a curated car or EV Database says). A verdict of none means not fitted as standard:
+    where a pack or an option offers it, the answer is that pack or option, whoever said none."""
     cands: list[tuple[tuple, Claim]] = []
     for level, key in subjects:
         lr = LEVEL_ORDER.index(level)
         for c in store.claims.get(key, []):
-            if c.field == field and c.kind in EQUIP_ORDER:
-                cands.append(((EQUIP_ORDER.index(c.kind), lr), c))
+            if c.field == field and c.kind in EQUIP_RANK:
+                cands.append(((EQUIP_RANK[c.kind], lr), c))
         for ps, name in store.includes.get(key, {}).items():
             for c in store.claims.get(ps, []):
                 if c.field == field and c.kind == "pack_contents":
-                    cands.append(((EQUIP_ORDER.index("included"), lr), Claim(field, "standard", "included", c.source, f"{c.source} · {name} (included)", None, name)))
+                    cands.append(((EQUIP_RANK["included"], lr), Claim(field, "standard", "included", c.source, f"{c.source} · {name} (included)", None, name)))
         for ps, (name, price) in store.offers.get(key, {}).items():
             for c in store.claims.get(ps, []):
                 if c.field == field and c.kind == "pack_contents":
-                    cands.append(((EQUIP_ORDER.index("offered"), lr), Claim(field, "pack", "offered", c.source, f"{c.source} · {name}{f' £{price:,.0f}' if price else ''}", price, name)))
+                    cands.append(((EQUIP_RANK["offered"], lr), Claim(field, "pack", "offered", c.source, f"{c.source} · {name}{f' £{price:,.0f}' if price else ''}", price, name)))
     if not cands:
         return Resolved(None, None)
     cands.sort(key=lambda rc: rc[0])
-    return _agree(cands)
+    fitted = [rc for rc in cands if rc[1].kind not in ("offered", "option")]
+    offers = [rc for rc in cands if rc[1].kind in ("offered", "option")]
+    if fitted:
+        r = _agree(fitted, bucket_of=lambda rank: rank[0])   # the same kind at any level is one bucket
+        if r.claim is None or r.value != "none" or not offers:
+            return r
+    return Resolved(offers[0][1].value, offers[0][1])
 
 
 def resolve_number(field: str, subjects: list[tuple[str, str]], store: Store) -> Resolved:
@@ -450,14 +536,22 @@ def resolve_number(field: str, subjects: list[tuple[str, str]], store: Store) ->
     return _agree(cands)
 
 
+def _sides(claims: list[Claim]) -> list[str]:
+    """One side per value, naming everyone who said it: 'none (Carwow …; ncd …)', 'standard (Hyundai UK …)'."""
+    by: dict[str, list[str]] = {}
+    for c in claims:
+        by.setdefault(str(c.value), []).append(c.label)
+    return [f"{v} ({'; '.join(labels)})" for v, labels in by.items()]
+
+
 def resolve_car(car: dict, store: Store) -> dict:
     """Write every resolved field onto the car: the canonical fields, `flags`
     (every equipment flag with a verdict), `packs_required`, `pack_prices_gbp`,
     `field_sources` (the winning claim per field) and `disagreements`."""
     sources: dict[str, str] = {}
     disagreements: dict[str, list[str]] = {}
-    subjects = _subjects(car, None)
-    # Numbers first: the battery picks the EV Database variant.
+    subjects = _subjects(car, None, store)
+    # Numbers first: the battery picks the EV Database variant and the maker's battery column.
     for f in NUMBERS:
         r = resolve_number(f, subjects, store)
         if r.claim:
@@ -465,12 +559,13 @@ def resolve_car(car: dict, store: Store) -> dict:
             if not (r.claim.kind == "curated" and not car.get("auto")):
                 sources[f] = r.claim.label
         elif r.disagreement:
-            disagreements[f] = [f"{c.value} ({c.label})" for c in r.disagreement]
+            disagreements[f] = _sides(r.disagreement)
     variants = store.variants.get(model_key(car.get("make"), car.get("model")), [])
     v = pick_variant(car, variants) if variants else None
     if v:
         car["evdb_url"] = v.get("source_url")
-        subjects = _subjects(car, v)
+    subjects = _subjects(car, v, store)
+    if v:
         for f in NUMBERS:
             if car.get(f) in (None, ""):
                 r = resolve_number(f, subjects, store)
@@ -491,7 +586,7 @@ def resolve_car(car: dict, store: Store) -> dict:
                 if r.claim.price:
                     prices[r.claim.pack] = r.claim.price
         elif r.disagreement:
-            disagreements[flag] = [f"{c.value} ({c.label})" for c in r.disagreement]
+            disagreements[flag] = _sides(r.disagreement)
     if "v2l_internal" in flags or "v2l_external" in flags:
         flags["v2l_any"] = max((flags.get("v2l_internal", "none"), flags.get("v2l_external", "none")), key=lambda t: TRI_RANK.get(t, -1))
     for f, flag in CAR_TRI.items():

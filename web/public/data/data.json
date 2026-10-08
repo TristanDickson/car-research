@@ -3,10 +3,10 @@
   "cars": 1983,
   "cars_curated": 19,
   "cars_generated": 1964,
-  "claims": 91832,
+  "claims": 92585,
   "derivatives": 909,
-  "disagreements": 2,
-  "fields_from_claims": 81993,
+  "disagreements": 6,
+  "fields_from_claims": 81989,
   "makes": 49,
   "models": 248,
   "models_with_deals": 177,
@@ -15,7 +15,7 @@
   "offers": 2924,
   "options_pages": 1140,
   "sightings": 7998,
-  "specs": 2020,
+  "specs": 2040,
   "specs_mapped": 909,
   "trim_map_auto": 2059,
   "trim_map_mapped": 56,
@@ -55,7 +55,7 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-08T12:12:32+00:00",
+ "generated_at": "2026-10-08T13:37:58+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
@@ -304,6 +304,21 @@
      "parser_version": "1"
     }
    ],
+   "description": "Hyundai UK's \"Technical, Specifications and Pricing\" guide, one PDF per model,",
+   "live": true,
+   "name": "hyundai_specs",
+   "source": "hyundai_specs"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "spec"
+     ],
+     "name": "specs",
+     "parser_version": "1"
+    }
+   ],
    "description": "EV Database (ev-database.org/uk): the measured numbers the manufacturers'",
    "live": true,
    "name": "evdb",
@@ -370,11 +385,11 @@
    "artifacts": 4,
    "capability": "offers",
    "errors": 0,
-   "finished_at": "2026-10-08T12:12:32+00:00",
+   "finished_at": "2026-10-08T13:37:57+00:00",
    "id": 2,
    "records": 4,
    "source": "carwow_paste",
-   "started_at": "2026-10-08T12:12:32+00:00",
+   "started_at": "2026-10-08T13:37:57+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -383,11 +398,11 @@
    "artifacts": 4,
    "capability": "seed",
    "errors": 0,
-   "finished_at": "2026-10-08T12:12:31+00:00",
+   "finished_at": "2026-10-08T13:37:57+00:00",
    "id": 1,
    "records": 268,
    "source": "manual_seed",
-   "started_at": "2026-10-08T12:12:31+00:00",
+   "started_at": "2026-10-08T13:37:57+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0

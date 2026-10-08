@@ -37,6 +37,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: PDF text (the makers' specification guides are PDFs)
+        run: sudo apt-get install -y --no-install-recommends poppler-utils
 
       - name: Refresh (live providers + history + snapshot)
         env:

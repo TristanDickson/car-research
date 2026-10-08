@@ -1,0 +1,473 @@
+KONA Electric
+Technical, Specifications and Pricing
+Model Year 27
+
+
+
+
+                                        Image for illustrative purposes only. Data correct October 2026.
+KONA Electric
+Technical
+                                                            Advance 65kWh                                N Line 65kWh                               N Line S 65kWh                              Ultimate 65kWh
+
+ELECTRIC MOTOR
+
+Electric Motor Type                             Permanent Magnet Synchronous Motor (PMSM)   Permanent Magnet Synchronous Motor (PMSM)   Permanent Magnet Synchronous Motor (PMSM)   Permanent Magnet Synchronous Motor (PMSM)
+
+Electric Motor Max Power (PS/kW)                             218 / 160 (PS/KW)                           218 / 160 (PS/KW)                           218 / 160 (PS/KW)                           218 / 160 (PS/KW)
+Electric Motor Torque (Nm/lbs ft)                          255 / 188 (Nm/lbs ft)                       255 / 188 (Nm/lbs ft)                       255 / 188 (Nm/lbs ft)                       255 / 188 (Nm/lbs ft)
+0-62mph (seconds)                                                   7.8                                         7.8                                         7.8                                         7.8
+Top Speed (mph)                                                    107                                         107                                         107                                         107
+HIGH VOLTAGE BATTERY
+Battery Type                                               Lithium-ion Polymer                         Lithium-ion Polymer                         Lithium-ion Polymer                         Lithium-ion Polymer
+Battery Power (kW)                                                 182                                         182                                         182                                         182
+Battery Capacity (kWh/Ah)                                        65.4 kWh                                    65.4 kWh                                    65.4 kWh                                    65.4 kWh
+Voltage                                                           398.5                                       398.5                                       398.5                                       398.5
+CHARGING
+Charging Port                                              CCS Combo / Type 2                          CCS Combo / Type 2                          CCS Combo / Type 2                          CCS Combo / Type 2
+Estimated Charging Emergency 3 Pin
+                                                                24hr 48min                                  24hr 48min                                  24hr 48min                                  24hr 48min
+Connector (ICCB) 2.3kW (10-100%)
+Estimated Charging Wallbox 7.4kW single phase
+                                                                 8hr 0min                                    8hr 0min                                    8hr 0min                                    8hr 0min
+(10-100%) **
+Estimated Charging Wallbox 11kW 3 phase
+                                                          5hr 24min @ 10kW max                        5hr 24min @ 10kW max                        5hr 24min @ 10kW max                        5hr 24min @ 10kW max
+(10-100%)**
+Estimated Public 50kW CCS (10-80%) **                      60 min @ 49kW max                           60 min @ 49kW max                           60 min @ 49kW max                           60 min @ 49kW max
+Estimated Public 150kW CCS (10-80%) **                     41 min @ 101kW max                          41 min @ 101kW max                          41 min @ 101kW max                          41 min @ 101kW max
+On Board Charger (kW)                                              10.4                                        10.4                                        10.4                                        10.4
+SUSPENSION
+Front                                                     MacPherson Strut Type                       MacPherson Strut Type                       MacPherson Strut Type                       MacPherson Strut Type
+Rear                                                          Multi-Link Type                             Multi-Link Type                             Multi-Link Type                             Multi-Link Type
+STEERING
+                                                        Motor Driven Power Steering                 Motor Driven Power Steering                 Motor Driven Power Steering
+System                                                                                                                                                                                 Motor Driven Power Steering (C-MDPS)
+                                                                 (C-MDPS)                                    (C-MDPS)                                    (C-MDPS)
+Steering Wheel Lock to Lock Turns                                  2.55                                        2.55                                        2.55                                        2.55
+Turning Circle (metres)                                            10.6                                        10.6                                        10.6                                        10.6
+
+BRAKE
+                                                       Power Assisted Braking System               Power Assisted Braking System               Power Assisted Braking System               Power Assisted Braking System
+System
+                                                            with ABS and EBD                            with ABS and EBD                            with ABS and EBD                            with ABS and EBD
+Front                                                         Ventilated Disc                             Ventilated Disc                             Ventilated Disc                             Ventilated Disc
+Rear                                                            Solid Disc                                  Solid Disc                                  Solid Disc                                  Solid Disc
+KONA Electric
+Technical
+                                              Advance 65kWh   N Line 65kWh   N Line S 65kWh   Ultimate 65kWh
+
+DIMENSIONS
+Overall Length (mm)                                4355           4385            4385             4355
+Overall Width (mm) (Excluding Door Mirrors)        1825           1825            1825             1825
+Overall Width (mm) (Including Door Mirrors)        2100           2100            2100             2100
+Wheelbase (mm)                                     2660           2660            2660             2660
+
+WEIGHT AND CAPACITY
+Kerb Weight (kg)                                 1698-1795      1698-1795       1698-1795        1698-1795
+Payload (kg)                                     425-522         425-522        425-522           425-522
+Gross Vehicle Weight (kg)                          2220           2220            2220             2220
+Max Tow Weight (kg) - Braked                        750           750             750              750
+Max Tow Weight (kg) - Unbraked                     300            300             300              300
+Gross Train Weight (kg)                            2970           2970            2970             2970
+Noseweight (kg)                                     100           100             100              100
+Max Roof Weight (kg)                                100           100             100              100
+
+Advance
+Front Tyre                                      215/60 R17          -               -                -
+Rear Tyre                                       215/60 R17          -               -                -
+Front Wheel                                      7.0J x 17          -               -                -
+Rear Wheel                                       7.0J x 17          -               -                -
+Front Track                                        1591             -               -                -
+Rear Track                                         1600             -               -                -
+Overall Height (mm)                                1580             -               -                -
+Luggage Capacity VDA (litres) - Seats Up           466              -               -                -
+Luggage Capacity VDA (litres) - Seats Down         1300             -               -                -
+Frunk (litres)                                      27              -               -                -
+CO2 Emissions (g/km)                                 0              -               -                -
+Maximum Potential EV Driving Range -
+                                                 319 (513)*         -               -                -
+Miles (Km)
+Electric Driving Efficiency (kWh per 100Km)         14.7            -               -                -
+KONA Electric
+Technical
+                                              Advance 65kWh   N Line 65kWh   N Line S 65kWh   Ultimate 65kWh
+
+N Line
+Front Tyre                                          -          235/45 R19           -               -
+Rear Tyre                                           -          235/45 R19           -               -
+Front Wheel                                         -           7.5J x 19           -               -
+Rear Wheel                                          -           7.5J x 19           -               -
+Front Track                                         -             1589              -               -
+Rear Track                                          -             1602              -               -
+Overall Height (mm)                                 -             1580              -               -
+Luggage Capacity VDA (litres) - Seats Up            -              466              -               -
+Luggage Capacity VDA (litres) - Seats Down          -             1300              -               -
+Frunk (litres)                                      -              27               -               -
+CO2 Emissions (g/km)                                -               0               -               -
+Maximum Potential EV Driving Range -
+                                                    -           282 (453)*          -               -
+Miles (Km)
+Electric Driving Efficiency (kWh per 100Km)         -             16.6              -               -
+
+N Line S
+Front Tyre                                          -               -          235/45 R19           -
+Rear Tyre                                           -               -          235/45 R19           -
+Front Wheel                                         -               -           7.5J x 19           -
+Rear Wheel                                          -               -           7.5J x 19           -
+Front Track                                         -               -             1589              -
+Rear Track                                          -               -             1602              -
+Overall Height (mm)                                 -               -             1580              -
+Luggage Capacity VDA (litres) - Seats Up            -               -              466              -
+Luggage Capacity VDA (litres) - Seats Down          -               -             1300              -
+Frunk (litres)                                      -               -              27               -
+CO2 Emissions (g/km)                                -               -               0               -
+Maximum Potential EV Driving Range -
+                                                    -               -           282 (453)*          -
+Miles (Km)
+Electric Driving Efficiency (kWh per 100Km)         -               -             16.6              -
+KONA Electric
+Technical
+                                                                            Advance 65kWh                                               N Line 65kWh                                              N Line S 65kWh   Ultimate 65kWh
+
+ Ultimate
+ Front Tyre                                                                            -                                                         -                                                            -      235/45 R19
+ Rear Tyre                                                                             -                                                         -                                                            -      235/45 R19
+ Front Wheel                                                                           -                                                         -                                                            -       7.5J x 19
+ Rear Wheel                                                                            -                                                         -                                                            -       7.5J x 19
+ Front Track                                                                           -                                                         -                                                            -         1589
+ Rear Track                                                                            -                                                         -                                                            -         1602
+ Overall Height (mm)                                                                   -                                                         -                                                            -         1580
+ Luggage Capacity VDA (litres) - Seats Up                                              -                                                         -                                                            -          466
+ Luggage Capacity VDA (litres) - Seats Down                                            -                                                         -                                                            -         1300
+ Frunk (litres)                                                                        -                                                         -                                                            -          27
+ CO2 Emissions (g/km)                                                                  -                                                         -                                                            -           0
+ Maximum Potential EV Driving Range -                                                                                                                                                                                 282 (453)*
+                                                                                       -                                                         -                                                            -
+ Miles (Km)
+ Electric Driving Efficiency (kWh per 100Km)                                           -                                                         -                                                            -         16.6
+
+
+
+
+*Maximum range according to WLTP combined cycle. Actual range will vary depending on factors including road conditions, outdoor temperature, driving style, use of climate control and battery condition.
+
+** Hyundai test data for comparison purposes. Actual time will vary and is dependent on several factors including battery temperature, condition and age, ambient temperature and the power provided by the
+charger. Charge time increases in cold weather and if battery temperature activates safeguarding technology.
+KONA Electric
+Specifications
+                                          Advance   N Line   N Line S   Ultimate
+
+POWERTRAIN
+65.4kWh Battery | 218PS/160kW Motor          ●        ●         ●          ●
+EXTERIOR
+17" Alloy Wheels                             ●        -         -          -
+19" Alloy Wheels                             -        ●         ●          ●
+Door Mirrors - Body Coloured                 ●        ●         ●          ●
+Door Mirrors - Gloss Black                   -        ●         ●          -
+Exterior Door Handles - Body Coloured        ●        ●         ●          ●
+N Line Exterior Design Pack - Front and
+Rear Bumpers, Side Skirts, Alloy Wheels      -        ●         ●          -
+and Badges
+
+Rear Spoiler with Integrated LED Brake
+Light
+                                             ●        ●         ●          ●
+
+Roof Rails                                   ●        ●         ●          ●
+Wheel Arch Inserts - Body Coloured           ●        ●         ●          ●
+INTERIOR STYLING
+Aluminium Pedals                             -        ●         ●          -
+Interior Door Handles -
+Metal Paint Effect
+                                             ●        ●         ●          ●
+
+Leather Wrapped Steering Wheel               ●        ●         ●          ●
+SEATING
+Adjustable Head Restraints                   ●        ●         ●          ●
+Driver's Seat Electric Adjustments           -        -         ●          ●
+Driver's Seat Height Adjustment
+(Manual)
+                                             ●        ●         ●          ●
+
+Driver's Seat Lumbar Support                 ●        ●         ●          ●
+Front Passenger's Seat Electric
+Adjustments
+                                             -        -         ●          ●
+
+Front Passenger Seat Height
+Adjustments (Manual)
+                                             -        ●         -          -
+
+Front Seats - Heated                         -        ●         ●          ●
+Front Seats - Ventilated                     -        -         ●          ●
+Head Restraints -Vertical Adjustment
+(Rear)
+                                             ●        ●         ●          ●
+KONA Electric
+Specifications
+                                           Advance   N Line   N Line S   Ultimate
+
+Rear Occupant Alert                           ●        ●         ●          ●
+Rear Seat Centre Armrest with
+Cupholders
+                                              ●        ●         ●          ●
+
+Rear Seats - Heated                           -        -         ●          ●
+Rear Seats - Split Folding (40/20/40)         -        ●         ●          ●
+Seat Trim - Cloth                             ●        -         -          -
+Seat Trim - N Line Cloth                      -        ●         -          -
+Seat Trim - N Line Alcantara & Leather        -        -         ●          -
+Seat Trim - ECO Suede & Leather               -        -         -          ●
+VENTILATION & VISIBILITY
+Air Conditioning - Climate Control
+Dual Zone
+                                              ●        ●         ●          ●
+
+Ambient Lighting - Interior                   -        -         ●          ●
+Automatic Dimming Rear View Mirror            ●        ●         ●          ●
+Automatic Headlights with Dusk Sensor         ●        ●         ●          ●
+Automatic Windscreen Wipers with
+Rain Sensor
+                                              ●        ●         ●          ●
+
+Daytime Running Lights - LED                  ●        ●         ●          ●
+Horizon Centre DRL - LED                      -        -         ●          ●
+Headlights - Full MFR LED                     ●        ●         -          -
+Headlights - Full Projection LED              -        -         ●          ●
+Indicator Lights Door Mirror LED              ●        ●         ●          ●
+Interior Light - Front LED                    ●        ●         ●          ●
+Interior Light - Centre LED                   ●        ●         ●          ●
+Interior Light - Luggage Compartment LED      ●        ●         ●          ●
+Privacy Glass - Rear Windows and
+Tailgate
+                                              -        ●         ●          ●
+
+Rear Lights Upper and Lower - LED             ●        ●         ●          ●
+Solar Glass - Front Door Glass and
+Windscreen
+                                              -        ●         ●          ●
+
+Sunroof - Electric Opening Glass              -        -         -          ●
+Tinted Glass - Front and Rear Windows         ●        ●         ●          ●
+Windscreen Auto Defog Function                ●        ●         ●          ●
+KONA Electric
+Specifications
+                                          Advance   N Line   N Line S   Ultimate
+
+CONVENIENCE
+12V Power Outlet - Front                     ●        ●         ●          ●
+Charging cable - 7 Pin Type 2 (Wallbox)      ●        ●         ●          ●
+Cruise Control - Smart Cruise Control
+(SCC) with Stop and Go Function
+                                             ●        ●         ●          ●
+
+Door Mirrors - Electric Adjustment and
+Heated with Power Folding Function
+                                             ●        ●         ●          ●
+
+Electric Windows - Front with Anti-Trap
+Mechanism and One Touch Control
+                                             ●        ●         ●          ●
+
+Electric Windows - Rear                      ●        ●         ●          ●
+Front Seat - Back Pockets                    ●        ●         ●          ●
+Frunk - Under Bonnet Storage                 ●        ●         ●          ●
+Heated Steering Wheel                        -        ●         ●          ●
+Head Up Display (HUD)                        -        -         ●          ●
+Heat Pump                                    ●        ●         ●          ●
+Luggage Net                                  -        -         ●          ●
+Luggage Shelf                                ●        ●         ●          ●
+Parking Brake - Electric                     ●        ●         ●          ●
+Parking Sensors - Front and Rear             ●        ●         ●          ●
+Parking System - Rear Camera and
+Guidance System
+                                             ●        ●         ●          ●
+
+Shift by Wire (SBW) - Column Mounted
+Shifter
+                                             ●        ●         ●          ●
+
+Smart Key - Keyless Entry with Start/
+Stop Button
+                                             ●        ●         ●          ●
+
+Steering Column - Height and Reach
+Adjustable
+                                             ●        ●         ●          ●
+
+Sun Visors - with Driver and Passenger
+Illuminated Vanity Mirrors
+                                             ●        ●         ●          ●
+
+Temporary Mobility Kit                       ●        ●         ●          ●
+Tailgate - Power Operated
+(Height Adjustable)
+                                             -        ●         ●          ●
+
+Trailer Wiring Package                       ●        ●         ●          ●
+Vehicle to Load (V2L) (Internal 3 Pin
+Plug)
+                                             -        -         ●          ●
+KONA Electric
+Specifications
+                                           Advance   N Line   N Line S   Ultimate
+
+TECHNOLOGY & ENTERTAINMENT
+Bluetooth® Connectivity with Voice
+Recognition**
+                                              ●        ●         ●          ●
+
+BOSE Premium Sound System with 7
+Speakers and Subwoofer
+                                              -        -         ●          ●
+
+Driver's Supervision Instrument Cluster
+with 12.3" LCD Display
+                                              ●        ●         ●          ●
+
+Feature on Demand - Enabled†                  ●        ●         ●          ●
+12.3” Touchscreen Satellite Navigation
+including Bluelink connectivity (10
+years LITE subscription, 3 years PLUS &
+                                              ●        ●         ●          ●
+6 months free trial for PRO)**
+
+Radio - Digital DAB                           ●        ●         ●          ●
+Smartphone Integration - Apple CarPlay™
+and Android Auto™
+                                              ●        ●         ●          ●
+
+Speakers - Front, Rear and Tweeters           ●        ●         -          -
+Steering Wheel Audio, Phone and
+Cruise Controls
+                                              ●        ●         ●          ●
+
+USB C - Front x2                              ●        ●         ●          ●
+USB C - Rear x2                               ●        ●         ●          ●
+Wireless Phone Charging Pad                   -        ●         ●          ●
+SAFETY & SECURITY
+Airbags - Front, Front Side, Curtain and
+Centre Front Airbags
+                                              ●        ●         ●          ●
+
+Immobiliser                                   ●        ●         ●          ●
+Anti-lock Brake System (ABS)                  ●        ●         ●          ●
+Blind Spot Collision Avoidance Assist
+(BCA)
+                                              -        -         ●          ●
+
+Blind Spot View Monitor (BVM)                 -        -         ●          ●
+Central Locking - Remote Control              ●        ●         ●          ●
+Downhill Brake Control (DBC)                  ●        ●         ●          ●
+Driver Status Monitor (DSM)                   ●        ●         ●          ●
+eCall                                         ●        ●         ●          ●
+Electronic Stability Control (ESC)            ●        ●         ●          ●
+Forward Collision Avoidance Assist
+(FCA 1.5) - Car, Pedestrian, Cycle and        ●        ●         ●          ●
+Junction Turning
+
+Highway Drive Assist (1.5)                    ●        ●         ●          ●
+KONA Electric
+Specifications
+                                         Advance   N Line   N Line S   Ultimate
+
+Hill-start Assist Control (HAC)             ●        ●         ●          ●
+Intelligent Speed Limit Assist (ISLA)       ●        ●         ●          ●
+Lane Keep Assist (LKA)                      ●        ●         ●          ●
+Lane Follow Assist (LFA)                    ●        ●         ●          ●
+Leading Vehicle Departure Alert (LVDA)      ●        ●         ●          ●
+Rear Cross Traffic Collision Avoidance
+Assist (RCCA)
+                                            -        -         ●          ●
+
+Parking Distance Warning - Side             -        -         ●          ●
+Parking Collision Avoidance Assist -
+Reverse (PCA-R)
+                                            -        -         ●          ●
+
+Safe Exit Warning (SEW)                     -        -         ●          ●
+Surround View Monitor (SVM)                 -        -         ●          ●
+Tyre Pressure Monitoring System
+(TPMS)
+                                            ●        ●         ●          ●
+
+CUSTOMER OPTIONS
+Solid Paint (Atlas White)                   ●        ●         ●          ●
+Metallic / Pearl Paint                      ●        ●         ●          ●
+Comfort Pack: Heated Front Seats,
+Heated Steering Wheel, Wireless
+Charger, Privacy Glass, Passenger Seat
+                                            ●        -         -          -
+Height Adjust
+KONA Electric
+Specifications
+                                                                     Advance                                                          N Line                     N Line S   Ultimate
+
+WARRANTY
+12 Years Anti-Perforation Warranty                                        ●                                                              ●                          ●          ●
+Eight Year 100,000 High Voltage
+Battery Warranty
+                                                                          ●                                                              ●                          ●          ●
+
+Five Year Annual Vehicle Health Checks                                    ●                                                              ●                          ●          ●
+Five Year Unlimited Mileage Warranty                                      ●                                                              ●                          ●          ●
+Hyundai Roadside Assistance                                               ●                                                              ●                          ●          ●
+Bluelink Connected Car Services**                                         ●                                                              ●                          ●          ●
+
+
+
+
+                          †Feature on Demand - Enabled for future FoD features
+ KEY                      *Compatible Smartphone, Bluelink App and active subscription required.
+                          **After the free 10-year Bluelink® LITE subscription period ends, access to Bluelink features will expire unless a paid subscription
+ ● Standard               plan is selected. Users may choose to upgrade to a higher-tier subscription at any time before the expiration of the LITE free plan.
+ ● Optional
+  - Not Available
+KONA Electric
+Pricing - Effective from 1st October 2026
+                                                   CO2
+                                                          INSURANCE       VED    VED     BASIC RETAIL                                RECOMMENDED ON        P11D                  MONTHLY BIK    MONTHLY BIK
+         TRIM                FUEL TYPE          EMISSIONS                                                VAT £      RETAIL PRICE £                                    BIK TAX
+                                                          GROUP (1-50)   BAND   COST £     PRICE £                                    THE ROAD PRICE £    VALUE                 PAYABLE AT 20% PAYABLE AT 40%
+                                                  (WLTP)
+
+  Advance 65kWh                   BEV                  0          31D     A      £10      £28,508.33    £5,701.67     £34,210.00         £35,000.00      £34,935.00     4%          £23.29         £46.58
+
+
+    N Line 65kWh                  BEV                  0          31D     A      £10      £30,287.50    £6,057.50     £36,345.00         £37,135.00      £37,070.00     4%          £24.71         £49.43
+
+
+  N Line S 65kWh                  BEV                  0          32D     A      £10      £32,441.67    £6,488.33     £38,930.00         £39,720.00      £39,655.00     4%          £26.44         £52.87
+
+
+  Ultimate 65kWh                  BEV                  0          33D     A      £10      £32,366.67    £6,473.33     £38,840.00         £39,630.00      £39,565.00     4%          £26.38         £52.75
+
+
+
+
+*Insurance groups ratings are provisional and subject to change
+KONA Electric
+Pricing
+
+  OPTIONAL EXTRAS                                                                                                                                                                                             BASIC RETAIL PRICE                       VAT                RETAIL PRICE
+
+  Solid Paint (Atlas White)
+                                                                                                                                                                                                                       £308.33                        £61.67                  £370.00
+  All trims
+
+  Metallic / Pearl / Special Paint
+                                                                                                                                                                                                                       £579.17                       £115.83                  £695.00
+  All trims
+
+  Comfort Pack: Heated Front Seats, Heated Steering Wheel, Wireless Charger, Privacy Glass, Passenger Seat Height Adjust
+                                                                                                                                                                                                                       £500.00                       £100.00                  £600.00
+  Advance only
+
+
+
+
+Features and options may vary between model trims. Please check model availability and full specification details with your local Hyundai retailer. The information on this document is relevant for new factory orders only and is accurate at time of publication. While we do our best to ensure
+that the information provided is accurate and up to date, we make no guarantee. In particular, while every effort is made to ensure that the price, specifications and equipment shown are correct at the time of publication, our products are being updated regularly and therefore the published
+specification is subject to change.
+
