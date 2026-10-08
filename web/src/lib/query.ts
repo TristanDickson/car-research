@@ -197,7 +197,7 @@ function rangeValue(key: RangeKey, c: SnapshotCar, ctx: CarContext): number | nu
 export function facetValue(token: string, c: SnapshotCar, ctx: CarContext): "standard" | "option" | null {
   if (token.startsWith("flag:")) {
     const v = c.flags?.[token.slice(5)];
-    return v === "standard" ? "standard" : v === "option" ? "option" : null;
+    return v === "standard" ? "standard" : v === "option" || v === "pack" ? "option" : null;
   }
   if (token.startsWith("route:")) return ctx.costs.byRoute[token.slice(6) as keyof CarCosts["byRoute"]] ? "standard" : null;
   switch (token) {

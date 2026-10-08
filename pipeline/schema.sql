@@ -190,6 +190,18 @@ CREATE TABLE IF NOT EXISTS derivatives (
 );
 CREATE INDEX IF NOT EXISTS derivatives_model ON derivatives(make_slug, model_slug);
 
+-- What a derivative can be ordered with: Carwow's configurator options and
+-- packs (name, price, the options a pack bundles), one row per derivative.
+-- Committed as data/history/options.jsonl.
+CREATE TABLE IF NOT EXISTS options (
+  cap_id        TEXT PRIMARY KEY,
+  payload       TEXT NOT NULL,
+  first_seen_at TEXT NOT NULL,
+  last_seen_at  TEXT NOT NULL,
+  artifact_id   INTEGER REFERENCES artifacts(id),
+  run_id        INTEGER REFERENCES runs(id)
+);
+
 -- Backfill ledger: which pages the Wayback backfill has fully folded in (for a
 -- given since / every-days), so a chunked run that stops at its time budget
 -- continues from where it left off next time instead of re-querying the

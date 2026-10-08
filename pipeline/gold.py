@@ -214,6 +214,17 @@ def upsert_derivative(conn: sqlite3.Connection, r: dict, source: str, artifact_i
     ensure_auto_car(conn, autocars.from_stub(stub), source, artifact_id, run_id, now)
 
 
+def upsert_options(conn: sqlite3.Connection, r: dict, artifact_id: int | None, run_id: int | None, now: str,
+                   first_seen_at: str | None = None, last_seen_at: str | None = None) -> None:
+    conn.execute(
+        """INSERT INTO options (cap_id, payload, first_seen_at, last_seen_at, artifact_id, run_id) VALUES (?,?,?,?,?,?)
+           ON CONFLICT(cap_id) DO UPDATE SET payload=excluded.payload,
+             first_seen_at=MIN(options.first_seen_at, excluded.first_seen_at), last_seen_at=MAX(options.last_seen_at, excluded.last_seen_at),
+             artifact_id=excluded.artifact_id, run_id=excluded.run_id""",
+        (r["cap_id"], _dump(r), first_seen_at or now, last_seen_at or now, artifact_id, run_id),
+    )
+
+
 def prune_auto_cars(conn: sqlite3.Connection) -> int:
     """Drop generated cars nothing refers to any more (their derivative was mapped
     to a hand-curated car and no observation or spec still points at them)."""
@@ -429,6 +440,10 @@ def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
 
     for artifact_id, rec in records.get("derivative", []):
         upsert_derivative(conn, rec.row, source, artifact_id, run_id, now)
+        written += 1
+
+    for artifact_id, rec in records.get("options", []):
+        upsert_options(conn, rec.row, artifact_id, run_id, now)
         written += 1
 
     used_seen: dict[str, set[str]] = {}

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { CarImage } from "@/components/CarImage";
 import { Sparkline } from "@/components/charts/Sparkline";
 import { Badge } from "@/components/ui";
-import type { Brief } from "@/lib/brief";
+import type { Brief, BriefPack } from "@/lib/brief";
 import { budgetGap, IONIQ5_WIDTH_MM, ROUTE_SHORT, ROUTES, type CarCosts, type TrueCost } from "@/lib/costs";
 import { carName, gbp, num } from "@/lib/format";
 import type { Trend } from "@/lib/model/sightings";
@@ -15,6 +15,8 @@ interface Props {
   car: SnapshotCar;
   costs: CarCosts;
   brief: Brief;
+  /** Packs the brief needs on this car, priced. */
+  packs?: BriefPack[];
   ceiling: number | null;
   /** The reader's term, the months every comparable figure is spread over. */
   horizon: number;
@@ -56,7 +58,7 @@ export function atHorizonNote(t: TrueCost, horizon: number): string | null {
  * expected to be worth at the end), the cheapest marked; then the deal as the
  * source printed it.
  */
-export function CarCard({ car, costs, brief, ceiling, horizon, starred, onStar, compared, onCompare }: Props) {
+export function CarCard({ car, costs, brief, packs = [], ceiling, horizon, starred, onStar, compared, onCompare }: Props) {
   const gap = budgetGap(costs.trueCost?.monthly ?? costs.monthly, ceiling);
   const widthDelta = car.width_mm != null ? car.width_mm - IONIQ5_WIDTH_MM : null;
   const routes = ROUTES.filter((r) => costs.byRoute[r]);
@@ -117,6 +119,11 @@ export function CarCard({ car, costs, brief, ceiling, horizon, starred, onStar, 
             </Badge>
           ))}
         </div>
+        {packs.length > 0 && (
+          <div className="text-xs text-amber-200/80" title="The brief is met only with these packs; the prices are what the configurator asks for them.">
+            needs {packs.map((p) => `${p.pack}${p.price != null ? ` (${gbp(p.price)})` : ""} for ${p.label}`).join(", ")}
+          </div>
+        )}
 
         <div className="mt-auto rounded-lg border border-gray-800 bg-gray-950/60 p-3">
           {routes.length ? (

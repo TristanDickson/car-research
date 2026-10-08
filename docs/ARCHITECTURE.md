@@ -370,42 +370,45 @@ page shows; `details.json` (stock by year, spec rows, the cross-check) is fetche
 demand for a car page. The app computes no cost: `deal_summary.routes` is the model's
 answer as of the snapshot, and the card reads it.
 
-## Facts with their sources
+## Facts: one claim store, one resolver
 
-A generated car knows what Carwow's specification page prints: battery, range,
-power, 0-60, boot, seats, equipment per trim. It does not print efficiency, charging
-power or dimensions. `pipeline/services/facts.py` fills the gaps at export from the
-evidence we hold and writes `field_sources` on the car (field → source), which the
-car page shows as a mark on the value:
+`pipeline/services/claims.py` is where every car field comes from at export. No source
+writes onto a car; each emits *claims* about a subject at the level it speaks of, and a
+derivative inherits what is said about the levels it belongs to:
 
-- `providers/evdb.py` reads EV Database's UK index once a night: one card per
-  variant with the measured real range, Wh/mi, kerb weight, 0-62, useable battery,
-  average rapid-charge power over 10-80%, towing, boot, price, and whether a heat
-  pump or vehicle-to-load is offered. Variants are EV Database's own, so a car takes
-  the variant of its model (longest catalogue name that starts the variant's) whose
-  useable battery fits its gross one; two variants and no battery to choose by is no
-  match, never a guess.
-- A hand-curated car's tri-state fields describe its trim, so the generated
-  derivatives of the same make, model and trim name take them where their own spec
-  said nothing (the Inster 02's cabin socket in the Tech Pack reaches every
-  `02 · …` derivative).
+| Level | Subject | Who speaks of it |
+| --- | --- | --- |
+| own | a hand-curated car record | `data/seed/cars.json` |
+| derivative | a CAP derivative id | the registry's CAP name and brackets (`carwow_model`), the configurator page (`carwow_options`), a specification row's numbers, a broker's derivative name |
+| trim | make, model, trim | Carwow's standard-equipment list and trim description, Kia's grade table, a curated car's reading of its trim |
+| engine | make, model, engine | battery, range, power, from any specification row with that engine |
+| model | make, model | body numbers; what EV Database says of every variant when they agree |
+| variant | an EV Database variant, matched by battery | measured numbers, availability |
+| pack | make, model, pack name | what the pack bundles (the configurator, a curated car) |
 
-The derivative registry (`providers/carwow_model.py`, Gold `derivatives`,
-`data/history/derivatives.jsonl`) is the third overlay. Carwow's public model
-page prints every derivative by its CAP name with the brackets CAP uses to mark
-a variant: `71kW 01 42kWh 5dr Auto [No Heat Pump]` next to `71kW 01 42kWh 5dr
-Auto`. The specification page lists one derivative per trim and engine and names
-the trim only, so those two looked the same there. `facts.overlay_derivatives`
-reads the name: `[No Heat Pump]` is none; a trim that has a no-heat-pump version
-has the heat pump as standard on its other derivatives; `[Heat Pump]` and a seat
-count say what they say; a pack in brackets is a pack; the RRP fills a missing
-list price; and the trim's own description on the specification page ("…
-including a heat pump …") stands in where the name says nothing. A derivative no
-spec page listed gets a stub car from the registry, so the Inster 02 with the
-heat pump (CAP 106646, £27,115) exists even though Carwow's specification page
-only lists the £24,740 version.
+Two edges join them: a derivative **includes** a pack (`[Tech Pack]` in its CAP name, a
+curated car's packs, a pack fitted by default) and a subject **offers** a pack at a price
+(the configurator, a curated car's `packs_required`). A claim is `(field, value, kind,
+source, label)`; the kind says what sort of evidence it is, and for equipment the kinds
+rank: curated, named (a bracket), named_twin (a trim with a `[No X]` version has X on its
+other derivatives), included (through an included pack), curated_twin, listed (a standard
+list, or fitted by default), described, offered (through a pack, with its price), option
+(on its own, with its price), available (EV Database), absent (not in a complete standard
+list, or not offered as an option or pack). Numbers rank by level, nearest first.
 
-A field the car already carries is never overwritten.
+The resolver takes a field's strongest bucket and requires it to agree; a disagreement is
+unknown and both sides are kept on the car (`disagreements`). Every resolved field names
+its claim (`field_sources`), `flags` carries all 29 equipment flags with a verdict
+(standard, pack, option, none), `packs_required` and `pack_prices_gbp` say which pack a
+"pack" verdict leans on and what it costs, and the brief in the app prices the packs a car
+needs (`lib/brief.ts` `briefPacks`). Nothing in the resolver names a feature: the heat
+pump, the cabin socket and the powered tailgate are three flags among the 29
+`services/features.py` knows, resolved by the same rules.
+
+The configurator page (`providers/carwow_options.py`, Gold `options`,
+`data/history/options.jsonl`) is read for every derivative the registry or a
+specification row names: its JSON block lists every option and pack with prices and
+contents, so "not offered" is evidence rather than silence.
 
 ## Sightings: every route, every source, over time
 

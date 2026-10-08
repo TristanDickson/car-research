@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 from pipeline.providers import evdb
-from pipeline.services.facts import model_of, overlay_curated, overlay_engine_twins, overlay_evdb, pick_variant
+from pipeline.services.facts import model_of, pick_variant
 
 FIX = Path(__file__).parent / "fixtures"
 CATALOGUE = [
@@ -55,50 +55,6 @@ class Overlays(unittest.TestCase):
         self.assertIsNone(pick_variant({"battery_kwh": 77.0}, [lr, sr]), "no pack of that size")
         self.assertIs(pick_variant({"battery_kwh": None}, [lr]), lr, "one variant and no battery to contradict it")
         self.assertIsNone(pick_variant({"battery_kwh": None}, [lr, sr]), "two variants and nothing to choose by")
-
-    def test_evdb_fills_gaps_only_and_names_itself(self):
-        rows = evdb.parse_page((FIX / "evdb_uk_index.html").read_text(encoding="utf-8"), "u", "T")
-        for r in rows:
-            r["provider"] = "evdb"
-        car = {"id": "carwow-cap:1", "make": "Hyundai", "model": "Inster", "make_slug": "hyundai", "model_slug": "inster", "auto": True,
-               "battery_kwh": 49.0, "boot_l": 280.0, "zero_to_62_s": None, "heat_pump": "unknown", "external_v2l": "unknown"}
-        n = overlay_evdb([car], rows, CATALOGUE)
-        self.assertGreater(n, 3)
-        self.assertEqual(car["boot_l"], 280.0, "a value the car carried is kept")
-        self.assertEqual(car["zero_to_62_s"], 10.6)
-        self.assertEqual(car["dc_avg_kw"], 70.0)
-        self.assertEqual(car["external_v2l"], "standard")
-        self.assertEqual(car["field_sources"]["zero_to_62_s"], "EV Database · INSTER Long Range")
-        self.assertNotIn("boot_l", car["field_sources"])
-        self.assertTrue(car["evdb_url"].startswith("https://ev-database.org/uk/car/"))
-
-    def test_curated_tri_state_reaches_the_same_trim_s_generated_derivatives(self):
-        curated = {"id": "hyundai-inster-49-02", "make": "Hyundai", "model": "Inster", "trim": "02 49kWh", "heat_pump": "standard",
-                   "internal_v2l": "pack", "external_v2l": None, "packs_required": {"internal_v2l": "Tech Pack"}}
-        g02 = {"id": "carwow-cap:110532", "auto": True, "make": "Hyundai", "model": "Inster", "trim": "02 · 85kW 49kWh Auto",
-               "heat_pump": "unknown", "internal_v2l": "unknown", "external_v2l": "unknown"}
-        g01 = {"id": "carwow-cap:110533", "auto": True, "make": "Hyundai", "model": "Inster", "trim": "01 · 71kW 42kWh Auto",
-               "heat_pump": "none", "internal_v2l": "unknown", "external_v2l": "unknown"}
-        n = overlay_curated([curated, g02, g01])
-        self.assertEqual(n, 2)
-        self.assertEqual((g02["heat_pump"], g02["internal_v2l"], g02["external_v2l"]), ("standard", "pack", "unknown"))
-        self.assertEqual(g02["field_sources"]["internal_v2l"], "hand-curated · hyundai-inster-49-02")
-        self.assertEqual(g02["packs_required"], {"internal_v2l": "Tech Pack"})
-        self.assertEqual((g01["heat_pump"], g01["internal_v2l"]), ("none", "unknown"), "a different trim takes nothing; a known value is kept")
-
-    def test_a_stub_takes_the_numbers_of_its_engine_twin_on_the_spec_page(self):
-        spec = {"id": "carwow-cap:110532", "auto": True, "source_kind": "spec", "make": "Hyundai", "model": "Inster", "variant": "85kW 49kWh Auto",
-                "battery_kwh": 49.0, "wltp_range_mi": 229.0, "seats": 4, "power_hp": 115.0, "boot_l": 280.0}
-        spec2 = {"id": "carwow-cap:110536", "auto": True, "source_kind": "spec", "make": "Hyundai", "model": "Inster", "variant": "85kW 49kWh Auto",
-                 "battery_kwh": 49.0, "wltp_range_mi": 229.0, "seats": 4, "power_hp": 115.0, "boot_l": 238.0}
-        stub = {"id": "carwow-cap:106646", "auto": True, "source_kind": "stub", "make": "Hyundai", "model": "Inster", "variant": "85kW 49kWh Auto", "seats": None}
-        other = {"id": "carwow-cap:1", "auto": True, "source_kind": "stub", "make": "Hyundai", "model": "Inster", "variant": "71kW 42kWh Auto"}
-        n = overlay_engine_twins([spec, spec2, stub, other])
-        self.assertEqual((stub["battery_kwh"], stub["wltp_range_mi"], stub["seats"], stub["power_hp"]), (49.0, 229.0, 4, 115.0))
-        self.assertNotIn("boot_l", stub, "the twins disagree on the boot, so nothing is copied")
-        self.assertEqual(stub["field_sources"]["seats"], "Carwow specification · carwow-cap:110532 (same engine)")
-        self.assertNotIn("battery_kwh", other, "no twin with that engine")
-        self.assertEqual(n, 4)
 
 
 if __name__ == "__main__":

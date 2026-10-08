@@ -9,7 +9,7 @@ import { Pricing } from "@/components/Pricing";
 import { Badge, Card, Empty, ErrorNote, Loading, PageHeader, TriBadge } from "@/components/ui";
 import { carCosts, ROUTE_LABEL } from "@/lib/costs";
 import { carName, gbp, num } from "@/lib/format";
-import { evaluateBrief } from "@/lib/brief";
+import { briefPacks, evaluateBrief } from "@/lib/brief";
 import { useBasis, useCar, useCarDetails, useCostsForCar, useDataPage, useRequirements, useShortlist, useSpecsForCar, useToggleShortlist } from "@/lib/hooks";
 import type { SnapshotCar } from "@/lib/types";
 
@@ -42,6 +42,7 @@ function CarView() {
   const c = car.data;
   const picked = (shortlist ?? []).some((s) => s.car_id === c.id);
   const brief = evaluateBrief(reqs.data?.hard, c);
+  const packs = briefPacks(reqs.data?.hard, c);
   const costs = carCosts(c, costRow.data, data.data?.sources);
   const horizon = basis.data?.term_months ?? 37;
 
@@ -101,8 +102,14 @@ function CarView() {
               ["360 camera", flag(c.camera_360)],
             ]}
           />
+          {packs.length > 0 && (
+            <p className="mt-2 text-xs text-amber-200/80">Needs {packs.map((p) => `${p.pack}${p.price != null ? ` (${gbp(p.price)})` : ""} for ${p.label}`).join(", ")}.</p>
+          )}
           {brief.unknown.length > 0 && (
             <p className="mt-2 text-xs text-gray-500">No source has confirmed: {brief.unknownLabels.join(", ")}. <Link href="/requirements" className="underline">Your rules</Link>.</p>
+          )}
+          {c.disagreements && Object.keys(c.disagreements).length > 0 && (
+            <p className="mt-2 text-xs text-gray-500">Sources disagree on {Object.entries(c.disagreements).map(([k, v]) => `${k.replaceAll("_", " ")} (${v.join(" vs ")})`).join("; ")}.</p>
           )}
         </Card>
 

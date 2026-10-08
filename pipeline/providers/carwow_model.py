@@ -84,7 +84,8 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str, mak
             "cap_id": cap, "make": make_name, "make_slug": make, "model": model_name or (q.get("model") or [model])[0].rsplit("-", 1)[0].replace("-", " ").title(),
             "model_slug": model, "name": name, "trim": trim_of(name, engine), "engine": engine, "brackets": brackets,
             "rrp": money(price) if price else None, "version_date": version if re.fullmatch(r"\d{4}-\d{2}-\d{2}", version) else None,
-            "configurator_model": (q.get("model") or [None])[0], "source": "Carwow model page", "source_url": url, "observed_at": observed_at,
+            "configurator_model": (q.get("model") or [None])[0], "configurator_url": H.unescape(href),
+            "source": "Carwow model page", "source_url": url, "observed_at": observed_at,
         })
     return rows
 

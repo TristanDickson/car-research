@@ -3,13 +3,17 @@
   "cars": 1983,
   "cars_curated": 19,
   "cars_generated": 1964,
+  "claims": 91870,
   "derivatives": 909,
+  "disagreements": 2,
+  "fields_from_claims": 81900,
   "makes": 49,
   "models": 248,
   "models_with_deals": 177,
   "models_with_specs": 218,
   "observations": 5553,
   "offers": 2924,
+  "options_pages": 1140,
   "sightings": 7998,
   "specs": 2020,
   "specs_mapped": 909,
@@ -51,7 +55,7 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-08T06:04:27+00:00",
+ "generated_at": "2026-10-08T11:25:45+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
@@ -142,6 +146,21 @@
    "live": true,
    "name": "carwow_model",
    "source": "carwow_model"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "options"
+     ],
+     "name": "options",
+     "parser_version": "1"
+    }
+   ],
+   "description": "Carwow's configurator, one page per derivative:",
+   "live": true,
+   "name": "carwow_options",
+   "source": "carwow_options"
   },
   {
    "capabilities": [
@@ -348,27 +367,14 @@
  },
  "runs": [
   {
-   "artifacts": 248,
-   "capability": "derivatives",
-   "errors": 0,
-   "finished_at": "2026-10-08T06:02:09+00:00",
-   "id": 3,
-   "records": 909,
-   "source": "carwow_model",
-   "started_at": "2026-10-08T05:50:59+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
-  },
-  {
    "artifacts": 4,
    "capability": "offers",
    "errors": 0,
-   "finished_at": "2026-10-08T05:50:57+00:00",
+   "finished_at": "2026-10-08T11:25:45+00:00",
    "id": 2,
    "records": 4,
    "source": "carwow_paste",
-   "started_at": "2026-10-08T05:50:57+00:00",
+   "started_at": "2026-10-08T11:25:45+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -377,11 +383,11 @@
    "artifacts": 4,
    "capability": "seed",
    "errors": 0,
-   "finished_at": "2026-10-08T05:50:56+00:00",
+   "finished_at": "2026-10-08T11:25:44+00:00",
    "id": 1,
    "records": 268,
    "source": "manual_seed",
-   "started_at": "2026-10-08T05:50:56+00:00",
+   "started_at": "2026-10-08T11:25:44+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0

@@ -1,6 +1,6 @@
 """The derivative registry: Carwow's model page names every derivative as CAP
 does, brackets included; Gold keeps it, gives stub cars to what no spec page
-listed, replays it from history, and the facts overlay reads the brackets."""
+listed, and replays it from history; services/claims.py reads the brackets."""
 import json
 import unittest
 from pathlib import Path
@@ -9,7 +9,6 @@ from pipeline.history import export_derivatives, import_derivatives
 from pipeline.providers import carwow_model
 from pipeline.providers.types import Capability, Context, Fetched, Provider, Target
 from pipeline.runner import run
-from pipeline.services.facts import description_says_heat_pump, overlay_derivatives
 from tests.helpers import fresh_conn, run_all
 
 FIX = Path(__file__).parent / "fixtures"
@@ -72,38 +71,6 @@ class Registry(unittest.TestCase):
             self.assertIsNotNone(other.execute("SELECT 1 FROM cars WHERE id='carwow-cap:106646'").fetchone(), "the stub comes back on replay")
         finally:
             tmp.unlink(missing_ok=True)
-
-
-class Overlay(unittest.TestCase):
-    DERIVS = [
-        {"cap_id": "110533", "make_slug": "hyundai", "model_slug": "inster", "name": "71kW 01 42kWh 5dr Auto [No Heat Pump]", "trim": "01", "brackets": ["No Heat Pump"], "rrp": 22995.0},
-        {"cap_id": "106644", "make_slug": "hyundai", "model_slug": "inster", "name": "71kW 01 42kWh 5dr Auto", "trim": "01", "brackets": [], "rrp": 23755.0},
-        {"cap_id": "900", "make_slug": "kia", "model_slug": "ev3", "name": "150kW GT-Line S 81kWh 5dr Auto [Heat Pump] [7 seat]", "trim": "GT-Line S", "brackets": ["Heat Pump", "7 seat"], "rrp": 40000.0},
-        {"cap_id": "901", "make_slug": "kia", "model_slug": "ev3", "name": "150kW Air 58kWh 5dr Auto", "trim": "Air", "brackets": [], "rrp": 33000.0},
-    ]
-
-    def car(self, cap, **kw):
-        return {"id": f"carwow-cap:{cap}", "auto": True, "cap_id": cap, "heat_pump": "unknown", "seats": None, "list_price_gbp": None, **kw}
-
-    def test_brackets_twins_descriptions_and_rrp(self):
-        a, b, c, d = self.car("110533"), self.car("106644"), self.car("900", list_price_gbp=41000.0), self.car("901")
-        curated = {"id": "hyundai-inster-49-02", "cap_id": "106646", "heat_pump": "standard"}
-        n = overlay_derivatives([a, b, c, d, curated], self.DERIVS, {"carwow-cap:901": "Air trim gets a reversing camera and a heat pump as standard."})
-        self.assertEqual((a["heat_pump"], a["field_sources"]["heat_pump"]), ("none", "Carwow derivative name · 71kW 01 42kWh 5dr Auto [No Heat Pump]"))
-        self.assertEqual(b["heat_pump"], "standard", "the trim has a no-heat-pump version, and this is not it")
-        self.assertIn("[No Heat Pump] version", b["field_sources"]["heat_pump"])
-        self.assertEqual((c["heat_pump"], c["seats"], c["packs"], c["list_price_gbp"]), ("standard", 7, ["Heat Pump"], 41000.0))
-        self.assertEqual((d["heat_pump"], d["field_sources"]["heat_pump"]), ("standard", "Carwow trim description"))
-        self.assertEqual((a["list_price_gbp"], b["list_price_gbp"], d["list_price_gbp"]), (22995.0, 23755.0, 33000.0))
-        self.assertEqual(a["cap_name"], "71kW 01 42kWh 5dr Auto [No Heat Pump]")
-        self.assertNotIn("field_sources", curated, "a hand-curated car is left alone")
-        self.assertGreaterEqual(n, 8)
-
-    def test_a_description_only_counts_when_it_says_fitted(self):
-        self.assertTrue(description_says_heat_pump("You get the same generous level of equipment, including a heat pump and battery heater."))
-        self.assertFalse(description_says_heat_pump("A heat pump is an option on this trim. Inside, twin screens."))
-        self.assertFalse(description_says_heat_pump("Cheaper, but there is no heat pump here."))
-        self.assertFalse(description_says_heat_pump(None))
 
 
 if __name__ == "__main__":

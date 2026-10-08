@@ -162,8 +162,10 @@ export interface SnapshotCar {
   top_speed_mph?: number | null;
   weight_kg?: number | null;
   tow_kg?: number | null;
-  /** Where each filled field came from, for fields the car's own source did not carry (services/facts.py). */
-  field_sources?: Record<string, string>;
+  /** Where each resolved field came from (services/claims.py); absent for a hand-curated car's own reading. */
+  field_sources?: Record<string, string> | null;
+  /** Fields the strongest sources disagree on, with both sides; the field stays unknown. */
+  disagreements?: Record<string, string[]> | null;
   evdb_url?: string | null;
   zero_to_62_s?: number | null;
   length_mm?: number | null;
@@ -178,8 +180,8 @@ export interface SnapshotCar {
   heat_pump?: Tri;
   internal_v2l?: Tri;
   external_v2l?: Tri;
-  packs_required?: Record<string, string>;
-  pack_prices_gbp?: Record<string, number>;
+  packs_required?: Record<string, string> | null;
+  pack_prices_gbp?: Record<string, number> | null;
   powered_sliding_doors?: number | null;
   memory_seats?: boolean;
   glass_roof?: boolean;
@@ -410,7 +412,9 @@ export interface Requirements {
 }
 
 
-export type FlagState = "standard" | "option" | null;
+/** standard = fitted; pack = available through a named pack (packs_required says which, pack_prices_gbp what it costs);
+ * option = available on its own; none = not available; null / absent = no source says. */
+export type FlagState = "standard" | "pack" | "option" | "none" | null;
 
 /** One scraped variant: a Carwow CAP derivative or a Kia grade × powertrain (× seats). */
 export interface SnapshotSpec {

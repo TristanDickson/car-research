@@ -203,7 +203,8 @@ export default function DataPage() {
         <Card title="In this snapshot">
           <p className="text-sm text-gray-400">
             {counts.cars} cars ({counts.cars_curated} hand-curated, {counts.cars_generated} generated) across {counts.models} models from {counts.makes} makes ·{" "}
-            {counts.offers} offers from {counts.observations} sightings · {counts.used_spans ?? 0} used asking-price spans · {counts.specs} spec rows · {counts.used_listings} used listings over {counts.used_models} models.
+            {counts.offers} offers from {counts.observations} sightings · {counts.used_spans ?? 0} used asking-price spans · {counts.specs} spec rows · {counts.derivatives ?? 0} registry derivatives · {counts.used_listings} used listings over {counts.used_models} models.
+            {counts.claims != null && <> Every car field is resolved from {counts.claims.toLocaleString("en-GB")} claims: {counts.fields_from_claims?.toLocaleString("en-GB")} fields filled from a source, {counts.disagreements ?? 0} left unknown because the strongest sources disagree.</>}
           </p>
           <p className="mt-2 text-xs text-gray-500">
             Offer states: {Object.entries(data.offer_states).map(([k, v]) => `${k} ${v}`).join(" · ")}.

@@ -94,6 +94,7 @@ Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
 | `leaseloco` | leaseloco.com model pages (the known ones plus a guess per catalogue model; a 404 is skipped) | best personal-lease deal per derivative and profile, VAT added | scrapes |
 | `rrg` | rrg-group.com Kia PV5 offers | the dealer's PCP example for the PV5 7-seat | scrapes |
 | `carwow_model` | carwow.co.uk `/<make>/<model>`, the public model page | the derivative registry: every derivative by its CAP name with the brackets CAP prints (`[No Heat Pump]`, `[Heat Pump]`, `[7 seat]`), RRP, engine and version date; a stub car for any derivative the specification page omits, and the facts the brackets and their twins carry | scrapes |
+| `carwow_options` | quotes.carwow.co.uk's configurator, one page per derivative | every option and pack the derivative can be ordered with, with prices and what each pack bundles; a feature in neither is not available on that derivative | scrapes |
 | `carwow_specs` | carwow.co.uk `/specifications` per catalogue model | equipment per trim, numbers per engine, CAP ids with version dates, an image per derivative; a generated car for every derivative nobody curates | scrapes |
 | `kia_specs` | kia.com/uk `/specification` per model | grade × feature ticks, numbers per powertrain, seat variants | scrapes |
 | `carwow_used` | quotes.carwow.co.uk used stock per catalogue model | every used example Carwow's partner dealers list: derivative, price, year, mileage, town | scrapes |
@@ -311,6 +312,13 @@ rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Context log
 
+- **2026-10-08** One fact store for every car field (`pipeline/services/claims.py`): every
+  source emits claims about a derivative, a trim, an engine, a model, an EV Database
+  variant or a pack; a derivative inherits by level and the packs it includes or is
+  offered; one precedence order per field class decides, a disagreement stays unknown with
+  both sides kept, and every field names the claim it came from. Carwow's configurator
+  page per derivative joins as a source (options and packs with prices). The brief names
+  the packs a car needs and what they cost. The per-field overlays are gone.
 - **2026-10-08** The derivative registry: Carwow's public model page names every
   derivative as CAP does, brackets included, so `[No Heat Pump]` versions and their
   standard twins are told apart, derivatives the specification page omits get a stub

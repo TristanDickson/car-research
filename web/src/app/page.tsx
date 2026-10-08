@@ -7,7 +7,8 @@ import { CarCard } from "@/components/CarCard";
 import { QueryBar } from "@/components/QueryBar";
 import { Empty, ErrorNote, Loading, PageHeader } from "@/components/ui";
 import { gbp } from "@/lib/format";
-import { useBasis, useToggleShortlist } from "@/lib/hooks";
+import { briefPacks } from "@/lib/brief";
+import { useBasis, useRequirements, useToggleShortlist } from "@/lib/hooks";
 import { allCars, withQuery } from "@/lib/query";
 import { useCarQuery } from "@/lib/useCarQuery";
 
@@ -26,6 +27,7 @@ function Pick() {
   const { query, set, cars, rows, ctxOf, options, flagLabels, budgetCeiling, loading, error } = useCarQuery();
   const toggle = useToggleShortlist();
   const basis = useBasis();
+  const reqs = useRequirements();
   const [compare, setCompare] = useState<string[]>([]);
   const [shown, setShown] = useState(PAGE);
   const nAuto = useMemo(() => (cars ?? []).filter((c) => c.auto).length, [cars]);
@@ -72,6 +74,7 @@ function Pick() {
                 car={c}
                 costs={ctx.costs}
                 brief={ctx.brief}
+                packs={briefPacks(reqs.data?.hard, c)}
                 ceiling={budgetCeiling}
                 horizon={basis.data?.term_months ?? 37}
                 starred={ctx.starred}

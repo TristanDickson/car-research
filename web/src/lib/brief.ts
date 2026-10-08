@@ -58,6 +58,29 @@ export function evaluateBrief(rules: RequirementRule[] | undefined, car: Snapsho
   return out;
 }
 
+/** A pack the brief leans on: a rule the car meets only through a named pack. */
+export interface BriefPack {
+  field: string;
+  label: string;
+  pack: string;
+  price: number | null;
+}
+
+/** The packs a car needs to meet the switched-on rules it passes via 'pack', with their prices where known. */
+export function briefPacks(rules: RequirementRule[] | undefined, car: SnapshotCar): BriefPack[] {
+  const out: BriefPack[] = [];
+  const seen = new Set<string>();
+  for (const r of carRules(rules)) {
+    const field = r.field as string;
+    const value = (car as unknown as Record<string, unknown>)[field];
+    const pack = car.packs_required?.[field];
+    if (value !== "pack" || !pack || seen.has(pack) || checkRule(r, car) !== true) continue;
+    seen.add(pack);
+    out.push({ field, label: r.short ?? r.label, pack, price: car.pack_prices_gbp?.[pack] ?? null });
+  }
+  return out;
+}
+
 /** The filter the Pick and Cars pages offer over the brief. */
 export type BriefFilter = "pass" | "pass-or-unknown" | "all";
 
