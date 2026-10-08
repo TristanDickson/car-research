@@ -225,6 +225,20 @@ def upsert_options(conn: sqlite3.Connection, r: dict, artifact_id: int | None, r
     )
 
 
+def upsert_configuration(conn: sqlite3.Connection, r: dict, artifact_id: int | None, run_id: int | None, now: str,
+                         first_seen_at: str | None = None, last_seen_at: str | None = None) -> None:
+    conn.execute(
+        """INSERT INTO configurations (fsc, make_slug, model_slug, trim, battery_kwh, price, payload, first_seen_at, last_seen_at, artifact_id, run_id)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?)
+           ON CONFLICT(fsc) DO UPDATE SET make_slug=excluded.make_slug, model_slug=excluded.model_slug, trim=excluded.trim,
+             battery_kwh=excluded.battery_kwh, price=excluded.price, payload=excluded.payload,
+             first_seen_at=MIN(configurations.first_seen_at, excluded.first_seen_at), last_seen_at=MAX(configurations.last_seen_at, excluded.last_seen_at),
+             artifact_id=excluded.artifact_id, run_id=excluded.run_id""",
+        (r["fsc"], r["make_slug"], r["model_slug"], r.get("trim"), r.get("battery_kwh"), r.get("price"), _dump(r),
+         first_seen_at or now, last_seen_at or now, artifact_id, run_id),
+    )
+
+
 def prune_auto_cars(conn: sqlite3.Connection) -> int:
     """Drop generated cars nothing refers to any more (their derivative was mapped
     to a hand-curated car and no observation or spec still points at them)."""
@@ -444,6 +458,10 @@ def write(conn: sqlite3.Connection, source: str, kinds: tuple[str, ...],
 
     for artifact_id, rec in records.get("options", []):
         upsert_options(conn, rec.row, artifact_id, run_id, now)
+        written += 1
+
+    for artifact_id, rec in records.get("configuration", []):
+        upsert_configuration(conn, rec.row, artifact_id, run_id, now)
         written += 1
 
     used_seen: dict[str, set[str]] = {}

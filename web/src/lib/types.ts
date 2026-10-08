@@ -166,6 +166,7 @@ export interface SnapshotCar {
   field_sources?: Record<string, string> | null;
   /** Fields the strongest sources disagree on, with both sides; the field stays unknown. */
   disagreements?: Record<string, string[]> | null;
+  overruled?: Record<string, string[]> | null;
   evdb_url?: string | null;
   zero_to_62_s?: number | null;
   length_mm?: number | null;

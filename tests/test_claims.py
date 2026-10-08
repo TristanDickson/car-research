@@ -159,7 +159,7 @@ class Precedence(unittest.TestCase):
         store = build_store([c], [], CATALOGUE, [], [], [{"source": "leaseloco", "car_id": "carwow-cap:5", "label": "Hyundai IONIQ 5 168kW Ultimate 84 kWh 5dr Auto [Vision Roof] [7 seat]"}])
         resolve_car(c, store)
         self.assertEqual((c["flags"]["glass_roof"], c["seats"]), ("standard", 7))
-        self.assertTrue(c["field_sources"]["glass_roof"].startswith("leaseloco derivative name"))
+        self.assertEqual(c["field_sources"]["glass_roof"], "CAP derivative name · Hyundai IONIQ 5 168kW Ultimate 84 kWh 5dr Auto [Vision Roof] [7 seat] (seen on LeaseLoco)")
 
 
 if __name__ == "__main__":
@@ -250,3 +250,96 @@ class Maker(unittest.TestCase):
         self.assertEqual(cars[1]["field_sources"]["heat_pump"], "Kia UK specification · GT-Line S 81.4 kWh (its columns differ; the plainest says option)")
         self.assertEqual((cars[1]["flags"]["heated_steering_wheel"], cars[1]["field_sources"]["heated_steering_wheel"]), ("standard", "Kia UK specification · GT-Line S 81.4 kWh"))
         self.assertEqual((cars[1]["flags"]["glass_roof"], cars[1]["field_sources"]["glass_roof"]), ("none", "not in Kia UK specification · GT-Line S 81.4 kWh"), "a complete list without blanks of its own: not listed is not fitted, weakly")
+
+
+class Configurator(unittest.TestCase):
+    """Hyundai's own configurator, read from the saved Inster response: nine orderable configurations
+    matched to CAP derivatives by trim, battery and price; what is in the price is fitted, what is
+    offered is an extra, what the model sells elsewhere only is not available."""
+
+    @classmethod
+    def setUpClass(cls):
+        import json
+        from pathlib import Path
+        from pipeline.providers import hyundai_configurator as hc
+        d = json.loads((Path(__file__).parent / "fixtures" / "hyundai_configurator_inster.json").read_text())
+        cls.cfg = hc.parse_payload(d, "inster", "Inster", "2026-10-08T12:00:00+00:00")
+        reg = REGISTRY + [REGISTRY_02_42,
+                          {"cap_id": "110535", "make": "Hyundai", "model": "Inster", "make_slug": "hyundai", "model_slug": "inster", "name": "85kW Cross 49kWh 5dr Auto [No Heat Pump]", "trim": "Cross", "engine": "85kW 49kWh Auto", "brackets": ["No Heat Pump"], "rrp": 28420.0},
+                          {"cap_id": "106647", "make": "Hyundai", "model": "Inster", "make_slug": "hyundai", "model_slug": "inster", "name": "85kW Cross 49kWh 5dr Auto", "trim": "Cross", "engine": "85kW 49kWh Auto", "brackets": [], "rrp": 29245.0}]
+        for r in reg:
+            r.setdefault("engine", {"01": "71kW 42kWh Auto", "02": "85kW 49kWh Auto" if "49" in r["name"] else "71kW 42kWh Auto", "Cross": "85kW 49kWh Auto"}[r["trim"]])
+        cls.cars = [car("110533", "01", "71kW 42kWh Auto"), car("106644", "01", "71kW 42kWh Auto", "stub"), car("110532", "02", "85kW 49kWh Auto"),
+                    car("110534", "02", "71kW 42kWh Auto", "stub"), car("106646", "02", "85kW 49kWh Auto", "stub"), car("109120", "02", "85kW 49kWh Auto", "stub"),
+                    car("110535", "Cross", "85kW 49kWh Auto", "stub"), car("106647", "Cross", "85kW 49kWh Auto", "stub")]
+        cls.store = build_store(cls.cars, [INSTER_02_SPEC, INSTER_01_SPEC, HY_01, HY_02], CATALOGUE, reg, [], [], cls.cfg)
+        for c in cls.cars:
+            resolve_car(c, cls.store)
+        cls.by = {c["id"]: c for c in cls.cars}
+
+    def test_configurations_match_cap_derivatives_by_trim_battery_and_price(self):
+        self.assertEqual(self.store.configured, {"110533": "6XS5ZDZ7ZSS182", "110532": "6XS5ZDZ7ZHH07V", "110534": "6XS5ZDZ7ZHH07Y", "106646": "6XS5ZDZ7ZHH07O",
+                                                 "110535": "6XS5ZDZ7ZJJ834", "106647": "6XS5ZDZ7ZJJ835",
+                                                 "109120": "6XS5ZDZ7ZHH597"})   # [Tech Pack] at another price: the only pairing whose brackets agree with the packages
+
+    def test_the_configurator_settles_the_heat_pump_against_the_pdf_table(self):
+        one = self.by["carwow-cap:110533"]   # 01 42kWh £22,995: Hyundai's table ticked it, CAP said no; the configurator sells no heat pump on 01 at all
+        self.assertEqual(one["heat_pump"], "none")
+        self.assertNotIn("heat_pump", one.get("disagreements") or {})
+        self.assertIn("Hyundai UK configurator", one["field_sources"]["heat_pump"])
+        self.assertIn("not offered on this trim", one["field_sources"]["heat_pump"])
+        cross = self.by["carwow-cap:110535"]   # Cross £28,420: the heat pump is a £760 extra
+        self.assertEqual((cross["heat_pump"], cross["packs_required"]["heat_pump"], cross["pack_prices_gbp"]["Heat Pump"]), ("pack", "Heat Pump", 760.0))
+        self.assertTrue(any("Heat Pump (£760) is an extra, not in this price" in k.label for k in self.store.claims["derivative:110535"]))
+        with_it = self.by["carwow-cap:106647"]   # Cross £29,245: in the price
+        self.assertEqual((with_it["heat_pump"], with_it["field_sources"]["heat_pump"]), ("standard", "Hyundai UK configurator · Cross 49kWh Battery 115PS Motor £29,245 · Heat Pump in the price"))
+        self.assertEqual(with_it["packs"], ["Heat Pump"])
+
+    def test_the_02_49kwh_without_the_package_is_an_extra_and_the_tech_pack_gives_the_socket(self):
+        c = self.by["carwow-cap:110532"]
+        self.assertEqual((c["heat_pump"], c["pack_prices_gbp"]["Heat Pump"]), ("pack", 760.0))
+        self.assertEqual((c["internal_v2l"], c["packs_required"]["internal_v2l"], c["pack_prices_gbp"]["Tech Pack"]), ("pack", "Tech Pack", 500.0))
+        self.assertEqual(c["flags"]["three_pin_socket"], "pack")
+        self.assertEqual(c["flags"]["digital_key"], "pack")
+        self.assertEqual(c["list_price_gbp"], 26290.0)
+        self.assertIn("Hyundai UK configurator", c["field_sources"]["list_price_gbp"])
+
+    def test_no_tech_pack_on_01_or_cross_means_no_socket(self):
+        for cid in ("carwow-cap:110533", "carwow-cap:110535"):
+            c = self.by[cid]
+            self.assertEqual(c["internal_v2l"], "none", cid)
+            self.assertIn("Tech Pack", c["field_sources"]["internal_v2l"])
+            self.assertNotIn("internal_v2l", c.get("disagreements") or {})
+
+    def test_the_trims_standard_list_speaks_for_the_trim_as_a_list(self):
+        c = self.by["carwow-cap:110534"]   # 02 42kWh
+        self.assertEqual(c["flags"]["heated_front_seats"], "standard")
+        self.assertTrue(c["field_sources"]["heated_front_seats"].endswith("02 standard equipment"))
+        self.assertTrue(any(k.kind == "listed" and k.label == "Hyundai UK configurator · 02 standard equipment" for k in self.store.claims[claims.trim_subject("Hyundai", "Inster", "02")]))
+        self.assertEqual(c["flags"]["led_headlights"], "standard")
+        self.assertEqual(self.by["carwow-cap:110533"]["flags"]["heated_steering_wheel"], "none", "the 01 lists none; the PDF's dash stands")
+
+    def test_what_the_configurator_overrules_stays_visible(self):
+        one = self.by["carwow-cap:110533"]
+        self.assertEqual(one["overruled"]["heat_pump"], ["standard (Hyundai UK specification · 01)"])
+        self.assertNotIn("heated_steering_wheel", one["overruled"] or {})
+
+    def test_an_unmatched_derivative_keeps_the_other_sources(self):
+        c = self.by["carwow-cap:106644"]   # 01 42kWh £23,755: a MY26 price the configurator no longer sells
+        self.assertNotIn("106644", self.store.configured)
+        self.assertEqual(c["heat_pump"], "standard", "Hyundai's table and the [No …] twin rule still speak")
+
+
+class BrokerEchoes(unittest.TestCase):
+    def test_brokers_reprinting_a_cap_name_are_one_claim_with_sightings(self):
+        reg = [{"cap_id": "110533", "make": "Hyundai", "model": "Inster", "make_slug": "hyundai", "model_slug": "inster", "name": "71kW 01 42kWh 5dr Auto [No Heat Pump]", "trim": "01", "brackets": ["No Heat Pump"], "rrp": 22995.0}]
+        c = car("110533", "01", "71kW 42kWh Auto")
+        brokers = [{"source": "leaseloco", "car_id": "carwow-cap:110533", "label": "Hyundai Inster 71kW 01 42kWh 5dr Auto [No Heat Pump]"},
+                   {"source": "ncd", "car_id": "carwow-cap:110533", "label": "INSTER ELECTRIC HATCHBACK 71kW 01 42kWh 5dr Auto [No Heat Pump]"}]
+        store = build_store([c], [HY_01], CATALOGUE, reg, [], brokers)
+        named = [k for k in store.claims["derivative:110533"] if k.kind == "named"]
+        self.assertEqual(len(named), 1)
+        self.assertEqual(named[0].label, "CAP derivative name · 71kW 01 42kWh 5dr Auto [No Heat Pump] (seen on Carwow, LeaseLoco, New Car Discount)")
+        resolve_car(c, store)
+        self.assertEqual(c["disagreements"]["heat_pump"], ["none (CAP derivative name · 71kW 01 42kWh 5dr Auto [No Heat Pump] (seen on Carwow, LeaseLoco, New Car Discount))",
+                                                             "standard (Hyundai UK specification · 01)"])

@@ -30,6 +30,7 @@ USED_PATH = ROOT / "data" / "history" / "used.jsonl"
 USED_OBS_PATH = ROOT / "data" / "history" / "used_observations.jsonl"
 DERIVATIVES_PATH = ROOT / "data" / "history" / "derivatives.jsonl"
 OPTIONS_PATH = ROOT / "data" / "history" / "options.jsonl"
+CONFIGURATIONS_PATH = ROOT / "data" / "history" / "configurations.jsonl"
 DERIVATIVE_COLUMNS = ("cap_id", "make_slug", "model_slug", "name", "trim", "engine", "rrp", "version_date", "payload", "first_seen_at", "last_seen_at")
 USED_OBS_COLUMNS = ("listing_key", "source", "price_gbp", "mileage", "observed_at", "confirmed_at", "present")
 USED_COLUMNS = ("listing_key", "source", "make", "make_slug", "model", "model_slug", "car_id", "price_gbp", "year", "mileage",
@@ -378,6 +379,34 @@ def export_options(conn: sqlite3.Connection, path: Path | str = OPTIONS_PATH) ->
             f.write(json.dumps({"cap_id": r["cap_id"], "payload": json.loads(r["payload"]), "first_seen_at": r["first_seen_at"],
                                 "last_seen_at": r["last_seen_at"]}, ensure_ascii=False, sort_keys=True) + "\n")
     return len(rows)
+
+
+def export_configurations(conn: sqlite3.Connection, path: Path | str = CONFIGURATIONS_PATH) -> int:
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    rows = conn.execute("SELECT fsc, payload, first_seen_at, last_seen_at FROM configurations ORDER BY make_slug, model_slug, fsc").fetchall()
+    with path.open("w", encoding="utf-8") as f:
+        for r in rows:
+            f.write(json.dumps({"fsc": r["fsc"], "payload": json.loads(r["payload"]), "first_seen_at": r["first_seen_at"],
+                                "last_seen_at": r["last_seen_at"]}, ensure_ascii=False, sort_keys=True) + "\n")
+    return len(rows)
+
+
+def import_configurations(conn: sqlite3.Connection, path: Path | str = CONFIGURATIONS_PATH) -> int:
+    path = Path(path)
+    if not path.exists():
+        return 0
+    n = 0
+    with path.open(encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            d = json.loads(line)
+            gold.upsert_configuration(conn, d["payload"], None, None, d["last_seen_at"], d["first_seen_at"], d["last_seen_at"])
+            n += 1
+    conn.commit()
+    return n
 
 
 def import_options(conn: sqlite3.Connection, path: Path | str = OPTIONS_PATH) -> int:

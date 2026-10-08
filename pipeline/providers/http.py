@@ -22,12 +22,13 @@ class FetchError(RuntimeError):
 
 
 def fetch_url(url: str, ctx: Context, *, headers: dict | None = None, accept: str = "text/html",
-              retries: int = 2, timeout: int = 40) -> Fetched:
+              retries: int = 2, timeout: int = 40, data: bytes | None = None) -> Fetched:
+    """GET the url (POST it when `data` is given), politely per host, with retries on 429/5xx."""
     host = urlparse(url).netloc
     wait = _last_hit.get(host, 0.0) + ctx.delay_seconds - time.monotonic()
     if wait > 0:
         time.sleep(wait)
-    req = urllib.request.Request(url, headers={
+    req = urllib.request.Request(url, data=data, headers={
         "User-Agent": UA, "Accept": accept, "Accept-Language": "en-GB,en;q=0.9", **(headers or {}),
     })
     last_exc: Exception | None = None

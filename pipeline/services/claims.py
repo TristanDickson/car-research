@@ -5,7 +5,8 @@ inherits what is said about the levels it belongs to:
 
     own         a hand-curated car record (its own id)
     derivative  a CAP derivative id: a registry name and its brackets, a
-                configurator page, a specification row's numbers, a broker's name
+                configurator page, the maker's own configuration (matched by trim,
+                battery and price), a specification row's numbers, a broker's name
     trim_battery  make, model, trim, battery: what the maker's table says is fitted
                 only with one battery ('● 49kWh only')
     trim        make, model, trim: a standard-equipment list, a description, a
@@ -21,7 +22,12 @@ configurator, a curated car's packs_required). A claim is (field, value, kind,
 source, label), and the kind says what sort of evidence it is:
 
     curated       the household's own reading of the car
-    named         the CAP name's brackets: '[No Heat Pump]', '[Heat Pump]', '[7 seat]'
+    configured    the maker's own configurator: a package in the price is fitted, a
+                  package offered on the trim but not in the price is not, a package
+                  the model sells elsewhere and neither lists nor offers here is not
+                  available. What can be ordered at that price outranks any document.
+    named         the CAP name's brackets: '[No Heat Pump]', '[Heat Pump]', '[7 seat]';
+                  one claim per name however many brokers reprint it
     maker         the maker's own grade table (Kia UK, Hyundai UK): ● fitted, - not
                   available; ranked with `named`, so the two must agree
     named_twin    a trim with a '[No X]' version has X on its other derivatives
@@ -71,16 +77,21 @@ NUMBER_ALIASES = {"zero_to_60_s": "zero_to_62_s", "power_bhp": "power_hp", "kerb
 EVDB_NUMBERS = ("efficiency_mi_kwh", "zero_to_62_s", "dc_avg_kw", "boot_l", "weight_kg", "tow_kg", "real_range_mi", "seats", "ac_kw")
 EVDB_FLAGS = {"heat_pump": "heat_pump", "v2l_external": "v2l_external"}
 
-EQUIP_TIERS = (("curated",), ("named", "maker"), ("named_twin",), ("included",), ("curated_twin",), ("listed",), ("described",),
+EQUIP_TIERS = (("curated",), ("configured",), ("named", "maker"), ("named_twin",), ("included",), ("curated_twin",), ("listed",), ("described",),
                ("offered",), ("option",), ("available",), ("absent",))
 EQUIP_ORDER = tuple(k for tier in EQUIP_TIERS for k in tier)
 EQUIP_RANK = {k: i for i, tier in enumerate(EQUIP_TIERS) for k in tier}
+OVERRULED_KINDS = ("configured", "named", "maker", "curated_twin")   # worth showing when a stronger source overrides them
 LEVEL_ORDER = ("own", "derivative", "trim_battery", "trim", "engine", "model", "variant")
 NUMBER_KINDS = ("curated", "named", "measured", "listed")
 PRICES = ("list_price_gbp", "used_from_gbp")   # drift with time: the latest sighting wins, never a disagreement
 NUMBER_TOLERANCE = 0.05                         # numbers within 5% of each other are the same number (wheels, rounding)
 COMPLETE_LIST = 40   # a standard-equipment list this long is read as the whole of it
 MAKER_PROVIDERS = ("kia_specs", "hyundai_specs")
+# Who reprinted a CAP name: the registry and the brokers, by the name the Data page uses.
+SIGHTING_NAMES = {"carwow": "Carwow", "carwow_deals": "Carwow", "carwow_paste": "Carwow", "leaseloco": "LeaseLoco", "ncd": "New Car Discount",
+                  "rrg": "RRG", "hyundai_offers": "Hyundai UK", "manual_seed": "hand-entered"}
+KWH_RE = re.compile(r"(\d+(?:\.\d+)?)\s*kwh", re.I)
 SEATS_RE = re.compile(r"^\s*(\d)\s*-?\s*(?:seat|seats|seater|st)\b", re.I)
 
 
@@ -143,6 +154,8 @@ class Store:
         self.variants: dict[str, list[dict]] = {}           # model key → EV Database rows
         self.names: dict[str, str] = {}                     # derivative subject → CAP name
         self.trim_batteries: dict[str, set[float]] = {}     # trim subject → the kWh the maker sells it with
+        self.named: dict[tuple[str, str, object], dict] = {}   # (subject, field, value) → the CAP name and who printed it
+        self.configured: dict[str, str] = {}                # cap_id → the maker's configuration code it matched
 
     def add(self, subject: str, claim: Claim) -> None:
         self.claims.setdefault(subject, []).append(claim)
@@ -153,25 +166,36 @@ class Store:
     def offer(self, subject: str, pack: str, name: str, price: float | None) -> None:
         self.offers.setdefault(subject, {})[pack] = (name, price)
 
+    def name_claim(self, subject: str, field: str, value: object, name: str, sighting: str) -> None:
+        """A CAP name's bracket, seen on one more site. Brokers reprint CAP's name; that is one claim
+        with several sightings, not several claims."""
+        e = self.named.setdefault((subject, field, value), {"name": name, "seen": set()})
+        e["seen"].add(sighting)
+
+    def flush_named(self) -> None:
+        for (subject, field, value), e in self.named.items():
+            self.add(subject, Claim(field, value, "named", "CAP derivative name", f"CAP derivative name · {e['name']} (seen on {', '.join(sorted(e['seen']))})"))
+        self.named.clear()
+
     def count(self) -> int:
         return sum(len(v) for v in self.claims.values())
 
 
 # ---------------------------------------------------------------- extraction
 
-def _bracket_claims(store: Store, subject: str, make: str, model: str, brackets: list[str], source: str, name: str) -> None:
+def _bracket_claims(store: Store, subject: str, make: str, model: str, brackets: list[str], sighting: str, name: str) -> None:
     """What a CAP name's brackets say: a seat count, 'No X', X, or a pack."""
     for b in brackets:
         b = b.strip()
         m = SEATS_RE.match(b)
         if m:
-            store.add(subject, Claim("seats", int(m.group(1)), "named", source, f"{source} · {name}"))
+            store.name_claim(subject, "seats", int(m.group(1)), name, sighting)
             continue
         negative = b.lower().startswith("no ")
         hit = [k for k, v in flags_for([b[3:] if negative else b]).items() if v == "standard"]
         if hit:
             for k in hit:
-                store.add(subject, Claim(k, "none" if negative else "standard", "named", source, f"{source} · {name}"))
+                store.name_claim(subject, k, "none" if negative else "standard", name, sighting)
         elif not negative:
             store.include(subject, pack_subject(make, model, b), b)
 
@@ -367,7 +391,7 @@ def from_registry(store: Store, derivatives: list[dict]) -> None:
     for d in derivatives:
         sub = f"derivative:{d['cap_id']}"
         store.names[sub] = d.get("name") or ""
-        _bracket_claims(store, sub, d.get("make") or d.get("make_slug"), d.get("model") or d.get("model_slug"), d.get("brackets") or [], "Carwow derivative name", d.get("name") or "")
+        _bracket_claims(store, sub, d.get("make") or d.get("make_slug"), d.get("model") or d.get("model_slug"), d.get("brackets") or [], "Carwow", d.get("name") or "")
         if d.get("rrp"):
             store.add(sub, Claim("list_price_gbp", float(d["rrp"]), "listed", "Carwow model page", f"Carwow model page · {d.get('name')}", seen=(d.get("observed_at") or "")[:10] or None))
         by_trim.setdefault(trim_subject(d.get("make") or d.get("make_slug"), d.get("model") or d.get("model_slug"), d.get("trim")), []).append(d)
@@ -411,6 +435,135 @@ def from_options(store: Store, row: dict, make: str, model: str) -> None:
             store.add(sub, Claim(k, "none", "absent", src, f"not offered as an option or pack ({src})"))
 
 
+def _pack_flags(p: dict) -> set[str]:
+    return {k for k, v in flags_for(p.get("items") or [p.get("name") or ""]).items() if v == "standard"}
+
+
+def _engine_kwh(d: dict) -> float | None:
+    m = KWH_RE.search(d.get("engine") or "")
+    return float(m.group(1)) if m else None
+
+
+def _brackets_fit(d: dict, r: dict) -> bool:
+    """A CAP name's brackets against a configuration's packages: '[No Heat Pump]' needs no package with
+    one, '[Tech Pack]' needs that package in the price; a name without brackets fits any."""
+    pflags: set[str] = set()
+    for p in r.get("packages") or []:
+        pflags |= _pack_flags(p)
+    names = {norm(p.get("name")) for p in r.get("packages") or []}
+    for b in d.get("brackets") or []:
+        b = b.strip()
+        if SEATS_RE.match(b):
+            continue
+        negative = b.lower().startswith("no ")
+        hit = {k for k, v in flags_for([b[3:] if negative else b]).items() if v == "standard"}
+        if negative and hit & pflags:
+            return False
+        if not negative and norm(b) not in names and not (hit and hit <= pflags):
+            return False
+    return True
+
+
+def from_configurations(store: Store, rows: list[dict], derivatives: list[dict]) -> None:
+    """The maker's configurator: every orderable configuration with its price and packages.
+
+    A configuration is a CAP derivative when the trim, battery and price agree; what is left pairs
+    off where the brackets agree with the packages and the pairing is unique. On a matched
+    derivative the price is its list price, a package in the price is fitted, a package offered
+    on the trim and powertrain but not in the price is an extra (not fitted, offered at its
+    price), and a package the model sells on some other trim or powertrain is not available
+    here. Each trim's standard-equipment list speaks for the trim."""
+    by_trim: dict[str, list[dict]] = {}
+    for d in derivatives:
+        by_trim.setdefault(trim_subject(d.get("make") or d.get("make_slug"), d.get("model") or d.get("model_slug"), d.get("trim")), []).append(d)
+
+    def tsub_of(r: dict) -> str:
+        return trim_subject(r["make"], r["model"], r["trim"])
+
+    def fits(d: dict, r: dict) -> bool:
+        k = _engine_kwh(d)
+        if r.get("battery_kwh") is not None and k is not None and abs(k - float(r["battery_kwh"])) > 1.5:
+            return False
+        ds = next((int(m.group(1)) for b in d.get("brackets") or [] for m in [SEATS_RE.match(b.strip())] if m), None)
+        if ds is None:
+            m = re.search(r"\b(\d)\s*(?:st|seats?)\b", d.get("name") or "", re.I)
+            ds = int(m.group(1)) if m else None
+        return r.get("seats") is None or ds is None or ds == int(r["seats"])
+
+    taken: set[str] = set()
+    match: dict[str, str] = {}
+    for r in rows:   # 1. the price decides
+        cands = [d for d in by_trim.get(tsub_of(r), []) if fits(d, r) and d.get("rrp") and r.get("price")
+                 and abs(float(d["rrp"]) - float(r["price"])) <= 1 and d["cap_id"] not in taken]
+        if len(cands) == 1:
+            match[r["fsc"]] = cands[0]["cap_id"]
+            taken.add(cands[0]["cap_id"])
+    for r in rows:   # 2. what is left pairs off uniquely where the brackets agree with the packages
+        if r["fsc"] in match:
+            continue
+        cands = [d for d in by_trim.get(tsub_of(r), []) if fits(d, r) and d["cap_id"] not in taken and _brackets_fit(d, r)]
+        if len(cands) != 1:
+            continue
+        d = cands[0]
+        rivals = [x for x in rows if x is not r and x["fsc"] not in match and tsub_of(x) == tsub_of(r) and fits(d, x) and _brackets_fit(d, x)]
+        if not rivals:
+            match[r["fsc"]] = d["cap_id"]
+            taken.add(d["cap_id"])
+
+    model_packs: dict[str, dict[str, set[str]]] = {}   # model → flag → the packages that carry it anywhere on the model
+    for r in rows:
+        mp = model_packs.setdefault(model_key(r["make"], r["model"]), {})
+        for p in (r.get("packages") or []) + (r.get("offered") or []):
+            for k in _pack_flags(p):
+                mp.setdefault(k, set()).add(p["name"])
+
+    for r in rows:
+        src = r.get("source") or "maker configurator"
+        label = f"{src} · {r['trim']} {r.get('powertrain') or ''} £{float(r['price']):,.0f}".replace("  ", " ") if r.get("price") else f"{src} · {r['trim']} {r.get('powertrain') or ''}"
+        for p in (r.get("packages") or []) + (r.get("offered") or []):
+            ps = pack_subject(r["make"], r["model"], p["name"])
+            for k in _pack_flags(p):
+                store.add(ps, Claim(k, "standard", "pack_contents", src, f"{src} · {p['name']}"))
+        cap = match.get(r["fsc"])
+        if not cap:
+            continue
+        sub = f"derivative:{cap}"
+        store.configured[cap] = r["fsc"]
+        if r.get("price"):
+            store.add(sub, Claim("list_price_gbp", float(r["price"]), "listed", src, label, seen=(r.get("observed_at") or "")[:10] or None))
+        equip = {k for k, v in flags_for(r.get("equipment") or []).items() if v == "standard"}
+        included: dict[str, str] = {}
+        for p in r.get("packages") or []:
+            store.include(sub, pack_subject(r["make"], r["model"], p["name"]), p["name"])
+            for k in _pack_flags(p):
+                included.setdefault(k, p["name"])
+        for k, name in included.items():
+            store.add(sub, Claim(k, "standard", "configured", src, f"{label} · {name} in the price", None, name))
+        offered: dict[str, dict] = {}
+        for p in r.get("offered") or []:
+            if any(p["name"] == q["name"] for q in r.get("packages") or []):
+                continue
+            store.offer(sub, pack_subject(r["make"], r["model"], p["name"]), p["name"], p.get("price"))
+            for k in _pack_flags(p):
+                offered.setdefault(k, p)
+        for k, p in offered.items():
+            if k not in included and k not in equip:
+                price = f" (£{float(p['price']):,.0f})" if p.get("price") else ""
+                store.add(sub, Claim(k, "none", "configured", src, f"{label} · {p['name']}{price} is an extra, not in this price"))
+        for k, names in model_packs.get(model_key(r["make"], r["model"]), {}).items():
+            if k not in included and k not in offered and k not in equip:
+                store.add(sub, Claim(k, "none", "configured", src, f"{label} · the {r['model']} has this only in {' / '.join(sorted(names))}, not offered on this trim and powertrain"))
+    done: set[str] = set()
+    for r in rows:   # the trim's standard-equipment list, once per trim: a list like Carwow's, not a per-configuration fact
+        tsub = tsub_of(r)
+        if tsub in done or not r.get("equipment"):
+            continue
+        done.add(tsub)
+        for k, v in flags_for(r["equipment"]).items():
+            if v == "standard":
+                store.add(tsub, Claim(k, "standard", "listed", r.get("source") or "maker configurator", f"{r.get('source') or 'maker configurator'} · {r['trim']} standard equipment"))
+
+
 def from_broker_labels(store: Store, rows: list[dict]) -> None:
     """Broker rows resolved to a derivative, whose names carry CAP's brackets."""
     for r in rows:
@@ -418,11 +571,11 @@ def from_broker_labels(store: Store, rows: list[dict]) -> None:
             continue
         br = [b.strip() for b in re.findall(r"\[([^\]]+)\]", r.get("label") or "") if b.strip()]
         if br:
-            _bracket_claims(store, f"derivative:{r['car_id'].split(':', 1)[1]}", r.get("make") or "", r.get("model") or "", br, f"{r.get('source')} derivative name", r.get("label") or "")
+            _bracket_claims(store, f"derivative:{r['car_id'].split(':', 1)[1]}", r.get("make") or "", r.get("model") or "", br, SIGHTING_NAMES.get(r.get("source") or "", r.get("source") or "?"), r.get("label") or "")
 
 
 def build_store(cars: list[dict], specs: list[dict], catalogue: list[dict], derivatives: list[dict], options: list[dict],
-                broker_rows: list[dict]) -> Store:
+                broker_rows: list[dict], configurations: list[dict] | None = None) -> Store:
     store = Store()
     for c in cars:
         if not c.get("auto"):
@@ -442,6 +595,8 @@ def build_store(cars: list[dict], specs: list[dict], catalogue: list[dict], deri
     for r in broker_rows:
         c = by_cap.get((r.get("car_id") or "").split(":", 1)[-1]) or {}
         from_broker_labels(store, [{**r, "make": c.get("make"), "model": c.get("model")}])
+    store.flush_named()
+    from_configurations(store, configurations or [], derivatives)
     return store
 
 
@@ -452,6 +607,7 @@ class Resolved:
     value: object
     claim: Claim | None
     disagreement: list[Claim] | None = None
+    overruled: list[Claim] | None = None   # a weaker source that said otherwise, kept so the override is visible
 
 
 def _subjects(car: dict, variant: dict | None, store: Store | None = None) -> list[tuple[str, str]]:
@@ -519,8 +675,12 @@ def resolve_equipment(field: str, subjects: list[tuple[str, str]], store: Store)
     offers = [rc for rc in cands if rc[1].kind in ("offered", "option")]
     if fitted:
         r = _agree(fitted, bucket_of=lambda rank: rank[0])   # the same kind at any level is one bucket
+        if r.claim is not None:
+            best = EQUIP_RANK[r.claim.kind]
+            r.overruled = [c for rank, c in fitted if rank[0] != best and c.kind in OVERRULED_KINDS and str(c.value) != str(r.value)] or None
         if r.claim is None or r.value != "none" or not offers:
             return r
+        return Resolved(offers[0][1].value, offers[0][1], overruled=r.overruled)
     return Resolved(offers[0][1].value, offers[0][1])
 
 
@@ -547,9 +707,11 @@ def _sides(claims: list[Claim]) -> list[str]:
 def resolve_car(car: dict, store: Store) -> dict:
     """Write every resolved field onto the car: the canonical fields, `flags`
     (every equipment flag with a verdict), `packs_required`, `pack_prices_gbp`,
-    `field_sources` (the winning claim per field) and `disagreements`."""
+    `field_sources` (the winning claim per field), `disagreements` and `overruled` (a named,
+    maker or configured claim a stronger one set aside, so the override is visible)."""
     sources: dict[str, str] = {}
     disagreements: dict[str, list[str]] = {}
+    overruled: dict[str, list[str]] = {}
     subjects = _subjects(car, None, store)
     # Numbers first: the battery picks the EV Database variant and the maker's battery column.
     for f in NUMBERS:
@@ -585,6 +747,8 @@ def resolve_car(car: dict, store: Store) -> dict:
                 packs_required[flag] = r.claim.pack
                 if r.claim.price:
                     prices[r.claim.pack] = r.claim.price
+            if r.overruled:
+                overruled[flag] = _sides(r.overruled)
         elif r.disagreement:
             disagreements[flag] = _sides(r.disagreement)
     if "v2l_internal" in flags or "v2l_external" in flags:
@@ -608,6 +772,7 @@ def resolve_car(car: dict, store: Store) -> dict:
         car["packs"] = sorted(included)
     car["field_sources"] = sources or None
     car["disagreements"] = disagreements or None
+    car["overruled"] = overruled or None
     name = store.names.get(f"derivative:{car.get('cap_id')}")
     if name:
         car["cap_name"] = name

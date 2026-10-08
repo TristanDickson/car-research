@@ -3,10 +3,12 @@
   "cars": 1983,
   "cars_curated": 19,
   "cars_generated": 1964,
-  "claims": 92585,
+  "claims": 92991,
+  "configurations": 51,
+  "configured": 23,
   "derivatives": 909,
-  "disagreements": 6,
-  "fields_from_claims": 81989,
+  "disagreements": 2,
+  "fields_from_claims": 81993,
   "makes": 49,
   "models": 248,
   "models_with_deals": 177,
@@ -55,7 +57,7 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-08T13:37:58+00:00",
+ "generated_at": "2026-10-08T15:01:26+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
@@ -313,6 +315,21 @@
    "capabilities": [
     {
      "kinds": [
+      "configuration"
+     ],
+     "name": "configurations",
+     "parser_version": "1"
+    }
+   ],
+   "description": "Hyundai UK's car configurator: what the maker will actually build, at what price.",
+   "live": true,
+   "name": "hyundai_configurator",
+   "source": "hyundai_configurator"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
       "spec"
      ],
      "name": "specs",
@@ -385,11 +402,11 @@
    "artifacts": 4,
    "capability": "offers",
    "errors": 0,
-   "finished_at": "2026-10-08T13:37:57+00:00",
+   "finished_at": "2026-10-08T15:01:25+00:00",
    "id": 2,
    "records": 4,
    "source": "carwow_paste",
-   "started_at": "2026-10-08T13:37:57+00:00",
+   "started_at": "2026-10-08T15:01:25+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -398,11 +415,11 @@
    "artifacts": 4,
    "capability": "seed",
    "errors": 0,
-   "finished_at": "2026-10-08T13:37:57+00:00",
+   "finished_at": "2026-10-08T15:01:24+00:00",
    "id": 1,
    "records": 268,
    "source": "manual_seed",
-   "started_at": "2026-10-08T13:37:57+00:00",
+   "started_at": "2026-10-08T15:01:24+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0

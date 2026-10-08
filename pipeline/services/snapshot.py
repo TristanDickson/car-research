@@ -325,6 +325,14 @@ def load_options(conn: sqlite3.Connection) -> list[dict]:
         return []
 
 
+def load_configurations(conn: sqlite3.Connection) -> list[dict]:
+    """Every configuration the makers' own configurators will build, with price and packages."""
+    try:
+        return [json.loads(r["payload"]) for r in conn.execute("SELECT payload FROM configurations ORDER BY make_slug, model_slug, fsc")]
+    except sqlite3.OperationalError:
+        return []
+
+
 def load_broker_names(conn: sqlite3.Connection) -> list[dict]:
     """Broker rows resolved to a generated derivative whose names carry CAP's brackets."""
     return [dict(r) for r in conn.execute(
@@ -477,7 +485,8 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     for c in cars:
         if not c.get("auto") and not c.get("cap_id") and cap_of.get(c["id"]):
             c["cap_id"] = cap_of[c["id"]]
-    store = claims.build_store(cars, specs, models, derivatives, load_options(conn), load_broker_names(conn))
+    configurations = load_configurations(conn)
+    store = claims.build_store(cars, specs, models, derivatives, load_options(conn), load_broker_names(conn), configurations)
     resolved = claims.resolve_all(cars, store)
 
     # Every price ever seen, as spans: the facts the browser costs under the reader's basis.
@@ -558,6 +567,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
                    "trim_map_unmapped": len(unmapped),
                    "derivatives": len(derivatives), "options_pages": len(store.names) and sum(1 for k in store.claims if k.startswith("derivative:")),
                    "claims": resolved["claims"], "fields_from_claims": resolved["fields_from_claims"], "disagreements": resolved["disagreements"],
+                   "configurations": len(configurations), "configured": len(store.configured),
                    "models": len(models), "makes": len({m["make"] for m in models}),
                    "models_with_deals": sum(1 for m in models if m["has_deals"]),
                    "models_with_specs": sum(1 for m in models if m["has_specs"]),

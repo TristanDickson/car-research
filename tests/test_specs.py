@@ -204,6 +204,8 @@ class MakerTableWording(unittest.TestCase):
         f = flags_for(["Front Seats - Heated", "Rear Seats (Outer) - Heated", "Front Seats - Ventilated", "Privacy Glass - Rear Side and Tailgate"])
         self.assertEqual((f["heated_front_seats"], f["heated_rear_seats"], f["ventilated_seats"], f["rear_privacy_glass"]), ("standard",) * 4)
         self.assertEqual(flags_for(["Heated and ventilated front seats"])["heated_front_seats"], "standard")
+        g = flags_for(["Front and Rear Seats - Heated", "Steering Wheel - Heated"])   # the configurator's wording
+        self.assertEqual((g["heated_front_seats"], g["heated_rear_seats"], g["heated_steering_wheel"]), ("standard",) * 3)
 
     def test_brakes_windscreens_and_storage_are_not_seats_or_privacy_glass(self):
         from pipeline.services.features import flags_for
@@ -213,5 +215,6 @@ class MakerTableWording(unittest.TestCase):
         self.assertIsNone(f.get("ventilated_seats"))
         self.assertIsNone(f.get("rear_privacy_glass"))
         self.assertEqual(flags_for(["Dark tinted rear windows"])["rear_privacy_glass"], "standard")
-        self.assertEqual(flags_for(["Tinted glass"])["rear_privacy_glass"], "standard")
+        self.assertIsNone(flags_for(["Tinted glass"]).get("rear_privacy_glass"), "every car's glass is tinted; privacy glass is dark")
+        self.assertEqual(flags_for(["Heat insulating dark tinted glass"])["rear_privacy_glass"], "standard")
 

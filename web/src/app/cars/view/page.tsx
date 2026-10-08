@@ -111,6 +111,9 @@ function CarView() {
           {c.disagreements && Object.keys(c.disagreements).length > 0 && (
             <p className="mt-2 text-xs text-gray-500">Sources disagree on {Object.entries(c.disagreements).map(([k, v]) => `${k.replaceAll("_", " ")} (${v.join(" vs ")})`).join("; ")}.</p>
           )}
+          {c.overruled && Object.keys(c.overruled).length > 0 && (
+            <p className="mt-2 text-xs text-gray-500">Set aside by a stronger source: {Object.entries(c.overruled).map(([k, v]) => `${k.replaceAll("_", " ")} said ${v.join(" / ")}`).join("; ")}.</p>
+          )}
         </Card>
 
         <Card title="Spec">

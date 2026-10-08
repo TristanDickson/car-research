@@ -202,6 +202,24 @@ CREATE TABLE IF NOT EXISTS options (
   run_id        INTEGER REFERENCES runs(id)
 );
 
+-- What the maker's own configurator will build: one row per orderable configuration
+-- (Hyundai's FSC), with its price, the packages in that price, the packages offered
+-- on that trim and powertrain, and the trim's standard equipment. Committed as
+-- data/history/configurations.jsonl.
+CREATE TABLE IF NOT EXISTS configurations (
+  fsc           TEXT PRIMARY KEY,
+  make_slug     TEXT NOT NULL,
+  model_slug    TEXT NOT NULL,
+  trim          TEXT,
+  battery_kwh   REAL,
+  price         REAL,
+  payload       TEXT NOT NULL,
+  first_seen_at TEXT NOT NULL,
+  last_seen_at  TEXT NOT NULL,
+  artifact_id   INTEGER REFERENCES artifacts(id),
+  run_id        INTEGER REFERENCES runs(id)
+);
+
 -- Backfill ledger: which pages the Wayback backfill has fully folded in (for a
 -- given since / every-days), so a chunked run that stops at its time budget
 -- continues from where it left off next time instead of re-querying the

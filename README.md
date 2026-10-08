@@ -98,6 +98,7 @@ Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
 | `carwow_specs` | carwow.co.uk `/specifications` per catalogue model | equipment per trim, numbers per engine, CAP ids with version dates, an image per derivative; a generated car for every derivative nobody curates | scrapes |
 | `kia_specs` | kia.com/uk `/specification` per model | grade × feature ticks, numbers per powertrain, seat variants | scrapes |
 | `hyundai_specs` | hyundai.com/uk `/models/<model>/downloads.html`, the Tech & Spec guide PDF it links (needs `pdftotext` from poppler-utils, or pypdf) | the maker's own table per trim: ● / - per item, battery-qualified ticks (`● 49kWh only`, a footnote's `N/A on 63kWh`), which batteries each trim is sold with, packs with contents, price and the trims they are offered on | scrapes |
+| `hyundai_configurator` | hyundai.com/uk `/models/<model>/configurator.html` and the GraphQL endpoint behind it (no credentials) | what the maker will build at what price: every orderable configuration (Hyundai's FSC) with trim, powertrain, price and the packages in that price; the packages offered on each trim and powertrain; each trim's standard-equipment list. Matched to CAP derivatives by trim, battery and price; the strongest word on what is fitted | scrapes |
 | `carwow_used` | quotes.carwow.co.uk used stock per catalogue model | every used example Carwow's partner dealers list: derivative, price, year, mileage, town | scrapes |
 | `cinch_used` | cinch's search API, every electric car per make | cinch's own and marketplace stock with the registration, the CAP variant and the fee-inclusive price | scrapes |
 | `motorpoint_used` | motorpoint.co.uk's electric listing | the supermarket's nearly-new stock: CAP trim, year, mileage, price, branch, and the list price when new | scrapes |
@@ -234,7 +235,7 @@ filtered view is a link and the filter follows you between pages.
 
 ```
 pipeline/               Python package: providers, SQLite medallion, snapshot exporter, history, CLI
-  providers/            manual_seed, carwow_paste, carwow_catalog (the model index), and the live scrapers (carwow_specs, carwow_deals, hyundai_offers, ncd, leaseloco, rrg, kia_specs, hyundai_specs)
+  providers/            manual_seed, carwow_paste, carwow_catalog (the model index), and the live scrapers (carwow_specs, carwow_deals, hyundai_offers, ncd, leaseloco, rrg, kia_specs, hyundai_specs, hyundai_configurator)
                         http.py (polite fetch: UA, per-host delay, retry) and parse.py (money/pct/text/key helpers)
   services/snapshot.py  Gold → web/public/data: cars, every price as spans (sightings, used spans), specs, catalogue, data page; no costs
   services/autocars.py  a car record from a Carwow spec row (or a deals-page stub) for every derivative nobody curates
@@ -313,6 +314,16 @@ rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Context log
 
+- **2026-10-08** Hyundai's own configurator settles the Inster. `hyundai_configurator`
+  reads the GraphQL endpoint behind hyundai.com/uk's build-and-price pages: every orderable
+  configuration with its price and the packages in that price. It says the heat pump is a
+  £760 package on the 02 49 kWh and Cross and not sold on the 01 at all, which is exactly
+  what CAP's `[No Heat Pump]` names say and the opposite of the PDF table's tick; the four
+  disagreements resolve to none or "pack £760", and what a stronger source sets aside stays
+  on the car as `overruled`. Configurations match CAP derivatives by trim, battery and price
+  (23 of 51 across the five models; the Inster in full), and read at a new `configured`
+  rank above the brackets and the makers' tables. Brokers reprinting a CAP name are one
+  claim with its sightings, not three.
 - **2026-10-08** The makers' own tables rank with CAP's brackets. `hyundai_specs` reads
   Hyundai UK's Tech & Spec guide PDF per model (● / - per trim, `● 49kWh only`, footnotes,
   the batteries each trim is sold with, packs with prices); it and `kia_specs` feed the claim
