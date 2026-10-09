@@ -8,10 +8,13 @@ import { EquipmentCard } from "@/components/EquipmentCard";
 import { Pricing } from "@/components/Pricing";
 import { Badge, Card, Empty, ErrorNote, Loading, PageHeader, TriBadge } from "@/components/ui";
 import { carCosts, ROUTE_LABEL } from "@/lib/costs";
+import { FIELDS, GROUPS, show } from "@/lib/fields";
 import { carName, gbp, num } from "@/lib/format";
 import { useBasis, useCar, useCarDetails, useCostsForCar, useDataPage, useSpecsForCar } from "@/lib/hooks";
 import { carPacks } from "@/lib/query";
-import type { SnapshotCar } from "@/lib/types";
+import type { CarDetails, SnapshotCar } from "@/lib/types";
+
+type Sources = CarDetails["field_sources"];
 
 // Static export: no dynamic segments, so the car id rides a query param.
 // useSearchParams needs a Suspense boundary in the exported build.
@@ -41,6 +44,9 @@ function CarView() {
   const flagLabels = data.data?.flag_labels ?? {};
   const costs = carCosts(c, costRow.data, data.data?.sources);
   const horizon = basis.data?.term_months ?? 37;
+  const from = details.data?.field_sources ?? null;
+  const disagreements = details.data?.disagreements ?? null;
+  const overruled = details.data?.overruled ?? null;
 
   return (
     <div className="space-y-6">
@@ -70,13 +76,13 @@ function CarView() {
         }
       />
 
-      <div className="grid gap-4 lg:grid-cols-3">
+      <div className="grid gap-4 lg:grid-cols-2">
         <Card title="Key equipment">
           <Rows
             rows={[
-              ["Heat pump", <span key="hp"><TriBadge value={c.heat_pump} detail={c.packs_required?.heat_pump} />{mark(c, "heat_pump")}</span>],
-              ["Internal V2L", <span key="iv"><TriBadge value={c.internal_v2l} detail={c.packs_required?.internal_v2l} />{mark(c, "internal_v2l")}</span>],
-              ["External V2L", <span key="ev"><TriBadge value={c.external_v2l} />{mark(c, "external_v2l")}</span>],
+              ["Heat pump", <span key="hp"><TriBadge value={c.heat_pump} detail={c.packs_required?.heat_pump} />{mark(from, "heat_pump")}</span>],
+              ["Internal V2L", <span key="iv"><TriBadge value={c.internal_v2l} detail={c.packs_required?.internal_v2l} />{mark(from, "internal_v2l")}</span>],
+              ["External V2L", <span key="ev"><TriBadge value={c.external_v2l} />{mark(from, "external_v2l")}</span>],
               ["Seats", num(c.seats)],
               ["Powered sliding doors", c.powered_sliding_doors != null ? String(c.powered_sliding_doors) : "—"],
               ["Memory seats", flag(c.memory_seats)],
@@ -88,42 +94,6 @@ function CarView() {
           {packs.length > 0 && (
             <p className="mt-2 text-xs text-amber-200/80">
               {packs.map((p) => `${p.pack}${p.price != null ? ` (${gbp(p.price)})` : ""}: ${p.flags.map((f) => flagLabels[f] ?? f.replaceAll("_", " ")).join(", ")}`).join(" · ")}
-            </p>
-          )}
-          {c.disagreements && Object.keys(c.disagreements).length > 0 && (
-            <p className="mt-2 text-xs text-gray-500">Sources disagree on {Object.entries(c.disagreements).map(([k, v]) => `${k.replaceAll("_", " ")} (${v.join(" vs ")})`).join("; ")}.</p>
-          )}
-          {c.overruled && Object.keys(c.overruled).length > 0 && (
-            <p className="mt-2 text-xs text-gray-500">Set aside by a stronger source: {Object.entries(c.overruled).map(([k, v]) => `${k.replaceAll("_", " ")} said ${v.join(" / ")}`).join("; ")}.</p>
-          )}
-        </Card>
-
-        <Card title="Spec">
-          <Rows
-            rows={[
-              ["Battery", num(c.battery_kwh, 1, " kWh")],
-              ["WLTP range", num(c.wltp_range_mi, 0, " mi")],
-              ["Real range", src(c, "real_range_mi", num(c.real_range_mi, 0, " mi"))],
-              ["Power", num(c.power_hp, 0, " hp")],
-              ["0–62", src(c, "zero_to_62_s", num(c.zero_to_62_s, 1, " s"))],
-              ["Top speed", num(c.top_speed_mph, 0, " mph")],
-              ["Efficiency", src(c, "efficiency_mi_kwh", num(c.efficiency_mi_kwh, 1, " mi/kWh"))],
-              ["DC peak", num(c.dc_peak_kw, 0, " kW")],
-              ["DC 10–80%, average", src(c, "dc_avg_kw", num(c.dc_avg_kw, 0, " kW"))],
-              ["10–80% time", num(c.dc_10_80_min, 0, " min")],
-              ["AC onboard", src(c, "ac_kw", num(c.ac_kw, 0, " kW"))],
-              ["Length × width", `${num(c.length_mm)} × ${num(c.width_mm)} mm`],
-              ["Turning circle", num(c.turning_circle_m, 1, " m")],
-              ["Boot", src(c, "boot_l", c.boot_l != null ? `${num(c.boot_l)} L${c.boot_max_l ? ` / ${num(c.boot_max_l)} L` : ""}` : "—")],
-              ["Weight", src(c, "weight_kg", num(c.weight_kg, 0, " kg"))],
-              ["Towing", src(c, "tow_kg", num(c.tow_kg, 0, " kg"))],
-              ["Insurance group", c.insurance_group ?? "—"],
-            ]}
-          />
-          {c.boot_notes && <p className="mt-2 text-xs text-gray-500">{c.boot_notes}</p>}
-          {c.field_sources && Object.keys(c.field_sources).length > 0 && (
-            <p className="mt-2 text-xs text-gray-500">
-              ° filled from {Array.from(new Set(Object.values(c.field_sources))).join("; ")}{c.evdb_url ? <> · <a href={c.evdb_url} target="_blank" rel="noreferrer" className="underline">EV Database page</a></> : null}
             </p>
           )}
         </Card>
@@ -138,6 +108,7 @@ function CarView() {
               ["Sources pricing it today", String(costs.sources)],
               ["Expected value at term end", costs.stock?.residual ? `${gbp(costs.stock.residual.value)} · ${costs.stock.residual.n} × ${costs.stock.residual.year} examples` : "from the GFV or the assumption"],
               ["Expensive-car VED", c.expensive_car_supplement ? "yes (£440/yr)" : "no"],
+              ["Insurance group", src(from, "insurance_group", c.insurance_group ?? "—")],
             ]}
           />
           {c.list_price_breakdown && (
@@ -152,6 +123,34 @@ function CarView() {
           )}
         </Card>
       </div>
+
+      <Card title="Spec">
+        <div className="grid gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+          {GROUPS.filter((g) => g !== "Price and cost" && g !== "Equipment").map((g) => (
+            <div key={g}>
+              <div className="mb-1 text-xs uppercase tracking-wide text-gray-500">{g}</div>
+              <Rows
+                rows={FIELDS.filter((x) => x.group === g && x.key !== "curated").map((x) => {
+                  const v = show(x, x.value(c, costs));
+                  return [x.label, x.field ? src(from, x.field, v) : v];
+                })}
+              />
+            </div>
+          ))}
+        </div>
+        {c.boot_notes && <p className="mt-2 text-xs text-gray-500">{c.boot_notes}</p>}
+        {from && Object.keys(from).length > 0 && (
+          <p className="mt-3 text-xs text-gray-500">
+            ° filled from {Array.from(new Set(Object.values(from))).join("; ")}{c.evdb_url ? <> · <a href={c.evdb_url} target="_blank" rel="noreferrer" className="underline">EV Database page</a></> : null}
+          </p>
+        )}
+        {disagreements && Object.keys(disagreements).length > 0 && (
+          <p className="mt-2 text-xs text-gray-500">Sources disagree on {Object.entries(disagreements).map(([k, v]) => `${k.replaceAll("_", " ")} (${v.join(" vs ")})`).join("; ")}; left unknown.</p>
+        )}
+        {overruled && Object.keys(overruled).length > 0 && (
+          <p className="mt-2 text-xs text-gray-500">Set aside by a stronger source: {Object.entries(overruled).map(([k, v]) => `${k.replaceAll("_", " ")} said ${v.join(" / ")}`).join("; ")}.</p>
+        )}
+      </Card>
 
       {c.notes && (
         <Card title="Notes">
@@ -169,15 +168,15 @@ function CarView() {
 }
 
 
-/** A degree sign after a value another source filled in; the Spec card's footnote names it. */
-function mark(c: SnapshotCar, field: string): React.ReactNode {
-  const from = c.field_sources?.[field];
-  return from ? <span className="ml-1 text-xs text-gray-500" title={`from ${from}`}>°</span> : null;
+/** A degree sign after a value a source filled in; the Spec card's footnote names them all. */
+function mark(from: Sources, field: string): React.ReactNode {
+  const by = from?.[field];
+  return by ? <span className="ml-1 text-xs text-gray-500" title={`from ${by}`}>°</span> : null;
 }
 
-function src(c: SnapshotCar, field: string, value: string): React.ReactNode {
-  const from = c.field_sources?.[field];
-  return from ? <span title={`from ${from}`}>{value}<span className="ml-0.5 text-xs text-gray-500">°</span></span> : value;
+function src(from: Sources, field: string, value: string): React.ReactNode {
+  const by = value === "—" ? null : from?.[field];
+  return by ? <span title={`from ${by}`}>{value}<span className="ml-0.5 text-xs text-gray-500">°</span></span> : value;
 }
 
 function flag(v: boolean | undefined): string {

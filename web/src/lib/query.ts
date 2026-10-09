@@ -15,39 +15,23 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo } from "react";
 
 import type { CarCosts } from "./costs";
+import { FIELD_BY_KEY, RANGE_FIELDS, show } from "./fields";
 import { carName } from "./format";
 import type { SnapshotCar } from "./types";
 
 export type FacetState = "off" | "standard" | "listed" | "hide";
 export type Mode = "all" | "any";
 
-export const RANGE_KEYS = ["true", "cash", "monthly", "list", "range", "battery", "seats", "width", "length", "turn", "boot", "power", "dc", "year"] as const;
-export type RangeKey = (typeof RANGE_KEYS)[number];
+/** A range bound's key is a field key (lib/fields.ts): every number and amount a car carries or costs. */
+export type RangeKey = string;
 export type Range = [number | null, number | null];
-
-export const RANGES: { key: RangeKey; label: string; unit: string; step?: number }[] = [
-  { key: "true", label: "True £/month", unit: "£", step: 10 },
-  { key: "cash", label: "Cash price", unit: "£", step: 500 },
-  { key: "monthly", label: "Pay monthly", unit: "£", step: 10 },
-  { key: "list", label: "List price", unit: "£", step: 500 },
-  { key: "range", label: "WLTP range", unit: "mi", step: 10 },
-  { key: "battery", label: "Battery", unit: "kWh" },
-  { key: "seats", label: "Seats", unit: "" },
-  { key: "width", label: "Width", unit: "mm", step: 10 },
-  { key: "length", label: "Length", unit: "mm", step: 10 },
-  { key: "turn", label: "Turning circle", unit: "m", step: 0.1 },
-  { key: "boot", label: "Boot", unit: "L", step: 10 },
-  { key: "power", label: "Power", unit: "hp", step: 10 },
-  { key: "dc", label: "DC charge (peak, else 10–80% avg)", unit: "kW", step: 10 },
-  { key: "year", label: "Model year", unit: "" },
-];
 
 export interface Query {
   q: string;
   make: string;
   model: string;
   year: string;
-  ranges: Partial<Record<RangeKey, Range>>;
+  ranges: Record<RangeKey, Range>;
   /** Equipment that must be standard (`standard`), standard or an option (`listed`), or absent (`hide`). */
   facets: Record<string, FacetState>;
   mode: Mode;
@@ -78,10 +62,13 @@ export function parseQuery(params: URLSearchParams | null): Query {
   if (!params) return f;
   for (const k of ["q", "make", "model", "year", "sort"] as const) f[k] = params.get(k) ?? "";
   f.mode = params.get("mode") === "any" ? "any" : "all";
-  for (const key of RANGE_KEYS) {
+  for (const { key } of RANGE_FIELDS) {
     const v = params.get(`r.${key}`);
     if (!v) continue;
-    const [lo, hi] = v.split("-", 2);
+    // '-500-' is a negative minimum: split at the dash that follows a digit or the start.
+    const m = /^(-?[\d.]*)-(-?[\d.]*)$/.exec(v);
+    if (!m) continue;
+    const [lo, hi] = [m[1], m[2]];
     const n = (s: string | undefined) => (s === undefined || s === "" ? null : Number.isFinite(Number(s)) ? Number(s) : null);
     const r: Range = [n(lo), n(hi)];
     if (r[0] != null || r[1] != null) f.ranges[key] = r;
@@ -96,7 +83,7 @@ export function serializeQuery(f: Query): string {
   const p = new URLSearchParams();
   for (const k of ["q", "make", "model", "year", "sort"] as const) if (f[k]) p.set(k, f[k]);
   if (f.mode !== "all") p.set("mode", f.mode);
-  for (const key of RANGE_KEYS) {
+  for (const { key } of RANGE_FIELDS) {
     const r = f.ranges[key];
     if (r && (r[0] != null || r[1] != null)) p.set(`r.${key}`, `${r[0] ?? ""}-${r[1] ?? ""}`);
   }
@@ -182,23 +169,9 @@ export interface CarContext {
   costs: CarCosts;
 }
 
-function rangeValue(key: RangeKey, c: SnapshotCar, ctx: CarContext): number | null | undefined {
-  switch (key) {
-    case "true": return ctx.costs.trueCost?.monthly ?? null;
-    case "cash": return ctx.costs.cash?.price ?? null;
-    case "monthly": return ctx.costs.monthly;
-    case "list": return c.list_price_gbp;
-    case "range": return c.wltp_range_mi;
-    case "battery": return c.battery_kwh;
-    case "seats": return c.seats;
-    case "width": return c.width_mm;
-    case "length": return c.length_mm;
-    case "turn": return c.turning_circle_m;
-    case "boot": return c.boot_l;
-    case "power": return c.power_hp;
-    case "dc": return c.dc_peak_kw ?? c.dc_avg_kw;
-    case "year": return c.model_year;
-  }
+function rangeValue(key: RangeKey, c: SnapshotCar, ctx: CarContext): number | null {
+  const v = FIELD_BY_KEY.get(key)?.value(c, ctx.costs);
+  return typeof v === "number" && Number.isFinite(v) ? v : null;
 }
 
 /** Does the car have the facet, and if so how: 'standard', 'option' (listed as an option or in a pack), or null. */
@@ -226,10 +199,10 @@ export function matches(c: SnapshotCar, ctx: CarContext, f: Query): boolean {
   if (!modelMatches(c.model, f.model)) return false;
   if (f.year && String(c.model_year ?? "") !== f.year) return false;
   if (f.q) {
-    const hay = norm(`${carName(c)} ${c.variant ?? ""} ${(c.packs ?? []).join(" ")} ${c.notes ?? ""} ${c.body ?? ""}`);
+    const hay = norm([carName(c), c.variant, (c.packs ?? []).join(" "), c.notes, c.body, c.drive, c.segment, c.platform, c.battery_chemistry, c.charge_port, c.cap_name].filter(Boolean).join(" "));
     if (!hay.includes(norm(f.q))) return false;
   }
-  for (const [key, r] of Object.entries(f.ranges) as [RangeKey, Range][]) {
+  for (const [key, r] of Object.entries(f.ranges)) {
     const v = rangeValue(key, c, ctx);
     if (v == null) return false;
     if (r[0] != null && v < r[0]) return false;
@@ -363,14 +336,13 @@ export function describeQuery(f: Query, flagLabels: Record<string, string>): str
     else wanted.push(`${label}: ${STATE_WORDS[state]}`);
   }
   if (wanted.length) parts.push(wanted.join(f.mode === "any" ? " or " : " · "));
-  for (const r of RANGES) {
+  for (const r of RANGE_FIELDS) {
     const b = f.ranges[r.key];
     if (!b) continue;
-    const u = r.unit === "£" ? "" : r.unit ? ` ${r.unit}` : "";
-    const v = (n: number) => (r.unit === "£" ? `£${n.toLocaleString("en-GB")}` : n.toLocaleString("en-GB"));
-    if (b[0] != null && b[1] != null) parts.push(`${r.label} ${v(b[0])}–${v(b[1])}${u}`);
-    else if (b[0] != null) parts.push(`${r.label} ≥ ${v(b[0])}${u}`);
-    else if (b[1] != null) parts.push(`${r.label} ≤ ${v(b[1])}${u}`);
+    const v = (n: number) => show(r, n);
+    if (b[0] != null && b[1] != null) parts.push(`${r.label} ${v(b[0])}–${v(b[1])}`);
+    else if (b[0] != null) parts.push(`${r.label} ≥ ${v(b[0])}`);
+    else if (b[1] != null) parts.push(`${r.label} ≤ ${v(b[1])}`);
   }
   const sort = SORTS.find((x) => x.key === (f.sort || "true"));
   if (f.sort && sort) parts.push(`sorted by ${sort.label}`);

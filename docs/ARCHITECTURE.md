@@ -374,8 +374,16 @@ picks the default. The card's pack line is `searchPacks`: for each equipment chi
 search sets to "standard, pack or option", the pack the car needs for it and its price.
 Settings also holds the budget line and the quoting basis. Tables built on
 `components/DataTable` take a `prefsKey`: the reader shows, hides and reorders their
-columns (`lib/columns.ts`, kept in localStorage per table), and a `pinned` column (the
+columns (`lib/columns.ts`, kept in localStorage per table; moving steps among the shown
+columns, and a column turned on joins the end of them), and a `pinned` column (the
 car) stays first and in view when the table scrolls sideways.
+
+`lib/fields.ts` is the one list of what a car has: each field's key, label, unit, group
+and how to read it off a car (or its costs). The Cars table makes a column of each, plus a
+tri-state column per equipment flag the snapshot names (`flagFields`); the search's bounds
+are every number and amount in it (`RANGE_FIELDS`, `r.<key>` in the URL); the car page
+lists every field by group with the claim that filled it. A field the pipeline learns is
+one line there.
 
 ## Facts: one claim store, one resolver
 
@@ -390,8 +398,8 @@ derivative inherits what is said about the levels it belongs to:
 | trim_battery | make, model, trim, battery | a maker's tick that holds for one battery only (`● 49kWh only`, 'only standard on the 84kWh battery'), and a maker's row for a trim sold with one battery |
 | trim | make, model, trim | Carwow's standard-equipment list and trim description, the makers' grade tables (`kia_specs`, `hyundai_specs`), a curated car's reading of its trim |
 | engine | make, model, engine | battery, range, power, from any specification row with that engine |
-| model | make, model | body numbers; what EV Database says of every variant when they agree |
-| variant | an EV Database variant, matched by battery | measured numbers, availability |
+| model | make, model | body numbers; what EV Database says of every variant when they agree, and (as `inferred`, the weakest number) the body numbers every current variant's page agrees on |
+| variant | an EV Database variant, matched by battery and, between packs of the same size, by the car's model year and what is on sale | measured numbers from the index card and the variant's own page (`evdb_cars`), availability |
 | pack | make, model, pack name | what the pack bundles (the configurator, a curated car) |
 
 Two edges join them: a derivative **includes** a pack (`[Tech Pack]` in its CAP name, a
@@ -418,7 +426,7 @@ column speaks weakly and the bracket or the battery level decides. A CAP name re
 three brokers is one `named` claim with three sightings, not three claims. What a stronger
 source sets aside is kept on the car as `overruled`, so the car page can say that Hyundai's
 table ticked the heat pump the configurator does not sell on that trim. Every resolved field names
-its claim (`field_sources`), `flags` carries all 29 equipment flags with a verdict
+its claim (`field_sources`, exported in the per-car detail file, not `cars.json`), `flags` carries all 29 equipment flags with a verdict
 (standard, pack, option, none), `packs_required` and `pack_prices_gbp` say which pack a
 "pack" verdict leans on and what it costs, and the app prices the packs a car needs for
 the equipment a search asks for (`lib/query.ts` `searchPacks`). Nothing in the resolver names a feature: the heat

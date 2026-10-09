@@ -103,6 +103,7 @@ Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
 | `cinch_used` | cinch's search API, every electric car per make | cinch's own and marketplace stock with the registration, the CAP variant and the fee-inclusive price | scrapes |
 | `motorpoint_used` | motorpoint.co.uk's electric listing | the supermarket's nearly-new stock: CAP trim, year, mileage, price, branch, and the list price when new | scrapes |
 | `evdb` | ev-database.org/uk, the index page | per variant: real range, efficiency, 0–62, average 10–80% rapid-charge power, useable battery, boot, weight, towing, heat pump and V2L offered; laid over the cars by model and battery at export, each filled field naming its source | scrapes |
+| `evdb_cars` | ev-database.org/uk `/car/<id>/<slug>`, each variant's own page, for the variants filed under a catalogue model; 40 a run, paced at 25 s and slowing on a 429 (the site throttles hard), never-read pages first one per model in turn, then any older than 14 days | everything the page prints: length, width (with and without mirrors), height, wheelbase, weights, payload, roof load, towing, boot and frunk, seats and ISOFIX, AC and DC charging (peak, 10–80% average and time), charge port, usable battery, voltage and chemistry, power, torque, top speed, real range by weather and road, Euro NCAP scores, battery warranty, V2L outlets and output. Fills the variant's index card; a body number every current variant of a model agrees on speaks for the model | scrapes |
 
 Every sighting on every route is kept over time, source by source, and exported as
 spans. The browser costs them on one footing as of their own day
@@ -227,14 +228,18 @@ Hyundai UK has no spec page that can be read without a browser; Carwow covers it
 ## Searches
 
 One search bar drives Pick, Cars, Specs and Offers: make, model, text, year, a min/max on
-every number (width, length, turning circle, range, price …), a chip per equipment flag,
-and the sort. It lives in the URL (`?make=Kia&model=EV3&q=gt-line&year=2026`), so a
+every number a car carries or costs (the common ones shown, any other added from the
+panel's picker: wheel size, cold-weather range, payload, NCAP score …), a chip per
+equipment flag, and the sort. It lives in the URL (`?make=Kia&model=EV3&q=gt-line&year=2026`), so a
 search is a link and it follows you between pages. A search can be saved under a name and
 loaded from the bar; the default one is what those pages open on. Saved searches live in
 the browser and are managed in Settings; `data/seed/requirements.json` seeds two ("My
 brief": heat pump and cabin socket fitted or available, four or more seats; and
-"Hand-curated"). On Cars, **Columns** picks which columns show and in what order (kept per
-browser), and the car stays pinned on the left when the table scrolls sideways.
+"Hand-curated"). On Cars, every field is a column: **Columns** lists the shown ones in order
+(move up, down, or remove) and adds any other from a grouped, searchable list (kept per
+browser); the car stays pinned on the left when the table scrolls sideways. One field list
+(`web/src/lib/fields.ts`) drives the columns, the bounds and the car page's Spec card, which
+shows every field with the source that filled it.
 
 The app works offline once it has loaded: the snapshot is stored in IndexedDB and read
 without the network, a newer one is fetched in the background when the site is reachable,
@@ -323,6 +328,16 @@ rejected by that rule fails in two seconds with no runner and no logs.
   `packs_required` naming the pack. These two fields drive most trim decisions.
 
 ## Context log
+
+- **2026-10-09** Every field a car carries is a column, a bound and a line on the car page,
+  from one list (`web/src/lib/fields.ts`): about 70 numbers and texts plus a column per
+  equipment flag. Wheel size is new: the configurator's default wheels (one size fitted, the
+  others as options) or the size the standard list names. A new source, `evdb_cars`, reads
+  EV Database's page for each variant, which prints the dimensions, weights, charging curve,
+  NCAP scores and outlets the index card leaves out; Carwow's specification pages never
+  print dimensions, so width was known for 17 of ~2,000 cars before. Carwow's top speed and
+  consumption, which the old parse left as text, are read. Field provenance moved from
+  `cars.json` into the per-car detail file, which halves the cars file.
 
 - **2026-10-08** Saved searches replace the Requirements page, the stars and the
   Shortlist / Every EV switch. A search (the bar's state, in the URL) can be saved under a

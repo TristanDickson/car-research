@@ -515,6 +515,10 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         c["image"] = car_image(root, c, next((sp for sp in mine if sp.get("image_url")), None)) or fallback_image(c, renders)
         details[c["id"]] = {
             "requirement_check": evaluate_hard(requirements, c),   # the seed's view; the app evaluates its own copy
+            # Where each field came from, and what the sources disagreed on: only the car page reads these.
+            "field_sources": c.pop("field_sources", None),
+            "disagreements": c.pop("disagreements", None),
+            "overruled": c.pop("overruled", None),
             "specs": spec_rows,
             # A generated car's fields come from its spec, so there is nothing to cross-check.
             "spec_check": {"rows": [], "disagreements": 0} if c.get("auto") else spec_check(c, mine),
@@ -595,7 +599,8 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     _write(out / "cars.json", cars)
     _write(out / "details.json", details)
     # ~1,500 spec rows: leave out what the app never reads (the full history keeps it).
-    _write(out / "specs.json", [{k: v for k, v in sp.items() if k not in SPEC_PRIVATE} for sp in specs])
+    # EV Database rows belong to no car (the claim store lays them over cars by model and battery); no page lists them.
+    _write(out / "specs.json", [{k: v for k, v in sp.items() if k not in SPEC_PRIVATE} for sp in specs if sp.get("provider") not in ("evdb", "evdb_cars")])
     _write(out / "models.json", models)
     _write(out / "used.json", used)
     _write(out / "sightings.json", sightings)

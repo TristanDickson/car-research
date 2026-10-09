@@ -343,3 +343,24 @@ class BrokerEchoes(unittest.TestCase):
         resolve_car(c, store)
         self.assertEqual(c["disagreements"]["heat_pump"], ["none (CAP derivative name · 71kW 01 42kWh 5dr Auto [No Heat Pump] (seen on Carwow, LeaseLoco, New Car Discount))",
                                                              "standard (Hyundai UK specification · 01)"])
+
+
+class Wheels(unittest.TestCase):
+    def test_the_configurators_fitted_wheels_beat_the_standard_list_and_the_rest_are_options(self):
+        spec = {"provider": "carwow_specs", "cap_id": "5", "make": "Hyundai", "model": "Inster", "trim": "02", "engine": "85kW 49kWh Auto", "variant": "Inster 02",
+                "features": ['17" alloy wheels', "Heated steering wheel"], "numbers": {},
+                "raw_numbers": {"Top speed": "93 mph", "Consumption": "4.1 miles/kWh"}}
+        options = [{"cap_id": "5", "options": [{"name": '17" alloy wheels', "default": True, "price": 0},
+                                               {"name": '18" diamond-cut alloy wheels', "default": False, "price": 500}]}]
+        c = {"id": "carwow-cap:5", "auto": True, "cap_id": "5", "make": "Hyundai", "model": "Inster", "trim": "02 · 85kW 49kWh Auto", "variant": "85kW 49kWh Auto"}
+        resolve_car(c, build_store([c], [spec], CATALOGUE, [], options, []))
+        self.assertEqual((c["wheel_in"], c["wheel_options"]), (17, '18"'))
+        self.assertIn("configurator", c["field_sources"]["wheel_in"])
+        self.assertEqual((c["top_speed_mph"], c["efficiency_mi_kwh"]), (93.0, 4.1), "numbers the old parse left as text")
+
+    def test_a_list_naming_two_sizes_says_nothing(self):
+        spec = {"provider": "carwow_specs", "cap_id": "6", "make": "Hyundai", "model": "Inster", "trim": "01", "engine": "71kW 42kWh Auto", "variant": "Inster 01",
+                "features": ['15" steel wheels (42kWh)', '17" alloy wheels (49kWh)'], "numbers": {}}
+        c = {"id": "carwow-cap:6", "auto": True, "cap_id": "6", "make": "Hyundai", "model": "Inster", "trim": "01 · 71kW 42kWh Auto", "variant": "71kW 42kWh Auto"}
+        resolve_car(c, build_store([c], [spec], CATALOGUE, [], [], []))
+        self.assertIsNone(c.get("wheel_in"))

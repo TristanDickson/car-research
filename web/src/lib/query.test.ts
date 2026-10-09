@@ -92,7 +92,23 @@ describe("query", () => {
   it("describes a search in words", () => {
     const q = parseQuery(new URLSearchParams("listed=flag:heat_pump,flag:v2l_internal&r.seats=4-&r.width=-1890&sort=range"));
     expect(describeQuery(q, { heat_pump: "Heat pump", v2l_internal: "Internal V2L socket" }))
-      .toBe("Heat pump: standard, pack or option · Internal V2L socket: standard, pack or option · Seats ≥ 4 · Width ≤ 1,890 mm · sorted by longest range");
+      .toBe("Heat pump: standard, pack or option · Internal V2L socket: standard, pack or option · Width ≤ 1,890 mm · Seats ≥ 4 · sorted by longest range");
+    expect(describeQuery(parseQuery(new URLSearchParams("r.true=200-400&r.wheels=-18")), {}))
+      .toBe("True cost per month £200–£400 · Wheel size ≤ 18 in");
     expect(describeQuery(EMPTY_QUERY, {})).toBe("every car");
+  });
+
+  it("bounds any number a car carries or costs; an unknown key is dropped", () => {
+    const q = parseQuery(new URLSearchParams("r.wheels=-18&r.real_cold=150-&r.fell=-1000--100&r.nonsense=1-2&r.usable=x-5"));
+    expect(q.ranges).toEqual({ wheels: [null, 18], real_cold: [150, null], fell: [-1000, -100] });
+    expect(parseQuery(new URLSearchParams(serializeQuery(q)))).toEqual(q);
+    const fits = car({ wheel_in: 17, real_range_cold_mi: 160 });
+    const tod = (k: Partial<CarCosts>) => ctx({ costs: costs(k) });
+    const down = { delta: -500, from: 30000, to: 29500, days: 30 } as unknown as CarCosts["trend"];
+    expect(matches(fits, tod({ trend: down }), q)).toBe(true);
+    expect(matches(car({ wheel_in: 19, real_range_cold_mi: 160 }), tod({ trend: down }), q)).toBe(false);
+    // A car no source has a value for is left out of a bound on that value.
+    expect(matches(car({ real_range_cold_mi: 160 }), tod({ trend: down }), q)).toBe(false);
+    expect(matches(fits, tod({ trend: { ...down!, delta: 200 } as CarCosts["trend"] }), q)).toBe(false);
   });
 });

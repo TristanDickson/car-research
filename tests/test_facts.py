@@ -56,6 +56,13 @@ class Overlays(unittest.TestCase):
         self.assertIs(pick_variant({"battery_kwh": None}, [lr]), lr, "one variant and no battery to contradict it")
         self.assertIsNone(pick_variant({"battery_kwh": None}, [lr, sr]), "two variants and nothing to choose by")
 
+    def test_the_same_pack_across_years_picks_the_one_on_sale_for_the_cars_year(self):
+        old = {"model": "Kona Electric 64 kWh", "numbers": {"battery_usable_kwh": 64.0, "year_from": 2018, "on_sale_until": "2023-03"}}
+        new = {"model": "Kona Electric 65 kWh", "numbers": {"battery_usable_kwh": 64.8, "year_from": 2023, "on_sale": True}}
+        self.assertIs(pick_variant({"battery_kwh": 65.0, "model_year": 2025}, [old, new]), new)
+        self.assertIs(pick_variant({"battery_kwh": 65.0, "model_year": 2021}, [old, new]), old, "a used 2021 car is the old one")
+        self.assertIs(pick_variant({"battery_kwh": 65.0}, [old, new]), new, "no year: the one on sale")
+
 
 if __name__ == "__main__":
     unittest.main()

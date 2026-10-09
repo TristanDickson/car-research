@@ -54,5 +54,17 @@ def pick_variant(car: dict, variants: list[dict]) -> dict | None:
     scored = [(fit, v) for v in variants if (fit := _battery_fit(car.get("battery_kwh"), (v.get("numbers") or {}).get("battery_usable_kwh"))) is not None]
     if not scored:
         return None
-    scored.sort(key=lambda fv: fv[0])
-    return scored[0][1]
+    best = min(fit for fit, _ in scored)
+    close = [(fit, v) for fit, v in scored if fit <= best + 0.02]   # the same pack within rounding: pick by year
+    year = car.get("model_year")
+
+    def rank(fv: tuple[float, dict]) -> tuple:
+        fit, v = fv
+        n = v.get("numbers") or {}
+        start = n.get("year_from") or 0
+        until = int(str(n["on_sale_until"])[:4]) if n.get("on_sale_until") else None
+        covers = bool(year) and start <= year and (until is None or until >= year)
+        return (not covers, n.get("on_sale") is not True, -start, fit)
+
+    close.sort(key=rank)
+    return close[0][1]

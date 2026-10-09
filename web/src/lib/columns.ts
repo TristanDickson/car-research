@@ -31,20 +31,31 @@ export function arrange<C extends Arrangeable>(columns: C[], prefs: ColumnPrefs)
 
 export const isShown = (c: Arrangeable, prefs: ColumnPrefs): boolean => !!c.pinned || (prefs.visible[c.key] ?? !c.hidden);
 
-/** Move a column one place up (-1) or down (+1) among the unpinned ones. */
-export function move<C extends Arrangeable>(columns: C[], prefs: ColumnPrefs, key: string, by: -1 | 1): ColumnPrefs {
-  const keys = arrange(columns, prefs).filter((c) => !c.pinned).map((c) => c.key);
-  const i = keys.indexOf(key);
-  const j = i + by;
-  if (i < 0 || j < 0 || j >= keys.length) return prefs;
-  [keys[i], keys[j]] = [keys[j], keys[i]];
-  return { ...prefs, order: keys };
+/** The shown, movable columns in the reader's order, then the hidden ones. */
+function split<C extends Arrangeable>(columns: C[], prefs: ColumnPrefs): [string[], string[]] {
+  const free = arrange(columns, prefs).filter((c) => !c.pinned);
+  return [free.filter((c) => isShown(c, prefs)).map((c) => c.key), free.filter((c) => !isShown(c, prefs)).map((c) => c.key)];
 }
 
+/** Move a shown column one place up (-1) or down (+1) among the shown, unpinned ones. */
+export function move<C extends Arrangeable>(columns: C[], prefs: ColumnPrefs, key: string, by: -1 | 1): ColumnPrefs {
+  const [shown, rest] = split(columns, prefs);
+  const i = shown.indexOf(key);
+  const j = i + by;
+  if (i < 0 || j < 0 || j >= shown.length) return prefs;
+  [shown[i], shown[j]] = [shown[j], shown[i]];
+  return { ...prefs, order: [...shown, ...rest] };
+}
+
+/** Show a column, last of the shown ones; or hide it. */
 export function toggle<C extends Arrangeable>(columns: C[], prefs: ColumnPrefs, key: string): ColumnPrefs {
   const c = columns.find((x) => x.key === key);
   if (!c || c.pinned) return prefs;
-  return { ...prefs, visible: { ...prefs.visible, [key]: !isShown(c, prefs) } };
+  const on = !isShown(c, prefs);
+  const visible = { ...prefs.visible, [key]: on };
+  if (!on) return { ...prefs, visible };
+  const [shown, rest] = split(columns, prefs);
+  return { order: [...shown, key, ...rest.filter((k) => k !== key)], visible };
 }
 
 const storageKey = (table: string) => `columns:${table}`;

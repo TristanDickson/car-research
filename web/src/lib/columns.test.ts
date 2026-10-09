@@ -27,4 +27,17 @@ describe("the reader's columns", () => {
     const more = [...cols, { key: "boot" }];
     expect(keys(arrange(more, { ...p, order: ["turn", "true"] }))).toEqual(["car", "turn", "true", "seats", "width", "boot"]);
   });
+
+  it("a column turned on joins the end of the shown ones; moving steps over hidden columns", () => {
+    const many = [{ key: "car", pinned: true }, { key: "a" }, { key: "x", hidden: true }, { key: "y", hidden: true }, { key: "b" }, { key: "z", hidden: true }];
+    const shownKeys = (p: typeof NO_PREFS) => arrange(many, p).filter((c) => isShown(c, p)).map((c) => c.key);
+    let p = toggle(many, NO_PREFS, "z");
+    expect(shownKeys(p)).toEqual(["car", "a", "b", "z"]);
+    p = move(many, p, "z", -1);
+    expect(shownKeys(p)).toEqual(["car", "a", "z", "b"]);
+    p = move(many, p, "b", -1);
+    p = move(many, p, "b", -1);
+    expect(shownKeys(p)).toEqual(["car", "b", "a", "z"]);
+    expect(move(many, p, "x", -1)).toBe(p);   // a hidden column has no place to move from
+  });
 });

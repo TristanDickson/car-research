@@ -99,6 +99,7 @@ def reparse(conn: sqlite3.Connection, provider: Provider, capability: str | None
         from pipeline.db import ROOT
         ctx = Context(root=ROOT)
     ctx.extras.setdefault("db", conn)
+    ctx.extras["reparse"] = True   # a provider that fetches in batches lists every target it has stored
     cur = conn.execute(
         "INSERT INTO runs (source, capability, target, started_at, status) VALUES (?,?,?,?,'running')",
         (provider.name, cap.name, "reparse", _now()),

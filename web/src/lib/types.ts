@@ -81,6 +81,12 @@ export interface CarDetails {
   spec_check: { rows: SpecCheckRow[]; disagreements: number };
   /** The seed requirements' verdict at export (the pipeline's deal table); the app does not read it. */
   requirement_check: RequirementCheck;
+  /** Where each resolved field came from (services/claims.py); absent for a hand-curated car's own reading. */
+  field_sources?: Record<string, string> | null;
+  /** Fields the strongest sources disagree on, with both sides; the field stays unknown. */
+  disagreements?: Record<string, string[]> | null;
+  /** A named, maker or configured claim a stronger one set aside. */
+  overruled?: Record<string, string[]> | null;
 }
 
 /** One offer observation span as sightings.json carries it: a price one source
@@ -162,12 +168,42 @@ export interface SnapshotCar {
   top_speed_mph?: number | null;
   weight_kg?: number | null;
   tow_kg?: number | null;
-  /** Where each resolved field came from (services/claims.py); absent for a hand-curated car's own reading. */
-  field_sources?: Record<string, string> | null;
-  /** Fields the strongest sources disagree on, with both sides; the field stays unknown. */
-  disagreements?: Record<string, string[]> | null;
-  overruled?: Record<string, string[]> | null;
   evdb_url?: string | null;
+  battery_usable_kwh?: number | null;
+  battery_chemistry?: string | null;
+  real_range_cold_mi?: number | null;
+  real_range_mild_mi?: number | null;
+  motorway_range_cold_mi?: number | null;
+  motorway_range_mild_mi?: number | null;
+  power_kw?: number | null;
+  torque_lbft?: number | null;
+  drive?: string | null;
+  charge_port?: string | null;
+  v2l_kw?: number | null;
+  isofix_seats?: number | null;
+  doors?: number | null;
+  frunk_l?: number | null;
+  wheelbase_m?: number | null;
+  width_mirrors_mm?: number | null;
+  gvwr_kg?: number | null;
+  payload_kg?: number | null;
+  roof_load_kg?: number | null;
+  roof_rails?: boolean | null;
+  tow_unbraked_kg?: number | null;
+  /** The wheel size fitted as standard, inches. */
+  wheel_in?: number | null;
+  /** Other sizes the configurator offers: '19", 20"'. */
+  wheel_options?: string | null;
+  segment?: string | null;
+  platform?: string | null;
+  ncap_stars?: number | null;
+  ncap_adult_pct?: number | null;
+  ncap_child_pct?: number | null;
+  ncap_vru_pct?: number | null;
+  ncap_assist_pct?: number | null;
+  ncap_year?: number | null;
+  warranty_years?: number | null;
+  warranty_miles?: number | null;
   zero_to_62_s?: number | null;
   length_mm?: number | null;
   width_mm?: number | null;

@@ -67,3 +67,28 @@ def flags_for(standard: list[str], options: list[str] | None = None) -> dict[str
 def matched_items(items: list[str], flag: str) -> list[str]:
     rx = _COMPILED[flag]
     return [i for i in items if rx.search(i.lower())]
+
+
+# Wheel size in inches from an equipment item: '17" Alloy wheels', '19-inch diamond-cut alloys',
+# 'Tyres - 235/55 R19'. Steering wheels, spare wheels, arches and wheelbases are not wheels.
+WHEEL_ITEM_RE = re.compile(r"wheel|alloy|\brims?\b|tyre", re.I)
+NOT_WHEEL_RE = re.compile(r"steering|spare|space.?saver|arch|wheelbase|drive|lock|nut|repair|pressure|tyre (?:inflation|mobility)", re.I)
+INCH_RE = re.compile(r"(?<![\d.])(1[3-9]|2[0-3])(?:\.0)?\s*(?:\"|”|″|''|-?\s*inch(?:es)?\b|in\b)", re.I)
+RIM_RE = re.compile(r"\bR\s?(1[3-9]|2[0-3])\b")
+
+
+def wheel_sizes(items: list[str]) -> set[int]:
+    """Every wheel size (inches) an equipment list names."""
+    out: set[int] = set()
+    for it in items or []:
+        if not WHEEL_ITEM_RE.search(it) or NOT_WHEEL_RE.search(it):
+            continue
+        out.update(int(m.group(1)) for m in INCH_RE.finditer(it))
+        out.update(int(m.group(1)) for m in RIM_RE.finditer(it))
+    return out
+
+
+def wheel_size(items: list[str]) -> int | None:
+    """The one wheel size a standard-equipment list names; None when it names none, or several (per engine)."""
+    sizes = wheel_sizes(items)
+    return next(iter(sizes)) if len(sizes) == 1 else None

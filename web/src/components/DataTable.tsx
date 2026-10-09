@@ -18,6 +18,8 @@ export interface Column<T> {
   pinned?: boolean;
   /** Off until the reader turns it on in the column chooser. */
   hidden?: boolean;
+  /** Heading the column sits under in the chooser's list of columns to add. */
+  group?: string;
 }
 
 interface Props<T> {
@@ -46,6 +48,7 @@ export function DataTable<T>({ rows, columns, rowKey, defaultSort, dense, prefsK
   const [sort, setSort] = useState<{ key: string; dir: "asc" | "desc" } | null>(defaultSort ?? null);
   const [prefs, setPrefsState] = useState<ColumnPrefs>(() => (prefsKey ? readPrefs(prefsKey) : { order: [], visible: {} }));
   const [choosing, setChoosing] = useState(false);
+  const [filter, setFilter] = useState("");
   const setPrefs = (p: ColumnPrefs) => {
     setPrefsState(p);
     if (prefsKey) writePrefs(prefsKey, p);
@@ -72,8 +75,16 @@ export function DataTable<T>({ rows, columns, rowKey, defaultSort, dense, prefsK
 
   const pad = dense ? "px-2 py-1" : "px-3 py-2";
   const stick = (c: Column<T>, head: boolean) => (c.pinned ? `sticky left-0 z-10 ${head ? "bg-gray-900" : "bg-gray-950 group-hover:bg-gray-900"} border-r border-gray-800` : "");
-  const movable = ordered.filter((c) => !c.pinned);
+  const movable = shown.filter((c) => !c.pinned);
   const btn = "rounded border border-gray-700 px-1.5 leading-5 text-gray-300 hover:bg-gray-800 disabled:opacity-30";
+  const needle = filter.trim().toLowerCase();
+  const addable = new Map<string, Column<T>[]>();
+  for (const c of ordered) {
+    if (c.pinned || isShown(c, prefs)) continue;
+    if (needle && !`${nameOf(c)} ${c.group ?? ""}`.toLowerCase().includes(needle)) continue;
+    const g = c.group ?? "More";
+    addable.set(g, [...(addable.get(g) ?? []), c]);
+  }
 
   return (
     <div className="space-y-2">
@@ -83,21 +94,42 @@ export function DataTable<T>({ rows, columns, rowKey, defaultSort, dense, prefsK
             {choosing ? "Done" : `Columns · ${shown.length} of ${columns.length}`}
           </button>
           {choosing && (
-            <div className="w-full rounded-lg border border-gray-800 bg-gray-900 p-2 sm:w-auto">
-              <p className="mb-1 text-gray-500">Tick what to show; the arrows set the order. Kept in this browser.</p>
-              <ul className="grid gap-x-4 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
-                {movable.map((c, i) => (
-                  <li key={c.key} className="flex items-center gap-1.5">
-                    <button type="button" className={btn} disabled={i === 0} onClick={() => setPrefs(move(columns, prefs, c.key, -1))} aria-label={`Move ${nameOf(c)} earlier`}>↑</button>
-                    <button type="button" className={btn} disabled={i === movable.length - 1} onClick={() => setPrefs(move(columns, prefs, c.key, 1))} aria-label={`Move ${nameOf(c)} later`}>↓</button>
-                    <label className="flex items-center gap-1.5 text-gray-200">
-                      <input type="checkbox" checked={isShown(c, prefs)} onChange={() => setPrefs(toggle(columns, prefs, c.key))} />
-                      {nameOf(c)}
-                    </label>
-                  </li>
-                ))}
-              </ul>
-              <button type="button" onClick={() => setPrefs({ order: [], visible: {} })} className="mt-2 text-gray-400 underline hover:text-gray-100">reset to the default columns</button>
+            <div className="grid w-full gap-3 rounded-lg border border-gray-800 bg-gray-900 p-2 md:grid-cols-[minmax(14rem,20rem)_1fr]">
+              <div>
+                <p className="mb-1 text-gray-500">Shown, in order. Kept in this browser.</p>
+                <ol className="space-y-1">
+                  {movable.map((c, i) => (
+                    <li key={c.key} className="flex items-center gap-1.5">
+                      <button type="button" className={btn} disabled={i === 0} onClick={() => setPrefs(move(columns, prefs, c.key, -1))} aria-label={`Move ${nameOf(c)} earlier`}>↑</button>
+                      <button type="button" className={btn} disabled={i === movable.length - 1} onClick={() => setPrefs(move(columns, prefs, c.key, 1))} aria-label={`Move ${nameOf(c)} later`}>↓</button>
+                      <button type="button" className={btn} onClick={() => setPrefs(toggle(columns, prefs, c.key))} aria-label={`Hide ${nameOf(c)}`}>✕</button>
+                      <span className="text-gray-200">{nameOf(c)}</span>
+                    </li>
+                  ))}
+                </ol>
+                <button type="button" onClick={() => setPrefs({ order: [], visible: {} })} className="mt-2 text-gray-400 underline hover:text-gray-100">reset to the default columns</button>
+              </div>
+              <div>
+                <div className="mb-1 flex items-center gap-2">
+                  <span className="text-gray-500">Add a column</span>
+                  <input aria-label="Find a column" value={filter} onChange={(e) => setFilter(e.target.value)} placeholder="find…" className="w-32 rounded border border-gray-700 bg-gray-950 px-1.5 py-0.5 text-gray-100" />
+                </div>
+                <div className="space-y-2">
+                  {[...addable.entries()].map(([g, cs]) => (
+                    <div key={g}>
+                      <div className="text-[11px] uppercase tracking-wide text-gray-500">{g}</div>
+                      <div className="flex flex-wrap gap-1">
+                        {cs.map((c) => (
+                          <button key={c.key} type="button" onClick={() => setPrefs(toggle(columns, prefs, c.key))} title={c.title} className="rounded border border-gray-700 px-1.5 py-0.5 text-gray-300 hover:border-gray-500 hover:text-gray-100">
+                            + {nameOf(c)}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                  {addable.size === 0 && <p className="text-gray-500">{needle ? "No column by that name." : "Every column is shown."}</p>}
+                </div>
+              </div>
             </div>
           )}
         </div>

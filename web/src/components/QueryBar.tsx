@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import { useSaveSearch, useSearches } from "@/lib/hooks";
-import { cycleFacet, describeQuery, EMPTY_QUERY, FIXED_FACETS, FLAG_GROUPS, isNarrowed, loaded, RANGES, serializeQuery, SORTS, withQuery, type FacetState, type Query, type QueryOptions, type Range, type RangeKey } from "@/lib/query";
+import { GROUPS, RANGE_FIELDS } from "@/lib/fields";
+import { cycleFacet, describeQuery, EMPTY_QUERY, FIXED_FACETS, FLAG_GROUPS, isNarrowed, loaded, serializeQuery, SORTS, withQuery, type FacetState, type Query, type QueryOptions, type Range, type RangeKey } from "@/lib/query";
 
 const VIEWS = [
   { href: "/", label: "Cards" },
@@ -23,6 +24,11 @@ interface Props {
 
 /** The saved search last loaded in this app load: the name the save prompt offers. */
 let lastLoaded: string | null = null;
+
+/** The bounds the panel always offers; any other number is added from the picker below them. */
+const COMMON_RANGES = ["true", "cash", "monthly", "list", "range", "battery", "dc", "seats", "width", "length", "boot", "wheels"];
+/** Bounds added in this app load and not yet set, so a cleared one does not vanish under the cursor. */
+let addedRanges: string[] = [];
 
 const sel = "rounded border border-gray-700 bg-gray-900 px-2 py-1 text-sm text-gray-100";
 const seg = (on: boolean) => `px-2.5 py-1 ${on ? "bg-gray-700 text-gray-100" : "text-gray-400 hover:text-gray-100"}`;
@@ -64,6 +70,13 @@ export function QueryBar({ query: f, set, options, flagLabels, count }: Props) {
     save.mutate({ name, query: here });
   };
   const [open, setOpen] = useState(false);
+  const [added, setAdded] = useState<string[]>(addedRanges);
+  const offered = new Set([...COMMON_RANGES, ...added, ...Object.keys(f.ranges)]);
+  const bounds = RANGE_FIELDS.filter((r) => offered.has(r.key));
+  const addRange = (key: string) => {
+    addedRanges = [...addedRanges, key];
+    setAdded(addedRanges);
+  };
   const withCurrent = (list: string[], cur: string) => (cur && !list.includes(cur) ? [cur, ...list] : list);
   const makes = withCurrent(options.makes, f.make), models = withCurrent(options.models, f.model), years = withCurrent(options.years, f.year);
   const active = Object.keys(f.facets).length + Object.keys(f.ranges).length;
@@ -175,17 +188,28 @@ export function QueryBar({ query: f, set, options, flagLabels, count }: Props) {
             <div>
               <div className="mb-1 text-xs uppercase tracking-wide text-gray-500">Between</div>
               <div className="grid grid-cols-[auto_1fr_1fr] items-center gap-x-2 gap-y-1 text-xs">
-                {RANGES.map((r) => {
+                {bounds.map((r) => {
                   const cur = f.ranges[r.key] ?? [null, null];
                   return (
                     <div key={r.key} className="contents">
-                      <span className="text-gray-400">{r.label}{r.unit ? ` (${r.unit})` : ""}</span>
-                      <input type="number" step={r.step} value={cur[0] ?? ""} placeholder="min" onChange={(e) => setRange(r.key, 0, e.target.value)} className="w-full rounded border border-gray-800 bg-gray-950 px-1.5 py-0.5 text-right text-gray-100" />
-                      <input type="number" step={r.step} value={cur[1] ?? ""} placeholder="max" onChange={(e) => setRange(r.key, 1, e.target.value)} className="w-full rounded border border-gray-800 bg-gray-950 px-1.5 py-0.5 text-right text-gray-100" />
+                      <span className="text-gray-400">{r.label}{r.kind === "money" ? " (£)" : r.unit ? ` (${r.unit})` : ""}</span>
+                      <input type="number" step={r.step} value={cur[0] ?? ""} placeholder="min" aria-label={`${r.label}, at least`} onChange={(e) => setRange(r.key, 0, e.target.value)} className="w-full rounded border border-gray-800 bg-gray-950 px-1.5 py-0.5 text-right text-gray-100" />
+                      <input type="number" step={r.step} value={cur[1] ?? ""} placeholder="max" aria-label={`${r.label}, at most`} onChange={(e) => setRange(r.key, 1, e.target.value)} className="w-full rounded border border-gray-800 bg-gray-950 px-1.5 py-0.5 text-right text-gray-100" />
                     </div>
                   );
                 })}
               </div>
+              <select aria-label="Bound another number" value="" onChange={(e) => e.target.value && addRange(e.target.value)} className={`${sel} mt-2 w-full text-xs`}>
+                <option value="">Bound another number…</option>
+                {GROUPS.map((g) => {
+                  const more = RANGE_FIELDS.filter((r) => r.group === g && !offered.has(r.key));
+                  return more.length ? (
+                    <optgroup key={g} label={g}>
+                      {more.map((r) => <option key={r.key} value={r.key}>{r.label}{r.unit ? ` (${r.unit})` : ""}</option>)}
+                    </optgroup>
+                  ) : null;
+                })}
+              </select>
               <p className="mt-2 text-xs text-gray-500">A car that carries no value for a bound is left out of that range.</p>
             </div>
           </div>

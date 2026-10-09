@@ -57,7 +57,7 @@ import re
 from dataclasses import dataclass
 
 from pipeline.services.facts import model_of, pick_variant
-from pipeline.services.features import FLAGS, flags_for
+from pipeline.services.features import FLAGS, flags_for, wheel_size, wheel_sizes
 
 EQUIPMENT: tuple[str, ...] = tuple(FLAGS)
 TRI = ("standard", "pack", "option", "none")
@@ -68,14 +68,27 @@ CAR_TRI = {"heat_pump": "heat_pump", "internal_v2l": "v2l_internal", "external_v
 CAR_BOOL = {"heated_seats": "heated_front_seats", "camera_360": "camera_360", "glass_roof": "glass_roof",
             "memory_seats": "memory_seats", "ventilated_seats": "ventilated_seats"}
 
-NUMBERS = ("battery_kwh", "wltp_range_mi", "real_range_mi", "power_hp", "zero_to_62_s", "top_speed_mph", "efficiency_mi_kwh",
-           "dc_peak_kw", "dc_avg_kw", "dc_10_80_min", "ac_kw", "seats", "doors", "boot_l", "boot_max_l", "turning_circle_m",
-           "wheelbase_m", "length_mm", "width_mm", "height_mm", "weight_kg", "tow_kg", "list_price_gbp", "used_from_gbp", "drive")
+NUMBERS = ("battery_kwh", "battery_usable_kwh", "wltp_range_mi", "real_range_mi", "real_range_cold_mi", "real_range_mild_mi",
+           "motorway_range_cold_mi", "motorway_range_mild_mi", "power_hp", "power_kw", "torque_lbft", "zero_to_62_s", "top_speed_mph",
+           "efficiency_mi_kwh", "dc_peak_kw", "dc_avg_kw", "dc_10_80_min", "ac_kw", "charge_port", "architecture_v", "battery_chemistry",
+           "v2l_kw", "seats", "isofix_seats", "doors", "boot_l", "boot_max_l", "frunk_l", "turning_circle_m", "wheelbase_m", "length_mm",
+           "width_mm", "width_mirrors_mm", "height_mm", "weight_kg", "gvwr_kg", "payload_kg", "roof_load_kg", "tow_kg", "tow_unbraked_kg",
+           "wheel_in", "wheel_options", "roof_rails", "body", "segment", "platform", "ncap_stars", "ncap_adult_pct", "ncap_child_pct",
+           "ncap_vru_pct", "ncap_assist_pct", "ncap_year", "warranty_years", "warranty_miles", "insurance_group",
+           "list_price_gbp", "used_from_gbp", "drive")
 ENGINE_FIELDS = ("battery_kwh", "wltp_range_mi", "power_hp", "zero_to_62_s", "top_speed_mph", "efficiency_mi_kwh", "ac_kw", "drive", "dc_peak_kw", "dc_10_80_min")
 BODY_FIELDS = ("seats", "doors", "boot_l", "boot_max_l", "turning_circle_m", "wheelbase_m", "length_mm", "width_mm", "height_mm")
 NUMBER_ALIASES = {"zero_to_60_s": "zero_to_62_s", "power_bhp": "power_hp", "kerb_weight_kg": "weight_kg"}
-EVDB_NUMBERS = ("efficiency_mi_kwh", "zero_to_62_s", "dc_avg_kw", "boot_l", "weight_kg", "tow_kg", "real_range_mi", "seats", "ac_kw")
-EVDB_FLAGS = {"heat_pump": "heat_pump", "v2l_external": "v2l_external"}
+# What EV Database says of a variant (the index card and the car page, providers/evdb*.py).
+EVDB_NUMBERS = tuple(f for f in NUMBERS if f not in ("battery_kwh", "doors", "wheel_in", "wheel_options", "list_price_gbp", "used_from_gbp"))
+EVDB_FLAGS = {"heat_pump": "heat_pump", "v2l_external": "v2l_external", "v2l_internal": "v2l_internal", "v2l_any": "v2l_any",
+              "three_pin_socket": "three_pin_socket"}
+# Body numbers that are one number for a model: said at model level when every current variant agrees.
+EVDB_MODEL_FIELDS = ("length_mm", "width_mm", "width_mirrors_mm", "height_mm", "wheelbase_m", "boot_l", "boot_max_l", "frunk_l",
+                     "roof_load_kg", "isofix_seats", "turning_circle_m", "seats", "segment", "platform", "body", "roof_rails",
+                     "ncap_stars", "ncap_adult_pct", "ncap_child_pct", "ncap_vru_pct", "ncap_assist_pct", "ncap_year",
+                     "warranty_years", "warranty_miles", "charge_port", "architecture_v")
+CARWOW_RAW = {"Top speed": ("top_speed_mph", "mph"), "Consumption": ("efficiency_mi_kwh", "miles/kWh"), "Battery capacity": ("battery_kwh", "kWh")}
 
 EQUIP_TIERS = (("curated",), ("configured",), ("named", "maker"), ("named_twin",), ("included",), ("curated_twin",), ("listed",), ("described",),
                ("offered",), ("option",), ("available",), ("absent",))
@@ -83,7 +96,7 @@ EQUIP_ORDER = tuple(k for tier in EQUIP_TIERS for k in tier)
 EQUIP_RANK = {k: i for i, tier in enumerate(EQUIP_TIERS) for k in tier}
 OVERRULED_KINDS = ("configured", "named", "maker", "curated_twin")   # worth showing when a stronger source overrides them
 LEVEL_ORDER = ("own", "derivative", "trim_battery", "trim", "engine", "model", "variant")
-NUMBER_KINDS = ("curated", "named", "measured", "listed")
+NUMBER_KINDS = ("curated", "named", "measured", "listed", "inferred")   # inferred: every current variant of the model agrees
 PRICES = ("list_price_gbp", "used_from_gbp")   # drift with time: the latest sighting wins, never a disagreement
 NUMBER_TOLERANCE = 0.05                         # numbers within 5% of each other are the same number (wheels, rounding)
 COMPLETE_LIST = 40   # a standard-equipment list this long is read as the whole of it
@@ -262,8 +275,17 @@ def from_carwow_spec(store: Store, row: dict) -> None:
     cap = row.get("cap_id")
     src = "Carwow specification"
     nums = {NUMBER_ALIASES.get(k, k): v for k, v in (row.get("numbers") or {}).items()}
+    for raw_label, (f, unit) in CARWOW_RAW.items():   # rows parsed before the parser read these keep them as text
+        raw = (row.get("raw_numbers") or {}).get(raw_label)
+        if nums.get(f) in (None, "") and raw:
+            m = re.search(r"(\d+(?:\.\d+)?)\s*" + re.escape(unit), raw.replace(",", ""), re.I)
+            if m:
+                nums[f] = float(m.group(1))
     label = f"{src} · {row.get('variant') or trim}"
     seen = (row.get("last_seen_at") or row.get("observed_at") or "")[:10] or None
+    w = wheel_size(row.get("features") or [])
+    if w and cap:
+        store.add(f"derivative:{cap}", Claim("wheel_in", w, "listed", src, f"{src} · {trim} standard equipment"))
     for f in NUMBERS:
         if nums.get(f) not in (None, ""):
             if cap:
@@ -320,6 +342,9 @@ def from_maker_specs(store: Store, rows: list[dict]) -> None:
         tsub = trim_subject(make, model, trim)
         head = trim_head(trim) or trim
         groups.setdefault((tsub, f"{src} · {head}"), []).append((row, verdicts))
+        w = wheel_size(row.get("features") or [])
+        if w:
+            store.add(tsub, Claim("wheel_in", w, "listed", src, f"{src} · {head} standard equipment"))
         kwh = (row.get("numbers") or {}).get("battery_kwh")
         kwhs = [float(kwh)] if kwh else [float(b) for b in row.get("batteries") or []]
         store.trim_batteries.setdefault(tsub, set()).update(kwhs)
@@ -359,30 +384,62 @@ def from_maker_specs(store: Store, rows: list[dict]) -> None:
             store.add(sub, Claim(k, v, "option" if v == "option" else "absent", src, f"{label} (its columns differ; the plainest says {v})"))
 
 
-def from_evdb(store: Store, rows: list[dict], catalogue: list[dict]) -> None:
-    """EV Database variants: measured numbers and what the model can be had with."""
+def _current(variants: list[dict]) -> list[dict]:
+    """The variants on sale now (EV Database's car page says), else those from the model's latest year or the one before."""
+    on = [v for v in variants if (v.get("numbers") or {}).get("on_sale") is True]
+    if on:
+        return on
+    years = [(v.get("numbers") or {}).get("year_from") or 0 for v in variants]
+    top = max(years, default=0)
+    return [v for v, y in zip(variants, years) if y >= top - 1]
+
+
+def _all_agree(values: list) -> bool:
+    if not values:
+        return False
+    if all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in values):
+        lo, hi = min(values), max(values)
+        return hi - lo <= 0.5 or (lo and (hi - lo) / abs(lo) <= 0.02)
+    return len({str(v).lower() for v in values}) == 1
+
+
+def from_evdb(store: Store, rows: list[dict], catalogue: list[dict], pages: list[dict] | None = None) -> None:
+    """EV Database variants: what the index card and the variant's own page (when read) measure, and what the
+    model can be had with. Where every current variant of a model gives the same body number, the model does."""
+    by_id = {str(p.get("evdb_id") or p["spec_key"].split(":", 1)[1]): p for p in pages or []}
     for r in rows:
         m = model_of(r.get("make") or "", r.get("model") or "", catalogue)
         if not m:
             continue
+        page = by_id.get(r["spec_key"].split(":", 1)[1])
+        if page:   # the car page fills in and corrects the card
+            r["numbers"] = {**(r.get("numbers") or {}), **(page.get("numbers") or {})}
+            r["flags"] = {**(r.get("flags") or {}), **(page.get("flags") or {})}
         mk = model_key(m.get("make_name") or m["make"], m.get("model_name") or m["model"])
         store.variants.setdefault(mk, []).append(r)
         vs = f"variant:{r['spec_key']}"
         label = f"EV Database · {r.get('model')}"
         nums = r.get("numbers") or {}
         for f in EVDB_NUMBERS:
-            if nums.get(f) is not None:
+            if nums.get(f) not in (None, ""):
                 store.add(vs, Claim(f, nums[f], "measured", "EV Database", label))
         for ev, flag in EVDB_FLAGS.items():
             v = (r.get("flags") or {}).get(ev)
             if v in TRI:
                 store.add(vs, Claim(flag, v, "available", "EV Database", label))
-    # Where every variant of a model says the same, the model says it.
     for mk, vs in store.variants.items():
+        name = f"{vs[0].get('make')} {mk.split('|')[1]}"
+        # Where every variant of a model says the same, the model says it.
         for ev, flag in EVDB_FLAGS.items():
             vals = {(v.get("flags") or {}).get(ev) for v in vs}
             if len(vals) == 1 and next(iter(vals)) in TRI:
-                store.add(f"model:{mk}", Claim(flag, next(iter(vals)), "available", "EV Database", f"EV Database · every {vs[0].get('make')} {mk.split('|')[1]} variant"))
+                store.add(f"model:{mk}", Claim(flag, next(iter(vals)), "available", "EV Database", f"EV Database · every {name} variant"))
+        current = _current(vs)
+        for f in EVDB_MODEL_FIELDS:
+            vals = [(v.get("numbers") or {}).get(f) for v in current]
+            vals = [x for x in vals if x not in (None, "")]
+            if _all_agree(vals):
+                store.add(f"model:{mk}", Claim(f, vals[0], "inferred", "EV Database", f"EV Database · every current {name} variant"))
 
 
 def from_registry(store: Store, derivatives: list[dict]) -> None:
@@ -412,6 +469,12 @@ def from_options(store: Store, row: dict, make: str, model: str) -> None:
     sub = f"derivative:{row['cap_id']}"
     src = "Carwow configurator"
     covered: set[str] = set()
+    fitted = {w for o in row.get("options") or [] if o.get("default") for w in wheel_sizes([o["name"]])}
+    offered = {w for o in row.get("options") or [] if not o.get("default") for w in wheel_sizes([o["name"]])} - fitted
+    if len(fitted) == 1:
+        store.add(sub, Claim("wheel_in", next(iter(fitted)), "measured", src, f"{src} · the wheels fitted by default"))
+    if fitted and offered:
+        store.add(sub, Claim("wheel_options", ", ".join(f'{w}"' for w in sorted(offered)), "measured", src, f"{src} · wheels offered as options"))
     for o in row.get("options") or []:
         hit = [k for k, v in flags_for([o["name"]]).items() if v == "standard"]
         covered.update(hit)
@@ -562,6 +625,9 @@ def from_configurations(store: Store, rows: list[dict], derivatives: list[dict])
         for k, v in flags_for(r["equipment"]).items():
             if v == "standard":
                 store.add(tsub, Claim(k, "standard", "listed", r.get("source") or "maker configurator", f"{r.get('source') or 'maker configurator'} · {r['trim']} standard equipment"))
+        w = wheel_size(r["equipment"])
+        if w:
+            store.add(tsub, Claim("wheel_in", w, "listed", r.get("source") or "maker configurator", f"{r.get('source') or 'maker configurator'} · {r['trim']} standard equipment"))
 
 
 def from_broker_labels(store: Store, rows: list[dict]) -> None:
@@ -584,7 +650,7 @@ def build_store(cars: list[dict], specs: list[dict], catalogue: list[dict], deri
         if sp.get("provider") == "carwow_specs":
             from_carwow_spec(store, sp)
     from_maker_specs(store, [sp for sp in specs if sp.get("provider") in MAKER_PROVIDERS])
-    from_evdb(store, [sp for sp in specs if sp.get("provider") == "evdb"], catalogue)
+    from_evdb(store, [sp for sp in specs if sp.get("provider") == "evdb"], catalogue, [sp for sp in specs if sp.get("provider") == "evdb_cars"])
     from_registry(store, derivatives)
     names = {d["cap_id"]: (d.get("make") or d.get("make_slug"), d.get("model") or d.get("model_slug")) for d in derivatives}
     by_cap = {str(c.get("cap_id")): c for c in cars if c.get("cap_id")}

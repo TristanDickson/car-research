@@ -30,7 +30,7 @@ function Cars() {
         subtitle="The same search as the cards, one row per derivative. Pick the columns and their order with Columns; the car stays in view when the table scrolls sideways."
       />
       <QueryBar query={query} set={set} options={options} flagLabels={flagLabels} count={`${rows.length} of ${cars.length}`} />
-      <CarTable cars={rows} ctxOf={ctxOf} horizon={basis.data?.term_months ?? 37} />
+      <CarTable cars={rows} ctxOf={ctxOf} horizon={basis.data?.term_months ?? 37} flagLabels={flagLabels} />
     </div>
   );
 }
