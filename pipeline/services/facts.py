@@ -16,18 +16,29 @@ def norm(s: str | None) -> str:
     return re.sub(r"[^a-z0-9]", "", (s or "").lower())
 
 
+def _word_ends(s: str) -> set[int]:
+    """Where each word of s ends, counted in norm(s) characters: 'iX5 60 xDrive' → {3, 5, 11}."""
+    out, n = set(), 0
+    for w in re.findall(r"[a-z0-9]+", (s or "").lower()):
+        n += len(w)
+        out.add(n)
+    return out
+
+
 def model_of(make: str, variant_model: str, catalogue: list[dict]) -> dict | None:
     """The catalogue model an EV Database variant belongs to: the longest
-    catalogue model name (or slug) that starts the variant's own model text,
-    within the make. 'Enyaq Coupe 85' → enyaq-coupe, not enyaq."""
+    catalogue model name (or slug) that starts the variant's own model text and
+    ends on one of its word ends, within the make. 'Enyaq Coupe 85' → enyaq-coupe,
+    not enyaq; 'iX5 60 xDrive' is not the iX; 'ID.3 Pro' is the ID3."""
     mk, mo = norm(make), norm(variant_model)
+    ends = _word_ends(variant_model)
     best = None
     for m in catalogue:
         if norm(m.get("make_name")) != mk and norm(m["make"]) != mk and not (mk == "mercedesbenz" and m["make"] == "mercedes"):
             continue
         for name in (m.get("model_name"), m["model"]):
             k = norm(name)
-            if k and mo.startswith(k) and (best is None or len(k) > best[0]):
+            if k and mo.startswith(k) and len(k) in ends and (best is None or len(k) > best[0]):
                 best = (len(k), m)
     return best[1] if best else None
 

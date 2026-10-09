@@ -46,6 +46,12 @@ class Overlays(unittest.TestCase):
         self.assertEqual(model_of("Hyundai", "IONIQ 5 Long Range 2WD", CATALOGUE)["model"], "ioniq-5")
         self.assertEqual(model_of("Hyundai", "Kona Electric 65 kWh", CATALOGUE)["model"], "kona-electric")
         self.assertIsNone(model_of("Tesla", "Model 3", CATALOGUE))
+        bmw = [{"make": "bmw", "model": "ix", "make_name": "BMW", "model_name": "iX"}, {"make": "bmw", "model": "ix2", "make_name": "BMW", "model_name": "iX2"},
+               {"make": "volkswagen", "model": "id3", "make_name": "Volkswagen", "model_name": "ID3"}]
+        self.assertIsNone(model_of("BMW", "iX5 60 xDrive (MY27)", bmw), "the iX5 is not the iX")
+        self.assertEqual(model_of("BMW", "iX xDrive 45", bmw)["model"], "ix")
+        self.assertEqual(model_of("BMW", "iX2 eDrive20 (MY26)", bmw)["model"], "ix2")
+        self.assertEqual(model_of("Volkswagen", "ID.3 Pro S", bmw)["model"], "id3", "a word end in the variant, however it is spelt")
 
     def test_the_variant_is_picked_by_battery_never_guessed(self):
         lr = {"model": "INSTER Long Range", "numbers": {"battery_usable_kwh": 46.0}}
