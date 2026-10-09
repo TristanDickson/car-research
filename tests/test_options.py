@@ -74,3 +74,24 @@ class Registry(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Discover(unittest.TestCase):
+    """A thousand derivatives whose options seldom change: never-read first, then the stalest, a batch a run."""
+
+    def test_new_then_stale_then_nothing_fresh(self):
+        from datetime import datetime, timedelta, timezone
+        conn = fresh_conn()
+        self.addCleanup(conn.close)
+        ago = lambda d: (datetime.now(timezone.utc) - timedelta(days=d)).isoformat(timespec="seconds")
+        for cap in ("1", "2", "3", "4"):
+            conn.execute("INSERT INTO derivatives (cap_id, make_slug, model_slug, name, payload, first_seen_at, last_seen_at) VALUES (?,?,?,?,?,?,?)",
+                         (cap, "kia", "ev3", f"EV3 {cap}", json.dumps({"configurator_url": f"https://x/{cap}"}), T, T))
+        for cap, days in (("1", 1), ("2", 20), ("3", 9)):
+            conn.execute("INSERT INTO options (cap_id, payload, first_seen_at, last_seen_at) VALUES (?,?,?,?)", (cap, "{}", ago(days), ago(days)))
+        ctx = Context(root=Path("."), extras={"db": conn})
+        ids = lambda **x: [t.identifier for t in carwow_options.discover(Target(identifier="all"), Context(root=Path("."), extras={"db": conn, **x}))]
+        self.assertEqual(ids(), ["4", "2", "3"], "never read, then the stalest; read yesterday is skipped")
+        self.assertEqual(ids(carwow_options_per_run=2), ["4", "2"])
+        self.assertEqual(ids(reparse=True), ["1", "2", "3", "4"])
+        self.assertEqual([t.identifier for t in carwow_options.discover(Target(identifier="1"), ctx)], ["1"], "a named derivative is read regardless")

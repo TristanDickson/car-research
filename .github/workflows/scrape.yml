@@ -28,8 +28,10 @@ concurrency:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    # ~250 Carwow pages + ~250 LeaseLoco guesses at a polite pace: well under an hour.
-    timeout-minutes: 120
+    # ~250 Carwow pages + ~250 LeaseLoco guesses + used stock, up to 250 configurator pages
+    # (a week's rotation) and up to 25 minutes of EV Database car pages: about 90 minutes.
+    # A job killed at the limit pushes nothing, so the limit is well clear of that.
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
         with:

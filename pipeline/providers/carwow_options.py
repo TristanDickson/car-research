@@ -20,6 +20,7 @@ import json
 import re
 import sqlite3
 from collections.abc import Iterator
+from datetime import datetime, timedelta, timezone
 from urllib.parse import urlencode
 
 from pipeline.providers.http import fetch_url
@@ -27,6 +28,8 @@ from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord,
 from pipeline.providers.wayback import observed_at_for, original_url
 
 SITE = "carwow-cap"
+FRESH_DAYS = 7
+PER_RUN = 250   # about ten minutes at the polite pace
 CHOOSER_RE = re.compile(r"<carwow-options-chooser([^>]*)>", re.S)
 ATTR_RE = re.compile(r"([a-z_]+)='([^']*)'")
 
@@ -38,38 +41,53 @@ def configurator_url(cap_id: str, version_date: str | None, engine: str | None, 
     return "https://quotes.carwow.co.uk/car_configuration/choose-options?" + urlencode(q)
 
 
+def _targets(conn: sqlite3.Connection) -> Iterator[tuple[str, str]]:
+    """(cap_id, configurator URL): every derivative the registry names (its own configurator link), then
+    every specification-page derivative the registry does not, with the model's configurator slug borrowed
+    from a registry row of the same model."""
+    seen: set[str] = set()
+    model_slug: dict[tuple[str, str], str] = {}
+    for r in conn.execute("SELECT cap_id, make_slug, model_slug, payload FROM derivatives ORDER BY make_slug, model_slug, cap_id"):
+        p = json.loads(r["payload"])
+        if p.get("configurator_model"):
+            model_slug.setdefault((r["make_slug"], r["model_slug"]), p["configurator_model"])
+        url = p.get("configurator_url") or (configurator_url(r["cap_id"], p.get("version_date"), p.get("engine"), r["make_slug"], p["configurator_model"]) if p.get("configurator_model") else None)
+        if not url:
+            continue
+        seen.add(r["cap_id"])
+        yield r["cap_id"], url
+    for r in conn.execute("SELECT cap_id, version_date, payload FROM specs WHERE spec_key LIKE 'carwow-cap:%' AND cap_id IS NOT NULL ORDER BY cap_id"):
+        if r["cap_id"] in seen:
+            continue
+        p = json.loads(r["payload"])
+        cm = model_slug.get(((p.get("make_slug") or "").lower(), p.get("model_slug") or ""))
+        if not cm:
+            continue
+        seen.add(r["cap_id"])
+        yield r["cap_id"], configurator_url(r["cap_id"], r["version_date"], p.get("engine"), (p.get("make_slug") or "").lower(), cm)
+
+
 def discover(target: Target, ctx: Context) -> Iterator[Target]:
-    """Every derivative the registry names (its own configurator link), then every
-    specification-page derivative the registry does not, with the model's
-    configurator slug borrowed from a registry row of the same model."""
+    """A derivative's options seldom change, and there are a thousand of them: a run reads the ones never
+    read, then those last read more than FRESH_DAYS ago, stalest first, PER_RUN at most, so the nightly
+    reads spread over the week. A named target, or a reparse, is read regardless."""
     conn: sqlite3.Connection | None = ctx.extras.get("db")
     if conn is None:
         return
-    seen: set[str] = set()
-    model_slug: dict[tuple[str, str], str] = {}
     try:
-        for r in conn.execute("SELECT cap_id, make_slug, model_slug, payload FROM derivatives ORDER BY make_slug, model_slug, cap_id"):
-            p = json.loads(r["payload"])
-            if p.get("configurator_model"):
-                model_slug.setdefault((r["make_slug"], r["model_slug"]), p["configurator_model"])
-            url = p.get("configurator_url") or (configurator_url(r["cap_id"], p.get("version_date"), p.get("engine"), r["make_slug"], p["configurator_model"]) if p.get("configurator_model") else None)
-            if not url:
-                continue
-            seen.add(r["cap_id"])
-            if target.identifier in ("all", r["cap_id"]):
-                yield Target(identifier=r["cap_id"], metadata={"cap_id": r["cap_id"], "url": url})
-        for r in conn.execute("SELECT cap_id, version_date, payload FROM specs WHERE spec_key LIKE 'carwow-cap:%' AND cap_id IS NOT NULL ORDER BY cap_id"):
-            if r["cap_id"] in seen:
-                continue
-            p = json.loads(r["payload"])
-            cm = model_slug.get(((p.get("make_slug") or "").lower(), p.get("model_slug") or ""))
-            if not cm:
-                continue
-            seen.add(r["cap_id"])
-            if target.identifier in ("all", r["cap_id"]):
-                yield Target(identifier=r["cap_id"], metadata={"cap_id": r["cap_id"], "url": configurator_url(r["cap_id"], r["version_date"], p.get("engine"), (p.get("make_slug") or "").lower(), cm)})
+        every = list(_targets(conn))
+        last = {r["cap_id"]: r["last_seen_at"] for r in conn.execute("SELECT cap_id, last_seen_at FROM options")}
     except sqlite3.OperationalError:
         return
+    if target.identifier != "all" or ctx.extras.get("reparse"):
+        for cap, url in every:
+            if target.identifier in ("all", cap):
+                yield Target(identifier=cap, metadata={"cap_id": cap, "url": url})
+        return
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=FRESH_DAYS)).isoformat()
+    due = [(last.get(cap) or "", i, cap, url) for i, (cap, url) in enumerate(every) if (last.get(cap) or "") < cutoff]
+    for _, _, cap, url in sorted(due)[: int(ctx.extras.get("carwow_options_per_run", PER_RUN))]:
+        yield Target(identifier=cap, metadata={"cap_id": cap, "url": url})
 
 
 def fetch(target: Target, ctx: Context) -> Fetched:
