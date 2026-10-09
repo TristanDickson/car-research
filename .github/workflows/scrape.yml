@@ -38,7 +38,12 @@ jobs:
         with:
           python-version: "3.12"
       - name: PDF text (the makers' specification guides are PDFs)
-        run: sudo apt-get install -y --no-install-recommends poppler-utils
+        # The runner's package index goes stale (a 404 on the .deb); refresh it first. Without
+        # pdftotext only hyundai_specs fails, and its rows stay as history has them.
+        continue-on-error: true
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
 
       - name: Refresh (live providers + history + snapshot)
         env:
