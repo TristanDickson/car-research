@@ -62,18 +62,36 @@ jobs:
 
       - name: Commit and push if anything changed
         id: commit
+        env:
+          CAR_RESEARCH_DB: /tmp/scrape.sqlite
+        # The scrape takes the best part of an hour; a push to main in that time (a code
+        # change) used to reject this push and lose the night's prices. On a rejection, take
+        # main as it now is, fold its committed history into this run's database (an
+        # upsert, so nothing scraped tonight is lost) and write history and snapshot again
+        # with main's code.
         run: |
           git config user.name "car-research scrape"
           git config user.email "actions@users.noreply.github.com"
-          git add data/history web/public/data docs/deal-comparison.md
-          if git diff --cached --quiet; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "No price changes."
-          else
-            git commit -m "data: nightly price scrape $(date -u +%Y-%m-%d)"
-            git push origin HEAD:main
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          fi
+          changed=false
+          for attempt in 1 2 3; do
+            git add data/history web/public/data docs/deal-comparison.md
+            if git diff --cached --quiet; then
+              echo "No price changes."
+              break
+            fi
+            git commit -q -m "data: nightly price scrape $(date -u +%Y-%m-%d)"
+            if git push origin HEAD:main; then
+              changed=true
+              break
+            fi
+            [ "$attempt" -lt 3 ] || { echo "::error::main kept moving; tonight's scrape was not pushed"; exit 1; }
+            echo "main moved during the scrape; folding it in (attempt $attempt)"
+            git fetch -q origin main
+            git reset -q --hard origin/main
+            python -m pipeline refresh --offline --out web/public/data
+            python -m pipeline deal-table > docs/deal-comparison.md
+          done
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
 
       - name: Deploy the app with the new snapshot
         if: steps.commit.outputs.changed == 'true'
