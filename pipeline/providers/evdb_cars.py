@@ -238,7 +238,7 @@ def parse_page(page: str, meta: dict, observed_at: str) -> dict | None:
 
 # ---------------------------------------------------------------- the run
 
-PER_RUN = 40   # car pages per run: the nightly scrape keeps filling and refreshing, a batch at a time
+PER_RUN = 60   # car pages per run (25 minutes at the pace): the nightly scrape keeps filling and refreshing, a batch at a time
 BUDGET_SECONDS = 25 * 60   # and never more than this of the nightly job, however slow the site is tonight
 
 
