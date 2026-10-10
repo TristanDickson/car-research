@@ -178,7 +178,9 @@ class Build:
                             if r.row.get("car_id"):
                                 self.owner_offer_cars[r.row["offer_key"]] = r.row["car_id"]
                             self._sight(r.row["observed_at"], 3, name, r.row, fetched.url)
-                    gold.write(self.conn, name, _by_kind([r for r in records if r.kind == "requirements"]), None)
+                    reqs = [r for r in records if r.kind == "requirements"]
+                    if reqs:   # dated by the file's own date, so two builds of the same files agree
+                        gold.write(self.conn, name, _by_kind(reqs), None, now=reqs[0].row.get("as_of") or "")
 
     def _sight(self, at: str, priority: int, provider: str, row: dict, url: str | None) -> None:
         self.order += 1
@@ -490,6 +492,14 @@ class Build:
         if self.store:
             self.legacy(entries)
             self.raws(entries)
+        self.finish()
+        self.logs()
+        self.conn.commit()
+        self.report.seconds = time.monotonic() - started
+        return self.report
+
+    def finish(self) -> None:
+        """Everything after reading: derivatives, cars, matching, spans."""
         gold.backfill_used_spans(self.conn)
         self.derivatives()
         self.cars()
@@ -497,10 +507,6 @@ class Build:
         self.trim_map()
         self.report.sightings = len(self.sightings)
         self.fold(car_of)
-        self.logs()
-        self.conn.commit()
-        self.report.seconds = time.monotonic() - started
-        return self.report
 
 
 def build(db_path: Path | str, store: RawStore | None, root: Path = ROOT, cache_path: Path | str | None = None) -> Report:

@@ -9,8 +9,7 @@ from pathlib import Path
 
 from pipeline.providers import carwow_deals, hyundai_offers, leaseloco, ncd, rrg
 from pipeline.providers.types import Capability, Context, Fetched, Provider, Target
-from pipeline.runner import run
-from tests.helpers import fresh_conn, run_all
+from tests.helpers import Raws
 
 FIX = Path(__file__).parent / "fixtures"
 T = "2026-10-06T12:00:00+00:00"
@@ -151,44 +150,49 @@ def _fixture_provider(module, name: str, files: dict[str, str]) -> Provider:
     return Provider(name=name, default_capability=c.name, capabilities={c.name: c}, live=False)
 
 
-class ThroughTheRunner(unittest.TestCase):
-    """Live providers go through the same Bronze → Silver → Gold path as pastes, including trim resolution."""
+class ThroughTheBuild(unittest.TestCase):
+    """Live providers' pages, kept in the raw store, go through the same build as the owner's files."""
 
     def setUp(self):
-        self.conn = fresh_conn()
-        run_all(self.conn)  # seed: cars + trim_map
+        self.raws = Raws()
 
-    def test_carwow_cap_ids_resolve_via_seeded_trim_map(self):
-        p = _fixture_provider(carwow_deals, "carwow_deals", {"hyundai/ioniq-3": "carwow_hyundai_ioniq-3_deals.html"})
-        res = run(self.conn, p, ctx=Context(root=FIX))
-        self.assertEqual(res.errors, 0)
-        self.assertEqual(res.records, 21)
-        self.assertEqual(res.unmapped, 0)
-        mapped = {r["source_key"] for r in self.conn.execute("SELECT source_key FROM trim_map WHERE source='carwow-cap' AND status='mapped'")}
+    def tearDown(self):
+        self.raws.close()
+
+    def test_carwow_cap_ids_resolve_to_the_owners_cars_and_to_derivatives(self):
+        self.raws.add("carwow_deals", "hyundai/ioniq-3", "carwow_hyundai_ioniq-3_deals.html", at=T)
+        conn = self.raws.build()
+        mapped = {r["source_key"] for r in conn.execute("SELECT source_key FROM trim_map WHERE source='carwow-cap' AND status='mapped'")}
         self.assertTrue({"110664", "111014", "111015", "111021"} <= mapped)
-        # Derivatives we don't track (e.g. the 42kWh Advance) are seeded as 'ignored', not left dangling.
-        n_unmapped = self.conn.execute("SELECT COUNT(*) FROM trim_map WHERE status='unmapped'").fetchone()[0]
-        self.assertEqual(n_unmapped, 0)
-        row = self.conn.execute("SELECT car_id, vehicle_price, status FROM offer_observations WHERE offer_key='carwow:cash:111015'").fetchone()
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM trim_map WHERE status='unmapped'").fetchone()[0], 0)
+        row = conn.execute("SELECT car_id, vehicle_price, status FROM offer_observations WHERE offer_key='carwow:cash:111015'").fetchone()
         self.assertEqual((row["car_id"], row["vehicle_price"], row["status"]), ("hyundai-ioniq3-61-ultimate-evpack", 25620.0, "lead"))
+        self.assertEqual(conn.execute("SELECT COUNT(DISTINCT offer_key) FROM offer_observations WHERE source='carwow_deals'").fetchone()[0], 21)
 
-    def test_unknown_key_lands_in_trim_map_as_unmapped(self):
-        p = _fixture_provider(rrg, "rrg", {"kia/pv5-passenger-7-seater": "rrg_pv5_offers.html"})
-        self.conn.execute("DELETE FROM trim_map WHERE source='rrg'")
-        res = run(self.conn, p, ctx=Context(root=FIX))
-        self.assertEqual(res.unmapped, 1)
-        tm = self.conn.execute("SELECT * FROM trim_map WHERE source='rrg'").fetchone()
+    def test_a_name_nobody_decided_on_and_nothing_matches_is_listed_unmapped(self):
+        from pipeline.build import Build
+        from tests.helpers import fresh_conn
+        self.raws.add("rrg", "kia/pv5-passenger-7-seater", "rrg_pv5_offers.html", at=T)
+        conn = fresh_conn()
+        b = Build(conn, self.raws.store)
+        b.owner()
+        for k in [k for k in b.decisions if k[0] == "rrg"]:
+            b.decisions.pop(k)
+        b.raws(list(self.raws.store.entries()))
+        b.finish()
+        tm = conn.execute("SELECT * FROM trim_map WHERE source='rrg'").fetchone()
         self.assertEqual(tm["status"], "unmapped")
         self.assertEqual(tm["source_key"], "kia|pv5 electric estate 120kw elite long range 71kwh 5dr auto [7 seat]")
+        self.assertIsNone(conn.execute("SELECT 1 FROM offer_observations WHERE source='rrg'").fetchone())
 
-    def test_resighting_bumps_confirmed_at_instead_of_duplicating(self):
-        p = _fixture_provider(hyundai_offers, "hyundai_offers", {"kona_electric": "hyundai_offer_kona_electric.html"})
-        run(self.conn, p, ctx=Context(root=FIX))
-        run(self.conn, p, ctx=Context(root=FIX))
-        rows = self.conn.execute("SELECT observed_at, confirmed_at FROM offer_observations WHERE offer_key='hyundai:PCP_15_7FW5ZHZ7ZGG0VH'").fetchall()
-        self.assertEqual(len(rows), 1)
-        self.assertIsNotNone(rows[0]["confirmed_at"])
-        self.assertGreaterEqual(rows[0]["confirmed_at"], rows[0]["observed_at"])
+    def test_the_same_page_fetched_again_extends_its_span(self):
+        self.raws.add("hyundai_offers", "kona_electric", "hyundai_offer_kona_electric.html", at=T)
+        self.raws.add("hyundai_offers", "kona_electric", "hyundai_offer_kona_electric.html", at="2026-10-07T12:00:00+00:00")
+        conn = self.raws.build()
+        rows = conn.execute("SELECT observed_at, confirmed_at FROM offer_observations WHERE offer_key='hyundai:PCP_15_7FW5ZHZ7ZGG0VH'").fetchall()
+        self.assertEqual([tuple(r) for r in rows], [(T, "2026-10-07T12:00:00+00:00")])
+        self.assertEqual(len(list((self.raws.store.root / "bodies").rglob("*.gz"))), 1, "an unchanged page is stored once")
+        self.assertEqual(len(list(self.raws.store.entries())), 2, "and its second fetch is still recorded")
 
 
 if __name__ == "__main__":

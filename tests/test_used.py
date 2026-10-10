@@ -1,18 +1,17 @@
-"""Carwow used stock: the parser against a saved frame, stock in gold (present /
-gone), the replay, and the residual evidence it feeds the true-monthly."""
+"""Used stock: the parsers against saved pages, stock in gold (present / gone, each
+source its own), matching a listing to its derivative, and the residual evidence it
+feeds the true-monthly."""
 import json
 import unittest
 from datetime import date
 from pathlib import Path
 
 from model.deal_math import DEFAULT_BASIS, compute, expected_value
-from pipeline.history import export_used, import_used
 from pipeline.providers import carwow_used, cinch_used, motorpoint_used
 from pipeline.providers.types import Capability, Context, Fetched, Provider, Target
 from pipeline.providers.used_match import bare, match_model
-from pipeline.runner import run
 from pipeline.services.snapshot import dedupe_listings
-from tests.helpers import fresh_conn, run_all
+from tests.helpers import Raws, target_for
 
 FIX = Path(__file__).parent / "fixtures"
 T = "2026-10-07T00:00:00+00:00"
@@ -22,37 +21,13 @@ def fixture(name: str) -> str:
     return (FIX / name).read_text(encoding="utf-8", errors="replace")
 
 
-def _provider(files: dict[str, str]):
-    cap = carwow_used.stock
-
-    def discover(target: Target, ctx: Context):
-        for t in cap.discover(target, ctx):
-            if t.identifier in files:
-                yield t
-
-    def fetch(target: Target, ctx: Context) -> Fetched:
-        return Fetched(url=target.metadata["url"], status_code=200, body=(FIX / files[target.identifier]).read_bytes())
-
-    c = Capability(name=cap.name, parser_version=cap.parser_version, discover=discover, fetch=fetch, parse=cap.parse, kinds=cap.kinds)
-    return Provider(name="carwow_used", default_capability=c.name, capabilities={c.name: c}, live=False)
-
-
-def _json_provider(base, files: dict[str, list[str]], wrap, models: list[dict] | None = None):
-    """A JSON-paged used-stock provider (cinch, Motorpoint) served from fixture
-    pages, filing listings under `models` rather than the test database's catalogue."""
-    cap = base.stock
-
-    def discover(target: Target, ctx: Context):
-        for t in cap.discover(target, ctx):
-            if t.identifier in files:
-                yield Target(t.identifier, {**t.metadata, "models": models} if models else t.metadata)
-
-    def fetch(target: Target, ctx: Context) -> Fetched:
-        pages = [json.loads((FIX / f).read_text(encoding="utf-8")) for f in files[target.identifier]]
-        return Fetched(url=target.metadata["url"], status_code=200, body=json.dumps(wrap(target, pages)).encode("utf-8"))
-
-    c = Capability(name=cap.name, parser_version=cap.parser_version, discover=discover, fetch=fetch, parse=cap.parse, kinds=cap.kinds)
-    return Provider(name=base.provider.name, default_capability=c.name, capabilities={c.name: c}, live=False)
+def _json_body(base, ident: str, files: list[str], wrap, models: list[dict] | None):
+    """What a JSON-paged used-stock provider (cinch, Motorpoint) keeps for one target: its pages wrapped
+    as its fetch wraps them, and the target's metadata, filing listings under `models`."""
+    t = target_for(base.provider, None, ident)
+    meta = {**t.metadata, "models": models} if models else t.metadata
+    pages = [json.loads((FIX / f).read_text(encoding="utf-8")) for f in files]
+    return json.dumps(wrap(Target(ident, meta), pages)).encode("utf-8"), meta
 
 
 HYUNDAI = [{"make": "hyundai", "model": m, "make_name": "Hyundai", "model_name": n} for m, n in
@@ -204,66 +179,74 @@ class StockAcrossSources(unittest.TestCase):
 
 
 class UsedInGold(unittest.TestCase):
+    T1, T2 = "2026-10-07T00:00:00+00:00", "2026-10-08T00:00:00+00:00"
+
     def setUp(self):
-        self.conn = fresh_conn()
-        run_all(self.conn)
+        self.raws = Raws()
+
+    def tearDown(self):
+        self.raws.close()
+
+    def add_json(self, base, ident, files, wrap, models, at):
+        body, meta = _json_body(base, ident, files, wrap, models)
+        self.raws.add(base.provider, ident, body=body, metadata=meta, at=at)
 
     def test_stock_is_present_until_a_later_page_lacks_it(self):
-        p = _provider({"hyundai/ioniq-5": "carwow_used_hyundai_ioniq-5_p1.html"})
-        res = run(self.conn, p, ctx=Context(root=FIX))
-        self.assertEqual((res.errors, res.records, res.gold_rows), (0, 6, 6))
-        self.assertEqual(self.conn.execute("SELECT COUNT(*) FROM used_listings WHERE present=1").fetchone()[0], 6)
+        self.raws.add("carwow_used", "hyundai/ioniq-5", "carwow_used_hyundai_ioniq-5_p1.html", at=self.T1)
+        conn = self.raws.build()
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM used_listings WHERE present=1").fetchone()[0], 6)
         # The next visit lists three cars (one new, two already known): those three are stock, the other four gone.
-        p3 = _provider({"hyundai/ioniq-5": "carwow_used_hyundai_ioniq-5_p3.html"})
-        run(self.conn, p3, ctx=Context(root=FIX))
-        rows = {r[0]: r[1] for r in self.conn.execute("SELECT listing_key, present FROM used_listings")}
+        self.raws.add("carwow_used", "hyundai/ioniq-5", "carwow_used_hyundai_ioniq-5_p3.html", at=self.T2)
+        conn = self.raws.build()
+        rows = {r[0]: r[1] for r in conn.execute("SELECT listing_key, present FROM used_listings")}
         self.assertEqual(len(rows), 7)
         self.assertEqual(sum(rows.values()), 3)
+        self.assertEqual(conn.execute("SELECT price_gbp, year FROM used_listings WHERE listing_key LIKE '%907dd561%'").fetchone()[:], (18733.0, 2024))
 
-    def present_by_source(self):
-        return {r[0]: (r[1], r[2]) for r in self.conn.execute("SELECT source, SUM(present), COUNT(*) FROM used_listings GROUP BY 1")}
+    def present_by_source(self, conn):
+        return {r[0]: (r[1], r[2]) for r in conn.execute("SELECT source, SUM(present), COUNT(*) FROM used_listings GROUP BY 1")}
 
     def test_each_source_marks_only_its_own_stock_gone(self):
-        run(self.conn, _provider({"hyundai/ioniq-5": "carwow_used_hyundai_ioniq-5_p1.html"}), ctx=Context(root=FIX))
+        self.raws.add("carwow_used", "hyundai/ioniq-5", "carwow_used_hyundai_ioniq-5_p1.html", at=self.T1)
         wrap = lambda t, pages: {"make": t.identifier, "pages": pages}
-        res = run(self.conn, _json_provider(cinch_used, {"hyundai": ["cinch_hyundai_electric_p1.json"]}, wrap, HYUNDAI), ctx=Context(root=FIX))
-        self.assertEqual((res.errors, res.records), (0, 31))
-        self.assertEqual(self.present_by_source(), {"carwow_used": (6, 6), "cinch_used": (31, 31)})
+        self.add_json(cinch_used, "hyundai", ["cinch_hyundai_electric_p1.json"], wrap, HYUNDAI, self.T1)
+        conn = self.raws.build()
+        self.assertEqual(self.present_by_source(conn), {"carwow_used": (6, 6), "cinch_used": (31, 31)})
         # cinch's next visit shows only page 3's cars: its page-1 cars are gone (whatever
         # model they were, the make's page covers them all), Carwow's six untouched.
-        run(self.conn, _json_provider(cinch_used, {"hyundai": ["cinch_hyundai_electric_p3.json"]}, wrap, HYUNDAI), ctx=Context(root=FIX))
-        self.assertEqual(self.present_by_source(), {"carwow_used": (6, 6), "cinch_used": (22, 53)})
+        self.add_json(cinch_used, "hyundai", ["cinch_hyundai_electric_p3.json"], wrap, HYUNDAI, self.T2)
+        conn = self.raws.build()
+        self.assertEqual(self.present_by_source(conn), {"carwow_used": (6, 6), "cinch_used": (22, 53)})
         t = Target("hyundai", {"make": "hyundai", "url": "u", "models": HYUNDAI})
         expected = {}
         for r in cinch_used.parse_body(json.loads(fixture("cinch_hyundai_electric_p3.json")), t, T):
             expected[r["model_slug"]] = expected.get(r["model_slug"], 0) + 1
-        self.assertEqual(dict(self.conn.execute("SELECT model_slug, COUNT(*) FROM used_listings WHERE source='cinch_used' AND present=1 GROUP BY 1").fetchall()), expected)
+        self.assertEqual(dict(conn.execute("SELECT model_slug, COUNT(*) FROM used_listings WHERE source='cinch_used' AND present=1 GROUP BY 1").fetchall()), expected)
         self.assertGreaterEqual(len(expected), 3)
 
     def test_motorpoint_stock_lands_beside_the_others(self):
         wrap = lambda t, pages: {"pages": pages}
-        res = run(self.conn, _json_provider(motorpoint_used, {"electric": ["motorpoint_electric_p1.json"]}, wrap, SUPERMARKET), ctx=Context(root=FIX))
-        self.assertEqual((res.errors, res.records), (0, 12))
-        row = self.conn.execute("SELECT make, model, price_gbp, year, mileage, payload FROM used_listings WHERE listing_key='motorpoint:1676078'").fetchone()
+        self.add_json(motorpoint_used, "electric", ["motorpoint_electric_p1.json"], wrap, SUPERMARKET, self.T1)
+        conn = self.raws.build()
+        row = conn.execute("SELECT make, model, price_gbp, year, mileage, payload FROM used_listings WHERE listing_key='motorpoint:1676078'").fetchone()
         self.assertEqual(row[:5], ("Polestar", "4", 32699.0, 2025, 5472))
         self.assertEqual((json.loads(row[5])["town"], json.loads(row[5])["list_price_when_new"]), ("Glasgow", 62235.0))
-        run(self.conn, _json_provider(motorpoint_used, {"electric": ["motorpoint_electric_p2.json"]}, wrap, SUPERMARKET), ctx=Context(root=FIX))
+        self.add_json(motorpoint_used, "electric", ["motorpoint_electric_p2.json"], wrap, SUPERMARKET, self.T2)
+        conn = self.raws.build()
         t = Target("electric", {"url": motorpoint_used.LISTING, "models": SUPERMARKET})
         n2 = len(motorpoint_used.parse_body(json.loads(fixture("motorpoint_electric_p2.json")), t, T))
-        self.assertEqual(self.present_by_source(), {"motorpoint_used": (n2, 12 + n2)})
+        self.assertEqual(self.present_by_source(conn), {"motorpoint_used": (n2, 12 + n2)})
 
-    def test_round_trip_through_history(self):
-        p = _provider({"hyundai/ioniq-5": "carwow_used_hyundai_ioniq-5_p1.html"})
-        run(self.conn, p, ctx=Context(root=FIX))
-        tmp = FIX.parent / "_used.jsonl"
-        try:
-            self.assertEqual(export_used(self.conn, tmp), 6)
-            other = fresh_conn()
-            run_all(other)
-            self.assertEqual(import_used(other, tmp), 6)
-            self.assertEqual(other.execute("SELECT price_gbp, year FROM used_listings WHERE listing_key LIKE '%907dd561%'").fetchone()[:], (18733.0, 2024))
-        finally:
-            tmp.unlink(missing_ok=True)
+    def test_a_listing_naming_a_derivative_the_owner_entered_is_on_the_owners_car(self):
+        self.raws.add("carwow_specs", "hyundai/kona-electric", "carwow_hyundai_kona-electric_specifications.html", at=self.T1)
+        wrap = lambda t, pages: {"make": t.identifier, "pages": pages}
+        self.add_json(cinch_used, "hyundai", ["cinch_hyundai_electric_p1.json"], wrap, HYUNDAI, self.T1)
+        conn = self.raws.build()
+        cars = {r[0] for r in conn.execute("SELECT DISTINCT car_id FROM used_listings WHERE car_id IS NOT NULL")}
+        kona = {"hyundai-kona-65-advance", "hyundai-kona-65-ultimate", "hyundai-kona-65-nline", "hyundai-kona-65-nlines"}
+        self.assertFalse({c for c in cars if c.startswith("carwow-cap:")} & {f"carwow-cap:{c}" for c in ("103322", "103324", "103325", "103326")},
+                         "never the derivative's id beside the owner's entry for it")
+        self.assertTrue(cars <= kona | {c for c in cars if c.startswith("carwow-cap:")})
 
 
 class ResidualEvidence(unittest.TestCase):
