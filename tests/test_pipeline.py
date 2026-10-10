@@ -259,5 +259,44 @@ class TheScraperKeepsEveryResponse(unittest.TestCase):
             self.assertEqual((report.fetches, report.failures), (1, []), "the build parses the combined body; parts and failures are not pages")
 
 
+class TheRawStoreSurvivesCrashes(unittest.TestCase):
+    def test_a_torn_index_line_costs_only_itself(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            store = RawStore.open(tmp)
+            store.save(source="rrg", capability="offers", target="a", metadata=None, url="u", fetched_at="2026-10-11T03:00:00+00:00",
+                       status=200, body=b"one")
+            with (Path(tmp) / "index" / "2026-10.jsonl").open("ab") as f:
+                f.write(b'{"source": "rrg", "torn')          # a crash mid-write
+            store.save(source="rrg", capability="offers", target="b", metadata=None, url="u", fetched_at="2026-10-11T03:01:00+00:00",
+                       status=200, body=b"two")
+            self.assertEqual([e["target"] for e in store.entries()], ["a", "b"])
+
+    def test_a_broken_body_is_written_again_by_the_next_fetch_of_the_same_bytes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            store = RawStore.open(tmp)
+            sha = store.put(b"the page")
+            store.body_path(sha).write_bytes(b"")                 # a crash before the bytes reached the disk
+            self.assertEqual(store.put(b"the page"), sha)
+            self.assertEqual(store.get(sha), b"the page")
+
+    def test_a_combined_fetch_that_fails_partway_keeps_the_pages_it_had(self):
+        from pipeline import runner
+        from pipeline.providers.http import FetchError
+        from pipeline.providers.types import Capability, Context, Fetched, Provider, Target
+
+        def fetch(t, ctx):
+            e = FetchError("p3 -> HTTP 503", status=503, body=b"busy", url="https://x.test/a?p=3")
+            e.parts = (Fetched("https://x.test/a?p=1", 200, b"page 1"), Fetched("https://x.test/a?p=2", 200, b"page 2"))
+            raise e
+
+        p = Provider("rrg", "offers", {"offers": Capability("offers", "1", lambda t, c: iter([Target("a", {"url": "u"})]), fetch,
+                                                            lambda b, t: iter([]), ("offer",))})
+        with tempfile.TemporaryDirectory() as tmp:
+            store = RawStore.open(tmp)
+            runner.run(store, None, p, ctx=Context(root=ROOT))
+            got = sorted(store.get(e["sha256"]) for e in store.entries())
+            self.assertEqual(got, [b"busy", b"page 1", b"page 2"])
+
+
 if __name__ == "__main__":
     unittest.main()

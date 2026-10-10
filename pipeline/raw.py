@@ -23,6 +23,9 @@ import gzip
 import hashlib
 import json
 import os
+import sys
+import time
+from contextlib import contextmanager
 from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
@@ -76,14 +79,22 @@ class RawStore:
         return self.body_path(sha).exists()
 
     def put(self, body: bytes) -> str:
-        """Store a body once; returns its sha256."""
+        """Store a body once; returns its sha256. The bytes reach the disk before the file gets its
+        name, and a file under that name that does not read back (a crash mid-write) is written again."""
         sha = sha256(body)
         path = self.body_path(sha)
         if path.exists():
-            return sha
+            try:
+                self.get(sha)
+                return sha
+            except Exception:  # noqa: BLE001 - unreadable or wrong: this fetch has the bytes, so repair it
+                pass
         path.parent.mkdir(parents=True, exist_ok=True)
         tmp = path.with_name(f"{path.name}.{os.getpid()}.tmp")
-        tmp.write_bytes(gzip.compress(body, compresslevel=6, mtime=0))
+        with tmp.open("wb") as f:
+            f.write(gzip.compress(body, compresslevel=6, mtime=0))
+            f.flush()
+            os.fsync(f.fileno())
         os.replace(tmp, path)
         return sha
 
@@ -93,17 +104,58 @@ class RawStore:
             raise ValueError(f"raw body {sha} does not match its name")
         return body
 
+    @contextmanager
+    def _lock(self, timeout: float = 120.0) -> Iterator[None]:
+        """One writer at a time across processes (the nightly and a hand-run scrape, say): appending is
+        not atomic on Windows. A lock left by a killed process is taken over after ten minutes."""
+        path = self.root / ".lock"
+        deadline = time.monotonic() + timeout
+        while True:
+            try:
+                fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+                break
+            except (FileExistsError, PermissionError):   # Windows: PermissionError while another process deletes it
+                try:
+                    if time.time() - path.stat().st_mtime > 600:
+                        path.unlink()
+                        continue
+                except (FileNotFoundError, PermissionError):
+                    pass
+                if time.monotonic() > deadline:
+                    raise TimeoutError(f"the raw store at {self.root} is locked ({path})")
+                time.sleep(0.05)
+        try:
+            os.write(fd, str(os.getpid()).encode())
+            yield
+        finally:
+            os.close(fd)
+            try:
+                path.unlink()
+            except (FileNotFoundError, PermissionError):
+                pass
+
+    def _append(self, path: Path, line: str) -> None:
+        """Append one line durably. If the file does not end in a newline (a write torn by a crash),
+        start on a new line, so the torn line costs only itself."""
+        path.parent.mkdir(parents=True, exist_ok=True)
+        data = (line + "\n").encode("utf-8")
+        with self._lock():
+            with path.open("ab") as f:
+                if f.tell() > 0:
+                    with path.open("rb") as r:
+                        r.seek(-1, os.SEEK_END)
+                        if r.read(1) != b"\n":
+                            data = b"\n" + data
+                f.write(data)
+                f.flush()
+                os.fsync(f.fileno())
+
     def record(self, entry: dict) -> dict:
         """Append one fetch to the index. `fetched_at` (ISO, UTC) picks the month file."""
         entry = {k: v for k, v in entry.items() if v is not None}
         entry.setdefault("origin", "live")
         entry["id"] = fetch_id(entry)
-        line = json.dumps(entry, ensure_ascii=False, sort_keys=True)
-        path = self.root / "index" / f"{entry['fetched_at'][:7]}.jsonl"
-        with path.open("a", encoding="utf-8", newline="\n") as f:
-            f.write(line + "\n")
-            f.flush()
-            os.fsync(f.fileno())
+        self._append(self.root / "index" / f"{entry['fetched_at'][:7]}.jsonl", json.dumps(entry, ensure_ascii=False, sort_keys=True))
         return entry
 
     def save(self, *, source: str, capability: str, target: str, metadata: dict | None, url: str | None,
@@ -122,34 +174,35 @@ class RawStore:
     def log(self, kind: str, entry: dict) -> None:
         """Append one line to a log (runs, backfill): bookkeeping about the fetching, kept beside it."""
         stamp = entry.get("finished_at") or entry.get("done_at") or entry.get("started_at") or ""
-        path = self.root / "logs" / f"{kind}-{stamp[:7] or 'undated'}.jsonl"
-        path.parent.mkdir(parents=True, exist_ok=True)
-        with path.open("a", encoding="utf-8", newline="\n") as f:
-            f.write(json.dumps(entry, ensure_ascii=False, sort_keys=True) + "\n")
-            f.flush()
-            os.fsync(f.fileno())
+        self._append(self.root / "logs" / f"{kind}-{stamp[:7] or 'undated'}.jsonl", json.dumps(entry, ensure_ascii=False, sort_keys=True))
 
     def log_run(self, entry: dict) -> None:
         self.log("runs", entry)
 
+    @staticmethod
+    def _lines(path: Path) -> Iterator[dict]:
+        """A JSONL file's records; a line torn by a crash is reported and skipped, never fatal."""
+        for i, line in enumerate(path.read_bytes().decode("utf-8", "replace").splitlines(), 1):
+            if not line.strip():
+                continue
+            try:
+                yield json.loads(line)
+            except ValueError:
+                print(f"raw store: {path.name} line {i} is unreadable (a torn write); skipped", file=sys.stderr)
+
     def read_log(self, kind: str) -> Iterator[dict]:
         for path in sorted((self.root / "logs").glob(f"{kind}-*.jsonl")):
-            for line in path.read_text(encoding="utf-8").splitlines():
-                if line.strip():
-                    yield json.loads(line)
+            yield from self._lines(path)
 
     def entries(self) -> Iterator[dict]:
         """Every fetch, oldest first (by fetched_at, then by position in the index)."""
         rows: list[tuple[str, int, dict]] = []
         n = 0
         for path in sorted((self.root / "index").glob("*.jsonl")):
-            with path.open(encoding="utf-8") as f:
-                for line in f:
-                    line = line.strip()
-                    if line:
-                        e = json.loads(line)
-                        rows.append((e["fetched_at"], n, e))
-                        n += 1
+            for e in self._lines(path):
+                if isinstance(e, dict) and e.get("id") and e.get("fetched_at"):
+                    rows.append((e["fetched_at"], n, e))
+                    n += 1
         rows.sort(key=lambda r: (r[0], r[1]))
         seen: set[str] = set()
         for _, _, e in rows:

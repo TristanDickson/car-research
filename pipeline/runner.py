@@ -75,6 +75,7 @@ def run(store: RawStore, conn: sqlite3.Connection | None, provider: Provider, ca
             try:
                 fetched = cap.fetch(t, ctx)
             except FetchError as e:
+                _keep_parts(store, provider, cap, t, getattr(e, "parts", ()), fetched_at)
                 if e.status is not None or e.body is not None:
                     _keep(store, provider, cap, t, e.url or t.metadata.get("url"), e.status, e.body, None, str(e), fetched_at)
                 else:

@@ -23,6 +23,7 @@ class FetchError(RuntimeError):
     def __init__(self, message: str, status: int | None = None, body: bytes | None = None, url: str | None = None):
         super().__init__(message)
         self.status, self.body, self.url = status, body, url
+        self.parts: tuple = ()   # a combined fetch's responses received before this one failed
 
 
 def fetch_url(url: str, ctx: Context, *, headers: dict | None = None, accept: str = "text/html",

@@ -26,7 +26,7 @@ from urllib.parse import quote
 
 from pipeline.providers.carwow_catalog import electric_models, pretty_make
 from pipeline.providers.carwow_deals import MODELS
-from pipeline.providers.http import fetch_url
+from pipeline.providers.http import FetchError, fetch_url
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 from pipeline.providers.used_match import match_model
 from pipeline.providers.wayback import observed_at_for
@@ -70,7 +70,11 @@ def fetch(target: Target, ctx: Context) -> Fetched:
     parts: list[Fetched] = []
     got = 0
     for p in range(1, MAX_PAGES + 1):
-        f = fetch_url(api_url(make, p), ctx, accept="application/json")
+        try:
+            f = fetch_url(api_url(make, p), ctx, accept="application/json")
+        except FetchError as e:
+            e.parts = tuple(parts)   # the pages already received are kept too
+            raise
         parts.append(f)
         page = json.loads(f.body.decode("utf-8", "replace"))
         listings = page.get("vehicleListings") or []

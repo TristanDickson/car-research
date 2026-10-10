@@ -191,7 +191,11 @@ class Build:
         versions = sorted((e for e in entries if e.get("origin") == legacy.SOURCE and e.get("sha256")),
                           key=lambda e: (e["fetched_at"], rank.get(e["capability"], 99)))
         for e in versions:
-            rows = legacy.read(e["capability"], self.store.get(e["sha256"]))
+            try:
+                rows = legacy.read(e["capability"], self.store.get(e["sha256"]))
+            except Exception as ex:  # noqa: BLE001
+                self.report.failures.append(f"legacy {e['target']} {e['fetched_at']}: {ex}")
+                continue
             self.report.legacy_versions += 1
             self.report.legacy_rows += len(rows)
             self._apply_legacy(e["capability"], rows)
@@ -269,12 +273,15 @@ class Build:
     # -- 2. derivatives
 
     def derivatives(self) -> None:
-        stubs: dict[str, tuple[str, dict]] = {}
+        # For a derivative only a deals page describes: the line from the newest price list any page
+        # printed, then the latest sighting, then the line itself, so reading order never decides.
+        stubs: dict[str, tuple[tuple, dict]] = {}
         for s in self.sightings:
             ref = s.row.get("car_ref") or {}
             if ref.get("source") == "carwow-cap" and ref.get("stub") and ref.get("key"):
-                if ref["key"] not in stubs or s.at >= stubs[ref["key"]][0]:
-                    stubs[ref["key"]] = (s.at, ref["stub"])
+                rank = (ref["stub"].get("version_date") or "", s.at, json.dumps(ref["stub"], sort_keys=True))
+                if ref["key"] not in stubs or rank > stubs[ref["key"]][0]:
+                    stubs[ref["key"]] = (rank, ref["stub"])
         for cap, (_, stub) in stubs.items():
             self.gen[cap], self.gen_from[cap] = autocars.from_stub(stub), "deals"
         for r in self.conn.execute("SELECT cap_id, make_slug, model_slug, trim, engine, rrp, version_date, payload FROM derivatives"):
@@ -332,20 +339,28 @@ class Build:
         """The 'name' rule's pins: CAP names that some record's own RRP tied to one twin."""
         self.pins = {}
         for ref in refs:
+            d = self.decisions.get((ref.get("source"), ref.get("key", "")))
+            if d and d.get("car_id"):
+                continue   # the owner placed this record; its RRP speaks for their choice, not for a twin
             if ref.get("make") and ref.get("source") != "carwow-cap":
                 res = resolve.choose(ref, self._candidates(ref), None)
                 if res.method == "rrp" and res.car_id:
                     self.pins.setdefault(resolve.name_key(ref.get("derivative") or ref.get("label")), set()).add(res.car_id)
 
     def _note(self, ref: dict, provider: str, m: dict, at: str, url: str | None) -> None:
+        """How one source's name resolved, for the Data page: from its latest sighting (ties by content)."""
         k = (ref.get("source", provider), ref.get("key", ""))
+        row = {**m, "label": ref.get("label") or ref.get("derivative"), "example_url": url}
+        rank = (at, json.dumps(row, sort_keys=True, default=str))
         cur = self.resolutions.get(k)
         if cur is None:
-            self.resolutions[k] = {**m, "label": ref.get("label") or ref.get("derivative"), "example_url": url,
-                                   "first_seen_at": at, "last_seen_at": at}
-        else:
-            cur["first_seen_at"] = min(cur["first_seen_at"], at)
-            cur["last_seen_at"] = max(cur["last_seen_at"], at)
+            self.resolutions[k] = {**row, "first_seen_at": at, "last_seen_at": at, "_rank": rank}
+            return
+        first, last = min(cur["first_seen_at"], at), max(cur["last_seen_at"], at)
+        if rank > cur["_rank"]:
+            cur.clear()
+            cur.update(row, _rank=rank)
+        cur["first_seen_at"], cur["last_seen_at"] = first, last
 
     def resolve(self) -> dict[str, str]:
         """The car of every offer, spec row and used listing. Returns offer key -> car."""
@@ -392,10 +407,13 @@ class Build:
                         self.resolutions[(ref["source"], ref["key"])]["last_seen_at"], r["last_seen_at"])
 
         for listing_key, ref in used:
-            if ref.get("make"):
+            d = self.decisions.get((ref.get("source"), ref.get("key", "")))
+            car = d["car_id"] if d and d.get("car_id") else None
+            if car is None and ref.get("make"):
                 res = resolve.choose(ref, self._candidates(ref), self.pins)
-                if res.car_id:
-                    self.conn.execute("UPDATE used_listings SET car_id=? WHERE listing_key=?", (self._named(res.car_id), listing_key))
+                car = self._named(res.car_id)
+            if car:
+                self.conn.execute("UPDATE used_listings SET car_id=? WHERE listing_key=?", (car, listing_key))
         return car_of
 
     # -- 4. prices as spans
@@ -461,6 +479,7 @@ class Build:
                     (site, key, d.get("car_id"), d.get("status") or ("mapped" if d.get("car_id") else "ignored"), d.get("label"),
                      d.get("example_url"), d.get("note"), "", "", "manual" if d.get("car_id") else None))
         for (site, key), m in sorted(self.resolutions.items()):
+            m = {k: v for k, v in m.items() if k != "_rank"}
             d = self.decisions.get((site, key)) or {}
             ev = m.get("evidence")
             self.conn.execute(

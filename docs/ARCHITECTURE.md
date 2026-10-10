@@ -93,7 +93,8 @@ matches every record at once (`Build.match`), in this order:
    rather than unmapped.
 2. **A CAP id.** A record naming a CAP id is that derivative.
 3. **The broker's text** (LeaseLoco, NCD, used listings): the rules in `services/resolve.py`
-   against every derivative of that make and model (below).
+   against every derivative of that make and model (below). A used listing is matched the same
+   way (the owner's decision, then the rules) but never listed as unmapped: stock is not an offer.
 4. Otherwise the record is listed on the Data page as `unmapped` (or `conflict`), with its
    evidence, and `python -m pipeline trims` prints it. A spec row is never a mapping task:
    EV Database rows belong to no car (the claim store lays them over cars by model and battery).
@@ -126,7 +127,8 @@ form the matcher and the app read (`services/autocars.py`), id `carwow-cap:<cap 
   image, the derivative's version date as the model year;
 - else from the **registry** (`carwow_model`'s line for it) or, for a derivative only a deals page
   prints (run-out stock, an archived price list), from the **latest deals-page line** that names
-  it (`from_stub`): trim, engine, RRP, version date.
+  it (`from_stub`): trim, engine, RRP, version date. Of several lines, the one from the newest
+  price list wins, then the latest sighting, so the order pages were read in never decides.
 
 A derivative the owner entered in `data/seed/cars.json` (the trim map's `carwow-cap` decision
 names it) appears once, as the owner's entry, carrying its CAP id; it inherits everything said
