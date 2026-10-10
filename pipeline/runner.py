@@ -1,15 +1,22 @@
-"""Run one provider capability: discover → fetch → Bronze → parse → Silver → Gold."""
+"""Scrape one provider capability into the raw store: discover -> fetch -> keep.
+
+Every response is kept exactly as it came (pipeline/raw.py), a failed one too when the
+site answered. The page is parsed straight away only to count its records and to let
+the providers that run later tonight discover from what this one found (the catalogue
+before the model pages, the registry before the configurator): those records go into
+the disposable build database, which the build afterwards replaces from scratch.
+"""
 from __future__ import annotations
 
-import hashlib
-import json
 import sqlite3
 import traceback
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
 from pipeline import gold
-from pipeline.providers.types import Capability, Context, Fetched, Provider, Target
+from pipeline.providers.http import FetchError
+from pipeline.providers.types import Capability, Context, Provider, Target
+from pipeline.raw import RawStore, sha256
 
 
 def _now() -> str:
@@ -18,184 +25,93 @@ def _now() -> str:
 
 @dataclass
 class RunResult:
-    run_id: int
     source: str
     capability: str
-    artifacts: int
-    new_artifacts: int
+    fetches: int
+    new_bodies: int
     records: int
-    gold_rows: int
-    unmapped: int
     errors: int = 0
     skipped: int = 0   # optional targets the source does not have (404)
 
 
-def store_artifact(conn: sqlite3.Connection, source: str, cap: Capability, target: Target,
-                   fetched: Fetched, now: str) -> tuple[int, bool]:
-    """Content-addressed put. Returns (artifact_id, is_new). A new body for the
-    same (source, capability, target) supersedes the previous latest one."""
-    sha = hashlib.sha256(fetched.body).hexdigest()
-    row = conn.execute(
-        "SELECT id FROM artifacts WHERE source=? AND capability=? AND target=? AND sha256=?",
-        (source, cap.name, target.identifier, sha),
-    ).fetchone()
-    if row:
-        return int(row["id"]), False
-    prev = conn.execute(
-        """SELECT id FROM artifacts WHERE source=? AND capability=? AND target=?
-             AND superseded_by IS NULL ORDER BY fetched_at DESC, id DESC LIMIT 1""",
-        (source, cap.name, target.identifier),
-    ).fetchone()
-    cur = conn.execute(
-        """INSERT INTO artifacts (source, capability, target, url, sha256, content_type, status_code, body,
-             fetched_at, parser_version) VALUES (?,?,?,?,?,?,?,?,?,?)""",
-        (source, cap.name, target.identifier, fetched.url, sha, fetched.content_type, fetched.status_code,
-         fetched.body, now, cap.parser_version),
-    )
-    new_id = int(cur.lastrowid)
-    if prev:
-        conn.execute("UPDATE artifacts SET superseded_by=? WHERE id=?", (new_id, prev["id"]))
-    return new_id, True
+def _keep(store: RawStore, provider: Provider, cap: Capability, t: Target, url: str | None, status: int | None,
+          body: bytes | None, content_type: str | None, error: str | None, fetched_at: str) -> bool:
+    """Keep one response; True when its body was new to the store."""
+    new = body is not None and not store.has(sha256(body))
+    meta = {k: v for k, v in t.metadata.items() if k != "observed_at"} or None
+    if t.metadata.get("observed_at"):   # a Wayback capture: the parser dates it by the archive
+        meta = dict(meta or {}, observed_at=t.metadata["observed_at"])
+    store.save(source=provider.name, capability=cap.name, target=t.identifier, metadata=meta, url=url,
+               fetched_at=fetched_at, status=status, body=body, content_type=content_type, error=error,
+               origin="wayback" if cap.name == "backfill" else "live")
+    return new
 
 
-def _ingest(conn: sqlite3.Connection, provider: Provider, art_id: int, parsed: list, url: str, now: str,
-            records: dict[str, list]) -> tuple[int, int]:
-    """Silver rows for one artifact's records, each offer / spec resolved to a car.
-    Returns (records, unmapped)."""
-    n_rec = n_unmapped = 0
-    # Re-parsing an existing artifact replaces its Silver rows (idempotent).
-    conn.execute("DELETE FROM source_rows WHERE artifact_id=?", (art_id,))
-    for rec in parsed:
-        conn.execute(
-            "INSERT INTO source_rows (artifact_id, source, kind, source_key, row, parsed_at) VALUES (?,?,?,?,?,?)",
-            (art_id, provider.name, rec.kind, rec.key, json.dumps(rec.row, ensure_ascii=False, sort_keys=True), now),
-        )
-        n_rec += 1
-        if rec.kind == "offer" and not rec.row.get("car_id"):
-            ref = dict(rec.row.get("car_ref") or {}, provider=provider.name)
-            car_id, status = gold.resolve_car(conn, ref.get("source", provider.name), ref.get("key", ""),
-                                              ref.get("label"), url, now, ref=ref)
-            if car_id is None:
-                n_unmapped += int(status in ("unmapped", "conflict"))
-                continue
-            rec.row["car_id"] = car_id
-        elif rec.kind == "spec" and not rec.row.get("car_id"):
-            # Specs for every variant are kept; a miss is not a mapping task.
-            ref = rec.row.get("car_ref") or {}
-            car_id, _ = gold.resolve_car(conn, ref.get("source", provider.name), ref.get("key", ""),
-                                         ref.get("label"), url, now, record_miss=False)
-            rec.row["car_id"] = car_id
-        records.setdefault(rec.kind, []).append((art_id, rec))
-    return n_rec, n_unmapped
-
-
-def reparse(conn: sqlite3.Connection, provider: Provider, capability: str | None = None,
-            ctx: Context | None = None) -> RunResult:
-    """Run the parser again over the latest stored page of each of the
-    capability's targets, no network: for a parser fix, or a better trim
-    resolution, without waiting for the next scrape. Same Silver → Gold path."""
-    cap = provider.capability_for(capability)
-    if ctx is None:
-        from pipeline.db import ROOT
-        ctx = Context(root=ROOT)
-    ctx.extras.setdefault("db", conn)
-    ctx.extras["reparse"] = True   # a provider that fetches in batches lists every target it has stored
-    cur = conn.execute(
-        "INSERT INTO runs (source, capability, target, started_at, status) VALUES (?,?,?,?,'running')",
-        (provider.name, cap.name, "reparse", _now()),
-    )
-    run_id = int(cur.lastrowid)
-    n_art = n_rec = n_unmapped = 0
-    records: dict[str, list] = {}
-    failures: list[str] = []
-    try:
-        for t in cap.discover(Target(identifier="all"), ctx):
-            art = conn.execute(
-                """SELECT id, url, body FROM artifacts WHERE source=? AND capability=? AND target=? AND superseded_by IS NULL
-                     ORDER BY fetched_at DESC, id DESC LIMIT 1""", (provider.name, cap.name, t.identifier),
-            ).fetchone()
-            if not art:
-                continue
-            try:
-                parsed = list(cap.parse(art["body"], t))
-            except Exception as e:  # noqa: BLE001
-                failures.append(f"{t.identifier}: {e}")
-                continue
-            n_art += 1
-            r, u = _ingest(conn, provider, int(art["id"]), parsed, art["url"], _now(), records)
-            n_rec += r
-            n_unmapped += u
-        n_gold = gold.write(conn, provider.name, cap.kinds, records, run_id)
-        conn.execute(
-            "UPDATE runs SET finished_at=?, status='ok', artifacts=?, records=?, unmapped=?, errors=?, error=? WHERE id=?",
-            (_now(), n_art, n_rec, n_unmapped, len(failures), "\n".join(failures) or None, run_id),
-        )
-        conn.commit()
-    except Exception:
-        conn.rollback()
-        conn.execute("UPDATE runs SET finished_at=?, status='error', error=? WHERE id=?", (_now(), traceback.format_exc(), run_id))
-        conn.commit()
-        raise
-    return RunResult(run_id, provider.name, cap.name, n_art, 0, n_rec, n_gold, n_unmapped, len(failures))
-
-
-def run(conn: sqlite3.Connection, provider: Provider, capability: str | None = None,
+def run(store: RawStore, conn: sqlite3.Connection | None, provider: Provider, capability: str | None = None,
         target: str = "all", ctx: Context | None = None) -> RunResult:
     cap = provider.capability_for(capability)
     if ctx is None:
         from pipeline.db import ROOT
         ctx = Context(root=ROOT)
-    # discover may read the catalogue (gold) to know what to fetch.
-    ctx.extras.setdefault("db", conn)
+    if conn is not None:
+        ctx.extras.setdefault("db", conn)   # discover may read the catalogue to know what to fetch
     started = _now()
-    cur = conn.execute(
-        "INSERT INTO runs (source, capability, target, started_at, status) VALUES (?,?,?,?,'running')",
-        (provider.name, cap.name, target, started),
-    )
-    run_id = int(cur.lastrowid)
-    conn.commit()
-
-    n_art = n_new = n_rec = n_unmapped = n_skipped = 0
-    records: dict[str, list] = {}
+    n_fetch = n_new = n_rec = n_skipped = 0
     failures: list[str] = []
+    status = "ok"
     try:
         for i, t in enumerate(cap.discover(Target(identifier=target), ctx)):
             if ctx.max_targets is not None and i >= ctx.max_targets:
                 break
-            # One bad target (site down, layout changed) must not sink the run.
+            fetched_at = _now()
             try:
                 fetched = cap.fetch(t, ctx)
-                if fetched.status_code != 200:
-                    raise RuntimeError(f"HTTP {fetched.status_code}")
-                parsed = list(cap.parse(fetched.body, t))
-            except Exception as e:  # noqa: BLE001
-                # A target the provider guessed at (a broker page for a model it
-                # may not list) is allowed not to exist.
-                if t.metadata.get("optional") and "404" in str(e):
+            except FetchError as e:
+                if e.status is not None or e.body is not None:
+                    _keep(store, provider, cap, t, e.url or t.metadata.get("url"), e.status, e.body, None, str(e), fetched_at)
+                else:
+                    _keep(store, provider, cap, t, e.url or t.metadata.get("url"), None, None, None, str(e), fetched_at)
+                n_fetch += 1
+                # A target the provider guessed at (a broker page for a model it may not list) is allowed not to exist.
+                if t.metadata.get("optional") and e.status == 404:
                     n_skipped += 1
                     continue
                 failures.append(f"{t.identifier}: {e}")
                 continue
-            now = _now()
-            art_id, is_new = store_artifact(conn, provider.name, cap, t, fetched, now)
-            n_art += 1
-            n_new += int(is_new)
-            r, u = _ingest(conn, provider, art_id, parsed, fetched.url, now, records)
-            n_rec += r
-            n_unmapped += u
-        n_gold = gold.write(conn, provider.name, cap.kinds, records, run_id)
-        status = "ok" if (n_art or not failures) else "error"
-        conn.execute(
-            "UPDATE runs SET finished_at=?, status=?, artifacts=?, records=?, unmapped=?, errors=?, error=? WHERE id=?",
-            (_now(), status, n_art, n_rec, n_unmapped, len(failures), "\n".join(failures) or None, run_id),
-        )
-        conn.commit()
+            except Exception as e:  # noqa: BLE001
+                _keep(store, provider, cap, t, t.metadata.get("url"), None, None, None, repr(e), fetched_at)
+                n_fetch += 1
+                failures.append(f"{t.identifier}: {e}")
+                continue
+            n_fetch += 1
+            n_new += int(_keep(store, provider, cap, t, fetched.url, fetched.status_code, fetched.body, fetched.content_type,
+                               None if fetched.status_code == 200 else f"HTTP {fetched.status_code}", fetched_at))
+            if fetched.status_code != 200:
+                failures.append(f"{t.identifier}: HTTP {fetched.status_code}")
+                continue
+            # One bad page (a layout change) must not sink the run; the body is kept either way.
+            try:
+                meta = dict(t.metadata)
+                meta.setdefault("observed_at", fetched_at)
+                records = list(cap.parse(fetched.body, Target(identifier=t.identifier, metadata=meta)))
+            except Exception as e:  # noqa: BLE001
+                failures.append(f"{t.identifier}: parse: {e}")
+                continue
+            n_rec += len(records)
+            if conn is not None:
+                by_kind: dict[str, list] = {}
+                for r in records:
+                    if r.kind not in ("offer", "car", "trim_map"):
+                        by_kind.setdefault(r.kind, []).append((None, r))
+                gold.write(conn, provider.name, by_kind, None, now=meta["observed_at"])
+                conn.commit()
+        status = "ok" if (n_fetch - len(failures) > 0 or not failures) else "error"
+        return RunResult(provider.name, cap.name, n_fetch, n_new, n_rec, len(failures), n_skipped)
     except Exception:
-        conn.rollback()
-        conn.execute(
-            "UPDATE runs SET finished_at=?, status='error', artifacts=?, records=?, unmapped=?, error=? WHERE id=?",
-            (_now(), n_art, n_rec, n_unmapped, traceback.format_exc(), run_id),
-        )
-        conn.commit()
+        status = "error"
+        failures.append(traceback.format_exc())
         raise
-    return RunResult(run_id, provider.name, cap.name, n_art, n_new, n_rec, n_gold, n_unmapped, len(failures), n_skipped)
+    finally:
+        store.log_run({"source": provider.name, "capability": cap.name, "target": target, "started_at": started,
+                       "finished_at": _now(), "status": status, "fetches": n_fetch, "new_bodies": n_new, "records": n_rec,
+                       "errors": len(failures), "skipped": n_skipped, "error": "\n".join(failures)[:20000] or None})

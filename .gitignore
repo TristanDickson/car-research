@@ -5,3 +5,5 @@ __pycache__/
 # The SQLite DB is a dev-machine artifact; the committed data is web/public/data.
 data/*.sqlite
 data/*.sqlite-*
+# A build in progress, and the parse cache (both disposable).
+data/*.building

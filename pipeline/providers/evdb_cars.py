@@ -250,13 +250,6 @@ def discover(target: Target, ctx: Context) -> Iterator[Target]:
     conn: sqlite3.Connection | None = ctx.extras.get("db")
     if conn is None:
         return
-    if ctx.extras.get("reparse"):   # a parser change: every page read so far, from the stored bodies
-        for (vid,) in conn.execute("SELECT DISTINCT target FROM artifacts WHERE source='evdb_cars'"):
-            if target.identifier in ("all", vid):
-                p = conn.execute("SELECT payload FROM specs WHERE spec_key=?", (f"evdb:{vid}",)).fetchone()
-                meta = json.loads(p["payload"]) if p else {}
-                yield Target(identifier=vid, metadata={"evdb_id": vid, "url": meta.get("source_url"), "make": meta.get("make"), "model": meta.get("model")})
-        return
     from pipeline.services.facts import model_of, norm
     try:
         catalogue = [dict(r) for r in conn.execute("SELECT slug, make, model, make_name, model_name FROM models WHERE electric=1")]

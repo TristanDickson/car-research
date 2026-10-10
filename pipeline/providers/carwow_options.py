@@ -70,7 +70,7 @@ def _targets(conn: sqlite3.Connection) -> Iterator[tuple[str, str]]:
 def discover(target: Target, ctx: Context) -> Iterator[Target]:
     """A derivative's options seldom change, and there are a thousand of them: a run reads the ones never
     read, then those last read more than FRESH_DAYS ago, stalest first, PER_RUN at most, so the nightly
-    reads spread over the week. A named target, or a reparse, is read regardless."""
+    reads spread over the week. A named target is read regardless."""
     conn: sqlite3.Connection | None = ctx.extras.get("db")
     if conn is None:
         return
@@ -79,7 +79,7 @@ def discover(target: Target, ctx: Context) -> Iterator[Target]:
         last = {r["cap_id"]: r["last_seen_at"] for r in conn.execute("SELECT cap_id, last_seen_at FROM options")}
     except sqlite3.OperationalError:
         return
-    if target.identifier != "all" or ctx.extras.get("reparse"):
+    if target.identifier != "all":
         for cap, url in every:
             if target.identifier in ("all", cap):
                 yield Target(identifier=cap, metadata={"cap_id": cap, "url": url})
