@@ -1,15 +1,13 @@
-.PHONY: snapshot snapshot-offline test test-pipeline test-web web-dev web-build
+.PHONY: nightly build test test-pipeline test-web web-dev web-build
 
-# Run every provider (live scrapers included) into the local SQLite DB, append the
-# sighting log and write the snapshot the SPA reads.
-snapshot:
-	python3 -m pipeline refresh --out web/public/data
-	python3 -m pipeline deal-table > docs/deal-comparison.md
+# The night's work, on the laptop that holds the raw store ($CAR_RESEARCH_RAW): new committed
+# history into the store, scrape every live source into it, build from scratch, snapshot, deal table.
+nightly:
+	python3 -m pipeline nightly
 
-# Same without the network: seed + pastes + the committed history. What CI runs.
-snapshot-offline:
-	python3 -m pipeline refresh --offline --out web/public/data
-	python3 -m pipeline deal-table > docs/deal-comparison.md
+# Build from scratch from what the raw store already holds (no network), then the snapshot and deal table.
+build:
+	python3 -m pipeline build --deal-table docs/deal-comparison.md
 
 test: test-pipeline test-web
 

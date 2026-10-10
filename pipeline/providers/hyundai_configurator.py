@@ -65,12 +65,13 @@ def fetch(target: Target, ctx: Context) -> Fetched:
     page = fetch_url(target.metadata["url"], ctx)
     m = MODEL_ID_RE.search(page.body.decode("utf-8", "replace"))
     if not m:
-        return Fetched(url=target.metadata["url"], status_code=404, body=b"", content_type="text/html")
+        return Fetched(url=target.metadata["url"], status_code=404, body=b"", content_type="text/html", parts=(page,))
     body = json.dumps({"query": QUERY, "variables": {"country": "uk", "language": "en", "modelId": m.group(1), "service": "S03"}}).encode()
     res = fetch_url(PAPI, ctx, data=body, accept="application/json",
                     headers={"Content-Type": "application/json", "Referer": "https://www.hyundai.com/", "Origin": "https://www.hyundai.com"})
     out = {"page": target.metadata["url"], "modelId": m.group(1), "response": json.loads(res.body.decode("utf-8", "replace"))}
-    return Fetched(url=target.metadata["url"], status_code=res.status_code, body=json.dumps(out, ensure_ascii=False).encode(), content_type="application/json")
+    return Fetched(url=target.metadata["url"], status_code=res.status_code, body=json.dumps(out, ensure_ascii=False).encode(),
+                   content_type="application/json", parts=(page, res))
 
 
 # ---------------------------------------------------------------- rows

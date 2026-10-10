@@ -12,7 +12,7 @@ registry, not clustering: every broker row names one CAP derivative.
   one match   a single candidate after the gates: 'trim-powertrain'
   twins       several derivatives of one trim and powertrain, told apart by:
     rrp         the broker's own RRP (NCD prints price + saving) equals one twin's
-    name        the same CAP name was pinned to a twin by another source already
+    name        the same CAP name was pinned to a twin by another source's RRP
     bracket     a pack in the name ('[Heat Pump]', '[Tech Pack]', '[7 seat]')
                 belongs to the dearer twin when there are exactly two prices;
                 '[No Heat Pump]' or no bracket to the cheapest
@@ -21,16 +21,16 @@ registry, not clustering: every broker row names one CAP derivative.
               on: recorded, never guessed
 
 A bracket that picked a twin also tells us something about that twin, which a
-Carwow page never prints: the name is written onto the generated car as a pack,
-'[Heat Pump]' sets its heat pump to standard, '[No Heat Pump]' to none, and
-'[7 seat]' its seats. Every resolution records its method and evidence on the
-trim map so the Data page can show why a lease sits on a car.
+Carwow page never prints; the claim store reads it from the resolved names
+(services/claims.py, from_broker_labels). Every resolution records its method and
+evidence so the Data page can show why a lease sits on a car. The rules run over
+every record at once (pipeline/build.py): the 'name' rule reads the pins a first
+pass made by RRP, so no answer depends on the order records were read in.
 """
 from __future__ import annotations
 
 import json
 import re
-import sqlite3
 from dataclasses import dataclass, field
 
 from pipeline.services import match
@@ -72,26 +72,19 @@ def _current_first(c: dict) -> tuple:
     return (c.get("version_date") or "", c["id"])
 
 
-def _pinned_elsewhere(conn: sqlite3.Connection | None, key: str, twin_ids: set[str]) -> str | None:
-    if conn is None or not key:
+def _pinned_elsewhere(pins: dict[str, set[str]] | None, key: str, twin_ids: set[str]) -> str | None:
+    """The twin another source's copy of the same CAP name was pinned to by its RRP."""
+    if not pins or not key:
         return None
-    try:
-        rows = conn.execute(
-            "SELECT car_id FROM trim_map WHERE name_key=? AND status='auto' AND method IN ('rrp', 'name') AND car_id IS NOT NULL",
-            (key,),
-        ).fetchall()
-    except sqlite3.OperationalError:
-        return None
-    for r in rows:
-        if r[0] in twin_ids:
-            return r[0]
-    return None
+    hit = sorted((pins.get(key) or set()) & twin_ids)
+    return hit[0] if len(hit) == 1 else None
 
 
-def choose(ref: dict, candidates: list[dict], conn: sqlite3.Connection | None = None) -> Resolution:
-    """The one generated car `ref` names, with how we know. `ref` is the record's
+def choose(ref: dict, candidates: list[dict], pins: dict[str, set[str]] | None = None) -> Resolution:
+    """The one derivative `ref` names, with how we know. `ref` is the record's
     car_ref: derivative (the broker's text), optional rrp; `candidates` the
-    generated cars of that make + model."""
+    derivatives of that make + model; `pins` the CAP names other records were
+    pinned to by their RRP (name key -> derivative ids), from a first pass."""
     text = ref.get("derivative") or ref.get("label") or ""
     scored = [(s, c) for s, c in ((match.score(text, c), c) for c in candidates) if s is not None]
     if not scored:
@@ -115,7 +108,7 @@ def choose(ref: dict, candidates: list[dict], conn: sqlite3.Connection | None = 
             pick = max(exact, key=_current_first)
             return Resolution(pick["id"], "rrp", {**ev, "rrp": rrp}, br)
         ev["rrp_unmatched"] = rrp
-    pinned = _pinned_elsewhere(conn, name_key(text), {c["id"] for c in top})
+    pinned = _pinned_elsewhere(pins, name_key(text), {c["id"] for c in top})
     if pinned:
         return Resolution(pinned, "name", {**ev, "name_key": name_key(text)}, br)
     packs = pack_brackets(text)

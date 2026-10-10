@@ -26,7 +26,7 @@ from urllib.parse import quote
 
 from pipeline.providers.carwow_catalog import electric_models, pretty_make
 from pipeline.providers.carwow_deals import MODELS
-from pipeline.providers.http import fetch_url
+from pipeline.providers.http import FetchError, fetch_url
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 from pipeline.providers.used_match import match_model
 from pipeline.providers.wayback import observed_at_for
@@ -67,9 +67,15 @@ def fetch(target: Target, ctx: Context) -> Fetched:
     """Every page of the make's electric stock, joined into one JSON body."""
     make = target.metadata["make"]
     pages: list[dict] = []
+    parts: list[Fetched] = []
     got = 0
     for p in range(1, MAX_PAGES + 1):
-        f = fetch_url(api_url(make, p), ctx, accept="application/json")
+        try:
+            f = fetch_url(api_url(make, p), ctx, accept="application/json")
+        except FetchError as e:
+            e.parts = tuple(parts)   # the pages already received are kept too
+            raise
+        parts.append(f)
         page = json.loads(f.body.decode("utf-8", "replace"))
         listings = page.get("vehicleListings") or []
         if not listings:
@@ -79,7 +85,7 @@ def fetch(target: Target, ctx: Context) -> Fetched:
         if got >= int(page.get("searchResultsCount") or 0):
             break
     body = json.dumps({"make": make, "pages": pages}, ensure_ascii=False).encode("utf-8")
-    return Fetched(url=target.metadata["url"], status_code=200, body=body, content_type="application/json")
+    return Fetched(url=target.metadata["url"], status_code=200, body=body, content_type="application/json", parts=tuple(parts))
 
 
 def _model_slug(name: str) -> str:

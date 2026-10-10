@@ -1,12 +1,11 @@
 """Wayback backfill plumbing, without the network: thinning, timestamps, and a
-backfilled capture flowing through the runner into the span history."""
+backfilled capture kept in the raw store and folded into the span history."""
 import unittest
 from pathlib import Path
 
 from pipeline.providers import carwow_deals, wayback
 from pipeline.providers.types import Capability, Context, Fetched, Provider, Target
-from pipeline.runner import run
-from tests.helpers import fresh_conn, run_all
+from tests.helpers import Raws
 
 FIX = Path(__file__).parent / "fixtures"
 
@@ -32,48 +31,36 @@ class Helpers(unittest.TestCase):
         self.assertEqual((wayback.original_url(t2), wayback.observed_at_for(t2)), ("https://x.test/p", "2025-09-01T00:00:00+00:00"))
 
 
-class ThroughTheRunner(unittest.TestCase):
-    def test_backfilled_capture_lands_as_an_earlier_sighting(self):
-        conn = fresh_conn()
-        run_all(conn)
-        base = carwow_deals.provider.capability_for("deals")
-        body = (FIX / "carwow_hyundai_ioniq-3_deals.html").read_bytes()
-
-        # A live sighting today, then a 'capture' of the same page dated 1 Sep.
-        def live_discover(target, ctx):
-            yield Target("hyundai/ioniq-3", {"make": "hyundai", "model": "ioniq-3", "url": carwow_deals.url_for("hyundai", "ioniq-3")})
-
-        def live_fetch(target, ctx):
-            return Fetched(url=target.metadata["url"], status_code=200, body=body)
-
-        live = Capability("deals", "1", live_discover, live_fetch, base.parse, base.kinds)
-        wb = wayback.backfill_capability(live)
-
-        def fake_discover(target, ctx):
-            for t in live_discover(target, ctx):
-                yield Target(f"{t.identifier}@20250901000000", {**t.metadata, "url": wayback.archive_url("20250901000000", t.metadata["url"]),
-                                                                   "original_url": t.metadata["url"], "observed_at": "2025-09-01T00:00:00+00:00"})
-
-        def fake_fetch(target, ctx):
-            return Fetched(url=target.metadata["url"], status_code=200, body=body)
-
-        wb_offline = Capability("backfill", wb.parser_version, fake_discover, fake_fetch, wb.parse, wb.kinds)
-        p = Provider("carwow_deals", "deals", {"deals": live, "backfill": wb_offline}, live=False)
-        run(conn, p, "deals", ctx=Context(root=FIX))
-        res = run(conn, p, "backfill", ctx=Context(root=FIX))
-        self.assertEqual((res.errors, res.unmapped), (0, 0))
-        rows = conn.execute("SELECT observed_at, confirmed_at, vehicle_price FROM offer_observations WHERE offer_key='carwow:cash:111015' ORDER BY observed_at").fetchall()
-        self.assertEqual(len(rows), 1, "same price → one span, starting at the archived date")
-        self.assertEqual(rows[0]["observed_at"], "2025-09-01T00:00:00+00:00")
-        self.assertTrue(rows[0]["confirmed_at"] > "2026")
-        self.assertEqual(rows[0]["vehicle_price"], 25620.0)
-        art = conn.execute("SELECT url, target FROM artifacts WHERE capability='backfill'").fetchone()
-        self.assertTrue(art["url"].startswith("https://web.archive.org/web/20250901000000id_/"))
-        self.assertEqual(art["target"], "hyundai/ioniq-3@20250901000000")
-        # The row's own source_url is the original page, not the archive copy.
+class ThroughTheScraper(unittest.TestCase):
+    def test_a_capture_is_kept_dated_by_the_archive_and_folds_in_as_an_earlier_sighting(self):
         import json
+        from pipeline import runner
+        body = (FIX / "carwow_hyundai_ioniq-3_deals.html").read_bytes()
+        page = carwow_deals.url_for("hyundai", "ioniq-3")
+        base = carwow_deals.provider.capability_for("deals")
+
+        def discover(target, ctx):
+            yield Target("hyundai/ioniq-3@20250901000000", {"make": "hyundai", "model": "ioniq-3", "make_name": "Hyundai",
+                                                            "url": wayback.archive_url("20250901000000", page), "original_url": page,
+                                                            "observed_at": "2025-09-01T00:00:00+00:00"})
+
+        def fetch(target, ctx):
+            return Fetched(url=target.metadata["url"], status_code=200, body=body)
+
+        p = Provider("carwow_deals", "deals", {"deals": base, "backfill": Capability("backfill", base.parser_version, discover, fetch, base.parse, base.kinds)})
+        with Raws() as raws:
+            res = runner.run(raws.store, None, p, "backfill", ctx=Context(root=FIX))
+            self.assertEqual((res.errors, res.fetches), (0, 1))
+            raws.add("carwow_deals", "hyundai/ioniq-3", "carwow_hyundai_ioniq-3_deals.html", at="2026-10-06T00:00:00+00:00")
+            e = next(e for e in raws.store.entries() if e["capability"] == "backfill")
+            self.assertEqual((e["origin"], e["target"], e["metadata"]["observed_at"]), ("wayback", "hyundai/ioniq-3@20250901000000", "2025-09-01T00:00:00+00:00"))
+            self.assertTrue(e["url"].startswith("https://web.archive.org/web/20250901000000id_/"))
+            conn = raws.build()
+        rows = conn.execute("SELECT observed_at, confirmed_at, vehicle_price FROM offer_observations WHERE offer_key='carwow:cash:111015' ORDER BY observed_at").fetchall()
+        self.assertEqual([tuple(r) for r in rows], [("2025-09-01T00:00:00+00:00", "2026-10-06T00:00:00+00:00", 25620.0)],
+                         "same price: one span, starting at the archived date")
         payload = json.loads(conn.execute("SELECT payload FROM offer_observations WHERE offer_key='carwow:cash:111015'").fetchone()["payload"])
-        self.assertEqual(payload["source_url"], carwow_deals.url_for("hyundai", "ioniq-3"))
+        self.assertEqual(payload["source_url"], page, "the row's own source_url is the original page, not the archive copy")
 
 
 class LedgerAndBudget(unittest.TestCase):
@@ -124,7 +111,8 @@ class LedgerAndBudget(unittest.TestCase):
         cap = backfill_capability(carwow_deals.deals)
         urls = [t.metadata["url"] for t in carwow_deals.discover(Target("all"), Context(root=FIX))]
         self._fake_cdx({u: 1 for u in urls})
-        ctx = Context(root=FIX, extras={"db": conn, "since": "2025-01-01", "every_days": 1, "budget_seconds": 0})
+        # A budget already spent (a negative one, so a coarse clock reading zero elapsed time still counts it spent).
+        ctx = Context(root=FIX, extras={"db": conn, "since": "2025-01-01", "every_days": 1, "budget_seconds": -1})
         gen = cap.discover(Target("all"), ctx)
         first = next(gen)                       # the first page's capture is handed out
         self.assertEqual(first.metadata["original_url"], urls[0])

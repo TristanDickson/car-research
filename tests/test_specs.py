@@ -1,14 +1,13 @@
 """Spec providers against saved pages, the feature-flag mapping, and specs flowing
-through the runner into gold with the trim map."""
+through the build into gold, matched by CAP id or by the owner's decisions."""
 import json
 import unittest
 from pathlib import Path
 
 from pipeline.providers import carwow_specs, kia_specs
 from pipeline.providers.types import Capability, Context, Fetched, Provider, Target
-from pipeline.runner import run
 from pipeline.services.features import flags_for
-from tests.helpers import fresh_conn, run_all
+from tests.helpers import Raws
 
 FIX = Path(__file__).parent / "fixtures"
 T = "2026-10-06T00:00:00+00:00"
@@ -115,66 +114,63 @@ def _fixture_provider(module, name, files: dict[str, str]) -> Provider:
     return Provider(name, c.name, {c.name: c}, live=False)
 
 
-class ThroughTheRunner(unittest.TestCase):
+class ThroughTheBuild(unittest.TestCase):
     def setUp(self):
-        self.conn = fresh_conn()
-        run_all(self.conn)
+        self.raws = Raws()
 
-    def test_specs_land_in_gold_mapped_or_not(self):
-        p = _fixture_provider(carwow_specs, "carwow_specs", {"hyundai/kona-electric": "carwow_hyundai_kona-electric_specifications.html",
-                                                              "hyundai/ioniq-3": "carwow_hyundai_ioniq-3_specifications.html"})
-        res = run(self.conn, p, ctx=Context(root=FIX))
-        self.assertEqual((res.errors, res.unmapped), (0, 0), "untracked variants are not mapping tasks")
-        rows = self.conn.execute("SELECT spec_key, car_id, image_url FROM specs ORDER BY spec_key").fetchall()
+    def tearDown(self):
+        self.raws.close()
+
+    def test_specs_land_in_gold_on_the_owners_cars_or_their_derivatives(self):
+        self.raws.add("carwow_specs", "hyundai/kona-electric", "carwow_hyundai_kona-electric_specifications.html", at=T)
+        self.raws.add("carwow_specs", "hyundai/ioniq-3", "carwow_hyundai_ioniq-3_specifications.html", at=T)
+        conn = self.raws.build()
+        rows = conn.execute("SELECT spec_key, car_id, image_url FROM specs ORDER BY spec_key").fetchall()
         self.assertEqual(len(rows), 9)
         by = {r["spec_key"]: r for r in rows}
         self.assertEqual(by["carwow-cap:103322"]["car_id"], "hyundai-kona-65-advance")
         self.assertEqual(by["carwow-cap:110664"]["car_id"], "hyundai-ioniq3-61-advance")
-        # The 42kWh Ioniq 3 is 'ignored' in the trim map (no hand-curated car): it gets a generated car.
+        # The 42kWh Ioniq 3 is not one of the owner's cars: it is its own derivative.
         self.assertEqual(by["carwow-cap:110663"]["car_id"], "carwow-cap:110663")
-        auto = json.loads(self.conn.execute("SELECT payload FROM cars WHERE id='carwow-cap:110663'").fetchone()["payload"])
+        auto = json.loads(conn.execute("SELECT payload FROM cars WHERE id='carwow-cap:110663'").fetchone()["payload"])
         self.assertEqual((auto["auto"], auto["make"], auto["model"], auto["trim"], auto["list_price_gbp"], auto["model_year"]),
                          (True, "Hyundai", "Ioniq 3", "Advance · 108kW 42kWh Auto", 22245.0, 2026))
-        flags = json.loads(self.conn.execute("SELECT payload FROM specs WHERE spec_key='carwow-cap:110663'").fetchone()["payload"])["flags"]
+        flags = json.loads(conn.execute("SELECT payload FROM specs WHERE spec_key='carwow-cap:110663'").fetchone()["payload"])["flags"]
         self.assertEqual(auto["heat_pump"], flags["heat_pump"] or "unknown", "tri-state from the equipment list; absence is 'unknown', not 'none'")
         self.assertEqual(auto["internal_v2l"], "unknown")
-        self.assertEqual(self.conn.execute("SELECT status, car_id FROM trim_map WHERE source='carwow-cap' AND source_key='110663'").fetchone()[:],
+        self.assertEqual(conn.execute("SELECT status, car_id FROM trim_map WHERE source='carwow-cap' AND source_key='110663'").fetchone()[:],
                          ("auto", "carwow-cap:110663"))
         self.assertTrue(by["carwow-cap:103322"]["image_url"].startswith("https://car-data.carwow.co.uk/image?"))
-        # No unmapped rows were recorded for the untracked derivatives.
-        self.assertEqual(self.conn.execute("SELECT COUNT(*) FROM trim_map WHERE status='unmapped'").fetchone()[0], 0)
-        # Re-running is an upsert: same count, changed_at untouched when nothing changed.
-        first = self.conn.execute("SELECT changed_at, last_seen_at FROM specs WHERE spec_key='carwow-cap:103322'").fetchone()
-        run(self.conn, p, ctx=Context(root=FIX))
-        self.assertEqual(self.conn.execute("SELECT COUNT(*) FROM specs").fetchone()[0], 9)
-        second = self.conn.execute("SELECT changed_at, last_seen_at FROM specs WHERE spec_key='carwow-cap:103322'").fetchone()
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM trim_map WHERE status='unmapped'").fetchone()[0], 0,
+                         "untracked variants are not mapping tasks")
+        # The same page a day later: one row each, changed_at untouched when nothing changed.
+        first = conn.execute("SELECT changed_at, last_seen_at FROM specs WHERE spec_key='carwow-cap:103322'").fetchone()
+        self.raws.add("carwow_specs", "hyundai/kona-electric", "carwow_hyundai_kona-electric_specifications.html", at="2026-10-07T00:00:00+00:00")
+        conn = self.raws.build()
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM specs").fetchone()[0], 9)
+        second = conn.execute("SELECT changed_at, last_seen_at FROM specs WHERE spec_key='carwow-cap:103322'").fetchone()
         self.assertEqual(first["changed_at"], second["changed_at"])
-        self.assertGreaterEqual(second["last_seen_at"], first["last_seen_at"])
+        self.assertEqual(second["last_seen_at"], "2026-10-07T00:00:00+00:00")
 
-    def test_kia_specs_resolve_through_seeded_map(self):
-        p = _fixture_provider(kia_specs, "kia_specs", {"ev3": "kia_ev3_specification.html", "pv5-passenger": "kia_pv5-passenger_specification.html"})
-        run(self.conn, p, ctx=Context(root=FIX))
-        m = {r["spec_key"]: r["car_id"] for r in self.conn.execute("SELECT spec_key, car_id FROM specs")}
+    def test_kia_specs_resolve_through_the_owners_decisions(self):
+        self.raws.add("kia_specs", "ev3", "kia_ev3_specification.html", at=T)
+        self.raws.add("kia_specs", "pv5-passenger", "kia_pv5-passenger_specification.html", at=T)
+        conn = self.raws.build()
+        m = {r["spec_key"]: r["car_id"] for r in conn.execute("SELECT spec_key, car_id FROM specs")}
         self.assertEqual(m["kia-spec:ev3:gt-line-s-heat-pump:81-4-kwh-fwd"], "kia-ev3-81-gtlines-hp")
         self.assertEqual(m["kia-spec:pv5-passenger:elite:71-2-kwh-fwd:7seat"], "kia-pv5-passenger-71-elite-7seat")
         self.assertIsNone(m["kia-spec:ev3:air:58-3-kwh-fwd"])
 
-    def test_specs_round_trip_through_history_and_into_the_snapshot(self):
+    def test_specs_reach_the_snapshot(self):
         import tempfile
-        from pipeline.history import export_specs, import_specs
         from pipeline.services.snapshot import export_snapshot
-        p = _fixture_provider(carwow_specs, "carwow_specs", {"hyundai/kona-electric": "carwow_hyundai_kona-electric_specifications.html"})
-        run(self.conn, p, ctx=Context(root=FIX))
+        self.raws.add("carwow_specs", "hyundai/kona-electric", "carwow_hyundai_kona-electric_specifications.html", at=T)
+        conn = self.raws.build()
         with tempfile.TemporaryDirectory() as tmp:
-            f = Path(tmp) / "specs.jsonl"
-            self.assertEqual(export_specs(self.conn, f), 4)
-            other = fresh_conn()
-            run_all(other)
-            self.assertEqual(import_specs(other, f), 4)
-            manifest = export_snapshot(other, tmp, generated_at="2026-10-06T00:00:00+00:00")
+            manifest = export_snapshot(conn, tmp, generated_at="2026-10-06T00:00:00+00:00")
             self.assertEqual(manifest["counts"]["specs"], 4)
-            cars = {c["id"]: c for c in json.loads((Path(tmp) / "cars.json").read_text())}
-            details = json.loads((Path(tmp) / "details.json").read_text())
+            cars = {c["id"]: c for c in json.loads((Path(tmp) / "cars.json").read_text(encoding="utf-8"))}
+            details = json.loads((Path(tmp) / "details.json").read_text(encoding="utf-8"))
             for cid, c in cars.items():
                 c["specs"] = details[cid]["specs"]
                 c["spec_check"] = details[cid]["spec_check"]
@@ -186,7 +182,7 @@ class ThroughTheRunner(unittest.TestCase):
             self.assertEqual(checks["heat_pump"], "agrees")
             self.assertEqual(checks["internal_v2l"], "source lists it")  # seed says none, Carwow lists it
             self.assertEqual(kona["spec_check"]["disagreements"], 1)
-            specs = json.loads((Path(tmp) / "specs.json").read_text())
+            specs = json.loads((Path(tmp) / "specs.json").read_text(encoding="utf-8"))
             self.assertEqual(len(specs), 4)
             self.assertNotIn("car_ref", specs[0])
 

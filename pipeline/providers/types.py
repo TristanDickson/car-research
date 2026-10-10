@@ -36,11 +36,16 @@ class Context:
 
 @dataclass(frozen=True)
 class Fetched:
+    """What a fetch returns: the body the parser reads. A fetch that combines several
+    responses (every page of a listing, a page and the API call it names) also returns
+    each response as it came in `parts`, so the raw store keeps those byte for byte."""
+
     url: str
     status_code: int
     body: bytes
     content_type: str | None = None
     headers: dict = field(default_factory=dict)
+    parts: tuple = ()
 
 
 @dataclass(frozen=True)

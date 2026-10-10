@@ -24,7 +24,7 @@ from collections.abc import Iterator
 
 from pipeline.providers.carwow_catalog import electric_models, pretty_make
 from pipeline.providers.carwow_deals import MODELS
-from pipeline.providers.http import fetch_url
+from pipeline.providers.http import FetchError, fetch_url
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 from pipeline.providers.used_match import match_model
 from pipeline.providers.wayback import observed_at_for
@@ -63,9 +63,16 @@ def search_result(html: str) -> dict:
 
 def fetch(target: Target, ctx: Context) -> Fetched:
     pages: list[dict] = []
+    parts: list[Fetched] = []
     got = 0
     for p in range(1, MAX_PAGES + 1):
-        page = search_result(fetch_url(page_url(p), ctx).body.decode("utf-8", "replace"))
+        try:
+            f = fetch_url(page_url(p), ctx)
+        except FetchError as e:
+            e.parts = tuple(parts)   # the pages already received are kept too
+            raise
+        parts.append(f)
+        page = search_result(f.body.decode("utf-8", "replace"))
         if not page["vehicles"]:
             break
         pages.append(page)
@@ -73,7 +80,7 @@ def fetch(target: Target, ctx: Context) -> Fetched:
         if got >= int(page["metadata"].get("total") or 0):
             break
     body = json.dumps({"pages": pages}, ensure_ascii=False).encode("utf-8")
-    return Fetched(url=target.metadata["url"], status_code=200, body=body, content_type="application/json")
+    return Fetched(url=target.metadata["url"], status_code=200, body=body, content_type="application/json", parts=tuple(parts))
 
 
 def parse_body(body: dict, target: Target, observed_at: str) -> list[dict]:

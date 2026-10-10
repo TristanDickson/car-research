@@ -1,10 +1,9 @@
-"""Provider registry: the source of truth for what `refresh` runs, in order.
+"""Provider registry: every source, in the order `scrape` runs the live ones.
 
-manual_seed must run first: it writes the cars and the trim map that the other
-providers resolve their offers against. carwow_catalog next: the Carwow and
-LeaseLoco scrapers discover their pages from the models it writes. Live
-providers (live=True) hit the web; `refresh --offline` skips them and replays
-data/history instead.
+manual_seed and carwow_paste read the owner's own files; the build reads them on
+every run. carwow_catalog runs first of the live ones: the Carwow and LeaseLoco
+scrapers discover their pages from the models it finds. Live providers
+(live=True) hit the web and keep every response in the raw store.
 """
 from pipeline.providers import (
     carwow_catalog,

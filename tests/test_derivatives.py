@@ -1,34 +1,16 @@
 """The derivative registry: Carwow's model page names every derivative as CAP
-does, brackets included; Gold keeps it, gives stub cars to what no spec page
-listed, and replays it from history; services/claims.py reads the brackets."""
+does, brackets included; the build keeps it and describes from it every
+derivative no specification page lists; services/claims.py reads the brackets."""
 import json
 import unittest
 from pathlib import Path
 
-from pipeline.history import export_derivatives, import_derivatives
 from pipeline.providers import carwow_model
-from pipeline.providers.types import Capability, Context, Fetched, Provider, Target
-from pipeline.runner import run
-from tests.helpers import fresh_conn, run_all
+from tests.helpers import FIX, Raws
 
-FIX = Path(__file__).parent / "fixtures"
 T = "2026-10-08T00:00:00+00:00"
-
-
-def _provider(files: dict[str, str]):
-    cap = carwow_model.derivatives
-
-    def discover(target: Target, ctx: Context):
-        for mk, mo in (("hyundai", "inster"),):
-            ident = f"{mk}/{mo}"
-            if ident in files:
-                yield Target(identifier=ident, metadata={"make": mk, "model": mo, "make_name": "Hyundai", "model_name": "Inster", "url": carwow_model.url_for(mk, mo)})
-
-    def fetch(target: Target, ctx: Context) -> Fetched:
-        return Fetched(url=target.metadata["url"], status_code=200, body=(FIX / files[target.identifier]).read_bytes())
-
-    c = Capability(name=cap.name, parser_version=cap.parser_version, discover=discover, fetch=fetch, parse=cap.parse, kinds=cap.kinds)
-    return Provider(name="carwow_model", default_capability=c.name, capabilities={c.name: c}, live=False)
+INSTER = {"make": "hyundai", "model": "inster", "make_name": "Hyundai", "model_name": "Inster",
+          "url": carwow_model.url_for("hyundai", "inster")}
 
 
 class ModelPage(unittest.TestCase):
@@ -51,26 +33,18 @@ class ModelPage(unittest.TestCase):
 
 
 class Registry(unittest.TestCase):
-    def setUp(self):
-        self.conn = fresh_conn()
-        run_all(self.conn)
-
-    def test_a_derivative_no_spec_page_listed_gets_a_stub_car_and_the_registry_round_trips(self):
-        res = run(self.conn, _provider({"hyundai/inster": "carwow_hyundai_inster_model.html"}), ctx=Context(root=FIX))
-        self.assertEqual((res.errors, res.records), (0, 9))
-        self.assertEqual(self.conn.execute("SELECT COUNT(*) FROM derivatives").fetchone()[0], 9)
-        car = json.loads(self.conn.execute("SELECT payload FROM cars WHERE id='carwow-cap:106646'").fetchone()["payload"])
-        self.assertEqual((car["auto"], car["source_kind"], car["trim"], car["list_price_gbp"], car["model_year"]), (True, "stub", "02 · 85kW 49kWh Auto", 27115.0, 2026))
-        tmp = FIX.parent / "_derivatives.jsonl"
-        try:
-            self.assertEqual(export_derivatives(self.conn, tmp), 9)
-            other = fresh_conn()
-            run_all(other)
-            self.assertEqual(import_derivatives(other, tmp), 9)
-            self.assertEqual(other.execute("SELECT COUNT(*) FROM derivatives").fetchone()[0], 9)
-            self.assertIsNotNone(other.execute("SELECT 1 FROM cars WHERE id='carwow-cap:106646'").fetchone(), "the stub comes back on replay")
-        finally:
-            tmp.unlink(missing_ok=True)
+    def test_a_derivative_no_spec_page_listed_is_described_from_the_registry(self):
+        with Raws() as raws:
+            raws.add("carwow_model", "hyundai/inster", "carwow_hyundai_inster_model.html", metadata=INSTER, at=T)
+            conn = raws.build()
+            self.assertEqual(conn.execute("SELECT COUNT(*) FROM derivatives").fetchone()[0], 9)
+            car = json.loads(conn.execute("SELECT payload FROM cars WHERE id='carwow-cap:106647'").fetchone()["payload"])
+            self.assertEqual((car["auto"], car["source_kind"], car["trim"], car["list_price_gbp"], car["model_year"]),
+                             (True, "stub", "Cross · 85kW 49kWh Auto", 29245.0, 2026))
+            # The 02 49kWh is the owner's own entry: it stands for that derivative, with no second car beside it.
+            self.assertIsNone(conn.execute("SELECT 1 FROM cars WHERE id='carwow-cap:106646'").fetchone())
+            mine = json.loads(conn.execute("SELECT payload FROM cars WHERE id='hyundai-inster-49-02'").fetchone()["payload"])
+            self.assertEqual((mine.get("auto"), str(mine["cap_id"])), (None, "106646"))
 
 
 if __name__ == "__main__":

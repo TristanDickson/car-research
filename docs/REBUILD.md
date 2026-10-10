@@ -1,11 +1,102 @@
 # The rebuild: raws first, matching re-derived
 
-Agreed with the owner on 10 Oct 2026. This is the next piece of work, and it comes before
-any new source. The pipeline as built does not follow the owner's design; this document
+Agreed with the owner on 10 Oct 2026; built the same evening on the branch
+`rebuild-raw-store` (status below). It comes before any new source. The pipeline as built does not follow the owner's design; this document
 says how it differs, what it should become, and in what order to get there.
 
 The template is the owner's other project, **bolthole** (`TristanDickson/bolthole`): read
 its `docs/RESOLVER.md`, `docs/DATA_MODEL.md` and `docs/ACQUISITION.md` before starting.
+
+## Status (10 Oct 2026, evening): built on branch `rebuild-raw-store`, not yet switched over
+
+Built, on the branch `rebuild-raw-store`:
+
+- **The raw store** (`pipeline/raw.py`) at `D:\car-research-raw` on the owner's laptop
+  (`CAR_RESEARCH_RAW`, set for the user). Asked where it should live, the owner answered "path
+  is fine, go". D: is the second partition of the laptop's internal NVMe drive (317 GB free); C:
+  had 19 GB free. Every fetch is kept: the body gzipped and named by its sha256, an append-only
+  index line per fetch, a failed response too when the site answered, and each response a
+  combined fetch was made of.
+- **The migration.** All 60 committed versions of `data/history/*.jsonl` (6 to 10 Oct) are in
+  the store as source `legacy`, byte-identical to git; `raw-migrate` adds new ones and nothing
+  twice. They are read with the matching stripped (`pipeline/legacy.py`).
+- **The build** (`pipeline/build.py`), from scratch every run, as in "The target" below. The
+  car creation during ingestion, the history export and replay, and the 10 Oct stopgap are
+  deleted, as listed under "What the rebuild deletes".
+- **The scraper** keeps raws and nothing else; **the laptop's nightly job**
+  (`scripts/nightly.ps1`), registered with Task Scheduler for 03:17 daily in compare mode: it
+  scrapes, builds, and logs how its snapshot differs from main's, pushing nothing.
+- **CI** (`pipeline-ci`): unit tests, which build from a raw store of the captured fixtures, and
+  a build over the owner's files with an empty store. The GitHub scrape and backfill workflows
+  and `data/history` are removed on the branch, so merging it is the switch-over.
+
+How the new build compares with the snapshot committed on 10 Oct (built from the same history,
+`scripts/compare_snapshots.py`):
+
+| | Offers | What happened |
+| --- | --- | --- |
+| identical spans | 2,818 | |
+| the same prices and dates in fewer spans | 224 | the old merge left two touching spans at one price; the build folds them into one |
+| on a different car | 30 | 13 were stale: the old pipeline's own current match already pointed elsewhere, but the history replayed the first match. 8 follow the twins' current prices (below). 5 broker names had no current match at all and now get one by the rules. 2 pick, between twins at one price, the one New Car Discount's RRP pinned. |
+| no car now | 177 | in every one the old pipeline's own current rule also gives no car (165 are a pack named against three or more prices, a conflict); they kept a car only because the history replayed a match made before the twins were listed |
+
+Every one of the 1,978 car ids is the same. About 490 derivatives that only a deals page prints
+now carry the latest line that page printed, where the old pipeline kept the first one it ever
+read (often an archived 2025 price list): their RRP and price-list date change, and with the
+date, which EV Database variant describes them (about 30 cars). That moves the heat pump on 16
+BMW iX1 derivatives from "option" (EV Database's 2023 to 2025 entry) to "none" (Carwow's
+standard list, the 2026 entry saying nothing), and on two XPeng G6s from "option" to "standard".
+Used listings that name a derivative the owner entered now sit on the owner's car rather than on
+a hidden twin.
+
+The first full run from the laptop (10 Oct, 18:11 to 19:35 local, 84 minutes): 1,341 fetches,
+71 MB in the store with the legacy history. EV Database answered 55 car pages with one failure and
+no throttling. Against main's snapshot, every difference is tonight's sightings: 1,317 offers' last
+span now runs to tonight and 140 have a new price tonight; no offer's earlier history changed. The
+run found three problems, fixed the same evening:
+
+- Carwow returns its used stock in a different order on every request (tested: page 1 twice gives
+  different cars, and no sort parameter steadies it), so paging samples the stock. The old fetch
+  stopped at the first page that brought nothing new, which on the laptop listed 1,142 Carwow cars
+  where GitHub's run that morning listed 1,776, and every car missing from the sample was marked
+  sold. The fetch now pages until there is no next page (or three pages bring nothing new), and a
+  Carwow used car counts as gone only after a week unseen. cinch and Motorpoint page through their
+  APIs and keep the old rule.
+- Hyundai's spec guides (PDFs) need poppler's `pdftotext`, which GitHub's runner had. The laptop
+  had only xpdf's (from Git for Windows), which failed, and pypdf, which reads the tables
+  differently (it loses the Vision Roof from the Ioniq 5 Ultimate's Zen Pack and so marks the roof
+  standard). Poppler 26.09 is now in `%USERPROFILE%\tools` and `CAR_RESEARCH_PDFTOTEXT` points at
+  it; with it the laptop reads all 20 Hyundai rows exactly as GitHub did. The reader's version is
+  part of the parse cache's key.
+- The comparison above is from this build; the review fixes below changed none of its numbers.
+
+To do before switching over:
+
+1. Two nights of the laptop's job beside the GitHub scrape, compared (the log is
+   `D:\car-research-raw\logs\nightly\<date>.log`). EV Database's throttling of the laptop is
+   still unknown.
+2. Then merge `rebuild-raw-store` and re-register the job with `-Branch main -Push`
+   (`scripts/install-nightly.ps1`). That retires the GitHub scrape. The owner decides when.
+
+Open, for the owner: whether D: is backed up (Windows File History is not set up and no backup
+program is installed in Program Files; a backup run from elsewhere would not show there; a weekly
+copy to OneDrive or an external drive would do), and whether the laptop is on overnight (the job wakes it, and runs as soon as it can after a missed start, but only while
+the owner is logged on).
+
+Known limits of what is built:
+
+- The owner's decisions are the 219 rows of `data/seed/trim_map.json`, read as before: a row with
+  a car is "this is that car"; an "ignored" row does not stop the rules matching the record to a
+  derivative (it marked "not one of the hand-curated cars" before every EV was covered). There
+  are no merge or reject pairs yet; none were needed.
+- A raw is what the parser reads, so a parser's inputs that came from elsewhere are kept with the
+  fetch: cinch's and Motorpoint's targets carry the catalogue models they file listings under.
+- An independent review found that concurrent writers could lose index lines, that a body
+  written just before a crash could stay broken, that a combined fetch failing partway dropped the
+  pages it had, and two places where reading order decided a result. All are fixed and tested.
+- The legacy rows from before the rebuild cannot be re-parsed (no page was kept); only their
+  matching is re-derived. Re-running the Wayback backfill on the laptop would fetch the archived
+  pages as raws.
 
 ## The principle
 

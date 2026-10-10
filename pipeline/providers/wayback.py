@@ -80,13 +80,20 @@ def ledger_done(conn: sqlite3.Connection | None, url: str, since: str, every: in
         return False
 
 
-def ledger_mark(conn: sqlite3.Connection | None, url: str, since: str, every: int, source: str, captures: int) -> None:
+def ledger_mark(conn: sqlite3.Connection | None, url: str, since: str, every: int, source: str, captures: int,
+                store=None) -> None:
+    """A page whose captures are all folded in. Kept in the raw store's log (the build reads it back), and in
+    the database this run discovers from."""
+    entry = {"url": url, "since": since, "every_days": every, "source": source, "captures": captures,
+             "done_at": datetime.now(timezone.utc).isoformat(timespec="seconds")}
+    if store is not None:
+        store.log("backfill", entry)
     if conn is None:
         return
     conn.execute(
         """INSERT INTO backfill_ledger (url, since, every_days, source, captures, done_at) VALUES (?,?,?,?,?,?)
            ON CONFLICT(url, since, every_days) DO UPDATE SET source=excluded.source, captures=excluded.captures, done_at=excluded.done_at""",
-        (url, since, every, source, captures, datetime.now(timezone.utc).isoformat(timespec="seconds")),
+        (url, since, every, source, captures, entry["done_at"]),
     )
 
 
@@ -106,7 +113,7 @@ def backfill_capability(base: Capability, *, since: str = DEFAULT_SINCE, every_d
             # to the next page every capture of the previous one has been
             # fetched and parsed (or failed): that page is done.
             if pending is not None:
-                ledger_mark(conn, pending[0], since_, every, base.name, pending[1])
+                ledger_mark(conn, pending[0], since_, every, base.name, pending[1], ctx.extras.get("raw_store"))
 
         for i, t in enumerate(base.discover(Target(ident), ctx)):
             if i % shards != shard:

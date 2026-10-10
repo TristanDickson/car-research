@@ -27,7 +27,7 @@ from pipeline.providers.wayback import observed_at_for
 
 SITE = "carwow-used"
 CARDS = "https://quotes.carwow.co.uk/stock_cars/deal-cards"
-MAX_PAGES = 25
+MAX_PAGES = 40
 PAGE_BREAK = "\n<!-- carwow-used page break -->\n"
 CARD_RE = re.compile(r"<div class='deal-card'>(.*?)(?=<div class='deal-card'>|</turbo-frame>|$)", re.S)
 
@@ -55,22 +55,32 @@ def deal_ids(page: str) -> list[str]:
 
 
 def fetch(target: Target, ctx: Context) -> Fetched:
-    """Every page of the model's used stock, joined into one body."""
+    """Every page of the model's used stock, joined into one body (each response also kept as it came).
+    Carwow repeats cards across pages, so a page with nothing new does not end the paging: it ends
+    where there is no 'next' link, or after three pages in a row bring nothing new."""
     make, model = target.metadata["make"], target.metadata["model"]
     pages: list[str] = []
+    parts: list[Fetched] = []
     seen: set[str] = set()
+    stale = 0
     for p in range(1, MAX_PAGES + 1):
-        f = fetch_url(cards_url(make, model, p), ctx, headers={"Turbo-Frame": "stock_cars_v2_cards"})
+        try:
+            f = fetch_url(cards_url(make, model, p), ctx, headers={"Turbo-Frame": "stock_cars_v2_cards"})
+        except FetchError as e:
+            e.parts = tuple(parts)
+            raise
+        parts.append(f)
         body = f.body.decode("utf-8", "replace")
         ids = [d for d in deal_ids(body) if d not in seen]
-        if not ids:
+        if not deal_ids(body):
             break
+        stale = 0 if ids else stale + 1
         seen.update(ids)
         pages.append(body)
-        if "rel='next'" not in body and 'rel="next"' not in body:
+        if stale >= 3 or ("rel='next'" not in body and 'rel="next"' not in body):
             break
     return Fetched(url=target.metadata["url"], status_code=200, body=PAGE_BREAK.join(pages).encode("utf-8"),
-                   content_type="text/html")
+                   content_type="text/html", parts=tuple(parts))
 
 
 def parse_page(page: str, make: str, model: str, url: str, observed_at: str, make_name: str | None = None) -> list[dict]:

@@ -352,12 +352,8 @@ def load_models(conn: sqlite3.Connection) -> list[dict]:
 
 
 def load_cars(conn: sqlite3.Connection) -> list[dict]:
-    """Every car, less the generated ones whose derivative a hand-curated car is (gold.curated_owner):
-    those stay in the database only for matching broker text, and never show as a second car."""
-    owned = {f"carwow-cap:{r['source_key']}" for r in conn.execute(
-        "SELECT source_key FROM trim_map WHERE source='carwow-cap' AND status='mapped' AND car_id IS NOT NULL")}
-    return [c for c in (json.loads(r["payload"]) for r in conn.execute("SELECT payload FROM cars ORDER BY id"))
-            if not (c.get("auto") and c["id"] in owned)]
+    """Every car: every derivative, and every car the owner entered (one per derivative; pipeline/build.py)."""
+    return [json.loads(r["payload"]) for r in conn.execute("SELECT payload FROM cars ORDER BY id")]
 
 
 def load_requirements(conn: sqlite3.Connection) -> dict:

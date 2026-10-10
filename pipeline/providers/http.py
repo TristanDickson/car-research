@@ -18,7 +18,12 @@ _last_hit: dict[str, float] = {}
 
 
 class FetchError(RuntimeError):
-    pass
+    """A fetch that failed. An HTTP error keeps its status and body, so the raw store can keep the response too."""
+
+    def __init__(self, message: str, status: int | None = None, body: bytes | None = None, url: str | None = None):
+        super().__init__(message)
+        self.status, self.body, self.url = status, body, url
+        self.parts: tuple = ()   # a combined fetch's responses received before this one failed
 
 
 def fetch_url(url: str, ctx: Context, *, headers: dict | None = None, accept: str = "text/html",
@@ -44,11 +49,15 @@ def fetch_url(url: str, ctx: Context, *, headers: dict | None = None, accept: st
                 time.sleep(2.0 * (2 ** attempt))
                 last_exc = e
                 continue
-            raise FetchError(f"{url} -> HTTP {e.code}") from e
+            try:
+                err_body = e.read()
+            except Exception:  # noqa: BLE001
+                err_body = None
+            raise FetchError(f"{url} -> HTTP {e.code}", status=e.code, body=err_body, url=url) from e
         except (urllib.error.URLError, TimeoutError, OSError) as e:
             last_exc = e
             if attempt < retries:
                 time.sleep(2.0 * (2 ** attempt))
                 continue
-            raise FetchError(f"{url} -> {e}") from e
+            raise FetchError(f"{url} -> {e}", url=url) from e
     raise FetchError(f"{url} -> {last_exc}")

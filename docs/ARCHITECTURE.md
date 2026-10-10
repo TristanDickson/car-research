@@ -1,22 +1,20 @@
 # Architecture
 
-> **This describes the pipeline as built, which is being replaced.** The owner's design
-> (`docs/REBUILD.md`, after bolthole) keeps only raw responses permanently and re-derives
-> parsing and matching from them; the sections below on the trim map, generated cars, the
-> history export and replay, and "Deploy"'s nightly describe what the rebuild removes or
-> changes. The snapshot contract, the claim store, the cost model and the app stay.
-
-The same shape as `etf-tool` and `bolthole`, scaled to a dataset of tens of cars and
-hundreds of deals: **scrape → resolve → app**, with only the *app* layer shipped to the
-browser. No Postgres, no worker, no server mode. The data is tiny, so it is committed
-on `main` and GitHub Pages serves it.
+The design is the owner's, as in their other project bolthole (`docs/REBUILD.md`): **only
+the raw responses are permanent.** Every page fetched is kept, exactly as it came, in a raw
+store outside git on the owner's laptop. Parsing, matching ("which records are the same
+car") and everything the app reads are derived from those raws by a build that runs from
+scratch every time, so a better parser or a better matcher fixes the past as well as the
+future. The only other durable things are the owner's own files and decisions, in git.
 
 ```
 providers (discover → fetch → parse)       pipeline/providers/*      Python, stdlib
-   manual_seed     data/seed/*.json          cars, requirements, trim map, hand-captured offers
-   carwow_paste    data/pastes/carwow/*.txt  Carwow offer pages copied out of a logged-in browser
+   manual_seed     data/seed/*.json          the owner's cars, offers, requirements, decisions (read by every build)
+   carwow_paste    data/pastes/carwow/*.txt  Carwow offer pages copied out of a logged-in browser (read by every build)
    carwow_catalog  carwow.co.uk (live)       the catalogue: every electric model, from the sitemaps + <make>/electric pages
    carwow_specs    carwow.co.uk (live)       equipment per trim, numbers per engine, CAP ids + version dates, images
+   carwow_model    carwow.co.uk (live)       the derivative registry: every derivative by CAP name, brackets included
+   carwow_options  quotes.carwow.co.uk       each derivative's configurator: options and packs with prices
    carwow_deals    carwow.co.uk (live)       best cash price per CAP derivative, Kia PCP-finance price, rep. example
    hyundai_offers  hyundai.com/uk (live)     Hyundai Finance national PCP example per model, with validity dates
    ncd             new-car-discount.com      broker all-in cash price per derivative
@@ -25,24 +23,27 @@ providers (discover → fetch → parse)       pipeline/providers/*      Python,
    kia_specs       kia.com/uk (live)         grade × feature ticks, numbers per powertrain, seat variants
    hyundai_specs   hyundai.com/uk (live)     the Tech & Spec guide PDF per model: ● / - per trim, battery-qualified ticks, packs with prices
    hyundai_configurator  hyundai.com/uk (live)  the build-and-price GraphQL: every orderable configuration, its price, the packages in it
+   evdb, evdb_cars ev-database.org (live)    measured numbers per variant; each variant's own page
    carwow_used     quotes.carwow.co.uk        used stock per model: derivative, price, year, mileage (the buy-used route; residual evidence)
    cinch_used      search-api...cinch.co.uk   used stock per make (electric), with registrations; folded with the others per model
    motorpoint_used motorpoint.co.uk           the supermarket's electric stock, nearly new; list price when new per car
-        │  Bronze  artifacts            every fetched body, sha256-addressed, supersede chain
-        │  Silver  source_rows          one row per parsed record, in the source's vocabulary
-        │  Gold    models               the catalogue: <make>/<model>, names, electric / has_deals / has_specs
-        │          cars                 canonical trims: hand-curated, plus one generated per Carwow derivative
-        │          trim_map             (site, trim-as-printed) → car_id; 'auto' = a generated car; misses 'unmapped'
-        │          offer_observations   one row per offer key per sighting (present / gone)
-        │          specs                one row per source variant: equipment, flags, numbers, image
-        │          used_listings        used stock as current state (present / gone), linked to a derivative where named
-        ▼          requirements
-SQLite  data/car-research.sqlite            gitignored: a dev-machine artifact
-        │  ⇄ data/history/{observations,specs,models,resolutions,used,backfill}.jsonl  COMMITTED: every refresh
-        │                                      rewrites them, every run (CI, a fresh clone) replays them first
-        ▼  export_snapshot()                 pipeline/services/snapshot.py
-JSON    web/public/data/{manifest,cars,offers,requirements,data}.json   COMMITTED on main
-        │   offers = latest observation per key + finance maths + freshness (state, age, history)
+        │  scrape (pipeline/runner.py): fetch and keep, nothing else
+        ▼
+RAW STORE  $CAR_RESEARCH_RAW (D:\car-research-raw)   on the owner's laptop, outside git, never rewritten
+        │  bodies/<sha[:2]>/<sha256>.gz   one per distinct body       index/<YYYY-MM>.jsonl  one line per fetch
+        │  logs/                          runs, the backfill's finished pages, each night's job log
+        │  plus the legacy source: every committed version of the old data/history (pipeline/legacy.py)
+        │
+        │  build (pipeline/build.py), from scratch every run, into a disposable SQLite database:
+        │    1 parse every stored page with its provider's parser (cached by fetch and code version)
+        │      and write what each source said (gold.py): models, specs, registry, options,
+        │      configurations, used stock; every price becomes a sighting
+        │    2 derivatives: one per CAP id any record names; the owner's entry stands for its own
+        │    3 match every record at once (services/resolve.py, services/match.py); the owner's
+        │      decisions (data/seed/trim_map.json) override
+        │    4 fold each offer's sightings into spans of an unchanged price
+        ▼  export_snapshot()                 pipeline/services/snapshot.py, services/claims.py
+JSON    web/public/data/*.json               COMMITTED on main by the laptop's nightly job
         ▼  push to main → Actions → next build (output: export) → Pages
 SPA     web/                                 Next.js 16 App Router, Tailwind 4, react-query, Dexie
         │  first load: download the snapshot into IndexedDB; after that read it from there,
@@ -50,76 +51,93 @@ SPA     web/                                 Next.js 16 App Router, Tailwind 4, 
         ▼  pages query IndexedDB (public tables) + the reader's saved searches and settings
 ```
 
+The database (`data/car-research.sqlite`, gitignored) holds nothing that is not derived: delete
+it and `python -m pipeline build` makes it again. Its tables keep the names they had before the
+rebuild (`cars`, `trim_map`, `offer_observations`, `specs`, `used_listings`, …), so the snapshot
+exporter and the claim store read them as before.
+
 ## Offers are observations
 
-An offer is never edited in place. Each provider run records what it saw: one
-`offer_observations` row per **offer key** per sighting, with `present = 0` when a check
-found the offer gone. The offer key is stable per real-world offer (a Carwow deal id, a seed
-id, later a dealer URL plus trim). The exporter derives, per key:
+An offer is never edited in place. Each page fetched says what it showed: one **sighting** per
+**offer key** per fetch, with `present = 0` when a check found the offer gone. The offer key is
+stable per real-world offer (a Carwow deal id, a seed id, a dealer URL plus trim). The build
+sorts every sighting of a key by date and folds them into spans: consecutive sightings with the
+same price-bearing fields are one span, a different price starts a new one, a `gone` sighting is
+never merged. The order pages were read in changes nothing, so a Wayback capture from 2025 or
+a legacy row folds in wherever it falls. At one instant a page held in the raw store outranks a
+legacy copy of what was read from it. The exporter derives, per key:
 
 | Field | Meaning |
 | --- | --- |
 | `state` | `gone` if the latest sighting was a miss; `expired` if `valid_to` has passed or the source said so; otherwise the status the source implied (`live`, `lead`, `derived`, `illustrative`, `campaign`, `historical`) |
 | `last_seen_at`, `age_days` | last positive sighting and its age at export time |
 | `stale` | an active offer not seen for more than 14 days (`STALE_DAYS`) |
-| `history` | every sighting with its price-bearing fields, so a price change is a diff, not an overwrite |
+| `history` | every span with its price-bearing fields, so a price change is a diff, not an overwrite |
 
 Only **current** offers (active state, not stale) feed a car's best per route and source;
 freshness is derived in the browser from the spans (`lib/model/offers.ts`), as of today, so
-an un-refreshed deployment still greys out old offers. Re-running a provider over an unchanged
-page is idempotent (same key, same observed time, same artifact).
+an un-refreshed deployment still greys out old offers. An offer key names one derivative at its
+source, so the whole of its history sits on the car its latest sighting is matched to.
 
-## Trim map (the small resolution problem)
+## Matching: CAP ids, the rules, and the owner's decisions
 
-Every source names trims differently. A record that arrives with a `car_ref` (`{source, key}`)
-is resolved through `trim_map`; the key is whatever is stable for that source: the CAP
-derivative id on Carwow (`carwow-cap`), Hyundai's CAP code (`hyundai-cap`), or the derivative
-text normalised by `parse.norm_key` (`ncd`, `leaseloco`, `rrg`: lower-case, `kwh` glued to its
-number, parts joined by `|`). A miss leaves the record in Silver, records an `unmapped` row, and
-counts on the run. `python -m pipeline trims` lists them (and fails CI); add the mapping to
-`data/seed/trim_map.json` and re-run. Rows with `"status": "ignored"` are derivatives we have
-looked at and chosen not to curate by hand (the 42kWh Ioniq 3, no-heat-pump Insters, 5-seat
-PV5s, AWD Ioniq 5s).
+Every source names cars differently. A record carries a `car_ref` (`{source, key, …}`): the key
+is whatever is stable for that source, the CAP derivative id on Carwow (`carwow-cap`), Hyundai's
+CAP code (`hyundai-cap`), or the derivative text normalised by `parse.norm_key` (`ncd`,
+`leaseloco`, `rrg`: lower-case, `kwh` glued to its number, parts joined by `|`). The build
+matches every record at once (`Build.match`), in this order:
 
-Since the catalogue, a miss is rarer: a Carwow CAP id that is not `mapped` resolves to the
-generated car `carwow-cap:<id>` (`status: auto`), and a broker's derivative text resolves to
-the one generated car of that make + model whose kW, kWh and trim words agree
-(`services/match.py`; a tie or a contradiction is a miss, never a guess). Nothing is ever
-attached to a guessed car, and a hand-curated car always wins its derivative.
+1. **The owner's decision.** A row of `data/seed/trim_map.json` with a `car_id` says "this is
+   that car" and wins. A row without one (`ignored`) says the derivative is not one of the owner's
+   cars; it does not stop the rules below, and only marks a record they cannot place as ignored
+   rather than unmapped.
+2. **A CAP id.** A record naming a CAP id is that derivative.
+3. **The broker's text** (LeaseLoco, NCD, used listings): the rules in `services/resolve.py`
+   against every derivative of that make and model (below). A used listing is matched the same
+   way (the owner's decision, then the rules) but never listed as unmapped: stock is not an offer.
+   A listing missing from the page it came from is gone, except on Carwow, whose used cards come
+   back in a different order on every request so that each fetch is a sample: a Carwow used car is
+   gone after a week unseen (`gold.retire_sampled`).
+4. Otherwise the record is listed on the Data page as `unmapped` (or `conflict`), with its
+   evidence, and `python -m pipeline trims` prints it. A spec row is never a mapping task:
+   EV Database rows belong to no car (the claim store lays them over cars by model and battery).
 
-## Generated cars (every EV on sale)
+The result of every match is written to the build database's `trim_map` table with its method
+and evidence, so the Data page can show why a lease sits on a car. That table is derived like
+everything else; the owner's decisions live only in the seed file.
+
+## Derivatives (every EV on sale)
 
 `carwow_catalog` writes a `models` row per `<make>/<model>` Carwow lists, from three index
 pages: `sitemap/car_models.xml` (every model, and which have a `/specifications` page),
 `sitemap/car_model_deals.xml` (which have a `/deals` page) and each make's `/electric` page
 (the make's electric models by name, from `sitemap/brand_fuel_types.xml`). Makes without an
 `/electric` page because everything they sell is electric (Tesla, Polestar, XPeng …) are
-flagged by make; MINI's electric models are listed by slug. Gold merges the pages by slug
-(a flag set by any page sticks). `carwow_specs` and `carwow_deals` discover their targets from
-`models` (`ctx.extras["db"]`, which the runner sets), falling back to their static lists before
-the first catalogue run; `leaseloco` guesses each model's slug as an *optional* target, which
-the runner skips on a 404 instead of counting a failure.
+flagged by make; MINI's electric models are listed by slug. The pages merge by slug (a flag set
+by any page sticks). `carwow_specs`, `carwow_deals` and the others discover their targets from
+`models` in the last build's database (`ctx.extras["db"]`), falling back to their static lists
+before the first catalogue run; within one night's scrape each provider's records are written
+into that database as it goes, so the catalogue read first tonight is what the model pages are
+discovered from tonight. `leaseloco` guesses each model's slug as an *optional* target, which
+the scraper skips on a 404 instead of counting a failure.
 
-Every Carwow derivative without a hand-curated car gets a generated one
-(`services/autocars.py`), id `carwow-cap:<cap id>`, `auto: true`:
+The build makes one derivative per CAP id that any record names (`Build.derivatives`), in the
+form the matcher and the app read (`services/autocars.py`), id `carwow-cap:<cap id>`:
 
-- from its **spec row** (`from_spec`): make, model and trim as Carwow prints them, the engine as
-  the variant, numbers (seats, battery, range, power, boot, turning circle), the canonical
-  equipment flags as tri-state fields (`standard` / `option`, else `unknown`: an equipment list
-  that omits an item is not proof it is absent), RRP, image, the derivative's version date as
-  the model year;
-- from a **deals-page stub** (`from_stub`, carried in the offer's `car_ref`): trim, engine, RRP,
-  version date. Seen for derivatives only an (archived) deals page prints: run-out stock, last
-  year's list.
+- from its **specification row** (`from_spec`): make, model and trim as Carwow prints them, the
+  engine as the variant, numbers, the canonical equipment flags as tri-state fields (`standard` /
+  `option`, else `unknown`: an equipment list that omits an item is not proof it is absent), RRP,
+  image, the derivative's version date as the model year;
+- else from the **registry** (`carwow_model`'s line for it) or, for a derivative only a deals page
+  prints (run-out stock, an archived price list), from the **latest deals-page line** that names
+  it (`from_stub`): trim, engine, RRP, version date. Of several lines, the one from the newest
+  price list wins, then the latest sighting, so the order pages were read in never decides.
 
-`gold.ensure_auto_car` writes one unless a hand-curated car owns the id; a spec-built car
-replaces a stub, a stub replaces nothing (except the registry's stub, which refreshes an
-earlier stub). A hand-curated car mapped to a CAP id in the trim map *is* that derivative:
-whatever reaches the generated car for that id (a broker's text match included) lands on the
-hand-curated car, whatever already pointed at it is moved there (`gold.prune_auto_cars`), and
-the generated car is never exported (`snapshot.load_cars`); it stays in the database only as
-something broker text can be matched against (`gold.curated_owner`). A stopgap of 10 Oct for
-17 cars that were listed twice; the rebuild removes the distinction altogether.
+A derivative the owner entered in `data/seed/cars.json` (the trim map's `carwow-cap` decision
+names it) appears once, as the owner's entry, carrying its CAP id; it inherits everything said
+about the derivative, and a match on it, a spec row for it or a used listing of it lands on the
+owner's car. `auto: true` marks a derivative the owner has not entered, which is all the app's
+"Hand-curated" filter reads. Nothing else makes a car: no record creates one as a side effect.
 
 ### Resolving broker rows (services/resolve.py)
 
@@ -142,86 +160,88 @@ order, each recorded as `method` + `evidence` on the trim-map row:
 
 A bracket that picked a twin also says something Carwow never prints: '[Heat Pump]' → heat
 pump standard, '[No Heat Pump]' → none, '[7 seat]' → seats, any other name → a pack the
-derivative includes. The claim store reads that from the broker rows in the trim map at
-export (`claims.from_broker_labels`); nothing is written onto the car record, which no
-history carries, so a live run and a replay of the history say the same. An offer key names one derivative at its
-source, so when a rule moves it to a different twin its whole sighting history moves
-too (`gold.write`). `pipeline reparse` re-runs the parsers and the rules over the stored
-pages without the network. `gold.prune_auto_cars` drops generated cars nothing
-refers to (their derivative was promoted to a hand-curated car). On replay, `import_specs`
-regenerates the spec-built cars and `import_history` rebuilds a stub from the observation's
-`car_ref` when its car is missing, so the committed history is complete without a cars file:
-the order is models → specs → observations (`cli._replay`).
+derivative includes. The claim store reads that from the resolved broker names at export
+(`claims.from_broker_labels`); nothing is written onto the car record.
+
+The rules see every record at once. The `name` rule ("the same CAP name was pinned to a twin by
+another source") reads pins that a first pass made from every sighting whose own RRP settled it,
+so it gives the same answer whatever order the pages were read in, and a page that printed its
+RRP once keeps its name pinned after it stops printing it. A name pinned to two twins pins
+neither.
 
 ## Backfill from the Wayback Machine
 
 Each live provider has a second capability, `backfill`, built by
-`providers/wayback.py::backfill_capability(base)`: discover asks the CDX index for
-every 200 capture of the base capability's URLs since a date, thins them to one per
-week and drops captures whose body digest matches the last one kept, and yields a
-target per capture whose `observed_at` is the archive timestamp; fetch pulls the raw
-page (`/web/<ts>id_/<url>`); parse is the base parser, which reads `observed_at` and
-`original_url` off the target. The runner stores the archived body as a Bronze
-artifact under the base provider, so a backfilled sighting is indistinguishable from a
-live one apart from its date.
+`providers/wayback.py::backfill_capability(base)`: discover asks the CDX index for every 200
+capture of the base capability's URLs since a date, thins them to one per week and drops
+captures whose body digest matches the last one kept, and yields a target per capture whose
+`observed_at` is the archive timestamp; fetch pulls the raw page (`/web/<ts>id_/<url>`); parse is
+the base parser, which reads `observed_at` and `original_url` off the target. The scraper keeps
+each capture in the raw store (origin `wayback`, its target carrying the archive date), so the
+build parses it like any page and its sightings fold into the spans by date.
 
-Gold's `_merge_sighting` makes out-of-order sightings safe: a sighting matching the
-span before it extends that span; one matching the span after it moves that span's
-start back; one bridging two matching spans merges them; a different price inside a
-span splits the span at that point (the span was seen at its start and end, so those
-become two rows). `refresh` skips `backfill`; `pipeline backfill` runs it. `.github/workflows/backfill.yml`
-runs it on GitHub runners (archive.org refuses connections from some cloud networks) as
-one short job per provider, each from the committed history, exporting only that
-provider's rows (`export-history --source`); a merge job replays the committed history,
-replaces each provider's rows with its chunk (`import-history --replace-source`), and
-commits. A chunk's log is readable the moment it finishes, a hung page costs that chunk
-one timeout, and a failed chunk leaves the others' results intact.
+`python -m pipeline backfill` runs it by hand on the laptop (archive.org refuses connections from
+some cloud networks, and the laptop is where the raws live), then `python -m pipeline build`
+folds the captures in. A run takes on no new page after `--budget-seconds`; the pages whose
+captures it finished go into the raw store's backfill log, which the next run skips. `--shard
+i/n` splits one provider's pages across runs. The backfill made on GitHub before the rebuild
+(Oct 2026) survives as legacy rows; its raw captures were never kept, so re-running the backfill
+would fetch them as raws.
 
-Coverage (probed 6 Oct 2026, with the archive partly offline): Carwow Kona and EV6
-deals pages have 8–9 captures each since mid-2024, Hyundai's Ioniq 5 offer page 30,
-New Car Discount's Kona and Ioniq 5 listings 3–4, the newer models (Ioniq 3, EV2, EV3,
-PV5, Inster) 0–3, LeaseLoco and RRG none. Old captures of a page that has since been
-redesigned parse to zero rows, which is harmless.
+Coverage (probed 6 Oct 2026, with the archive partly offline): Carwow Kona and EV6 deals pages
+have 8–9 captures each since mid-2024, Hyundai's Ioniq 5 offer page 30, New Car Discount's Kona
+and Ioniq 5 listings 3–4, the newer models (Ioniq 3, EV2, EV3, PV5, Inster) 0–3, LeaseLoco and
+RRG none. Old captures of a page that has since been redesigned parse to zero rows, which is
+harmless. Spec providers have no backfill: a spec row is current state.
 
-Chunks are time-boxed. archive.org can take a minute per index query on a bad night, so
-a chunk takes on no new page after `--budget-seconds` (20 minutes in the workflow, inside
-a 30-minute job) and exports what it has; the pages whose captures it consumed go into
-`backfill_ledger` (committed as `data/history/backfill.jsonl` by the merge job), and the
-next run skips them. `--shard i/n` splits one provider's pages across jobs
-(`carwow_deals@3/8` in the workflow matrix). Re-run the workflow until the chunks report
-nothing left; a capture folded in twice merges, never duplicates. Spec providers have no
-backfill: a spec row is current state and an older capture must not overwrite it.
+## The legacy history
+
+Before the rebuild the pipeline threw its pages away and committed `data/history/*.jsonl`:
+parsed records, each pinned to the car it had been matched to. That history is the only copy of
+what was fetched between January 2025 (the Wayback backfill) and 10 Oct 2026. `pipeline
+raw-migrate` (and every `nightly`) copies every committed version of every one of those files
+into the raw store, byte for byte, as fetches of source `legacy` dated by their commit; it is
+idempotent and reads every ref the clone has, so the files' removal from `main` loses nothing.
+
+The build reads them with the matching taken out (`legacy.read`): no row keeps its `car_id`,
+`resolutions.jsonl` (the old pipeline's matches) yields nothing, and the owner's own offers are
+read from `data/seed` rather than from their copies. A legacy price row is a span, so it becomes
+two sightings, at its start and at its end; every version contributes its sightings, and at one
+instant the latest commit's wins. Where today's parser derives a field from fields the legacy
+row kept, the reader derives it too (`legacy.upgrade`): New Car Discount's RRP, which the old
+spans lacked because a span kept its first sighting's payload.
 
 ## Specs (features by variant)
 
 A `spec` record is one source variant: a Carwow CAP derivative (trim equipment list +
 engine numbers + model facts, keyed `carwow-cap:<cap>`) or a Kia grade × powertrain
 (× seat count where the page splits them, keyed `kia-spec:<model>:<grade>:<battery drive>[:<seats>seat]`).
-`providers/carwow_specs.py` and `providers/kia_specs.py` are the parsers; both are
-pinned to captured pages in `tests/fixtures`. The runner resolves a spec through the trim
-map like an offer but never records a miss: a Carwow derivative nobody curates gets a
-generated car (above); a Kia grade without a car is kept with `car_id NULL` so the Specs
-page can show the whole range. Gold upserts by key and stamps `changed_at` when the
-fingerprint (features, flags, numbers, RRP) moves. Spec rows are current state, so the
-spec providers have no Wayback backfill (an older capture must not overwrite them).
+`providers/carwow_specs.py` and `providers/kia_specs.py` are the parsers; both are pinned to
+captured pages in `tests/fixtures`. The build matches a spec row by its CAP id or by the owner's
+decision and never records a miss: a Kia grade without a car is kept with `car_id NULL` so the
+Specs page can show the whole range. A spec row keeps its latest state, and `changed_at` moves
+when the fingerprint (features, flags, numbers, RRP) does.
 
 `services/features.py` maps the sources' wording onto canonical flags
 (`heat_pump`, `v2l_internal`, `v2l_external`, `heated_front_seats`, `camera_360`, …),
 each `standard`, `option` or `null` (not listed; sources say what a car has, not what it
 lacks). The exporter attaches each car's mapped specs and a `spec_check` comparing the
 hand-entered tri-state fields with the flags, and falls back to a Carwow render for the
-car image (exact derivative first, then the same model and trim word). Specs are
-committed as `data/history/specs.jsonl` and replayed offline, so CI reproduces the
-snapshot without the network.
+car image (exact derivative first, then the same model and trim word).
 
 ## Live scraping
 
 `providers/http.py` is the one fetch path: a browser user agent, a per-host delay, two retries
-on 429/5xx, and a `FetchError` the runner turns into a per-target failure (one dead page does
-not sink a provider's run; the run records `errors` and the failing targets). Each live
-provider is a `parse_page(text, …) -> rows` pure function with the real captured page in
-`tests/fixtures/`, so a layout change fails `tests/test_providers.py` rather than writing
-nonsense. Providers set `live=True`; `refresh --offline` skips them, which is what CI runs.
+on 429/5xx, and a `FetchError` that keeps the status and body of an HTTP error. The scraper
+(`pipeline/runner.py`) keeps every response in the raw store, a failed one too when the site
+answered, and records the run in the store's log; one dead page does not sink a provider's run.
+A fetch that combines several responses (cinch's and Motorpoint's pages, Hyundai's configurator
+page and the API call it names, Hyundai's downloads page and the PDF it links) hands the parser
+one body and also returns each response as it came, which the store keeps beside it (role
+`part`). Each live provider is a `parse_page(text, …) -> rows` pure function with the real
+captured page in `tests/fixtures/`, so a layout change fails `tests/test_providers.py` rather
+than writing nonsense; the page is kept either way, so the fixed parser reads it again at the
+next build.
 
 What each site gives, and the caveats carried into the offer rows:
 
@@ -258,19 +278,17 @@ car facts, the dealer) and reconciles the payment count against the page's own t
 
 ## Mapping to the reference repos
 
-| Concern | etf-tool / bolthole | car-research |
+| Concern | bolthole | car-research |
 | --- | --- | --- |
 | Providers | `app/crawlers/*`, `Provider` of `Capability` records with discover/fetch/parse | `pipeline/providers/*`, same records, synchronous |
-| Bronze | `artifacts` in Postgres, content-addressed, `superseded_by` | `artifacts` in SQLite, same columns |
-| Silver | `source_*` tables per source | one generic `source_rows` table (`source`, `kind`, `source_key`, JSON `row`) |
-| Gold | `funds`, `assets`, … | `cars`, `trim_map`, `offer_observations`, `requirements` (JSON payload + indexed columns) |
-| Identity | bolthole's listing → property resolver | `trim_map`: a lookup table per source, with an unmapped queue |
-| Export | `app.cli export-snapshot` → `services/snapshot.py`, `manifest.json` with `schema_version` | `python -m pipeline export-snapshot` → `pipeline/services/snapshot.py`, same manifest shape |
-| Where data lives | squashed orphan `data` branch stitched in by the deploy workflow (100MB+) | committed on `main` under `web/public/data` (~60KB) |
+| Raws | `artifacts`, content-addressed, `fs` backend under `ARTIFACT_ROOT` | `pipeline/raw.py`: gzipped bodies by sha256 and an append-only index, under `CAR_RESEARCH_RAW` |
+| Re-deriving | a parser fix re-parses Bronze; `resolve --rebuild` re-clusters from scratch | every build parses every page and matches every record from scratch |
+| Durable decisions | `listing_pair_decision` (same / different pairs), manual snaps | the trim map's decisions in `data/seed/trim_map.json`; the owner's cars, offers and picks |
+| Identity | clustering peers (no source carries an id) | linkage to a registry: the CAP id is the key, text is matched to it by rules with evidence |
+| Export | `app.cli export-snapshot` → `services/snapshot.py`, `manifest.json` with `schema_version` | `python -m pipeline build` → `pipeline/services/snapshot.py`, same manifest shape |
+| Where data lives | squashed orphan `data` branch stitched in by the deploy workflow | the snapshot committed on `main` under `web/public/data` |
 | Static client | `lib/snapshot.ts` fetch + in-memory cache; Dexie for private data | `lib/snapshot.ts` fetch; `lib/db.ts` seeds **public** data into Dexie too and pages query it |
-| Dual mode | `NEXT_PUBLIC_MODE=static` vs live FastAPI | static only |
-| Deploy | `pages-deploy.yml`: Actions artifact, SPA 404 fallback, `.nojekyll` | same workflow, single checkout |
-| CI | `frontend-ci.yml`, `pages-build-check.yml`, `backend-ci.yml` | `web-ci.yml`, `pipeline-ci.yml` (adds a snapshot-freshness check) |
+| CI | `frontend-ci.yml`, `pages-build-check.yml`, `backend-ci.yml` | `web-ci.yml`, `pipeline-ci.yml` (unit tests, a build from the owner's files) |
 
 ## Snapshot contract (schema_version 7)
 
@@ -281,7 +299,7 @@ in the browser").
 | File | Shape |
 | --- | --- |
 | `manifest.json` | `{schema_version, generated_at, counts:{cars,cars_generated,models,offers,observations,used_spans,cash_benchmarks,unmapped_trims,specs,used_listings}, runs:[…]}` |
-| `cars.json` | car records (hand-curated, and generated ones with `auto: true`, `source_kind`, `cap_id`, `model_slug`) with their facts, `model_key`, `flags`, `spec_count`, `image`, `picks`; no costs |
+| `cars.json` | one record per derivative (`auto: true` when the owner has not entered it; `source_kind`, `cap_id`, `model_slug`) and per car the owner entered, with their facts, `model_key`, `flags`, `spec_count`, `image`, `picks`; no costs |
 | `details.json` | per car id: spec rows, the hand-versus-source check, the seed's requirement check; fetched on demand |
 | `sightings.json` | every offer observation span: `{key, car_id, model, route, source, provider, status, seller, from, to, present, deal}` where `deal` is the full price-bearing payload |
 | `used_spans.json` | every used listing's asking-price spans: `{key, source, model, car_id, year, price, mileage, vrm, town, from, to, present}` |
@@ -407,7 +425,7 @@ derivative inherits what is said about the levels it belongs to:
 
 | Level | Subject | Who speaks of it |
 | --- | --- | --- |
-| own | a hand-curated car record | `data/seed/cars.json` |
+| own | a car the owner entered | `data/seed/cars.json` |
 | derivative | a CAP derivative id | the registry's CAP name and brackets (`carwow_model`), the configurator page (`carwow_options`), the maker's own configuration matched by trim, battery and price (`hyundai_configurator`), a specification row's numbers, a broker's derivative name |
 | trim_battery | make, model, trim, battery | a maker's tick that holds for one battery only (`● 49kWh only`, 'only standard on the 84kWh battery'), and a maker's row for a trim sold with one battery |
 | trim | make, model, trim | Carwow's standard-equipment list and trim description, the makers' grade tables (`kia_specs`, `hyundai_specs`), a curated car's reading of its trim |
@@ -447,8 +465,7 @@ the equipment a search asks for (`lib/query.ts` `searchPacks`). Nothing in the r
 pump, the cabin socket and the powered tailgate are three flags among the 29
 `services/features.py` knows, resolved by the same rules.
 
-The configurator page (`providers/carwow_options.py`, Gold `options`,
-`data/history/options.jsonl`) is read for every derivative the registry or a
+The configurator page (`providers/carwow_options.py`, Gold `options`) is read for every derivative the registry or a
 specification row names: its JSON block lists every option and pack with prices and
 contents, so "not offered" is evidence rather than silence.
 
@@ -462,7 +479,7 @@ on. The PDF prints one glyph for standard and for optional, so an item a pack of
 the trim bundles is read as that pack's; a dash on an accessory row (an exterior V2L
 adaptor) is read as sold separately.
 
-`providers/hyundai_configurator.py` (Gold `configurations`, `data/history/configurations.jsonl`)
+`providers/hyundai_configurator.py` (Gold `configurations`)
 is the transactional source: the build-and-price page's GraphQL endpoint, one query per
 model, returns every orderable configuration (Hyundai's FSC) with trim, powertrain, price,
 the packages in that price with a description of what they bundle, and each trim's
@@ -568,19 +585,22 @@ the default branch later does not update the rule. The workflow deploys from `ma
 `main` under Settings → Environments → github-pages → Deployment branches and tags. A run
 rejected by that rule fails in two seconds with no runner and no logs.
 
-`.github/workflows/scrape.yml` runs nightly at 03:17 UTC (and on dispatch): `pipeline refresh`
-with the live providers writes `data/history`; the committed snapshot is then built from a
-fresh replay of that history (`refresh --offline` into a second database, then
-`export-snapshot --runs-db` so the Data page still shows the live runs). It commits
-`data/history`, `web/public/data` and `docs/deal-comparison.md` if anything changed, then
-dispatches the Pages deploy (a push made with the workflow token does not trigger other
-workflows by itself). If main moved during the ~90-minute run, the push is rejected and
-the job folds main's history into its database, writes it again and rebuilds the snapshot
-from it (three tries). Each provider keeps itself inside the 180-minute job limit: the
-configurator pages rotate weekly (250 a night), EV Database car pages stop at 60 or 25
-minutes. `pipeline-ci.yml` runs `refresh --offline`: seed, pastes and the replayed history,
-pinned to the committed `generated_at`, and fails if the committed snapshot differs, so
-the snapshot is always what the history reproduces.
+The nightly job runs on the owner's laptop, where the raws live (`scripts/nightly.ps1`, registered
+with Task Scheduler by `scripts/install-nightly.ps1`, daily at 03:17, waking the laptop and
+catching up after a missed start). In a worktree of its own (`%USERPROFILE%\car-research-nightly`)
+it checks out `origin/<branch>` and runs `python -m pipeline nightly`: new committed history into
+the raw store, scrape every live source into it, build from scratch, snapshot, deal table. With
+`-Push` it commits `web/public/data` and `docs/deal-comparison.md` and pushes to `main`, which
+deploys the site; if `main` moved meanwhile it builds again on it from the raws (no new fetching)
+and retries. Without `-Push` it pushes nothing and logs how its snapshot differs from main's
+(`scripts/compare_snapshots.py`): the mode for nights when the GitHub scrape still runs. Each
+night's log is `<raw store>\logs\nightly\<date>.log`. Each provider keeps itself inside a few
+hours: the configurator pages rotate weekly (250 a night), EV Database car pages stop at 60 or
+25 minutes.
+
+CI cannot rebuild from raws it does not have. `pipeline-ci.yml` runs the unit tests (which build
+from a raw store of the captured fixture pages) and a build over the owner's own files with an
+empty raw store.
 
 If the snapshot ever grows past a few MB (per-listing price history, scraped used-car markets),
 move it off `main` onto a squashed orphan `data` branch exactly as `etf-tool/scripts/publish-data.sh`
@@ -589,35 +609,44 @@ does, and add the second checkout step to the deploy workflow.
 ## Local development
 
 ```
-make snapshot        # python -m pipeline refresh --out web/public/data   (live scrape)
-make snapshot-offline  # same with --offline: seed + pastes + replayed history
+make nightly         # python -m pipeline nightly: migrate new history, scrape into the raw store, build, snapshot
+make build           # python -m pipeline build: from scratch from the raws already held (no network), snapshot, deal table
 make test            # python unittest + web lint/typecheck/vitest
 make web-dev         # next dev on :3001, reads web/public/data
 make web-build       # static export to web/out
-python -m pipeline status | deal-table | run <provider> [--capability …] [--target …]
+python -m pipeline scrape --only <provider>   # one live source into the raw store
+python -m pipeline raw-status | raw-migrate | status | trims | models | deal-table | backfill
 ```
 
-Python ≥ 3.11, stdlib only so far. Node 22.
+Python ≥ 3.11, stdlib only (on this laptop `uv run --python 3.12`; set `PYTHONUTF8=1` on
+Windows). Hyundai's guides need poppler's `pdftotext` (`CAR_RESEARCH_PDFTOTEXT`, else on the PATH;
+xpdf's is skipped), else pypdf, which wraps the tables differently; the reader is part of the
+parse cache's key. Node 22. `CAR_RESEARCH_RAW` names the raw store; without the owner's laptop, a clone
+can still `raw-migrate` the legacy history into an empty store and build from that.
 
 ## Adding a provider (scraper)
 
 1. Save a real page into `tests/fixtures/` first and write `parse_page()` against it.
-2. `pipeline/providers/<name>.py`: `discover` yields the targets (URL in `metadata`), `fetch`
-   calls `http.fetch_url`, `parse` wraps `parse_page`; declare `Capability(kinds=("offer",))` and
-   `Provider(live=True)`.
-3. Register it in `pipeline/providers/__init__.py` (after `manual_seed`, which writes the cars
-   and trim map everything else resolves against).
-4. Emit `ParsedRecord(kind="offer", key=<offer key>, row=…)` with `offer_key`, `observed_at`,
-   `present`, `finance_type`, `status`, `verification: "scraped"`, the price fields in the seed
-   schema, and `car_ref: {source, key, label}` for the trim map to resolve.
-5. `python -m pipeline run <name>`, then `python -m pipeline trims` to see what needs mapping or
-   ignoring, then `make snapshot`. The deal maths, freshness and requirement checks apply
-   automatically. Add a fixture test to `tests/test_providers.py`.
+2. `pipeline/providers/<name>.py`: `discover` yields the targets (URL and whatever the parser
+   needs in `metadata`, which the raw store keeps with each fetch), `fetch` calls
+   `http.fetch_url` (a fetch that combines several responses returns them as `parts`), `parse`
+   wraps `parse_page`; declare `Capability(kinds=("offer",))` and `Provider(live=True)`.
+3. Register it in `pipeline/providers/__init__.py`, in the order it should be scraped.
+4. Emit `ParsedRecord(kind="offer", key=<offer key>, row=…)` with `offer_key`, `observed_at`
+   (from `observed_at_for(target)`), `present`, `finance_type`, `status`, `verification:
+   "scraped"`, the price fields in the seed schema, and `car_ref` (a CAP id, or `{source, key,
+   label, make, model, derivative}` for the rules to match).
+5. `python -m pipeline scrape --only <name>`, then `python -m pipeline build` and `python -m
+   pipeline trims` to see what the rules could not place (decide it in `data/seed/trim_map.json`
+   if it is yours to decide). Add a fixture test, through `tests.helpers.Raws` for the build.
 
 ## Decisions
 
+- **Only the raws are permanent** (the owner's design, 10 Oct 2026, `docs/REBUILD.md`). The
+  database and the snapshot are derived from scratch on every build; the owner's own files and
+  decisions are the only other durable thing.
 - **SQLite, not Postgres.** Single user, tiny data, no concurrent writers. Stdlib only.
-- **Data committed on `main`.** ~60KB. The orphan-branch machinery is documented above for later.
+- **The snapshot committed on `main`.** The orphan-branch machinery is documented above for later.
 - **Next.js static export, not Vite.** Mirrors the two most recent reference repos so the layout,
   data client and deploy workflow are familiar. No server mode is built.
 - **No Tremor.** Plain Tailwind tables; fewer dependencies, no React 19 / Tailwind 4 friction.

@@ -1,23 +1,18 @@
-"""Cars generated from the scraped catalogue, for every derivative nobody has
-curated by hand.
+"""A derivative in the form the matcher and the app read, from the source that knows it best.
 
-A hand-curated car (data/seed/cars.json) is the household's own reading of a
-trim: which pack the heat pump needs, whether the cabin socket is really there.
-For the other ~1,500 EV derivatives on sale the pipeline makes a car record
-itself, from the source that knows the derivative best:
+The build (pipeline/build.py) makes one for every CAP id any record names, from scratch
+on every run; nothing writes these as a side effect of reading a page.
 
   from a Carwow specification row   the full thing: numbers, equipment flags,
                                     RRP, image, model year (derivative version)
-  from a Carwow deals row (a stub)  enough to hang a price on: make, model,
-                                    trim · engine, RRP, version date. Seen for
-                                    derivatives that only an archived deals page
-                                    mentions (run-out stock, last year's list).
+  from a registry or deals line     enough to hang a price on: make, model,
+  (a stub)                          trim · engine, RRP, version date
 
-Ids are carwow-cap:<cap id>, the same key the trim map uses, so a derivative
-promoted to a hand-curated car later just maps over it. `auto: true` marks the
-record; tri-state fields are 'unknown' when the source does not list the item,
-never 'none' (an equipment list that omits the heat pump is not proof there is
-none).
+Ids are carwow-cap:<cap id>. A derivative the owner entered in data/seed/cars.json
+appears as the owner's entry instead, carrying the CAP id. `auto: true` marks a
+derivative the owner has not entered; tri-state fields are 'unknown' when the source
+does not list the item, never 'none' (an equipment list that omits the heat pump is
+not proof there is none).
 """
 from __future__ import annotations
 
