@@ -51,6 +51,8 @@ def _build(args, store, out: str | None) -> None:
 def cmd_build(args) -> int:
     """Raws + legacy history + the owner's files -> a fresh database -> the snapshot."""
     _build(args, _store(args), args.out or None)
+    if args.deal_table:
+        _deal_table(Path(args.deal_table))
     return 0
 
 
@@ -245,6 +247,7 @@ def main(argv=None) -> int:
 
     bd = sub.add_parser("build", help="Build the database from scratch (raws, legacy history, the owner's files) and write the snapshot.")
     build_args(bd)
+    bd.add_argument("--deal-table", default="", help="Also write the markdown deal table here.")
     bd.set_defaults(func=cmd_build)
 
     sc = sub.add_parser("scrape", help="Fetch every live source into the raw store.")
