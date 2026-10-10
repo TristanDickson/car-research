@@ -63,9 +63,12 @@ def search_result(html: str) -> dict:
 
 def fetch(target: Target, ctx: Context) -> Fetched:
     pages: list[dict] = []
+    parts: list[Fetched] = []
     got = 0
     for p in range(1, MAX_PAGES + 1):
-        page = search_result(fetch_url(page_url(p), ctx).body.decode("utf-8", "replace"))
+        f = fetch_url(page_url(p), ctx)
+        parts.append(f)
+        page = search_result(f.body.decode("utf-8", "replace"))
         if not page["vehicles"]:
             break
         pages.append(page)
@@ -73,7 +76,7 @@ def fetch(target: Target, ctx: Context) -> Fetched:
         if got >= int(page["metadata"].get("total") or 0):
             break
     body = json.dumps({"pages": pages}, ensure_ascii=False).encode("utf-8")
-    return Fetched(url=target.metadata["url"], status_code=200, body=body, content_type="application/json")
+    return Fetched(url=target.metadata["url"], status_code=200, body=body, content_type="application/json", parts=tuple(parts))
 
 
 def parse_body(body: dict, target: Target, observed_at: str) -> list[dict]:

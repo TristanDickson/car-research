@@ -63,8 +63,9 @@ def fetch(target: Target, ctx: Context) -> Fetched:
     page = fetch_url(target.metadata["url"], ctx)
     m = GUIDE_RE.search(page.body.decode("utf-8", "replace"))
     if not m:
-        return Fetched(url=target.metadata["url"], status_code=404, body=b"", content_type="text/html")
-    return fetch_url(H.unescape(m.group(0)), ctx, accept="application/pdf")
+        return Fetched(url=target.metadata["url"], status_code=404, body=b"", content_type="text/html", parts=(page,))
+    pdf = fetch_url(H.unescape(m.group(0)), ctx, accept="application/pdf")
+    return Fetched(url=pdf.url, status_code=pdf.status_code, body=pdf.body, content_type=pdf.content_type, parts=(page,))
 
 
 def pdf_text(body: bytes) -> str:

@@ -41,10 +41,18 @@ def _keep(store: RawStore, provider: Provider, cap: Capability, t: Target, url: 
     meta = {k: v for k, v in t.metadata.items() if k != "observed_at"} or None
     if t.metadata.get("observed_at"):   # a Wayback capture: the parser dates it by the archive
         meta = dict(meta or {}, observed_at=t.metadata["observed_at"])
+    origin = "wayback" if cap.name == "backfill" else "live"
     store.save(source=provider.name, capability=cap.name, target=t.identifier, metadata=meta, url=url,
-               fetched_at=fetched_at, status=status, body=body, content_type=content_type, error=error,
-               origin="wayback" if cap.name == "backfill" else "live")
+               fetched_at=fetched_at, status=status, body=body, content_type=content_type, error=error, origin=origin)
     return new
+
+
+def _keep_parts(store: RawStore, provider: Provider, cap: Capability, t: Target, parts: tuple, fetched_at: str) -> None:
+    """Each response a combined fetch was made of, byte for byte."""
+    for i, p in enumerate(parts):
+        store.save(source=provider.name, capability=cap.name, target=t.identifier,
+                   metadata={"part": i + 1, "of": len(parts)}, url=p.url, fetched_at=fetched_at, status=p.status_code,
+                   body=p.body, content_type=p.content_type, origin="wayback" if cap.name == "backfill" else "live", role="part")
 
 
 def run(store: RawStore, conn: sqlite3.Connection | None, provider: Provider, capability: str | None = None,
@@ -84,6 +92,7 @@ def run(store: RawStore, conn: sqlite3.Connection | None, provider: Provider, ca
                 failures.append(f"{t.identifier}: {e}")
                 continue
             n_fetch += 1
+            _keep_parts(store, provider, cap, t, fetched.parts, fetched_at)
             n_new += int(_keep(store, provider, cap, t, fetched.url, fetched.status_code, fetched.body, fetched.content_type,
                                None if fetched.status_code == 200 else f"HTTP {fetched.status_code}", fetched_at))
             if fetched.status_code != 200:

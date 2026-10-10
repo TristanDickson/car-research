@@ -222,5 +222,42 @@ class LegacyHistory(unittest.TestCase):
             self.assertEqual({(e["source"], e["capability"]) for e in entries}, {("legacy", "models")})
 
 
+class TheScraperKeepsEveryResponse(unittest.TestCase):
+    """runner.run keeps what each site sent: a combined fetch's parts byte for byte, a failed answer too."""
+
+    def provider(self, fetch):
+        from pipeline.providers.types import Capability, Provider, Target
+        discover = lambda t, ctx: iter([Target("a", {"url": "https://x.test/a"}), Target("b", {"url": "https://x.test/b"})])
+        parse = lambda body, t: iter([])
+        return Provider("rrg", "offers", {"offers": Capability("offers", "1", discover, fetch, parse, ("offer",))})
+
+    def test_parts_and_failures_are_kept(self):
+        from pipeline import runner
+        from pipeline.providers.http import FetchError
+        from pipeline.providers.types import Context, Fetched
+
+        def fetch(t, ctx):
+            if t.identifier == "b":
+                raise FetchError("https://x.test/b -> HTTP 429", status=429, body=b"slow down", url="https://x.test/b")
+            p1, p2 = Fetched("https://x.test/a?p=1", 200, b'{"n": 1}'), Fetched("https://x.test/a?p=2", 200, b'{"n":2}')
+            return Fetched("https://x.test/a", 200, b'{"pages": [1, 2]}', parts=(p1, p2))
+
+        with tempfile.TemporaryDirectory() as tmp:
+            store = RawStore.open(tmp)
+            res = runner.run(store, None, self.provider(fetch), ctx=Context(root=ROOT))
+            self.assertEqual((res.fetches, res.errors), (2, 1))
+            entries = list(store.entries())
+            parts = [e for e in entries if e.get("role") == "part"]
+            self.assertEqual([store.get(e["sha256"]) for e in parts], [b'{"n": 1}', b'{"n":2}'], "each response as it came")
+            self.assertEqual([e["url"] for e in parts], ["https://x.test/a?p=1", "https://x.test/a?p=2"])
+            failed = next(e for e in entries if e["target"] == "b")
+            self.assertEqual((failed["status"], store.get(failed["sha256"]), failed["error"]), (429, b"slow down", "https://x.test/b -> HTTP 429"))
+            runs = list(store.read_log("runs"))
+            self.assertEqual((runs[0]["source"], runs[0]["fetches"], runs[0]["errors"]), ("rrg", 2, 1))
+            conn = fresh_conn()
+            report = Build(conn, store).run()
+            self.assertEqual((report.fetches, report.failures), (1, []), "the build parses the combined body; parts and failures are not pages")
+
+
 if __name__ == "__main__":
     unittest.main()

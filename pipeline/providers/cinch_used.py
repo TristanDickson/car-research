@@ -67,9 +67,11 @@ def fetch(target: Target, ctx: Context) -> Fetched:
     """Every page of the make's electric stock, joined into one JSON body."""
     make = target.metadata["make"]
     pages: list[dict] = []
+    parts: list[Fetched] = []
     got = 0
     for p in range(1, MAX_PAGES + 1):
         f = fetch_url(api_url(make, p), ctx, accept="application/json")
+        parts.append(f)
         page = json.loads(f.body.decode("utf-8", "replace"))
         listings = page.get("vehicleListings") or []
         if not listings:
@@ -79,7 +81,7 @@ def fetch(target: Target, ctx: Context) -> Fetched:
         if got >= int(page.get("searchResultsCount") or 0):
             break
     body = json.dumps({"make": make, "pages": pages}, ensure_ascii=False).encode("utf-8")
-    return Fetched(url=target.metadata["url"], status_code=200, body=body, content_type="application/json")
+    return Fetched(url=target.metadata["url"], status_code=200, body=body, content_type="application/json", parts=tuple(parts))
 
 
 def _model_slug(name: str) -> str:

@@ -108,14 +108,15 @@ class RawStore:
 
     def save(self, *, source: str, capability: str, target: str, metadata: dict | None, url: str | None,
              fetched_at: str, status: int | None, body: bytes | None, content_type: str | None = None,
-             error: str | None = None, origin: str = "live", note: str | None = None) -> dict:
-        """Keep one fetch: the body (if any) and its index line."""
+             error: str | None = None, origin: str = "live", note: str | None = None, role: str | None = None) -> dict:
+        """Keep one fetch: the body (if any) and its index line. `role` 'part' marks one of the responses a
+        combined fetch was made of (kept as it came; the build parses the combined body)."""
         sha = self.put(body) if body is not None else None
         return self.record({
             "source": source, "capability": capability, "target": target, "metadata": metadata or None,
             "url": url, "fetched_at": fetched_at, "status": status, "sha256": sha,
             "size": len(body) if body is not None else None, "content_type": content_type,
-            "error": error, "origin": origin, "note": note,
+            "error": error, "origin": origin, "note": note, "role": role,
         })
 
     def log(self, kind: str, entry: dict) -> None:

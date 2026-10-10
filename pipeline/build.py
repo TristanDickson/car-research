@@ -236,7 +236,7 @@ class Build:
         code = code_version(self.root)
         batches: list[tuple[str, int, dict, list[ParsedRecord]]] = []
         for i, e in enumerate(entries):
-            if e.get("origin") == legacy.SOURCE or not e.get("sha256") or e.get("status") != 200:
+            if e.get("origin") == legacy.SOURCE or e.get("role") == "part" or not e.get("sha256") or e.get("status") != 200:
                 continue
             self.report.fetches += 1
             provider = PROVIDERS.get(e["source"])

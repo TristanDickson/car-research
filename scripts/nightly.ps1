@@ -22,6 +22,7 @@ param(
 )
 $ErrorActionPreference = "Stop"
 $env:PYTHONUTF8 = "1"
+$env:PYTHONUNBUFFERED = "1"
 if (-not $env:CAR_RESEARCH_RAW) { $env:CAR_RESEARCH_RAW = [Environment]::GetEnvironmentVariable("CAR_RESEARCH_RAW", "User") }
 if (-not $env:CAR_RESEARCH_RAW) { throw "CAR_RESEARCH_RAW is not set: it names the raw store folder" }
 $git = (Get-Command git).Source
@@ -34,50 +35,64 @@ if ((Test-Path (Join-Path $gitBin "pdftotext.exe")) -and ($env:Path -notlike "*$
 $day = (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd")
 $logDir = Join-Path $env:CAR_RESEARCH_RAW "logs\nightly"
 New-Item -ItemType Directory -Force $logDir | Out-Null
-Start-Transcript -Path (Join-Path $logDir "$day.log") -Append | Out-Null
+$log = Join-Path $logDir "$day.log"
+$utf8 = New-Object Text.UTF8Encoding $false
 
-function Invoke-Checked([string]$what, [scriptblock]$block) {
-    & $block
-    if ($LASTEXITCODE -ne 0) { throw "$what failed (exit $LASTEXITCODE)" }
+function Write-Log([string]$text) {
+    [IO.File]::AppendAllText($log, "$text`r`n", $utf8)
+}
+
+# A program's output and errors, appended to the log as bytes (cmd's redirection does not re-encode).
+# Returns its exit code; throws on failure unless -NoThrow.
+function Invoke-Logged([string]$what, [string]$exe, [string[]]$arguments, [switch]$NoThrow) {
+    $quoted = ($arguments | ForEach-Object { if ($_ -match '[\s"]') { '"' + ($_ -replace '"', '\"') + '"' } else { $_ } }) -join " "
+    Write-Log "> $what"
+    cmd.exe /d /c "`"$exe`" $quoted >> `"$log`" 2>&1"
+    $code = $LASTEXITCODE
+    if ($code -ne 0 -and -not $NoThrow) { throw "$what failed (exit $code)" }
+    return $code
 }
 
 function Invoke-Pipeline([string[]]$arguments) {
-    Invoke-Checked "pipeline $($arguments -join ' ')" { & $uv run --quiet --python 3.12 python -m pipeline @arguments }
+    $null = Invoke-Logged "pipeline $($arguments -join ' ')" $uv (@("run", "--quiet", "--python", "3.12", "python", "-m", "pipeline") + $arguments)
 }
 
 try {
-    Write-Output "nightly: $(Get-Date -Format o), branch $Branch, push $($Push.IsPresent)"
+    Write-Log "nightly: $(Get-Date -Format o), branch $Branch, push $($Push.IsPresent)"
     if (-not (Test-Path $Worktree)) {
-        Invoke-Checked "git worktree add" { & $git -C $Repo worktree add --detach $Worktree }
+        Invoke-Logged "git worktree add" $git @("-C", $Repo, "worktree", "add", "--detach", $Worktree) | Out-Null
     }
     Set-Location $Worktree
-    Invoke-Checked "git fetch" { & $git fetch -q origin }
-    Invoke-Checked "git checkout" { & $git checkout -q --detach --force "origin/$Branch" }
+    Invoke-Logged "git fetch" $git @("fetch", "-q", "origin") | Out-Null
+    Invoke-Logged "git checkout" $git @("checkout", "-q", "--detach", "--force", "origin/$Branch") | Out-Null
     $env:CAR_RESEARCH_DB = Join-Path $Worktree "data\car-research.sqlite"
     Invoke-Pipeline @("nightly")
     Invoke-Pipeline @("raw-status")
 
     if (-not $Push) {
-        Write-Output "compared with main's snapshot (new = this build, old = main):"
-        Invoke-Checked "compare" { & $uv run --quiet --python 3.12 python scripts/compare_snapshots.py web/public/data git:origin/main }
+        Write-Log "compared with main's snapshot (new = this build, old = main):"
+        Invoke-Logged "compare" $uv @("run", "--quiet", "--python", "3.12", "python", "scripts/compare_snapshots.py", "web/public/data", "git:origin/main") | Out-Null
+        Write-Log "nightly: done $(Get-Date -Format o)"
         return
     }
 
     for ($attempt = 1; $attempt -le 3; $attempt++) {
         & $git add -- web/public/data docs/deal-comparison.md
         & $git diff --cached --quiet
-        if ($LASTEXITCODE -eq 0) { Write-Output "nothing changed"; break }
-        Invoke-Checked "git commit" { & $git -c user.name="car-research nightly" -c user.email="nightly@car-research.local" commit -q -m "data: nightly build $day" }
-        & $git push -q origin HEAD:main
-        if ($LASTEXITCODE -eq 0) { Write-Output "pushed"; break }
+        if ($LASTEXITCODE -eq 0) { Write-Log "nothing changed"; break }
+        Invoke-Logged "git commit" $git @("-c", "user.name=car-research nightly", "-c", "user.email=nightly@car-research.local",
+                                          "commit", "-q", "-m", "data: nightly build $day") | Out-Null
+        if ((Invoke-Logged "git push" $git @("push", "-q", "origin", "HEAD:main") -NoThrow) -eq 0) { Write-Log "pushed"; break }
         if ($attempt -eq 3) { throw "main kept moving; tonight's snapshot was not pushed" }
         # main moved while we scraped: take it as it now is and build again from the raws (no new fetching).
-        Write-Output "main moved; building again on it (attempt $attempt)"
-        Invoke-Checked "git fetch" { & $git fetch -q origin }
-        Invoke-Checked "git checkout" { & $git checkout -q --detach --force origin/main }
+        Write-Log "main moved; building again on it (attempt $attempt)"
+        Invoke-Logged "git fetch" $git @("fetch", "-q", "origin") | Out-Null
+        Invoke-Logged "git checkout" $git @("checkout", "-q", "--detach", "--force", "origin/main") | Out-Null
         Invoke-Pipeline @("build", "--deal-table", "docs/deal-comparison.md")
     }
+    Write-Log "nightly: done $(Get-Date -Format o)"
 }
-finally {
-    Stop-Transcript | Out-Null
+catch {
+    Write-Log "nightly: FAILED: $_"
+    throw
 }
