@@ -191,16 +191,23 @@ class UsedInGold(unittest.TestCase):
         body, meta = _json_body(base, ident, files, wrap, models)
         self.raws.add(base.provider, ident, body=body, metadata=meta, at=at)
 
-    def test_stock_is_present_until_a_later_page_lacks_it(self):
+    def test_carwow_stock_is_a_sample_so_a_car_goes_only_after_a_week_unseen(self):
         self.raws.add("carwow_used", "hyundai/ioniq-5", "carwow_used_hyundai_ioniq-5_p1.html", at=self.T1)
         conn = self.raws.build()
         self.assertEqual(conn.execute("SELECT COUNT(*) FROM used_listings WHERE present=1").fetchone()[0], 6)
-        # The next visit lists three cars (one new, two already known): those three are stock, the other four gone.
+        # The next day's visit shows three cars (one new, two already known). Carwow's cards come in a
+        # different order every time, so the four it did not show are not taken as sold.
         self.raws.add("carwow_used", "hyundai/ioniq-5", "carwow_used_hyundai_ioniq-5_p3.html", at=self.T2)
         conn = self.raws.build()
         rows = {r[0]: r[1] for r in conn.execute("SELECT listing_key, present FROM used_listings")}
-        self.assertEqual(len(rows), 7)
+        self.assertEqual((len(rows), sum(rows.values())), (7, 7))
+        # A week and more later the same three are shown again: the other four are gone, from the day after they were last seen.
+        self.raws.add("carwow_used", "hyundai/ioniq-5", "carwow_used_hyundai_ioniq-5_p3.html", at="2026-10-16T00:00:00+00:00")
+        conn = self.raws.build()
+        rows = {r[0]: r[1] for r in conn.execute("SELECT listing_key, present FROM used_listings")}
         self.assertEqual(sum(rows.values()), 3)
+        gone = conn.execute("SELECT DISTINCT observed_at FROM used_observations WHERE present=0").fetchall()
+        self.assertEqual([tuple(r) for r in gone], [("2026-10-08T00:00:00+00:00",)])
         self.assertEqual(conn.execute("SELECT price_gbp, year FROM used_listings WHERE listing_key LIKE '%907dd561%'").fetchone()[:], (18733.0, 2024))
 
     def present_by_source(self, conn):
@@ -216,7 +223,8 @@ class UsedInGold(unittest.TestCase):
         # model they were, the make's page covers them all), Carwow's six untouched.
         self.add_json(cinch_used, "hyundai", ["cinch_hyundai_electric_p3.json"], wrap, HYUNDAI, self.T2)
         conn = self.raws.build()
-        self.assertEqual(self.present_by_source(conn), {"carwow_used": (6, 6), "cinch_used": (22, 53)})
+        self.assertEqual(self.present_by_source(conn), {"carwow_used": (6, 6), "cinch_used": (22, 53)},
+                         "cinch's pages are its whole stock, so a car missing from them is gone at once")
         t = Target("hyundai", {"make": "hyundai", "url": "u", "models": HYUNDAI})
         expected = {}
         for r in cinch_used.parse_body(json.loads(fixture("cinch_hyundai_electric_p3.json")), t, T):

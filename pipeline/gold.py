@@ -14,6 +14,12 @@ from datetime import datetime, timedelta, timezone
 
 from pipeline.providers.types import ParsedRecord
 
+# Sources whose pages show a sample of the stock, not all of it: Carwow's used cards come back in a
+# different order on every request, so paging through them misses some cars each time. A car absent
+# from one such fetch is not evidence it was sold; `retire_sampled` marks it gone after SAMPLED_DAYS.
+SAMPLED_SOURCES = ("carwow_used",)
+SAMPLED_DAYS = 7
+
 PRICE_FIELDS = (
     "vehicle_price", "monthly_payment", "apr", "gfv", "customer_deposit",
     "manufacturer_contribution", "num_payments", "term_months", "initial_rental",
@@ -233,6 +239,29 @@ def backfill_used_spans(conn: sqlite3.Connection) -> int:
     return len(rows)
 
 
+def retire_sampled(conn: sqlite3.Connection) -> int:
+    """A car from a sampled source (SAMPLED_SOURCES) is gone once SAMPLED_DAYS have passed since it was last
+    seen, measured against the latest fetch of the page it came from. Its gone span starts the day after it
+    was last seen. Returns how many were retired."""
+    latest = {(r[0], r[1]): r[2] for r in conn.execute(
+        f"""SELECT source, COALESCE(json_extract(payload, '$.listing_url'), ''), MAX(last_seen_at) FROM used_listings
+            WHERE source IN ({','.join('?' * len(SAMPLED_SOURCES))}) GROUP BY 1, 2""", SAMPLED_SOURCES)}
+    n = 0
+    rows = conn.execute(
+        f"""SELECT listing_key, source, COALESCE(json_extract(payload, '$.listing_url'), '') AS page, price_gbp, mileage, last_seen_at
+            FROM used_listings WHERE present=1 AND source IN ({','.join('?' * len(SAMPLED_SOURCES))}) ORDER BY listing_key""",
+        SAMPLED_SOURCES).fetchall()
+    for r in rows:
+        last = datetime.fromisoformat(r["last_seen_at"])
+        if datetime.fromisoformat(latest[(r["source"], r["page"])]) - last < timedelta(days=SAMPLED_DAYS):
+            continue
+        gone_at = (last + timedelta(days=1)).isoformat(timespec="seconds")
+        conn.execute("UPDATE used_listings SET present=0 WHERE listing_key=?", (r["listing_key"],))
+        merge_used_sighting(conn, r["listing_key"], r["source"], r["price_gbp"], r["mileage"], False, gone_at, None)
+        n += 1
+    return n
+
+
 def write(conn: sqlite3.Connection, source: str, records: dict[str, list[tuple[int | None, ParsedRecord]]],
           run_id: int | None, now: str | None = None) -> int:
     """Upsert one fetch's records, dated `now` (when the page was fetched). Offers, the
@@ -263,7 +292,7 @@ def write(conn: sqlite3.Connection, source: str, records: dict[str, list[tuple[i
         merge_used_sighting(conn, r["listing_key"], source, r.get("price_gbp"), r.get("mileage"), True, now, run_id)
         used_seen.setdefault(r.get("listing_url") or "", set()).add(r["listing_key"])
         written += 1
-    for listing_url, keys in used_seen.items():
+    for listing_url, keys in (used_seen.items() if source not in SAMPLED_SOURCES else ()):
         # A listing missing from the page it came from (a model's cards on Carwow,
         # a make's stock on cinch, the whole electric listing on Motorpoint) has
         # been sold or withdrawn; another source's, a page not fetched this run, or

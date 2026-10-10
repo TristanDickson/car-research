@@ -19,6 +19,7 @@ claim store (services/claims.py) reads them as the maker's claims.
 from __future__ import annotations
 
 import html as H
+import os
 import re
 import shutil
 import subprocess
@@ -68,16 +69,53 @@ def fetch(target: Target, ctx: Context) -> Fetched:
     return Fetched(url=pdf.url, status_code=pdf.status_code, body=pdf.body, content_type=pdf.content_type, parts=(page,))
 
 
+_READER: tuple[str, str | None] | None = None
+
+
+def pdf_reader() -> tuple[str, str | None]:
+    """(what reads the guides, poppler's pdftotext path if that). The parser was written against
+    poppler's layout; xpdf's pdftotext (Git for Windows ships one) and pypdf wrap the tables
+    differently, and pypdf loses lines of a pack's contents (the Ioniq 5 Ultimate's Zen Pack).
+    So: $CAR_RESEARCH_PDFTOTEXT, else a poppler pdftotext on PATH, else pypdf. The build's parse
+    cache keys on this, so a change of reader reads every stored guide again."""
+    global _READER
+    if _READER is None:
+        candidates = [os.environ.get("CAR_RESEARCH_PDFTOTEXT"), shutil.which("pdftotext")]
+        for exe in [c for c in candidates if c]:
+            try:
+                v = subprocess.run([exe, "-v"], capture_output=True, timeout=30)
+            except OSError:
+                continue
+            banner = (v.stdout + v.stderr).decode("utf-8", "replace")
+            if "poppler" in banner.lower():
+                version = next((line.split()[-1] for line in banner.splitlines() if "version" in line), "?")
+                _READER = (f"poppler {version}", exe)
+                break
+        else:
+            try:
+                import pypdf
+                _READER = (f"pypdf {pypdf.__version__}", None)
+            except ImportError:
+                _READER = ("none", None)
+    return _READER
+
+
 def pdf_text(body: bytes) -> str:
-    """Layout-preserving text: pdftotext where installed, else pypdf's layout mode."""
-    if shutil.which("pdftotext"):
-        out = subprocess.run(["pdftotext", "-layout", "-", "-"], input=body, capture_output=True, check=True)
+    """Layout-preserving text of a guide, by the reader pdf_reader() picks."""
+    name, exe = pdf_reader()
+    if exe:
+        # From a file: a pdftotext on Windows may not read a PDF from standard input.
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            src = os.path.join(tmp, "guide.pdf")
+            with open(src, "wb") as f:
+                f.write(body)
+            out = subprocess.run([exe, "-layout", "-enc", "UTF-8", src, "-"], capture_output=True, check=True)
         return out.stdout.decode("utf-8", "replace")
-    try:
-        import io
-        import pypdf
-    except ImportError as e:   # pragma: no cover
-        raise RuntimeError("reading a PDF needs pdftotext (poppler-utils) or pypdf") from e
+    if name == "none":
+        raise RuntimeError("reading a PDF needs poppler's pdftotext ($CAR_RESEARCH_PDFTOTEXT, or poppler-utils) or pypdf")
+    import io
+    import pypdf
     reader = pypdf.PdfReader(io.BytesIO(body))
     return "\n\f".join(p.extract_text(extraction_mode="layout") or "" for p in reader.pages)
 

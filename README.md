@@ -301,8 +301,9 @@ make web-dev                    # http://localhost:3001
 Python ≥ 3.11 with no third-party packages; Node 22 (`cd web && npm install`). On the owner's
 laptop: `uv run --python 3.12 python -m pipeline …` and `PYTHONUTF8=1`. `CAR_RESEARCH_RAW` names
 the raw store (`D:\car-research-raw` there). `hyundai_specs` reads Hyundai's PDF guides with
-`pdftotext` (Git for Windows ships one; poppler elsewhere) or `pypdf`; without either, that one
-provider's pages are still kept and parse at the next build that has one. The database
+poppler's `pdftotext` (`CAR_RESEARCH_PDFTOTEXT` names it if it is not on the PATH); pypdf is the
+fallback but loses lines of the packs' contents. Without either, the guides are still kept and
+parse at the next build that has one. The database
 (`data/car-research.sqlite`, `CAR_RESEARCH_DB`) and the parse cache are disposable.
 
 A full scrape reads ~1,500 pages at a polite pace and takes about two hours. EV Database

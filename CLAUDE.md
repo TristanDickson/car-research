@@ -40,7 +40,8 @@ make web-dev                    # http://localhost:3001
 
 On this laptop: `uv run --python 3.12 python -m pipeline ...` (the system Python is 3.9) with
 `PYTHONUTF8=1` (Windows reads files as cp1252 otherwise). Python ≥ 3.11, standard library only.
-Node 22. `hyundai_specs` needs `pdftotext` (Git for Windows ships one) or `pypdf`.
+Node 22. `hyundai_specs` needs poppler's `pdftotext` (on this laptop `CAR_RESEARCH_PDFTOTEXT`,
+under `%USERPROFILE%\tools`); xpdf's and pypdf read the guides' tables wrongly.
 
 ## Rules
 
@@ -93,5 +94,7 @@ Node 22. `hyundai_specs` needs `pdftotext` (Git for Windows ships one) or `pypdf
   guides and `hyundai_configurator` the configurator's GraphQL endpoint.
 - The Kia Finance quote API answers "No quote available"; Kia finance examples are captured
   by hand.
+- Carwow's used cards come back in a different order on every request, so each night samples the
+  stock; a Carwow used car counts as gone only after a week unseen (`gold.SAMPLED_SOURCES`).
 - The legacy history (before 10 Oct 2026) has no pages behind it: only its matching is
   re-derived, not its parsing.

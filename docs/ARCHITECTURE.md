@@ -95,6 +95,9 @@ matches every record at once (`Build.match`), in this order:
 3. **The broker's text** (LeaseLoco, NCD, used listings): the rules in `services/resolve.py`
    against every derivative of that make and model (below). A used listing is matched the same
    way (the owner's decision, then the rules) but never listed as unmapped: stock is not an offer.
+   A listing missing from the page it came from is gone, except on Carwow, whose used cards come
+   back in a different order on every request so that each fetch is a sample: a Carwow used car is
+   gone after a week unseen (`gold.retire_sampled`).
 4. Otherwise the record is listed on the Data page as `unmapped` (or `conflict`), with its
    evidence, and `python -m pipeline trims` prints it. A spec row is never a mapping task:
    EV Database rows belong to no car (the claim store lays them over cars by model and battery).
@@ -616,7 +619,9 @@ python -m pipeline raw-status | raw-migrate | status | trims | models | deal-tab
 ```
 
 Python ≥ 3.11, stdlib only (on this laptop `uv run --python 3.12`; set `PYTHONUTF8=1` on
-Windows). Node 22. `CAR_RESEARCH_RAW` names the raw store; without the owner's laptop, a clone
+Windows). Hyundai's guides need poppler's `pdftotext` (`CAR_RESEARCH_PDFTOTEXT`, else on the PATH;
+xpdf's is skipped), else pypdf, which wraps the tables differently; the reader is part of the
+parse cache's key. Node 22. `CAR_RESEARCH_RAW` names the raw store; without the owner's laptop, a clone
 can still `raw-migrate` the legacy history into an empty store and build from that.
 
 ## Adding a provider (scraper)

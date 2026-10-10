@@ -28,9 +28,14 @@ if (-not $env:CAR_RESEARCH_RAW) { throw "CAR_RESEARCH_RAW is not set: it names t
 $git = (Get-Command git).Source
 $uv = (Get-Command uv -ErrorAction SilentlyContinue).Source
 if (-not $uv) { $uv = Join-Path $env:USERPROFILE ".local\bin\uv.exe" }
-# pdftotext reads Hyundai's PDF guides; Git for Windows ships one.
-$gitBin = "C:\Program Files\Git\mingw64\bin"
-if ((Test-Path (Join-Path $gitBin "pdftotext.exe")) -and ($env:Path -notlike "*$gitBin*")) { $env:Path = "$env:Path;$gitBin" }
+# Poppler's pdftotext reads Hyundai's PDF guides (the parser is written against its layout). Point
+# CAR_RESEARCH_PDFTOTEXT at it (a user environment variable), or install it under %USERPROFILE%\tools.
+if (-not $env:CAR_RESEARCH_PDFTOTEXT) { $env:CAR_RESEARCH_PDFTOTEXT = [Environment]::GetEnvironmentVariable("CAR_RESEARCH_PDFTOTEXT", "User") }
+if (-not $env:CAR_RESEARCH_PDFTOTEXT) {
+    $found = Get-ChildItem (Join-Path $env:USERPROFILE "tools") -Recurse -Filter pdftotext.exe -ErrorAction SilentlyContinue |
+        Where-Object { $_.FullName -like "*poppler*" } | Select-Object -First 1
+    if ($found) { $env:CAR_RESEARCH_PDFTOTEXT = $found.FullName }
+}
 
 $day = (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd")
 $logDir = Join-Path $env:CAR_RESEARCH_RAW "logs\nightly"

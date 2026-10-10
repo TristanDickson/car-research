@@ -49,6 +49,27 @@ standard list, the 2026 entry saying nothing), and on two XPeng G6s from "option
 Used listings that name a derivative the owner entered now sit on the owner's car rather than on
 a hidden twin.
 
+The first full run from the laptop (10 Oct, 18:11 to 19:35 local, 84 minutes): 1,341 fetches,
+71 MB in the store with the legacy history. EV Database answered 55 car pages with one failure and
+no throttling. Against main's snapshot, every difference is tonight's sightings: 1,317 offers' last
+span now runs to tonight and 140 have a new price tonight; no offer's earlier history changed. The
+run found three problems, fixed the same evening:
+
+- Carwow returns its used stock in a different order on every request (tested: page 1 twice gives
+  different cars, and no sort parameter steadies it), so paging samples the stock. The old fetch
+  stopped at the first page that brought nothing new, which on the laptop listed 1,142 Carwow cars
+  where GitHub's run that morning listed 1,776, and every car missing from the sample was marked
+  sold. The fetch now pages until there is no next page (or three pages bring nothing new), and a
+  Carwow used car counts as gone only after a week unseen. cinch and Motorpoint page through their
+  APIs and keep the old rule.
+- Hyundai's spec guides (PDFs) need poppler's `pdftotext`, which GitHub's runner had. The laptop
+  had only xpdf's (from Git for Windows), which failed, and pypdf, which reads the tables
+  differently (it loses the Vision Roof from the Ioniq 5 Ultimate's Zen Pack and so marks the roof
+  standard). Poppler 26.09 is now in `%USERPROFILE%\tools` and `CAR_RESEARCH_PDFTOTEXT` points at
+  it; with it the laptop reads all 20 Hyundai rows exactly as GitHub did. The reader's version is
+  part of the parse cache's key.
+- The comparison above is from this build; the review fixes below changed none of its numbers.
+
 To do before switching over:
 
 1. Two nights of the laptop's job beside the GitHub scrape, compared (the log is
@@ -70,6 +91,9 @@ Known limits of what is built:
   are no merge or reject pairs yet; none were needed.
 - A raw is what the parser reads, so a parser's inputs that came from elsewhere are kept with the
   fetch: cinch's and Motorpoint's targets carry the catalogue models they file listings under.
+- An independent review found that concurrent writers could lose index lines, that a body
+  written just before a crash could stay broken, that a combined fetch failing partway dropped the
+  pages it had, and two places where reading order decided a result. All are fixed and tested.
 - The legacy rows from before the rebuild cannot be re-parsed (no page was kept); only their
   matching is re-derived. Re-running the Wayback backfill on the laptop would fetch the archived
   pages as raws.

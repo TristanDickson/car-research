@@ -87,6 +87,8 @@ def code_version(root: Path = ROOT) -> str:
     for p in files:
         h.update(p.name.encode())
         h.update(p.read_bytes().replace(b"\r\n", b"\n"))
+    from pipeline.providers.hyundai_specs import pdf_reader
+    h.update(pdf_reader()[0].encode())   # the PDF reader is part of the parser
     return h.hexdigest()[:16]
 
 
@@ -519,6 +521,7 @@ class Build:
 
     def finish(self) -> None:
         """Everything after reading: derivatives, cars, matching, spans."""
+        gold.retire_sampled(self.conn)
         gold.backfill_used_spans(self.conn)
         self.derivatives()
         self.cars()
