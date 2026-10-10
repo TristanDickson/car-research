@@ -29,6 +29,17 @@ def fingerprint(row: dict) -> str:
     return hashlib.sha1(_dump({k: row.get(k) for k in PRICE_FIELDS}).encode()).hexdigest()[:16]
 
 
+def curated_owner(conn: sqlite3.Connection, car_id: str | None) -> str | None:
+    """The hand-curated car that is this generated car's CAP derivative (the trim map's
+    carwow-cap row says so), if any. The generated car then stays only as something
+    broker text can be matched against; whatever lands on it belongs to the owner."""
+    if not car_id or not car_id.startswith("carwow-cap:"):
+        return None
+    row = conn.execute("SELECT car_id FROM trim_map WHERE source='carwow-cap' AND source_key=? AND status='mapped' AND car_id IS NOT NULL",
+                       (car_id.split(":", 1)[1],)).fetchone()
+    return row["car_id"] if row else None
+
+
 def _is_auto(conn: sqlite3.Connection, car_id: str) -> bool:
     row = conn.execute("SELECT payload FROM cars WHERE id=?", (car_id,)).fetchone()
     return bool(row) and bool(json.loads(row["payload"]).get("auto"))
@@ -125,6 +136,7 @@ def resolve_car(conn: sqlite3.Connection, site: str, key: str, label: str | None
             _touch_trim_map(conn, site, key, None, "conflict", label, example_url, now, method=method, evidence=evidence, name_key=nkey)
             return None, "conflict"
     if auto_id:
+        auto_id = curated_owner(conn, auto_id) or auto_id
         _touch_trim_map(conn, site, key, auto_id, "auto", label, example_url, now, method=method, evidence=evidence, name_key=nkey)
         return auto_id, "auto"
 
@@ -226,8 +238,14 @@ def upsert_configuration(conn: sqlite3.Connection, r: dict, artifact_id: int | N
 
 
 def prune_auto_cars(conn: sqlite3.Connection) -> int:
-    """Drop generated cars nothing refers to any more (their derivative was mapped
-    to a hand-curated car and no observation or spec still points at them)."""
+    """Move whatever points at a generated car whose derivative a hand-curated car is
+    (sightings, specs, broker resolutions) onto that car, then drop generated cars
+    nothing refers to any more."""
+    for r in conn.execute("""SELECT 'carwow-cap:' || source_key AS gen, car_id AS owner FROM trim_map
+                               WHERE source='carwow-cap' AND status='mapped' AND car_id IS NOT NULL""").fetchall():
+        conn.execute("UPDATE offer_observations SET car_id=? WHERE car_id=?", (r["owner"], r["gen"]))
+        conn.execute("UPDATE specs SET car_id=? WHERE car_id=?", (r["owner"], r["gen"]))
+        conn.execute("UPDATE trim_map SET car_id=? WHERE car_id=? AND status='auto'", (r["owner"], r["gen"]))
     rows = conn.execute(
         """SELECT id FROM cars WHERE json_extract(payload, '$.auto') = 1
              AND id NOT IN (SELECT car_id FROM offer_observations)

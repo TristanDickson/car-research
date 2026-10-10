@@ -433,3 +433,29 @@ class ResolutionRules(unittest.TestCase):
         self.assertTrue(rows)
         self.assertTrue(all(r["method"] in ("trim-powertrain", "rrp", "name", "bracket", "base", "version") for r in rows), [r["method"] for r in rows])
         self.assertTrue(all(json.loads(r["evidence"]).get("score") is not None for r in rows))
+
+
+class CuratedOwnsItsDerivative(unittest.TestCase):
+    """A hand-curated car mapped to a CAP id is that derivative: no second, generated car for it."""
+
+    def test_a_match_on_the_generated_twin_lands_on_the_curated_car_and_the_twin_never_shows(self):
+        from pipeline.services.snapshot import load_cars
+        conn = fresh_conn()
+        run_all(conn)
+        owner = "hyundai-kona-65-ultimate"
+        cap = conn.execute("SELECT source_key FROM trim_map WHERE source='carwow-cap' AND status='mapped' AND car_id=?", (owner,)).fetchone()
+        self.assertIsNotNone(cap, "the seed maps the curated Kona Ultimate to its CAP derivative")
+        cap = cap[0]
+        gold.ensure_auto_car(conn, autocars.from_stub({"cap_id": cap, "make": "Hyundai", "model": "Kona Electric", "trim": "Ultimate",
+                                                       "engine": "160kW 65kWh Auto", "rrp": 39630.0}), "carwow_model", None, None, T)
+        ref = {"source": "leaseloco", "key": "hyundai|kona electric|160kw ultimate 65kwh", "label": "Hyundai Kona Electric 160kW Ultimate 65kWh 5dr Auto",
+               "make": "Hyundai", "model": "Kona Electric", "derivative": "160kW Ultimate 65kWh 5dr Auto"}
+        car_id, status = gold.resolve_car(conn, "leaseloco", ref["key"], ref["label"], "u", T, ref=ref)
+        self.assertEqual((car_id, status), (owner, "auto"))
+        conn.execute("INSERT INTO offer_observations (offer_key, car_id, source, observed_at, present, finance_type, status, payload) "
+                     "VALUES ('x:1', ?, 't', ?, 1, 'cash', 'lead', '{}')", (f"carwow-cap:{cap}", T))
+        gold.prune_auto_cars(conn)
+        self.assertEqual(conn.execute("SELECT car_id FROM offer_observations WHERE offer_key='x:1'").fetchone()[0], owner)
+        ids = {c["id"] for c in load_cars(conn)}
+        self.assertIn(owner, ids)
+        self.assertNotIn(f"carwow-cap:{cap}", ids)
