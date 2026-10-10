@@ -252,10 +252,8 @@ def export_resolutions(conn: sqlite3.Connection, path: Path | str = RESOLUTIONS_
 
 def import_resolutions(conn: sqlite3.Connection, path: Path | str = RESOLUTIONS_PATH) -> int:
     """Upsert the file's rows (a seed 'mapped' row always wins; a seed 'ignored'
-    row gives way, as it does live, since the derivative now has a generated car)
-    and write each row's brackets back onto its generated car, as the live run did."""
-    from pipeline.services import resolve
-
+    row gives way, as it does live, since the derivative now has a generated car).
+    What a row's brackets say is read by the claim store (services/claims.py)."""
     path = Path(path)
     if not path.exists():
         return 0
@@ -287,8 +285,6 @@ def import_resolutions(conn: sqlite3.Connection, path: Path | str = RESOLUTIONS_
                  json.dumps(ev, ensure_ascii=False, sort_keys=True) if ev else None, d.get("name_key"),
                  d["first_seen_at"], d["last_seen_at"]),
             )
-            if car_id and ev and ev.get("brackets"):
-                gold._apply_bracket_facts(conn, car_id, ev["brackets"], d["last_seen_at"])
             n += 1
     conn.commit()
     return n

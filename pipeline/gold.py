@@ -121,7 +121,6 @@ def resolve_car(conn: sqlite3.Connection, site: str, key: str, label: str | None
         method, evidence, nkey = res.method, resolve.dump_evidence(res.evidence), resolve.name_key(ref.get("derivative") or label)
         if res.car_id:
             auto_id = res.car_id
-            _apply_bracket_facts(conn, auto_id, res.brackets, now)
         elif res.method == "conflict":
             _touch_trim_map(conn, site, key, None, "conflict", label, example_url, now, method=method, evidence=evidence, name_key=nkey)
             return None, "conflict"
@@ -144,20 +143,6 @@ def resolve_car(conn: sqlite3.Connection, site: str, key: str, label: str | None
     return None, "unmapped"
 
 
-def _apply_bracket_facts(conn: sqlite3.Connection, car_id: str, br: list[str], now: str) -> None:
-    """A broker's '[Heat Pump]' / '[7 seat]' names something about the generated
-    derivative that Carwow's pages never print: write it onto the car."""
-    if not br:
-        return
-    row = conn.execute("SELECT payload, source FROM cars WHERE id=?", (car_id,)).fetchone()
-    if not row:
-        return
-    car = json.loads(row["payload"])
-    facts = resolve.facts_from_brackets(car, br)
-    if facts and any(car.get(k) != v for k, v in facts.items()):
-        _upsert_car(conn, {**car, **facts}, row["source"], None, now)
-
-
 def _upsert_car(conn: sqlite3.Connection, r: dict, source: str, artifact_id: int | None, now: str) -> None:
     conn.execute(
         """INSERT INTO cars (id, make, model, trim, model_year, seats, battery_kwh, wltp_range_mi,
@@ -178,16 +163,17 @@ def _upsert_car(conn: sqlite3.Connection, r: dict, source: str, artifact_id: int
 
 
 def ensure_auto_car(conn: sqlite3.Connection, car: dict, source: str, artifact_id: int | None,
-                    run_id: int | None, now: str) -> bool:
+                    run_id: int | None, now: str, registry: bool = False) -> bool:
     """Write a generated car unless a hand-curated one owns the id. A spec-built
-    car replaces a stub (and an older spec-built one); a stub never replaces
-    anything. Returns True if the row was written."""
+    car replaces a stub (and an older spec-built one); a stub replaces nothing,
+    except that the registry's stub (`registry`) refreshes an earlier stub, so a
+    live run and a replay of the history agree on it. Returns True if written."""
     row = conn.execute("SELECT payload FROM cars WHERE id=?", (car["id"],)).fetchone()
     if row:
         existing = json.loads(row["payload"])
         if not existing.get("auto"):
             return False
-        if car.get("source_kind") == "stub":
+        if car.get("source_kind") == "stub" and not (registry and existing.get("source_kind") == "stub"):
             return False
     _upsert_car(conn, car, source, artifact_id, now)
     return True
@@ -196,7 +182,7 @@ def ensure_auto_car(conn: sqlite3.Connection, car: dict, source: str, artifact_i
 def upsert_derivative(conn: sqlite3.Connection, r: dict, source: str, artifact_id: int | None, run_id: int | None, now: str,
                       first_seen_at: str | None = None, last_seen_at: str | None = None) -> None:
     """A row of the registry, and a stub car for a derivative nothing else described
-    (a spec-built car keeps its place; a stub never replaces anything)."""
+    (a spec-built car keeps its place; this stub refreshes an earlier stub)."""
     conn.execute(
         """INSERT INTO derivatives (cap_id, make_slug, model_slug, name, trim, engine, rrp, version_date, payload,
              first_seen_at, last_seen_at, artifact_id, run_id)
@@ -211,7 +197,7 @@ def upsert_derivative(conn: sqlite3.Connection, r: dict, source: str, artifact_i
     )
     stub = {"cap_id": r["cap_id"], "make": r.get("make") or r["make_slug"], "make_slug": r["make_slug"], "model": r.get("model") or r["model_slug"],
             "model_slug": r["model_slug"], "trim": r.get("trim"), "engine": r.get("engine"), "rrp": r.get("rrp"), "version_date": r.get("version_date")}
-    ensure_auto_car(conn, autocars.from_stub(stub), source, artifact_id, run_id, now)
+    ensure_auto_car(conn, autocars.from_stub(stub), source, artifact_id, run_id, now, registry=True)
 
 
 def upsert_options(conn: sqlite3.Connection, r: dict, artifact_id: int | None, run_id: int | None, now: str,

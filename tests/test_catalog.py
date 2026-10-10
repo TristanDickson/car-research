@@ -226,32 +226,61 @@ class GeneratedCars(unittest.TestCase):
 
 
 class ResolutionsRoundTrip(unittest.TestCase):
-    def test_replay_rebuilds_the_rows_and_the_facts_they_wrote_on_the_cars(self):
-        conn = fresh_conn()
-        run_all(conn)
+    """A broker's '[Heat Pump]' says something of the derivative it resolves to. The claim store reads it from
+    the trim map at export, so a live run and a replay of the history say the same; nothing is written on the car."""
+
+    @staticmethod
+    def _resolved(conn, car_id):
+        from pipeline.services import claims
+        from pipeline.services.snapshot import load_broker_names
+        cars = [json.loads(r[0]) for r in conn.execute("SELECT payload FROM cars")]
+        claims.resolve_all(cars, claims.build_store(cars, [], [], [], [], load_broker_names(conn)))
+        return next(c for c in cars if c["id"] == car_id)
+
+    @staticmethod
+    def _twins(conn):
         for cap, rrp in (("1", 43055.0), ("2", 43955.0)):
             gold.ensure_auto_car(conn, autocars.from_stub({"cap_id": cap, "make": "Kia", "model": "EV3", "trim": "GT-Line S",
                                                            "engine": "150kW 81.4kWh Auto", "rrp": rrp}), "t", None, None, T)
+
+    def test_replay_rebuilds_the_rows_and_what_their_brackets_say(self):
+        conn = fresh_conn()
+        run_all(conn)
+        self._twins(conn)
         ref = {"source": "leaseloco", "key": "kia|ev3|x [heat pump]", "label": "Kia EV3 150kW GT-Line S 81.4kWh 5dr Auto [Heat Pump]",
                "make": "Kia", "model": "EV3", "derivative": "150kW GT-Line S 81.4kWh 5dr Auto [Heat Pump]"}
         car_id, status = gold.resolve_car(conn, "leaseloco", ref["key"], ref["label"], "u", T, ref=ref)
         self.assertEqual((car_id, status), ("carwow-cap:2", "auto"))
-        self.assertEqual(json.loads(conn.execute("SELECT payload FROM cars WHERE id='carwow-cap:2'").fetchone()[0])["heat_pump"], "standard")
+        self.assertNotIn("packs", json.loads(conn.execute("SELECT payload FROM cars WHERE id='carwow-cap:2'").fetchone()[0]),
+                         "nothing is written on the car record, which no history carries")
+        live = self._resolved(conn, "carwow-cap:2")
+        self.assertEqual(live["heat_pump"], "standard")
         tmp = FIX.parent / "_res.jsonl"
         try:
             self.assertEqual(export_resolutions(conn, tmp), 1)
             other = fresh_conn()
             run_all(other)
-            for cap, rrp in (("1", 43055.0), ("2", 43955.0)):
-                gold.ensure_auto_car(other, autocars.from_stub({"cap_id": cap, "make": "Kia", "model": "EV3", "trim": "GT-Line S",
-                                                                "engine": "150kW 81.4kWh Auto", "rrp": rrp}), "t", None, None, T)
+            self._twins(other)
             self.assertEqual(import_resolutions(other, tmp), 1)
             row = other.execute("SELECT car_id, status, method FROM trim_map WHERE source='leaseloco' AND source_key=?", (ref["key"],)).fetchone()
             self.assertEqual(tuple(row), ("carwow-cap:2", "auto", "bracket"))
-            car = json.loads(other.execute("SELECT payload FROM cars WHERE id='carwow-cap:2'").fetchone()[0])
-            self.assertEqual((car["heat_pump"], car["packs"]), ("standard", ["Heat Pump"]), "the bracket's facts come back with the row")
+            replayed = self._resolved(other, "carwow-cap:2")
+            self.assertEqual((replayed["heat_pump"], replayed.get("packs")), (live["heat_pump"], live.get("packs")), "the replay says what the live run said")
         finally:
             tmp.unlink(missing_ok=True)
+
+    def test_the_registrys_stub_refreshes_an_earlier_stub_but_never_a_spec_built_car(self):
+        conn = fresh_conn()
+        old = {"cap_id": "9", "make_slug": "kia", "model_slug": "ev3", "make": "Kia", "model": "EV3", "name": "x", "trim": "Air",
+               "engine": "150kW 58.3kWh Auto", "rrp": 33055.0, "version_date": "2026-10-01"}
+        gold.upsert_derivative(conn, old, "carwow_model", None, None, T)
+        gold.upsert_derivative(conn, dict(old, version_date="2026-10-09"), "carwow_model", None, None, T)
+        car = json.loads(conn.execute("SELECT payload FROM cars WHERE id='carwow-cap:9'").fetchone()[0])
+        self.assertEqual(car.get("version_date"), "2026-10-09", "as a replay of the latest registry row would build it")
+        gold.ensure_auto_car(conn, autocars.from_stub({"cap_id": "9", "make": "Kia", "model": "EV3", "trim": "Air", "engine": "x",
+                                                       "rrp": 1.0, "version_date": "2026-01-01"}), "carwow_deals", None, None, T)
+        self.assertEqual(json.loads(conn.execute("SELECT payload FROM cars WHERE id='carwow-cap:9'").fetchone()[0]).get("version_date"),
+                         "2026-10-09", "a deals page's stub replaces nothing")
 
 
 class HistoryFollowsResolution(unittest.TestCase):
@@ -353,14 +382,11 @@ class ResolutionRules(unittest.TestCase):
         from pipeline.services import resolve
         r = resolve.choose({"derivative": "150kW GT-Line S 81.4kWh 5dr Auto [Heat Pump]"}, self.twins())
         self.assertEqual((r.car_id, r.method, r.brackets), ("carwow-cap:2", "bracket", ["Heat Pump"]))
-        self.assertEqual(resolve.facts_from_brackets(self.twins()[1], r.brackets), {"packs": ["Heat Pump"], "heat_pump": "standard"})
         r = resolve.choose({"derivative": "150kW GT-Line S 81.4kWh 5dr Auto [No Heat Pump]"}, self.twins())
         self.assertEqual((r.car_id, r.method), ("carwow-cap:1", "base"))
-        self.assertEqual(resolve.facts_from_brackets(self.twins()[0], r.brackets), {"packs": ["No Heat Pump"], "heat_pump": "none"})
+        self.assertEqual(r.brackets, ["No Heat Pump"])
         r = resolve.choose({"derivative": "150kW GT-Line S 81.4kWh 5dr Auto"}, self.twins())
         self.assertEqual((r.car_id, r.method), ("carwow-cap:1", "base"))
-        self.assertEqual(resolve.facts_from_brackets(self.twins()[0], ["7 seat"]), {"seats": 7})
-        self.assertEqual(resolve.facts_from_brackets(self.twins()[0], ["7St"]), {"seats": 7}, "Kia's spelling")
         self.assertEqual(resolve.pack_brackets("x [6St] [Tech Pack]"), ["Tech Pack"])
 
     def test_three_prices_and_a_pack_is_a_conflict_not_a_guess(self):

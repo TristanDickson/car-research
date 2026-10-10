@@ -250,8 +250,10 @@ itself.
 
 ```
 pipeline/               Python package: providers, SQLite medallion, snapshot exporter, history, CLI
-  providers/            manual_seed, carwow_paste, carwow_catalog (the model index), and the live scrapers (carwow_specs, carwow_deals, hyundai_offers, ncd, leaseloco, rrg, kia_specs, hyundai_specs, hyundai_configurator)
+  providers/            one module per source, registered in providers/__init__.py in run order (the table above);
                         http.py (polite fetch: UA, per-host delay, retry) and parse.py (money/pct/text/key helpers)
+  services/claims.py    every car field from one claim store: what each source says at its level, one precedence order, provenance
+  services/resolve.py   broker derivative text → the generated car it names (rules, evidence, conflicts)
   services/snapshot.py  Gold → web/public/data: cars, every price as spans (sightings, used spans), specs, catalogue, data page; no costs
   services/autocars.py  a car record from a Carwow spec row (or a deals-page stub) for every derivative nobody curates
   services/match.py     broker derivative text → the one generated car whose kW / kWh / trim words agree
@@ -262,7 +264,9 @@ web/src/lib/model/      the cost model the app runs: dealMath.ts (the port, chec
 data/seed/              hand-captured cars (19), offers (29), requirements, trim map (50 mapped, the rest ignored on purpose)
 data/pastes/            pasted source pages, one file each (carwow: 4, richmond: 2)
 data/history/           the committed sighting log, scraped specs and the catalogue, rewritten by every refresh
-web/                    Next.js static SPA: pick, compare, cars, car detail (price board, history, equipment), specs, settings (saved searches, budget line, quoting basis), data, offers
+web/                    Next.js static SPA: pick, compare, cars, car detail (price board, history, equipment, every field), specs, settings (saved searches, budget line, quoting basis), data, offers
+  src/lib/fields.ts     the one list of car fields: Cars table columns, search bounds, the car page's Spec card
+  src/lib/query.ts      the search (URL state), facets, ranges, saved-search descriptions; src/lib/db.ts the IndexedDB store
   public/data/          the committed snapshot the SPA reads
 docs/                   requirements, research notes, architecture, generated deal table,
   transcripts/          raw source conversations (contact details redacted)
@@ -282,7 +286,20 @@ python3 -m pipeline trims        # anything scraped that is not yet in the trim 
 python3 -m pipeline backfill --since 2025-01-01   # Wayback captures → history (needs a network archive.org will talk to)
 ```
 
-Python ≥ 3.11 with no third-party packages; Node 22 (`cd web && npm install`).
+Python ≥ 3.11 with no third-party packages; Node 22 (`cd web && npm install`). Optional:
+`pdftotext` (poppler: `brew install poppler` / `apt install poppler-utils`) or `pip install
+pypdf` for `hyundai_specs`, which reads Hyundai's PDF guides; without either, that one
+provider fails and the rest run. The local database is `data/car-research.sqlite`
+(`CAR_RESEARCH_DB` overrides it); it is a working copy, and `make snapshot-offline` rebuilds
+it from the committed history in ~15 seconds.
+
+A full live run (`make snapshot`) reads ~1,500 pages at a polite pace and takes about 90
+minutes; `python3 -m pipeline refresh --only manual_seed,carwow_deals` runs a subset.
+EV Database throttles hard: from a cloud sandbox most car-page requests got 429 even at one
+page per 25 seconds, while GitHub's runners got none. Its car pages are fetched by the
+nightly scrape, 60 a night; locally, `evdb_cars` slows down on a 429 and stops after 25 minutes.
+`refresh --offline` also rewrites `data/history/resolutions.jsonl` with fresh `last_seen_at`
+stamps; that churn is harmless and can be discarded (`git checkout -- data/history/resolutions.jsonl`).
 
 **Nightly:** `.github/workflows/scrape.yml` runs every provider at 03:17 UTC, commits
 `data/history`, `web/public/data` and `docs/deal-comparison.md` when anything changed, and
@@ -328,6 +345,17 @@ rejected by that rule fails in two seconds with no runner and no logs.
   `packs_required` naming the pack. These two fields drive most trim decisions.
 
 ## Context log
+
+- **2026-10-10** The nightly scrape had saved nothing since 6 Oct: two runs lost their push
+  to a code push made mid-run, one died on a stale apt index, and with the configurator
+  pages and EV Database added it would have outrun its time limit. Fixed all four: it folds
+  in a moved main, refreshes apt, reads configurator pages on a weekly rotation (250 a
+  night) and has 180 minutes. Its snapshot is now built from a fresh replay of the history
+  it writes, so pipeline-ci (which rebuilds the snapshot from history and diffs it) always
+  agrees; two places where a live run and a replay differed are gone (broker brackets were
+  written onto car records no history carries; a registry stub never refreshed). The
+  variant-to-model match for EV Database now ends on a word boundary (the iX5 is not the
+  iX). `CLAUDE.md` added for an agent taking over.
 
 - **2026-10-09** Every field a car carries is a column, a bound and a line on the car page,
   from one list (`web/src/lib/fields.ts`): about 70 numbers and texts plus a column per
@@ -418,9 +446,16 @@ rejected by that rule fails in two seconds with no runner and no logs.
 1. Confirm the cash leads are like-for-like and available for December using the enquiry
    script in `docs/research-notes.md`; the scraped NCD and Carwow prices are leads, not quotes.
 2. Get the Ioniq 3 Premium EV Pack GFV so a ~£400 PCP alternative can be priced properly.
-3. Kia Finance examples: the `kiaofferscalculator.co.uk` quote API answers "No quote available"
+3. EV Database car pages fill in nightly (60 a night, 69 of 862 read by 9 Oct): dimensions,
+   charging and NCAP reach every model in about two weeks. Nothing to do but watch the
+   Data page; a model whose variants disagree on a body number stays unknown by design.
+4. 257 broker derivatives resolve to no car (Data page, `python3 -m pipeline trims`): most
+   are twins the rules refuse to guess between; map the ones that matter in
+   `data/seed/trim_map.json`.
+5. Kia Finance examples: the `kiaofferscalculator.co.uk` quote API answers "No quote available"
    for every parameter set today (the live widget too); revisit, else keep hand-capturing.
-4. Richmond paste parser (two pages saved under `data/pastes/richmond/`), and a used-market
-   provider once a source that allows automated reads is found.
-5. Intrinsic-value model: start with £/kWh, £/mile of range and £/kg against segment, then
-   residual-value evidence from used listings.
+6. Richmond paste parser (two pages saved under `data/pastes/richmond/`).
+7. Maker spec tables beyond Kia and Hyundai (Audi, BMW, Mercedes, Skoda) only if one of
+   their cars makes the shortlist; Carwow and EV Database cover them meanwhile.
+8. Intrinsic-value model: start with £/kWh, £/mile of range and £/kg against segment, then
+   residual-value evidence from the used listings already collected.

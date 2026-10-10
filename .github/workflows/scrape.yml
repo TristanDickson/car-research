@@ -50,10 +50,15 @@ jobs:
       - name: Refresh (live providers + history + snapshot)
         env:
           CAR_RESEARCH_DB: /tmp/scrape.sqlite
+        # The live run writes data/history. The committed snapshot is then built from a
+        # fresh replay of that history, as CI and every clone build it, so the two always
+        # agree (pipeline-ci rejects a snapshot the history does not reproduce).
         run: |
-          python -m pipeline refresh --out web/public/data
+          python -m pipeline refresh --out /tmp/live-snapshot
           python -m pipeline status
-          python -m pipeline deal-table > docs/deal-comparison.md
+          CAR_RESEARCH_DB=/tmp/replay.sqlite python -m pipeline refresh --offline --out /tmp/replay-snapshot
+          CAR_RESEARCH_DB=/tmp/replay.sqlite python -m pipeline export-snapshot --out web/public/data --runs-db /tmp/scrape.sqlite
+          CAR_RESEARCH_DB=/tmp/replay.sqlite python -m pipeline deal-table > docs/deal-comparison.md
 
       - name: Unmapped trims (report only)
         env:
@@ -69,8 +74,8 @@ jobs:
         # The scrape takes the best part of an hour; a push to main in that time (a code
         # change) used to reject this push and lose the night's prices. On a rejection, take
         # main as it now is, fold its committed history into this run's database (an
-        # upsert, so nothing scraped tonight is lost) and write history and snapshot again
-        # with main's code.
+        # upsert, so nothing scraped tonight is lost), write the history again, and build
+        # the snapshot from a fresh replay of it with main's code.
         run: |
           git config user.name "car-research scrape"
           git config user.email "actions@users.noreply.github.com"
@@ -90,8 +95,10 @@ jobs:
             echo "main moved during the scrape; folding it in (attempt $attempt)"
             git fetch -q origin main
             git reset -q --hard origin/main
-            python -m pipeline refresh --offline --out web/public/data
-            python -m pipeline deal-table > docs/deal-comparison.md
+            python -m pipeline refresh --offline --out /tmp/live-snapshot
+            CAR_RESEARCH_DB=/tmp/replay-$attempt.sqlite python -m pipeline refresh --offline --out /tmp/replay-snapshot
+            CAR_RESEARCH_DB=/tmp/replay-$attempt.sqlite python -m pipeline export-snapshot --out web/public/data --runs-db /tmp/scrape.sqlite
+            CAR_RESEARCH_DB=/tmp/replay-$attempt.sqlite python -m pipeline deal-table > docs/deal-comparison.md
           done
           echo "changed=$changed" >> "$GITHUB_OUTPUT"
 

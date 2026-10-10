@@ -457,7 +457,9 @@ def _provider_blurb(name: str) -> str:
 
 
 def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at: str | None = None,
-                    root: Path = ROOT) -> dict:
+                    root: Path = ROOT, runs_conn: sqlite3.Connection | None = None) -> dict:
+    """The snapshot from `conn`; the run log the Data page shows from `runs_conn` when given (the
+    nightly builds the snapshot from a replay of the history it wrote, but its runs were the live ones)."""
     from pipeline.providers import PROVIDERS
 
     out = Path(out_dir)
@@ -559,7 +561,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
                               for c in p.capabilities.values()]}
             for p in PROVIDERS.values()
         ],
-        "runs": latest_runs(conn),
+        "runs": latest_runs(runs_conn or conn),
         "unmapped_trims": unmapped,
         "resolution_methods": resolution_methods(conn),
         "offer_states": states,
@@ -594,7 +596,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
             "specs": len(specs),
             "used_listings": sum(1 for l in used if l["present"]),
         },
-        "runs": latest_runs(conn, 10),
+        "runs": latest_runs(runs_conn or conn, 10),
     }
     _write(out / "cars.json", cars)
     _write(out / "details.json", details)

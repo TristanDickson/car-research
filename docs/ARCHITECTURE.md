@@ -128,9 +128,11 @@ order, each recorded as `method` + `evidence` on the trim-map row:
 | | identical prices: the current price-list version, then the id | `version` |
 | conflict | a pack bracket against three or more prices and no RRP | status `conflict`, listed on the Data page, never guessed |
 
-A bracket that picked a twin also says something Carwow never prints, so it is written
-onto the generated car: the name as a pack, '[Heat Pump]' → heat pump standard,
-'[No Heat Pump]' → none, '[7 seat]' → seats. An offer key names one derivative at its
+A bracket that picked a twin also says something Carwow never prints: '[Heat Pump]' → heat
+pump standard, '[No Heat Pump]' → none, '[7 seat]' → seats, any other name → a pack the
+derivative includes. The claim store reads that from the broker rows in the trim map at
+export (`claims.from_broker_labels`); nothing is written onto the car record, which no
+history carries, so a live run and a replay of the history say the same. An offer key names one derivative at its
 source, so when a rule moves it to a different twin its whole sighting history moves
 too (`gold.write`). `pipeline reparse` re-runs the parsers and the rules over the stored
 pages without the network. `gold.prune_auto_cars` drops generated cars nothing
@@ -554,11 +556,19 @@ the default branch later does not update the rule. The workflow deploys from `ma
 `main` under Settings → Environments → github-pages → Deployment branches and tags. A run
 rejected by that rule fails in two seconds with no runner and no logs.
 
-`.github/workflows/scrape.yml` runs nightly (and on dispatch): `pipeline refresh` with the live
-providers, commits `data/history`, `web/public/data` and `docs/deal-comparison.md` if anything
-changed, then dispatches the Pages deploy (a push made with the workflow token does not trigger
-other workflows by itself). `pipeline-ci.yml` runs `refresh --offline`: seed, pastes and the
-replayed history, so the freshness diff is deterministic and needs no network.
+`.github/workflows/scrape.yml` runs nightly at 03:17 UTC (and on dispatch): `pipeline refresh`
+with the live providers writes `data/history`; the committed snapshot is then built from a
+fresh replay of that history (`refresh --offline` into a second database, then
+`export-snapshot --runs-db` so the Data page still shows the live runs). It commits
+`data/history`, `web/public/data` and `docs/deal-comparison.md` if anything changed, then
+dispatches the Pages deploy (a push made with the workflow token does not trigger other
+workflows by itself). If main moved during the ~90-minute run, the push is rejected and
+the job folds main's history into its database, writes it again and rebuilds the snapshot
+from it (three tries). Each provider keeps itself inside the 180-minute job limit: the
+configurator pages rotate weekly (250 a night), EV Database car pages stop at 60 or 25
+minutes. `pipeline-ci.yml` runs `refresh --offline`: seed, pastes and the replayed history,
+pinned to the committed `generated_at`, and fails if the committed snapshot differs, so
+the snapshot is always what the history reproduces.
 
 If the snapshot ever grows past a few MB (per-listing price history, scraped used-car markets),
 move it off `main` onto a squashed orphan `data` branch exactly as `etf-tool/scripts/publish-data.sh`

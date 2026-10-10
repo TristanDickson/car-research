@@ -110,7 +110,8 @@ def cmd_import_seed(args) -> int:
 def cmd_export_snapshot(args) -> int:
     from pipeline.services.snapshot import export_snapshot
 
-    manifest = export_snapshot(_open(), args.out, generated_at=args.generated_at)
+    runs = connect(args.runs_db) if args.runs_db else None
+    manifest = export_snapshot(_open(), args.out, generated_at=args.generated_at, runs_conn=runs)
     print(f"snapshot -> {args.out}: {json.dumps(manifest['counts'])}")
     return 0
 
@@ -291,6 +292,7 @@ def main(argv=None) -> int:
     e = sub.add_parser("export-snapshot", help="Write the static JSON snapshot.")
     e.add_argument("--out", default=str(DEFAULT_OUT))
     e.add_argument("--generated-at", help="Pin the snapshot timestamp (CI uses the committed one to diff deterministically).")
+    e.add_argument("--runs-db", help="Read the run log the Data page shows from this database (the nightly's live one).")
     e.set_defaults(func=cmd_export_snapshot)
 
     f = sub.add_parser("refresh", help="Run every provider in order, then export the snapshot.")

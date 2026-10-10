@@ -135,26 +135,5 @@ def choose(ref: dict, candidates: list[dict], conn: sqlite3.Connection | None = 
     return Resolution(pick["id"], "version", ev, br)
 
 
-def facts_from_brackets(car: dict, br: list[str]) -> dict:
-    """What the brackets say about the derivative, as car fields to merge in.
-    Only for generated cars; a hand-curated car already knows."""
-    if not car.get("auto") or not br:
-        return {}
-    out: dict = {}
-    packs = [b for b in br if not SEATS_RE.match(b)]
-    if packs:
-        out["packs"] = sorted(set((car.get("packs") or []) + packs))
-    low = [b.lower() for b in br]
-    if any(b == "no heat pump" for b in low):
-        out["heat_pump"] = "none"
-    elif any("heat pump" in b and not b.startswith("no ") for b in low):
-        out["heat_pump"] = "standard"
-    for b in br:
-        m = SEATS_RE.match(b)
-        if m:
-            out["seats"] = int(m.group(1))
-    return out
-
-
 def dump_evidence(ev: dict) -> str:
     return json.dumps(ev, ensure_ascii=False, sort_keys=True)
