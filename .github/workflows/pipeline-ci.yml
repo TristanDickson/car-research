@@ -1,6 +1,7 @@
-# Pipeline gate: unit tests for the finance maths and the import/export path,
-# then a freshness check that fails if someone edited data/seed without
-# re-running `make snapshot` (the SPA reads the committed snapshot, not the seed).
+# Pipeline gate. The raw store lives on the owner's laptop, so CI cannot rebuild the real
+# snapshot; it checks the code instead: the unit tests (which build from scratch over a raw
+# store of the captured pages in tests/fixtures), and one build over the owner's own files
+# with an empty raw store, end to end through the snapshot export.
 name: pipeline-ci
 
 on:
@@ -18,23 +19,10 @@ jobs:
           python-version: "3.12"
       - name: Unit tests
         run: python -m unittest discover -s tests -v
-      - name: Rebuild snapshot offline
+      - name: Build from the owner's files with an empty raw store
         env:
+          CAR_RESEARCH_RAW: /tmp/raw
           CAR_RESEARCH_DB: /tmp/ci.sqlite
-        # Pin generated_at to the committed one: freshness fields (age, stale)
-        # are relative to it, so the diff below is deterministic.
         run: |
-          GEN=$(python -c "import json;print(json.load(open('web/public/data/manifest.json'))['generated_at'])")
-          python -m pipeline refresh --offline --out /tmp/snapshot --generated-at "$GEN"
-      - name: Broker rows with no car (report only)
-        env:
-          CAR_RESEARCH_DB: /tmp/ci.sqlite
-        run: python -m pipeline trims || echo "::warning::broker derivatives that resolved to no car (listed on the Data page)"
-      - name: Committed snapshot is up to date
-        run: |
-          for f in cars.json sightings.json used_spans.json requirements.json specs.json models.json; do
-            if ! diff -q /tmp/snapshot/$f web/public/data/$f; then
-              echo "::error::web/public/data/$f is stale. Run: make snapshot"
-              exit 1
-            fi
-          done
+          python -m pipeline build --out /tmp/snapshot
+          python -c "import json; m = json.load(open('/tmp/snapshot/manifest.json')); assert m['counts']['cars'] >= 19, m; print(m['counts'])"
