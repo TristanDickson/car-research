@@ -70,8 +70,8 @@ and a seeded saved search. See "Every EV on sale" below.
 
 The design is the owner's (`docs/REBUILD.md`, after their project bolthole): only the raw
 responses are permanent; everything the app reads is re-derived from them by a build that runs
-from scratch every time; only the owner's own files and decisions persist. Built on 10 Oct 2026
-on the branch `rebuild-raw-store`; `main` runs the old pipeline until the owner switches over.
+from scratch every time; only the owner's own files and decisions persist. Built and switched
+over on 10 Oct 2026.
 
 ```
 live scrapers (16 sites) ──▶ RAW STORE on the owner's laptop (D:\car-research-raw, outside git)
@@ -309,10 +309,9 @@ parse at the next build that has one. The database
 A full scrape reads ~1,500 pages at a polite pace and takes about two hours. EV Database
 throttles hard from some addresses; `evdb_cars` slows down on a 429 and stops after 25 minutes.
 
-**Nightly:** the laptop's Task Scheduler job (`scripts/nightly.ps1`, 03:17) scrapes, builds and,
-after the switch-over, commits `web/public/data` and `docs/deal-comparison.md` to `main`, which
-redeploys the app. Until then it pushes nothing and logs how its snapshot differs from main's;
-the GitHub scrape on `main` still runs. A site that changes its layout shows up as a provider
+**Nightly:** the laptop's Task Scheduler job (`scripts/nightly.ps1`, 03:17) scrapes, builds, and
+commits `web/public/data` and `docs/deal-comparison.md` to `main`, which redeploys the app. Its
+log is `D:\car-research-raw\logs\nightly\<date>.log`. A site that changes its layout shows up as a provider
 with 0 records and its offers going stale a fortnight later; fix the parser against a fresh
 fixture, and the next build reads every stored page again with it.
 
@@ -363,8 +362,11 @@ rejected by that rule fails in two seconds with no runner and no logs.
   history: every car id the same; 2,818 offers identical, 224 the same in fewer spans, 30 on a
   different car (13 of them stale matches the old history replayed), 177 with no car (in each,
   the old pipeline's own current rule also gave none); about 490 deals-only derivatives now show
-  their latest RRP and price-list date. The laptop's nightly job runs in compare mode beside the
-  GitHub scrape; switching over is the owner's call (`docs/REBUILD.md`, "Status").
+  their latest RRP and price-list date. The laptop's first full run (84 minutes, EV Database not
+  throttling it) found that Carwow's used stock comes back in a random order, so a Carwow used car
+  now goes only after a week unseen, and that Hyundai's PDFs need poppler. Switched over the same
+  evening at the owner's word ("we dont need to be so cautious"): the PR merged, the GitHub scrape
+  retired, the laptop's job pushing to `main`.
 
 - **2026-10-10 (later)** Agreed with the owner to rebuild the pipeline on the bolthole
   design before adding anything else: only the raw responses are permanent (kept on the
@@ -476,10 +478,9 @@ rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Next steps
 
-1. **Switch over to the rebuild** (`docs/REBUILD.md`, "Status"): two nights of the laptop's job
-   beside the GitHub scrape, then merge `rebuild-raw-store` and register the job with `-Push`.
-   The owner decides when. Also open: a backup for `D:\car-research-raw`.
-2. Then real PCP quotes: cinch's new-car API and dealer groups' offer pages (Lloyd Motor
+1. Check the laptop's first nightly push (11 Oct) in its log and on the site. Open: a backup for
+   `D:\car-research-raw`, the only copy of the past.
+2. Real PCP quotes: cinch's new-car API and dealer groups' offer pages (Lloyd Motor
    Group, Halliwell Jones, RRG beyond the PV5); details in `docs/REBUILD.md`.
 3. Ask the owner about the three proposals on look-alike cars in `docs/REBUILD.md` (hide old
    price-list versions; label live twins by what differs; count a used car only towards its

@@ -1,15 +1,18 @@
 # The rebuild: raws first, matching re-derived
 
-Agreed with the owner on 10 Oct 2026; built the same evening on the branch
-`rebuild-raw-store` (status below). It comes before any new source. The pipeline as built does not follow the owner's design; this document
+Agreed with the owner on 10 Oct 2026; built and switched over the same evening (status below). It comes before any new source. The pipeline as built does not follow the owner's design; this document
 says how it differs, what it should become, and in what order to get there.
 
 The template is the owner's other project, **bolthole** (`TristanDickson/bolthole`): read
 its `docs/RESOLVER.md`, `docs/DATA_MODEL.md` and `docs/ACQUISITION.md` before starting.
 
-## Status (10 Oct 2026, evening): built on branch `rebuild-raw-store`, not yet switched over
+## Status (10 Oct 2026, evening): built and switched over
 
-Built, on the branch `rebuild-raw-store`:
+Built on the branch `rebuild-raw-store` and merged into `main` (PR #1) the same evening. The plan
+was two nights beside the GitHub scrape first; the owner said "we dont need to be so cautious.
+Nobody is using this right now and we built it in a couple of days", so it merged at once. The
+first snapshot from the new build was pushed from the raws already held; the laptop's job now
+runs `main` at 03:17 and pushes.
 
 - **The raw store** (`pipeline/raw.py`) at `D:\car-research-raw` on the owner's laptop
   (`CAR_RESEARCH_RAW`, set for the user). Asked where it should live, the owner answered "path
@@ -24,11 +27,11 @@ Built, on the branch `rebuild-raw-store`:
   car creation during ingestion, the history export and replay, and the 10 Oct stopgap are
   deleted, as listed under "What the rebuild deletes".
 - **The scraper** keeps raws and nothing else; **the laptop's nightly job**
-  (`scripts/nightly.ps1`), registered with Task Scheduler for 03:17 daily in compare mode: it
-  scrapes, builds, and logs how its snapshot differs from main's, pushing nothing.
+  (`scripts/nightly.ps1`), registered with Task Scheduler for 03:17 daily: it scrapes, builds,
+  and pushes the snapshot to `main` (without `-Push` it would only log a comparison with main).
 - **CI** (`pipeline-ci`): unit tests, which build from a raw store of the captured fixtures, and
   a build over the owner's files with an empty store. The GitHub scrape and backfill workflows
-  and `data/history` are removed on the branch, so merging it is the switch-over.
+  and `data/history` are gone.
 
 How the new build compares with the snapshot committed on 10 Oct (built from the same history,
 `scripts/compare_snapshots.py`):
@@ -70,13 +73,7 @@ run found three problems, fixed the same evening:
   part of the parse cache's key.
 - The comparison above is from this build; the review fixes below changed none of its numbers.
 
-To do before switching over:
-
-1. Two nights of the laptop's job beside the GitHub scrape, compared (the log is
-   `D:\car-research-raw\logs\nightly\<date>.log`). EV Database's throttling of the laptop is
-   still unknown.
-2. Then merge `rebuild-raw-store` and re-register the job with `-Branch main -Push`
-   (`scripts/install-nightly.ps1`). That retires the GitHub scrape. The owner decides when.
+Next: check the first nightly push (11 Oct) in `D:\car-research-raw\logs\nightly\<date>.log`.
 
 Open, for the owner: whether D: is backed up (Windows File History is not set up and no backup
 program is installed in Program Files; a backup run from elsewhere would not show there; a weekly

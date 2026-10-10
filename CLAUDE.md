@@ -13,18 +13,15 @@ bolthole, and where the rebuild stands). What the household needs from a car:
 
 ## Where things stand (10 Oct 2026)
 
-**The rebuild is built on the branch `rebuild-raw-store` and not yet switched over**
-(`docs/REBUILD.md`, "Status"). Only the raws are permanent; parsing and matching are
-re-derived from scratch by every build; only the owner's own files and decisions persist. The
-raw store is `D:\car-research-raw` on the owner's laptop (`CAR_RESEARCH_RAW`), and holds the
-committed history of 6 to 10 Oct as a legacy source.
+**The rebuild is live on `main`** (switched over on 10 Oct; `docs/REBUILD.md`, "Status"). Only
+the raws are permanent; parsing and matching are re-derived from scratch by every build; only the
+owner's own files and decisions persist. The raw store is `D:\car-research-raw` on the owner's
+laptop (`CAR_RESEARCH_RAW`), and holds the committed history of 6 to 10 Oct as a legacy source.
 
-Until the switch-over, `main` still runs the old pipeline: the GitHub nightly scrape commits
-`data/history` and the snapshot to `main` (GitHub starts the 03:17 UTC schedule late, around
-10:40). The laptop's job runs at 03:17 local in compare mode: it scrapes, builds and logs how its
-snapshot differs from main's, pushing nothing (`D:\car-research-raw\logs\nightly\<date>.log`).
-After two good nights the owner merges the branch and the job is re-registered to push
-(`scripts/install-nightly.ps1 -Branch main -Push`); that retires the GitHub scrape.
+The laptop's Task Scheduler job runs `main` at 03:17 local: it scrapes into the raw store, builds,
+and pushes the snapshot and the deal table to `main`, which deploys the site. Each night's log is
+`D:\car-research-raw\logs\nightly\<date>.log`; check it the morning after a change. There is no
+GitHub scrape any more. Next: real PCP quotes (cinch's new-car API, dealer groups' offer pages).
 
 ## Commands
 
