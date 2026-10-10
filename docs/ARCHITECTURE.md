@@ -1,5 +1,11 @@
 # Architecture
 
+> **This describes the pipeline as built, which is being replaced.** The owner's design
+> (`docs/REBUILD.md`, after bolthole) keeps only raw responses permanently and re-derives
+> parsing and matching from them; the sections below on the trim map, generated cars, the
+> history export and replay, and "Deploy"'s nightly describe what the rebuild removes or
+> changes. The snapshot contract, the claim store, the cost model and the app stay.
+
 The same shape as `etf-tool` and `bolthole`, scaled to a dataset of tens of cars and
 hundreds of deals: **scrape → resolve → app**, with only the *app* layer shipped to the
 browser. No Postgres, no worker, no server mode. The data is tiny, so it is committed
@@ -107,7 +113,13 @@ Every Carwow derivative without a hand-curated car gets a generated one
   year's list.
 
 `gold.ensure_auto_car` writes one unless a hand-curated car owns the id; a spec-built car
-replaces a stub, a stub replaces nothing.
+replaces a stub, a stub replaces nothing (except the registry's stub, which refreshes an
+earlier stub). A hand-curated car mapped to a CAP id in the trim map *is* that derivative:
+whatever reaches the generated car for that id (a broker's text match included) lands on the
+hand-curated car, whatever already pointed at it is moved there (`gold.prune_auto_cars`), and
+the generated car is never exported (`snapshot.load_cars`); it stays in the database only as
+something broker text can be matched against (`gold.curated_owner`). A stopgap of 10 Oct for
+17 cars that were listed twice; the rebuild removes the distinction altogether.
 
 ### Resolving broker rows (services/resolve.py)
 

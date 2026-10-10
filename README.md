@@ -68,6 +68,9 @@ and a seeded saved search. See "Every EV on sale" below.
 
 ## How it fits together
 
+This is the pipeline as built. It is being rebuilt so that only raw responses are permanent
+and matching is re-derived from them; see `docs/REBUILD.md`.
+
 ```
 data/seed/*.json ─────────────┐
 data/pastes/carwow/*.txt ─────┼─▶ pipeline (Python) ─▶ SQLite ─▶ web/public/data/*.json (committed)
@@ -346,6 +349,19 @@ rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Context log
 
+- **2026-10-10 (later)** Agreed with the owner to rebuild the pipeline on the bolthole
+  design before adding anything else: only the raw responses are permanent (kept on the
+  owner's laptop, which also takes over the scraping); parsing and matching are re-derived
+  from scratch; only the owner's decisions persist. Plan, migration and glossary:
+  `docs/REBUILD.md`. Found while getting there: 17 cars were listed twice (a car the owner
+  entered and a car the pipeline created for the same Carwow derivative), fixed with a
+  stopgap the rebuild removes; ~388 old price-list versions nobody prices any more and ~500
+  live derivatives with identical names make the table look duplicated (proposals in
+  `docs/REBUILD.md`, not yet agreed); the "used" price is per model, so every derivative of
+  a model shows the same cheapest used car. Real PCP quotes: only 74 of 1,978 cars have one;
+  cinch's new-car API and dealer groups' offer pages print complete per-derivative examples
+  and are queued behind the rebuild (details in `docs/REBUILD.md`). The owner wants only
+  authoritative prices, never derived ones.
 - **2026-10-10** The nightly scrape had saved nothing since 6 Oct: two runs lost their push
   to a code push made mid-run, one died on a stale apt index, and with the configurator
   pages and EV Database added it would have outrun its time limit. Fixed all four: it folds
@@ -443,19 +459,22 @@ rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Next steps
 
-1. Confirm the cash leads are like-for-like and available for December using the enquiry
+1. **The rebuild** (`docs/REBUILD.md`): raws kept permanently on the owner's laptop, parsing
+   and matching re-derived from scratch, the committed history migrated as a legacy source,
+   scraping moved to the laptop. Comes before any new source.
+2. Then real PCP quotes: cinch's new-car API and dealer groups' offer pages (Lloyd Motor
+   Group, Halliwell Jones, RRG beyond the PV5); details in `docs/REBUILD.md`.
+3. Ask the owner about the three proposals on look-alike cars in `docs/REBUILD.md` (hide old
+   price-list versions; label live twins by what differs; count a used car only towards its
+   own derivative).
+4. Confirm the cash leads are like-for-like and available for December using the enquiry
    script in `docs/research-notes.md`; the scraped NCD and Carwow prices are leads, not quotes.
-2. Get the Ioniq 3 Premium EV Pack GFV so a ~£400 PCP alternative can be priced properly.
-3. EV Database car pages fill in nightly (60 a night, 69 of 862 read by 9 Oct): dimensions,
-   charging and NCAP reach every model in about two weeks. Nothing to do but watch the
-   Data page; a model whose variants disagree on a body number stays unknown by design.
-4. 257 broker derivatives resolve to no car (Data page, `python3 -m pipeline trims`): most
-   are twins the rules refuse to guess between; map the ones that matter in
-   `data/seed/trim_map.json`.
-5. Kia Finance examples: the `kiaofferscalculator.co.uk` quote API answers "No quote available"
-   for every parameter set today (the live widget too); revisit, else keep hand-capturing.
-6. Richmond paste parser (two pages saved under `data/pastes/richmond/`).
-7. Maker spec tables beyond Kia and Hyundai (Audi, BMW, Mercedes, Skoda) only if one of
+5. Get the Ioniq 3 Premium EV Pack GFV so a ~£400 PCP alternative can be priced properly.
+6. Kia Finance examples: the `kiaofferscalculator.co.uk` quote API answers "No quote available"
+   for every parameter set (the live widget too, and Kia's offer pages show only headlines);
+   dealer groups' pages are the way in.
+7. Richmond paste parser (two pages saved under `data/pastes/richmond/`).
+8. Maker spec tables beyond Kia and Hyundai (Audi, BMW, Mercedes, Skoda) only if one of
    their cars makes the shortlist; Carwow and EV Database cover them meanwhile.
-8. Intrinsic-value model: start with £/kWh, £/mile of range and £/kg against segment, then
+9. Intrinsic-value model: start with £/kWh, £/mile of range and £/kg against segment, then
    residual-value evidence from the used listings already collected.

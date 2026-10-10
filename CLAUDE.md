@@ -8,6 +8,24 @@ Read first: `README.md` (why, sources, how to work on it, next steps, context lo
 first), then `docs/ARCHITECTURE.md` (layers, snapshot contract, the claim store, the app).
 What the household needs from a car: `docs/requirements.md`; deal rules: `docs/research-notes.md`.
 
+## Where things stand (10 Oct 2026)
+
+**The next job is the rebuild in `docs/REBUILD.md`, and it comes before any new source.**
+The owner's design, as in their other project bolthole (`TristanDickson/bolthole`; read its
+`docs/RESOLVER.md`, `DATA_MODEL.md`, `ACQUISITION.md`), is: only the raws are permanent;
+parsing and matching ("which records are the same car") are re-derived from scratch by
+re-running the process; only their own decisions persist. This pipeline instead throws the raw
+pages away, matches while it reads, creates car records as a side effect and commits the
+matches. The raws will live on their laptop, which also takes over the nightly scraping.
+`docs/REBUILD.md` has the plan, the migration of the committed history, a glossary of the
+code's terms, and the work queued behind it (real PCP quotes from cinch's new-car API and
+dealer groups' offer pages; three proposals about look-alike cars awaiting their answer).
+
+Until the rebuild lands, the GitHub nightly scrape still runs and commits to `main`
+(GitHub starts the 03:17 UTC schedule late, around 10:40). The 10 Oct run is the first whose
+snapshot is built from a fresh replay of the history: check it pushed and that
+`pipeline-ci` passes on the commit after it.
+
 ## Commands
 
 ```
@@ -21,7 +39,7 @@ python3 -m pipeline trims                # broker derivatives that resolved to n
 
 Python ≥ 3.11, standard library only. Node 22. `hyundai_specs` needs `pdftotext` or `pypdf`.
 
-## Rules
+## Rules (for the current pipeline, until the rebuild replaces it)
 
 - `data/history/*.jsonl` and `web/public/data/*.json` are generated. Never edit them by hand:
   change code or `data/seed/`, run `make snapshot-offline`, and commit code, history and
@@ -50,9 +68,14 @@ Python ≥ 3.11, standard library only. Node 22. `hyundai_specs` needs `pdftotex
 
 ## The owner's preferences
 
+- Talk in plain words. They do not know the code's internal terms ("hand-curated car",
+  "stub car", "generated car", "trim map", "claims"); never use one with them without saying
+  what it is (`docs/REBUILD.md` has a glossary), and prefer not to need them.
 - Keep it simple. Saved searches replaced a requirements editor, stars and a shortlist
   because those were concepts that did little; propose before adding a new concept.
 - Be exact about coverage: say how many cars have a field, not that it is "comprehensive".
+- Prices must be authoritative: a figure a seller actually published or quoted. Never fill a
+  gap with a derived or estimated quote.
 - Audi, BMW, Mercedes and Skoda maker spec tables are deferred until one of their cars is
   shortlisted.
 
