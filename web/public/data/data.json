@@ -3,26 +3,26 @@
   "cars": 1978,
   "cars_curated": 19,
   "cars_generated": 1959,
-  "claims": 108355,
+  "claims": 107485,
   "configurations": 51,
   "configured": 23,
   "derivatives": 912,
-  "disagreements": 6,
-  "fields_from_claims": 108512,
+  "disagreements": 135,
+  "fields_from_claims": 105404,
   "makes": 50,
   "models": 249,
   "models_with_deals": 178,
   "models_with_specs": 219,
-  "observations": 6166,
-  "offers": 3126,
+  "observations": 6172,
+  "offers": 3139,
   "options_pages": 1145,
-  "sightings": 13599,
+  "sightings": 13605,
   "specs": 2239,
   "specs_mapped": 919,
-  "trim_map_auto": 2628,
+  "trim_map_auto": 2636,
   "trim_map_mapped": 56,
-  "trim_map_unmapped": 279,
-  "used_listings": 4110,
+  "trim_map_unmapped": 283,
+  "used_listings": 4127,
   "used_models": 145,
   "used_spans": 7433
  },
@@ -57,17 +57,17 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-11T17:24:41+00:00",
+ "generated_at": "2026-10-11T18:43:14+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
   "expired": 4,
   "historical": 1,
-  "illustrative": 66,
+  "illustrative": 67,
   "illustrative (stale)": 42,
-  "lead": 2459,
-  "lead (stale)": 484,
-  "live": 60,
+  "lead": 2468,
+  "lead (stale)": 483,
+  "live": 64,
   "live (stale)": 1
  },
  "providers": [
@@ -126,7 +126,7 @@
       "spec"
      ],
      "name": "specs",
-     "parser_version": "2"
+     "parser_version": "3"
     }
    ],
    "description": "Carwow model specification pages: https://www.carwow.co.uk/<make>/<model>/specifications",
@@ -193,14 +193,14 @@
       "offer"
      ],
      "name": "offers",
-     "parser_version": "1"
+     "parser_version": "2"
     },
     {
      "kinds": [
       "offer"
      ],
      "name": "backfill",
-     "parser_version": "1"
+     "parser_version": "2"
     }
    ],
    "description": "Hyundai UK per-model offer pages: /uk/en/offers/new-cars/model/offer.<model>.html",
@@ -215,6 +215,13 @@
       "offer"
      ],
      "name": "listing",
+     "parser_version": "1"
+    },
+    {
+     "kinds": [
+      "offer"
+     ],
+     "name": "pcp",
      "parser_version": "1"
     },
     {
@@ -259,17 +266,17 @@
       "offer"
      ],
      "name": "offers",
-     "parser_version": "1"
+     "parser_version": "2"
     },
     {
      "kinds": [
       "offer"
      ],
      "name": "backfill",
-     "parser_version": "1"
+     "parser_version": "2"
     }
    ],
-   "description": "RRG Kia PV5 offers page: representative Kia Finance PCP examples in plain text.",
+   "description": "RRG Kia's offer pages: the representative finance example each prints, PCP or personal lease.",
    "live": true,
    "name": "rrg",
    "source": "rrg"
@@ -296,7 +303,7 @@
       "offer"
      ],
      "name": "offers",
-     "parser_version": "1"
+     "parser_version": "2"
     }
    ],
    "description": "Kia dealer groups' offer pages: the worked PCP example each prints for an electric model.",
@@ -311,14 +318,14 @@
       "spec"
      ],
      "name": "specs",
-     "parser_version": "1"
+     "parser_version": "2"
     },
     {
      "kinds": [
       "spec"
      ],
      "name": "backfill",
-     "parser_version": "1"
+     "parser_version": "2"
     }
    ],
    "description": "Kia UK model specification pages: https://www.kia.com/uk/new-cars/<model>/specification/",
@@ -333,7 +340,7 @@
       "spec"
      ],
      "name": "specs",
-     "parser_version": "1"
+     "parser_version": "2"
     }
    ],
    "description": "Hyundai UK's \"Technical, Specifications and Pricing\" guide, one PDF per model,",
@@ -348,7 +355,7 @@
       "configuration"
      ],
      "name": "configurations",
-     "parser_version": "1"
+     "parser_version": "2"
     }
    ],
    "description": "Hyundai UK's car configurator: what the maker will actually build, at what price.",
@@ -363,7 +370,7 @@
       "spec"
      ],
      "name": "specs",
-     "parser_version": "1"
+     "parser_version": "2"
     }
    ],
    "description": "EV Database (ev-database.org/uk): the measured numbers the manufacturers'",
@@ -378,7 +385,7 @@
       "spec"
      ],
      "name": "cars",
-     "parser_version": "1"
+     "parser_version": "2"
     }
    ],
    "description": "EV Database car pages (ev-database.org/uk/car/<id>/<name>): everything the index",
@@ -393,7 +400,7 @@
       "used"
      ],
      "name": "used-stock",
-     "parser_version": "1"
+     "parser_version": "2"
     }
    ],
    "description": "Carwow's used stock per model: the deal cards behind https://www.carwow.co.uk/<make>/<model>/used",
@@ -408,7 +415,7 @@
       "used"
      ],
      "name": "used-stock",
-     "parser_version": "1"
+     "parser_version": "2"
     }
    ],
    "description": "cinch's used stock: every electric car it lists, per make.",
@@ -423,7 +430,7 @@
       "used"
      ],
      "name": "used-stock",
-     "parser_version": "1"
+     "parser_version": "2"
     }
    ],
    "description": "Motorpoint's used stock: every electric car it has, from the one listing.",
@@ -433,15 +440,15 @@
   }
  ],
  "resolution_methods": {
-  "base": 227,
-  "bracket": 77,
+  "base": 228,
+  "bracket": 74,
   "cap-id": 1120,
   "manual": 56,
-  "name": 31,
-  "rrp": 17,
+  "name": 35,
+  "rrp": 25,
   "stub": 833,
-  "trim-powertrain": 314,
-  "version": 9
+  "trim-powertrain": 319,
+  "version": 2
  },
  "runs": [
   {
@@ -944,10 +951,10 @@
      "Tech"
     ],
     "prices": [
-     52210.0,
-     54110.0,
      58340.0,
+     59405.0,
      59840.0,
+     61305.0,
      62085.0,
      63585.0
     ],
@@ -981,8 +988,8 @@
      "Tech"
     ],
     "prices": [
-     49300.0,
-     51200.0,
+     54000.0,
+     55900.0,
      56495.0,
      58395.0
     ],
@@ -1014,8 +1021,8 @@
      "Tech Pack"
     ],
     "prices": [
-     46260.0,
-     48160.0,
+     50960.0,
+     52860.0,
      53455.0,
      55355.0
     ],
@@ -1047,10 +1054,10 @@
      "Tech"
     ],
     "prices": [
-     52210.0,
-     54110.0,
      58340.0,
+     59405.0,
      59840.0,
+     61305.0,
      62085.0,
      63585.0
     ],
@@ -1084,8 +1091,8 @@
      "Tech"
     ],
     "prices": [
-     49300.0,
-     51200.0,
+     54000.0,
+     55900.0,
      56495.0,
      58395.0
     ],
@@ -1117,9 +1124,9 @@
      "Tech"
     ],
     "prices": [
-     66165.0,
-     68665.0,
+     75165.0,
      75315.0,
+     77665.0,
      77815.0
     ],
     "reason": "a pack against three or more prices and no RRP",
@@ -1150,9 +1157,9 @@
      "Tech"
     ],
     "prices": [
-     63565.0,
-     66065.0,
+     72565.0,
      72715.0,
+     75065.0,
      75215.0
     ],
     "reason": "a pack against three or more prices and no RRP",
@@ -1183,9 +1190,9 @@
      "Tech"
     ],
     "prices": [
-     60565.0,
-     63065.0,
+     69565.0,
      69715.0,
+     72065.0,
      72215.0
     ],
     "reason": "a pack against three or more prices and no RRP",
@@ -1249,8 +1256,8 @@
      "Tech"
     ],
     "prices": [
-     63565.0,
-     66065.0,
+     67065.0,
+     69565.0,
      70260.0,
      72760.0
     ],
@@ -1284,9 +1291,9 @@
      "Tech"
     ],
     "prices": [
-     66165.0,
-     68665.0,
+     75165.0,
      75315.0,
+     77665.0,
      77815.0
     ],
     "reason": "a pack against three or more prices and no RRP",
@@ -1317,9 +1324,9 @@
      "Tech"
     ],
     "prices": [
-     63565.0,
-     66065.0,
+     72565.0,
      72715.0,
+     75065.0,
      75215.0
     ],
     "reason": "a pack against three or more prices and no RRP",
@@ -1350,9 +1357,9 @@
      "Tech"
     ],
     "prices": [
-     60565.0,
-     63065.0,
+     69565.0,
      69715.0,
+     72065.0,
      72215.0
     ],
     "reason": "a pack against three or more prices and no RRP",
@@ -1371,6 +1378,39 @@
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q6 e-tron|315kw quattro 100kwh sport 5dr auto [tech]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Comfort+/22kW",
+     "5 seat"
+    ],
+    "packs": [
+     "Comfort+/22kW"
+    ],
+    "prices": [
+     80405.0,
+     82255.0,
+     83705.0,
+     85555.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 7,
+    "twins": [
+     "carwow-cap:103555",
+     "carwow-cap:103557",
+     "carwow-cap:105005",
+     "carwow-cap:105007"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
+   "first_seen_at": "2026-10-06T23:39:26+00:00",
+   "label": "BMW i5 Touring 250kW eDr40 M Sport 84kWh 5dr Auto [Comfort+/22kW]",
+   "last_seen_at": "2026-10-11T02:41:19+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|i5 touring|250kw edr40 m sport 84kwh 5dr auto [comfort+/22kw]",
    "status": "conflict"
   },
   {
@@ -1492,7 +1532,9 @@
      81055.0,
      81975.0,
      82505.0,
-     84355.0
+     83705.0,
+     84355.0,
+     85555.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
@@ -1543,7 +1585,9 @@
      81055.0,
      81975.0,
      82505.0,
-     84355.0
+     83705.0,
+     84355.0,
+     85555.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
@@ -1630,8 +1674,12 @@
      80655.0,
      81525.0,
      82205.0,
+     83405.0,
      83775.0,
-     84055.0
+     84055.0,
+     85255.0,
+     85505.0,
+     87355.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 9,
@@ -1675,8 +1723,12 @@
      80655.0,
      81525.0,
      82205.0,
+     82725.0,
      83775.0,
-     84055.0
+     84055.0,
+     84975.0,
+     85505.0,
+     87355.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 9,
@@ -1719,7 +1771,9 @@
      72115.0,
      72795.0,
      74365.0,
-     74645.0
+     74645.0,
+     76095.0,
+     77945.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 5,
@@ -1758,7 +1812,9 @@
      72115.0,
      72795.0,
      74365.0,
-     74645.0
+     74645.0,
+     76095.0,
+     77945.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 5,
@@ -1872,8 +1928,12 @@
      80655.0,
      81525.0,
      82205.0,
+     82725.0,
      83775.0,
-     84055.0
+     84055.0,
+     84975.0,
+     85505.0,
+     87355.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 9,
@@ -2154,7 +2214,7 @@
      "22kWCh"
     ],
     "prices": [
-     44715.0,
+     45595.0,
      47675.0,
      48555.0
     ],
@@ -2317,11 +2377,12 @@
      "22kWCh"
     ],
     "prices": [
-     41815.0,
+     45755.0,
      46635.0,
      49195.0,
      49835.0,
-     50075.0
+     50075.0,
+     50715.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
@@ -2353,11 +2414,12 @@
      "Tech+"
     ],
     "prices": [
-     41815.0,
+     45755.0,
      46635.0,
      49195.0,
      49835.0,
-     50075.0
+     50075.0,
+     50715.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
@@ -2389,7 +2451,7 @@
      "22kWCh"
     ],
     "prices": [
-     44715.0,
+     49535.0,
      51615.0,
      52495.0
     ],
@@ -2420,7 +2482,7 @@
      "22kWCh"
     ],
     "prices": [
-     39065.0,
+     43005.0,
      43885.0,
      46445.0,
      47325.0
@@ -2453,7 +2515,7 @@
      "Tech+/22kWCh"
     ],
     "prices": [
-     39065.0,
+     43005.0,
      43885.0,
      46445.0,
      47325.0
@@ -2486,7 +2548,7 @@
      "Tech+"
     ],
     "prices": [
-     39065.0,
+     43005.0,
      43885.0,
      46445.0,
      47325.0
@@ -2667,7 +2729,7 @@
      "22kWCh"
     ],
     "prices": [
-     44715.0,
+     45595.0,
      47675.0,
      48555.0
     ],
@@ -2698,7 +2760,7 @@
      "Tech+"
     ],
     "prices": [
-     44715.0,
+     45595.0,
      47675.0,
      48555.0
     ],
@@ -2828,7 +2890,7 @@
      "22kWCh"
     ],
     "prices": [
-     41815.0,
+     45755.0,
      46635.0,
      49145.0,
      49195.0,
@@ -2865,7 +2927,7 @@
      "Tech+/22kW"
     ],
     "prices": [
-     41815.0,
+     45755.0,
      46635.0,
      49145.0,
      49195.0,
@@ -2902,7 +2964,7 @@
      "Tech+"
     ],
     "prices": [
-     41815.0,
+     45755.0,
      46635.0,
      49145.0,
      49195.0,
@@ -2939,7 +3001,7 @@
      "Tech/Pro"
     ],
     "prices": [
-     41815.0,
+     45755.0,
      46635.0,
      49145.0,
      49195.0,
@@ -3207,7 +3269,8 @@
     "prices": [
      57250.0,
      57925.0,
-     58950.0
+     58950.0,
+     59625.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 9,
@@ -3237,9 +3300,10 @@
      "22kW"
     ],
     "prices": [
-     55750.0,
+     63155.0,
      63830.0,
-     64855.0
+     64855.0,
+     65530.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
@@ -3269,9 +3333,10 @@
      "Tech plus"
     ],
     "prices": [
-     55750.0,
+     63155.0,
      63830.0,
-     64855.0
+     64855.0,
+     65530.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
@@ -3301,7 +3366,7 @@
      "22kW"
     ],
     "prices": [
-     57250.0,
+     64655.0,
      65330.0,
      66355.0
     ],
@@ -3332,9 +3397,10 @@
      "Tech+"
     ],
     "prices": [
-     57250.0,
+     64655.0,
      65330.0,
-     66355.0
+     66355.0,
+     67030.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 9,
@@ -3364,7 +3430,7 @@
      "Pro Pack"
     ],
     "prices": [
-     78405.0,
+     93205.0,
      94555.0,
      96405.0,
      96455.0,
@@ -3403,7 +3469,7 @@
      "Sky/Pro"
     ],
     "prices": [
-     78405.0,
+     93205.0,
      94555.0,
      96405.0,
      96455.0,
@@ -3442,7 +3508,7 @@
      "Skylounge"
     ],
     "prices": [
-     78405.0,
+     93205.0,
      94555.0,
      96405.0,
      96455.0,
@@ -3481,7 +3547,7 @@
      "Tech/Pro"
     ],
     "prices": [
-     78405.0,
+     93205.0,
      94555.0,
      96405.0,
      96455.0,
@@ -3520,7 +3586,7 @@
      "Tech/Sky"
     ],
     "prices": [
-     78405.0,
+     93205.0,
      94555.0,
      96405.0,
      96455.0,
@@ -3559,7 +3625,7 @@
      "Tech"
     ],
     "prices": [
-     78405.0,
+     93205.0,
      94555.0,
      96405.0,
      96455.0,
@@ -3697,7 +3763,7 @@
      "IDP+Winter Pack"
     ],
     "prices": [
-     41695.0,
+     45750.0,
      47085.0,
      47350.0,
      48685.0
@@ -3730,7 +3796,7 @@
      "IDP"
     ],
     "prices": [
-     41695.0,
+     45750.0,
      47085.0,
      47350.0,
      48685.0
@@ -3763,7 +3829,7 @@
      "Winter Pack"
     ],
     "prices": [
-     41695.0,
+     45750.0,
      47085.0,
      47350.0,
      48685.0
@@ -3796,7 +3862,7 @@
      "IDP+Winter Pack"
     ],
     "prices": [
-     44495.0,
+     48900.0,
      50235.0,
      53845.0,
      55180.0
@@ -3829,7 +3895,7 @@
      "IDP"
     ],
     "prices": [
-     44495.0,
+     48900.0,
      50235.0,
      53845.0,
      55180.0
@@ -3862,7 +3928,7 @@
      "Winter Pack"
     ],
     "prices": [
-     44495.0,
+     48900.0,
      50235.0,
      53845.0,
      55180.0
@@ -4357,7 +4423,7 @@
      "Comfort Pack"
     ],
     "prices": [
-     35185.0,
+     36985.0,
      38635.0,
      38785.0,
      40435.0
@@ -4390,7 +4456,7 @@
      "Comfort/Driver Assist"
     ],
     "prices": [
-     35185.0,
+     36985.0,
      38635.0,
      38785.0,
      40435.0
@@ -4423,7 +4489,7 @@
      "Driver Assist Pack"
     ],
     "prices": [
-     35185.0,
+     36985.0,
      38635.0,
      38785.0,
      40435.0
@@ -4978,7 +5044,70 @@
      "Level 1"
     ],
     "prices": [
+     31260.0,
+     33260.0,
+     35660.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 4,
+    "twins": [
+     "carwow-cap:105713",
+     "carwow-cap:105714",
+     "carwow-cap:105715"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
+   "first_seen_at": "2026-10-06T23:39:27+00:00",
+   "label": "MINI Aceman 135kW E Exclusive [Level 1] 43kWh 5dr Auto",
+   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "mini|aceman|135kw e exclusive [level 1] 43kwh 5dr auto",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Level 2",
+     "5 seat"
+    ],
+    "packs": [
+     "Level 2"
+    ],
+    "prices": [
+     31260.0,
+     33260.0,
+     35660.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 4,
+    "twins": [
+     "carwow-cap:105713",
+     "carwow-cap:105714",
+     "carwow-cap:105715"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
+   "first_seen_at": "2026-10-06T23:39:27+00:00",
+   "label": "MINI Aceman 135kW E Exclusive [Level 2] 43kWh 5dr Auto",
+   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "mini|aceman|135kw e exclusive [level 2] 43kwh 5dr auto",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Level 1",
+     "5 seat"
+    ],
+    "packs": [
+     "Level 1"
+    ],
+    "prices": [
      32560.0,
+     34560.0,
      36960.0,
      39460.0
     ],
@@ -5011,6 +5140,7 @@
     ],
     "prices": [
      32560.0,
+     34560.0,
      36960.0,
      39460.0
     ],
@@ -5043,6 +5173,7 @@
     ],
     "prices": [
      32560.0,
+     34560.0,
      36960.0,
      39460.0
     ],
@@ -5062,6 +5193,68 @@
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "mini|aceman|135kw e sport [level 3] 43kwh 5dr auto",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Level 2",
+     "5 seat"
+    ],
+    "packs": [
+     "Level 2"
+    ],
+    "prices": [
+     35560.0,
+     37960.0,
+     40460.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 6,
+    "twins": [
+     "carwow-cap:105725",
+     "carwow-cap:105726",
+     "carwow-cap:105727"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
+   "first_seen_at": "2026-10-06T23:39:27+00:00",
+   "label": "MINI Aceman 160kW SE Sport [Level 2] 54kWh 5dr Auto",
+   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "mini|aceman|160kw se sport [level 2] 54kwh 5dr auto",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Level 3",
+     "5 seat"
+    ],
+    "packs": [
+     "Level 3"
+    ],
+    "prices": [
+     35560.0,
+     37960.0,
+     40460.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 6,
+    "twins": [
+     "carwow-cap:105725",
+     "carwow-cap:105726",
+     "carwow-cap:105727"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
+   "first_seen_at": "2026-10-06T23:39:27+00:00",
+   "label": "MINI Aceman 160kW SE Sport [Level 3] 54kWh 5dr Auto",
+   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "mini|aceman|160kw se sport [level 3] 54kwh 5dr auto",
    "status": "conflict"
   },
   {
@@ -5507,7 +5700,7 @@
      "Advanced"
     ],
     "prices": [
-     34870.0,
+     35195.0,
      35800.0,
      37225.0,
      37310.0,
@@ -5556,7 +5749,7 @@
      "Lodge/Advanced"
     ],
     "prices": [
-     34870.0,
+     35195.0,
      35800.0,
      37225.0,
      37310.0,
@@ -5605,7 +5798,7 @@
      "Lodge/Maxx"
     ],
     "prices": [
-     34870.0,
+     35195.0,
      35800.0,
      37225.0,
      37310.0,
@@ -5654,7 +5847,7 @@
      "Lodge/Plus"
     ],
     "prices": [
-     34870.0,
+     35195.0,
      35800.0,
      37225.0,
      37310.0,
@@ -5703,7 +5896,7 @@
      "Lodge"
     ],
     "prices": [
-     34870.0,
+     35195.0,
      35800.0,
      37225.0,
      37310.0,
@@ -5752,7 +5945,7 @@
      "Maxx"
     ],
     "prices": [
-     34870.0,
+     35195.0,
      35800.0,
      37225.0,
      37310.0,
@@ -5801,7 +5994,7 @@
      "Plus"
     ],
     "prices": [
-     34870.0,
+     35195.0,
      35800.0,
      37225.0,
      37310.0,
@@ -5850,7 +6043,7 @@
      "Suite/Advanced"
     ],
     "prices": [
-     34870.0,
+     35195.0,
      35800.0,
      37225.0,
      37310.0,
@@ -5899,7 +6092,7 @@
      "Suite/Maxx"
     ],
     "prices": [
-     34870.0,
+     35195.0,
      35800.0,
      37225.0,
      37310.0,
@@ -5948,7 +6141,7 @@
      "Suite"
     ],
     "prices": [
-     34870.0,
+     35195.0,
      35800.0,
      37225.0,
      37310.0,
@@ -5997,7 +6190,7 @@
      "Lodge"
     ],
     "prices": [
-     33970.0,
+     34295.0,
      34900.0,
      36325.0
     ],
@@ -6028,7 +6221,7 @@
      "Advanced"
     ],
     "prices": [
-     37820.0,
+     38145.0,
      40410.0,
      41370.0
     ],
@@ -6059,7 +6252,7 @@
      "Maxx"
     ],
     "prices": [
-     37820.0,
+     38145.0,
      40410.0,
      41370.0
     ],
@@ -6090,12 +6283,13 @@
      "Advanced"
     ],
     "prices": [
-     34870.0,
+     39070.0,
      39670.0,
      41070.0,
      41170.0,
      41770.0,
      43170.0,
+     43220.0,
      43820.0,
      44170.0,
      44770.0,
@@ -6138,12 +6332,13 @@
      "Lodge/Advanced"
     ],
     "prices": [
-     34870.0,
+     39070.0,
      39670.0,
      41070.0,
      41170.0,
      41770.0,
      43170.0,
+     43220.0,
      43820.0,
      44170.0,
      44770.0,
@@ -6186,12 +6381,13 @@
      "Lodge/Maxx"
     ],
     "prices": [
-     34870.0,
+     39070.0,
      39670.0,
      41070.0,
      41170.0,
      41770.0,
      43170.0,
+     43220.0,
      43820.0,
      44170.0,
      44770.0,
@@ -6234,12 +6430,13 @@
      "Lodge/Plus"
     ],
     "prices": [
-     34870.0,
+     39070.0,
      39670.0,
      41070.0,
      41170.0,
      41770.0,
      43170.0,
+     43220.0,
      43820.0,
      44170.0,
      44770.0,
@@ -6282,12 +6479,13 @@
      "Lodge"
     ],
     "prices": [
-     34870.0,
+     39070.0,
      39670.0,
      41070.0,
      41170.0,
      41770.0,
      43170.0,
+     43220.0,
      43820.0,
      44170.0,
      44770.0,
@@ -6330,12 +6528,13 @@
      "Maxx"
     ],
     "prices": [
-     34870.0,
+     39070.0,
      39670.0,
      41070.0,
      41170.0,
      41770.0,
      43170.0,
+     43220.0,
      43820.0,
      44170.0,
      44770.0,
@@ -6378,12 +6577,13 @@
      "Plus"
     ],
     "prices": [
-     34870.0,
+     39070.0,
      39670.0,
      41070.0,
      41170.0,
      41770.0,
      43170.0,
+     43220.0,
      43820.0,
      44170.0,
      44770.0,
@@ -6426,12 +6626,13 @@
      "Suite/Plus"
     ],
     "prices": [
-     34870.0,
+     39070.0,
      39670.0,
      41070.0,
      41170.0,
      41770.0,
      43170.0,
+     43220.0,
      43820.0,
      44170.0,
      44770.0,
@@ -6474,12 +6675,13 @@
      "Suite"
     ],
     "prices": [
-     34870.0,
+     39070.0,
      39670.0,
      41070.0,
      41170.0,
      41770.0,
      43170.0,
+     43220.0,
      43820.0,
      44170.0,
      44770.0,
@@ -6522,12 +6724,13 @@
      "Advanced"
     ],
     "prices": [
-     34870.0,
+     39395.0,
      40000.0,
      41425.0,
      41510.0,
      42115.0,
      43540.0,
+     43570.0,
      44175.0,
      44545.0,
      45150.0,
@@ -6570,12 +6773,13 @@
      "Lodge/Maxx"
     ],
     "prices": [
-     34870.0,
+     39395.0,
      40000.0,
      41425.0,
      41510.0,
      42115.0,
      43540.0,
+     43570.0,
      44175.0,
      44545.0,
      45150.0,
@@ -6618,12 +6822,13 @@
      "Lodge/Plus"
     ],
     "prices": [
-     34870.0,
+     39395.0,
      40000.0,
      41425.0,
      41510.0,
      42115.0,
      43540.0,
+     43570.0,
      44175.0,
      44545.0,
      45150.0,
@@ -6666,12 +6871,13 @@
      "Lodge"
     ],
     "prices": [
-     34870.0,
+     39395.0,
      40000.0,
      41425.0,
      41510.0,
      42115.0,
      43540.0,
+     43570.0,
      44175.0,
      44545.0,
      45150.0,
@@ -6714,12 +6920,13 @@
      "Maxx"
     ],
     "prices": [
-     34870.0,
+     39395.0,
      40000.0,
      41425.0,
      41510.0,
      42115.0,
      43540.0,
+     43570.0,
      44175.0,
      44545.0,
      45150.0,
@@ -6762,12 +6969,13 @@
      "Plus"
     ],
     "prices": [
-     34870.0,
+     39395.0,
      40000.0,
      41425.0,
      41510.0,
      42115.0,
      43540.0,
+     43570.0,
      44175.0,
      44545.0,
      45150.0,
@@ -6810,12 +7018,13 @@
      "Suite"
     ],
     "prices": [
-     34870.0,
+     39395.0,
      40000.0,
      41425.0,
      41510.0,
      42115.0,
      43540.0,
+     43570.0,
      44175.0,
      44545.0,
      45150.0,
@@ -6858,7 +7067,7 @@
      "Advanced"
     ],
     "prices": [
-     37820.0,
+     42020.0,
      44270.0,
      45220.0
     ],
@@ -6889,7 +7098,7 @@
      "Maxx"
     ],
     "prices": [
-     37820.0,
+     42020.0,
      44270.0,
      45220.0
     ],
@@ -6920,7 +7129,7 @@
      "Advanced"
     ],
     "prices": [
-     37820.0,
+     42060.0,
      44325.0,
      45285.0
     ],
@@ -6951,7 +7160,7 @@
      "Maxx"
     ],
     "prices": [
-     37820.0,
+     42060.0,
      44325.0,
      45285.0
     ],
@@ -6982,8 +7191,8 @@
      "Maxx"
     ],
     "prices": [
-     47770.0,
-     50020.0,
+     49270.0,
+     51170.0,
      51220.0,
      53120.0
     ],
@@ -7015,8 +7224,8 @@
      "Maxx"
     ],
     "prices": [
-     47770.0,
-     50020.0,
+     49720.0,
+     51520.0,
      51770.0,
      53570.0
     ],
@@ -7048,7 +7257,7 @@
      "Advanced"
     ],
     "prices": [
-     40620.0,
+     45270.0,
      45925.0,
      46580.0,
      47500.0,
@@ -7097,7 +7306,7 @@
      "Lodge/Advanced"
     ],
     "prices": [
-     40620.0,
+     45270.0,
      45925.0,
      46580.0,
      47500.0,
@@ -7146,7 +7355,7 @@
      "Lodge"
     ],
     "prices": [
-     40620.0,
+     45270.0,
      45925.0,
      46580.0,
      47500.0,
@@ -7195,7 +7404,7 @@
      "Lounge/Advanced"
     ],
     "prices": [
-     40620.0,
+     45270.0,
      45925.0,
      46580.0,
      47500.0,
@@ -7244,7 +7453,7 @@
      "Lounge"
     ],
     "prices": [
-     40620.0,
+     45270.0,
      45925.0,
      46580.0,
      47500.0,
@@ -7293,7 +7502,7 @@
      "Maxx"
     ],
     "prices": [
-     40620.0,
+     45270.0,
      45925.0,
      46580.0,
      47500.0,
@@ -7342,7 +7551,7 @@
      "Suite"
     ],
     "prices": [
-     40620.0,
+     45270.0,
      45925.0,
      46580.0,
      47500.0,
@@ -7391,7 +7600,7 @@
      "Lodge"
     ],
     "prices": [
-     39520.0,
+     42060.0,
      42710.0,
      43360.0,
      44260.0,
@@ -7432,7 +7641,7 @@
      "Lounge"
     ],
     "prices": [
-     39520.0,
+     42060.0,
      42710.0,
      43360.0,
      44260.0,
@@ -7473,7 +7682,7 @@
      "Plus/Lodge"
     ],
     "prices": [
-     39520.0,
+     42060.0,
      42710.0,
      43360.0,
      44260.0,
@@ -7514,7 +7723,7 @@
      "Plus/Lounge"
     ],
     "prices": [
-     39520.0,
+     42060.0,
      42710.0,
      43360.0,
      44260.0,
@@ -7555,7 +7764,7 @@
      "Plus"
     ],
     "prices": [
-     39520.0,
+     42060.0,
      42710.0,
      43360.0,
      44260.0,
@@ -7596,7 +7805,7 @@
      "Suite"
     ],
     "prices": [
-     39520.0,
+     42060.0,
      42710.0,
      43360.0,
      44260.0,
@@ -7637,7 +7846,7 @@
      "Lodge"
     ],
     "prices": [
-     39520.0,
+     42060.0,
      42715.0,
      43370.0,
      44290.0,
@@ -7678,7 +7887,7 @@
      "Lounge"
     ],
     "prices": [
-     39520.0,
+     42060.0,
      42715.0,
      43370.0,
      44290.0,
@@ -7719,7 +7928,7 @@
      "Plus/Lodge"
     ],
     "prices": [
-     39520.0,
+     42060.0,
      42715.0,
      43370.0,
      44290.0,
@@ -7760,7 +7969,7 @@
      "Plus/Lounge"
     ],
     "prices": [
-     39520.0,
+     42060.0,
      42715.0,
      43370.0,
      44290.0,
@@ -7801,7 +8010,7 @@
      "Plus/Suite"
     ],
     "prices": [
-     39520.0,
+     42060.0,
      42715.0,
      43370.0,
      44290.0,
@@ -7842,7 +8051,7 @@
      "Plus"
     ],
     "prices": [
-     39520.0,
+     42060.0,
      42715.0,
      43370.0,
      44290.0,
@@ -7883,7 +8092,7 @@
      "Suite"
     ],
     "prices": [
-     39520.0,
+     42060.0,
      42715.0,
      43370.0,
      44290.0,
@@ -8052,7 +8261,9 @@
      57035.0,
      57830.0,
      57895.0,
-     58690.0
+     58690.0,
+     59915.0,
+     60710.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 10,
@@ -8247,7 +8458,9 @@
      57035.0,
      57830.0,
      57895.0,
-     58690.0
+     58690.0,
+     59915.0,
+     60710.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 10,
@@ -8306,6 +8519,60 @@
   },
   {
    "evidence": {
+    "brackets": [
+     "Tech Pack Max"
+    ],
+    "list_prices": [
+     57660.0
+    ],
+    "prices": [
+     57660.0
+    ],
+    "reason": "the record's price fits no derivative its text names",
+    "rrp": 56409.0,
+    "score": 6,
+    "twins": [
+     "carwow-cap:105829"
+    ]
+   },
+   "example_url": "https://www.new-car-discount.com/car/hyundai/ioniq-5-electric-hatchback/hatchback/electric/automatic/239kw-ultimate-84-kwh-5dr-awd-auto-tech-pack-max/24/",
+   "first_seen_at": "2025-02-15T01:03:50+00:00",
+   "label": "IONIQ 5 ELECTRIC HATCHBACK 239kW Ultimate 84 kWh 5dr AWD Auto [Tech Pack Max]",
+   "last_seen_at": "2025-12-13T01:25:24+00:00",
+   "method": "conflict",
+   "source": "ncd",
+   "source_key": "hyundai|ioniq 5 electric hatchback|239kw ultimate 84kwh 5dr awd auto [tech pack max]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Tech Pack"
+    ],
+    "list_prices": [
+     57660.0
+    ],
+    "prices": [
+     57660.0
+    ],
+    "reason": "the record's price fits no derivative its text names",
+    "rrp": 55254.0,
+    "score": 5,
+    "twins": [
+     "carwow-cap:105829"
+    ]
+   },
+   "example_url": "https://www.new-car-discount.com/car/hyundai/ioniq-5/hatchback/all/all",
+   "first_seen_at": "2025-02-15T01:03:50+00:00",
+   "label": "IONIQ 5 ELECTRIC HATCHBACK 239kW Ultimate 84 kWh 5dr AWD Auto [Tech Pack]",
+   "last_seen_at": "2026-10-11T02:39:55+00:00",
+   "method": "conflict",
+   "source": "ncd",
+   "source_key": "hyundai|ioniq 5 electric hatchback|239kw ultimate 84kwh 5dr awd auto [tech pack]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
     "candidates": 2
    },
    "example_url": "https://search-api.snc-prod.aws.cinch.co.uk/new-cars?url=electric-fuel-type&channelId=CINCH",
@@ -8336,15 +8603,19 @@
   },
   {
    "evidence": {
-    "candidates": 8
+    "reason": "tie between different trims or powertrains",
+    "tied": [
+     "carwow-cap:108354",
+     "carwow-cap:110994"
+    ]
    },
    "example_url": "https://www.halliwelljones.co.uk/kia/offers",
    "first_seen_at": "2026-10-11T11:53:14+00:00",
-   "label": "Kia EV5",
+   "label": "Kia EV5 GT-Line Auto EV Automatic",
    "last_seen_at": "2026-10-11T11:53:14+00:00",
    "method": "none",
    "source": "kia-dealer",
-   "source_key": "hj|kia ev5",
+   "source_key": "hj|kia ev5 gt-line auto ev automatic",
    "status": "unmapped"
   },
   {
@@ -9212,60 +9483,6 @@
    "method": "none",
    "source": "leaseloco",
    "source_key": "subaru|solterra|150kw touring 71.4kwh 5dr auto awd",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "reason": "tie between different trims or powertrains",
-    "tied": [
-     "carwow-cap:109377",
-     "carwow-cap:109378",
-     "carwow-cap:110075"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/tesla/model-y",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "Tesla Model Y Premium Long Range AWD 5dr Auto",
-   "last_seen_at": "2026-10-11T02:47:51+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "tesla|model y|premium long range awd 5dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "reason": "tie between different trims or powertrains",
-    "tied": [
-     "carwow-cap:109377",
-     "carwow-cap:109378",
-     "carwow-cap:110075"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/tesla/model-y",
-   "first_seen_at": "2026-10-07T08:19:02+00:00",
-   "label": "Tesla Model Y Premium Long Range AWD 5dr Auto [7 Seat]",
-   "last_seen_at": "2026-10-11T02:47:51+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "tesla|model y|premium long range awd 5dr auto [7 seat]",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "reason": "tie between different trims or powertrains",
-    "tied": [
-     "carwow-cap:109377",
-     "carwow-cap:109378",
-     "carwow-cap:110075"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/tesla/model-y",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "Tesla Model Y Premium Long Range RWD 5dr Auto",
-   "last_seen_at": "2026-10-11T02:47:51+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "tesla|model y|premium long range rwd 5dr auto",
    "status": "unmapped"
   },
   {

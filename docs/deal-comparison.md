@@ -59,6 +59,7 @@
 | Hyundai Ioniq 5 Premium 84kWh RWD | live | £43,997 | £3,000 | £0 | £652 × 36 | 0.0% / -0.0% | £17,529 (39.8%) | £23,468 | £40,997 | £-0 | £634 | £578 (£635) | £652 | £34,380 | £6,617 | 8.5% |
 | Nissan Ariya Advance · 178kW 87kWh Auto | illustrative | £40,607 | £2,500 | £8,121 | £474 × 36 | 3.5% / 3.5% | £15,342 (37.8%) | £25,185 | £40,528 | £2,420 | £700 | £645 (£695) | £407 | £40,106 | £422 | 0.6% |
 | Renault Megane E-Tech Electric Techno · EV60 160kW 60kWh Auto | illustrative | £28,733 | £0 | £8,656 | £224 × 36 | 0.0% / 0.1% | £12,041 (41.9%) | £16,720 | £28,761 | £27 | £464 | £428 (£467) | £223 | £26,693 | £2,068 | 4.5% |
+| Hyundai Ioniq 5 Advance · 125kW 63 kWh Auto | illustrative | £36,705 | £3,000 | £7,340 | £301 × 36 | 0.0% / 0.0% | £15,554 (42.4%) | £18,176 | £33,730 | £25 | £505 | £453 (£504) | £300 | £36,704 | £-2,974 | -4.2% |
 | Peugeot e-Traveller Combi · 100kW Standard 75kWh Auto | illustrative | £35,264 | £0 | £7,052 | £526 × 36 | 9.9% / 10.5% | £16,182 (45.9%) | £25,988 | £42,170 | £6,906 | £722 | £662 (£715) | £334 | £33,466 | £8,704 | 13.9% |
 | Abarth 500e Standard · 114kW 42.2kWh Auto | illustrative | £26,638 | £1,535 | £5,327 | £288 × 36 | 3.9% / 4.5% | £11,537 (43.3%) | £15,695 | £27,232 | £2,129 | £436 | £396 (£434) | £229 | £26,637 | £595 | 1.2% |
 | Abarth 500e Convertible Standard · 114kW 42.2kWh Auto | illustrative | £32,338 | £790 | £6,467 | £334 × 36 | 3.9% / 4.4% | £15,768 (48.8%) | £18,491 | £34,259 | £2,711 | £514 | £460 (£511) | £259 | £29,487 | £4,772 | 8.2% |
@@ -74,7 +75,7 @@
 | Genesis GV60 Pure · 168kW 84kWh Auto | illustrative | £52,250 | £5,000 | £10,449 | £580 × 36 | 0.0% / 0.0% | £15,952 (30.5%) | £31,329 | £47,281 | £31 | £870 | £813 (£866) | £579 | £52,249 | £-4,968 | -5.5% |
 | Hyundai Inster 01 · 71kW 42kWh Auto | illustrative | £21,236 | £3,000 | £4,247 | £123 × 36 | 0.0% / 0.1% | £9,580 (45.1%) | £8,675 | £18,255 | £19 | £241 | £211 (£242) | £122 | £18,214 | £41 | 0.1% |
 | Hyundai Ioniq 3 Advance · 108kW 42kWh Auto | illustrative | £17,423 | £0 | £3,484 | £195 × 36 | 8.9% / 9.0% | £10,138 (58.2%) | £10,504 | £20,642 | £3,219 | £292 | £257 (£290) | £106 | £17,422 | £3,220 | 9.0% |
-| Hyundai Ioniq 5 Advance · 125kW 63 kWh Auto | illustrative | £36,705 | £3,000 | £7,340 | £301 × 36 | 0.0% / 0.0% | £15,554 (42.4%) | £18,176 | £33,730 | £25 | £505 | £453 (£504) | £300 | £36,704 | £-2,974 | -4.2% |
+| Hyundai Ioniq 5 Advance · 125kW 63 kWh Auto | illustrative | £36,705 | £3,000 | £7,340 | £301 × 36 | 0.0% / 0.0% | £15,554 (42.4%) | £18,176 | £33,730 | £25 | £505 | £453 (£504) | £300 | £28,798 | £4,932 | 9.0% |
 | Hyundai Ioniq 5 N Standard · 478kW 84 kWh Auto | illustrative | £59,299 | £0 | £11,859 | £648 × 36 | 4.9% / 4.9% | £29,873 (50.4%) | £35,187 | £65,060 | £5,761 | £977 | £875 (£972) | £488 | £59,299 | £5,761 | 4.9% |
 | Hyundai Ioniq 6 Premium · 168kW 77kWh Auto | illustrative | £40,737 | £0 | £8,147 | £651 × 36 | 7.9% / 7.9% | £14,803 (36.3%) | £31,583 | £46,386 | £5,649 | £877 | £820 (£869) | £494 | £40,737 | £5,649 | 7.9% |
 | Hyundai Ioniq 6 N Standard · 478kW 84 kWh Auto | illustrative | £59,299 | £0 | £11,859 | £572 × 36 | 4.9% / 4.9% | £32,814 (55.3%) | £32,451 | £65,265 | £5,966 | £901 | £791 (£898) | £406 | £59,299 | £5,966 | 4.9% |
@@ -147,14 +148,15 @@
 | Hyundai Ioniq 6 Premium · 168kW 77kWh Auto | live | £47,050 | £1,500 | £5,000 | £662 × 48 | 3.9% / 4.0% | £13,109 (27.9%) | £36,871 | £49,981 | £4,431 | £752 | £719 (£762) | £572 | £40,737 | £9,244 | 9.3% |
 | Nissan Leaf Engage · 160kW 75kWh Auto | live | £32,098 | £1,999 | £439 | £439 × 48 | 5.5% / 5.5% | £13,347 (41.6%) | £21,610 | £34,957 | £4,858 | £441 | £399 (£443) | £340 | £30,170 | £4,787 | 5.4% |
 | Kia EV2 Air · 99kW 61kWh Auto | live | £24,245 | £500 | £349 | £350 × 36 | 3.9% / 3.9% | £12,961 (53.5%) | £12,941 | £25,902 | £2,157 | £350 | £308 (£351) | £290 | £22,887 | £3,015 | 5.6% |
-| Kia EV3 GT-Line · 150kW 81.4kWh Auto | live | £38,605 | £2,430 | £4,499 | £449 × 36 | 3.9% / 3.9% | £18,469 (47.8%) | £20,679 | £39,149 | £2,974 | £559 | £507 (£567) | £367 | £35,251 | £3,898 | 5.2% |
+| Kia EV3 GT-Line · 150kW 81.4kWh Auto | live | £38,605 | £2,430 | £4,499 | £449 × 36 | 3.9% / 3.9% | £18,469 (47.8%) | £20,679 | £39,149 | £2,974 | £559 | £507 (£567) | £367 | £33,022 | £6,127 | 8.7% |
 | Kia EV4 Air · 150kW 81kWh Auto | live | £33,895 | £750 | £2,995 | £459 × 36 | 3.9% / 3.9% | £16,383 (48.3%) | £19,523 | £35,906 | £2,761 | £528 | £480 (£533) | £382 | £29,991 | £5,915 | 9.1% |
 | Kia EV5 Storm · 160kW 81.4kWh Auto | live | £43,145 | £2,000 | £4,999 | £490 × 36 | 3.9% / 3.9% | £21,963 (50.9%) | £22,627 | £44,589 | £3,444 | £612 | £549 (£621) | £394 | £40,183 | £4,406 | 5.1% |
 | Kia EV9 GT-Line S · 282kW 99.8kWh AWD Auto | live | £79,395 | £2,900 | £15,999 | £899 × 36 | 3.9% / 3.9% | £33,713 (42.5%) | £48,371 | £82,084 | £5,589 | £1,307 | £1,226 (£1,336) | £744 | £70,732 | £11,352 | 8.6% |
-| Kia PV5 Passenger Essential · 120kW Long Range 71kWh Auto | live | £34,695 | £0 | £9,049 | £331 × 36 | 3.9% / 3.9% | £16,200 (46.7%) | £20,974 | £37,174 | £2,479 | £567 | £530 (£583) | £262 | £32,927 | £4,247 | 7.1% |
+| Kia PV5 Passenger Essential · 120kW Long Range 71kWh Auto | live | £34,695 | £0 | £9,049 | £331 × 36 | 3.9% / 3.9% | £16,200 (46.7%) | £20,974 | £37,174 | £2,479 | £567 | £530 (£583) | £262 | £32,043 | £5,131 | 8.8% |
 | Kia EV2 Air · 99kW 61kWh Auto | live | £24,245 | £545 | £1,999 | £299 × 36 | 3.9% / 3.8% | £12,961 (53.5%) | £12,763 | £25,724 | £2,024 | £345 | £306 (£349) | £243 | £22,887 | £2,837 | 5.5% |
-| Kia EV3 GT-Line · 150kW 81.4kWh Auto | live | £37,955 | £2,955 | £4,999 | £399 × 36 | 3.9% / 3.8% | £18,469 (48.7%) | £19,363 | £37,832 | £2,832 | £523 | £472 (£533) | £320 | £35,251 | £2,581 | 3.5% |
+| Kia EV3 GT-Line · 150kW 81.4kWh Auto | live | £37,955 | £2,955 | £4,999 | £399 × 36 | 3.9% / 3.8% | £18,469 (48.7%) | £19,363 | £37,832 | £2,832 | £523 | £472 (£533) | £320 | £33,022 | £4,810 | 6.9% |
 | Kia EV4 MOTION · 150kW 81kWh Auto | live | £36,745 | £1,895 | £3,999 | £449 × 36 | 3.9% / 3.8% | £17,508 (47.6%) | £20,163 | £37,671 | £2,821 | £545 | £495 (£552) | £371 | £33,176 | £4,495 | 6.4% |
+| Kia EV5 Storm · 160kW 81.4kWh Auto | live | £43,145 | £2,646 | £3,999 | £449 × 36 | 3.9% / 1.8% | £21,963 (50.9%) | £20,163 | £42,126 | £1,627 | £545 | £481 (£552) | £404 | £40,183 | £1,943 | 2.2% |
 | Kia EV9 GT-Line · 282kW 99.8kWh AWD Auto | live | £74,645 | £4,995 | £7,999 | £999 × 36 | 3.9% / 3.9% | £31,196 (41.8%) | £43,963 | £75,159 | £5,509 | £1,188 | £1,101 (£1,203) | £846 | £68,002 | £7,157 | 5.2% |
 
 \* monthly solved from APR, credit and GFV (derived deal).
@@ -191,8 +193,7 @@
 | BMW i5 M60 · 442kW xDrive 84kWh Auto | lead | 48 | £9,972 | £1,108 × 47 | £295 | £62,345 | £1,299 | £1,318 | 30000 |
 | BMW i5 M Sport Pro · 250kW eDr40 84kWh Auto Tech+/22kW | lead | 48 | £5,495 | £916 × 47 | £295 | £48,832 | £1,017 | £1,029 | 10000 |
 | Hyundai Kona Electric Advance 65kWh | lead | 48 | £2,621 | £291 × 47 | £295 | £16,602 | £346 | £351 | 6000 |
-| BMW i5 M Sport · 250kW eDr40 84kWh Auto Tech+/Cmf+/22kW | lead | 48 | £2,967 | £989 × 47 | £295 | £49,749 | £1,036 | £1,044 | 10000 |
-| BMW i5 Touring M Sport · 250kW eDr40 84kWh Auto Tech+/Cmf+/22kW | lead | 48 | £2,896 | £965 × 47 | £295 | £48,554 | £1,012 | £1,019 | 10000 |
+| BMW i5 M Sport · 250kW eDrive40 84kWh Auto | lead | 48 | £2,967 | £989 × 47 | £295 | £49,749 | £1,036 | £1,044 | 10000 |
 | BMW i5 M Sport · 250kW eDr40 84kWh Auto Tech+/Cmf+/22kW | lead | 48 | £8,062 | £896 × 47 | £295 | £50,461 | £1,051 | £1,067 | 10000 |
 | BMW i5 M Sport Pro · 250kW eDrive40 84kWh Auto | lead | 48 | £7,400 | £822 × 47 | £295 | £46,342 | £965 | £980 | 10000 |
 | BMW i5 M Sport Pro · 250kW eDr40 84kWh Auto Tech+/Comf+ | lead | 48 | £8,174 | £908 × 47 | £295 | £51,155 | £1,066 | £1,082 | 10000 |
@@ -248,7 +249,7 @@
 | BYD Seal Design · 230kW 83kWh Auto | lead | 36 | £2,377 | £396 × 35 | £295 | £16,538 | £459 | £465 | 10000 |
 | BMW iX2 M Sport · 150kW eDrive20 65kWh Auto | lead | 48 | £3,892 | £432 × 47 | £295 | £24,512 | £511 | £519 | 6000 |
 | MINI Aceman SE Classic · 160kW54kWh Auto | lead | 48 | £4,346 | £362 × 47 | £350 | £21,717 | £452 | £461 | 5000 |
-| MINI Aceman SE Sport · 160kW54kWh Auto | lead | 48 | £4,557 | £380 × 47 | £350 | £22,753 | £474 | £483 | 5000 |
+| MINI Aceman SE Sport · 160kW 54kWh Auto | lead | 48 | £4,557 | £380 × 47 | £350 | £22,753 | £474 | £483 | 5000 |
 | Hyundai Ioniq 5 Advance · 125kW 63 kWh Auto | lead | 48 | £4,631 | £386 × 47 | £295 | £23,066 | £481 | £490 | 6000 |
 | Hyundai Ioniq 5 Premium · 125kW 63 kWh Auto | lead | 48 | £1,438 | £479 × 47 | £295 | £24,264 | £506 | £509 | 6000 |
 | Hyundai Ioniq 5 Advance 84kWh RWD | lead | 48 | £3,790 | £421 × 47 | £295 | £23,877 | £497 | £505 | 6000 |
@@ -304,7 +305,7 @@
 | Lexus RZ F Sport Takumi · 550e 300kW 77 kWh Auto | lead | 48 | £9,347 | £779 × 47 | £350 | £46,307 | £965 | £983 | 5000 |
 | Ford Mustang Mach-E Premium · 276kW 88kWh AWD Auto | lead | 48 | £3,994 | £666 × 47 | £295 | £35,575 | £741 | £750 | 6000 |
 | BMW iX3 345kW xDrive50 113kWh Auto | lead | 48 | £7,227 | £803 × 47 | £295 | £45,266 | £943 | £957 | 6000 |
-| BMW iX3 M Sport · 345kW xDrive50 113kWh Auto Tech+/22kW | lead | 48 | £1,004 | £1,004 × 47 | £295 | £48,495 | £1,010 | £1,014 | 10000 |
+| BMW iX3 M Sport · 345kW xDrive50 113kWh Auto | lead | 48 | £1,004 | £1,004 × 47 | £295 | £48,495 | £1,010 | £1,014 | 10000 |
 | Kia EV5 GT-Line · 160kW 81.4kWh Auto | lead | 48 | £3,835 | £426 × 47 | £295 | £24,155 | £503 | £511 | 6000 |
 | Geely EX5 SE · 160kW 60kWh Auto | lead | 48 | £3,277 | £273 × 47 | £385 | £16,497 | £344 | £350 | 8000 |
 | Hyundai Ioniq 5 Ultimate · 168kW 84 kWh Auto | lead | 48 | £3,463 | £577 × 47 | £295 | £30,888 | £643 | £651 | 6000 |
@@ -398,6 +399,8 @@
 | Nissan Leaf Engage · 160kW 75kWh Auto | lead | 48 | £2,048 | £341 × 47 | £295 | £18,381 | £383 | £387 | 6000 |
 | Nissan Leaf Advance · 160kW 75kWh Auto | lead | 48 | £389 | £389 × 47 | £295 | £18,974 | £395 | £397 | 6000 |
 | Nissan Leaf Evolve · 160kW 75kWh Auto | lead | 48 | £407 | £407 × 47 | £295 | £19,811 | £413 | £415 | 6000 |
+| Tesla Model Y Premium Premium Long Range · RWD Auto | lead | 48 | £5,713 | £635 × 47 | £295 | £35,844 | £747 | £758 | 10000 |
+| Tesla Model Y Premium Premium Long Range · RWD Auto | lead | 48 | £4,904 | £545 × 47 | £295 | £30,810 | £642 | £652 | 10000 |
 | Tesla Model Y Standard · RWD Auto | lead | 48 | £4,161 | £462 × 47 | £295 | £26,188 | £546 | £554 | 10000 |
 | Volvo EX30 Plus Black Edition · 200kW P5 Long Range Plus Black Ed 69kWh Auto | lead | 48 | £4,856 | £405 × 47 | £350 | £24,226 | £505 | £514 | 8000 |
 | Peugeot E-5008 Allure Premium · 157kW 73kWh Auto | lead | 48 | £6,611 | £551 × 47 | £295 | £32,798 | £683 | £696 | 5000 |
@@ -462,13 +465,13 @@
 | Renault Megane E-Tech Electric Techno · EV60 160kW Comfort Range 60kWh Auto | lead | 48 | £4,485 | £374 × 47 | £350 | £22,401 | £467 | £476 | 25000 |
 | Skoda Elroq SE L · 150kW 60 63kWh Auto | lead | 48 | £2,723 | £303 × 47 | £295 | £17,238 | £359 | £365 | 10000 |
 | Skoda Elroq Edition · 150kW 60 63kWh Auto | lead | 48 | £2,792 | £310 × 47 | £295 | £17,670 | £368 | £374 | 10000 |
-| Skoda Elroq Edition · 210kW 85 82 kWh Auto | lead | 24 | £2,889 | £321 × 23 | £295 | £10,567 | £440 | £446 | 10000 |
+| Skoda Elroq Edition · 210kW 85 82kWh Auto | lead | 24 | £2,889 | £321 × 23 | £295 | £10,567 | £440 | £446 | 10000 |
 | Skoda Elroq Sportline · 150kW 60 63kWh Auto | lead | 48 | £3,034 | £337 × 47 | £295 | £19,174 | £399 | £406 | 10000 |
 | Skoda Elroq Sportline · 210kW 85 82kWh Auto | lead | 24 | £3,084 | £343 × 23 | £295 | £11,260 | £469 | £476 | 10000 |
 | Skoda Elroq SE L · 210kW 85 84kWh Auto | lead | 48 | £2,365 | £394 × 47 | £295 | £21,184 | £441 | £447 | 10000 |
 | Skoda Elroq SE L · 140kW 60 61kWh Auto | lead | 48 | £3,439 | £287 × 47 | £295 | £17,205 | £358 | £365 | 10000 |
 | Skoda Elroq Edition · 140kW 60 61kWh Auto | lead | 48 | £3,533 | £294 × 47 | £300 | £17,671 | £368 | £375 | 10000 |
-| Skoda Elroq Edition · 210kW 85 84 kWh Auto | lead | 36 | £3,645 | £304 × 35 | £295 | £14,570 | £405 | £412 | 10000 |
+| Skoda Elroq Edition · 210kW 85 84kWh Auto | lead | 36 | £3,645 | £304 × 35 | £295 | £14,570 | £405 | £412 | 10000 |
 | Skoda Elroq Sportline · 140kW 60 61kWh Auto | lead | 48 | £3,838 | £320 × 47 | £300 | £19,170 | £399 | £407 | 10000 |
 | Skoda Enyaq Sportline · 210kW 85x 82kWh 4x4 Auto | lead | 36 | £4,708 | £392 × 35 | £300 | £18,740 | £521 | £530 | 10000 |
 | Skoda Enyaq Edition · 210kW 85 82kWh Auto | lead | 36 | £1,320 | £440 × 35 | £295 | £17,013 | £473 | £476 | 10000 |
@@ -481,7 +484,7 @@
 | Skoda Enyaq Sportline · 220kW 85x 82kWh 4x4 Auto | lead | 24 | £3,554 | £395 × 23 | £400 | £13,036 | £543 | £551 | 5000 |
 | Skoda Enyaq vRS vRS · 250kW 82kWh 4x4 Auto | lead | 24 | £3,866 | £430 × 23 | £295 | £14,043 | £585 | £593 | 10000 |
 | Tesla Model 3 Standard · RWD Auto | lead | 48 | £3,397 | £377 × 47 | £300 | £21,438 | £447 | £454 | 10000 |
-| Volkswagen ID.7 Match Pro S Plus · 210kW 86kWh Auto Int+Ext+ Pan | lead | 24 | £4,265 | £355 × 23 | £0 | £12,441 | £518 | £526 | 10000 |
+| Volkswagen ID.7 Match Pro S Plus · 210kW 86kWh Auto | lead | 24 | £4,265 | £355 × 23 | £0 | £12,441 | £518 | £526 | 10000 |
 | Volvo EX30 Plus · 315kW Twin Motor Performance 69kWh Auto | lead | 36 | £4,432 | £369 × 35 | £0 | £17,360 | £482 | £490 | 10000 |
 | XPeng G6 Long Range · 218kW 80kWh RWD Auto | lead | 36 | £4,140 | £345 × 35 | £0 | £16,215 | £450 | £458 | 6000 |
 | Volkswagen ID.7 GTX Plus · 250kW 4MOTION 86kWh Auto | lead | 24 | £3,602 | £300 × 23 | £0 | £10,505 | £438 | £444 | 5000 |
@@ -538,7 +541,7 @@
 | Audi Q4 Sportback e-tron S Line · 250kW Qtro Perf 82kWh Auto | lead | 48 | £7,295 | £608 × 47 | £295 | £36,162 | £753 | £767 | 10000 |
 | Audi Q4 e-tron Black Edition · 150kW 40 63kWh Auto | lead | 48 | £6,431 | £536 × 47 | £295 | £31,912 | £665 | £677 | 10000 |
 | Audi Q4 e-tron Black Edition · 210kW Performance 82kWh Auto | lead | 48 | £6,676 | £556 × 47 | £295 | £33,117 | £690 | £703 | 10000 |
-| Audi Q4 e-tron Black Edition · 250kW Qtro Perf 82kWh Black Ed Auto | lead | 48 | £7,244 | £604 × 47 | £295 | £35,913 | £748 | £762 | 10000 |
+| Audi Q4 e-tron Black Edition · 250kW Quattro Perf 82kWh Auto | lead | 48 | £7,244 | £604 × 47 | £295 | £35,913 | £748 | £762 | 10000 |
 | Audi Q4 Sportback e-tron Black Edition · 250kW Qtro Perf 82kWh Black Ed Auto | lead | 48 | £7,593 | £633 × 47 | £295 | £37,628 | £784 | £798 | 10000 |
 | Audi Q4 e-tron Vorsprung · 150kW 63kWh Auto | lead | 48 | £7,314 | £610 × 47 | £295 | £36,256 | £755 | £769 | 10000 |
 | Audi Q4 e-tron Vorsprung · 210kW Performance 82kWh Auto | lead | 48 | £7,578 | £631 × 47 | £295 | £37,553 | £782 | £797 | 10000 |
@@ -554,7 +557,7 @@
 | Audi Q4 Sportback e-tron S Line · 250kW Qtro Perf 82kWh Auto | lead | 48 | £7,551 | £629 × 47 | £295 | £37,421 | £780 | £794 | 10000 |
 | Audi Q4 e-tron Black Edition · 150kW 40 63kWh Auto | lead | 48 | £6,707 | £559 × 47 | £295 | £33,271 | £693 | £706 | 10000 |
 | Audi Q4 e-tron Black Edition · 210kW Performance 82kWh Auto | lead | 48 | £6,945 | £579 × 47 | £295 | £34,444 | £718 | £731 | 10000 |
-| Audi Q4 e-tron Black Edition · 250kW Qtro Perf 82kWh Black Ed Auto | lead | 48 | £7,500 | £625 × 47 | £295 | £37,171 | £774 | £789 | 10000 |
+| Audi Q4 e-tron Black Edition · 250kW Quattro Perf 82kWh Auto | lead | 48 | £7,500 | £625 × 47 | £295 | £37,171 | £774 | £789 | 10000 |
 | Audi Q4 Sportback e-tron Black Edition · 250kW Qtro Perf 82kWh Black Ed Auto | lead | 48 | £7,845 | £654 × 47 | £295 | £38,866 | £810 | £825 | 10000 |
 | Audi Q4 e-tron Vorsprung · 150kW 63kWh Auto | lead | 48 | £7,585 | £632 × 47 | £295 | £37,587 | £783 | £798 | 10000 |
 | Audi Q4 e-tron Vorsprung · 210kW Performance 82kWh Auto | lead | 48 | £7,851 | £654 × 47 | £295 | £38,896 | £810 | £825 | 10000 |
@@ -588,11 +591,10 @@
 | BMW i5 M Sport Pro · 250kW eDrive40 84kWh Auto | lead | 48 | £7,407 | £823 × 47 | £295 | £46,385 | £966 | £981 | 10000 |
 | BMW i5 M60 · 442kW xDrive 84kWh Auto | lead | 48 | £9,006 | £1,001 × 47 | £295 | £56,333 | £1,174 | £1,191 | 10000 |
 | BMW i5 M Sport Pro · 250kW eDr40 84kWh Auto Tech+/22kW | lead | 48 | £2,976 | £992 × 47 | £295 | £49,889 | £1,039 | £1,047 | 10000 |
-| BMW i5 Sport Edition · 250kW eDrive40 84kWh At Tec+Cmf+ | lead | 48 | £9,114 | £759 × 47 | £295 | £45,104 | £940 | £957 | 10000 |
+| BMW i5 Sport Edition · 250kW eDrive40 84kWh Auto | lead | 48 | £9,114 | £759 × 47 | £295 | £45,104 | £940 | £957 | 10000 |
 | BMW i5 Sport Edition · 250kW eDrive40 84kWh At Tec+Cmf+ | lead | 48 | £3,007 | £1,002 × 47 | £295 | £50,416 | £1,050 | £1,058 | 10000 |
 | BMW i5 M Sport · 250kW eDrive40 84kWh Auto | lead | 48 | £7,301 | £811 × 47 | £295 | £45,722 | £953 | £967 | 10000 |
-| BMW i5 M Sport · 250kW eDr40 84kWh Auto Tech+/Cmf+/22kW | lead | 48 | £5,703 | £951 × 47 | £295 | £50,674 | £1,056 | £1,067 | 10000 |
-| BMW i5 Touring M Sport · 250kW eDr40 84kWh Auto Tech+/Cmf+/22kW | lead | 48 | £9,996 | £833 × 47 | £295 | £49,443 | £1,030 | £1,049 | 10000 |
+| BMW i5 M Sport · 250kW eDrive40 84kWh Auto | lead | 48 | £5,703 | £951 × 47 | £295 | £50,674 | £1,056 | £1,067 | 10000 |
 | BMW i5 M Sport · 250kW eDr40 84kWh Auto Tech+/Cmf+/22kW | lead | 48 | £5,787 | £965 × 47 | £295 | £51,417 | £1,071 | £1,083 | 10000 |
 | BMW i5 M Sport Pro · 250kW eDrive40 84kWh Auto | lead | 48 | £9,511 | £793 × 47 | £385 | £47,147 | £982 | £1,000 | 10000 |
 | BMW i5 M Sport Pro · 250kW eDr40 84kWh Auto Tech+/Comf+ | lead | 48 | £1,083 | £1,083 × 47 | £295 | £52,271 | £1,089 | £1,093 | 10000 |
@@ -626,7 +628,7 @@
 | BMW iX M70 · 485kW xDrive 112kWh Auto | lead | 48 | £9,003 | £750 × 47 | £295 | £44,559 | £928 | £945 | 5000 |
 | BMW iX M Sport · 400kW xDr60 112kWh Auto | lead | 48 | £11,497 | £958 × 47 | £295 | £56,822 | £1,184 | £1,205 | 6000 |
 | BMW iX1 xLine · 230kW xDrive30 65kWh Auto | lead | 48 | £4,865 | £405 × 47 | £295 | £24,212 | £504 | £514 | 5000 |
-| BMW iX1 M Sport · 230kW xDrive30 65kWh Auto Tech/Pro/22 | lead | 48 | £5,214 | £579 × 47 | £295 | £32,740 | £682 | £692 | 10000 |
+| BMW iX1 M Sport · 230kW xDrive30 65kWh Auto | lead | 48 | £5,214 | £579 × 47 | £295 | £32,740 | £682 | £692 | 10000 |
 | BMW iX1 M Sport · 230kW xDrive30 65kWh Auto Tech/Pro/22 | lead | 48 | £4,053 | £676 × 47 | £295 | £36,101 | £752 | £761 | 10000 |
 | BMW iX1 Sport · 150kW eDrive20 65kWh Auto | lead | 36 | £3,482 | £290 × 35 | £295 | £13,933 | £387 | £394 | 5000 |
 | BMW iX1 xLine · 150kW eDrive20 65kWh Auto | lead | 48 | £3,668 | £306 × 47 | £295 | £18,328 | £382 | £389 | 5000 |
@@ -647,7 +649,7 @@
 | BMW iX2 Shadow Edition · 230kW xDrive30 Shadow Ed 65kWh Auto | lead | 48 | £4,700 | £783 × 47 | £295 | £41,809 | £871 | £881 | 10000 |
 | BMW iX2 Sport · 150kW eDrive20 65kWh Auto | lead | 36 | £3,354 | £280 × 35 | £295 | £13,432 | £373 | £380 | 5000 |
 | BMW iX3 345kW xDrive50 113kWh Auto | lead | 48 | £9,440 | £787 × 47 | £350 | £46,762 | £974 | £992 | 8000 |
-| BMW iX3 M Sport · 345kW xDrive50 113kWh Auto Tech+/22kW | lead | 48 | £9,906 | £826 × 47 | £350 | £49,054 | £1,022 | £1,041 | 10000 |
+| BMW iX3 M Sport · 345kW xDrive50 113kWh Auto | lead | 48 | £9,906 | £826 × 47 | £350 | £49,054 | £1,022 | £1,041 | 10000 |
 | BMW iX3 M Sport Pro · 345kW xDrive50 113kWh Auto | lead | 48 | £10,093 | £841 × 47 | £350 | £49,973 | £1,041 | £1,060 | 10000 |
 | BMW iX3 345kW xDrive50 113kWh Auto | lead | 48 | £9,733 | £811 × 47 | £350 | £48,205 | £1,004 | £1,023 | 8000 |
 | BMW iX3 345kW xDrive50 113kWh Auto | lead | 48 | £10,073 | £839 × 47 | £350 | £49,875 | £1,039 | £1,058 | 10000 |
@@ -746,7 +748,7 @@
 | Ford Puma Gen-E Premium · 124kW 47kWh Auto | lead | 36 | £2,415 | £268 × 35 | £295 | £12,102 | £336 | £341 | 5000 |
 | Ford Puma Gen-E Premium · 124kW 47kWh Auto | lead | 48 | £3,495 | £291 × 47 | £0 | £17,185 | £358 | £364 | 5000 |
 | Ford Puma Gen-E Blue Cruise Edition · 124kW 47kWh Auto | lead | 48 | £3,484 | £290 × 47 | £0 | £17,129 | £357 | £363 | 5000 |
-| Ford Puma Gen-E Black Edition · 124kW Black Ed 47kWh Auto Comfort/Adv Drv Asst | lead | 48 | £3,182 | £265 × 47 | £0 | £15,647 | £326 | £332 | 5000 |
+| Ford Puma Gen-E Black Edition · 124kW Black Ed 47kWh Auto | lead | 48 | £3,182 | £265 × 47 | £0 | £15,647 | £326 | £332 | 5000 |
 | Ford Puma Gen-E Black Edition · 124kW Black Ed 47kWh Auto Comfort/Adv Drv Asst | lead | 48 | £3,288 | £274 × 47 | £0 | £16,164 | £337 | £343 | 5000 |
 | Ford Puma Gen-E Black Edition · 124kW Black Ed 47kWh Auto Comfort/Adv Drv Asst | lead | 48 | £3,339 | £278 × 47 | £0 | £16,418 | £342 | £348 | 5000 |
 | Ford Puma Gen-E Black Edition · 124kW Black Ed 47kWh Auto Comfort/Adv Drv Asst | lead | 48 | £3,450 | £288 × 47 | £0 | £16,965 | £353 | £360 | 5000 |
@@ -855,14 +857,10 @@
 | Lotus Emeya Sport Carbon · 675kW 900 102kWh Auto | lead | 48 | £19,879 | £2,209 × 47 | £295 | £123,988 | £2,583 | £2,621 | 5000 |
 | Lotus Emeya Sport Carbon · 675kW 900 102kWh Auto | lead | 48 | £2,698 | £2,698 × 47 | £295 | £129,791 | £2,704 | £2,713 | 5000 |
 | MINI Aceman E Exclusive · 135kW 43kWh Auto | lead | 48 | £4,420 | £368 × 47 | £350 | £22,081 | £460 | £469 | 10000 |
-| MINI Aceman E Exclusive · 135kW43kWh Auto | lead | 48 | £4,684 | £390 × 47 | £350 | £23,378 | £487 | £496 | 10000 |
-| MINI Aceman E Exclusive · 135kW43kWh Auto | lead | 48 | £5,070 | £423 × 47 | £350 | £25,278 | £527 | £537 | 10000 |
-| MINI Aceman E Sport · 135kW43kWh Auto | lead | 48 | £4,601 | £383 × 47 | £350 | £22,969 | £479 | £488 | 10000 |
-| MINI Aceman SE Classic · 160kW54kWh Auto | lead | 48 | £4,366 | £364 × 47 | £350 | £21,818 | £455 | £463 | 10000 |
+| MINI Aceman E Sport · 135kW 43kWh Auto | lead | 48 | £4,601 | £383 × 47 | £350 | £22,969 | £479 | £488 | 10000 |
+| MINI Aceman SE Classic · 160kW 54kWh Auto | lead | 48 | £4,366 | £364 × 47 | £350 | £21,818 | £455 | £463 | 10000 |
 | MINI Aceman SE Classic · 160kW54kWh Auto | lead | 48 | £4,673 | £389 × 47 | £350 | £23,325 | £486 | £495 | 10000 |
-| MINI Aceman SE Sport · 160kW54kWh Auto | lead | 48 | £4,866 | £406 × 47 | £350 | £24,274 | £506 | £515 | 10000 |
-| MINI Aceman SE Sport · 160kW54kWh Auto | lead | 48 | £4,958 | £413 × 47 | £350 | £24,727 | £515 | £525 | 5000 |
-| MINI Aceman SE Sport · 160kW54kWh Auto | lead | 48 | £5,334 | £445 × 47 | £350 | £26,577 | £554 | £564 | 5000 |
+| MINI Aceman SE Sport · 160kW 54kWh Auto | lead | 48 | £4,866 | £406 × 47 | £350 | £24,274 | £506 | £515 | 10000 |
 | MINI Aceman JCW John Cooper Works · 190kW 54kWh Auto | lead | 48 | £4,492 | £374 × 47 | £348 | £22,435 | £467 | £476 | 5000 |
 | MINI Aceman E Monochrome · 135kW 43kWh Auto | lead | 48 | £3,735 | £311 × 47 | £348 | £18,714 | £390 | £397 | 5000 |
 | MINI Aceman SE Monochrome · 160kW 54kWh Auto | lead | 48 | £3,489 | £291 × 47 | £300 | £17,454 | £364 | £371 | 6000 |
@@ -958,9 +956,9 @@
 | Renault Megane E-Tech Electric Techno · EV60 160kW Comfort Range 60kWh Auto | lead | 48 | £3,540 | £393 × 47 | £295 | £22,322 | £465 | £472 | 25000 |
 | Renault 4 E-Tech Techno+ · 110kW 52kWh Comfort range Auto | lead | 36 | £2,532 | £211 × 35 | £358 | £10,273 | £285 | £291 | 5000 |
 | Renault 5 E-Tech Techno + · 110kW Comfort Range 52kWh Auto | lead | 48 | £3,406 | £284 × 47 | £358 | £17,103 | £356 | £363 | 20000 |
-| Skoda Elroq Edition · 210kW 85 82 kWh Auto | lead | 24 | £3,375 | £281 × 23 | £295 | £10,139 | £422 | £429 | 10000 |
+| Skoda Elroq Edition · 210kW 85 82kWh Auto | lead | 24 | £3,375 | £281 × 23 | £295 | £10,139 | £422 | £429 | 10000 |
 | Skoda Elroq Sportline · 210kW 85 82kWh Auto | lead | 24 | £3,656 | £305 × 23 | £295 | £10,959 | £457 | £464 | 10000 |
-| Skoda Elroq Edition · 210kW 85 84 kWh Auto | lead | 24 | £3,429 | £286 × 23 | £294 | £10,294 | £429 | £436 | 10000 |
+| Skoda Elroq Edition · 210kW 85 84kWh Auto | lead | 24 | £3,429 | £286 × 23 | £294 | £10,294 | £429 | £436 | 10000 |
 | Skoda Elroq Sportline · 210kW 85 84kWh Auto | lead | 24 | £3,630 | £302 × 23 | £294 | £10,880 | £453 | £461 | 10000 |
 | Skoda Enyaq Edition · 210kW 85 82kWh Auto | lead | 36 | £4,194 | £350 × 35 | £294 | £16,722 | £465 | £473 | 10000 |
 | Skoda Enyaq Sportline · 210kW 85x 82kWh 4x4 Auto | lead | 24 | £4,278 | £357 × 23 | £295 | £12,773 | £532 | £541 | 10000 |
@@ -978,13 +976,16 @@
 | Smart #3 Premium · 200kW 66kWh Auto | lead | 48 | £5,455 | £455 × 47 | £350 | £27,168 | £566 | £577 | 30000 |
 | Smart #3 Pro · 200kW 49kWh Auto | lead | 48 | £4,715 | £393 × 47 | £350 | £23,533 | £490 | £500 | 30000 |
 | Tesla Model 3 Performance Performance · AWD 85kWh Auto | lead | 48 | £4,860 | £810 × 47 | £295 | £43,229 | £901 | £911 | 10000 |
-| Tesla Model 3 Premium Premium · Long Range AWD 85kWh Auto | lead | 48 | £4,694 | £522 × 47 | £295 | £29,500 | £615 | £624 | 10000 |
-| Tesla Model 3 Premium Premium · Long Range AWD 85kWh Auto | lead | 48 | £5,187 | £576 × 47 | £295 | £32,571 | £679 | £689 | 10000 |
+| Tesla Model 3 Premium Premium · Long Range RWD 85kWh Auto | lead | 48 | £4,694 | £522 × 47 | £295 | £29,500 | £615 | £624 | 10000 |
+| Tesla Model 3 Premium Premium · Long Range RWD 85kWh Auto | lead | 48 | £5,187 | £576 × 47 | £295 | £32,571 | £679 | £689 | 10000 |
 | Tesla Model 3 Standard · RWD Auto | lead | 48 | £4,237 | £353 × 47 | £348 | £21,179 | £441 | £450 | 10000 |
 | Tesla Model Y Standard · RWD Auto | lead | 48 | £5,591 | £932 × 47 | £295 | £49,686 | £1,035 | £1,047 | 10000 |
 | Tesla Model Y Performance Performance · AWD Auto | lead | 48 | £5,979 | £997 × 47 | £295 | £53,112 | £1,106 | £1,119 | 5000 |
+| Tesla Model Y Premium Premium Long Range · RWD Auto | lead | 48 | £7,162 | £597 × 47 | £348 | £35,559 | £741 | £755 | 10000 |
+| Tesla Model Y Premium Premium Long Range · RWD Auto | lead | 48 | £3,310 | £552 × 47 | £295 | £29,532 | £615 | £622 | 5000 |
 | Tesla Model Y Standard · RWD Auto | lead | 48 | £5,313 | £443 × 47 | £348 | £26,468 | £551 | £562 | 10000 |
 | Tesla Model Y Standard · RWD Auto | lead | 48 | £8,734 | £728 × 47 | £295 | £43,236 | £901 | £917 | 10000 |
+| Tesla Model Y Premium Premium Long Range · RWD Auto | lead | 48 | £7,642 | £637 × 47 | £350 | £37,925 | £790 | £805 | 10000 |
 | Toyota bZ4X Pure · 150kW 71.4kWh Auto | lead | 48 | £2,346 | £782 × 47 | £295 | £39,394 | £821 | £826 | 25000 |
 | Toyota bZ4X Motion · 150kW 71.4kWh Auto | lead | 48 | £8,289 | £691 × 47 | £350 | £41,105 | £856 | £872 | 8000 |
 | Toyota bZ4X Vision · 150kW 71.4kWh Auto | lead | 48 | £8,955 | £746 × 47 | £350 | £44,380 | £925 | £942 | 8000 |
@@ -1009,14 +1010,14 @@
 | Volkswagen ID.7 Match Pro · 210kW 77kWh Auto | lead | 24 | £3,313 | £276 × 23 | £0 | £9,662 | £403 | £409 | 8000 |
 | Volkswagen ID.7 GTX · 250kW 4MOTION 86kWh Auto | lead | 48 | £8,259 | £688 × 47 | £180 | £40,786 | £850 | £865 | 10000 |
 | Volkswagen ID.7 Match Pro Plus · 210kW 77kWh Auto | lead | 24 | £3,383 | £282 × 23 | £0 | £9,868 | £411 | £417 | 10000 |
-| Volkswagen ID.7 Match Pro S Plus · 210kW 86kWh Auto Int+Ext+ Pan | lead | 24 | £3,986 | £332 × 23 | £295 | £11,920 | £497 | £505 | 10000 |
+| Volkswagen ID.7 Match Pro S Plus · 210kW 86kWh Auto | lead | 24 | £3,986 | £332 × 23 | £295 | £11,920 | £497 | £505 | 10000 |
 | Volkswagen ID.7 Tourer Match Pro S Plus · 210kW 86kWh Auto Int+Ext+ Pan | lead | 24 | £4,558 | £380 × 23 | £295 | £13,589 | £566 | £575 | 10000 |
 | Volkswagen ID.7 Match Pro S Plus · 210kW 86kWh Auto Int+Ext+ Pan | lead | 24 | £4,998 | £416 × 23 | £295 | £14,871 | £620 | £629 | 10000 |
 | Volkswagen ID.7 GTX Plus · 250kW 4MOTION 86kWh Auto | lead | 24 | £3,079 | £342 × 23 | £295 | £11,243 | £468 | £475 | 8000 |
 | Volkswagen ID.7 Match Pro · 210kW 77kWh Auto | lead | 24 | £3,427 | £286 × 23 | £300 | £10,295 | £429 | £436 | 10000 |
 | Volkswagen ID.7 GTX · 250kW 4MOTION 86kWh Auto | lead | 48 | £8,206 | £684 × 47 | £180 | £40,527 | £844 | £860 | 10000 |
 | Volkswagen ID.7 Match Pro Plus · 210kW 77kWh Auto | lead | 24 | £3,427 | £286 × 23 | £300 | £10,295 | £429 | £436 | 10000 |
-| Volkswagen ID.7 Match Pro S Plus · 210kW 86kWh Auto Int+Ext+ Pan | lead | 24 | £3,538 | £393 × 23 | £0 | £12,580 | £524 | £531 | 10000 |
+| Volkswagen ID.7 Match Pro S Plus · 210kW 86kWh Auto | lead | 24 | £3,538 | £393 × 23 | £0 | £12,580 | £524 | £531 | 10000 |
 | Volkswagen ID.7 Tourer Match Pro S Plus · 210kW 86kWh Auto Int+Ext+ Pan | lead | 24 | £4,817 | £401 × 23 | £295 | £14,344 | £598 | £607 | 10000 |
 | Volkswagen ID.7 Match Pro S Plus · 210kW 86kWh Auto Int+Ext+ Pan | lead | 24 | £5,256 | £438 × 23 | £295 | £15,624 | £651 | £661 | 10000 |
 | Volkswagen ID.7 GTX Plus · 250kW 4MOTION 86kWh Auto | lead | 24 | £4,109 | £342 × 23 | £295 | £12,280 | £512 | £520 | 10000 |
@@ -1315,7 +1316,6 @@
 | Hyundai Ioniq 5 Ultimate · 168kW 84 kWh Auto | lead |  | £39,490 |  |
 | Hyundai Ioniq 5 Ultimate · 168kW 84 kWh Auto | lead |  | £38,627 |  |
 | Hyundai Ioniq 5 Ultimate · 239kW 84 kWh AWD Auto Tech Max/Vision | lead |  | £41,905 |  |
-| Hyundai Ioniq 5 Ultimate · 239kW 84 kWh AWD Auto Tech Max/Vision | lead |  | £41,042 |  |
 | Audi A6 Sportback e-tron Sport · 270kW Performance 100kWh Auto | lead | £71,705 | £59,638 | £12,067 |
 | Audi A6 Sportback e-tron S Line · 270kW Performance 100kWh Auto | lead | £75,505 | £62,951 | £12,554 |
 | Audi A6 Sportback e-tron S Line · 210kW 83kWh Auto | lead | £69,235 | £57,484 | £11,751 |
@@ -3102,15 +3102,25 @@
 | Hyundai Ioniq 5 Ultimate · 168kW 84 kWh Auto | lead |  | £36,195 |  |
 | Hyundai Ioniq 5 N Line · 239kW 84 kWh AWD Auto | lead |  | £36,211 |  |
 | Hyundai Ioniq 5 N Line S · 239kW 84 kWh AWD Auto | lead |  | £39,801 |  |
-| Hyundai Ioniq 5 Ultimate · 239kW 84 kWh AWD Auto Tech Max/Vision | lead |  | £38,676 |  |
 | Hyundai Ioniq 5 Ultimate · 239kW 84 kWh AWD Auto Tech Max/Vision | lead |  | £40,471 |  |
 | Hyundai Ioniq 5 Ultimate · 239kW 84 kWh AWD Auto | lead |  | £39,346 |  |
 | Hyundai Ioniq 5 Ultimate · 239kW 84 kWh AWD Auto | lead |  | £37,671 |  |
+| Kia EV2 Air · 99kW 61kWh Auto | lead |  | £23,354 |  |
+| Kia EV2 GT-Line · 99kW 61kWh Auto | lead |  | £26,991 |  |
 | Kia EV2 GT-Line S 61kWh + Heat Pump | lead |  | £30,775 |  |
+| Kia EV2 GT-Line S · 99kW 61kWh Auto | lead |  | £29,679 |  |
+| Kia EV3 Air · 150kW 58.3kWh Auto | lead |  | £27,742 |  |
+| Kia EV3 Air · 150kW 81.4kWh Auto | lead |  | £30,217 |  |
+| Kia EV3 GT-Line · 150kW 81.4kWh Auto | lead |  | £33,022 |  |
 | Kia EV3 GT-Line S 81.4kWh + Heat Pump | lead |  | £38,234 |  |
+| Kia EV3 GT-Line S · 150kW 81.4kWh Auto | lead |  | £37,914 |  |
+| Kia EV6 GT · 478kW 84kWh AWD Auto | lead |  | £60,728 |  |
 | Kia PV5 Passenger Elite 71.2kWh 7-seat | lead |  | £38,572 |  |
+| Kia PV5 Passenger Elite · 120kW Long Range 71kWh Auto | lead |  | £37,876 |  |
 | Kia PV5 Passenger Essential 71.2kWh 7-seat | lead |  | £32,739 |  |
+| Kia PV5 Passenger Essential · 120kW Long Range 71kWh Auto | lead |  | £32,043 |  |
 | Kia PV5 Passenger Plus 71.2kWh 7-seat | lead |  | £35,593 |  |
+| Kia PV5 Passenger Plus · 120kW Long Range 71kWh Auto | lead |  | £34,897 |  |
 | BYD Atto 2 Boost · 130kW 51kWh Auto | live |  | £28,562 |  |
 | Hyundai Ioniq 5 Advance · 125kW 63 kWh Auto | live |  | £40,794 |  |
 | Hyundai Ioniq 9 Premium · 160kW 110kWh Auto | live |  | £65,094 |  |
@@ -3143,3 +3153,6 @@
 - 2026-10_hyundai-uk_ioniq5_pcp-campaign: campaign terms only
 - 2026-10_kia-uk_ev2_pcp-campaign: campaign terms only
 - 2026-10_kia-uk_ev6_pcp-campaign: campaign terms only
+- hyundai:PML_16_7FW5ZHZ7ZGG0VH: campaign terms only
+- hyundai:PML_4_6XS5ZDZ7ZHH596: campaign terms only
+- hyundai:PML_2_6JW5ZFZ7ZDD008: campaign terms only
