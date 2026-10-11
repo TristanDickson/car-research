@@ -76,7 +76,7 @@ over on 10 Oct 2026.
 ```
 live scrapers (16 sites) ──▶ RAW STORE on the owner's laptop (D:\car-research-raw, outside git)
                               every response, gzipped by sha256, an append-only index of every fetch,
-                              plus every committed version of the old data/history as a legacy source
+                              plus every committed version of the old data/history, as the source `history`
                                         │
 data/seed/*.json, data/pastes/ ─────────┤  build, from scratch every run (pipeline/build.py):
   (the owner's cars, offers, decisions)  │  parse every page → what each source said → one derivative
@@ -258,7 +258,7 @@ itself.
 ```
 pipeline/               Python package: raw store, scraper, build, snapshot exporter, CLI
   raw.py                the raw store: every fetched response by sha256, an append-only index, logs
-  legacy.py             the committed data/history as a legacy source: copied into the store, read without its matches
+  history.py            the committed data/history as a source: copied into the store, read without its matches
   runner.py             scrape one provider into the raw store (keeps every response, failures and parts too)
   build.py              everything derived, from scratch: parse, derivatives, matching, spans, cars
   gold.py               the database writers, order-tolerant, creating no cars
@@ -353,9 +353,15 @@ rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Context log
 
+- **2026-10-11** Every record any parser distils, from every page, every committed history row
+  and the owner's files, now goes into one table, `records`: one row per source, key and page for
+  each stretch of time over which it read the same (`python -m pipeline records <key>` prints a
+  key's history). The other tables are the latest-state views of it. The committed history's source
+  is called `history`, not "legacy": every build reads it (it is the only copy of the 3,203 price
+  spans from the Wayback backfill and of 899 offers last seen before 10 Oct).
 - **2026-10-10 (evening)** The rebuild, built on the branch `rebuild-raw-store`. A raw store on
   the owner's laptop (`D:\car-research-raw`; the owner: "path is fine, go") keeps every response
-  fetched, and all 60 committed versions of `data/history` as a legacy source, byte for byte. A
+  fetched, and all 60 committed versions of `data/history` as the source `history`, byte for byte. A
   build from scratch parses every page, makes one derivative per CAP id, matches every record at
   once (the owner's decisions override) and folds prices into spans; nothing creates a car while
   reading, and the 10 Oct stopgap is gone. Against the committed snapshot built from the same

@@ -32,11 +32,12 @@ providers (discover → fetch → parse)       pipeline/providers/*      Python,
 RAW STORE  $CAR_RESEARCH_RAW (D:\car-research-raw)   on the owner's laptop, outside git, never rewritten
         │  bodies/<sha[:2]>/<sha256>.gz   one per distinct body       index/<YYYY-MM>.jsonl  one line per fetch
         │  logs/                          runs, the backfill's finished pages, each night's job log
-        │  plus the legacy source: every committed version of the old data/history (pipeline/legacy.py)
+        │  plus the source `history`: every committed version of the old data/history (pipeline/history.py)
         │
         │  build (pipeline/build.py), from scratch every run, into a disposable SQLite database:
-        │    1 parse every stored page with its provider's parser (cached by fetch and code version)
-        │      and write what each source said (gold.py): models, specs, registry, options,
+        │    1 parse every stored page with its provider's parser (cached by fetch and code version);
+        │      every record goes into `records` (what it said, over which dates), and the
+        │      latest-state tables are written from it (gold.py): models, specs, registry, options,
         │      configurations, used stock; every price becomes a sighting
         │    2 derivatives: one per CAP id any record names; the owner's entry stands for its own
         │    3 match every record at once (services/resolve.py, services/match.py); the owner's
@@ -64,8 +65,8 @@ stable per real-world offer (a Carwow deal id, a seed id, a dealer URL plus trim
 sorts every sighting of a key by date and folds them into spans: consecutive sightings with the
 same price-bearing fields are one span, a different price starts a new one, a `gone` sighting is
 never merged. The order pages were read in changes nothing, so a Wayback capture from 2025 or
-a legacy row folds in wherever it falls. At one instant a page held in the raw store outranks a
-legacy copy of what was read from it. The exporter derives, per key:
+a committed history row folds in wherever it falls. At one instant a page held in the raw store
+outranks the committed history's copy of what was read from it. The exporter derives, per key:
 
 | Field | Meaning |
 | --- | --- |
@@ -185,7 +186,7 @@ some cloud networks, and the laptop is where the raws live), then `python -m pip
 folds the captures in. A run takes on no new page after `--budget-seconds`; the pages whose
 captures it finished go into the raw store's backfill log, which the next run skips. `--shard
 i/n` splits one provider's pages across runs. The backfill made on GitHub before the rebuild
-(Oct 2026) survives as legacy rows; its raw captures were never kept, so re-running the backfill
+(Oct 2026) survives as committed history rows; its raw captures were never kept, so re-running the backfill
 would fetch them as raws.
 
 Coverage (probed 6 Oct 2026, with the archive partly offline): Carwow Kona and EV6 deals pages
@@ -194,21 +195,38 @@ and Ioniq 5 listings 3–4, the newer models (Ioniq 3, EV2, EV3, PV5, Inster) 0�
 RRG none. Old captures of a page that has since been redesigned parse to zero rows, which is
 harmless. Spec providers have no backfill: a spec row is current state.
 
-## The legacy history
+## What each source said: `records`
+
+Every record a parser distils from a page goes into one table, `records`, beside every row of the
+committed history and every entry of the owner's files. A row is one source, kind, key and page
+(the target it was read from; several pages can each say part of one key, as the catalogue's
+sitemaps and make pages do of a model) over the stretch of time it read the same: first and last
+seen, how many fetches said it, the raw fetches at either end, and the record as parsed. The same
+record seen again extends its row; a change starts a new one; a sighting's own date is not part
+of the content. So a spec's history is a query, and `python -m pipeline records <key>` prints it.
+
+The tables the app is exported from (`specs`, `derivatives`, `options`, `configurations`,
+`models`, `used_listings`; `offer_observations` and `used_observations` for prices) are the
+latest-state and price views of the same records. A key missing from a later page is not a
+record, so absence shows only as a row that stops; whether that means sold or withdrawn is each
+view's rule (the used-stock rules above).
+
+## The committed history
 
 Before the rebuild the pipeline threw its pages away and committed `data/history/*.jsonl`:
 parsed records, each pinned to the car it had been matched to. That history is the only copy of
 what was fetched between January 2025 (the Wayback backfill) and 10 Oct 2026. `pipeline
 raw-migrate` (and every `nightly`) copies every committed version of every one of those files
-into the raw store, byte for byte, as fetches of source `legacy` dated by their commit; it is
-idempotent and reads every ref the clone has, so the files' removal from `main` loses nothing.
+into the raw store, byte for byte, as fetches of source `history` dated by their commit (the 60
+copied on 10 Oct are stored under the name `legacy`, and the index is never rewritten, so both
+names are read); it is idempotent and reads every ref the clone has, so the files' removal from `main` loses nothing.
 
-The build reads them with the matching taken out (`legacy.read`): no row keeps its `car_id`,
+The build reads them with the matching taken out (`history.read`): no row keeps its `car_id`,
 `resolutions.jsonl` (the old pipeline's matches) yields nothing, and the owner's own offers are
-read from `data/seed` rather than from their copies. A legacy price row is a span, so it becomes
+read from `data/seed` rather than from their copies. A history price row is a span, so it becomes
 two sightings, at its start and at its end; every version contributes its sightings, and at one
-instant the latest commit's wins. Where today's parser derives a field from fields the legacy
-row kept, the reader derives it too (`legacy.upgrade`): New Car Discount's RRP, which the old
+instant the latest commit's wins. Where today's parser derives a field from fields the history
+row kept, the reader derives it too (`history.upgrade`): New Car Discount's RRP, which the old
 spans lacked because a span kept its first sighting's payload.
 
 ## Specs (features by variant)
@@ -622,7 +640,7 @@ Python ≥ 3.11, stdlib only (on this laptop `uv run --python 3.12`; set `PYTHON
 Windows). Hyundai's guides need poppler's `pdftotext` (`CAR_RESEARCH_PDFTOTEXT`, else on the PATH;
 xpdf's is skipped), else pypdf, which wraps the tables differently; the reader is part of the
 parse cache's key. Node 22. `CAR_RESEARCH_RAW` names the raw store; without the owner's laptop, a clone
-can still `raw-migrate` the legacy history into an empty store and build from that.
+can still `raw-migrate` the committed history into an empty store and build from that.
 
 ## Adding a provider (scraper)
 

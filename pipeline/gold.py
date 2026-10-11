@@ -2,7 +2,7 @@
 the page was fetched. Nothing here decides which car a record is (pipeline/build.py
 does that afterwards, over every record at once) and nothing here creates a car.
 
-Every upsert tolerates being fed out of order (a legacy history file and a fresh
+Every upsert tolerates being fed out of order (a committed history file and a fresh
 fetch can arrive either way round): first seen is the minimum, last seen the
 maximum, and the row's content is the one with the latest last-seen."""
 from __future__ import annotations
@@ -179,7 +179,7 @@ def upsert_used_listing(conn: sqlite3.Connection, r: dict, source: str, artifact
 
 
 def upsert_used_span(conn: sqlite3.Connection, d: dict) -> None:
-    """A used asking-price span as the legacy history recorded it."""
+    """A used asking-price span as the committed history recorded it."""
     conn.execute(
         """INSERT INTO used_observations (listing_key, source, price_gbp, mileage, observed_at, confirmed_at, present)
            VALUES (?,?,?,?,?,?,?)

@@ -12,7 +12,7 @@ process that can be re-run from scratch (docs/REBUILD.md).
 
 An index line says what was fetched and when: source, capability, target (with the
 metadata the parser needs to read the page again), url, fetched_at, status, sha256,
-content type, size, and where it came from (`origin`: live, legacy, ...). A fetch
+content type, size, and where it came from (`origin`: live, wayback, history). A fetch
 that failed is logged too, with its error and no body. An unchanged page fetched
 again adds an index line and no body, so it costs a few hundred bytes and still
 records that the page said the same thing on that date.

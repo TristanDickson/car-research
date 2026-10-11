@@ -49,7 +49,7 @@ def _build(args, store, out: str | None) -> None:
 
 
 def cmd_build(args) -> int:
-    """Raws + legacy history + the owner's files -> a fresh database -> the snapshot."""
+    """Raws + the committed history + the owner's files -> a fresh database -> the snapshot."""
     _build(args, _store(args), args.out or None)
     if args.deal_table:
         _deal_table(Path(args.deal_table))
@@ -93,11 +93,11 @@ def cmd_scrape(args) -> int:
 
 def cmd_nightly(args) -> int:
     """The night's work: new committed history into the raw store, scrape, build from scratch, snapshot, deal table."""
-    from pipeline.legacy import migrate
+    from pipeline.history import migrate
 
     store = _store(args)
     res = migrate(store)
-    print(f"legacy: {res['added']} new history versions copied into the raw store", flush=True)
+    print(f"history: {res['added']} new committed history versions copied into the raw store", flush=True)
     failed = _scrape(args, store)
     _build(args, store, args.out)
     if args.deal_table:
@@ -140,8 +140,8 @@ def cmd_backfill(args) -> int:
 
 
 def cmd_raw_migrate(args) -> int:
-    """Copy every committed version of data/history into the raw store (source 'legacy')."""
-    from pipeline.legacy import migrate
+    """Copy every committed version of data/history into the raw store (source 'history')."""
+    from pipeline.history import migrate
 
     store = _store(args)
     res = migrate(store)
@@ -157,6 +157,10 @@ def cmd_raw_status(args) -> int:
     bodies = list((store.root / "bodies").rglob("*.gz"))
     print(f"raw store {store.root}")
     print(f"  {len(entries)} fetches, {len(bodies)} distinct bodies, {sum(p.stat().st_size for p in bodies) / 1e6:.1f} MB on disk")
+    from pipeline.history import ORIGINS
+    name = lambda v: "history" if v in ORIGINS else v   # the first 60 versions are stored as 'legacy'
+    for e in entries:
+        e["origin"], e["source"] = name(e["origin"]), name(e["source"])
     by = Counter((e["origin"], e["source"]) for e in entries)
     for (origin, source), n in sorted(by.items()):
         mine = [e for e in entries if e["source"] == source and e["origin"] == origin]
@@ -166,9 +170,31 @@ def cmd_raw_status(args) -> int:
     return 0
 
 
+def cmd_records(args) -> int:
+    """What the sources said about a key, and when (the build's `records` table)."""
+    conn = _open()
+    where, params = ["record_key LIKE ?"], [f"%{args.key}%"]
+    if args.kind:
+        where.append("kind=?")
+        params.append(args.kind)
+    if args.source:
+        where.append("source=?")
+        params.append(args.source)
+    rows = conn.execute(f"SELECT * FROM records WHERE {' AND '.join(where)} ORDER BY source, kind, record_key, first_seen_at",
+                        params).fetchall()
+    for r in rows[: args.limit]:
+        print(f"{r['source']:16s} {r['kind']:13s} {r['record_key'][:44]:44s} {r['page'][:28]:28s} {r['first_seen_at'][:16]:16s} .. "
+              f"{r['last_seen_at'][:16]:16s} x{r['sightings']:<4d} {r['origin']}")
+        if args.show:
+            print("   ", r["row"][:2000])
+    print(f"{len(rows)} spans" + (f" (first {args.limit} shown)" if len(rows) > args.limit else ""))
+    return 0
+
+
 def cmd_status(args) -> int:
     conn = _open()
-    for table in ("models", "cars", "trim_map", "offer_observations", "specs", "derivatives", "used_listings", "requirements", "runs"):
+    for table in ("records", "models", "cars", "trim_map", "offer_observations", "specs", "derivatives", "options", "configurations",
+                  "used_listings", "used_observations", "requirements", "runs"):
         n = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
         print(f"{table:19s} {n}")
     n_auto = conn.execute("SELECT COUNT(*) FROM cars WHERE json_extract(payload, '$.auto') = 1").fetchone()[0]
@@ -245,7 +271,7 @@ def main(argv=None) -> int:
         sp.add_argument("--generated-at", help="Pin the snapshot timestamp.")
         sp.add_argument("--no-cache", action="store_true", help="Parse every page again, ignoring the parse cache.")
 
-    bd = sub.add_parser("build", help="Build the database from scratch (raws, legacy history, the owner's files) and write the snapshot.")
+    bd = sub.add_parser("build", help="Build the database from scratch (raws, the committed history, the owner's files) and write the snapshot.")
     build_args(bd)
     bd.add_argument("--deal-table", default="", help="Also write the markdown deal table here.")
     bd.set_defaults(func=cmd_build)
@@ -272,12 +298,20 @@ def main(argv=None) -> int:
     b.add_argument("--budget-seconds", type=float, help="Take on no new page after this long; the ledger resumes there next run.")
     b.set_defaults(func=cmd_backfill)
 
-    rm = sub.add_parser("raw-migrate", help="Copy every committed version of data/history into the raw store as source 'legacy'.")
+    rm = sub.add_parser("raw-migrate", help="Copy every committed version of data/history into the raw store as source 'history'.")
     rm.add_argument("--raw", help=RAW_HELP)
     rm.set_defaults(func=cmd_raw_migrate)
     rs = sub.add_parser("raw-status", help="What the raw store holds, by source.")
     rs.add_argument("--raw", help=RAW_HELP)
     rs.set_defaults(func=cmd_raw_status)
+
+    rc = sub.add_parser("records", help="What the sources said about a key, and when (spans of unchanged content).")
+    rc.add_argument("key", help="Part of the record's key (a CAP id, an offer key, a spec key ...).")
+    rc.add_argument("--kind")
+    rc.add_argument("--source")
+    rc.add_argument("--limit", type=int, default=50)
+    rc.add_argument("--show", action="store_true", help="Print each span's record too.")
+    rc.set_defaults(func=cmd_records)
 
     sub.add_parser("status", help="Row counts and recent runs (from the last build).").set_defaults(func=cmd_status)
     sub.add_parser("models", help="The catalogue of electric models and what has been scraped for each.").set_defaults(func=cmd_models)

@@ -2,12 +2,13 @@
 
 Inputs, and nothing else:
     the raw store         every page ever fetched (pipeline/raw.py), parsed again here
-    the legacy history    the committed data/history files copied into the raw store, read
-                          with their matches taken out (pipeline/legacy.py)
+    the committed history the data/history files committed before the raw store existed, copied
+                          into it and read with their matches taken out (pipeline/history.py)
     the owner's own files data/seed (cars, offers, requirements, picks, the trim map's
                           decisions) and data/pastes, read from the repo
 
 Steps, each over every record at once, so no answer depends on the order pages were read in:
+    0. every record, from every source, into `records`: what it said and over which dates
     1. write what each source said (gold.py), page by page in date order; prices become
        sightings: one price one source showed for one offer at one instant
     2. derivatives: one per CAP id any record names (a specification row, the registry,
@@ -30,7 +31,7 @@ import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from pipeline import gold, legacy
+from pipeline import gold, history
 from pipeline.db import ROOT, connect, init_schema
 from pipeline.providers import PROVIDERS
 from pipeline.providers.types import Context, ParsedRecord, Target
@@ -38,8 +39,10 @@ from pipeline.raw import RawStore
 from pipeline.services import autocars, resolve
 
 OWNER_PROVIDERS = ("manual_seed", "carwow_paste")
-# At the same instant a page we hold outranks a legacy copy of what was read from it.
-PRIORITY = {"legacy": 1}
+# At the same instant a page we hold outranks the committed history's copy of what was read from it.
+PRIORITY = {"history": 1}
+# A sighting's own date is not part of what the record says.
+UNDATED = ("observed_at", "captured_at", "confirmed_at")
 
 
 @dataclass
@@ -59,16 +62,17 @@ class Report:
     parsed: int = 0
     from_cache: int = 0
     records: int = 0
-    legacy_versions: int = 0
-    legacy_rows: int = 0
+    history_versions: int = 0
+    history_rows: int = 0
     sightings: int = 0
+    record_spans: int = 0
     failures: list[str] = field(default_factory=list)
     seconds: float = 0.0
 
     def lines(self) -> list[str]:
         out = [f"build: {self.fetches} fetches ({self.parsed} parsed, {self.from_cache} from the parse cache), "
-               f"{self.records} records; {self.legacy_versions} legacy history versions, {self.legacy_rows} rows; "
-               f"{self.sightings} price sightings; {self.seconds:.1f} s"]
+               f"{self.records} records; {self.history_versions} committed history versions, {self.history_rows} rows; "
+               f"{self.sightings} price sightings; {self.record_spans} record spans; {self.seconds:.1f} s"]
         if self.failures:
             out.append(f"build: {len(self.failures)} fetches could not be parsed:")
             out += [f"  {f}" for f in self.failures[:20]]
@@ -158,6 +162,7 @@ class Build:
         self.by_make: dict[str, list[dict]] = {}
         self.pins: dict[str, set[str]] = {}
         self.resolutions: dict[tuple[str, str], dict] = {}
+        self.said: list[tuple] = []   # (source, kind, key, page, at, priority, origin, fetch, row): every record, for `records`
         self.order = 0
 
     # -- 1. what each source said
@@ -172,6 +177,7 @@ class Build:
                     records = list(cap.parse(fetched.body, t))
                     self.report.records += len(records)
                     for r in records:
+                        self._said(name, r.kind, r.key, t.identifier, r.row.get("observed_at") or "", 3, "owner", f"{name}:{t.identifier}", r.row)
                         if r.kind == "car":
                             self.owner_cars.append(r.row)
                         elif r.kind == "trim_map":
@@ -184,28 +190,45 @@ class Build:
                     if reqs:   # dated by the file's own date, so two builds of the same files agree
                         gold.write(self.conn, name, _by_kind(reqs), None, now=reqs[0].row.get("as_of") or "")
 
+    def _said(self, source: str, kind: str, key: str, page: str, at: str, priority: int, origin: str, fetch: str | None,
+              row: dict) -> None:
+        self.said.append((source, kind, key, page or "", at or "", priority, origin, fetch, row))
+
     def _sight(self, at: str, priority: int, provider: str, row: dict, url: str | None) -> None:
         self.order += 1
         self.sightings.append(Sighting(at, priority, self.order, provider, row["offer_key"], _offer_row(row), url))
 
-    def legacy(self, entries: list[dict]) -> None:
-        rank = {c: i for i, c in enumerate(legacy.ORDER)}
-        versions = sorted((e for e in entries if e.get("origin") == legacy.SOURCE and e.get("sha256")),
+    def history(self, entries: list[dict]) -> None:
+        rank = {c: i for i, c in enumerate(history.ORDER)}
+        versions = sorted((e for e in entries if e.get("origin") in history.ORIGINS and e.get("sha256")),
                           key=lambda e: (e["fetched_at"], rank.get(e["capability"], 99)))
         for e in versions:
             try:
-                rows = legacy.read(e["capability"], self.store.get(e["sha256"]))
+                rows = history.read(e["capability"], self.store.get(e["sha256"]))
             except Exception as ex:  # noqa: BLE001
-                self.report.failures.append(f"legacy {e['target']} {e['fetched_at']}: {ex}")
+                self.report.failures.append(f"history {e['target']} {e['fetched_at']}: {ex}")
                 continue
-            self.report.legacy_versions += 1
-            self.report.legacy_rows += len(rows)
-            self._apply_legacy(e["capability"], rows)
+            self.report.history_versions += 1
+            self.report.history_rows += len(rows)
+            self._apply_history(e["capability"], rows, e["id"])
 
-    def _apply_legacy(self, cap: str, rows: list[dict]) -> None:
+    # A committed history file kept each key's latest state: the dates it read that way over.
+    HISTORY_KINDS = {"models": ("model", "slug"), "specs": ("spec", "spec_key"), "derivatives": ("derivative", "cap_id"),
+                     "options": ("options", "cap_id"), "configurations": ("configuration", "fsc"), "used": ("used", "listing_key")}
+    HISTORY_SOURCE = {"derivatives": "carwow_model", "options": "carwow_options", "configurations": "hyundai_configurator"}
+
+    def _apply_history(self, cap: str, rows: list[dict], fetch: str | None = None) -> None:
         c = self.conn
         for d in rows:
             p = d.get("payload")
+            if cap in self.HISTORY_KINDS:
+                kind, key = self.HISTORY_KINDS[cap]
+                row = p if cap != "models" else {**(p or {}), **{k: d.get(k) for k in ("slug", "make", "model", "make_name", "model_name",
+                                                                                         "electric", "has_deals", "has_specs")}}
+                src = d.get("source") or self.HISTORY_SOURCE[cap]
+                # A spec row says when its content last changed; the others only when they were last seen.
+                for at in sorted({d.get("changed_at") or d["last_seen_at"], d["last_seen_at"]}):
+                    self._said(src, kind, str(d[key]), "", at, PRIORITY["history"], "history", fetch, row)
             if cap == "models":
                 cols = ("slug", "make", "model", "make_name", "model_name", "electric", "has_deals", "has_specs")
                 gold.upsert_model(c, {**(p or {}), **{k: d.get(k) for k in cols}}, d["source"], None, None, d["last_seen_at"],
@@ -233,16 +256,16 @@ class Build:
             elif cap == "observations":
                 row = dict(p, present=d.get("present", 1), status=d.get("status") or p.get("status"),
                            finance_type=d.get("finance_type") or p.get("finance_type"), offer_key=d["offer_key"])
-                prio = PRIORITY["legacy"]
-                self._sight(d["observed_at"], prio, d["source"], dict(row, observed_at=d["observed_at"]), p.get("source_url"))
-                if d.get("confirmed_at") and d["confirmed_at"] != d["observed_at"]:
-                    self._sight(d["confirmed_at"], prio, d["source"], dict(row, observed_at=d["confirmed_at"]), p.get("source_url"))
+                prio = PRIORITY["history"]
+                for at in sorted({d["observed_at"], d.get("confirmed_at") or d["observed_at"]}):
+                    self._sight(at, prio, d["source"], dict(row, observed_at=at), p.get("source_url"))
+                    self._said(d["source"], "offer", d["offer_key"], "", at, prio, "history", fetch, dict(row, observed_at=at))
 
     def raws(self, entries: list[dict]) -> None:
         code = code_version(self.root)
         batches: list[tuple[str, int, dict, list[ParsedRecord]]] = []
         for i, e in enumerate(entries):
-            if e.get("origin") == legacy.SOURCE or e.get("role") == "part" or not e.get("sha256") or e.get("status") != 200:
+            if e.get("origin") in history.ORIGINS or e.get("role") == "part" or not e.get("sha256") or e.get("status") != 200:
                 continue
             self.report.fetches += 1
             provider = PROVIDERS.get(e["source"])
@@ -269,8 +292,10 @@ class Build:
             self.report.records += len(records)
             gold.write(self.conn, e["source"], _by_kind([r for r in records if r.kind not in ("offer", "car", "trim_map")]), None, now=at)
             for r in records:
+                when = r.row.get("observed_at") or at if r.kind == "offer" else at
+                self._said(e["source"], r.kind, r.key, e["target"], when, 2, e.get("origin", "live"), e["id"], r.row)
                 if r.kind == "offer":
-                    self._sight(r.row.get("observed_at") or at, 2, e["source"], r.row, e.get("url"))
+                    self._sight(when, 2, e["source"], r.row, e.get("url"))
 
     # -- 2. derivatives
 
@@ -453,6 +478,35 @@ class Build:
                 n += 1
         return n
 
+    def write_records(self) -> int:
+        """`records`: every record folded, per source, kind and key, in date order, into spans of
+        unchanged content. Ties at one instant fall by priority, then by content, never by reading order."""
+        groups: dict[tuple[str, str, str, str], list[tuple]] = {}
+        for src, kind, key, page, at, prio, origin, fetch, row in self.said:
+            content = {k: v for k, v in row.items() if k not in UNDATED}
+            dumped = gold._dump(content)
+            fp = hashlib.sha1(dumped.encode()).hexdigest()[:16]
+            groups.setdefault((src, kind, key, page), []).append((at, prio, fp, origin, fetch or "", dumped))
+        out = []
+        for (src, kind, key, page), points in sorted(groups.items()):
+            span = None
+            for at, prio, fp, origin, fetch, dumped in sorted(points):
+                if span and span["fp"] == fp:
+                    span.update(last=at, last_fetch=fetch, n=span["n"] + 1)
+                    continue
+                if span:
+                    out.append(span)
+                span = {"key": (src, kind, key, page), "first": at, "last": at, "n": 1, "origin": origin, "first_fetch": fetch,
+                        "last_fetch": fetch, "fp": fp, "row": dumped}
+            out.append(span)
+        self.conn.executemany(
+            "INSERT INTO records (source, kind, record_key, page, first_seen_at, last_seen_at, sightings, origin, first_fetch, last_fetch, "
+            "fingerprint, row) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+            [(*s["key"], s["first"], s["last"], s["n"], s["origin"], s["first_fetch"] or None, s["last_fetch"] or None, s["fp"], s["row"])
+             for s in out])
+        self.report.record_spans = len(out)
+        return len(out)
+
     # -- 5. the cars, and how every source's naming resolved
 
     def cars(self) -> None:
@@ -511,7 +565,7 @@ class Build:
         entries = list(self.store.entries()) if self.store else []
         self.owner()
         if self.store:
-            self.legacy(entries)
+            self.history(entries)
             self.raws(entries)
         self.finish()
         self.logs()
@@ -529,6 +583,7 @@ class Build:
         self.trim_map()
         self.report.sightings = len(self.sightings)
         self.fold(car_of)
+        self.write_records()
 
 
 def build(db_path: Path | str, store: RawStore | None, root: Path = ROOT, cache_path: Path | str | None = None) -> Report:

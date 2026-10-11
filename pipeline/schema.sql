@@ -17,18 +17,31 @@ CREATE TABLE IF NOT EXISTS artifacts (
 CREATE UNIQUE INDEX IF NOT EXISTS ux_artifacts_key_sha ON artifacts(source, capability, target, sha256);
 CREATE INDEX IF NOT EXISTS ix_artifacts_key ON artifacts(source, capability, target, fetched_at);
 
--- Silver: source-shaped rows, one per parsed record, keyed to the artifact they came from.
-CREATE TABLE IF NOT EXISTS source_rows (
-  id          INTEGER PRIMARY KEY,
-  artifact_id INTEGER NOT NULL REFERENCES artifacts(id),
-  source      TEXT NOT NULL,
-  kind        TEXT NOT NULL,          -- car | offer | requirements | trim_map
-  source_key  TEXT NOT NULL,          -- the record's id within the source
-  row         TEXT NOT NULL,          -- JSON, as parsed (source vocabulary)
-  parsed_at   TEXT NOT NULL
+-- What each source said, and when: every record any parser distilled from a page (and every
+-- row of the committed history, and the owner's files), as spans of unchanged content. One row
+-- per source, kind, key, page and stretch of time over which the record read the same; the same
+-- record seen again extends its row, a change starts a new one. A key missing from a later
+-- page is not a record, so absence shows only as a row that stops. Built from scratch by
+-- every build (pipeline/build.py); the tables below are the latest-state views of it.
+CREATE TABLE IF NOT EXISTS records (
+  id            INTEGER PRIMARY KEY,
+  source        TEXT NOT NULL,        -- the provider (carwow_specs, ncd, manual_seed, ...)
+  kind          TEXT NOT NULL,        -- model | spec | derivative | options | configuration | offer | used | car | trim_map | requirements
+  record_key    TEXT NOT NULL,        -- the record's id within its source
+  page          TEXT NOT NULL,        -- the target it was read from (one key can come from several pages, each saying part of it);
+                                      -- '' for a committed history row, which merged what every page said
+  first_seen_at TEXT NOT NULL,        -- '' for the owner's undated files
+  last_seen_at  TEXT NOT NULL,
+  sightings     INTEGER NOT NULL,     -- how many fetches said it
+  origin        TEXT NOT NULL,        -- of the first sighting: live | wayback | history | owner
+  first_fetch   TEXT,                 -- raw store fetch id (or the owner's file) of the first and last sightings
+  last_fetch    TEXT,
+  fingerprint   TEXT NOT NULL,        -- of the content, less the sighting's own date
+  row           TEXT NOT NULL         -- JSON, as the parser emitted it (the first sighting's)
 );
-CREATE INDEX IF NOT EXISTS ix_source_rows_key ON source_rows(source, kind, source_key);
-CREATE INDEX IF NOT EXISTS ix_source_rows_artifact ON source_rows(artifact_id);
+CREATE INDEX IF NOT EXISTS ix_records_key ON records(kind, record_key, first_seen_at);
+CREATE INDEX IF NOT EXISTS ix_records_page ON records(source, page);
+CREATE INDEX IF NOT EXISTS ix_records_source ON records(source, kind);
 
 -- Run log: one row per provider/capability run.
 CREATE TABLE IF NOT EXISTS runs (

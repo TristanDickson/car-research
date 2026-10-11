@@ -16,7 +16,7 @@ bolthole, and where the rebuild stands). What the household needs from a car:
 **The rebuild is live on `main`** (switched over on 10 Oct; `docs/REBUILD.md`, "Status"). Only
 the raws are permanent; parsing and matching are re-derived from scratch by every build; only the
 owner's own files and decisions persist. The raw store is `D:\car-research-raw` on the owner's
-laptop (`CAR_RESEARCH_RAW`), and holds the committed history of 6 to 10 Oct as a legacy source.
+laptop (`CAR_RESEARCH_RAW`), and holds the committed history of 6 to 10 Oct (and the Wayback backfill back to Jan 2025) as the source `history`.
 
 The laptop's Task Scheduler job runs `main` at 03:17 local: it scrapes into the raw store, builds,
 and pushes the snapshot and the deal table to `main`, which deploys the site. Each night's log is
@@ -26,7 +26,8 @@ GitHub scrape any more. Next: real PCP quotes (cinch's new-car API, dealer group
 ## Commands
 
 ```
-python -m pipeline build        # from scratch: raws + legacy history + the owner's files -> DB -> web/public/data
+python -m pipeline build        # from scratch: raws + the committed history + the owner's files -> DB -> web/public/data
+python -m pipeline records <key> [--kind spec] [--show]   # what the sources said about a key, and when
 python -m pipeline nightly      # new committed history into the store, scrape, build, snapshot, deal table
 python -m pipeline scrape --only <provider>   # live sources into the raw store
 python -m pipeline raw-status   # what the raw store holds, by source
@@ -93,5 +94,5 @@ under `%USERPROFILE%\tools`); xpdf's and pypdf read the guides' tables wrongly.
   by hand.
 - Carwow's used cards come back in a different order on every request, so each night samples the
   stock; a Carwow used car counts as gone only after a week unseen (`gold.SAMPLED_SOURCES`).
-- The legacy history (before 10 Oct 2026) has no pages behind it: only its matching is
+- The committed history (before 10 Oct 2026) has no pages behind it: only its matching is
   re-derived, not its parsing.

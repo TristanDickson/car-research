@@ -21,8 +21,12 @@ runs `main` at 03:17 and pushes.
   index line per fetch, a failed response too when the site answered, and each response a
   combined fetch was made of.
 - **The migration.** All 60 committed versions of `data/history/*.jsonl` (6 to 10 Oct) are in
-  the store as source `legacy`, byte-identical to git; `raw-migrate` adds new ones and nothing
-  twice. They are read with the matching stripped (`pipeline/legacy.py`).
+  the store as the source `history` (first named "legacy"; renamed on 11 Oct, when the owner said
+  "if its somehow used to build history it shouldnt be called legacy"), byte-identical to git;
+  `raw-migrate` adds new ones and nothing twice. They are read with the matching stripped
+  (`pipeline/history.py`). Every build reads them: they are the only copy of the 3,203 price spans
+  from the Wayback backfill (back to 12 Jan 2025), of 899 offers last seen before 10 Oct, and
+  until the weekly rotation re-reads them, of the configurator options.
 - **The build** (`pipeline/build.py`), from scratch every run, as in "The target" below. The
   car creation during ingestion, the history export and replay, and the 10 Oct stopgap are
   deleted, as listed under "What the rebuild deletes".
@@ -53,7 +57,7 @@ Used listings that name a derivative the owner entered now sit on the owner's ca
 a hidden twin.
 
 The first full run from the laptop (10 Oct, 18:11 to 19:35 local, 84 minutes): 1,341 fetches,
-71 MB in the store with the legacy history. EV Database answered 55 car pages with one failure and
+71 MB in the store with the committed history. EV Database answered 55 car pages with one failure and
 no throttling. Against main's snapshot, every difference is tonight's sightings: 1,317 offers' last
 span now runs to tonight and 140 have a new price tonight; no offer's earlier history changed. The
 run found three problems, fixed the same evening:
@@ -91,7 +95,7 @@ Known limits of what is built:
 - An independent review found that concurrent writers could lose index lines, that a body
   written just before a crash could stay broken, that a combined fetch failing partway dropped the
   pages it had, and two places where reading order decided a result. All are fixed and tested.
-- The legacy rows from before the rebuild cannot be re-parsed (no page was kept); only their
+- The committed history's rows cannot be re-parsed (no page was kept); only their
   matching is re-derived. Re-running the Wayback backfill on the laptop would fetch the archived
   pages as raws.
 
@@ -181,7 +185,7 @@ snapshot (web/public/data, committed; the app is unchanged)
 There are no raws for anything fetched before the rebuild. The committed
 `data/history/*.jsonl` (observations since 6 Oct plus the Wayback backfill back to 2025,
 specs, derivatives, catalogue, options, configurations, used stock) is all that remains.
-Import it once into the raw store as a legacy source, **stripped of the matching**
+Import it once into the raw store as a source of its own (`history`), **stripped of the matching**
 (`car_id` on observations and specs, the whole of `resolutions.jsonl`), keeping what each
 source said and when. After that, `data/history` stops being written and can leave the
 repo.

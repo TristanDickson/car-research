@@ -1,5 +1,5 @@
 """The owner's files through the build, prices folded into spans, the snapshot's shape, and
-the legacy history read with its matches taken out."""
+the committed history read with its matches taken out."""
 import json
 import shutil
 import subprocess
@@ -8,9 +8,10 @@ import unittest
 from datetime import date
 from pathlib import Path
 
-from pipeline import legacy
+from pipeline import history
 from pipeline.build import Build
 from pipeline.db import ROOT
+from pipeline.providers.types import Target
 from pipeline.raw import RawStore
 from pipeline.services.snapshot import SCHEMA_VERSION, evaluate_hard, export_snapshot, latest_offers
 from tests.helpers import dump, fresh_conn, run_all
@@ -172,7 +173,7 @@ class Spans(unittest.TestCase):
         self.assertEqual(got, want)
         self.assertEqual(self.spans(self.build(list(reversed(points)))), want, "the order sightings arrive in changes nothing")
 
-    def test_at_one_instant_a_page_we_hold_outranks_a_legacy_copy(self):
+    def test_at_one_instant_a_page_we_hold_outranks_the_committed_historys_copy(self):
         conn = fresh_conn()
         b = Build(conn, None)
         b.owner()
@@ -183,23 +184,23 @@ class Spans(unittest.TestCase):
         self.assertEqual(self.spans(conn)[-1][2], 999.0)
 
 
-class LegacyHistory(unittest.TestCase):
-    """The committed history as a legacy source: copied byte for byte, read with its matches taken out."""
+class CommittedHistory(unittest.TestCase):
+    """The committed history as a source: copied byte for byte, read with its matches taken out."""
 
     def test_reading_strips_every_match(self):
         obs = (json.dumps({"offer_key": "ncd:1", "source": "ncd", "car_id": "carwow-cap:1", "observed_at": "t", "present": 1,
                            "payload": {"car_id": "carwow-cap:1", "vehicle_price": 30000.0, "saving_stated": 2000.0,
                                        "car_ref": {"source": "ncd", "key": "k", "make": "kia"}}}) + "\n"
                + json.dumps({"offer_key": "x", "source": "manual_seed", "car_id": "c", "payload": {}}) + "\n").encode()
-        rows = legacy.read("observations", obs)
+        rows = history.read("observations", obs)
         self.assertEqual(len(rows), 1, "the owner's own offers are read from data/seed, not from their copy")
         self.assertNotIn("car_id", rows[0])
         self.assertNotIn("car_id", rows[0]["payload"])
         from pipeline.providers.ncd import OTR_EXTRAS_GBP
         self.assertEqual(rows[0]["payload"]["car_ref"]["rrp"], 30000.0 + 2000.0 - OTR_EXTRAS_GBP,
                          "the RRP today's parser derives from the price and saving the row kept")
-        self.assertEqual(legacy.read("resolutions", b'{"car_id": "x"}\n'), [], "the old matches yield nothing")
-        self.assertNotIn("car_id", legacy.read("specs", b'{"spec_key": "s", "car_id": "c", "payload": {"car_id": "c"}}\n')[0])
+        self.assertEqual(history.read("resolutions", b'{"car_id": "x"}\n'), [], "the old matches yield nothing")
+        self.assertNotIn("car_id", history.read("specs", b'{"spec_key": "s", "car_id": "c", "payload": {"car_id": "c"}}\n')[0])
 
     def test_migrate_copies_every_committed_version_once(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -215,11 +216,11 @@ class LegacyHistory(unittest.TestCase):
                 git("add", "-A")
                 git("commit", "-q", "-m", f"v{n}")
             store = RawStore.open(raw)
-            self.assertEqual(legacy.migrate(store, repo), {"added": 2, "already_there": 0})
-            self.assertEqual(legacy.migrate(store, repo), {"added": 0, "already_there": 2}, "a second run adds nothing")
+            self.assertEqual(history.migrate(store, repo), {"added": 2, "already_there": 0})
+            self.assertEqual(history.migrate(store, repo), {"added": 0, "already_there": 2}, "a second run adds nothing")
             entries = list(store.entries())
             self.assertEqual([store.get(e["sha256"]) for e in entries], [b'{"slug": "kia/ev1"}\n', b'{"slug": "kia/ev2"}\n'])
-            self.assertEqual({(e["source"], e["capability"]) for e in entries}, {("legacy", "models")})
+            self.assertEqual({(e["source"], e["capability"]) for e in entries}, {("history", "models")})
 
 
 class TheScraperKeepsEveryResponse(unittest.TestCase):
@@ -296,6 +297,37 @@ class TheRawStoreSurvivesCrashes(unittest.TestCase):
             runner.run(store, None, p, ctx=Context(root=ROOT))
             got = sorted(store.get(e["sha256"]) for e in store.entries())
             self.assertEqual(got, [b"busy", b"page 1", b"page 2"])
+
+
+class Records(unittest.TestCase):
+    """`records`: what each source said, as spans of unchanged content."""
+
+    def test_a_page_seen_again_extends_its_records_and_a_change_starts_a_new_one(self):
+        from tests.helpers import Raws
+        with Raws() as raws:
+            for at in ("2026-10-06T00:00:00+00:00", "2026-10-07T00:00:00+00:00"):
+                raws.add("carwow_specs", "hyundai/kona-electric", "carwow_hyundai_kona-electric_specifications.html", at=at)
+            conn = raws.build()
+            rows = conn.execute("SELECT first_seen_at, last_seen_at, sightings, origin FROM records "
+                                "WHERE source='carwow_specs' AND record_key='carwow-cap:103322'").fetchall()
+            self.assertEqual([tuple(r) for r in rows], [("2026-10-06T00:00:00+00:00", "2026-10-07T00:00:00+00:00", 2, "live")])
+            # The same page, a week on, with the Advance's RRP changed: a second span.
+            body = (Path(__file__).parent / "fixtures" / "carwow_hyundai_kona-electric_specifications.html").read_bytes()
+            from pipeline.providers import carwow_specs
+            recs = [r for r in carwow_specs.parse(body, Target("hyundai/kona-electric", {
+                "make": "hyundai", "model": "kona-electric", "make_name": "Hyundai",
+                "url": "https://www.carwow.co.uk/hyundai/kona-electric/specifications"})) if r.key == "carwow-cap:103322"]
+            rrp = recs[0].row["rrp"]
+            changed = body.replace(f"{rrp:,.0f}".encode(), f"{rrp + 500:,.0f}".encode())
+            self.assertNotEqual(changed, body)
+            raws.add("carwow_specs", "hyundai/kona-electric", body=changed, at="2026-10-14T00:00:00+00:00")
+            conn = raws.build()
+            spans = conn.execute("SELECT first_seen_at, sightings FROM records WHERE source='carwow_specs' "
+                                 "AND record_key='carwow-cap:103322' ORDER BY first_seen_at").fetchall()
+            self.assertEqual([tuple(r) for r in spans], [("2026-10-06T00:00:00+00:00", 2), ("2026-10-14T00:00:00+00:00", 1)])
+            # The owner's files are records too, undated.
+            self.assertEqual(conn.execute("SELECT first_seen_at, origin FROM records WHERE kind='car' AND record_key='hyundai-kona-65-ultimate'").fetchone()[:],
+                             ("", "owner"))
 
 
 if __name__ == "__main__":
