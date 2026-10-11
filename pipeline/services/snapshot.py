@@ -259,7 +259,7 @@ SOURCES = {
     "carwow_deals": ("carwow", "Carwow"), "carwow_paste": ("carwow", "Carwow"), "carwow_used": ("carwow", "Carwow"),
     "hyundai_offers": ("hyundai", "Hyundai UK"), "ncd": ("ncd", "New Car Discount"), "leaseloco": ("leaseloco", "LeaseLoco"),
     "rrg": ("rrg", "RRG"), "manual_seed": ("manual", "Hand-entered"),
-    "cinch_used": ("cinch", "cinch"), "motorpoint_used": ("motorpoint", "Motorpoint"),
+    "cinch_used": ("cinch", "cinch"), "cinch_new": ("cinch", "cinch"), "motorpoint_used": ("motorpoint", "Motorpoint"),
 }
 
 

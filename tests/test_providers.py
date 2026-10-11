@@ -4,6 +4,7 @@ Each fixture is a real page captured on 2026-10-06; the asserted figures were
 read off the page by eye, so a parser that drifts fails here rather than
 silently writing nonsense into gold.
 """
+import json
 import unittest
 from pathlib import Path
 
@@ -193,6 +194,34 @@ class ThroughTheBuild(unittest.TestCase):
         self.assertEqual([tuple(r) for r in rows], [(T, "2026-10-07T12:00:00+00:00")])
         self.assertEqual(len(list((self.raws.store.root / "bodies").rglob("*.gz"))), 1, "an unchanged page is stored once")
         self.assertEqual(len(list(self.raws.store.entries())), 2, "and its second fetch is still recorded")
+
+
+class CinchNewCars(unittest.TestCase):
+    """cinch's new-car listing (captured 11 Oct 2026): a real PCP quote and a cash price per car."""
+
+    def setUp(self):
+        from pipeline.providers import cinch_new
+        body = json.dumps({"pages": [json.loads(fixture("cinch_new_electric.json"))]}).encode()
+        t = Target("electric", {"url": cinch_new.api_url(), "observed_at": T})
+        self.rows = [r.row for r in cinch_new.parse(body, t)]
+
+    def test_every_car_has_a_pcp_quote_and_a_cash_price(self):
+        self.assertEqual(sum(r["finance_type"] == "pcp" for r in self.rows), 21)
+        self.assertEqual(sum(r["finance_type"] == "cash" for r in self.rows), 21)
+        surf = next(r for r in self.rows if r["finance_type"] == "pcp" and r["source_ref"] == "3428c23d-959f-4e57-aad1-1c21e6217f17")
+        self.assertEqual((surf["vehicle_price"], surf["customer_deposit"], surf["monthly_payment"], surf["num_payments"], surf["term_months"]),
+                         (22331.0, 1999.0, 259.01, 48, 49))
+        self.assertEqual((surf["gfv"], surf["apr"], surf["amount_of_credit"], surf["annual_mileage"], surf["excess_mileage_ppm"]),
+                         (8316.75, 0.019, 19668.0, 6000, 14.9))
+        self.assertEqual((surf["manufacturer_contribution"], surf["contribution_implied"], surf["reconciles"]), (664.0, True, True))
+        self.assertEqual(surf["car_ref"]["derivative"], "115kW Comfort 43kWh 5dr Auto")
+
+    def test_the_inster_quote_finances_its_contribution_and_two_nissans_do_not_add_up(self):
+        inster = next(r for r in self.rows if r["finance_type"] == "pcp" and r["car_ref"]["model"] == "INSTER")
+        self.assertEqual(inster["manufacturer_contribution"], 3750.0)
+        self.assertEqual(sorted(r["car_ref"]["model"] for r in self.rows if r.get("reconciles") is False), ["Ariya", "LEAF"])
+        cash = next(r for r in self.rows if r["finance_type"] == "cash" and r["source_ref"] == inster["source_ref"])
+        self.assertEqual((cash["vehicle_price"], cash["fees_gbp"]), (26584.0, 99.0))
 
 
 if __name__ == "__main__":

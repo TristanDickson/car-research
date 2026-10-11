@@ -13,6 +13,7 @@ from pipeline.providers import (
     carwow_paste,
     carwow_specs,
     carwow_used,
+    cinch_new,
     cinch_used,
     evdb,
     evdb_cars,
@@ -49,6 +50,7 @@ PROVIDERS: dict[str, Provider] = {
         ncd.provider,
         leaseloco.provider,
         rrg.provider,
+        cinch_new.provider,        # cinch's new cars: a real PCP quote and a cash price for every electric car it stocks
         kia_specs.provider,       # the makers' own grade tables: what each trim is fitted with, by the maker's word
         hyundai_specs.provider,
         hyundai_configurator.provider,   # what the maker will actually build at what price: the strongest word on what is fitted
