@@ -5,7 +5,8 @@ import Link from "next/link";
 import { CarImage } from "@/components/CarImage";
 import { Sparkline } from "@/components/charts/Sparkline";
 import { Badge } from "@/components/ui";
-import { budgetGap, IONIQ5_WIDTH_MM, ROUTE_SHORT, ROUTES, type CarCosts, type TrueCost } from "@/lib/costs";
+import { budgetGap, IONIQ5_WIDTH_MM, printed, ROUTE_SHORT, ROUTES, type CarCosts, type TrueCost } from "@/lib/costs";
+export { printed } from "@/lib/costs";
 import { carName, gbp, num } from "@/lib/format";
 import type { Trend } from "@/lib/model/sightings";
 import type { SearchPack } from "@/lib/query";
@@ -27,17 +28,6 @@ interface Props {
 const VERDICT_TONE: Record<string, "good" | "warn" | "bad" | "muted"> = { want: "good", maybe: "warn", no: "bad", control: "muted" };
 
 const seen = (days: number | null | undefined) => (days == null ? "" : days === 0 ? "seen today" : `seen ${days}d ago`);
-
-/** The deal as the source printed it, in a few words. */
-export function printed(t: TrueCost): string {
-  const d = t.terms;
-  switch (t.route) {
-    case "pcp": return `${gbp(d.monthly)} × ${d.payments ?? "?"}${d.derived ? "*" : ""}${d.deposit ? `, ${gbp(d.deposit)} down` : ", £0 down"}${d.gfv ? `, GFV ${gbp(d.gfv)}` : ""}`;
-    case "pch": return `${gbp(d.monthly)} × ${d.rentals ?? "?"}${d.initial ? `, ${gbp(d.initial)} up front` : ""}${d.term_months ? `, ${d.term_months} mo` : ""}`;
-    case "cash": return `${gbp(d.price)} outright`;
-    case "used": return `${gbp(d.price)}${d.year ? `, ${d.year}` : ""}${d.mileage != null ? `, ${num(d.mileage)} mi` : ""}`;
-  }
-}
 
 /** What the comparable figure assumes when the deal's length is not the reader's term; null when it is. */
 export function atHorizonNote(t: TrueCost, horizon: number): string | null {

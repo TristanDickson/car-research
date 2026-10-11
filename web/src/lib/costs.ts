@@ -1,3 +1,4 @@
+import { gbp, num } from "./format";
 // What a car costs, read off the stored results of the one cost model
 // (lib/model, run by lib/db.ts under the reader's basis). Nothing here is
 // computed from offers at render time; a page needs a car and its cost row.
@@ -108,3 +109,14 @@ export const IONIQ5_WIDTH_MM = 1890;
 export const ROUTE_LABEL: Record<Route, string> = { pcp: "PCP", pch: "lease", cash: "buy outright", used: "buy used" };
 export const ROUTE_SHORT: Record<Route, string> = { pcp: "PCP", pch: "Lease", cash: "Cash", used: "Used" };
 export const ROUTES: Route[] = ["cash", "pcp", "pch", "used"];
+
+/** The deal as the source printed it, in a few words. */
+export function printed(t: TrueCost): string {
+  const d = t.terms;
+  switch (t.route) {
+    case "pcp": return `${gbp(d.monthly)} × ${d.payments ?? "?"}${d.derived ? "*" : ""}${d.deposit ? `, ${gbp(d.deposit)} down` : ", £0 down"}${d.gfv ? `, GFV ${gbp(d.gfv)}` : ""}`;
+    case "pch": return `${gbp(d.monthly)} × ${d.rentals ?? "?"}${d.initial ? `, ${gbp(d.initial)} up front` : ""}${d.term_months ? `, ${d.term_months} mo` : ""}`;
+    case "cash": return `${gbp(d.price)} outright`;
+    case "used": return `${gbp(d.price)}${d.year ? `, ${d.year}` : ""}${d.mileage != null ? `, ${num(d.mileage)} mi` : ""}`;
+  }
+}

@@ -60,6 +60,8 @@ export interface SnapshotUsed {
   model_slug?: string | null;
   /** make/model slugs, the subject of the model's used series (added at load). */
   model_key?: string;
+  /** model|trim|battery: the cars this listing counts as (SnapshotCar.used_key). */
+  used_key?: string | null;
   car_id?: string | null;
   price_gbp: number | null;
   year: number | null;

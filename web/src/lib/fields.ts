@@ -3,7 +3,7 @@
 // number as a min/max, and the car page lists them all. Equipment flags join at run time
 // from the snapshot's flag labels (`flagFields`), so a flag the pipeline learns is a column
 // without a change here.
-import type { CarCosts } from "./costs";
+import { printed, type CarCosts } from "./costs";
 import type { SnapshotCar, Tri } from "./types";
 
 export type FieldKind = "number" | "money" | "text" | "bool" | "tri";
@@ -44,11 +44,21 @@ export const FIELDS: Field[] = [
   // Price and cost: the costs come from the browser's cost model (lib/costs.ts) under the reader's basis.
   { key: "true", label: "True cost per month", short: "True £/mo", group: "Price and cost", kind: "money", step: 10,
     title: "Cheapest way to have the car, on one footing across cash, PCP, lease and used over your term", value: (_, k) => k?.trueCost?.monthly },
-  { key: "monthly", label: "Pay monthly, cheapest", short: "Monthly", group: "Price and cost", kind: "money", step: 10, value: (_, k) => k?.monthly },
+  { key: "monthly", label: "Lowest monthly payment as printed (deposit not counted)", short: "Lowest monthly", group: "Price and cost", kind: "money", step: 10,
+    title: "The smallest monthly payment any PCP or lease prints, whatever deposit or up-front payment it needs; not comparable across cars", value: (_, k) => k?.monthly },
   { key: "cash", label: "Best cash price", short: "Best cash", group: "Price and cost", kind: "money", step: 500, value: (_, k) => k?.cash?.price },
-  { key: "pcp", label: "PCP per month, as printed", short: "PCP £/mo", group: "Price and cost", kind: "money", step: 10, value: (_, k) => k?.byRoute.pcp?.headline },
-  { key: "pch", label: "Lease per month, as printed", short: "Lease £/mo", group: "Price and cost", kind: "money", step: 10, value: (_, k) => k?.byRoute.pch?.headline },
-  { key: "used", label: "Used, cheapest example", short: "Used from", group: "Price and cost", kind: "money", step: 500, value: (_, k) => k?.byRoute.used?.headline },
+  // The route columns are the figure the car page leads with: the true cost per month of the cheapest deal on that route.
+  { key: "pcp", label: "PCP, true cost per month", short: "PCP £/mo", group: "Price and cost", kind: "money", step: 10,
+    title: "The cheapest PCP's true cost per month over your term: deposit, payments and the car's equity at the end, on the same footing as the other routes",
+    value: (_, k) => k?.byRoute.pcp?.monthly },
+  { key: "pch", label: "Lease, true cost per month", short: "Lease £/mo", group: "Price and cost", kind: "money", step: 10,
+    title: "The cheapest lease's true cost per month over your term, the up-front payment included", value: (_, k) => k?.byRoute.pch?.monthly },
+  { key: "used", label: "Used, cheapest of this trim and battery", short: "Used from", group: "Price and cost", kind: "money", step: 500,
+    value: (_, k) => k?.byRoute.used?.headline },
+  { key: "pcpPrinted", label: "PCP as printed", short: "PCP as printed", group: "Price and cost", kind: "text",
+    value: (_, k) => (k?.byRoute.pcp ? printed(k.byRoute.pcp) : null) },
+  { key: "pchPrinted", label: "Lease as printed", short: "Lease as printed", group: "Price and cost", kind: "text",
+    value: (_, k) => (k?.byRoute.pch ? printed(k.byRoute.pch) : null) },
   { key: "threeYear", label: "Total over the agreement", short: "Total", group: "Price and cost", kind: "money", step: 500, value: (_, k) => k?.threeYear },
   { key: "fell", label: "Price change, 30 days", short: "30-day change", group: "Price and cost", kind: "money", step: 100, value: (_, k) => k?.trend?.delta },
   { key: "list", field: "list_price_gbp", label: "List price", short: "List", group: "Price and cost", kind: "money", step: 500, value: f("list_price_gbp") },

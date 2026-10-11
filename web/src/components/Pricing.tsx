@@ -83,7 +83,7 @@ export function Pricing({ car, costs, horizon, sources, staleDays }: { car: Snap
           <div className="flex flex-wrap items-center gap-3 text-sm">
             <span className="font-medium text-gray-100">{ROUTE_LABEL[active]}</span>
             <WindowPicker value={win} onChange={setWin} />
-            <span className="text-gray-500">{active === "used" ? "the model's cheapest used example on each day, per site" : "one line per source"}</span>
+            <span className="text-gray-500">{active === "used" ? "used cars of this trim and battery, the cheapest each day, per site" : "one line per source"}</span>
           </div>
           <div className="grid gap-4 lg:grid-cols-2">
             <div>
@@ -140,13 +140,22 @@ export function Pricing({ car, costs, horizon, sources, staleDays }: { car: Snap
 
 function UsedStockView({ car, listings, stock, byYear }: { car: SnapshotCar; listings: SnapshotUsed[]; stock: UsedStock | null; byYear: { year: number; points: { date: string; median: number; n: number }[] }[] }) {
   const [all, setAll] = useState(false);
-  const live = useMemo(() => listings.filter((l) => l.present && l.price_gbp != null).sort((a, b) => (a.price_gbp ?? 0) - (b.price_gbp ?? 0)), [listings]);
+  // This car's own trim and battery first; the model's other listings stay as evidence of what a used one is worth.
+  const mine = (l: SnapshotUsed) => !!car.used_key && l.used_key === car.used_key;
+  const live = useMemo(() => listings.filter((l) => l.present && l.price_gbp != null)
+    .sort((a, b) => Number(mine(b)) - Number(mine(a)) || (a.price_gbp ?? 0) - (b.price_gbp ?? 0)), [listings]);   // eslint-disable-line react-hooks/exhaustive-deps
+  const matching = live.filter(mine).length;
   const shown = all ? live : live.slice(0, 25);
   return (
     <div className="grid gap-4 lg:grid-cols-[1fr_minmax(18rem,24rem)]">
       <div>
         <div className="mb-1 text-xs uppercase tracking-wide text-gray-500">
-          {car.make} {car.model} on sale used · {live.length} listing{live.length === 1 ? "" : "s"}{stock?.sources ? ` · ${Object.entries(stock.sources).map(([s, n]) => `${s} ${n}`).join(", ")}` : ""}{stock ? ` · ${stock.count} distinct cars` : ""}
+          {car.make} {car.model} on sale used, every trim · {live.length} listing{live.length === 1 ? "" : "s"}{stock?.sources ? ` · ${Object.entries(stock.sources).map(([s, n]) => `${s} ${n}`).join(", ")}` : ""}{stock ? ` · ${stock.count} distinct cars` : ""}
+        </div>
+        <div className="mb-2 text-xs text-gray-400">
+          {matching
+            ? `${matching} of them are this trim and battery (marked), and only those count as buying this car used. The rest show what a used one is worth.`
+            : "None of them is this trim and battery, so none counts as buying this car used. They show what a used one is worth."}
         </div>
         {live.length === 0 ? (
           <Empty>No used example of this model on the sites we read.</Empty>
@@ -157,8 +166,8 @@ function UsedStockView({ car, listings, stock, byYear }: { car: SnapshotCar; lis
             </thead>
             <tbody>
               {shown.map((l) => (
-                <tr key={l.listing_key} className="border-t border-gray-800">
-                  <td className="py-1 pr-3 text-right tabular-nums text-gray-100">{gbp(l.price_gbp)}</td>
+                <tr key={l.listing_key} className={`border-t border-gray-800 ${mine(l) ? "bg-sky-950/30" : "text-gray-400"}`}>
+                  <td className="py-1 pr-3 text-right tabular-nums text-gray-100">{gbp(l.price_gbp)}{mine(l) && <span className="ml-1 text-[10px] text-sky-300">this trim</span>}</td>
                   <td className="py-1 pr-3">{l.year ?? "—"}</td>
                   <td className="py-1 pr-3 text-right tabular-nums">{l.mileage != null ? num(l.mileage) : "—"}</td>
                   <td className="py-1 pr-3 text-xs text-gray-300">{l.derivative ?? "—"}</td>

@@ -49,6 +49,7 @@ jobs:
         env:
           # Project Pages sites live under /<repo>.
           NEXT_PUBLIC_BASE_PATH: /car-research
+          NEXT_PUBLIC_RELEASE: ${{ github.sha }}
         run: npm run build
 
       - name: SPA fallback + Pages hygiene

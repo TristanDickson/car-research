@@ -709,21 +709,25 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     # EV Database rows belong to no car (the claim store lays them over cars by model and battery); no page lists them.
     _write(out / "specs.json", [{k: v for k, v in sp.items() if k not in SPEC_PRIVATE} for sp in specs if sp.get("provider") not in ("evdb", "evdb_cars")])
     _write(out / "models.json", models)
-    _write(out / "used.json", used)
     _write(out / "sightings.json", sightings)
     key_of = {c["id"]: c.get("used_key") for c in cars}
     by_model: dict[str, list[dict]] = {}
     for c in cars:
         if c.get("used_key"):
             by_model.setdefault(c["model_key"], []).append(c)
-    text_of = {l["listing_key"]: l.get("derivative") or "" for l in used}
+    # Each listing's trim key: the derivative it names, else the one trim and battery its text fits (several
+    # versions of one trim and battery tying is no matter at this level).
+    listing_key_of: dict[str, str | None] = {}
+    for l in used:
+        k = key_of.get(l.get("car_id"))
+        if not k and l.get("derivative"):
+            model = f"{(l.get('make_slug') or '').lower()}/{l.get('model_slug') or ''}"
+            k = used_key_for_text(l["derivative"], by_model.get(model, []))
+        listing_key_of[l["listing_key"]] = k
+        l["used_key"] = k
     for u in used_spans:
-        # The derivative the listing names, else the one trim and battery its text fits (several versions of
-        # one trim and battery tying is no matter at this level).
-        k = key_of.get(u.get("car_id"))
-        if not k and text_of.get(u["key"]):
-            k = used_key_for_text(text_of[u["key"]], by_model.get(u["model"], []))
-        u["used_key"] = k
+        u["used_key"] = listing_key_of.get(u["key"])
+    _write(out / "used.json", used)
     _write(out / "used_spans.json", used_spans)
     _write(out / "requirements.json", requirements, pretty=True)
     _write(out / "data.json", data_page, pretty=True)

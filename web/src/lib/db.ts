@@ -266,8 +266,12 @@ async function staleDays(db: CarResearchDB): Promise<number> {
 }
 
 /** What the stored results were computed from: the snapshot, the basis, the day. */
+/** The release the stored results were computed by: a new release recomputes them once, so a change to the cost
+ * model reaches every reader instead of their keeping what the old code worked out for the same snapshot. */
+const RELEASE = process.env.NEXT_PUBLIC_RELEASE ?? "dev";
+
 function costKey(generatedAt: string, basis: Basis, today: string): string {
-  return JSON.stringify({ generatedAt, basis, today });
+  return JSON.stringify({ generatedAt, basis, today, release: RELEASE });
 }
 
 /** Statistics of the last recompute, for the Data page. */
