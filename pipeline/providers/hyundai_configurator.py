@@ -28,7 +28,7 @@ SITE = "hyundai-cfg"
 PAPI = "https://org-eu-www.hyundai.com/eu/papi"
 # carwow model slug → (hyundai site slug, model name as Carwow prints it)
 MODELS = {
-    "inster": ("inster", "Inster"), "ioniq-5": ("ioniq5", "Ioniq 5"), "ioniq-6": ("ioniq6", "Ioniq 6"),
+    "inster": ("inster", "Inster"), "ioniq-3": ("ioniq3", "Ioniq 3"), "ioniq-5": ("ioniq5", "Ioniq 5"), "ioniq-6": ("ioniq6", "Ioniq 6"),
     "ioniq-9": ("ioniq9", "Ioniq 9"), "kona-electric": ("kona-electric", "Kona Electric"),
 }
 MODEL_ID_RE = re.compile(r'"modelId"\s*:\s*"([^"]+)"')
@@ -87,14 +87,17 @@ def pack_items(name: str, description: str | None) -> list[str]:
     description split at 'and' / commas, with 'excluding …' brackets dropped so an exclusion is
     not read as an inclusion ('V2L with internal 3-pin plug … (excluding external adaptor)')."""
     items = [name.strip()]
-    d = text(description or "").replace("\xa0", " ")
-    d = re.sub(r"\((?:excluding|not including|without|available from)[^)]*\)", " ", d, flags=re.I)
-    d = re.sub(r"\b(?:excluding|except(?:ing)?|not including)\b[^.;,]*", " ", d, flags=re.I)
-    for sentence in re.split(r"(?<=[.;])\s+", d):
-        for clause in re.split(r",\s+|\s+and\s+(?=[A-Z])", sentence):
-            c = clause.strip(" .")
-            if len(c) > 3 and not re.match(r"^(convenience aid|not intended|which can|allows)", c, re.I):
-                items.append(c)
+    lines = (description or "").split("\n")
+    listed = len([l for l in lines if l.strip()]) > 1   # one item per line ('Front and Rear Seats - Heated'): not split at 'and'
+    for line in lines:
+        d = text(line).replace("\xa0", " ")
+        d = re.sub(r"\((?:excluding|not including|without|available from)[^)]*\)", " ", d, flags=re.I)
+        d = re.sub(r"\b(?:excluding|except(?:ing)?|not including)\b[^.;,]*", " ", d, flags=re.I)
+        for sentence in re.split(r"(?<=[.;])\s+", d):
+            for clause in [sentence] if listed else re.split(r",\s+|\s+and\s+(?=[A-Z])", sentence):
+                c = clause.strip(" .")
+                if len(c) > 3 and not re.match(r"^(convenience aid|not intended|which can|allows)", c, re.I):
+                    items.append(c)
     return items
 
 
@@ -111,16 +114,24 @@ def _packages(f: dict) -> list[dict]:
             continue
         d = desc.get(name) or {}
         out.append({"name": name, "code": d.get("code"), "price": float(p["pkgPrice"]) if p.get("pkgPrice") is not None else None,
+                    "net_price": float(p["pkgNetPrice"]) if p.get("pkgNetPrice") is not None else None,
                     "description": d.get("description"), "items": pack_items(name, d.get("description"))})
     return out
+
+
+def _amount(v) -> float | None:
+    return float(v) if v is not None else None
 
 
 def parse_payload(d: dict, model: str, model_name: str, observed_at: str) -> list[dict]:
     data = (d.get("response") or {}).get("data") or {}
     equipment: dict[str, list[str]] = {}
+    detail: dict[str, list[dict]] = {}   # as Hyundai lists it: category, the configurator's highlight mark ('X'), sort, long text
     for e in data.get("hppTrimEquipments") or []:
         if e.get("equipNm"):
             equipment.setdefault(e["trimId"], []).append(text(e["equipNm"]))
+            detail.setdefault(e["trimId"], []).append({"name": text(e["equipNm"]), "category": e.get("equipCategory"), "highlight": e.get("highlight"),
+                                                       "sort_no": e.get("sortNo"), "long_description": e.get("longDescription")})
     fscs = data.get("hppFscs2") or []
     rows: list[dict] = []
     for f in fscs:
@@ -136,7 +147,11 @@ def parse_payload(d: dict, model: str, model_name: str, observed_at: str) -> lis
             "drive": drive.group(1) if drive else None, "seats": int(seats.group(1)) if seats else None,
             "body_type": f.get("bodyTypeNo"), "product_year": f.get("productYear"),
             "price": float(f["fscPrice"]) if f.get("fscPrice") is not None else None, "price_ex_vat": f.get("fscPrice2"),
-            "packages": _packages(f), "equipment": equipment.get(f.get("trimId"), []),
+            # what the three discount fields mean is not published; kept as sent (the Ioniq 3's discount2Price is 3750 on every configuration)
+            "discount1_price": _amount(f.get("discount1Price")), "discount2_price": _amount(f.get("discount2Price")),
+            "discount3_price": _amount(f.get("discount3Price")),
+            "trim_sort": f.get("trimSort"), "body_type_name": f.get("bodytypeNm"),
+            "packages": _packages(f), "equipment": equipment.get(f.get("trimId"), []), "equipment_detail": detail.get(f.get("trimId"), []),
             "source": "Hyundai UK configurator", "source_url": d.get("page"), "observed_at": observed_at,
         })
     # What each trim and powertrain can be ordered with: every package any of its configurations includes.
@@ -144,7 +159,7 @@ def parse_payload(d: dict, model: str, model_name: str, observed_at: str) -> lis
     for r in rows:
         group = offered.setdefault((r["trim_id"], r["powertrain_id"]), {})
         for p in r["packages"]:
-            group.setdefault(p["name"], {"name": p["name"], "price": p["price"], "items": p["items"]})
+            group.setdefault(p["name"], {"name": p["name"], "price": p["price"], "net_price": p["net_price"], "items": p["items"]})
     for r in rows:
         r["offered"] = sorted(offered[(r["trim_id"], r["powertrain_id"])].values(), key=lambda p: p["name"])
     return rows
@@ -158,5 +173,5 @@ def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
         yield ParsedRecord(kind="configuration", key=f"{SITE}:{row['fsc']}", row=row)
 
 
-configurations = Capability(name="configurations", parser_version="1", discover=discover, fetch=fetch, parse=parse, kinds=("configuration",))
+configurations = Capability(name="configurations", parser_version="2", discover=discover, fetch=fetch, parse=parse, kinds=("configuration",))
 provider = Provider(name="hyundai_configurator", default_capability="configurations", capabilities={"configurations": configurations}, live=True)

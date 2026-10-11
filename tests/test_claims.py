@@ -252,6 +252,26 @@ class Maker(unittest.TestCase):
         self.assertEqual((cars[1]["flags"]["glass_roof"], cars[1]["field_sources"]["glass_roof"]), ("none", "not in Kia UK specification · GT-Line S 81.4 kWh"), "a complete list without blanks of its own: not listed is not fitted, weakly")
 
 
+    def test_the_makers_numbers_fill_what_no_derivative_source_prints_where_its_columns_agree(self):
+        """Kia's EV3 GT-Line S columns (with and without heat pump) both print 1,000 kg braked towing and a
+        31-minute 10-80%, but different kerb weights: the trim and battery gets the first two, not the third,
+        and a derivative's own range (Carwow's) outranks the maker's."""
+        kia = [{"provider": "kia_specs", "source": "Kia UK specification", "make": "Kia", "model": "EV3", "trim": t,
+                "numbers": {"battery_kwh": 81.4, "tow_kg": 1000.0, "dc_10_80_min": 31.0, "kerb_weight_kg": w, "wltp_range_mi": 362.0, "drive": "FWD"},
+                "features": [f"Item {i}" for i in range(45)], "options": []}
+               for t, w in (("GT-Line S", 1885.0), ("GT-Line S Heat Pump", 1990.0))]
+        spec = {"provider": "carwow_specs", "cap_id": "9002", "make": "Kia", "model": "EV3", "trim": "GT-Line S", "engine": "150kW 81kWh Auto",
+                "variant": "EV3 GT-Line S 150kW 81kWh Auto", "numbers": {"wltp_range_mi": 360.0}, "features": []}
+        c = {"id": "carwow-cap:9002", "auto": True, "cap_id": "9002", "make": "Kia", "model": "EV3", "trim": "GT-Line S · 150kW 81kWh Auto",
+             "variant": "150kW 81kWh Auto", "battery_kwh": 81.4}
+        store = build_store([c], kia + [spec], CATALOGUE, [], [], [])
+        resolve_car(c, store)
+        self.assertEqual((c["tow_kg"], c["dc_10_80_min"], c["drive"]), (1000.0, 31.0, "Front wheel drive"))
+        self.assertEqual(c["field_sources"]["tow_kg"], "Kia UK specification · GT-Line S 81.4 kWh")
+        self.assertIsNone(c.get("weight_kg"), "1,885 and 1,990 kg: the columns differ, so the trim says nothing")
+        self.assertEqual(c["wltp_range_mi"], 360.0, "the derivative's own figure outranks the trim's")
+
+
 class Configurator(unittest.TestCase):
     """Hyundai's own configurator, read from the saved Inster response: nine orderable configurations
     matched to CAP derivatives by trim, battery and price; what is in the price is fitted, what is

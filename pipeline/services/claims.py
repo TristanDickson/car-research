@@ -382,6 +382,45 @@ def from_maker_specs(store: Store, rows: list[dict]) -> None:
             # plainest column speaks for the trim, weakly, and the CAP name or configurator says the rest.
             v = min(vals, key=lambda t: TRI_RANK[t])
             store.add(sub, Claim(k, v, "option" if v == "option" else "absent", src, f"{label} (its columns differ; the plainest says {v})"))
+    _maker_numbers(store, rows)
+
+
+DRIVE_WORDS = {"FWD": "Front wheel drive", "RWD": "Rear wheel drive", "AWD": "Four wheel drive", "4WD": "Four wheel drive"}
+
+
+def _maker_numbers(store: Store, rows: list[dict]) -> None:
+    """The maker's printed numbers (towing, charge times, dimensions, weights, range), at the levels its rows
+    can speak for: a trim and battery, and the trim, each only where every one of its rows prints the number
+    and they agree. Two powertrains on one battery (the Ioniq 5 Ultimate's 228 and 325 PS) or a 5-seat and a
+    7-seat (the PV5's tow and boot) differing leave that level silent rather than in dispute; a derivative's
+    own figure, where a source prints one, outranks both."""
+    def named(numbers: dict | None) -> dict:
+        nums = {NUMBER_ALIASES.get(k, k): v for k, v in (numbers or {}).items()}
+        if isinstance(nums.get("drive"), str):   # the maker's 'FWD' in Carwow's words, which most cars carry
+            nums["drive"] = DRIVE_WORDS.get(nums["drive"].strip().upper(), nums["drive"])
+        return nums
+
+    by_sub: dict[str, list[tuple[dict, str, str]]] = {}
+    for row in rows:
+        make, model, trim = row.get("make"), row.get("model"), row.get("trim") or ""
+        src = row.get("source") or "maker specification"
+        head = trim_head(trim) or trim
+        nums = named(row.get("numbers"))
+        # Kia: one row per grade and powertrain. Hyundai: one row per grade, its powertrains listed in it.
+        per_battery = [(nums, nums.get("battery_kwh"))] + [(named(pt.get("numbers")), pt.get("battery_kwh")) for pt in row.get("powertrains") or []]
+        for n, kwh in per_battery:
+            if kwh:
+                by_sub.setdefault(trim_battery_subject(make, model, trim, kwh), []).append((n, src, f"{src} · {head} {float(kwh):g} kWh"))
+        by_sub.setdefault(trim_subject(make, model, trim), []).append((nums, src, f"{src} · {head} (every column)"))
+    for sub, members in by_sub.items():
+        for f in NUMBERS:
+            # charge_port: Hyundai's is the connector ('CCS Combo / Type 2'), EV Database's where it sits.
+            if f in ("battery_kwh", "charge_port") + PRICES:
+                continue
+            vals = [n.get(f) for n, _, _ in members]
+            if any(v in (None, "") for v in vals) or not _all_agree(vals):
+                continue
+            store.add(sub, Claim(f, vals[0], "measured", members[0][1], members[0][2], seen=None))
 
 
 def _current(variants: list[dict]) -> list[dict]:

@@ -1,0 +1,487 @@
+IONIQ 9
+Technical, Specifications and Pricing
+
+
+
+
+                                        Image for illustrative purposes only. Data correct October 2026.
+IONIQ 9
+Technical
+                                                               160kW (218PS) RWD Long Range                     226kW (307PS) AWD Long Range                    314kW (427PS) AWD Performance
+
+ELECTRIC MOTOR
+Electric Motor Type                                       Permanent Magnet Synchronous Motor (PMSM)        Permanent Magnet Synchronous Motor (PMSM)        Permanent Magnet Synchronous Motor (PMSM)
+Electric Motor Max Power (PS/kW)                                         160/218 (kW/PS)                                  226/307 (kW/PS)                                   314/427 (kW/PS)
+Electric Motor Torque (Nm/lbs ft)                                       350/258 (Nm/lbs ft)                              605/446 (Nm/lbs ft)                              700/516 (Nm/lbs ft)
+0-62.5 mph (seconds)                                                            9.4                                              6.7                                              5.2
+Top Speed (mph)                                                                 118                                              124                                              124
+HIGH VOLTAGE BATTERY
+Battery Type                                                            Lithium-ion Polymer                              Lithium-ion Polymer                              Lithium-ion Polymer
+Battery Power (kW)                                                              354                                              354                                              354
+Battery Capacity (kWh)                                                         110.3                                            110.3                                            110.3
+Voltage                                                                         610                                              610                                              610
+CHARGING
+Charging Port                                                          CCS Combo / Type 2                               CCS Combo / Type 2                               CCS Combo / Type 2
+Estimated Charging Emergency 3 Pin Connector
+                                                                       44hr 42min (230V 12A)                            44hr 42min (230V 12A)                            44hr 42min (230V 12A)
+(ICCB)(10-100%)
+Estimated Charging Wallbox 7.4kW single phase (10-100%)                     14hr 42min                                       14hr 42min                                       14hr 42min
+Estimated Charging Wallbox 10.5 kW 3 phase (10-100%)                  10hr (230V 3 phase 16A)                          10hr (230V 3 phase 16A)                          10hr (230V 3 phase 16A)
+Estimated Public 50kW CCS (10-80%)                                           1hr 43min                                        1hr 43min                                        1hr 43min
+Estimated Public 350kW CCS (10-80%)                                  24 minutes @ 233kW max)                          24 minutes @233 kW max)                          24 minutes @233 kW max)
+On Board Charger (kW)                                                           10.5                                             10.5                                             10.5
+
+SUSPENSION
+Front                                                          MacPherson Strut Type + Dual Lower Arm           MacPherson Strut Type + Dual Lower Arm           MacPherson Strut Type + Dual Lower Arm
+Rear                                                                     5 Multi-Link Type                                5 Multi-Link Type                                5 Multi-Link Type
+
+STEERING
+System                                                        Motor Driven Power Steering (R-MDPS)             Motor Driven Power Steering (R-MDPS)             Motor Driven Power Steering (R-MDPS)
+Steering Wheel Lock to Lock Turns                                              2.93                                             2.93                                             2.93
+Turning Circle (metres)                                                        12.48                                            12.48                                            12.48
+
+BRAKE
+System                                                    Power Assisted Braking System with ABS and EBD   Power Assisted Braking System with ABS and EBD   Power Assisted Braking System with ABS and EBD
+Front                                                                     Ventilated Disc                                  Ventilated Disc                                  Ventilated Disc
+Rear                                                                      Ventilated Disc                                  Ventilated Disc                                  Ventilated Disc
+IONIQ 9
+Technical
+                                                                160kW (218PS) RWD Long Range   226kW (307PS) AWD Long Range   314kW (427PS) AWD Performance
+
+DIMENSIONS
+Overall Length (mm)                                                         5060                           5060                           5060
+
+Overall Width (mm) (Excluding Side Mirrors)                                  1980                          1980                           1980
+
+Overall Width (mm) (Including Standard Side Mirrors)                         2251                          2251                           2251
+Overall Width (mm) (Including Digital Side Mirrors)                         2040                           2040                           2040
+Wheelbase (mm)                                                               3130                          3130                           3130
+
+WEIGHT AND CAPACITY
+Kerb Weight (kg)                                                          2470-2612                      2578-2728                      2610-2744
+Payload (kg)                                                               710-568                        722-572                        710-576
+Gross Vehicle Weight (kg)                                                    3180                          3300                           3320
+Max Tow Weight (kg) - Braked                                                1600                           2500                           2500
+Max Tow Weight (kg) - Unbraked                                               750                           750                             750
+Gross Train Weight (kg)                                                     4780                           5800                           5820
+Noseweight (kg)                                                               80                            125                            125
+Max Roof Weight (kg)                                                         100                           100                             100
+
+PREMIUM
+Front Tyre                                                               255/60 R19                          -                              -
+
+Rear Tyre                                                                255/60 R19                          -                              -
+Front Wheel                                                                8.0J x 19                         -                              -
+Rear Wheel                                                                 8.0J x 19                         -                              -
+Front Track                                                                  1692                            -                              -
+Rear Track                                                                   1703                            -                              -
+Luggage Capacity VDA (litres) - Seats Up (behind 2nd row, 3rd
+                                                                             908                             -                              -
+row folded flat)
+Luggage Capacity VDA (litres) - Seats Up (behind 3rd row)                    338                             -                              -
+Luggage Capacity VDA (litres) - Seats Down                                   2419                            -                              -
+Frunk (litres)                                                                88                             -                              -
+CO2 Emissions (g/km)                                                          0                              -                              -
+Maximum Potential EV Driving Range - Miles (Km)                           385 (620) *                        -                              -
+Electric Driving Efficiency (kWh per 100Km)                                 19.9 *                           -                              -
+IONIQ 9
+Technical
+                                                                160kW (218PS) RWD Long Range   226kW (307PS) AWD Long Range   314kW (427PS) AWD Performance
+
+ULTIMATE
+Front Tyre                                                                   -                          275/50 R20                           -
+
+Rear Tyre                                                                    -                          275/50 R20                           -
+Front Wheel                                                                  -                           8.0J x 20                           -
+Rear Wheel                                                                   -                           8.0J x 20                           -
+Front Track                                                                  -                              1692                             -
+Rear Track                                                                   -                              1703                             -
+Luggage Capacity VDA (litres) - Seats Up (behind 2nd row, 3rd
+                                                                             -                              908                              -
+row folded)
+Luggage Capacity VDA (litres) - Seats Up (behind 3rd row)                    -                              338                              -
+Luggage Capacity VDA (litres) - Seats Down                                   -                              2419                             -
+Frunk (litres)                                                               -                               52                              -
+CO2 Emissions (g/km)                                                         -                               0                               -
+Maximum Potential EV Driving Range - Miles (Km)                              -                           376 (606) *                         -
+Electric Driving Efficiency (kWh per 100Km)                                  -                             20.4*                             -
+
+CALLIGRAPHY
+Front Tyre                                                                   -                           285/45 R21                     285/45 R21
+Rear Tyre                                                                    -                           285/45 R21                     285/45 R21
+Front Wheel                                                                  -                            9.0J x 21                      9.0J x 21
+Rear Wheel                                                                   -                            9.0J x 21                      9.0J x 21
+Front Track                                                                  -                              1692                           1692
+Rear Track                                                                   -                              1703                           1703
+Luggage Capacity VDA (litres) - Seats Up (behind 2nd row, 3rd
+                                                                             -                              908                            908
+row folded)
+
+Luggage Capacity VDA (litres) - Seats Up (behind 3rd row)                    -                              338                            338
+
+Luggage Capacity VDA (litres) - Seats Down                                   -                              2419                           2419
+Frunk (litres)                                                               -                               52                             52
+CO2 Emissions (g/km)                                                         -                               0                              0
+Maximum Potential EV Driving Range - Miles (Km)                              -                           372 (600) *                    372 (600) *
+Electric Driving Efficiency (kWh per 100Km)                                  -                             20.6*                          20.6*
+IONIQ 9
+Technical
+                                                                160kW (218PS) RWD Long Range   226kW (307PS) AWD Long Range   314kW (427PS) AWD Performance
+
+CALLIGRAPHY 6 SEAT
+Front Tyre                                                                   -                              -                           285/45 R21
+Rear Tyre                                                                    -                              -                           285/45 R21
+Front Wheel                                                                  -                              -                            9.0J x 21
+Rear Wheel                                                                   -                              -                            9.0J x 21
+Front Track                                                                  -                              -                              1692
+Rear Track                                                                   -                              -                              1703
+Luggage Capacity VDA (litres) - Seats Up (behind 2nd row, 3rd
+                                                                             -                              -                              908
+row folded)
+Luggage Capacity VDA (litres) - Seats Up (behind 3rd row)                    -                              -                              338
+Luggage Capacity VDA (litres) - Seats Down                                   -                              -                              2419
+Frunk (litres)                                                               -                              -                               52
+CO2 Emissions (g/km)                                                         -                              -                               0
+Maximum Potential EV Driving Range - Miles (Km)                              -                              -                           372 (600) *
+Electric Driving Efficiency (kWh per 100Km)                                  -                              -                             20.6*
+
+CALLIGRAPHY BLACK INK
+Front Tyre                                                                   -                              -                           285/45 R21
+Rear Tyre                                                                    -                              -                           285/45 R21
+Front Wheel                                                                  -                              -                            9.0J x 21
+Rear Wheel                                                                   -                              -                            9.0J x 21
+Front Track                                                                  -                              -                              1692
+Rear Track                                                                   -                              -                              1703
+Luggage Capacity VDA (litres) - Seats Up (behind 2nd row, 3rd
+                                                                             -                              -                              908
+row folded flat)
+Luggage Capacity VDA (litres) - Seats up (behind 3rd row)                    -                              -                              338
+Luggage Capacity VDA (litres) - Seats Down                                   -                              -                              2419
+Frunk (litres)                                                               -                              -                               52
+CO2 Emissions (g/km)                                                         -                              -                               0
+Maximum Potential EV Driving Range - Miles (Km)                              -                              -                           372 (600) *
+Electric Driving Efficiency (kWh per 100Km)                                  -                              -                             20.6*
+IONIQ 9
+Technical
+                                                                              160kW (218PS) RWD Long Range                                 226kW (307PS) AWD Long Range                                     314kW (427PS) AWD Performance
+
+ CALLIGRAPHY 6 SEAT BLACK INK
+ Front Tyre                                                                                     -                                                             -                                                       285/45 R21
+ Rear Tyre                                                                                      -                                                             -                                                       285/45 R21
+ Front Wheel                                                                                    -                                                             -                                                        9.0J x 21
+ Rear Wheel                                                                                     -                                                             -                                                        9.0J x 21
+ Front Track                                                                                    -                                                             -                                                          1692
+ Rear Track                                                                                     -                                                             -                                                          1703
+ Luggage Capacity VDA (litres) - Seats Up (behind 2nd row, 3rd
+                                                                                                -                                                             -                                                          908
+ row folded flat)
+ Luggage Capacity VDA (litres) - Seats up (behind 3rd row)                                      -                                                             -                                                          338
+ Luggage Capacity VDA (litres) - Seats Down                                                     -                                                             -                                                          2419
+ Frunk (litres)                                                                                 -                                                             -                                                           52
+ CO2 Emissions (g/km)                                                                           -                                                             -                                                           0
+ Maximum Potential EV Driving Range - Miles (Km)                                                -                                                             -                                                       372 (600) *
+ Electric Driving Efficiency (kWh per 100Km)                                                    -                                                             -                                                         20.6*
+
+
+
+
+						
+*Maximum range according to WLTP combined cycle. Actual range will vary depending on factors including road conditions, outdoor temperature, driving style, use of climate control and battery condition.
+IONIQ 9
+Specifications
+                                                                     PREMIUM         ULTIMATE      CALLIGRAPHY     CALLIGRAPHY          CALLIGRAPHY               CALLIGRAPHY
+                                                                   7 SEAT (MY27)   7 SEAT (MY26)   7 SEAT (MY27)   6 SEAT (MY27)   7 SEAT BLACK INK (MY27)   6 SEAT BLACK INK (MY27)
+
+POWERTRAIN
+110kWh Battery | 160kW/218PS Motor | RWD                                ●                -               -               -                    -                         -
+110kWh Battery | 226kW/307PS Motor | AWD                                 -              ●               ●                -                    -                         -
+110kWh Battery | 314kW/427PS Motor | AWD                                 -               -              ●               ●                    ●                         ●
+EXTERIOR
+19" Alloy Wheels                                                        ●                -               -               -                    -                         -
+20" Alloy Wheels                                                         -              ●                -               -                    -                         -
+21" Alloy Wheels                                                         -               -              ●               ●                     -                         -
+21" Alloy Wheels - Calligraphy Black Ink                                 -               -               -               -                   ●                         ●
+Door Mirrors - Body Coloured                                            ●               ●               ●               ●                    ●                         ●
+Exterior Door Handles - Body Coloured (Automatic Flush Type)            ●               ●               ●               ●                    ●                         ●
+Front Hyundai emblem - Black                                             -               -               -               -                   ●                         ●
+Front Hyundai emblem - Silver                                           ●               ●               ●               ●                     -                         -
+Front Skid Plate - Black                                                 -               -               -               -                   ●                         ●
+Front Skid Plate - Silver                                               ●               ●               ●               ●                     -                         -
+Rear Skid Plate - Black                                                  -               -              ●               ●                    ●                         ●
+Rear Skid Plate - Silver                                                ●               ●                -               -                    -                         -
+Roof Rails                                                              ●               ●               ●               ●                    ●                         ●
+Tailgate Panel - Gloss Black                                             -               -               -               -                   ●                         ●
+Wheel Arch - Black                                                      ●               ●                -               -                    -                         -
+Wheel Arch - Body Coloured                                               -               -              ●               ●                    ●                         ●
+Wheel Arch Inserts - Body Coloured                                       -              ●               ●               ●                    ●                         ●
+INTERIOR STYLING
+Dashboard Insert - Aluminium                                             -               -              ●               ●                     -                         -
+Dashboard Insert - Black Aluminium                                       -               -               -               -                   ●                         ●
+Metal Pedals                                                             -              ●               ●               ●                    ●                         ●
+Interior Door Handles - Metal Paint Effect                              ●               ●               ●               ●                    ●                         ●
+Steering Wheel - 4 Spoke Leather (Black)                                ●               ●                -               -                   ●                         ●
+Steering Wheel - 4 Spoke Leather (Two Tone)                              -               -              ●               ●                     -                         -
+SEATING					
+Adjustable Head Restraints                                              ●               ●               ●               ●                    ●                         ●
+Driver's Seat Electric Adjustments (8 way)                              ●               ●               ●               ●                    ●                         ●
+Driver's Seat Electric Lumbar Support (2 way)                           ●                -               -               -                    -                         -
+Driver's Seat Electric Lumbar Support (4 way)                            -              ●               ●               ●                    ●                         ●
+Driver's Integrated Memory Seat with Outside Mirror and Steering
+Wheel
+                                                                         -              ●               ●               ●                    ●                         ●
+IONIQ 9
+Specifications
+                                                                          PREMIUM         ULTIMATE      CALLIGRAPHY     CALLIGRAPHY          CALLIGRAPHY               CALLIGRAPHY
+                                                                        7 SEAT (MY27)   7 SEAT (MY26)   7 SEAT (MY27)   6 SEAT (MY27)   7 SEAT BLACK INK (MY27)   6 SEAT BLACK INK (MY27)
+
+SEATING – continued
+Driver's Seat Ergo Motion Function: Seat Cushion, Seat Back & Bolster
+Control
+                                                                              -              ●               ●               ●                    ●                         ●
+
+Front Passenger's Seat Electric Adjustments (8 way)                          ●               ●               ●               ●                    ●                         ●
+Front Passenger's Seat Electric Lumbar Support (2 way)                       ●                -               -               -                    -                         -
+Front Passenger's Seat Electric Lumbar Support (4 way)                        -              ●               ●               ●                    ●                         ●
+Front Seats - Heated                                                         ●               ●               ●               ●                    ●                         ●
+Front Seats - Ventilated                                                      -              ●               ●               ●                    ●                         ●
+Front Seats - Relaxation Type with one Touch Relaxation Mode                  -              ●               ●               ●                    ●                         ●
+Rear Occupant Alert                                                          ●               ●               ●               ●                    ●                         ●
+Rear Seat 2nd row Centre Armrest with Cupholders                             ●               ●               ●                -                   ●                          -
+Rear Seats 2nd row - Heated                                                  ●               ●               ●               ●                    ●                         ●
+Rear Seats 3rd row - Heated                                                   -               -              ●               ●                    ●                         ●
+Rear Seats 2nd row - Ventilated                                               -               -              ●               ●                    ●                         ●
+Rear Seats 2nd row - Split Folding (60/40)                                   ●               ●               ●                -                   ●                          -
+Rear Seats 3rd row - Split Folding (50/50)                                    -               -               -              ●                     -                        ●
+Rear Seats 2nd row - Push Button Remote Down Folding Function
+(Passenger side)
+                                                                             ●               ●               ●               ●                    ●                         ●
+
+Rear Seats 2nd row - Push Button Tilting walk-in Function (Driver
+Side)
+                                                                             ●               ●               ●               ●                    ●                         ●
+
+Rear Seats 2nd row - Remote Down folding Function                             -              ●               ●               ●                    ●                         ●
+Rear Seats 2nd row - Swivelling Independent Seats (Manual Folding,
+Sliding & Reclining)
+                                                                              -               -               -              ●                     -                        ●
+
+Rear Seats 3rd row - 50:50 Power Folding (up & down) & Reclining              -              ●               ●               ●                    ●                         ●
+Seat Trim - Wool & Leather Upholstery                                        ●                -              ●               ●                     -                         -
+Seat Trim - Leather Upholstery                                                -              ●                -               -                    -                         -
+Seat Trim - Nappa Leather Upholstery                                          -               -              ●               ●                    ●                         ●
+VENTILATION & VISIBILITY
+Air Conditioning - Climate Control Three Zone                                ●               ●               ●               ●                    ●                         ●
+Ambient Lighting - Interior                                                   -              ●               ●               ●                    ●                         ●
+Automatic Dimming Rear View Mirror                                           ●               ●               ●               ●                    ●                         ●
+Automatic Headlights with Dusk Sensor                                        ●               ●               ●               ●                    ●                         ●
+Automatic Windscreen Wipers with Rain Sensor                                 ●               ●               ●               ●                    ●                         ●
+Daytime Running Lights - LED                                                 ●               ●               ●               ●                    ●                         ●
+Dynamic Welcome Light                                                        ●               ●               ●               ●                    ●                         ●
+Headlights - Small Cube Projection LED                                       ●                -               -               -                    -                         -
+IONIQ 9
+Specifications
+                                                                       PREMIUM         ULTIMATE      CALLIGRAPHY     CALLIGRAPHY          CALLIGRAPHY               CALLIGRAPHY
+                                                                     7 SEAT (MY27)   7 SEAT (MY26)   7 SEAT (MY27)   6 SEAT (MY27)   7 SEAT BLACK INK (MY27)   6 SEAT BLACK INK (MY27)
+
+VENTILATION & VISIBILITY - continued
+Headlights - Small Cube Projection LED with IFS (Intelligent Front
+Lighting System)
+                                                                           -              ●               ●               ●                    ●                         ●
+
+Rear Wiper - Hidden                                                       ●               ●               ●               ●                    ●                         ●
+Interior Light - Front LED                                                ●               ●               ●               ●                    ●                         ●
+Interior Light - Centre LED                                               ●               ●               ●               ●                    ●                         ●
+Interior Light - Rear LED                                                  -              ●               ●               ●                    ●                         ●
+Interior Light - Luggage Compartment LED                                  ●               ●               ●               ●                    ●                         ●
+Panoramic Sunroof - Electric Glass Type                                    -              ●               ●               ●                    ●                         ●
+Privacy Glass - Rear Windows and Tailgate                                 ●               ●               ●               ●                    ●                         ●
+Rear Lights - LED                                                         ●               ●               ●               ●                    ●                         ●
+Solar Glass - Front Door Glass and Windscreen                             ●               ●               ●               ●                    ●                         ●
+Windscreen Auto Defog Function                                            ●               ●               ●               ●                    ●                         ●
+CONVENIENCE
+12V Power Outlet - Front                                                  ●               ●               ●               ●                    ●                         ●
+12V Power Outlet - Boot                                                   ●               ●               ●               ●                    ●                         ●
+Centre Console with 2 Way Storage (Front and Rear Access)                 ●               ●               ●                -                   ●                          -
+Charging cable - 7 Pin Type 2 (Wallbox)                                   ●               ●               ●               ●                    ●                         ●
+Cruise Control - Smart Cruise Control (SCC) with Stop and Go
+Function
+                                                                          ●               ●               ●               ●                    ●                         ●
+
+Door Mirrors - Electric Adjustment and Heated with Power Folding
+and Reverse Tilt Function
+                                                                          ●               ●               ●               ●                    ●                         ●
+
+Electric Windows - Front & Rear with Anti-Trap Mechanism and One
+Touch Control
+                                                                          ●               ●               ●               ●                    ●                         ●
+
+Floor Mats                                                                ●               ●               ●               ●                    ●                         ●
+Front Seat - Back Pockets                                                 ●               ●               ●               ●                    ●                         ●
+Frunk - Under Bonnet Storage with Electric Bonnet Latch Release
+Mechanism
+                                                                          ●               ●               ●               ●                    ●                         ●
+
+Head up Display (HUD)                                                      -              ●               ●               ●                    ●                         ●
+Heated Steering Wheel                                                     ●               ●               ●               ●                    ●                         ●
+Heat Pump                                                                 ●               ●               ●               ●                    ●                         ●
+Luggage Net                                                               ●               ●               ●               ●                    ●                         ●
+Luggage Tonneau Cover                                                     ●               ●               ●               ●                    ●                         ●
+Parking Brake - Electric                                                  ●               ●               ●               ●                    ●                         ●
+Parking Sensors - Front, Rear                                             ●                -               -               -                    -                         -
+Parking Sensors - Front, Rear & Side                                       -              ●               ●               ●                    ●                         ●
+Parking System - Rear Camera with Washer and Guidance System              ●               ●               ●               ●                    ●                         ●
+Rear Door Window Blind (Manual)                                            -              ●               ●               ●                    ●                         ●
+IONIQ 9
+Specifications
+                                                                         PREMIUM         ULTIMATE      CALLIGRAPHY     CALLIGRAPHY          CALLIGRAPHY             CALLIGRAPHY
+                                                                       7 SEAT (MY27)   7 SEAT (MY26)   7 SEAT (MY27)   6 SEAT (MY27)   7 SEAT BLACK INK (MY27) 6 SEAT BLACK INK (MY27)
+
+CONVENIENCE - continued
+Remote Smart Park Assist (RSPA 2.0)                                          -              ●               ●               ●                    ●                        ●
+Shift by Wire (SBW) - Column Mounted Shifter                                ●               ●               ●               ●                    ●                        ●
+Smart Key - Keyless Entry with Start/Stop Button                            ●               ●               ●               ●                    ●                        ●
+Steering Column - Height and Reach Adjustable                               ●                -               -               -                   -                        -
+Steering Column - Electric Height and Reach Adjustable                       -              ●               ●               ●                    ●                        ●
+Sliding Centre Console with 2 Way Storage (Front and Rear Access)            -               -               -              ●                    -                        ●
+Sun Visors - with Driver and Passenger Illuminated Vanity Mirrors           ●               ●               ●               ●                    ●                        ●
+Temporary Mobility Kit                                                      ●               ●               ●               ●                    ●                        ●
+Tailgate - Power Operated (Height Adjustable)                               ●               ●               ●               ●                    ●                        ●
+Trailer Wiring Package                                                      ●               ●               ●               ●                    ●                        ●
+Vehicle to Load (V2L) (internal 3 pin plug)                                 ●               ●               ●               ●                    ●                        ●
+TECHNOLOGY & ENTERTAINMENT
+Active Road Noise Cancelling                                                 -              ●               ●               ●                    ●                        ●
+Bluetooth® Connectivity with AI Enhanced Voice Recognition                  ●               ●               ●               ●                    ●                        ●
+BOSE Premium Sound System with 14 Speakers and Subwoofer                     -              ●               ●               ●                    ●                        ●
+Digital Centre Mirror (DCM)                                                  -              ●               ●               ●                    ●                        ●
+Digital Key 2.0 (compatible Smartphone required)‡                            -              ●               ●               ●                    ●                        ●
+Driver's Supervision Instrument Cluster with 12.3" Panoramic Display        ●               ●               ●               ●                    ●                        ●
+Feature on Demand - Enabled                                                 ●               ●               ●               ●                    ●                        ●
+Navigation Infotainment - 12.3" Touchscreen Panoramic Display with
+Bluelink, LIVE services and MapCare**
+                                                                            ●               ●               ●               ●                    ●                        ●
+
+Radio - Digital DAB                                                         ●               ●               ●               ●                    ●                        ●
+Smartphone Integration - Wireless Apple CarPlay™ and Android Auto™          ●               ●               ●               ●                    ●                        ●
+Steering Wheel Audio, Phone and Cruise Controls                             ●               ●               ●               ●                    ●                        ●
+USB-C - Front x3 (includes 2 x 100W ports)                                  ●               ●               ●               ●                    ●                        ●
+USB-C - Rear x2 (second row) 100W                                           ●               ●               ●               ●                    ●                        ●
+USB-C - Rear x2 (third row) 100W                                            ●               ●               ●               ●                    ●                        ●
+UVC Tray                                                                     -               -              ●               ●                    ●                        ●
+Wireless Phone Charging Pad                                                 ●               ●               ●               ●                    ●                        ●
+SAFETY & SECURITY				
+Airbags - Front, Front Side, Curtain, Centre Front & Knee Airbags           ●               ●               ●               ●                    ●                        ●
+Alarm (Thatcham Category 1) and Immobiliser                                 ●               ●               ●               ●                    ●                        ●
+Anti-lock Brake System (ABS)                                                ●               ●               ●               ●                    ●                        ●
+Blind Spot Collision Avoidance Assist (BCA)                                 ●               ●               ●               ●                    ●                        ●
+Blind Spot View Monitor (BVM)                                                -              ●               ●               ●                    ●                        ●
+IONIQ 9
+Specifications
+                                                                                              PREMIUM                              ULTIMATE                          CALLIGRAPHY                          CALLIGRAPHY                       CALLIGRAPHY             CALLIGRAPHY
+                                                                                            7 SEAT (MY27)                        7 SEAT (MY26)                       7 SEAT (MY27)                        6 SEAT (MY27)                7 SEAT BLACK INK (MY27) 6 SEAT BLACK INK (MY27)
+
+SAFETY & SECURITY - continued		
+Downhill Brake Control (DBC)                                                                         ●                                   ●                                    ●                                   ●                                    ●                                   ●
+Driver Distraction Warning (DDW)                                                                     ●                                   ●                                    ●                                   ●                                    ●                                   ●
+eCall                                                                                                ●                                   ●                                    ●                                   ●                                    ●                                   ●
+Electronic Stability Control (ESC)                                                                   ●                                   ●                                    ●                                   ●                                    ●                                   ●
+Forward Collision Avoidance Assist (FCA 2.0)                                                         ●                                   ●                                    ●                                   ●                                    ●                                   ●
+Highway Drive Assist (HDA 2.0)                                                                       ●                                   ●                                    ●                                   ●                                    ●                                   ●
+Hill-start Assist Control (HAC)                                                                      ●                                   ●                                    ●                                   ●                                    ●                                   ●
+Intelligent Speed Limit Assist (ISLA)                                                                ●                                   ●                                    ●                                   ●                                    ●                                   ●
+Lane Keep Assist (LKA)                                                                               ●                                   ●                                    ●                                   ●                                    ●                                   ●
+Lane Follow Assist (LFA)                                                                             ●                                   ●                                    ●                                   ●                                    ●                                   ●
+Leading Vehicle Departure Alert (LVDA)                                                               ●                                   ●                                    ●                                   ●                                    ●                                   ●
+Multi Collision Brake Assist (MCA)                                                                   ●                                   ●                                    ●                                   ●                                    ●                                   ●
+Rear Cross Traffic Collision Avoidance Assist (RCCA)                                                 -                                   ●                                    ●                                   ●                                    ●                                   ●
+Parking Collision Avoidance Assist - Reverse (PCA-R)                                                 -                                   ●                                    ●                                   ●                                    ●                                   ●
+Surround View Monitor (SVM)                                                                          -                                   ●                                    ●                                   ●                                    ●                                   ●
+Trailer Stability Assist (TSA)                                                                       ●                                   ●                                    ●                                   ●                                    ●                                   ●
+Tyre Pressure Monitoring System (TPMS)                                                               ●                                   ●                                    ●                                   ●                                    ●                                   ●
+CUSTOMER OPTIONS
+Metallic / Pearl Paint                                                                               ●                                   ●                                    ●                                   ●                                    ●                                   ●
+Matt Paint                                                                                           -                                   ●                                    ●                                   ●                                    -                                    -
+DSM (Digital Side Mirrors)                                                                           -                                   -                                    ●                                   ●                                    ●                                   ●
+WARRANTY
+12 Years Anti-Perforation Warranty                                                                   ●                                   ●                                    ●                                   ●                                    ●                                   ●
+Eight Year 100,000 High Voltage Battery Warranty                                                     ●                                   ●                                    ●                                   ●                                    ●                                   ●
+Five Year Annual Vehicle Health Checks                                                               ●                                   ●                                    ●                                   ●                                    ●                                   ●
+Five Year Unlimited Mileage Warranty                                                                 ●                                   ●                                    ●                                   ●                                    ●                                   ●
+Hyundai Roadside Assistance                                                                          ●                                   ●                                    ●                                   ●                                    ●                                   ●
+SUBCRIPTIONS
+Bluelink Connected Car Services: 10 Years Bluelink Lite, 3 Years
+Bluelink Plus, 6 months Bluelink Pro*
+                                                                                                     ●                                   ●                                    ●                                   ●                                    ●                                   ●
+
+
+                          *After the free 10-year Bluelink® LITE subscription period ends, access to Bluelink features will expire unless a paid subscription plan is selected. Users may choose to upgrade to a higher-tier subscription at any time before the expiration of the LITE free plan.
+ KEY
+                          ** Requires compatible smartphone, myHyundai app installation and an active bluelink subscription with an eligible subscription plan.
+  ● Standard
+                          ‡ The Hyundai Digital Key 2 feature requires a compatible mobile device, myHyundai app installation and an active Bluelink subscription with an eligible subscription plan. Features, app and specifications are subject to change. Smartphone and screen on this page are
+  ● Optional              shown for illustration purposes only. For more details, see the Owner’s Manual and the Bluelink terms of use. Here are links to find more information on your phone’s compatibility: Apple Google Samsung Convenience aid only. Not intended as a permanent key replace-
+  - Not Available         ment.
+IONIQ 9
+Pricing - Effective from 1st October 2026.
+                                                                           VED FIRST                                          RECOMMENDED                                             MONTHLY BIK
+                                FUEL          CO2 EMISSIONS INSURANCE                   BASIC                     RETAIL                       P11D                   MONTHLY BIK
+         TRIM                                                                YEAR                     VAT                      ON THE ROAD                BIK BAND                     PAYABLE AT
+                                TYPE              G/KM*     GROUP (1-50)                RETAIL                    PRICE                       VALUE                  PAYABLE AT 20%
+                                                                             COST                                                 PRICE                                                   40%
+
+  Premium 218PS RWD
+                           Battery Electric         0            42E          £10      £53,504.17   £10,700.83   £64,205.00     £64,995.00   £64,930.00     4%           £43.29          £86.57
+        (MY27)
+
+
+  Ultimate 307PS AWD
+                           Battery Electric         0            47E          £10      £60,941.67   £12,188.33   £73,130.00     £73,920.00   £73,855.00     4%           £49.24          £98.47
+        (MY26)
+
+
+ Calligraphy 307PS AWD
+                           Battery Electric         0            47E          £10      £63,037.50   £12,607.50   £75,645.00     £76,435.00   £76,370.00     4%           £50.91          £101.83
+         (MY27)
+
+
+ Calligraphy 427PS AWD
+                           Battery Electric         0            48E          £10      £64,537.50   £12,907.50   £77,445.00     £78,235.00   £78,170.00     4%           £52.11         £104.23
+         (MY27)
+
+ Calligraphy 427PS AWD
+          6 Seat           Battery Electric         0            48E          £10      £65,370.83   £13,074.17   £78,445.00     £79,235.00   £79,170.00     4%           £52.78         £105.56
+         (MY27)
+
+      CALLIGRAPHY
+                           Battery Electric         0           TBC           £10      £65,870.83   £13,174.17   £79,045.00     £79,835.00   £79,770.00     4%           £53.18         £106.36
+ 7 SEAT BLACK INK (MY27)
+
+
+      CALLIGRAPHY
+                           Battery Electric         0           TBC           £10      £66,704.17   £13,340.83   £80,045.00     £80,835.00   £80,770.00     4%           £53.85         £107.69
+ 6 SEAT BLACK INK (MY27)
+IONIQ 9
+Pricing
+
+  OPTIONAL EXTRAS                                                                                                                                                                                          BASIC RETAIL PRICE                       VAT                   RETAIL PRICE
+
+  Metallic / Pearl Paint
+                                                                                                                                                                                                                   £662.50                        £132.50                      £795.00
+  Standard on Calligraphy Black Ink
+
+
+  Matt Paint
+                                                                                                                                                                                                                   £1,079.17                      £215.83                     £1,295.00
+  Not available on Calligraphy Black Ink
+
+
+  Digital Side Mirrors (DSM)
+                                                                                                                                                                                                                    £833.33                       £166.67                    £1,000.00
+  Available on Calligraphy and Calligraphy Black Ink
+
+
+
+
+Features and options may vary between model trims. Please check model availability and full specification details with your local Hyundai retailer. The information on this document is relevant for new factory orders only and is accurate at time of publication. While we do our best to ensure
+that the information provided is accurate and up to date, we make no guarantee. In particular, while every effort is made to ensure that the price, specifications and equipment shown are correct at the time of publication, our products are being updated regularly and therefore the published
+specification is subject to change.
+

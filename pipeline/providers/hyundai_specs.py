@@ -13,8 +13,12 @@ as that pack's, not as standard; a '-' is not fitted as standard.
 Fetch reads the downloads page, follows the guide link and keeps the PDF as
 the artifact; parse turns it into layout text (pdftotext, else pypdf) and
 emits one 'spec' row per trim (the latest model year of each), like the Kia
-provider: features (●), absent (-), qualified items, batteries, packs. The
-claim store (services/claims.py) reads them as the maker's claims.
+provider: features (●), absent (-), qualified items, batteries, packs, options
+with their prices. Each row also carries its powertrains: every pricing-table
+row for the trim (on-the-road price and the other cells as printed) with the
+Technical pages' numbers and text for that powertrain and trim; the numbers
+every powertrain shares, and the battery warranty, are the row's `numbers`.
+The claim store (services/claims.py) reads the rows as the maker's claims.
 """
 from __future__ import annotations
 
@@ -284,55 +288,461 @@ def _trim_only(s: str) -> bool:
     return bool(s) and not MONEY_RE.search(s) and not re.search(r"\d", s) and not PRICING_HEADER_RE.search(s) and not PRICING_NOISE_RE.search(s)
 
 
-def parse_pricing(txt: str) -> dict[str, dict]:
-    """trim words → {batteries: [kWh], prices: {kWh: on-the-road £}} from the pricing table.
+INSURANCE_RE = re.compile(r"^(?:\d{1,2}[A-Z]|TBC)$")
+PS_RE = re.compile(r"(\d+)\s*PS\b", re.I)
+DRIVE_RE = re.compile(r"\b(AWD|RWD|FWD)\b", re.I)
+SEATS_RE = re.compile(r"(\d)\s*SEATS?\b", re.I)
 
-    A row is a trim line ('01 42kWh', 'Advance 63 kWh 170PS') and, within a few lines, the money
-    line; pdftotext wraps 'Battery / Electric' and 'RWD' around them, so the head is gathered
-    from the lines near the money and cut back to the words before the first kWh / PS token.
-    Where the trim is printed once beside several powertrain rows ('Premium' between
-    '77.4 KWh 228PS RWD' and '77.4 KWh 325PS AWD') the nearest such line names the row."""
-    out: dict[str, dict] = {}
-    lines = [l.strip() for l in txt.split("\n")]
-    on = False
-    pending: list[str] = []
-    for i, s in enumerate(lines):
+
+def _is_price_line(s: str) -> bool:
+    amounts = [a for a in (money(m) for m in MONEY_RE.findall(s)) if a]
+    return len(MONEY_RE.findall(s)) >= 3 and bool(amounts) and max(amounts) >= 5000
+
+
+def _int(x: float | None) -> float | int | None:
+    return int(x) if x is not None and float(x).is_integer() else x
+
+
+def _price_cells(s: str) -> tuple[str, dict]:
+    """A price line's own label words, and its cells: CO2 g/km, insurance group, VED band and first-year cost,
+    basic retail, VAT, retail, recommended on the road, P11D, BIK band, monthly BIK at 20% and 40%, as printed.
+    The guides print five or six £ cells before the BIK band (the VED cost is the sixth) and the monthly BIK with or without £."""
+    tokens = s.split()
+    first = next((i for i, t in enumerate(tokens) if MONEY_RE.fullmatch(t)), len(tokens))
+    pre = tokens[:first]
+    cells: dict = {}
+    if len(pre) >= 2 and re.fullmatch(r"[A-M]", pre[-1]) and INSURANCE_RE.match(pre[-2]):
+        cells["ved_band"] = pre.pop()
+    if pre and INSURANCE_RE.match(pre[-1]):
+        ins = pre.pop()
+        cells["insurance_group"] = None if ins == "TBC" else ins
+    if pre and re.fullmatch(r"\d+", pre[-1]):
+        cells["co2_g_km"] = int(pre.pop())
+    rest = tokens[first:]
+    at = next((i for i, t in enumerate(rest) if re.fullmatch(r"\d+(?:\.\d+)?%", t)), len(rest))
+    amounts = [money(t) for t in rest[:at] if MONEY_RE.fullmatch(t)]
+    if len(amounts) >= 5:
+        if len(amounts) >= 6:
+            cells["ved_first_year_gbp"] = _int(amounts[-6])
+        for k, v in zip(("basic_retail_gbp", "vat_gbp", "retail_price_gbp", "otr_price_gbp", "p11d_gbp"), amounts[-5:]):
+            cells[k] = _int(v)
+    elif amounts:
+        cells["otr_price_gbp"] = _int(max(a for a in amounts if a is not None))
+    if at < len(rest):
+        cells["bik_pct"] = _int(float(rest[at].rstrip("%")))
+        after = [float(t.replace("£", "").replace(",", "")) for t in rest[at + 1:] if re.fullmatch(r"£?[\d,]+(?:\.\d+)?", t)]
+        for k, v in zip(("bik_monthly_20pct_gbp", "bik_monthly_40pct_gbp"), after):
+            cells[k] = v
+    return " ".join(pre), cells
+
+
+def _price_trim(head: str) -> str:
+    t = re.sub(r"\(MY\d\d\)|\bMY\d\d\b|single speed reduction|battery electric|battery|electric|\bBEV\b|\d\s*seats?\b", " ", head, flags=re.I)
+    cut = re.search(r"\d+(?:\.\d+)?\s*kwh|\d+\s*ps\b|\d+\s*kw\b", t, re.I)
+    t = t[: cut.start()] if cut else t
+    t = re.sub(r"\brwd\b|\bawd\b|\bfwd\b|\(.*?\)|(?<![\w£.,])0(?![\w.,])", " ", t, flags=re.I)
+    return re.sub(r"\s+", " ", t).strip()
+
+
+def parse_price_rows(txt: str) -> list[dict]:
+    """Every row of the pricing table: {trim, label, model_year, battery_kwh, power_ps, drive, seats, cells}.
+
+    A row is its price line and the lines pdftotext wraps around it ('Advance 63 kWh 170PS' above,
+    'RWD' below; 'CALLIGRAPHY' above, '7 SEAT BLACK INK (MY27)' below), up to the blank lines that
+    part one row from the next. Where rows are printed with no blank between them, a line between two
+    price lines goes with the lower one. A table titled 'MY26' gives its rows that model year. Where
+    the trim is printed once beside several powertrain rows ('Premium' between '77.4 KWh 228PS RWD'
+    and '77.4 KWh 325PS AWD') the nearest such line names the row."""
+    out: list[dict] = []
+    on, table_my, run = False, None, []
+    title = next((l.strip() for l in txt.split("\n") if l.strip()), "")   # 'IONIQ 5', printed atop every page
+
+    def flush() -> None:
+        at = [k for k, s in enumerate(run) if _is_price_line(s)]
+        for n, k in enumerate(at):
+            above = run[(at[n - 1] + 1 if n else 0): k]
+            below = run[k + 1:] if n + 1 == len(at) else []
+            hdr = [j for j, s in enumerate(above) if PRICING_HEADER_RE.search(s)]
+            above = above[hdr[-1] + 1:] if hdr else above
+            below = below[: next((j for j, s in enumerate(below) if PRICING_HEADER_RE.search(s)), len(below))]
+            own, cells = _price_cells(run[k])
+            head = text(" ".join([*above, own, *below]))
+            trim = _price_trim(head)
+            if not trim:
+                near = [(abs(j - k), j) for j in range(len(run)) if j != k and _trim_only(run[j])]
+                trim = run[min(near)[1]] if near else ""
+            if not trim or re.search(r"^trim$|fuel type", trim, re.I):
+                continue
+            my, kwh, ps, drive, seats = MY_RE.search(head), KWH_RE.search(head), PS_RE.search(head), DRIVE_RE.search(head), SEATS_RE.search(head)
+            label = re.sub(r"\s+", " ", re.sub(r"battery electric|\bbattery\b|\belectric\b|\bBEV\b|single speed reduction", " ", head, flags=re.I)).strip()
+            out.append({"trim": trim, "label": label, "model_year": 2000 + int(my.group(1)) if my else table_my,
+                        "battery_kwh": float(kwh.group(1)) if kwh else None, "power_ps": int(ps.group(1)) if ps else None,
+                        "drive": drive.group(1).upper() if drive else None, "seats": int(seats.group(1)) if seats else None, "cells": cells})
+        run.clear()
+
+    for s in (l.strip() for l in txt.split("\n")):
         if re.match(r"^Pricing\b", s):
+            flush()
             on = True
-            pending = []
             continue
         if not on:
             continue
         if s.startswith("OPTIONAL EXTRAS") or s.startswith("Features and options may vary"):
+            flush()
             on = False
             continue
-        amounts = [money(m) for m in MONEY_RE.findall(s)]
-        if len(amounts) >= 3 and max(a for a in amounts if a) >= 5000:
-            head = text(" ".join(pending + [re.split(r"\s{2,}", s)[0]]))
-            head = re.sub(r"\(MY\d\d\)|\bMY\d\d\b|battery electric|battery|electric|\bBEV\b", " ", head, flags=re.I)
-            kwh = KWH_RE.search(head)
-            cut = re.search(r"\d+(?:\.\d+)?\s*kwh|\d+\s*ps\b|\d+\s*kw\b", head, re.I)
-            trim = head[: cut.start()] if cut else head
-            trim = re.sub(r"\brwd\b|\bawd\b|\bfwd\b|\(.*?\)|(?<![\w£.,])0(?![\w.,])|\d\s*seats?", " ", trim, flags=re.I)
-            trim = re.sub(r"\s+", " ", trim).strip()
-            if not trim:
-                near = [(abs(j - i), j) for j in range(max(0, i - 4), min(len(lines), i + 5)) if j != i and _trim_only(lines[j])]
-                trim = lines[min(near)[1]] if near else ""
-            if trim and not re.search(r"^trim$|fuel type", trim, re.I):
-                trim = next((k for k in out if _same(k, trim)), trim)
-                row = out.setdefault(trim, {"batteries": [], "prices": {}})
-                if kwh:
-                    k = float(kwh.group(1))
-                    if k not in row["batteries"]:
-                        row["batteries"].append(k)
-                    row["prices"][str(k)] = max(a for a in amounts if a)
-            pending = []
-        elif s and PRICING_NOISE_RE.search(s):
+        m = re.fullmatch(r"MY\s?(\d\d)", s)
+        if m or not s or s == title:
+            flush()
+            table_my = 2000 + int(m.group(1)) if m else table_my
             continue
-        elif s and not PRICING_HEADER_RE.search(s):
-            pending.append(s)
-        elif s:
-            pending = []
+        run.append(s)
+    flush()
+    return out
+
+
+def parse_pricing(txt: str) -> dict[str, dict]:
+    """trim words → {batteries: [kWh], prices: {'kWh|PS|seats|model year': on-the-road £}, rows: [price rows]}
+    from the pricing table (parse_price_rows). A trim printed twice ('CROSS', 'Cross') is one trim."""
+    out: dict[str, dict] = {}
+    for r in parse_price_rows(txt):
+        trim = next((k for k in out if _same(k, r["trim"])), r["trim"])
+        row = out.setdefault(trim, {"batteries": [], "prices": {}, "rows": []})
+        row["rows"].append(r)
+        if r["battery_kwh"] is not None and r["battery_kwh"] not in row["batteries"]:
+            row["batteries"].append(r["battery_kwh"])
+        if r["cells"].get("otr_price_gbp") is not None:
+            row["prices"][_pt_key(r)] = r["cells"]["otr_price_gbp"]
+    return out
+
+
+def _pt_key(r: dict) -> str:
+    return "|".join("" if r.get(k) is None else f"{r[k]:g}" for k in ("battery_kwh", "power_ps", "seats", "model_year"))
+
+
+# ---------------------------------------------------------------- the technical pages
+
+WORD_NUMBERS = {w: i for i, w in enumerate(("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+                                            "eleven", "twelve"))}
+NUM_RE = re.compile(r"\d[\d,]*(?:\.\d+)?")
+
+
+def _nums(s: str) -> list[float]:
+    return [float(n.replace(",", "")) for n in NUM_RE.findall(s or "")]
+
+
+def _first(s: str) -> float | int | None:
+    n = _nums(s)
+    return _int(n[0]) if n else None
+
+
+def _minutes(s: str) -> int | None:
+    """'0 hr 18 min', '1hr 43min', '30 min @ 73kW max', '18 mins', '24 minutes @ 233kW max)' → minutes."""
+    s = re.sub(r"@.*", "", s or "")
+    h = re.search(r"(\d+)\s*h(?:r|rs|ours?)?\b", s, re.I)
+    m = re.search(r"(\d+)\s*min", s, re.I)
+    if not h and not m:
+        return None
+    return (int(h.group(1)) * 60 if h else 0) + (int(m.group(1)) if m else 0)
+
+
+def _bounds(s: str) -> tuple[float | int | None, float | int | None]:
+    """'1880 - 1960' and '425-337' → (low, high); '520' → (520, 520)."""
+    n = _nums(s)
+    return (_int(min(n[:2])), _int(max(n[:2]))) if n else (None, None)
+
+
+def _power(label: str, value: str) -> dict:
+    """'170 / 125' under '(PS/kW)', '160/218 (kW/PS)', '168 (228)' under 'kW (PS)' → power_kw, power_ps."""
+    n = _nums(value)
+    if len(n) < 2:
+        return {}
+    order = re.search(r"\((PS|kW)\s*/\s*(PS|kW)\)", value, re.I) or re.search(r"\((PS|kW)\s*/\s*(PS|kW)\)", label, re.I)
+    kw_first = order.group(1).lower() == "kw" if order else bool(re.match(r"^kW\s*\(PS\)", label, re.I))
+    kw, ps = (n[0], n[1]) if kw_first else (n[1], n[0])
+    return {"power_kw": _int(kw), "power_ps": _int(ps)}
+
+
+def _technical_numbers(label: str, value: str, section: str, section_pct: str | None) -> dict:
+    """One Technical row in the names the other spec providers use (kia_specs, evdb_cars; claims.NUMBERS where it has one)."""
+    lb = label
+    if re.search(r"Motor Max Power|^kW\s*\(PS\)", lb, re.I):
+        return _power(lb, value)
+    if re.search(r"Torque", lb, re.I):
+        n = _nums(value)
+        return {"torque_nm": _int(n[0]), "torque_lbft": _int(n[1]) if len(n) > 1 else None} if n else {}
+    if re.match(r"0\s*-\s*62", lb):
+        return {"zero_to_62_s": _first(value)}
+    if re.match(r"Top Speed", lb, re.I):
+        n = _nums(value)
+        return {"top_speed_mph": _int(n[1] if "kph" in lb.lower() and len(n) > 1 else n[0])} if n else {}
+    if re.match(r"Battery (?:Capacity|Size)", lb, re.I):
+        return {"battery_kwh": _first(value)}
+    if re.match(r"Charging Port", lb, re.I):
+        return {"charge_port": value}
+    if re.search(r"Max DC charging", lb, re.I):
+        return {"dc_peak_kw": _first(value)}
+    if re.search(r"On Board Charger", lb, re.I):
+        return {"ac_kw": _first(value)}
+    m = re.search(r"Public\s+(\d+)\s*kW\s+CCS\s*\(10\s*-\s*80%\)", lb, re.I)
+    if m:
+        at = re.search(r"@\s*(\d+)\s*kW", value, re.I)
+        return {f"_dc:{m.group(1)}": (_minutes(value), int(at.group(1)) if at else None)}
+    m = re.search(r"CHARGING\s*-\s*(\d+)\s*KW", section, re.I)
+    if m and re.match(r"Est\w*\s+Time", lb, re.I) and section_pct and re.search(r"10\s*-\s*80", section_pct):
+        return {f"_dc:{m.group(1)}": (_minutes(value), None)}
+    if re.search(r"Turning Circle", lb, re.I):
+        return {"turning_circle_m": _first(value)}
+    if re.search(r"Overall Length", lb, re.I):
+        return {"length_mm": _first(value)}
+    if re.search(r"Width.*(?:Excluding|without)\s+(?:Door\s+|Side\s+)?Mirrors", lb, re.I):
+        return {"width_mm": _first(value)}
+    if re.search(r"Width.*Including\s+(?:Door|Standard Side)\s+Mirrors|with standard O/S", lb, re.I):
+        return {"width_mirrors_mm": _first(value)}
+    if re.match(r"Wheelbase", lb, re.I):
+        n = _first(value)
+        return {"wheelbase_m": n / 1000 if n else None}
+    if re.search(r"Overall Height|^Height\s*\(mm\)", lb, re.I):
+        return {"height_mm": _first(value)}
+    if re.search(r"Kerb Weight", lb, re.I):
+        lo, hi = _bounds(value)
+        return {"kerb_weight_kg": lo, "kerb_weight_max_kg": hi}
+    if re.match(r"Payload", lb, re.I):
+        lo, hi = _bounds(value)
+        return {"payload_kg": lo, "payload_max_kg": hi}
+    if re.search(r"Gross Vehicle Weight", lb, re.I):
+        return {"gvwr_kg": _first(value)}
+    if re.search(r"Unbraked", lb, re.I):
+        return {"tow_unbraked_kg": _first(value)}
+    if re.search(r"Tow.*Braked", lb, re.I):
+        return {"tow_kg": _first(value)}
+    if re.search(r"Gross Train", lb, re.I):
+        return {"gross_train_weight_kg": _first(value)}
+    if re.search(r"Noseweight", lb, re.I):
+        return {"noseweight_kg": _first(value)}
+    if re.search(r"Roof Weight", lb, re.I):
+        return {"roof_load_kg": _first(value)}
+    if re.search(r"Frunk\s*\+\s*Trunk", lb, re.I):
+        n = _nums(value)
+        return {"frunk_l": _int(n[0]), "boot_l": _int(n[1])} if len(n) >= 2 else {}
+    if re.match(r"Frunk", lb, re.I):
+        return {"frunk_l": _first(value)}
+    if re.search(r"Seats Up\s*\(behind 2nd row", lb, re.I):
+        return {"boot_3rd_row_folded_l": _bounds(value)[0]}
+    if re.search(r"Seats Up", lb, re.I):
+        return {"boot_l": _bounds(value)[0], **({"boot_rear_slid_l": _bounds(value)[1]} if len(_nums(value)) > 1 else {})}
+    if re.search(r"Seats Down", lb, re.I):
+        return {"boot_max_l": _first(value)}
+    if re.search(r"(?:Electric|Maximum Potential EV Driving)\s+Range", lb, re.I):
+        n = _nums(value)
+        return {"wltp_range_mi": _int(n[0]), "wltp_range_km": _int(n[1]) if len(n) > 1 else None} if n else {}
+    if re.search(r"Efficiency.*kWh per 100\s*Km", lb, re.I):
+        return {"efficiency_kwh_100km": _first(value)}
+    if re.match(r"Front Tyre", lb, re.I):
+        w = re.search(r"R\s?(\d\d)\b", value)
+        return {"tyre_front": value, **({"wheel_in": int(w.group(1))} if w else {})}
+    if re.match(r"Rear Tyre", lb, re.I):
+        return {"tyre_rear": value}
+    return {}
+
+
+def _strip_model(s: str, model_name: str) -> str:
+    words = [re.escape(w) for w in (model_name or "").split()]
+    for n in range(len(words), 0, -1):
+        s2 = re.sub(r"^\s*" + r"\s+".join(words[:n]) + r"\b\s*", "", s, flags=re.I)
+        if s2 != s:
+            return s2
+    return s
+
+
+def _scope(s: str, trims: list[str], model_name: str) -> tuple[str, int | None] | None:
+    """A trim heading on a Technical page ('ADVANCE', 'INSTER 01', 'CALLIGRAPHY 6 SEAT BLACK INK') → (trim, seats)."""
+    seats = SEATS_RE.search(s)
+    body = re.sub(r"\s+", " ", SEATS_RE.sub(" ", _strip_model(s, model_name))).strip()
+    t = next((t for t in trims if body and _same(t, body)), None)
+    return (t, int(seats.group(1)) if seats else None) if t else None
+
+
+def _column(name: str, trims: list[str], model_name: str) -> dict:
+    """A Technical column's header ('63 kWh 170 PS RWD', 'Advance 65kWh', '160kW (218PS) RWD Long Range', 'Ultimate')."""
+    body = _strip_model(name, model_name)
+    trim = max((t for t in trims if re.sub(r"[^a-z0-9]", "", body.lower()).startswith(re.sub(r"[^a-z0-9]", "", t.lower()))), key=len, default=None)
+    kwh, ps, drive = KWH_RE.search(body), PS_RE.search(body), DRIVE_RE.search(body)
+    return {"name": name, "trim": trim, "battery_kwh": float(kwh.group(1)) if kwh else None,
+            "power_ps": int(ps.group(1)) if ps else None, "drive": drive.group(1).upper() if drive else None}
+
+
+def _split(line: str, cols: list[dict]) -> tuple[str, list[tuple[int, str]]]:
+    """A Technical line → (its label, [(column index, value)]). A chunk is the label when it starts and ends
+    left of the first column; a value chunk goes to the column whose centre is nearest."""
+    first = min(c["start"] for c in cols)
+    label, values = "", []
+    for m in re.finditer(r"\S+(?:[ ]\S+)*", line):
+        if not values and not label and m.start() < first - 2 and m.end() <= first + 1:
+            label = m.group(0)
+            continue
+        mid = (m.start() + m.end()) / 2
+        values.append((min(range(len(cols)), key=lambda i: abs(cols[i]["mid"] - mid)), m.group(0).strip()))
+    return label, values
+
+
+def parse_technical(txt: str, trims: list[str], model_name: str) -> list[dict]:
+    """The Technical pages: [{column: {name, trim, battery_kwh, power_ps, drive}, scope: (trim, seats) | None,
+    section, label, value}], one per printed cell.
+
+    A page's first line names its columns: powertrains ('84 kWh 228 PS RWD'), or a trim and battery each
+    ('Advance 65kWh'). Rows under a trim heading ('ADVANCE', 'INSTER 01', 'CALLIGRAPHY 6 SEAT') speak for
+    that trim only; a '-' there is a powertrain the trim is not sold with. A label pdftotext wraps around
+    its values ('Estimated Charging Emergency 3 Pin' / values / 'Connector (ICCB) 2.3kW (10-100%)') is
+    joined; a value line with no label of its own takes the label lines above it."""
+    lines = txt.split("\n")
+    cells: list[dict] = []
+    i = 0
+    while i < len(lines):
+        if lines[i].strip() != "Technical":
+            i += 1
+            continue
+        j = i + 1
+        while j < len(lines) and not lines[j].strip():
+            j += 1
+        if j >= len(lines):
+            break
+        cols = _columns(lines[j].rstrip())
+        for c in cols:
+            c.update(_column(c["name"], trims, model_name))
+        j += 1
+        rows: list[dict] = []
+        pending: list[str] = []
+        scope, section, section_pct = None, "", None
+        prev_unlabelled = False
+        page = []
+        while j < len(lines):
+            s = lines[j].strip()
+            if s == "Technical" or re.match(r"^(Specifications|Pricing)\b", s):
+                break
+            page.append(lines[j].rstrip())
+            j += 1
+        parsed = []
+        for line in page:
+            s = line.strip()
+            if not s or re.fullmatch(r"(?:\(?MY\d\d\)?\s*)+", s) or len(s.split("  ")[0]) > 100 or not cols:
+                parsed.append(None)
+                continue
+            parsed.append(_split(line, cols))
+        for k, p in enumerate(parsed):
+            if p is None:
+                continue
+            label, values = p
+            if not values:
+                sc = _scope(label, trims, model_name)
+                if sc:
+                    scope, section, pending, prev_unlabelled = sc, "", [], False
+                    continue
+                if re.match(r"^[A-Z][A-Z&]{2,}(?:\s|$)", label):   # 'ELECTRIC MOTOR', 'CHARGING - 350 KW1', 'WEIGHT AND CAPACITY ( Core / N Line)'
+                    section, section_pct, scope, pending, prev_unlabelled = text(label), None, None, [], False
+                    continue
+                nxt = next((q for q in parsed[k + 1:] if q is not None), None)
+                if prev_unlabelled and rows and not (nxt and not nxt[0] and nxt[1]):
+                    rows[-1]["label"] = text(f"{rows[-1]['label']} {label}")
+                else:
+                    pending.append(label)
+                prev_unlabelled = False
+                continue
+            if label or pending:
+                rows.append({"label": text(" ".join(pending + ([label] if label else []))), "values": values,
+                             "scope": scope, "section": section, "section_pct": section_pct})
+                prev_unlabelled = not label
+                pending = []
+                if re.match(r"Percentage", rows[-1]["label"], re.I):
+                    section_pct = values[0][1]
+            else:
+                prev_unlabelled = False
+        for r in rows:
+            for idx, v in r["values"]:
+                cells.append({"column": {k: cols[idx][k] for k in ("name", "trim", "battery_kwh", "power_ps", "drive")}, "scope": r["scope"],
+                              "section": r["section"], "section_pct": r["section_pct"], "label": r["label"], "value": v})
+        i = j
+    return cells
+
+
+def _fits(col: dict, pt: dict, trim: str) -> bool:
+    if col["trim"] and not _same(col["trim"], trim):
+        return False
+    if col["battery_kwh"] and pt.get("battery_kwh") and abs(col["battery_kwh"] - pt["battery_kwh"]) > 0.5:
+        return False
+    if col["power_ps"] and pt.get("power_ps"):
+        return col["power_ps"] == pt["power_ps"]
+    if col["drive"] and pt.get("drive"):
+        return col["drive"] == pt["drive"]
+    return True
+
+
+def technical_for(cells: list[dict], pt: dict, trim: str, seats: int | None) -> tuple[str | None, dict, dict]:
+    """(the column, numbers, facts as printed) the Technical pages give one trim × powertrain (× seats).
+
+    The column is the one whose header fits the powertrain (battery, then power, then drive); where
+    several fit (a pricing row that names no battery or power), the one the trim's own heading fills.
+    Then: the rows for every trim, overlaid by the trim's rows, overlaid by its seat count's rows."""
+    def in_scope(c: dict, exact: bool) -> bool:
+        sc = c["scope"]
+        if sc is None or not _same(sc[0], trim):
+            return False
+        return sc[1] == seats if exact else sc[1] is None or (seats is not None and sc[1] == seats)
+
+    cols = {c["column"]["name"]: c["column"] for c in cells if _fits(c["column"], pt, trim)}
+    if len(cols) > 1:
+        filled = {c["column"]["name"] for c in cells if c["value"] not in ("-", "–") and in_scope(c, False)}
+        cols = {n: c for n, c in cols.items() if n in filled} or cols
+    for k in ("trim", "battery_kwh", "power_ps", "drive"):
+        if len({c[k] for c in cols.values() if c[k]}) > 1:
+            return None, {}, {}   # columns for different powertrains fit and the trim's headings do not pick one
+    names = list(cols)
+    use = set(names)
+    numbers: dict = {}
+    facts: dict = {}
+    dc: dict[int, tuple] = {}
+    for layer in (lambda c: c["scope"] is None, lambda c: in_scope(c, False) and c["scope"][1] is None,
+                  lambda c: seats is not None and in_scope(c, True)):
+        for c in cells:
+            if c["column"]["name"] not in use or not layer(c) or c["value"] in ("-", "–", "TBC", "NA"):
+                continue
+            facts[f"{c['section'].title()} · {c['label']}" if c["section"] else c["label"]] = c["value"]
+            value = c["value"]
+            other = re.search(r"\(([\d,.]+)\s+([A-Za-z][A-Za-z ]*)\)", value)   # '3825 (3845 CROSS)': the named trim's own figure
+            if other:
+                value = other.group(1) if _same(other.group(2), trim) else value[: other.start()]
+            for k, v in _technical_numbers(c["label"], value, c["section"], c["section_pct"]).items():
+                if k.startswith("_dc:"):
+                    dc[int(k[4:])] = v
+                elif v is not None:
+                    numbers[k] = v
+    if dc:
+        fast = max(k for k, v in dc.items() if v[0] is not None) if any(v[0] is not None for v in dc.values()) else None
+        if fast is not None and fast >= 100:
+            numbers["dc_10_80_min"], numbers["dc_10_80_charger_kw"] = dc[fast][0], fast
+            if "dc_peak_kw" not in numbers and dc[fast][1]:
+                numbers["dc_peak_kw"] = dc[fast][1]
+        if dc.get(50) and dc[50][0] is not None:
+            numbers["dc_10_80_50kw_min"] = dc[50][0]
+    return (names[0] if names else None), numbers, facts
+
+
+def warranty_numbers(labels: list[str]) -> dict:
+    """'Eight Year 100,000 High Voltage Battery Warranty', 'High Voltage Battery Warranty - 8 Years, 100,000 Miles',
+    'Five Year Unlimited Mileage Warranty' → warranty_years / warranty_miles (the battery's, as EV Database names
+    them) and vehicle_warranty_years / vehicle_warranty_miles."""
+    out: dict = {}
+    for l in labels:
+        y = re.search(r"\b(\d+|" + "|".join(WORD_NUMBERS) + r")\s+Years?\b", l, re.I)
+        years = (int(y.group(1)) if y.group(1).isdigit() else WORD_NUMBERS[y.group(1).lower()]) if y else None
+        miles = next((int(n) for n in (x.replace(",", "") for x in re.findall(r"\b\d{1,3}(?:,\d{3})+\b|\b\d{5,6}\b", l))), None)
+        if re.search(r"Battery Warranty", l, re.I) and years:
+            out["warranty_years"] = years
+            if miles:
+                out["warranty_miles"] = miles
+        elif re.search(r"Mileage Warranty|Vehicle Warranty|Year.*Warranty", l, re.I) and years and not re.search(r"Perforation|Paint|Health", l, re.I):
+            out["vehicle_warranty_years"] = years
+            out["vehicle_warranty_miles"] = "unlimited" if re.search(r"Unlimited", l, re.I) else miles
     return out
 
 
@@ -396,6 +806,9 @@ def _apply_trims(cur: dict, s: str, trims: list[str]) -> None:
     body = s.split(":", 1)[-1].strip() if ":" in s else s.strip()
     cur["restricted"] = True
     if re.match(r"^Standard on\b", body, re.I):
+        # 'Metallic / Pearl Paint £795, Standard on Calligraphy Black Ink': an extra on every other trim
+        names = [t.strip() for t in re.split(r"\s*(?:,|&|\band\b|/)\s*", re.sub(r"^Standard on\s+|\btrims?\b|\bonly\b|\.$", " ", body, flags=re.I)) if t.strip()]
+        cur["trims"] = [t for t in trims if not any(_same(t, n) for n in names)]
         return
     if re.fullmatch(r"all(\s+trims?)?\.?", body, re.I):
         cur["trims"] = sorted(set(cur["trims"]) | set(trims), key=trims.index) if trims else cur["trims"]
@@ -437,6 +850,38 @@ def _via_pack(label: str, pack_items: list[str], pack_flags: set[str]) -> bool:
     return bool(pack_flags & {k for k, v in flags_for([label]).items() if v == "standard"})
 
 
+def _powertrains(pricing: dict[str, dict], cells: list[dict], trim: str, seats: int | None, my: int | None) -> list[dict]:
+    """The trim's rows of the pricing table (its model year's, where the table prints several; its seat count's),
+    each with the Technical pages' numbers for that powertrain and the price table's cells as printed."""
+    rs = [r for t, v in pricing.items() if _same(t, trim) for r in v["rows"]]
+    if my and any(r["model_year"] == 2000 + my for r in rs):
+        rs = [r for r in rs if r["model_year"] in (2000 + my, None)]
+    if seats:
+        rs = [r for r in rs if r["seats"] == seats] or [r for r in rs if r["seats"] is None]
+    out = []
+    for r in rs:
+        column, numbers, facts = technical_for(cells, r, trim, seats)
+        col = next((c["column"] for c in cells if c["column"]["name"] == column), None) if column else None
+        drive = (col or {}).get("drive") or r["drive"]
+        cells_ = r["cells"]
+        numbers = {**numbers, **({"drive": drive} if drive else {}),
+                   **({"list_price_gbp": cells_["otr_price_gbp"]} if cells_.get("otr_price_gbp") is not None else {}),
+                   **({"insurance_group": cells_["insurance_group"]} if cells_.get("insurance_group") else {})}
+        out.append({"label": r["label"], "battery_kwh": r["battery_kwh"], "power_ps": r["power_ps"] or numbers.get("power_ps"),
+                    "drive": drive, "seats": r["seats"], "model_year": r["model_year"], "otr_price_gbp": cells_.get("otr_price_gbp"),
+                    "price_table": cells_, "technical_column": column, "numbers": numbers, "facts": facts})
+    return out
+
+
+def _common(powertrains: list[dict]) -> dict:
+    """The numbers every powertrain of the trim agrees on. Not the battery: the trim's batteries are the price
+    table's (65 kWh), which the claim store keys on; the Technical page's 65.4 kWh stays with the powertrain."""
+    if not powertrains:
+        return {}
+    first = powertrains[0]["numbers"]
+    return {k: v for k, v in first.items() if k != "battery_kwh" and all(p["numbers"].get(k) == v for p in powertrains[1:])}
+
+
 def parse_text(txt: str, model: str, model_name: str, url: str, observed_at: str) -> list[dict]:
     columns, footnotes = parse_specs(txt)
     pricing = parse_pricing(txt)
@@ -447,13 +892,21 @@ def parse_text(txt: str, model: str, model_name: str, url: str, observed_at: str
         k = (col["trim"].lower(), col["seats"])
         if k not in best or (col["my"] or 0) > (best[k]["my"] or 0):
             best[k] = col
+
+    def trim_of(col: dict) -> str:
+        trim = col["trim"].title() if col["trim"].isupper() else col["trim"]
+        return re.sub(r"^(INSTER|IONIQ \d|KONA(?: ELECTRIC)?)\s+", "", trim, flags=re.I).replace("N line", "N Line")
+
+    cells = parse_technical(txt, list(dict.fromkeys([*pricing, *(trim_of(c) for c in best.values())])), model_name)
     rows: list[dict] = []
     for (_, seats), col in best.items():
-        trim = col["trim"].title() if col["trim"].isupper() else col["trim"]
-        trim = re.sub(r"^(INSTER|IONIQ \d|KONA(?: ELECTRIC)?)\s+", "", trim, flags=re.I).replace("N line", "N Line")
+        trim = trim_of(col)
         batteries = next((v["batteries"] for t, v in pricing.items() if _same(t, trim)), [])
+        powertrains = _powertrains(pricing, cells, trim, seats, col["my"])
         packs = [e for e in extras if e["items"] and any(_same(t, trim) for t in e["trims"])]
-        options = [e["name"] for e in extras if not e["items"] and any(_same(t, trim) for t in e["trims"])]
+        offered = [e for e in extras if not e["items"] and any(_same(t, trim) for t in e["trims"])]
+        options = [e["name"] for e in offered]
+        option_prices = [{"name": e["name"], "price_gbp": e["price"]} for e in offered]
         features, absent, qualified = [], [], []
         for label, value, qual in col["items"]:
             if PACK_ROW_RE.match(label):
@@ -467,6 +920,7 @@ def parse_text(txt: str, model: str, model_name: str, url: str, observed_at: str
                     continue
             if value == "none" and ACCESSORY_RE.search(label):
                 options.append(label)   # 'Vehicle to Load (Exterior Adaptor) -': not supplied, had as an accessory
+                option_prices.append({"name": label, "price_gbp": None})
                 continue
             (features if value == "standard" else absent).append(label)
         # The table prints one glyph for standard and for optional. An item a pack offered on this
@@ -481,9 +935,11 @@ def parse_text(txt: str, model: str, model_name: str, url: str, observed_at: str
             "observed_at": observed_at, "make": "Hyundai", "model": model_name, "model_slug": model, "trim": trim, "seats": seats,
             "model_year": 2000 + col["my"] if col["my"] else None, "variant": variant, "batteries": batteries,
             "car_ref": {"source": SITE, "key": norm_key("hyundai", model, trim, seat_label), "label": f"Hyundai {variant}"},
-            "features": features, "absent": absent, "qualified": qualified, "options": options,
+            "features": features, "absent": absent, "qualified": qualified, "options": options, "option_prices": option_prices,
             "packs": [{"name": p["name"], "price": p["price"], "items": p["items"]} for p in packs],
-            "flags": flags_for(features, options), "numbers": {"seats": seats} if seats else {},
+            "flags": flags_for(features, options),
+            "numbers": {**_common(powertrains), **warranty_numbers(features), **({"seats": seats} if seats else {})},
+            "powertrains": powertrains,
         })
     return rows
 
@@ -495,5 +951,5 @@ def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
         yield ParsedRecord(kind="spec", key=row["spec_key"], row=row)
 
 
-specs = Capability(name="specs", parser_version="1", discover=discover, fetch=fetch, parse=parse, kinds=("spec",))
+specs = Capability(name="specs", parser_version="2", discover=discover, fetch=fetch, parse=parse, kinds=("spec",))
 provider = Provider(name="hyundai_specs", default_capability="specs", capabilities={"specs": specs}, live=True)

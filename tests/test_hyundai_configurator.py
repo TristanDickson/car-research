@@ -43,7 +43,7 @@ class Inster(unittest.TestCase):
 
     def test_discover_and_names(self):
         ts = list(h.discover(Target(identifier="all"), Context(root=Path("."))))
-        self.assertEqual([t.identifier for t in ts], ["inster", "ioniq-5", "ioniq-6", "ioniq-9", "kona-electric"])
+        self.assertEqual([t.identifier for t in ts], ["inster", "ioniq-3", "ioniq-5", "ioniq-6", "ioniq-9", "kona-electric"])
         self.assertEqual(h.trim_name("N LINE S"), "N Line S")
         self.assertEqual(h.trim_name("Calligraphy Black Ink"), "Calligraphy Black Ink")
         self.assertEqual(h.trim_name("01"), "01")

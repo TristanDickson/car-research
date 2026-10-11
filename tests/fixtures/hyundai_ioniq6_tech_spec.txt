@@ -1,0 +1,281 @@
+IONIQ 6
+Technical, Specifications and Pricing
+Model Year 25
+                                        Image for illustrative purposes only. Data correct April 2026
+IONIQ 6
+Technical
+                                  Premium 77kWh RWD      Premium 77kWh AWD           Ultimate 77kWh RWD    Ultimate 77kWh AWD
+
+BATTERY
+Battery Size                            77.4 kWh                 77.4 kWh                  77.4 kWh                77.4 kWh
+kW (PS)                                 168 (228)               239 (325)                 168 (228)               239 (325)
+                                                             AWD (dual motor)                                  AWD (dual motor)
+Motor                               RWD (single motor)                                RWD (single motor)
+                                                         74 kW front + 165 kW Rear                         74 kW front + 165 kW Rear
+CHARGING - 350 KW1
+Battery charge kW                        350 kW                  350 kW                    350 kW                  350 kW
+Percentage                               10-80%                  10-80%                    10-80%                  10-80%
+Estomated Time (minutes)2                18 mins                 18 mins                   18 mins                 18 mins
+CHARGING - 50 KW
+Battery charge kW                         50 kW                   50 kW                     50 kW                   50 kW
+Percentage                               10-80%                  10-80%                    10-80%                  10-80%
+Estomated Time (minutes)2                73 mins                 73 mins                   73 mins                 73 mins
+CHARGING - 11 KW
+Battery charge kW                         11 kW                   11 kW                     11 kW                   11 kW
+Percentage                               0-100%                  0-100%                    0-100%                  0-100%
+Estimated Time (minutes)2            430 (7h10mins)           430 (7h10mins)            430 (7h10mins)          430 (7h10mins)
+DIMENSIONS
+Overall Length (mm)                       4855                     4855                      4855                    4855
+Width (mm) without mirrors                1880                     1880                      1880                    1880
+Width (mm) with DSM                       2073                     2073                      2073                    2073
+Width (mm) with standard O/S              2144                     2144                      2144                    2144
+Height (mm)                               1495                     1495                      1495                    1495
+Wheelbase (mm)                            2950                     2950                     2950                     2950
+Front / Rear Overhang (mm)             850 / 1,055              850 / 1,055               850 / 1,055             850 / 1,055
+1st Row Head Room (mm)                    1022                     1022                      974                     974
+2nd Row Head Room (mm)                     937                     937                       937                     937
+1st Row Leg Room (mm)                     1,154                    1,154                     1,154                   1,154
+Frunk + Trunk Capacity (VDA)(L)          45+401                  14.5+401                  45+401                  14.5+401
+WEIGHT AND CAPACITY
+Kerb Weight (kg)                       1910 - 1986             2020 - 2096                1910 - 1986            2020 - 2096
+Payload (kg)                            500 - 424               500 - 424                 500 - 424               500 - 424
+Gross Vehicle Weight (kg)                 2410                     2520                      2410                    2520
+Max Tow Weight (kg) - Braked              1500                     1500                      1500                    1500
+Max Tow Weight (kg) - Unbraked             750                     750                       750                     750
+Gross Train Weight (kg)                     -                        -                         -                       -
+Noseweight (kg)                            100                     100                       100                     100
+IONIQ 6
+Technical
+                                                                                Premium 77kWh RWD                                               Premium 77kWh AWD                                                Ultimate 77kWh RWD                                               Ultimate 77kWh AWD
+
+ Max Roof Weight (kg)                                                                          80                                                              80                                                              80                                                              80
+ Fuel Tank Capacity (litre)                                                                   NA                                                               NA                                                              NA                                                              NA
+ AdBlue®/DEF (Urea Solution) Tank Capacity                                                    NA                                                               NA                                                              NA                                                              NA
+ (Litres)
+
+ Premium
+ Front Tyre                                                                         245/40R20 (Pirelli)                                              245/40R20 (Pirelli)                                                        -                                                               -
+ Rear Tyre                                                                          245/40R20 (Pirelli)                                              245/40R20 (Pirelli)                                                        -                                                               -
+ Front Wheel                                                                               8.5JX20                                                         8.5JX20                                                              -                                                               -
+ Real Wheel                                                                                8.5JX20                                                         8.5JX20                                                              -                                                               -
+ Front Track                                                                                 1630                                                            1630                                                               -                                                               -
+ Rear Track                                                                                  1639                                                             1639                                                              -                                                               -
+ Overall Height (mm)                                                                         1495                                                             1495                                                              -                                                               -
+ Luggage Capacity VDA (litres) - Seats Up                                                     401                                                             401                                                               -                                                               -
+ CO2 Emissions (g/km)                                                                          0                                                                0                                                               -                                                               -
+ Maximum Potential EV Driving Range (Miles/
+                                                                                           338/545                                                          322/519                                                             -                                                               -
+ Km)3
+ Estimated Real EV Driving Range (Miles/Km)3                                               338/545                                                          322/519                                                             -                                                               -
+ Electric Driving Efficiency (kWh per 100Km)3                                                  16                                                             16.9                                                              -                                                               -
+
+ Ultimate
+ Front Tyre                                                                                     -                                                               -                                                    245/40R20 (Pirelli)                                             245/40R20 (Pirelli)
+ Rear Tyre                                                                                      -                                                               -                                                    245/40R20 (Pirelli)                                             245/40R20 (Pirelli)
+ Front Wheel                                                                                    -                                                               -                                                          8.5JX20                                                          8.5JX20
+ Real Wheel                                                                                     -                                                               -                                                          8.5JX20                                                          8.5JX20
+ Front Track                                                                                    -                                                               -                                                             1630                                                            1630
+ Rear Track                                                                                     -                                                               -                                                             1639                                                            1639
+ Overall Height (mm)                                                                            -                                                               -                                                             1495                                                            1495
+ Luggage Capacity VDA (litres) - Seats Up                                                       -                                                               -                                                             401                                                              401
+ CO2 Emissions (g/km)                                                                           -                                                               -                                                               0                                                               0
+ Maximum Potential EV Driving Range (Miles/
+                                                                                                -                                                               -                                                          338/545                                                          322/519
+ Km)3
+ Estimated Real EV Driving Range (Miles/Km)3                                                    -                                                               -                                                          338/545                                                          322/519
+ Electric Driving Efficiency (kWh per 100Km)3                                                   -                                                               -                                                              16                                                             16.9
+
+1Ultra-fast charging using a 350kw charging station IONIQ 6 can charge from 10-80% in as little as 18-36 minutes. Actual time will vary and is dependent on a number of factors including battery temperature, condition and age, ambient temperature and the power provided by the charger. Charge time increases in
+cold weather and if battery temperature activates safeguarding technology. Ultra-fast chargers are currently available on selected motorways/major arterial routes – see the Charge myHyundai app or chargemyhyundai.com/web/hyundai-gb/map for details. Ultra-fast chargers are not available in Northern Ireland.
+
+2Hyundai test data for comparison purposes. Actual time will vary and is dependent on several factors including battery temperature, condition and age, ambient temperature and the power provided by the charger. Charge time increases in cold weather and if battery temperature activates safeguarding
+technology.
+
+3Range dependant on model specification. The electric range shown was achieved using the WLTP test procedure. The IONIQ 6 is a battery electric vehicle requiring mains electricity for charging. Figures shown are for comparison purposes. Only compare fuel consumption, CO2 and equivalent electric range
+figures with other vehicles tested to the same technical procedures. Range figures were obtained after the battery had been fully charged. These figures may not reflect real-life driving results, which will depend upon a number of factors including the starting charge of battery, accessories fitted (post-registration),
+variations in weather and temperature, driving style, use of climate control, battery age and condition.
+IONIQ 6
+Specifications
+                                                    Premium   Ultimate
+
+POWERTRAIN & TRANSMISSION
+Paddle Shift - Regenerative Braking                    ●         ●
+Shift by Wire Gear Selector (SBW)                      ●         ●
+EXTERIOR
+20" Alloy Wheels                                       ●         ●
+20" Matte Black Wheels                                 -         -
+Black Hyundai Logo                                     -         -
+Exterior Door Handle - Flush Auto                      -         ●
+Exterior Door Handle - Flush Manual                    ●         -
+High Glossy Black Bumpers                              -         -
+High Glossy Black Side Mouldings                       -         -
+Rear Spoiler with Integrated LED Brake Light           ●         ●
+INTERIOR STYLING
+Door Scuff - Deluxe Plate                              ●         ●
+First Edition Floor Mats                               -         -
+IONIQ 6 Floor Mats                                     ●         ●
+Leather Wrapped Steering Wheel                         ●         ●
+Pedals - Alloy Pedals                                  ●         ●
+SEATING
+Driver's Seat Electric Adjustments                     ●         ●
+Driver's Seat Lumbar Support (Electric)                ●         ●
+Driver's Seat Memory Function                          -         ●
+Front Passenger's Seat Electric Adjustments            ●         ●
+Front Passenger's Seat Lumbar Support (Electric)       ●         ●
+Front Relaxation Seats                                 -         ●
+Front Seats - Heated                                   ●         ●
+Front Seats - Ventilated                               -         ●
+Leather Encased Seats with Tartan Designed Fabric      -         -
+Rear Seats (Outer) - Heated                            ●         ●
+Rear Seats (Second Row) - Split Folding (60/40)        ●         ●
+Seat Trim - Cloth                                      ●         -
+Seat Trim - Leather (Seat Facings Only)                -         ●
+Seat Trim - Leather with Tartan Cloth Inserts          -         -
+IONIQ 6
+Specifications
+                                                                            Premium   Ultimate
+
+VENTILATION & VISIBILITY
+Air Conditioning - Climate Control (Dual Zone)                                 ●         ●
+Automatic Windscreen Wipers with Rain Sensor                                   ●         ●
+Daytime Running Lights - LED                                                   ●         ●
+Fog Lights - LED Rear                                                          ●         ●
+Inside Rear View Mirror - Electrochrome                                        ●         ●
+Interior Ambient Lighting                                                      ●         ●
+LED Headlights with High Beam Assist (HBA)                                     ●         ●
+Positioning Lights - LED                                                       ●         ●
+Privacy Glass - Rear Side and Tailgate                                         ●         ●
+Rear Lights - LED                                                              ●         ●
+Rear Windows - Tinted                                                          ●         ●
+Rear windscreen - Heated and Tinted                                            ●         ●
+Sunroof - Electric Tilt and Slide                                              -         ●
+Windscreen and Front Windows - Solar Glass                                     ●         ●
+Windscreen Auto Defog Function                                                 ●         ●
+Windscreen Wiper with Aero Wiper Blade                                         ●         ●
+CONVENIENCE
+12V Power Outlet                                                               ●         ●
+Battery Heating System with Pre-Conditioning                                   ●         ●
+Blind Spot View Monitor                                                        -         ●
+Cup Holders - Front and Rear                                                   ●         ●
+Door Mirrors - Electric Adjustment and Heated with Power Folding Function      ●         ●
+Drive Mode Select - Eco Normal Sport                                           ●         ●
+Front Seat Back Pockets - Driver and Passenger Seat                            ●         ●
+Frunk - Under the bonnet storage                                               ●         ●
+Heat Pump                                                                      ●         ●
+Heated Steering Wheel                                                          ●         ●
+HUD - Head Up Display                                                          -         ●
+Parking Brake - Electric with Auto Hold Function                               ●         ●
+Parking Distance Warning (PDW); Forward / Reverse                              ●         ●
+Parking System - Surround View Monitor                                         -         ●
+Rear View Monitor with Dynamic Parking Guidance                                ●         ●
+Remote Smart Parking Assist                                                    -         ●
+IONIQ 6
+Specifications
+                                                                                   Premium   Ultimate
+
+CONVENIENCE (CONTINUED)
+Smart Cruise Control with Stop & Go                                                   ●         ●
+Smart Electric Tailgate - Height adjustable                                           ●         ●
+Smart Key - Keyless Entry with Engine Start/Stop Button                               ●         ●
+Smart Regenerative Braking                                                            ●         ●
+Steering Column - Height and Reach Adjustable                                         ●         ●
+Sun Visors - with Driver and Passenger Illuminated LED Vanity Mirrors                 ●         ●
+Temporary Mobility Kit                                                                ●         ●
+Trailer Wiring Package                                                                ●         ●
+TECHNOLOGY & ENTERTAINMENT
+Active Sound Design (Electric)                                                        -         ●
+12.3” Touchscreen Satellite Navigation including Bluelink connectivity (10 years
+LITE subscription, 3 years PLUS & 6 months free trial for PRO)*
+                                                                                      ●         ●
+
+Bluetooth® Connectivity with Voice Recognition**                                      ●         ●
+BOSE Premium Audio - 7 Speakers + 1 Subwoofer                                         -         ●
+Driver's Supervision Instrument Cluster with full TFT Display (12.3"")                ●         ●
+LED Steering Wheel Lights                                                             -         ●
+Over The Air Updates (OTA)***                                                         ●         ●
+Phone Connection - Android Auto™                                                      ●         ●
+Phone Connection - Apple CarPlay™                                                     ●         ●
+Steering Wheel Audio Controls                                                         ●         ●
+USB - Rear                                                                            ●         ●
+USB Charging Ports - 2 Front                                                          ●         ●
+USB Connectivity Port - 1 Front                                                       ●         ●
+Vehicle to Load (Exterior Adaptor)                                                    -         -
+Vehicle to Load (Interior)                                                            ●         ●
+Wireless Phone Charging Pad                                                           ●         ●
+SAFETY & SECURITY
+Airbags - Front Thorax and Pelvis, Curtain airbags                                    ●         ●
+Anti-lock Brake System (ABS)                                                          ●         ●
+Blind Spot Collision Avoidance Assist (BCA)                                           ●         ●
+Central Locking - Remote Control                                                      ●         ●
+Childproof Rear Door Locks - Manual                                                   ●         ●
+eCall                                                                                 ●         ●
+Electronic Stability Control (ESC)                                                    ●         ●
+IONIQ 6
+Specifications
+                                                                                                                           Premium                                          Ultimate
+
+SAFETY & SECURITY (CONTINUED)
+FCA - Forward Collision Avoidance Assist - Car, Pedestrian, Cycle                                                               ●                                              ●
+FCA-JT - Forward Collision Avoidance Assist - Junction Turning                                                                  ●                                              ●
+HDA - Highway Drive Assist Level 2                                                                                              ●                                              ●
+Hill-start Assist Control (HAC)                                                                                                 ●                                              ●
+Immobiliser                                                                                                                     ●                                              ●
+Intelligent Speed Limit Assist (ISLA)                                                                                           ●                                              ●
+Lane Follow Assist (LFA)                                                                                                        ●                                              ●
+Lane Keep Assist (LKA) - Line and Road Edge                                                                                     ●                                              ●
+Parking Collision Avoidance Assist-Reverse and Forward (PCA-R/F)                                                                -                                              ●
+Rear Cross Traffic Collision Avoidance Assist (RCCA)                                                                            ●                                              ●
+Rear Occupancy Alert                                                                                                            ●                                              ●
+Tyre Pressure Monitoring System (TPMS) with Individual Tyre Pressure Warning                                                    ●                                              ●
+CUSTOMER OPTIONS
+Matte Paint                                                                                                                     ●                                              ●
+Metallic / Pearl Paint                                                                                                          ●                                              ●
+WARRANTY
+12 Years' Anti-Perforation Warranty                                                                                             ●                                              ●
+Five Year Annual Vehicle Health Checks                                                                                          ●                                              ●
+Five Year Unlimited Mileage Warranty                                                                                            ●                                              ●
+High Voltage Battery Warranty - 8 Years, 100,000 Miles                                                                          ●                                              ●
+Hyundai Roadside Assistance                                                                                                     ●                                              ●
+CHARGING
+10.5 kWh 3 phase on board charger (OBC)                                                                                         ●                                              ●
+Charging Cable - 7 Pin Type 2                                                                                                   ●                                              ●
+
+
+
+
+*After the free 10-year Bluelink® LITE subscription period ends, access to Bluelink features will expire unless a paid subscription plan is selected. Users may choose to
+upgrade to a higher-tier subscription at any time before the expiration of the LITE free plan.
+** Requires compatible smartphone, Bluelink App and active subscription with an eligible subscription plan.
+***With an eligible subscription plan of an active Bluelink subscription and 4G signal required.
+IONIQ 6
+Pricing - Effective from 1st April 2026.
+                                      CO2 EMIS-    INSURANCE      VED FIRST    BASIC                    RETAIL      RECOMMENDED ON                   BIK    MONTHLY BIK      MONTHLY BIK
+   TRIM        POWERTRAIN                                                                    VAT                                      P11D VALUE
+                                     SIONS G/KM*   GROUP (1-50)   YEAR COST    RETAIL                   PRICE        THE ROAD PRICE                 BAND   PAYABLE AT 20%   PAYABLE AT 40%
+             77.4 KWh 228PS RWD
+                                         0             36E           £10      £38,550.00   £7,710.00   £46,260.00       £47,050.00    £46,985.00     4%        £31.32           £62.65
+            Single Speed Reduction
+ Premium
+             77.4 KWh 325PS AWD
+                                         0             41E           £10      £41,466.67   £8,293.33   £49,760.00       £50,550.00    £50,485.00     4%        £33.66           £67.31
+            Single Speed Reduction
+
+              77 kWh 228PS RWD
+                                         0             37E           £10      £41,466.67   £8,293.33   £49,760.00       £50,550.00    £50,485.00     4%        £33.66           £67.31
+            Single Speed Reduction
+ Ultimate
+              77 kWh 325 PS AWD
+                                         0             41E           £10      £44,383.33   £8,876.67   £53,260.00       £54,050.00     £53,985.00    4%        £35.99           £71.98
+            Single Speed Reduction
+IONIQ 6
+Pricing
+
+ OPTIONAL EXTRAS          BASIC RETAIL PRICE    VAT      RETAIL PRICE
+
+
+ Metallic / Pearl Paint        £583.33         £116.67     £700.00
+
+
+
+ Matte Paint                   £750.00         £150.00     £900.00
+
