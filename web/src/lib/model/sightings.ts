@@ -33,6 +33,8 @@ export interface Sighting {
   model: string;
   /** The derivative, where the sighting names one. */
   car_id: string | null;
+  /** A used car's model|trim|battery: the cars it counts as. */
+  used_key?: string | null;
   /** ISO dates: first seen in this state, last confirmed in it (to >= from). */
   from: string;
   to: string;
@@ -62,7 +64,8 @@ export function markCurrent(sightings: Sighting[], today: string, staleDays: num
 export const liveOn = (s: Sighting, iso: string): boolean => s.from.slice(0, 10) <= iso && (iso <= s.to.slice(0, 10) || !!s.current);
 
 /** What a series is about: the derivative, or the model for used stock. */
-export const subject = (s: Sighting): string => (s.route !== "used" && s.car_id ? s.car_id : `model:${s.model}`);
+export const subject = (s: Sighting): string =>
+  s.route !== "used" && s.car_id ? s.car_id : s.route === "used" && s.used_key ? `used:${s.used_key}` : `model:${s.model}`;
 
 /** Whole years in a number of months, at least one: the registration-year offset for a residual. */
 export const yearsOf = (months: number): number => Math.max(1, Math.round(months / 12));

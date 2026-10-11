@@ -115,6 +115,8 @@ export interface SnapshotUsedSpan {
   source: string;
   model: string;
   car_id: string | null;
+  /** model|trim|battery: the cars this used car counts as (SnapshotCar.used_key); null when it names no derivative. */
+  used_key?: string | null;
   year: number | null;
   price: number | null;
   mileage: number | null;
@@ -126,8 +128,14 @@ export interface SnapshotUsedSpan {
 }
 
 export interface SnapshotCar {
-  /** make/model slugs: the subject of the model's used spans. */
+  /** make/model slugs: the model's used stock, the evidence for what a car of each age is worth. */
   model_key?: string;
+  /** model|trim|battery: the used cars that count as this car (the buy-used route). */
+  used_key?: string | null;
+  /** Carwow lists the derivative now, or it has a current price; false = an old price-list version. */
+  on_sale?: boolean;
+  /** What tells this car apart from others of the same displayed name ('[Heat Pump] · price list Jul 2026'). */
+  name_note?: string;
   id: string;
   /** How many spec rows describe this car (details.json has them). */
   spec_count?: number;

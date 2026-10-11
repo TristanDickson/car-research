@@ -30,12 +30,13 @@ const span = (key: string, car_id: string, route: string, deal: Record<string, u
 function snapshot(generated_at: string, carIds: string[]) {
   return {
     "manifest.json": { schema_version: "7", generated_at, counts: { cars: carIds.length, offers: 2 } },
-    "cars.json": carIds.map(car),
+    // Same trim and battery as the used stock below, so its used cars count as these cars.
+    "cars.json": carIds.map((id) => ({ ...car(id), used_key: "hyundai/ioniq-3|advance|61" })),
     "sightings.json": [
       span("k1", carIds[0], "cash", { list_price: 30000, vehicle_price: 27000 }),
       span("p1", carIds[0], "pcp", { list_price: 30000, vehicle_price: 27000, customer_deposit: 0, apr: 0.069, num_payments: 48, term_months: 49, gfv: 11000, monthly_payment: 380 }),
     ],
-    "used_spans.json": [2021, 2021, 2021].map((year, i) => ({ key: `u${i}`, source: "cinch", model: "hyundai/ioniq-3", car_id: null, year, price: 12000 + i * 500, mileage: 10000 + i, vrm: `V${i}`, town: null, from: "2026-09-01", to: today, present: true })),
+    "used_spans.json": [2021, 2021, 2021].map((year, i) => ({ key: `u${i}`, source: "cinch", model: "hyundai/ioniq-3", car_id: null, used_key: "hyundai/ioniq-3|advance|61", year, price: 12000 + i * 500, mileage: 10000 + i, vrm: `V${i}`, town: null, from: "2026-09-01", to: today, present: true })),
     "requirements.json": { as_of: "2026-10-06", hard: [], preferences: [], wants: [], quoting_basis: { term_months: 37, savings_rate_apr: 0.04, residual_pct_of_list: 0.45, residual_at_months: 36 },
                            searches: [{ name: "Hand-curated", query: "standard=curated" }, { name: "My brief", query: "r.seats=4-&listed=flag:heat_pump,flag:v2l_internal", default: true }] },
     "details.json": Object.fromEntries(carIds.map((id) => [id, { specs: [], spec_check: { rows: [], disagreements: 0 }, requirement_check: { passes: true, failures: [], unknown: [] } }])),
@@ -203,7 +204,7 @@ describe("the cost model runs in the browser and its results are stored", () => 
     expect(row!.routes.pcp!.carwow.own_horizon_months).toBe(49);
     expect(row!.routes.used!.cinch.headline).toBe(12000);
     expect(row!.stock?.by_year["2021"].n).toBe(3);
-    expect(Object.keys((await db.costs.get("b"))!.routes)).toEqual(["used"]);   // no offer of its own, but its model has used stock
+    expect(Object.keys((await db.costs.get("b"))!.routes)).toEqual(["used"]);   // no offer of its own, but used cars of its trim and battery
     expect(await db.series.count()).toBe(3);
     expect(await db.residuals.count()).toBe(1);
     expect((await db.offers.toArray()).map((o) => o.id).sort()).toEqual(["k1", "p1"]);

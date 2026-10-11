@@ -187,6 +187,34 @@ class ThroughTheBuild(unittest.TestCase):
             self.assertNotIn("car_ref", specs[0])
 
 
+class ReadyForAVisitor(unittest.TestCase):
+    """What a visitor needs from the snapshot: what is on sale, look-alikes told apart, used cars by trim and battery."""
+
+    def test_name_notes_say_what_differs(self):
+        from pipeline.services.snapshot import name_notes
+        base = {"make": "BMW", "model": "iX1", "trim": "xLine · 150kW eDrive20 65kWh Auto", "seats": 5}
+        cars = [dict(base, id="a", cap_name="150kW eDrive20 xLine 65kWh 5dr Auto", version_date="2025-03-01", list_price_gbp=49065.0),
+                dict(base, id="b", cap_name="150kW eDrive20 xLine 65kWh 5dr Auto [22kWCh]", version_date="2026-07-23", list_price_gbp=39945.0),
+                dict(base, id="c", cap_name="150kW eDrive20 xLine 65kWh 5dr Auto", version_date="2026-07-23", list_price_gbp=39065.0),
+                dict(base, id="d", trim="M Sport · 150kW eDrive20 65kWh Auto")]
+        notes = name_notes(cars)
+        self.assertEqual(notes, {"a": "price list Mar 2025 · £49,065", "b": "[22kWCh] · price list Jul 2026 · £39,945",
+                                 "c": "price list Jul 2026 · £39,065"}, "seats agree, so they are not mentioned; a lone name gets no note")
+        twins = [dict(base, id="x", cap_id="1"), dict(base, id="y", cap_id="2")]
+        self.assertEqual(name_notes(twins), {"x": "CAP 1", "y": "CAP 2"}, "when nothing else differs, the CAP id")
+
+    def test_a_used_car_counts_as_a_car_of_its_trim_and_battery(self):
+        from pipeline.services.snapshot import used_key, used_key_for_text
+        kona = [{"used_key": used_key({"trim": t, "battery_kwh": 65.0}, "hyundai/kona-electric")} for t in ("Advance", "N Line", "N Line S", "Ultimate")]
+        self.assertEqual([c["used_key"] for c in kona][:2], ["hyundai/kona-electric|advance|65", "hyundai/kona-electric|n line|65"])
+        self.assertEqual(used_key_for_text("150kW 64kWh Auto Ultimate", kona), "hyundai/kona-electric|ultimate|65", "64 kWh is the 65's pack restated")
+        self.assertEqual(used_key_for_text("160kW N Line S 65kWh 5dr Auto", kona), "hyundai/kona-electric|n line s|65", "the most specific trim")
+        self.assertIsNone(used_key_for_text("150kW 64kWh Auto Premium", kona), "a trim no longer sold counts for none")
+        self.assertIsNone(used_key_for_text("100kW 39kWh Auto Ultimate", kona), "nor a different battery")
+        self.assertEqual(used_key({"trim": "GT Line S", "variant": "168kW 84kWh RWD Auto"}, "kia/ev6"),
+                         used_key({"trim": "GT-Line S", "battery_kwh": 84.0}, "kia/ev6"), "hyphens and where the battery is printed do not matter")
+
+
 if __name__ == "__main__":
     unittest.main()
 

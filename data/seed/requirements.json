@@ -43,13 +43,17 @@
   "searches": [
     {
       "name": "My brief",
-      "query": "listed=flag:heat_pump,flag:v2l_internal&r.seats=4-",
+      "query": "listed=flag:heat_pump,flag:v2l_internal&standard=on_sale&r.seats=4-",
       "default": true,
-      "note": "Heat pump and a cabin socket, fitted or available (a pack or an option counts), and at least four seats. What Pick, Cars and Specs open on; the reader's own copy lives in the browser."
+      "note": "On sale now, a heat pump and a cabin socket, fitted or available (a pack or an option counts), and at least four seats. What Pick, Cars and Specs open on; the reader's own copy lives in the browser."
     },
     {
       "name": "Hand-curated",
       "query": "standard=curated"
+    },
+    {
+      "name": "Everything on sale",
+      "query": "standard=on_sale"
     }
   ],
   "hard": [

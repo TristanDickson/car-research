@@ -47,6 +47,7 @@ export const FIXED_FACETS: { token: string; label: string; group: string; twoSta
   { token: "route:pch", label: "Lease", group: "Can be had by", twoState: true },
   { token: "route:used", label: "Used example", group: "Can be had by", twoState: true },
   { token: "priced", label: "Any current price", group: "Can be had by", twoState: true },
+  { token: "on_sale", label: "On sale now", group: "Can be had by", twoState: true },
   { token: "curated", label: "Hand-curated", group: "Provenance", twoState: true },
 ];
 
@@ -184,6 +185,7 @@ export function facetValue(token: string, c: SnapshotCar, ctx: CarContext): "sta
   switch (token) {
     case "priced": return ctx.costs.trueCost ? "standard" : null;
     case "curated": return c.auto ? null : "standard";
+    case "on_sale": return c.on_sale ? "standard" : null;
   }
   return null;
 }

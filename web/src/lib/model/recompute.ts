@@ -13,7 +13,7 @@ import { bestByRoute, costAll, current, goneDates, markCurrent, residualAt, resi
 export interface CarCostRow {
   id: string;
   model: string;
-  /** route → source → the cheapest current sighting; the used route is the model's. */
+  /** route → source → the cheapest current sighting; the used route is the same trim and battery's. */
   routes: Partial<Record<Route, Record<string, CurrentPoint>>>;
   /** route → the cheapest source's figure. */
   best: Partial<Record<Route, CurrentPoint>>;
@@ -24,7 +24,7 @@ export interface CarCostRow {
 export interface ComputeInput {
   sightings: SnapshotSighting[];
   usedSpans: SnapshotUsedSpan[];
-  cars: Pick<SnapshotCar, "id" | "model_key">[];
+  cars: Pick<SnapshotCar, "id" | "model_key" | "used_key">[];
   basis: Basis;
   /** ISO date: the wall clock, for ages and staleness. */
   today: string;
@@ -40,7 +40,7 @@ export interface ComputeResult {
 }
 
 export function usedToSighting(u: SnapshotUsedSpan): Sighting {
-  return { key: u.key, route: "used", source: u.source, model: u.model, car_id: u.car_id, from: u.from, to: u.to, present: u.present,
+  return { key: u.key, route: "used", source: u.source, model: u.model, car_id: u.car_id, used_key: u.used_key ?? null, from: u.from, to: u.to, present: u.present,
            deal: { price: u.price, year: u.year, mileage: u.mileage, vrm: u.vrm }, seller: u.town };
 }
 
@@ -65,7 +65,8 @@ export function computeAll(input: ComputeInput): ComputeResult {
   const cars: CarCostRow[] = [];
   for (const c of input.cars) {
     const model = c.model_key ?? "";
-    const routes = { ...(cur.get(c.id) ?? {}), ...(cur.get(`model:${model}`) ?? {}) };
+    // A used car counts as this car only when it is the same trim and battery; the model's whole stock stays the residual evidence.
+    const routes = { ...(cur.get(c.id) ?? {}), ...(c.used_key ? cur.get(`used:${c.used_key}`) ?? {} : {}) };
     let stock = stockByModel.get(model);
     if (stock === undefined && model) {
       stock = usedStock(model, used, input.today, input.basis);

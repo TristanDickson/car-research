@@ -30,7 +30,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 from pipeline.db import ROOT
-from pipeline.services import claims
+from pipeline.services import claims, match
 from pipeline.services.features import flags_for
 
 IMAGE_EXTS = ("jpg", "jpeg", "png", "webp")
@@ -361,6 +361,87 @@ def load_requirements(conn: sqlite3.Connection) -> dict:
     return json.loads(row["payload"]) if row else {}
 
 
+def _words(text: str | None) -> list[str]:
+    return [w for w in re.split(r"[^a-z0-9+]+", (text or "").lower()) if w]
+
+
+def _kwh(car: dict) -> int | None:
+    """The car's battery: its figure, else what its engine or trim name prints ('150kW 77kWh Auto')."""
+    if car.get("battery_kwh"):
+        return round(float(car["battery_kwh"]))
+    return match.tokens(f"{car.get('variant') or ''} {car.get('trim') or ''}")["kwh"]
+
+
+def used_key(car: dict, model_key: str) -> str | None:
+    """What a used car must share with a car to count as one: model, trim and battery. None without either."""
+    kwh = _kwh(car)
+    trim = " ".join(_words(claims.trim_head(car.get("trim"))))   # 'GT-Line S' and 'GT Line S' are one trim
+    if not kwh or not trim or not model_key:
+        return None
+    return f"{model_key}|{trim}|{kwh}"
+
+
+def used_key_for_text(text: str, cars: list[dict]) -> str | None:
+    """The one trim and battery of this model a used listing's text names: every word of the trim in the text,
+    the battery within 3 kWh (makers restate a pack's size: the Kona's 64 kWh is its 65), the most specific
+    trim winning ('N Line S' over 'N Line'). None when no trim fits or two different ones do."""
+    have, text_kwh = set(_words(text)), match.tokens(text)["kwh"]
+    fits: list[tuple[int, str]] = []
+    for c in cars:
+        _, trim, kwh = c["used_key"].rsplit("|", 2)
+        words = set(trim.split())
+        if not words or not words <= have:
+            continue
+        if text_kwh is not None and abs(text_kwh - int(kwh)) > 3:
+            continue
+        fits.append((len(words), c["used_key"]))
+    if not fits:
+        return None
+    best = max(n for n, _ in fits)
+    keys = {k for n, k in fits if n == best}
+    return keys.pop() if len(keys) == 1 else None
+
+
+def on_sale(conn: sqlite3.Connection, priced: set[str], today: date) -> set[str]:
+    """Cars a buyer can have now: Carwow's registry or specification page listed the derivative within
+    STALE_DAYS, or the car has a current price on some route. The rest are old price-list versions."""
+    cutoff = date.fromordinal(today.toordinal() - STALE_DAYS).isoformat()
+    caps = {r[0] for r in conn.execute("SELECT cap_id FROM derivatives WHERE last_seen_at >= ?", (cutoff,))}
+    caps |= {r[0] for r in conn.execute("SELECT cap_id FROM specs WHERE spec_key LIKE 'carwow-cap:%' AND last_seen_at >= ?", (cutoff,))}
+    out = set(priced)
+    for r in conn.execute("SELECT id, payload FROM cars"):
+        if str(json.loads(r[1]).get("cap_id") or "") in caps:
+            out.add(r[0])
+    return out
+
+
+def name_notes(cars: list[dict]) -> dict[str, str]:
+    """For cars that share a displayed name (make, model, trim), a short note saying what tells them apart:
+    the brackets in the CAP name, seats, the price list's month, the RRP, and the CAP id if all else agrees."""
+    import re as _re
+    groups: dict[tuple, list[dict]] = {}
+    for c in cars:
+        groups.setdefault((c.get("make"), c.get("model"), c.get("trim")), []).append(c)
+    month = lambda d: date.fromisoformat(d[:10]).strftime("price list %b %Y") if d and len(d) >= 10 else None
+    aspects = [
+        lambda c: " ".join(f"[{b}]" for b in _re.findall(r"\[([^\]]+)\]", c.get("cap_name") or "")) or None,
+        lambda c: f"{c['seats']} seats" if c.get("seats") else None,
+        lambda c: month(c.get("version_date")),
+        lambda c: f"£{c['list_price_gbp']:,.0f}" if c.get("list_price_gbp") else None,
+    ]
+    out: dict[str, str] = {}
+    for members in groups.values():
+        if len(members) < 2:
+            continue
+        used = [a for a in aspects if len({a(c) for c in members}) > 1]
+        notes = {c["id"]: " · ".join(v for v in (a(c) for a in used) if v) for c in members}
+        if len(set(notes.values())) < len(members):
+            notes = {c["id"]: " · ".join(v for v in (notes[c["id"]], f"CAP {c['cap_id']}" if c.get("cap_id") else None) if v)
+                     for c in members}
+        out.update({k: v for k, v in notes.items() if v})
+    return out
+
+
 def _freshness(obs: list[sqlite3.Row], payload: dict, today: date) -> dict:
     latest = obs[-1]
     seen = [o for o in obs if o["present"]]
@@ -483,6 +564,17 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     # the level it speaks of (derivative, trim, engine, model, variant, pack),
     # resolved by one precedence order, each field naming its source (services/claims.py).
     derivatives = load_derivatives(conn)
+    # The owner's cars name their model in their own words: their derivative's registry line, else the
+    # catalogue by name, gives the slugs the used stock is filed under.
+    registry = {str(d["cap_id"]): d for d in derivatives}
+    from pipeline.services.facts import model_of as catalogue_model
+    for c in cars:
+        if c.get("auto") or c.get("model_slug"):
+            continue
+        d = registry.get(str(c.get("cap_id") or ""))
+        m = {"make": d["make_slug"], "model": d["model_slug"]} if d else catalogue_model(c.get("make") or "", c.get("model") or "", models)
+        if m:
+            c["make_slug"], c["model_slug"] = m["make"], m["model"]
     # A hand-curated car is a derivative too: the trim map says which, so it inherits what is said of that derivative.
     cap_of = {r["car_id"]: r["source_key"] for r in conn.execute("SELECT car_id, source_key FROM trim_map WHERE source='carwow-cap' AND status='mapped' AND car_id IS NOT NULL")}
     for c in cars:
@@ -497,6 +589,10 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     sightings = load_sightings(conn, model_of)
     used_spans = load_used_spans(conn)
     live_cars = {s["car_id"] for s in sightings if s["present"] and s["route"] in ("cash", "pcp", "pch")}
+    current = {s["car_id"] for s in sightings if s["present"] and s["route"] in ("cash", "pcp", "pch")
+               and (today - date.fromisoformat(s["to"])).days <= STALE_DAYS}
+    selling = on_sale(conn, current, today)
+    notes = name_notes(cars)
 
     used_by_model: dict[tuple[str, str], list[dict]] = {}
     for l in used:
@@ -508,7 +604,14 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     details: dict[str, dict] = {}
     for c in cars:
         slugs = car_slugs(c, specs_by_car)
-        c["model_key"] = "/".join(slugs)   # the subject of the model's used spans
+        c["model_key"] = "/".join(slugs)   # the model's used stock: the residual evidence
+        # The used cars that count as this car: same trim and battery (an owner's car by its derivative's own trim).
+        d = registry.get(str(c.get("cap_id") or "")) if not c.get("auto") else None
+        c["used_key"] = used_key({"trim": d.get("trim"), "variant": d.get("engine"), "battery_kwh": c.get("battery_kwh")} if d else c,
+                                 c["model_key"])
+        c["on_sale"] = c["id"] in selling
+        if notes.get(c["id"]):
+            c["name_note"] = notes[c["id"]]
         c["picks"] = picks.get(c["id"], [])
         mine = specs_by_car.get(c["id"], [])
         spec_rows = [{"spec_key": sp["spec_key"], "provider": sp["provider"], "variant": sp.get("variant"),
@@ -607,6 +710,19 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     _write(out / "models.json", models)
     _write(out / "used.json", used)
     _write(out / "sightings.json", sightings)
+    key_of = {c["id"]: c.get("used_key") for c in cars}
+    by_model: dict[str, list[dict]] = {}
+    for c in cars:
+        if c.get("used_key"):
+            by_model.setdefault(c["model_key"], []).append(c)
+    text_of = {l["listing_key"]: l.get("derivative") or "" for l in used}
+    for u in used_spans:
+        # The derivative the listing names, else the one trim and battery its text fits (several versions of
+        # one trim and battery tying is no matter at this level).
+        k = key_of.get(u.get("car_id"))
+        if not k and text_of.get(u["key"]):
+            k = used_key_for_text(text_of[u["key"]], by_model.get(u["model"], []))
+        u["used_key"] = k
     _write(out / "used_spans.json", used_spans)
     _write(out / "requirements.json", requirements, pretty=True)
     _write(out / "data.json", data_page, pretty=True)

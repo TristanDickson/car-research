@@ -179,12 +179,12 @@ export function useModels() {
 }
 
 /** A car's own series plus its model's used-stock series, computed under the reader's basis. */
-export function useSeriesForCar(car: { id: string; model_key?: string } | null | undefined) {
+export function useSeriesForCar(car: { id: string; model_key?: string; used_key?: string | null } | null | undefined) {
   return useQuery({
     queryKey: ["series", "car", car?.id ?? null],
     queryFn: async () => {
       await ensureComputed();
-      const subjects = [car!.id, ...(car!.model_key ? [`model:${car!.model_key}`] : [])];
+      const subjects = [car!.id, ...(car!.used_key ? [`used:${car!.used_key}`] : [])];
       return getDb().series.where("subject").anyOf(subjects).toArray();
     },
     enabled: !!car,

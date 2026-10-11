@@ -24,6 +24,6 @@ export function dateLabel(iso: string | null | undefined): string {
     : d.toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" });
 }
 
-export function carName(c: { make: string; model: string; trim: string }): string {
-  return `${c.make} ${c.model} ${c.trim}`;
+export function carName(c: { make: string; model: string; trim: string; name_note?: string }): string {
+  return `${c.make} ${c.model} ${c.trim}${c.name_note ? ` (${c.name_note})` : ""}`;
 }
