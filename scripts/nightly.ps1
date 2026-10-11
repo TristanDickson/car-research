@@ -6,6 +6,8 @@ fetch, check out origin/<Branch>, then `python -m pipeline nightly` (new committ
 into the raw store, scrape every live source into it, build from scratch, write the
 snapshot and the deal table).
 
+  -BuildOnly  build from the pages the raw store already holds (no scraping) and stop there, or with
+            -Push publish: what to run after a code change, to put it on the site at once.
   -Push     commit the snapshot and the deal table and push them to main, which deploys
             the site. Without it nothing is pushed: the snapshot is compared with main's
             and the comparison goes in the log. That is the side-by-side mode, while the
@@ -17,6 +19,7 @@ Windows PowerShell 5.1 syntax, so it runs on any Windows without PowerShell 7.
 param(
     [string]$Branch = "main",
     [switch]$Push,
+    [switch]$BuildOnly,
     [string]$Repo = (Join-Path $env:USERPROFILE "car-research"),
     [string]$Worktree = (Join-Path $env:USERPROFILE "car-research-nightly")
 )
@@ -71,8 +74,8 @@ try {
     Invoke-Logged "git fetch" $git @("fetch", "-q", "origin") | Out-Null
     Invoke-Logged "git checkout" $git @("checkout", "-q", "--detach", "--force", "origin/$Branch") | Out-Null
     $env:CAR_RESEARCH_DB = Join-Path $Worktree "data\car-research.sqlite"
-    Invoke-Pipeline @("nightly")
-    Invoke-Pipeline @("raw-status")
+    if ($BuildOnly) { Invoke-Pipeline @("build", "--deal-table", "docs/deal-comparison.md") }
+    else { Invoke-Pipeline @("nightly"); Invoke-Pipeline @("raw-status") }
 
     if (-not $Push) {
         Write-Log "compared with main's snapshot (new = this build, old = main):"
@@ -85,8 +88,9 @@ try {
         & $git add -- web/public/data docs/deal-comparison.md
         & $git diff --cached --quiet
         if ($LASTEXITCODE -eq 0) { Write-Log "nothing changed"; break }
+        $message = if ($BuildOnly) { "data: build from the raw store $day" } else { "data: nightly build $day" }
         Invoke-Logged "git commit" $git @("-c", "user.name=car-research nightly", "-c", "user.email=nightly@car-research.local",
-                                          "commit", "-q", "-m", "data: nightly build $day") | Out-Null
+                                          "commit", "-q", "-m", $message) | Out-Null
         if ((Invoke-Logged "git push" $git @("push", "-q", "origin", "HEAD:main") -NoThrow) -eq 0) { Write-Log "pushed"; break }
         if ($attempt -eq 3) { throw "main kept moving; tonight's snapshot was not pushed" }
         # main moved while we scraped: take it as it now is and build again from the raws (no new fetching).
