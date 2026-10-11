@@ -47,6 +47,9 @@ export interface Sighting {
   /** The key's latest state, present and confirmed within the stale window: still on
    * offer today though last confirmed earlier (markCurrent). */
   current?: boolean;
+  /** A used listing the site itself calls new (Carwow's pre-registered stock): priced as a new car, so it is
+   * no evidence of what a used one is worth. */
+  new_car?: boolean;
 }
 
 /** Flag each key's latest state as current when it is present and was confirmed within `staleDays` of today. */
@@ -112,7 +115,7 @@ export type ResidualAt = (model: string, year: number, iso: string) => [median: 
 export function residualAt(used: Sighting[]): ResidualAt {
   const by = new Map<string, Sighting[]>();
   for (const s of used) {
-    if (s.present && num(s.deal.year) && num(s.deal.price)) {
+    if (s.present && !s.new_car && num(s.deal.year) && num(s.deal.price)) {
       const k = `${s.model}|${s.deal.year}`;
       const list = by.get(k);
       if (list) list.push(s);

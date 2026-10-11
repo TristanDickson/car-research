@@ -1,0 +1,695 @@
+{
+ "pageNumber": 1,
+ "pageSize": 32,
+ "searchResultsCount": 76,
+ "vehicleListings": [
+  {
+   "updatedAt": "2026-10-09T22:00:30.949Z",
+   "updatedBy": "Inventory.vehicleUpdated",
+   "firstPublishedDate": "2026-10-09T14:12:09.677Z",
+   "vehicleId": "679b3263-9657-4133-904d-b078fbdbdfb4",
+   "modelYear": 2024,
+   "vehicleYear": 2024,
+   "bodyType": "SUV",
+   "colour": "BLACK",
+   "doors": 5,
+   "engineCapacityCc": 0,
+   "fuelType": "Electric",
+   "vrm": "BJ24ECC",
+   "published": true,
+   "isReserved": false,
+   "mileage": 9434,
+   "seats": 5,
+   "stockType": "cinch",
+   "trim": "Advance",
+   "variant": "160kW Advance 65kWh 5dr Auto [Comfort Pack]",
+   "transmissionType": "Automatic",
+   "milesPerGallon": null,
+   "driveType": "Front-wheel drive",
+   "tags": [],
+   "discountInPence": 0,
+   "depositContributionInPence": 0,
+   "promotionId": null,
+   "priceIncludingAdminFee": 20199,
+   "rangeInMiles": 319,
+   "rangeType": "WLTP",
+   "condition": "used",
+   "inventoryType": "physical",
+   "make": "Hyundai",
+   "price": 20100,
+   "model": "Kona",
+   "thumbnailUrl": "https://eu.cdn.autosonshow.tv/7059/21623/BJ24ECC/06_md.jpg",
+   "site": "Derby",
+   "engineSize": 0,
+   "fullRegistration": "BJ24ECC",
+   "isAvailable": true,
+   "selectedModel": "Kona",
+   "quoteType": "pcp",
+   "quoteAnnualMiles": 8000,
+   "quoteBalanceInPence": 1809000,
+   "quoteApr": 12.4,
+   "quoteRegularPaymentInPence": 33446,
+   "quoteTermMonths": 48,
+   "quoteDepositInPence": 201000,
+   "quoteChargesInPence": 655308,
+   "quoteResidualValueInPence": 858900,
+   "quoteExcessMileage": "6p",
+   "categories": [
+    {
+     "name": "heated seats",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "parking assistance",
+     "score": 53,
+     "threshold": 40
+    },
+    {
+     "name": "high spec features",
+     "score": 50,
+     "threshold": 50
+    },
+    {
+     "name": "high seating",
+     "score": 77,
+     "threshold": 60
+    },
+    {
+     "name": "family cars",
+     "score": 85,
+     "threshold": 70
+    },
+    {
+     "name": "one previous owner",
+     "score": 100,
+     "threshold": 90
+    },
+    {
+     "name": "safe",
+     "score": 52,
+     "threshold": 50
+    },
+    {
+     "name": "fast and sporty",
+     "score": 76,
+     "threshold": 60
+    },
+    {
+     "name": "safe for kids",
+     "score": 99,
+     "threshold": 80
+    },
+    {
+     "name": "big boots",
+     "score": 85,
+     "threshold": 80
+    },
+    {
+     "name": "tech connected",
+     "score": 90,
+     "threshold": 35
+    },
+    {
+     "name": "compact cars",
+     "score": 82,
+     "threshold": 72
+    },
+    {
+     "name": "good for long drives",
+     "score": 100,
+     "threshold": 70
+    }
+   ]
+  },
+  {
+   "updatedAt": "2026-10-10T16:16:13.000Z",
+   "updatedBy": "VehicleReservations.VehicleUnreserved",
+   "firstPublishedDate": "2026-10-09T14:12:09.554Z",
+   "vehicleId": "5584548d-c2b3-4b0e-8b78-d650e10ef6c3",
+   "modelYear": 2021,
+   "vehicleYear": 2021,
+   "bodyType": "Hatchback",
+   "colour": "SILVER",
+   "doors": 5,
+   "engineCapacityCc": 0,
+   "fuelType": "Electric",
+   "vrm": "KS21ZWK",
+   "published": true,
+   "isReserved": false,
+   "mileage": 13003,
+   "seats": 5,
+   "stockType": "cinch",
+   "trim": "Premium",
+   "variant": "100kW Premium 38kWh 5dr Auto",
+   "transmissionType": "Automatic",
+   "milesPerGallon": null,
+   "driveType": "Front-wheel drive",
+   "tags": [],
+   "discountInPence": 0,
+   "depositContributionInPence": 0,
+   "promotionId": null,
+   "priceIncludingAdminFee": 11599,
+   "rangeInMiles": 193,
+   "rangeType": "WLTP",
+   "condition": "used",
+   "inventoryType": "physical",
+   "make": "Hyundai",
+   "price": 11500,
+   "model": "IONIQ",
+   "thumbnailUrl": "https://eu.cdn.autosonshow.tv/4994/projectcambridge/KS21ZWK/06_md.jpg",
+   "site": "Grimsby",
+   "engineSize": 0,
+   "fullRegistration": "KS21ZWK",
+   "isAvailable": true,
+   "selectedModel": "IONIQ",
+   "quoteType": "pcp",
+   "quoteAnnualMiles": 8000,
+   "quoteBalanceInPence": 950000,
+   "quoteApr": 12.4,
+   "quoteRegularPaymentInPence": 18425,
+   "quoteTermMonths": 48,
+   "quoteDepositInPence": 200000,
+   "quoteChargesInPence": 332500,
+   "quoteResidualValueInPence": 397100,
+   "quoteExcessMileage": "8p",
+   "categories": [
+    {
+     "name": "great for towing",
+     "score": 85,
+     "threshold": 60
+    },
+    {
+     "name": "first cars",
+     "score": 73,
+     "threshold": 72
+    },
+    {
+     "name": "heated seats",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "parking assistance",
+     "score": 53,
+     "threshold": 40
+    },
+    {
+     "name": "high spec features",
+     "score": 50,
+     "threshold": 50
+    },
+    {
+     "name": "one previous owner",
+     "score": 100,
+     "threshold": 90
+    },
+    {
+     "name": "cheaper insurance",
+     "score": 75,
+     "threshold": 75
+    },
+    {
+     "name": "safe",
+     "score": 92,
+     "threshold": 50
+    },
+    {
+     "name": "tech connected",
+     "score": 90,
+     "threshold": 35
+    },
+    {
+     "name": "good for long drives",
+     "score": 85,
+     "threshold": 70
+    }
+   ]
+  },
+  {
+   "updatedAt": "2026-10-10T02:01:15.761Z",
+   "updatedBy": "Inventory.vehicleUpdated",
+   "firstPublishedDate": "2026-10-09T12:07:01.552Z",
+   "vehicleId": "7e32966b-d713-4c18-ab91-998944888eca",
+   "modelYear": 2026,
+   "vehicleYear": 2026,
+   "bodyType": "SUV",
+   "colour": "GREY",
+   "doors": 5,
+   "engineCapacityCc": 0,
+   "fuelType": "Electric",
+   "vrm": "GD26TYU",
+   "published": true,
+   "isReserved": false,
+   "mileage": 1211,
+   "seats": 5,
+   "stockType": "marketplace",
+   "trim": "Ultimate",
+   "variant": "239kW Ultimate 84 kWh 5dr AWD Auto",
+   "transmissionType": "Automatic",
+   "milesPerGallon": null,
+   "driveType": "Four-wheel drive",
+   "tags": [
+    "nearly-new"
+   ],
+   "discountInPence": 0,
+   "depositContributionInPence": 0,
+   "promotionId": null,
+   "priceIncludingAdminFee": 37899,
+   "rangeInMiles": 311,
+   "rangeType": "WLTP",
+   "condition": "used",
+   "inventoryType": "physical",
+   "make": "Hyundai",
+   "price": 37800,
+   "model": "IONIQ 5",
+   "thumbnailUrl": "https://eu.cdn.autosonshow.tv/4824/forecourt/GD26TYU/e01_md.jpg",
+   "site": "Marshall Hyundai Canterbury",
+   "engineSize": 0,
+   "fullRegistration": "GD26TYU",
+   "isAvailable": true,
+   "selectedModel": "IONIQ 5",
+   "quoteType": "pcp",
+   "quoteAnnualMiles": 8000,
+   "quoteBalanceInPence": 3402000,
+   "quoteApr": 12.4,
+   "quoteRegularPaymentInPence": 64110,
+   "quoteTermMonths": 48,
+   "quoteDepositInPence": 378000,
+   "quoteChargesInPence": 1215905,
+   "quoteResidualValueInPence": 1540625,
+   "quoteExcessMileage": "14.9p",
+   "categories": [
+    {
+     "name": "great for towing",
+     "score": 70,
+     "threshold": 60
+    },
+    {
+     "name": "heated seats",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "parking assistance",
+     "score": 53,
+     "threshold": 40
+    },
+    {
+     "name": "high spec features",
+     "score": 50,
+     "threshold": 50
+    },
+    {
+     "name": "high seating",
+     "score": 95,
+     "threshold": 60
+    },
+    {
+     "name": "family cars",
+     "score": 85,
+     "threshold": 70
+    },
+    {
+     "name": "one previous owner",
+     "score": 100,
+     "threshold": 90
+    },
+    {
+     "name": "premium audio",
+     "score": 100,
+     "threshold": 50
+    },
+    {
+     "name": "safe",
+     "score": 50,
+     "threshold": 50
+    },
+    {
+     "name": "fast and sporty",
+     "score": 100,
+     "threshold": 60
+    },
+    {
+     "name": "safe for kids",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "big boots",
+     "score": 85,
+     "threshold": 80
+    },
+    {
+     "name": "tech connected",
+     "score": 90,
+     "threshold": 35
+    },
+    {
+     "name": "good for long drives",
+     "score": 100,
+     "threshold": 70
+    },
+    {
+     "name": "spacious rear seats",
+     "score": 100,
+     "threshold": 80
+    }
+   ]
+  },
+  {
+   "updatedAt": "2026-10-08T12:07:52.000Z",
+   "updatedBy": "FinanceQuoteComponent.PCPQuoteUpdated",
+   "firstPublishedDate": "2026-10-07T07:47:27.682Z",
+   "vehicleId": "1ada8c2f-53b2-4f06-a983-2c95834e99ea",
+   "modelYear": 2025,
+   "vehicleYear": 2025,
+   "bodyType": "SUV",
+   "colour": "WHITE",
+   "doors": 5,
+   "engineCapacityCc": 0,
+   "fuelType": "Electric",
+   "vrm": "ET25RSY",
+   "published": true,
+   "isReserved": false,
+   "mileage": 10776,
+   "seats": 7,
+   "stockType": "marketplace",
+   "trim": "Ultimate",
+   "variant": "226kW Ultimate 110kWh 5dr AWD Auto",
+   "transmissionType": "Automatic",
+   "milesPerGallon": null,
+   "driveType": "Four-wheel drive",
+   "tags": [
+    "cars-on-offer"
+   ],
+   "discountInPence": 70000,
+   "depositContributionInPence": 0,
+   "promotionId": null,
+   "priceIncludingAdminFee": 49899,
+   "rangeInMiles": 376,
+   "rangeType": "WLTP",
+   "condition": "used",
+   "inventoryType": "physical",
+   "make": "Hyundai",
+   "price": 49800,
+   "model": "IONIQ 9",
+   "thumbnailUrl": "https://eu.cdn.autosonshow.tv/4827/forecourt/ET25RSY/e01_md.jpg",
+   "site": "Marshall Hyundai Ashford",
+   "engineSize": 0,
+   "fullRegistration": "ET25RSY",
+   "isAvailable": true,
+   "selectedModel": "IONIQ 9",
+   "quoteType": "pcp",
+   "quoteAnnualMiles": 8000,
+   "quoteBalanceInPence": 4482000,
+   "quoteApr": 12.41,
+   "quoteRegularPaymentInPence": 80785,
+   "quoteTermMonths": 48,
+   "quoteDepositInPence": 498000,
+   "quoteChargesInPence": 1652680,
+   "quoteResidualValueInPence": 2256000,
+   "quoteExcessMileage": "8p",
+   "categories": [
+    {
+     "name": "panoramic roof",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "great for towing",
+     "score": 94,
+     "threshold": 60
+    },
+    {
+     "name": "heated seats",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "parking assistance",
+     "score": 53,
+     "threshold": 40
+    },
+    {
+     "name": "high spec features",
+     "score": 70,
+     "threshold": 50
+    },
+    {
+     "name": "high seating",
+     "score": 100,
+     "threshold": 60
+    },
+    {
+     "name": "one previous owner",
+     "score": 100,
+     "threshold": 90
+    },
+    {
+     "name": "premium audio",
+     "score": 100,
+     "threshold": 50
+    },
+    {
+     "name": "safe",
+     "score": 100,
+     "threshold": 50
+    },
+    {
+     "name": "fast and sporty",
+     "score": 100,
+     "threshold": 60
+    },
+    {
+     "name": "tech connected",
+     "score": 90,
+     "threshold": 35
+    },
+    {
+     "name": "good for long drives",
+     "score": 100,
+     "threshold": 70
+    },
+    {
+     "name": "spacious rear seats",
+     "score": 100,
+     "threshold": 80
+    }
+   ]
+  },
+  {
+   "updatedAt": "2026-10-02T15:09:02.039Z",
+   "updatedBy": "hpi-gateway.VehicleTaxDataUpdated",
+   "firstPublishedDate": "2026-10-01T09:49:21.721Z",
+   "vehicleId": "0456bcf2-450c-4b95-b9cf-377ca47fedfd",
+   "modelYear": 2023,
+   "vehicleYear": 2023,
+   "bodyType": "SUV",
+   "colour": "GREY",
+   "doors": 5,
+   "engineCapacityCc": 0,
+   "fuelType": "Electric",
+   "vrm": "BP23KDZ",
+   "published": true,
+   "isReserved": false,
+   "mileage": 35413,
+   "seats": 5,
+   "stockType": "cinch",
+   "trim": "Premium",
+   "variant": "125kW Premium 58 kWh 5dr Auto [Part Leather]",
+   "transmissionType": "Automatic",
+   "milesPerGallon": null,
+   "driveType": "Rear-wheel drive",
+   "tags": [],
+   "discountInPence": 0,
+   "depositContributionInPence": 0,
+   "promotionId": null,
+   "priceIncludingAdminFee": 17999,
+   "rangeInMiles": 238,
+   "rangeType": "WLTP",
+   "condition": "used",
+   "inventoryType": "physical",
+   "make": "Hyundai",
+   "price": 17900,
+   "model": "IONIQ 5",
+   "thumbnailUrl": "https://eu.cdn.autosonshow.tv/7059/21623/BP23KDZ/06_md.jpg",
+   "site": "Derby",
+   "engineSize": 0,
+   "fullRegistration": "BP23KDZ",
+   "isAvailable": true,
+   "selectedModel": "IONIQ 5",
+   "quoteType": null,
+   "quoteAnnualMiles": null,
+   "quoteBalanceInPence": null,
+   "quoteApr": null,
+   "quoteRegularPaymentInPence": null,
+   "quoteTermMonths": null,
+   "quoteDepositInPence": null,
+   "quoteChargesInPence": null,
+   "quoteResidualValueInPence": null,
+   "quoteExcessMileage": null,
+   "categories": [
+    {
+     "name": "great for towing",
+     "score": 85,
+     "threshold": 60
+    },
+    {
+     "name": "heated seats",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "high seating",
+     "score": 95,
+     "threshold": 60
+    },
+    {
+     "name": "family cars",
+     "score": 83,
+     "threshold": 70
+    },
+    {
+     "name": "one previous owner",
+     "score": 100,
+     "threshold": 90
+    },
+    {
+     "name": "safe",
+     "score": 70,
+     "threshold": 50
+    },
+    {
+     "name": "safe for kids",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "big boots",
+     "score": 85,
+     "threshold": 80
+    },
+    {
+     "name": "tech connected",
+     "score": 90,
+     "threshold": 35
+    },
+    {
+     "name": "good for long drives",
+     "score": 95,
+     "threshold": 70
+    },
+    {
+     "name": "spacious rear seats",
+     "score": 100,
+     "threshold": 80
+    }
+   ]
+  },
+  {
+   "updatedAt": "2026-10-09T13:04:23.000Z",
+   "updatedBy": "VehicleReservations.VehicleReserved",
+   "firstPublishedDate": "2026-09-28T14:18:43.882Z",
+   "vehicleId": "7f6ddfec-222d-4683-bc9f-de2b257f554e",
+   "modelYear": 2017,
+   "vehicleYear": 2017,
+   "bodyType": "Hatchback",
+   "colour": "BLUE",
+   "doors": 5,
+   "engineCapacityCc": 0,
+   "fuelType": "Electric",
+   "vrm": "MA17YKF",
+   "published": true,
+   "isReserved": true,
+   "mileage": 31000,
+   "seats": 5,
+   "stockType": "cinch",
+   "trim": "Premium SE",
+   "variant": "88kW Electric Premium SE 28kWh 5dr Auto",
+   "transmissionType": "Automatic",
+   "milesPerGallon": null,
+   "driveType": "Front-wheel drive",
+   "tags": [],
+   "discountInPence": 0,
+   "depositContributionInPence": 0,
+   "promotionId": null,
+   "priceIncludingAdminFee": 9599,
+   "rangeInMiles": 174,
+   "rangeType": "NEDC",
+   "condition": "used",
+   "inventoryType": "physical",
+   "make": "Hyundai",
+   "price": 9500,
+   "model": "IONIQ",
+   "thumbnailUrl": "https://eu.cdn.autosonshow.tv/7059/21623/MA17YKF/06_md.jpg",
+   "site": "Derby",
+   "engineSize": 0,
+   "fullRegistration": "MA17YKF",
+   "isAvailable": true,
+   "selectedModel": "IONIQ",
+   "quoteType": "hp",
+   "quoteBalanceInPence": 750000,
+   "quoteApr": 12.42,
+   "quoteRegularPaymentInPence": 16581,
+   "quoteTermMonths": 60,
+   "quoteDepositInPence": 200000,
+   "quoteChargesInPence": 245860,
+   "categories": [
+    {
+     "name": "first cars",
+     "score": 73,
+     "threshold": 72
+    },
+    {
+     "name": "heated seats",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "parking assistance",
+     "score": 53,
+     "threshold": 40
+    },
+    {
+     "name": "high spec features",
+     "score": 80,
+     "threshold": 50
+    },
+    {
+     "name": "cheaper insurance",
+     "score": 75,
+     "threshold": 75
+    },
+    {
+     "name": "safe",
+     "score": 100,
+     "threshold": 50
+    },
+    {
+     "name": "big boots",
+     "score": 85,
+     "threshold": 80
+    },
+    {
+     "name": "tech connected",
+     "score": 100,
+     "threshold": 35
+    },
+    {
+     "name": "good for long drives",
+     "score": 85,
+     "threshold": 70
+    }
+   ]
+  }
+ ],
+ "hasMatchingVehicleRecentlyBeenInStock": true,
+ "parsedParamsFromUrl": {
+  "make": "hyundai",
+  "fuelType": "electric"
+ },
+ "pathSegmentsFromUrl": {
+  "make": "hyundai"
+ }
+}

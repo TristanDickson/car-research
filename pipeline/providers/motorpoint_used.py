@@ -14,6 +14,13 @@ Each car is filed under the catalogue model its names match (used_match);
 emits 'used' records keyed motorpoint:<VehicleId>. Motorpoint prints no
 registration, so the snapshot folds a car it shares with another site by
 year and mileage.
+
+Each car also carries the lowest monthly payment Motorpoint offers on it and
+that offer's type (PCP, HP on a few), but not the deposit, term or APR behind
+it: `finance` holds just those two, marked `lowest`. Beside it the warranty
+left, the plate's age identifier ('23'), the colour, and the price before a
+reduction with the reduction. Cars coming soon (not yet on sale, no branch yet,
+but priced) are kept, marked `coming_soon`.
 """
 from __future__ import annotations
 
@@ -83,6 +90,15 @@ def fetch(target: Target, ctx: Context) -> Fetched:
     return Fetched(url=target.metadata["url"], status_code=200, body=body, content_type="application/json", parts=tuple(parts))
 
 
+def finance(v: dict) -> dict | None:
+    """The lowest monthly payment Motorpoint prints for the car and its type; the rest of that offer is not printed."""
+    monthly = v.get("LowestFinanceOption")
+    if not isinstance(monthly, (int, float)) or monthly <= 0:
+        return None
+    f = {"type": (v.get("LowestFinanceOptionType") or "").lower() or None, "monthly_payment": round(monthly, 2), "lowest": True}
+    return {k: x for k, x in f.items() if x is not None}
+
+
 def parse_body(body: dict, target: Target, observed_at: str) -> list[dict]:
     pages = body.get("pages") if "pages" in body else [body]
     models = target.metadata.get("models") or []
@@ -92,7 +108,7 @@ def parse_body(body: dict, target: Target, observed_at: str) -> list[dict]:
     for page in pages:
         for v in page.get("vehicles") or []:
             vid = v.get("VehicleId")
-            if not vid or vid in seen or v.get("IsSold") or v.get("IsOnSale") is False:
+            if not vid or vid in seen or v.get("IsSold"):
                 continue
             seen.add(vid)
             m = match_model(v.get("Make") or "", v.get("Model") or "", models)
@@ -116,6 +132,11 @@ def parse_body(body: dict, target: Target, observed_at: str) -> list[dict]:
                 "derivative": trim, "price_gbp": float(price), "year": v.get("RegYear"), "mileage": v.get("Mileage"),
                 "town": v.get("Location"), "vrm": None, "badges": badges, "image_url": v.get("DefaultImageUri") or v.get("ImageUri"),
                 "list_price_when_new": float(rrp) if rrp else None,
+                "finance": finance(v), "colour": v.get("Colour"), "warranty_months_left": v.get("WarrantyRemainingMonths"),
+                "plate_age_id": str(v["RegPlateAgeIdentifier"]) if v.get("RegPlateAgeIdentifier") else None,
+                "previous_price_gbp": float(v["PreviousPrice"]) if v.get("PreviousPrice") else None,
+                "discount_gbp": float(v["Discount"]) if v.get("Discount") else None,
+                "coming_soon": bool(v.get("IsComingSoon") or v.get("IsOnSale") is False),
                 "car_ref": {"source": SITE, "key": str(vid), "make": make_name, "model": model_name, "derivative": trim,
                             "label": f"{make_name} {model_name} {trim}".strip()},
             })
@@ -130,5 +151,5 @@ def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
         yield ParsedRecord(kind="used", key=row["listing_key"], row=row)
 
 
-stock = Capability(name="used-stock", parser_version="1", discover=discover, fetch=fetch, parse=parse, kinds=("used",))
+stock = Capability(name="used-stock", parser_version="2", discover=discover, fetch=fetch, parse=parse, kinds=("used",))
 provider = Provider(name="motorpoint_used", default_capability="used-stock", capabilities={"used-stock": stock}, live=True)

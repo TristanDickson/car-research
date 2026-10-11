@@ -113,22 +113,36 @@ def _label(text: str, start: int, block: str, headings: bool = True) -> str | No
     return name.strip() or None
 
 
+def _own_label(h1: str | None, caption: str | None) -> str | None:
+    """The car a Halliwell Jones offer page is for. Its heading ('Kia EV4 Motion') agrees with the example's
+    on-the-road price where its captions often do not (an 'EV3 Air' caption over the GT-Line's £39,455, an
+    'EV4 'Air'' caption over the Motion's £40,495), so the heading wins when it names more than the model;
+    a bare 'Kia EV5' heading leaves the caption ('Kia EV5 'GT-Line' Auto EV Automatic')."""
+    if h1 and ELECTRIC.search(h1) and h1[ELECTRIC.search(h1).end():].strip():
+        return h1
+    return caption.replace("'", "") if caption else h1
+
+
 def parse_page(page: str, url: str, site: str, observed_at: str) -> list[dict]:
     text = page_text(page)
     starts = [m.start() for m in re.finditer(r"Representative Example", text)]
-    # An offer page (Halliwell Jones): its heading names the car, and its banner ('From only £399 p/m Deposit
-    # £4,999') says which of the page's examples is that offer's.
+    # An offer page (Halliwell Jones): the first example is the page's own offer; the later ones are cards
+    # for its other offers, each read from that offer's own page. The banner ('From only £399 p/m Deposit
+    # £4,999') is kept beside the example: the EV5 Storm's example prints £449 where its banner, and its
+    # own credit, APR and final payment, say £499.
     h1 = re.search(r"<h1[^>]*>(.*?)</h1>", page, re.S)
     h1 = page_text(h1.group(1)) if h1 else None
     banner = re.search(r"From only £\s*([\d,.]+)\s*p/m\s*Deposit £\s*([\d,.]+)", text)
+    offer_page = not SITES[site]["headings"] and "/offers/kia-" in url
     rows = []
     for i, start in enumerate(starts):
         block = text[start:starts[i + 1] if i + 1 < len(starts) else start + 1600]
         label = _label(text, start, block, SITES[site]["headings"])
         monthly = _money(block, r"Monthly Payment")
-        if not label and not SITES[site]["headings"] and "/offers/kia-" in url and h1 and banner and monthly is not None:
-            if (monthly, _money(block, r"Customer Deposit")) == (float(banner.group(1).replace(",", "")), float(banner.group(2).replace(",", ""))):
-                label = h1
+        own = offer_page and i == 0
+        if not label and own:
+            caption = re.search(r"(Kia (?:EV\d|PV5|Niro EV)\b[^.]{0,60}?)\s*$", text[max(0, start - 90):start])
+            label = _own_label(h1, caption.group(1).strip() if caption else None)
         if not label or not monthly or not ELECTRIC.search(label):
             continue
         name = re.sub(r"\s+", " ", re.sub(r"\b(\d+)\s*Kw\b", r"\1kW", re.sub(r"Kwh", "kWh", label, flags=re.I)))
@@ -143,7 +157,9 @@ def parse_page(page: str, url: str, site: str, observed_at: str) -> list[dict]:
         credit = _money(block, r"Amount of Credit")
         term = re.search(r"(?:Duration|Term) of Agreement\s*(\d+)", block, re.I)   # 'months' is sometimes left off
         payments = re.search(r"(\d+)\s*Monthly Payments", block, re.I)
-        miles = re.search(r"Estimated Annual Mileage\s*([\d,]+)", block, re.I) or re.search(r"\(([\d,]+) per annum\)", block, re.I)
+        # 'Estimated Annual Mileage 6,000', 'Annual Mileage 10,000', '(6,000 per annum)', 'Contract Mileage 18000 (6,000)'.
+        miles = (re.search(r"(?:Estimated )?Annual Mileage\s*([\d,]+)", block, re.I) or re.search(r"\(([\d,]+) per annum\)", block, re.I)
+                 or re.search(r"Contract Mileage\s*[\d,]+\s*\(([\d,]+)", block, re.I))
         excess = re.search(r"Excess Mileage Charge[^£\d]{0,30}(£\s*0?\.(\d+)|(\d+(?:\.\d+)?)p)", block, re.I)
         ppm = (float("0." + excess.group(2)) * 100 if excess.group(2) else float(excess.group(3))) if excess else None
         # The offer's dates, from the terms that follow the example (a page can carry an old offer's terms).
@@ -172,6 +188,10 @@ def parse_page(page: str, url: str, site: str, observed_at: str) -> list[dict]:
             "reconciles": reconciles,
             "notes": f"{SITES[site]['name']}'s representative example, with its own deposit contribution on top of Kia's.",
         })
+        if own and banner:
+            b_monthly, b_deposit = (float(banner.group(j).replace(",", "")) for j in (1, 2))
+            rows[-1].update({"banner_monthly": b_monthly, "banner_deposit": b_deposit,
+                             "banner_agrees": (b_monthly, b_deposit) == (monthly, deposit)})
     return rows
 
 
@@ -185,5 +205,5 @@ def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
                 yield ParsedRecord(kind="offer", key=row["offer_key"], row=row)
 
 
-offers = Capability(name="offers", parser_version="1", discover=discover, fetch=fetch, parse=parse, kinds=("offer",))
+offers = Capability(name="offers", parser_version="2", discover=discover, fetch=fetch, parse=parse, kinds=("offer",))
 provider = Provider(name="kia_dealers", default_capability="offers", capabilities={"offers": offers}, live=True)

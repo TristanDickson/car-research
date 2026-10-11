@@ -162,12 +162,18 @@ function UsedStockView({ car, listings, stock, byYear }: { car: SnapshotCar; lis
         ) : (
           <table className="w-full text-sm">
             <thead className="text-left text-xs uppercase text-gray-500">
-              <tr><th className="py-1 pr-3 text-right">Price</th><th className="py-1 pr-3">Year</th><th className="py-1 pr-3 text-right">Miles</th><th className="py-1 pr-3">Derivative</th><th className="py-1 pr-3">Where</th><th className="py-1">Source</th></tr>
+              <tr><th className="py-1 pr-3 text-right">Price</th><th className="py-1 pr-3 text-right">Finance</th><th className="py-1 pr-3">Year</th><th className="py-1 pr-3 text-right">Miles</th><th className="py-1 pr-3">Derivative</th><th className="py-1 pr-3">Where</th><th className="py-1">Source</th></tr>
             </thead>
             <tbody>
               {shown.map((l) => (
                 <tr key={l.listing_key} className={`border-t border-gray-800 ${mine(l) ? "bg-sky-950/30" : "text-gray-400"}`}>
-                  <td className="py-1 pr-3 text-right tabular-nums text-gray-100">{gbp(l.price_gbp)}{mine(l) && <span className="ml-1 text-[10px] text-sky-300">this trim</span>}</td>
+                  <td className="py-1 pr-3 text-right tabular-nums text-gray-100" title={l.discount_gbp ? `${gbp(l.discount_gbp)} off${l.previous_price_gbp ? `, was ${gbp(l.previous_price_gbp)}` : ""}` : undefined}>
+                    {gbp(l.price_gbp)}{l.discount_gbp ? <span className="ml-1 text-[10px] text-emerald-300">−{gbp(l.discount_gbp)}</span> : null}
+                    {mine(l) && <span className="ml-1 text-[10px] text-sky-300">this trim</span>}
+                    {l.coming_soon && <span className="ml-1 text-[10px] text-amber-300">coming soon</span>}
+                    {l.vehicle_state === "New" && <span className="ml-1 text-[10px] text-amber-300" title="The site lists it as new: pre-registered stock, left out of what a used one is worth">new</span>}
+                  </td>
+                  <td className="py-1 pr-3 text-right text-xs tabular-nums text-gray-300" title={financeTitle(l.finance)}>{financeShort(l.finance)}</td>
                   <td className="py-1 pr-3">{l.year ?? "—"}</td>
                   <td className="py-1 pr-3 text-right tabular-nums">{l.mileage != null ? num(l.mileage) : "—"}</td>
                   <td className="py-1 pr-3 text-xs text-gray-300">{l.derivative ?? "—"}</td>
@@ -216,4 +222,22 @@ function UsedStockView({ car, listings, stock, byYear }: { car: SnapshotCar; lis
       </div>
     </div>
   );
+}
+
+
+/** A used listing's finance quote in a few words: '£370/mo PCP', 'from £305/mo PCP' for a site's lowest. */
+function financeShort(f: SnapshotUsed["finance"]): string {
+  if (!f || !f.monthly_payment) return "—";
+  return `${f.lowest ? "from " : ""}${gbp(f.monthly_payment)}/mo ${f.type.toUpperCase()}`;
+}
+
+function financeTitle(f: SnapshotUsed["finance"]): string | undefined {
+  if (!f || !f.monthly_payment) return undefined;
+  if (f.lowest) return "The site's lowest monthly for this car; it prints no full quote";
+  return [f.deposit != null ? `${gbp(f.deposit)} deposit` : null,
+          f.num_payments ? `${f.num_payments} × ${gbp(f.monthly_payment)}` : null,
+          f.final_payment ? `final payment ${gbp(f.final_payment)}` : null,
+          f.apr != null ? `${(f.apr * 100).toFixed(1)}% APR` : null,
+          f.annual_mileage ? `${num(f.annual_mileage)} miles a year` : null,
+          f.reconciles === false ? "the quote's figures do not add up" : null].filter(Boolean).join(" · ");
 }

@@ -15,6 +15,7 @@ rate-limited and not read.
 from __future__ import annotations
 
 import re
+from datetime import datetime, timezone
 from collections.abc import Iterator
 
 from pipeline.providers.http import fetch_url
@@ -52,6 +53,13 @@ def _num(s: str | None) -> float | None:
     return number(s)
 
 
+def _month_of(stamp: str | None) -> str | None:
+    """A card's hidden date (Unix seconds) as 'YYYY-MM', the form the car pages' dates take."""
+    if not stamp or not stamp.strip().isdigit():
+        return None
+    return datetime.fromtimestamp(int(stamp), tz=timezone.utc).strftime("%Y-%m")
+
+
 def parse_card(card: str, url: str, observed_at: str) -> dict | None:
     vid = _hidden(card, "id")
     title = re.search(r'<a href="(/uk/car/\d+/[^"]+)" class="title"><span class="[^"]*">(.*?)</span>\s*<span class="model">(.*?)</span>', card, re.S)
@@ -68,6 +76,11 @@ def parse_card(card: str, url: str, observed_at: str) -> dict | None:
     v2l_ok = bool(v2l) and "not" not in v2l.group(1).lower()
     seats = re.search(r'data-tooltip="Number of seats">.*?<span>(\d+)</span>', card, re.S)
     year_from = _hidden(card, "year_from")
+    # The card's hidden availability dates: 'Discontinued (October 2024 - October 2026)' is a date_to; an
+    # empty one is a car still on sale, unless its date_from is still to come.
+    since, until = _month_of(_hidden(card, "date_from")), _month_of(_hidden(card, "date_to"))
+    month = observed_at[:7]
+    on_sale = False if until and until <= month else None if since and since > month else True if since else None
     numbers = {
         "battery_usable_kwh": _num(_hidden(card, "battery")),
         "real_range_mi": _num(_spec(card, "erange_real")),
@@ -83,6 +96,7 @@ def parse_card(card: str, url: str, observed_at: str) -> dict | None:
         "seats": int(seats.group(1)) if seats else None,
         "ac_kw": 11.0 if re.search(r'class="obc_11kw hidden">\s*\S', card) else None,
         "year_from": int(year_from) if year_from and year_from.isdigit() else None,
+        "on_sale": on_sale, "on_sale_since": since, "on_sale_until": until,
     }
     flags = {"heat_pump": heat_pump, "v2l_any": "standard" if v2l_ok else None, "v2l_external": "standard" if v2l_ok else None}
     shape = re.search(r'class="shape-(\w+) hidden"', card)
@@ -115,5 +129,5 @@ def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
         yield ParsedRecord(kind="spec", key=row["spec_key"], row=row)
 
 
-specs = Capability(name="specs", parser_version="1", discover=discover, fetch=fetch, parse=parse, kinds=("spec",))
+specs = Capability(name="specs", parser_version="2", discover=discover, fetch=fetch, parse=parse, kinds=("spec",))
 provider = Provider(name="evdb", default_capability="specs", capabilities={"specs": specs}, live=True)

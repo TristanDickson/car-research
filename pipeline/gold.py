@@ -164,6 +164,14 @@ def upsert_used_listing(conn: sqlite3.Connection, r: dict, source: str, artifact
                         first_seen_at: str | None = None, last_seen_at: str | None = None, present: int = 1) -> None:
     """A used listing's latest state. car_id is left empty: the build sets it."""
     r = {k: v for k, v in r.items() if k != "car_id"}
+    if r.get("detail") == "price-year":
+        # Carwow named the car with only its price and year tonight; what an earlier card said about it
+        # (derivative, mileage, town, car_ref) still stands.
+        old = conn.execute("SELECT payload FROM used_listings WHERE listing_key=?", (r["listing_key"],)).fetchone()
+        prev = json.loads(old["payload"]) if old else {}
+        if prev:
+            r = {**prev, **{k: v for k, v in r.items() if v is not None}, "detail": "price-year",
+                 "card_seen_at": prev.get("card_seen_at") or prev.get("observed_at")}
     latest = ", ".join(_latest("used_listings", c) for c in ("price_gbp", "mileage", "present", "payload", "make", "make_slug",
                                                               "model", "model_slug", "year"))
     conn.execute(

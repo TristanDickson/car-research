@@ -74,6 +74,43 @@ export interface SnapshotUsed {
   url?: string | null;
   image_url?: string | null;
   vrm?: string | null;
+  /** The site's finance quote for this car: cinch's in full, Motorpoint's lowest monthly ('lowest'). */
+  finance?: UsedFinance | null;
+  colour?: string | null;
+  drive?: string | null;
+  discount_gbp?: number | null;
+  previous_price_gbp?: number | null;
+  tags?: string[] | null;
+  badges?: string[] | null;
+  warranty_months_left?: number | null;
+  plate_age_id?: string | null;
+  price_before_fees?: number | null;
+  first_listed_at?: string | null;
+  list_price_when_new?: number | null;
+  /** Motorpoint's 'coming soon': priced, not yet on its forecourt. */
+  coming_soon?: boolean | null;
+  /** Carwow: how much its card gave ('card', 'stored-card' from an earlier night, 'price-year' when only the price and year are known). */
+  detail?: string | null;
+  card_seen_at?: string | null;
+  /** Carwow's own state for the car: 'New' for a pre-registered car in its used results. */
+  vehicle_state?: string | null;
+}
+
+export interface UsedFinance {
+  type: string;
+  monthly_payment: number;
+  deposit?: number;
+  apr?: number;
+  num_payments?: number;
+  term_months?: number;
+  final_payment?: number;
+  credit?: number;
+  charges?: number;
+  annual_mileage?: number;
+  excess_mileage_ppm?: number;
+  reconciles?: boolean | null;
+  /** The site's lowest monthly for the car rather than a full quote. */
+  lowest?: boolean;
 }
 
 /** What only the car page reads, fetched on demand (details.json, keyed by car id). */
@@ -127,6 +164,10 @@ export interface SnapshotUsedSpan {
   from: string;
   to: string;
   present: boolean;
+  /** Motorpoint's 'coming soon': priced, not yet on its forecourt. */
+  coming_soon?: boolean;
+  /** Carwow's own state for the car: 'New' for a pre-registered car in its used results. */
+  vehicle_state?: string;
 }
 
 export interface SnapshotCar {

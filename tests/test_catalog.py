@@ -322,6 +322,19 @@ class ResolutionRules(unittest.TestCase):
         r = resolve.choose({"derivative": "150kW GT-Line S 81.4kWh 5dr Auto [Tech Pack]", "rrp": 45455.0}, three)
         self.assertEqual((r.car_id, r.method), ("carwow-cap:3", "rrp"))
 
+    def test_a_price_the_named_derivative_cannot_carry_is_a_conflict(self):
+        """RRG's EV6 example names the 'Air' (list £45,635) at the GT-Line's £52,835: the text matches one
+        derivative, the price fits none, so it is recorded as a conflict rather than put on the Air."""
+        from pipeline.services import resolve
+        air = [{"id": "carwow-cap:9", "auto": True, "trim": "Air · 168kW 84kWh Auto", "variant": "168kW 84kWh Auto",
+                "list_price_gbp": 45635.0, "version_date": "2026-10-01"}]
+        r = resolve.choose({"derivative": "Air 168kW 84kWh Auto", "rrp": 52835.0}, air)
+        self.assertEqual((r.car_id, r.method, r.evidence["list_prices"]), (None, "conflict", [45635.0]))
+        r = resolve.choose({"derivative": "Air 168kW 84kWh Auto", "rrp": 46335.0}, air)
+        self.assertEqual((r.car_id, r.method), ("carwow-cap:9", "trim-powertrain"), "£700 of metallic paint is still the Air")
+        r = resolve.choose({"derivative": "150kW GT-Line S 81.4kWh 5dr Auto", "rrp": 39995.0}, self.twins())
+        self.assertEqual((r.car_id, r.method), (None, "conflict"), "below both twins' list prices")
+
     def test_identical_prices_take_the_current_version(self):
         from pipeline.services import resolve
         same = [dict(self.twins()[0], list_price_gbp=39995.0, version_date="2025-04-01"),

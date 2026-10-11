@@ -64,44 +64,83 @@ def _num(v: str | None, unit: str) -> float | None:
     return float(m.group(1)) if m else None
 
 
+def _fact(v: str | None, unit: str) -> tuple[float | None, list[float] | None]:
+    """A model-level fact: (the value, None) when the page prints one, (None, [low, high]) when it prints
+    the model's range ('350 - 1,330 L', '5 - 7'), which is no one derivative's figure."""
+    if not v:
+        return None, None
+    nums = [float(x) for x in re.findall(r"\d+(?:\.\d+)?", v.replace(",", ""))]
+    if not nums or (unit and not re.search(re.escape(unit), v, re.I)):
+        return None, None
+    if len(nums) >= 2 and re.search(r"\d\s*-\s*\d", v.replace(",", "")):
+        return None, [min(nums), max(nums)]
+    return nums[0], None
+
+
+def _breakdown(name: str, body: str) -> dict:
+    """Numeric facts from one specification breakdown."""
+    pairs = {text(k): text(v) for k, v in PAIR_RE.findall(body)}
+    cats = [text(c) for c in re.findall(r"specification-breakdown__category-list-item'>\s*(.*?)\s*</li>", body, re.S)]
+    return {
+        "engine": name, "fuel": cats[0] if cats else None,
+        "power_bhp": next((number(c) for c in cats if "bhp" in c), None),
+        "drive": next((c for c in cats if "wheel drive" in c.lower()), None),
+        "zero_to_60_s": _num(pairs.get("Acceleration (0-60mph)") or pairs.get("Acceleration (0-62mph)"), "s"),
+        "wltp_range_mi": _num(pairs.get("Battery range"), "miles"),
+        "battery_kwh": _num(pairs.get("Battery capacity"), "kWh"),
+        "efficiency_mi_kwh": _num(pairs.get("Consumption"), "miles/kWh"),
+        "top_speed_mph": _num(pairs.get("Top speed"), "mph"),
+        "first_year_tax_gbp": money(pairs.get("First year road tax")),
+        "raw": pairs,
+    }
+
+
+def _slides(page: str) -> dict[str, dict]:
+    """CAP id → its own breakdown and prices. Each engines-carousel slide holds one derivative's
+    breakdown, its RRP and Carwow price, and the 'Configure car' link naming its CAP id. Several
+    derivatives share an engine name with different figures (an N Line's range is not an Ultimate's),
+    so the CAP id in the slide, not the name, says whose figures they are."""
+    out: dict[str, dict] = {}
+    for chunk in page.split("<div class='swiper-slide'")[1:]:
+        end = chunk.find("</footer>")
+        chunk = chunk[:end] if end >= 0 else chunk
+        title = re.search(r"specification-breakdown__title'>\s*(.*?)\s*</div>", chunk, re.S)
+        cap = re.search(r"cap_derivative_id=(\d+)", chunk)
+        if not title or not cap or cap.group(1) in out:
+            continue
+        b = _breakdown(text(title.group(1)), chunk[title.end():])
+        b["rrp"] = money((re.search(r"engines-carousel__pricing-rrp'>(.*?)<div", chunk, re.S) or [None, None])[1])
+        b["carwow_price"] = money((re.search(r"engines-carousel__pricing-carwow-price'>(.*?)</strong>", chunk, re.S) or [None, None])[1])
+        out[cap.group(1)] = b
+    return out
+
+
 def _engines(page: str) -> dict[str, dict]:
-    """Engine name → numeric facts from its specification breakdown."""
+    """Engine name → the first breakdown under that name: the fallback for a derivative whose own
+    slide is missing (an older page layout)."""
     out: dict[str, dict] = {}
     for m in re.finditer(r"specification-breakdown__title'>\s*(.*?)\s*</div>(.*?)(?=specification-breakdown__title'>|<footer|$)", page, re.S):
         name = text(m.group(1))
-        body = m.group(2)
-        if name in out:
-            continue
-        pairs = {text(k): text(v) for k, v in PAIR_RE.findall(body)}
-        cats = [text(c) for c in re.findall(r"specification-breakdown__category-list-item'>\s*(.*?)\s*</li>", body, re.S)]
-        out[name] = {
-            "engine": name, "fuel": cats[0] if cats else None,
-            "power_bhp": next((number(c) for c in cats if "bhp" in c), None),
-            "drive": next((c for c in cats if "wheel drive" in c.lower()), None),
-            "zero_to_60_s": _num(pairs.get("Acceleration (0-60mph)") or pairs.get("Acceleration (0-62mph)"), "s"),
-            "wltp_range_mi": _num(pairs.get("Battery range"), "miles"),
-            "battery_kwh": _num(pairs.get("Battery capacity"), "kWh"),
-            "efficiency_mi_kwh": _num(pairs.get("Consumption"), "miles/kWh"),
-            "top_speed_mph": _num(pairs.get("Top speed"), "mph"),
-            "first_year_tax_gbp": money(pairs.get("First year road tax")),
-            "raw": pairs,
-        }
+        if name not in out:
+            out[name] = _breakdown(name, m.group(2))
     return out
 
 
 def parse_page(page: str, make: str, model: str, url: str, observed_at: str, make_name: str | None = None) -> list[dict]:
     make_name = make_name or pretty_make(make)
     facts = {text(k): text(v) for k, v in DTDD_RE.findall(page)}
-    model_facts = {
-        "seats": int(number(facts.get("Number of seats")) or 0) or None,
-        "doors": int(number(facts.get("Number of doors")) or 0) or None,
-        "boot_l": _num(facts.get("Boot (seats up)"), "L"),
-        "boot_max_l": _num(facts.get("Boot (seats down)"), "L"),
-        "turning_circle_m": _num(facts.get("Turning circle"), "m"),
-        "wheelbase_m": _num(facts.get("Wheelbase"), "m"),
-        "battery_kwh": _num(facts.get("Battery capacity"), "kWh"),
-        "used_from_gbp": money(facts.get("Used")),
-    }
+    # Model-level facts. Where the page prints the model's range ('5 - 7' seats, '350 - 1,330 L'), no
+    # derivative gets a value from it: the range is kept as <field>_range and the field left blank.
+    model_facts: dict = {"used_from_gbp": money(facts.get("Used"))}
+    for field, label, unit in (("seats", "Number of seats", ""), ("doors", "Number of doors", ""),
+                               ("boot_l", "Boot (seats up)", "L"), ("boot_max_l", "Boot (seats down)", "L"),
+                               ("turning_circle_m", "Turning circle", "m"), ("wheelbase_m", "Wheelbase", "m"),
+                               ("battery_kwh", "Battery capacity", "kWh")):
+        value, span = _fact(facts.get(label), unit)
+        model_facts[field] = int(value) if value is not None and field in ("seats", "doors") else value
+        if span:
+            model_facts[f"{field}_range"] = span
+    slides = _slides(page)
     engines = _engines(page)
     heads = [m.start() for m in HEAD_RE.finditer(page)]
     rows: list[dict] = []
@@ -122,7 +161,8 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str, mak
             if cap in seen:
                 continue
             seen.add(cap)
-            e = dict(engines.get(engine, {}))
+            e = dict(slides.get(cap) or engines.get(engine, {}))
+            d_rrp, d_price = e.pop("rrp", None), e.pop("carwow_price", None)
             # Engine facts win over model facts, but never with a blank; the battery
             # is usually only printed in the engine name ('108kW 42kWh Auto').
             numbers = dict(model_facts)
@@ -136,8 +176,9 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str, mak
                 "observed_at": observed_at, "make": make_name, "make_slug": make, "model": model_name, "model_slug": model,
                 "trim": trim, "variant": f"{model_name} {trim} {engine}".strip(), "engine": engine, "cap_id": cap,
                 "version_date": version, "model_year_hint": version[:4],
-                "car_ref": {"source": SITE, "key": cap, "label": f"{make_name} {model_name} {engine} · {trim} · RRP £{rrp:,.0f}" if rrp else f"{make_name} {model_name} {engine} · {trim}"},
-                "rrp": rrp, "carwow_price": price,
+                "car_ref": {"source": SITE, "key": cap, "label": f"{make_name} {model_name} {engine} · {trim} · RRP £{d_rrp or rrp:,.0f}" if d_rrp or rrp else f"{make_name} {model_name} {engine} · {trim}"},
+                # The trim article prints the trim's cheapest price; the derivative's own slide its own.
+                "rrp": d_rrp or rrp, "carwow_price": d_price or price, "trim_rrp": rrp, "trim_carwow_price": price,
                 "image_url": img.group(1).replace("&amp;", "&").replace("filter%5Bsize%5D=400", "filter%5Bsize%5D=800") if img else
                              f"https://car-data.carwow.co.uk/image?filter%5Bangle%5D=22&filter%5Bcolour%5D=black&filter%5Bderivative_id%5D={cap}&filter%5Bsize%5D=800",
                 "description": text(desc.group(1)) if desc else None,
@@ -156,5 +197,5 @@ def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
 
 # No Wayback backfill here: a spec row is the current state of a derivative,
 # and an older capture must not overwrite it.
-specs = Capability(name="specs", parser_version="2", discover=discover, fetch=fetch, parse=parse, kinds=("spec",))
+specs = Capability(name="specs", parser_version="3", discover=discover, fetch=fetch, parse=parse, kinds=("spec",))
 provider = Provider(name="carwow_specs", default_capability="specs", capabilities={"specs": specs}, live=True)

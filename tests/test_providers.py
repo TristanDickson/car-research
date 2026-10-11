@@ -58,6 +58,13 @@ class CarwowDeals(unittest.TestCase):
         self.assertEqual(sorted(k for k in by_key if k.startswith("carwow:cash:")),
                          ["carwow:cash:106391", "carwow:cash:106392", "carwow:cash:106393", "carwow:cash:106394", "carwow:cash:110993"])
 
+    def test_rep_example_goes_to_the_twin_whose_monthly_it_is(self):
+        """Two Ioniq 5 Advance 63 kWh derivatives share the £40,695 RRP; the example's £301 a month
+        is the 'Monthly from' on 111632's card, not 105814's (£325)."""
+        rows = carwow_deals.parse_page(fixture("carwow_hyundai_ioniq-5_deals.html"), "hyundai", "ioniq-5", "u", T)
+        rep = [r for r in rows if r["finance_type"] == "pcp"]
+        self.assertEqual([(r["offer_key"], r["monthly_payment"]) for r in rep], [("carwow:rep:111632", 301.0)])
+
     def test_discover_targets(self):
         ts = list(carwow_deals.discover(Target("all"), Context(root=FIX)))
         self.assertEqual(len(ts), len(carwow_deals.MODELS))
@@ -117,8 +124,12 @@ class RRG(unittest.TestCase):
 class HyundaiOffers(unittest.TestCase):
     def test_kona_pcp_offer(self):
         rows = hyundai_offers.parse_page(fixture("hyundai_offer_kona_electric.html"), "u", T)
-        self.assertEqual(len(rows), 1)
+        self.assertEqual([(r["offer_key"], r["finance_type"]) for r in rows],
+                         [("hyundai:PCP_15_7FW5ZHZ7ZGG0VH", "pcp"), ("hyundai:PML_16_7FW5ZHZ7ZGG0VH", "hp")])
+        hp = rows[1]
+        self.assertEqual((hp["product"], hp["monthly_payment"], hp["gfv"], hp["vehicle_price"]), ("Personal Motor Loan Offer", 754.53, 0.0, 31250.0))
         r = rows[0]
+        self.assertTrue(r["reconciles"])
         self.assertEqual(r["offer_key"], "hyundai:PCP_15_7FW5ZHZ7ZGG0VH")
         self.assertEqual(r["car_ref"]["source"], "hyundai-cap")
         self.assertEqual(r["car_ref"]["key"], "hykn00ade5he a 2")
@@ -132,6 +143,17 @@ class HyundaiOffers(unittest.TestCase):
         self.assertEqual((r["valid_from"], r["valid_to"]), ("2026-10-01", "2027-01-04"))
         self.assertTrue(r["heat_pump_listed"])
         self.assertTrue(r["configurator_url"].startswith("https://www.hyundai.com/uk/en/models/kona-electric/configurator.html"))
+
+    def test_grant_in_any_discount_slot(self):
+        """The Ioniq 3's £3,750 grant is in discount2Value, not discount1Value."""
+        r = hyundai_offers.parse_page(fixture("hyundai_offer_all-new_ioniq_3.html"), "u", T)[0]
+        self.assertEqual((r["list_price"], r["grant_gbp"], r["vehicle_price"], r["reconciles"]), (25745.0, 3750.0, 21995.0, True))
+
+    def test_example_priced_with_paid_paint(self):
+        """The Inster's OTR (£27,375) is above its cash price (£27,005) by the £370 paint in extId 'SAW-370'."""
+        r = hyundai_offers.parse_page(fixture("hyundai_offer_inster.html"), "u", T)[0]
+        self.assertEqual((r["list_price"], r["vehicle_price"], r["paint_code"], r["paint_gbp"], r["grant_gbp"], r["reconciles"]),
+                         (27005.0, 27375.0, "SAW", 370.0, 0.0, True))
 
 
 def _fixture_provider(module, name: str, files: dict[str, str]) -> Provider:
@@ -248,12 +270,29 @@ class KiaDealers(unittest.TestCase):
                          (37955.0, 2955.0, 30001.0, 399.0, "2026-12-31"))
         self.assertTrue(r["reconciles"])
 
-    def test_a_halliwell_jones_offer_page_is_labelled_by_its_heading_when_the_banner_agrees(self):
+    def test_a_halliwell_jones_offer_page_is_labelled_by_its_heading(self):
         from pipeline.providers import kia_dealers
         url = "https://www.halliwelljones.co.uk/kia/offers/kia-ev3-gt-line-pcp"
         rows = kia_dealers.parse_page(fixture("kia_dealer_hj_ev3_gt-line_offer.html"), url, "hj", T)
         self.assertEqual([(r["car_ref"]["label"], r["monthly_payment"], r["customer_deposit"]) for r in rows], [("Kia EV3 GT-Line", 399.0, 4999.0)],
-                         "the page's second example (an Air) does not match its banner, so it is left out")
+                         "the page's second example is a card for another offer, read from that offer's own page")
+        self.assertTrue(rows[0]["banner_agrees"])
+
+    def test_the_offer_page_s_own_example_is_kept_when_its_banner_disagrees(self):
+        """The EV5 Storm page's example prints £449 a month under a '£499 p/m' banner (its own credit, APR and
+        final payment imply about £499). The example is the page's own, so it is kept, with the banner beside it.
+        Its mileage is printed 'Contract Mileage 18000 (6,000 per annum)'."""
+        from pipeline.providers import kia_dealers
+        url = "https://www.halliwelljones.co.uk/kia/offers/kia-ev5-air-pcp-"
+        (r,) = kia_dealers.parse_page(fixture("kia_dealer_hj_ev5_storm_offer.html"), url, "hj", T)
+        self.assertEqual((r["car_ref"]["label"], r["list_price"], r["monthly_payment"], r["banner_monthly"], r["banner_agrees"], r["annual_mileage"]),
+                         ("Kia EV5 Storm", 43145.0, 449.0, 499.0, False, 6000))
+
+    def test_lloyd_s_annual_mileage_wording(self):
+        url = "https://www.lloydmotorgroup.com/Kia/Current-Offers/Kia-PV5-Passenger-Offer/618"
+        from pipeline.providers import kia_dealers
+        (r,) = kia_dealers.parse_page(fixture("kia_dealer_lloyd_pv5.html"), url, "lloyd", T)
+        self.assertEqual((r["car_ref"]["model"], r["monthly_payment"], r["annual_mileage"]), ("PV5", 331.27, 10000))
 
     def test_the_index_links_only_electric_retail_offers(self):
         from pipeline.providers import kia_dealers

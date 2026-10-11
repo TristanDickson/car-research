@@ -53,12 +53,26 @@ class CarwowSpecs(unittest.TestCase):
         ult = rows[2]
         self.assertEqual(ult["flags"]["heated_front_seats"], "standard")
 
+    def test_each_derivative_takes_its_own_slide(self):
+        """Advance, N Line, Ultimate and N Line S share the engine name '160kW 65kWh Auto' but the
+        page prints 319 miles for the Advance and 282 for the others, each in the slide whose
+        'Configure car' link names the CAP id."""
+        rows = {r["cap_id"]: r for r in carwow_specs.parse_page(fixture("carwow_hyundai_kona-electric_specifications.html"), "hyundai", "kona-electric", "u", T)}
+        self.assertEqual([(c, rows[c]["numbers"]["wltp_range_mi"], rows[c]["numbers"]["efficiency_mi_kwh"]) for c in ("103322", "103324", "103325", "103326")],
+                         [("103322", 319.0, 4.2), ("103324", 282.0, 3.7), ("103325", 282.0, 3.7), ("103326", 282.0, 3.7)])
+        self.assertEqual((rows["103324"]["rrp"], rows["103324"]["carwow_price"]), (37135.0, 29715.0))
+
     def test_pv5_page(self):
         rows = carwow_specs.parse_page(fixture("carwow_kia_pv5-passenger_specifications.html"), "kia", "pv5-passenger", "u", T)
         by_cap = {r["cap_id"]: r for r in rows}
         self.assertEqual(by_cap["110972"]["trim"], "Elite")
         self.assertEqual(by_cap["110972"]["flags"]["heat_pump"], "standard")
         self.assertEqual(by_cap["110972"]["numbers"]["wltp_range_mi"], 256.0)
+        # The model prints '5 - 7' seats and a '350 - 1,330 L' boot: ranges, so no derivative takes a value from them.
+        n = by_cap["108178"]["numbers"]
+        self.assertEqual((n["seats"], n["seats_range"], n["boot_l"], n["boot_l_range"]), (None, [5.0, 7.0], None, [350.0, 1330.0]))
+        # The trim article prints the Essential's cheapest RRP; the Long Range's own slide prints its own.
+        self.assertEqual((by_cap["108178"]["rrp"], by_cap["108178"]["trim_rrp"]), (36195.0, 33195.0))
 
 
 class KiaSpecs(unittest.TestCase):

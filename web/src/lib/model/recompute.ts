@@ -41,7 +41,7 @@ export interface ComputeResult {
 
 export function usedToSighting(u: SnapshotUsedSpan): Sighting {
   return { key: u.key, route: "used", source: u.source, model: u.model, car_id: u.car_id, used_key: u.used_key ?? null, from: u.from, to: u.to, present: u.present,
-           deal: { price: u.price, year: u.year, mileage: u.mileage, vrm: u.vrm }, seller: u.town };
+           deal: { price: u.price, year: u.year, mileage: u.mileage, vrm: u.vrm }, seller: u.town, ...(u.vehicle_state === "New" ? { new_car: true } : {}) };
 }
 
 export function computeAll(input: ComputeInput): ComputeResult {

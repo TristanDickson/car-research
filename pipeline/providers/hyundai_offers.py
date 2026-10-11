@@ -1,9 +1,12 @@
 """Hyundai UK per-model offer pages: /uk/en/offers/new-cars/model/offer.<model>.html
 
 Each offer component carries a data-js-options attribute (HTML-escaped JSON)
-with the representative PCP example in full: CAP code, OTR after grant, deposit,
-contribution, APR, monthly, balloon, mileage. Offer key = Hyundai's own
-offerResourceName; trim resolution by CAP code (source 'hyundai-cap').
+with the representative examples in full: a PCP and a Personal Motor Loan (hire
+purchase, no final payment), each with CAP code, cash price, discounts (up to
+three, the grant among them), OTR, deposit, contribution, APR, monthly, balloon,
+mileage. The example's colour is in extId ('SAW-370': paint code and its price),
+and the OTR includes that paint. Offer key = Hyundai's own offerResourceName;
+trim resolution by CAP code (source 'hyundai-cap').
 """
 from __future__ import annotations
 
@@ -54,43 +57,74 @@ def parse_page(page: str, url: str, observed_at: str) -> list[dict]:
             d = json.loads(raw)
         except json.JSONDecodeError:
             continue
-        o = (d.get("offers") or {}).get("PCP")
-        if not o or not o.get("monthlyPayment") or o.get("offerResourceName") in seen:
-            continue
-        seen.add(o["offerResourceName"])
-        terms = text(o.get("termsAndConditions") or "")
-        # "ordered in the UK between 01/10/2026 and 04/01/2027" (occasionally "1st October 2026").
-        dates = re.findall(r"(\d{1,2}/\d{1,2}/20\d\d|\d{1,2}(?:st|nd|rd|th)?\s+[A-Za-z]+\s+20\d\d)", terms)
-        cap = re.sub(r"\s+", " ", (o.get("capCode") or "").strip())
-        key = f"hyundai:{o['offerResourceName']}"
-        # Every numeric field in Hyundai's JSON is a string ("454.46", "37.0").
-        n = lambda k: number(o.get(k))  # noqa: E731
-        i = lambda k: int(n(k)) if n(k) is not None else None  # noqa: E731
-        rows.append({
-            "id": key, "offer_key": key,
-            "observed_at": observed_at, "captured_at": observed_at[:10], "present": 1,
-            "status": "live", "verification": "scraped", "source": "Hyundai UK offer page", "dealer": "Hyundai Finance (national offer)",
-            "source_url": url, "source_ref": o["offerResourceName"],
-            "car_ref": {"source": SITE, "key": cap.lower(), "label": f"{o.get('model')} {o.get('trimAndPowertrain')} (CAP {cap})"},
-            "finance_type": "pcp",
-            "list_price": n("cashPrice"), "grant_gbp": n("discount1Value") or 0.0,
-            "vehicle_price": n("otrPrice"),
-            "manufacturer_contribution": n("depositContribution") or 0.0,
-            "customer_deposit": n("deposit") or 0.0, "amount_of_credit": n("amountOfCredit"),
-            "term_months": i("durationAgreement"), "num_payments": i("numberOfMonths"),
-            "monthly_payment": n("monthlyPayment"),
-            "apr": (n("apr") or 0.0) / 100, "fixed_rate_pa": (n("fixedRateInterest") or 0.0) / 100,
-            "gfv": n("optionalFinalPayment"), "total_payable_stated": n("totalAmountPayable"),
-            "cost_of_credit_stated": n("interestCharges"), "annual_mileage": i("annualMileage"),
-            "excess_mileage_ppm": n("excessMileage"),
-            "valid_from": _iso(dates[0]) if len(dates) >= 1 else None,
-            "valid_to": _iso(dates[1]) if len(dates) >= 2 else None,
-            "offer_strapline": text(o.get("offerStrapline") or ""),
-            "heat_pump_listed": "heat pump" in text(o.get("modelInfo") or "").lower(),
-            "configurator_url": ("https://www.hyundai.com" + o["deepLink"]) if o.get("deepLink") else None,
-            "notes": "Hyundai's national representative example; the deposit is Hyundai's example, not £0. " + text(o.get("offerStrapline") or ""),
-        })
+        for kind in FINANCE:
+            o = (d.get("offers") or {}).get(kind)
+            if not o or not o.get("monthlyPayment") or o.get("offerResourceName") in seen:
+                continue
+            seen.add(o["offerResourceName"])
+            rows.append(_row(o, kind, url, observed_at))
     return rows
+
+
+# Hyundai's finance types: PCP, and the Personal Motor Loan, a hire purchase with no final payment.
+# Motability offers print no figures.
+FINANCE = {"PCP": "pcp", "PML": "hp"}
+
+
+def _row(o: dict, kind: str, url: str, observed_at: str) -> dict:
+    terms = text(o.get("termsAndConditions") or "")
+    # "ordered in the UK between 01/10/2026 and 04/01/2027" (occasionally "1st October 2026").
+    dates = re.findall(r"(\d{1,2}/\d{1,2}/20\d\d|\d{1,2}(?:st|nd|rd|th)?\s+[A-Za-z]+\s+20\d\d)", terms)
+    cap = re.sub(r"\s+", " ", (o.get("capCode") or "").strip())
+    key = f"hyundai:{o['offerResourceName']}"
+    # extId 'SAW-370': the example's paint and what it costs; the OTR includes it.
+    paint = re.fullmatch(r"([A-Z0-9]+)-(\d+(?:\.\d+)?)", (o.get("extId") or "").strip())
+    # Every numeric field in Hyundai's JSON is a string ("454.46", "37.0").
+    n = lambda k: number(o.get(k))  # noqa: E731
+    i = lambda k: int(n(k)) if n(k) is not None else None  # noqa: E731
+    return {
+        "id": key, "offer_key": key,
+        "observed_at": observed_at, "captured_at": observed_at[:10], "present": 1,
+        "status": "live", "verification": "scraped", "source": "Hyundai UK offer page", "dealer": "Hyundai Finance (national offer)",
+        "source_url": url, "source_ref": o["offerResourceName"],
+        "car_ref": {"source": SITE, "key": cap.lower(), "label": f"{o.get('model')} {o.get('trimAndPowertrain')} (CAP {cap})"},
+        "finance_type": FINANCE[kind], "product": o.get("financeTypeTitle"),
+        # The grant and any other discount sit in any of three slots (the Ioniq 3's £3,750 in the second).
+        "list_price": n("cashPrice"), "grant_gbp": sum(n(f"discount{j}Value") or 0.0 for j in (1, 2, 3)),
+        "discounts": [{"text": text(o.get(f"discount{j}Text") or "") or None, "value": n(f"discount{j}Value")}
+                      for j in (1, 2, 3) if n(f"discount{j}Value")],
+        "vehicle_price": n("otrPrice"),
+        "paint_code": paint.group(1) if paint else None, "paint_gbp": float(paint.group(2)) if paint else None,
+        "reconciles": _reconciles(o),
+        "manufacturer_contribution": n("depositContribution") or 0.0,
+        "customer_deposit": n("deposit") or 0.0, "amount_of_credit": n("amountOfCredit"),
+        "term_months": i("durationAgreement"), "num_payments": i("numberOfMonths"),
+        "monthly_payment": n("monthlyPayment"),
+        "apr": (n("apr") or 0.0) / 100, "fixed_rate_pa": (n("fixedRateInterest") or 0.0) / 100,
+        "gfv": n("optionalFinalPayment") or (0.0 if kind == "PML" else None), "total_payable_stated": n("totalAmountPayable"),
+        "cost_of_credit_stated": n("interestCharges"), "annual_mileage": i("annualMileage"),
+        "excess_mileage_ppm": n("excessMileage"),
+        "valid_from": _iso(dates[0]) if len(dates) >= 1 else None,
+        "valid_to": _iso(dates[1]) if len(dates) >= 2 else None,
+        "offer_strapline": text(o.get("offerStrapline") or ""),
+        "heat_pump_listed": "heat pump" in text(o.get("modelInfo") or "").lower(),
+        "configurator_url": ("https://www.hyundai.com" + o["deepLink"]) if o.get("deepLink") else None,
+        "notes": "Hyundai's national representative example; the deposit is Hyundai's example, not £0. " + text(o.get("offerStrapline") or ""),
+    }
+
+
+def _reconciles(o: dict) -> bool | None:
+    """Cash price less the discounts plus the paint is the OTR, and the OTR less the deposit and
+    contribution is the credit, to the pound."""
+    n = lambda k: number(o.get(k))  # noqa: E731
+    paint = re.fullmatch(r"[A-Z0-9]+-(\d+(?:\.\d+)?)", (o.get("extId") or "").strip())
+    cash, otr, credit = n("cashPrice"), n("otrPrice"), n("amountOfCredit")
+    if cash is None or otr is None or credit is None:
+        return None
+    discounts = sum(n(f"discount{j}Value") or 0.0 for j in (1, 2, 3))
+    price_ok = abs(cash - discounts + (float(paint.group(1)) if paint else 0.0) - otr) < 1
+    credit_ok = abs(otr - (n("deposit") or 0.0) - (n("depositContribution") or 0.0) - credit) < 1
+    return price_ok and credit_ok
 
 
 def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
@@ -98,5 +132,5 @@ def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
         yield ParsedRecord(kind="offer", key=row["offer_key"], row=row)
 
 
-offers = Capability(name="offers", parser_version="1", discover=discover, fetch=fetch, parse=parse, kinds=("offer",))
+offers = Capability(name="offers", parser_version="2", discover=discover, fetch=fetch, parse=parse, kinds=("offer",))
 provider = Provider(name="hyundai_offers", default_capability="offers", capabilities={"offers": offers, "backfill": backfill_capability(offers)}, live=True)

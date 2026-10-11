@@ -199,8 +199,20 @@ def load_used(conn: sqlite3.Connection) -> list[dict]:
                     "year": r["year"], "mileage": r["mileage"], "present": bool(r["present"]),
                     "first_seen_at": r["first_seen_at"], "last_seen_at": r["last_seen_at"],
                     "derivative": p.get("derivative"), "town": p.get("town"), "url": p.get("source_url"),
-                    "image_url": p.get("image_url"), "source": p.get("source"), "vrm": p.get("vrm")})
+                    "image_url": p.get("image_url"), "source": p.get("source"), "vrm": p.get("vrm"),
+                    **{k: p.get(k) for k in USED_FIELDS if p.get(k) not in (None, [], "")}})
     return out
+
+
+# What a used listing's source prints beyond price, year and mileage, carried into used.json where present:
+# the site's finance quote (cinch's in full, Motorpoint's lowest monthly), the car's colour and drive, the
+# discount and the price before it, the site's tags and badges, the warranty left, the price before cinch's
+# fees, when the site first listed it, Motorpoint's list price when new, whether it is still to arrive
+# (Motorpoint's 'coming soon'), and for Carwow how much of the car its card gave ('card', 'stored-card',
+# 'price-year') and Carwow's own state for it ('Used', or 'New' for a pre-registered car in its used results).
+USED_FIELDS = ("finance", "colour", "drive", "discount_gbp", "previous_price_gbp", "tags", "badges", "warranty_months_left",
+               "plate_age_id", "price_before_fees", "first_listed_at", "list_price_when_new", "coming_soon",
+               "detail", "card_seen_at", "vehicle_state")
 
 
 def car_slugs(car: dict, specs_by_car: dict[str, list[dict]]) -> tuple[str, str]:
@@ -300,14 +312,17 @@ def load_used_spans(conn: sqlite3.Connection) -> list[dict]:
     try:
         rows = conn.execute(
             "SELECT o.listing_key, o.source, l.car_id, l.make_slug, l.model_slug, l.year, o.mileage, o.price_gbp, o.observed_at, "
-            "o.confirmed_at, o.present, json_extract(l.payload, '$.vrm') AS vrm, json_extract(l.payload, '$.town') AS town "
+            "o.confirmed_at, o.present, json_extract(l.payload, '$.vrm') AS vrm, json_extract(l.payload, '$.town') AS town, "
+            "json_extract(l.payload, '$.coming_soon') AS coming_soon, json_extract(l.payload, '$.vehicle_state') AS vehicle_state "
             "FROM used_observations o JOIN used_listings l ON l.listing_key = o.listing_key ORDER BY o.listing_key, o.observed_at"
         ).fetchall()
     except sqlite3.OperationalError:
         return []
     return [{"key": r["listing_key"], "source": source_of(r["source"]), "model": f"{(r['make_slug'] or '').lower()}/{r['model_slug'] or ''}",
              "car_id": r["car_id"], "year": r["year"], "price": r["price_gbp"], "mileage": r["mileage"], "vrm": r["vrm"], "town": r["town"],
-             "from": r["observed_at"][:10], "to": (r["confirmed_at"] or r["observed_at"])[:10], "present": bool(r["present"])} for r in rows]
+             "from": r["observed_at"][:10], "to": (r["confirmed_at"] or r["observed_at"])[:10], "present": bool(r["present"]),
+             **({"coming_soon": True} if r["coming_soon"] else {}), **({"vehicle_state": r["vehicle_state"]} if r["vehicle_state"] else {})}
+            for r in rows]
 
 
 def load_derivatives(conn: sqlite3.Connection) -> list[dict]:

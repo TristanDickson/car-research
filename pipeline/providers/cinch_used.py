@@ -15,6 +15,14 @@ the catalogue model whose name it matches (cinch names the model, e.g. 'Kona'
 or 'ID.4', the catalogue 'Kona Electric' or 'ID.4'), the few that match
 nothing we sell are skipped. Emits 'used' records keyed cinch:<vehicleId>; the
 vrm rides along so the snapshot can fold the same car listed on two sites.
+
+Every listing also carries cinch's finance quote for the car (PCP, or HP on a
+few older cars): deposit, monthly payment over quoteTermMonths payments, APR,
+the PCP's final payment, the credit and its charges, the mileage allowance and
+the excess charge. It is kept under `finance` with whether it reconciles, beside
+the colour, drive, discount, cinch's tags ('cars-on-offer', 'nearly-new') and
+its feature categories. The quote's deposit plus credit is the price before
+cinch's admin fee.
 """
 from __future__ import annotations
 
@@ -92,6 +100,38 @@ def _model_slug(name: str) -> str:
     return re.sub(r"\s+", "-", (name or "").strip().lower())
 
 
+def _pounds(pence) -> float | None:
+    return round(pence / 100, 2) if isinstance(pence, (int, float)) else None
+
+
+# credit + charges - final payment - payments × n was nil on 523 of the 1,284 quotes of 11 Oct and exactly
+# £10 on the other 761 (every HP among them): the charges carry £10 no payment shows. One payment's slack,
+# as cinch_new allows, would also pass a quote one payment short, so the slack here is the £10.
+RECONCILE_SLACK_GBP = 10.0
+
+
+def finance(v: dict) -> dict | None:
+    """cinch's quote for the car, the figures it prints and no others; None for a car without one."""
+    kind, payment = (v.get("quoteType") or "").lower(), _pounds(v.get("quoteRegularPaymentInPence"))
+    if not kind or not payment:
+        return None
+    n = int(v["quoteTermMonths"]) if v.get("quoteTermMonths") else None
+    credit, charges, final = _pounds(v.get("quoteBalanceInPence")), _pounds(v.get("quoteChargesInPence")), _pounds(v.get("quoteResidualValueInPence"))
+    excess = re.search(r"([\d.]+)", v.get("quoteExcessMileage") or "")
+    apr = v.get("quoteApr")
+    f = {"type": kind, "monthly_payment": payment, "deposit": _pounds(v.get("quoteDepositInPence")),
+         "apr": round(apr / 100, 6) if isinstance(apr, (int, float)) else None,
+         "num_payments": n, "term_months": (n + 1 if final else n) if n else None,   # a PCP's final payment is a month of its own
+         "final_payment": final, "credit": credit, "charges": charges,
+         "annual_mileage": v.get("quoteAnnualMiles"), "excess_mileage_ppm": float(excess.group(1)) if excess else None}
+    f = {k: x for k, x in f.items() if x is not None}
+    if None in (credit, charges) or not n or (kind == "pcp" and final is None):
+        f["reconciles"] = None
+    else:   # an HP quote has no final payment
+        f["reconciles"] = abs(credit + charges - (final or 0.0) - payment * n) <= RECONCILE_SLACK_GBP + 0.005
+    return f
+
+
 def parse_body(body: dict, target: Target, observed_at: str) -> list[dict]:
     pages = body.get("pages") if "pages" in body else [body]
     models = target.metadata.get("models") or []
@@ -125,6 +165,9 @@ def parse_body(body: dict, target: Target, observed_at: str) -> list[dict]:
                 "town": v.get("site"), "vrm": v.get("vrm") or v.get("fullRegistration"),
                 "badges": [b for b in ("cinch" if v.get("stockType") == "cinch" else "marketplace", f"{v['rangeInMiles']} mi range" if v.get("rangeInMiles") else "") if b],
                 "image_url": v.get("thumbnailUrl"), "first_listed_at": v.get("firstPublishedDate"),
+                "finance": finance(v), "colour": v["colour"].title() if v.get("colour") else None, "drive": v.get("driveType"),
+                "discount_gbp": _pounds(v.get("discountInPence")) or None, "tags": list(v.get("tags") or []),
+                "categories": list(v.get("categories") or []),
                 "car_ref": {"source": SITE, "key": vid, "make": make_name, "model": model_name, "derivative": variant,
                             "label": f"{make_name} {model_name} {variant}".strip()},
             })
@@ -139,5 +182,5 @@ def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
         yield ParsedRecord(kind="used", key=row["listing_key"], row=row)
 
 
-stock = Capability(name="used-stock", parser_version="1", discover=discover, fetch=fetch, parse=parse, kinds=("used",))
+stock = Capability(name="used-stock", parser_version="2", discover=discover, fetch=fetch, parse=parse, kinds=("used",))
 provider = Provider(name="cinch_used", default_capability="used-stock", capabilities={"used-stock": stock}, live=True)

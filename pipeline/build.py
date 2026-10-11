@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import sqlite3
 import time
 from dataclasses import dataclass, field
@@ -340,7 +341,10 @@ class Build:
     # -- 3. matching
 
     def _candidates(self, ref: dict) -> list[dict]:
-        return [c for c in self.by_make.get((ref.get("make") or "").lower(), []) if gold.model_agrees(ref.get("model"), c)]
+        make = (ref.get("make") or "").lower()
+        # NCD's Kia listings print the make before the model ('KIA EV6 ELECTRIC ESTATE').
+        model = re.sub(rf"^{re.escape(make)}\s+", "", ref.get("model") or "", flags=re.I) if make else ref.get("model")
+        return [c for c in self.by_make.get(make, []) if gold.model_agrees(model, c)]
 
     def match(self, ref: dict, provider: str, text_match: bool = True) -> dict:
         """What one record names: {car_id, status, method, evidence, name_key}."""

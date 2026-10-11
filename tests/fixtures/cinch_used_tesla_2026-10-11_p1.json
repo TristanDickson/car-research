@@ -1,0 +1,306 @@
+{
+ "pageNumber": 1,
+ "pageSize": 32,
+ "searchResultsCount": 78,
+ "vehicleListings": [
+  {
+   "updatedAt": "2026-10-09T22:00:39.987Z",
+   "updatedBy": "Inventory.vehicleUpdated",
+   "firstPublishedDate": "2026-10-09T11:40:52.845Z",
+   "vehicleId": "c0fbf96f-d6f8-4d73-b68a-8682207363f7",
+   "modelYear": 2024,
+   "vehicleYear": 2024,
+   "bodyType": "SUV",
+   "colour": "GREY",
+   "doors": 5,
+   "engineCapacityCc": 0,
+   "fuelType": "Electric",
+   "vrm": "BJ74KJX",
+   "published": true,
+   "isReserved": false,
+   "mileage": 28441,
+   "seats": 5,
+   "stockType": "partner_sourced",
+   "trim": "Performance",
+   "variant": "Performance AWD 5dr Auto",
+   "transmissionType": "Automatic",
+   "milesPerGallon": null,
+   "driveType": "Four-wheel drive",
+   "tags": [],
+   "discountInPence": 0,
+   "depositContributionInPence": 0,
+   "promotionId": null,
+   "priceIncludingAdminFee": 32999,
+   "rangeInMiles": 319,
+   "rangeType": "WLTP",
+   "condition": "used",
+   "inventoryType": "physical",
+   "make": "Tesla",
+   "price": 32900,
+   "model": "Model Y",
+   "thumbnailUrl": "https://eu.cdn.autosonshow.tv/2808/cinch/BJ74KJX/06_md.jpg",
+   "site": "Corby",
+   "engineSize": 0,
+   "fullRegistration": "BJ74KJX",
+   "isAvailable": true,
+   "selectedModel": "Model Y",
+   "quoteType": "pcp",
+   "quoteAnnualMiles": 8000,
+   "quoteBalanceInPence": 2961000,
+   "quoteApr": 12.41,
+   "quoteRegularPaymentInPence": 54228,
+   "quoteTermMonths": 48,
+   "quoteDepositInPence": 329000,
+   "quoteChargesInPence": 1080569,
+   "quoteResidualValueInPence": 1438625,
+   "quoteExcessMileage": "14.9p",
+   "categories": [
+    {
+     "name": "heated seats",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "high spec features",
+     "score": 62,
+     "threshold": 50
+    },
+    {
+     "name": "high seating",
+     "score": 95,
+     "threshold": 60
+    },
+    {
+     "name": "safe",
+     "score": 82,
+     "threshold": 50
+    },
+    {
+     "name": "fast and sporty",
+     "score": 100,
+     "threshold": 60
+    },
+    {
+     "name": "safe for kids",
+     "score": 81,
+     "threshold": 80
+    },
+    {
+     "name": "good for long drives",
+     "score": 100,
+     "threshold": 70
+    },
+    {
+     "name": "spacious rear seats",
+     "score": 90,
+     "threshold": 80
+    }
+   ]
+  },
+  {
+   "updatedAt": "2026-10-09T15:33:49.000Z",
+   "updatedBy": "FinanceQuoteComponent.PCPQuoteUpdated",
+   "firstPublishedDate": "2026-10-09T08:58:00.965Z",
+   "vehicleId": "7ad7d4e6-e258-4a94-bc61-4aa42216c509",
+   "modelYear": 2019,
+   "vehicleYear": 2019,
+   "bodyType": "Saloon",
+   "colour": "WHITE",
+   "doors": 4,
+   "engineCapacityCc": 0,
+   "fuelType": "Electric",
+   "vrm": "MT69YYD",
+   "published": true,
+   "isReserved": false,
+   "mileage": 48160,
+   "seats": 5,
+   "stockType": "cinch",
+   "trim": "Performance",
+   "variant": "Performance AWD 4dr [Performance Upgrade] Auto",
+   "transmissionType": "Automatic",
+   "milesPerGallon": null,
+   "driveType": "Four-wheel drive",
+   "tags": [],
+   "discountInPence": 0,
+   "depositContributionInPence": 0,
+   "promotionId": null,
+   "priceIncludingAdminFee": 18599,
+   "rangeInMiles": 329,
+   "rangeType": "WLTP",
+   "condition": "used",
+   "inventoryType": "physical",
+   "make": "Tesla",
+   "price": 18500,
+   "model": "Model 3",
+   "thumbnailUrl": "https://eu.cdn.autosonshow.tv/4994/projectcambridge/MT69YYD/06_md.jpg",
+   "site": "Grimsby",
+   "engineSize": 0,
+   "fullRegistration": "MT69YYD",
+   "isAvailable": true,
+   "selectedModel": "Model 3",
+   "quoteType": "hp",
+   "quoteBalanceInPence": 1650000,
+   "quoteApr": 12.42,
+   "quoteRegularPaymentInPence": 36493,
+   "quoteTermMonths": 60,
+   "quoteDepositInPence": 200000,
+   "quoteChargesInPence": 540580,
+   "categories": [
+    {
+     "name": "great for towing",
+     "score": 85,
+     "threshold": 60
+    },
+    {
+     "name": "heated seats",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "parking assistance",
+     "score": 53,
+     "threshold": 40
+    },
+    {
+     "name": "high spec features",
+     "score": 50,
+     "threshold": 50
+    },
+    {
+     "name": "family cars",
+     "score": 70,
+     "threshold": 70
+    },
+    {
+     "name": "safe",
+     "score": 100,
+     "threshold": 50
+    },
+    {
+     "name": "fast and sporty",
+     "score": 96,
+     "threshold": 60
+    },
+    {
+     "name": "safe for kids",
+     "score": 93,
+     "threshold": 80
+    },
+    {
+     "name": "good for long drives",
+     "score": 100,
+     "threshold": 70
+    },
+    {
+     "name": "spacious rear seats",
+     "score": 90,
+     "threshold": 80
+    }
+   ]
+  },
+  {
+   "updatedAt": "2026-10-11T01:07:41.552Z",
+   "updatedBy": "Inventory.vehicleUpdated",
+   "firstPublishedDate": "2026-10-06T09:01:30.123Z",
+   "vehicleId": "389f149d-2f4d-4bd3-b152-22dee47d3254",
+   "modelYear": 2019,
+   "vehicleYear": 2019,
+   "bodyType": "Saloon",
+   "colour": "WHITE",
+   "doors": 4,
+   "engineCapacityCc": 0,
+   "fuelType": "Electric",
+   "vrm": "BL69GBX",
+   "published": true,
+   "isReserved": false,
+   "mileage": 52796,
+   "seats": 5,
+   "stockType": "cinch",
+   "trim": "Standard Plus",
+   "variant": "Standard Plus 4dr Auto",
+   "transmissionType": "Automatic",
+   "milesPerGallon": null,
+   "driveType": "Rear-wheel drive",
+   "tags": [],
+   "discountInPence": 0,
+   "depositContributionInPence": 0,
+   "promotionId": null,
+   "priceIncludingAdminFee": 15499,
+   "rangeInMiles": 254,
+   "rangeType": "WLTP",
+   "condition": "used",
+   "inventoryType": "physical",
+   "make": "Tesla",
+   "price": 15400,
+   "model": "Model 3",
+   "thumbnailUrl": "https://eu.cdn.autosonshow.tv/2657/cinch/BL69GBX/06_md.jpg",
+   "site": "Corby",
+   "engineSize": 0,
+   "fullRegistration": "BL69GBX",
+   "isAvailable": true,
+   "selectedModel": "Model 3",
+   "quoteType": "hp",
+   "quoteBalanceInPence": 1340000,
+   "quoteApr": 12.4,
+   "quoteRegularPaymentInPence": 29625,
+   "quoteTermMonths": 60,
+   "quoteDepositInPence": 200000,
+   "quoteChargesInPence": 438500,
+   "categories": [
+    {
+     "name": "heated seats",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "parking assistance",
+     "score": 53,
+     "threshold": 40
+    },
+    {
+     "name": "high spec features",
+     "score": 50,
+     "threshold": 50
+    },
+    {
+     "name": "family cars",
+     "score": 70,
+     "threshold": 70
+    },
+    {
+     "name": "safe",
+     "score": 100,
+     "threshold": 50
+    },
+    {
+     "name": "fast and sporty",
+     "score": 85,
+     "threshold": 60
+    },
+    {
+     "name": "safe for kids",
+     "score": 93,
+     "threshold": 80
+    },
+    {
+     "name": "good for long drives",
+     "score": 95,
+     "threshold": 70
+    },
+    {
+     "name": "spacious rear seats",
+     "score": 90,
+     "threshold": 80
+    }
+   ]
+  }
+ ],
+ "hasMatchingVehicleRecentlyBeenInStock": true,
+ "parsedParamsFromUrl": {
+  "make": "tesla",
+  "fuelType": "electric"
+ },
+ "pathSegmentsFromUrl": {
+  "make": "tesla"
+ }
+}

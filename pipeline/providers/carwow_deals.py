@@ -124,7 +124,13 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str, mak
 
     if example:
         rrp = money(example.get("RRP"))
-        match = next((d for d in derivatives if d["rrp"] == rrp), None)
+        # Twins share an RRP (two Ioniq 5 Advance 63 kWh model years); the card whose 'Monthly from'
+        # is the example's payment is the one it describes. A tie that stays a tie matches nothing.
+        ties = [d for d in derivatives if d["rrp"] == rrp]
+        if len(ties) > 1:
+            pay = money(example.get("Monthly payment"))
+            ties = [d for d in ties if d["monthly_from"] == pay]
+        match = ties[0] if len(ties) == 1 else None
         if match:
             term = int(number(example.get("Term of agreement")) or 0) or None
             contrib_key = next((k for k in example if k.endswith("deposit contribution")), None)

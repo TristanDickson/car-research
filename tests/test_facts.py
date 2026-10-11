@@ -33,6 +33,14 @@ class Cards(unittest.TestCase):
         self.assertEqual(r["model_year_hint"], "2024")
         self.assertIsNone(r["cap_id"], "EV Database variants are not CAP derivatives")
 
+    def test_the_card_s_hidden_dates_say_whether_it_is_on_sale(self):
+        """'Discontinued (June 2021 - June 2023)': the card's hidden date_from and date_to."""
+        r = evdb.parse_card((FIX / "evdb_index_card_discontinued.html").read_text(encoding="utf-8"), "u", "2026-10-11T00:00:00+00:00")
+        n = r["numbers"]
+        self.assertEqual((r["model"], n["on_sale"], n["on_sale_since"], n["on_sale_until"]), ("Kona Electric 64 kWh (MY22-23)", False, "2021-06", "2023-06"))
+        current = next(r for r in self.rows if r["model"] == "INSTER Long Range")["numbers"]
+        self.assertEqual((current["on_sale"], current.get("on_sale_until")), (True, None))
+
     def test_heat_pump_wording_is_read_as_a_tri_state(self):
         for r in self.rows:
             self.assertIn(r["flags"].get("heat_pump"), ("none", "standard", "option"))

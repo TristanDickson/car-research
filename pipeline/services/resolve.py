@@ -19,6 +19,11 @@ registry, not clustering: every broker row names one CAP derivative.
     version     identical prices: the current price-list version, then the id
   conflict    a pack bracket against three or more prices with no RRP to anchor
               on: recorded, never guessed
+  price       the record's own price (car_ref.rrp) is no list price the text's
+              derivatives could carry: below the cheapest by more than rounding,
+              or above the dearest by more than paint and options. Dealers copy
+              derivative lines between pages (RRG's EV6 example says 'Air' at the
+              GT-Line's £52,835), so the price outranks the text: a conflict
 
 A bracket that picked a twin also tells us something about that twin, which a
 Carwow page never prints; the claim store reads it from the resolved names
@@ -38,6 +43,10 @@ from pipeline.services import match
 BRACKET_RE = re.compile(r"\[([^\]]+)\]")
 SEATS_RE = re.compile(r"^(\d)\s*(?:seats?|st)$", re.I)   # '[7 seat]', '[7St]'
 RRP_TOLERANCE = 10.0
+# How far a record's own price may sit from the list price of the derivative its text names: above it by
+# paint and options (a dealer's on-the-road example includes its metallic paint), below it by rounding.
+PRICE_ABOVE_LIST = 1500.0
+PRICE_BELOW_LIST = 250.0
 
 
 @dataclass
@@ -72,6 +81,17 @@ def _current_first(c: dict) -> tuple:
     return (c.get("version_date") or "", c["id"])
 
 
+def _off_price(rrp, top: list[dict]) -> dict | None:
+    """Evidence that the record's own price fits none of the derivatives its text names, else None."""
+    prices = [p for p in (_price(c) for c in top) if p]
+    if not rrp or not prices:
+        return None
+    rrp = float(rrp)
+    if any(p - PRICE_BELOW_LIST <= rrp <= p + PRICE_ABOVE_LIST for p in prices):
+        return None
+    return {"reason": "the record's price fits no derivative its text names", "rrp": rrp, "list_prices": sorted(set(prices))}
+
+
 def _pinned_elsewhere(pins: dict[str, set[str]] | None, key: str, twin_ids: set[str]) -> str | None:
     """The twin another source's copy of the same CAP name was pinned to by its RRP."""
     if not pins or not key:
@@ -97,6 +117,9 @@ def choose(ref: dict, candidates: list[dict], pins: dict[str, set[str]] | None =
     br = brackets(text)
     ev = {"score": scored[0][0], "twins": sorted(c["id"] for c in top), "prices": sorted({_price(c) for c in top if _price(c)}),
           "brackets": br}
+    off = _off_price(ref.get("rrp"), top)
+    if off:
+        return Resolution(None, "conflict", {**ev, **off}, br)
     if len(top) == 1:
         return Resolution(top[0]["id"], "trim-powertrain", ev, br)
 

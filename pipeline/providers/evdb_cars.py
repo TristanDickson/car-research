@@ -116,7 +116,7 @@ def numbers_of(t: dict[str, str], rapid: list[list[str]]) -> dict:
     """The page's values under the field names the car records use."""
     power = _first(t, "Performance › Total Power")
     drive = (_first(t, "Performance › Drive") or "").lower()
-    since = _first(t, "Price › Available to order since")
+    since = _first(t, "Price › Available to order since") or _first(t, "Price › Available to order from")   # 'from' on a discontinued car
     until = _first(t, "Price › Available to order until")
     out = {
         "battery_kwh": _n(_first(t, "Battery › Nominal Capacity")),
@@ -338,5 +338,5 @@ def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
         yield ParsedRecord(kind="spec", key=row["spec_key"], row=row)
 
 
-cars = Capability(name="cars", parser_version="1", discover=discover, fetch=fetch, parse=parse, kinds=("spec",))
+cars = Capability(name="cars", parser_version="2", discover=discover, fetch=fetch, parse=parse, kinds=("spec",))
 provider = Provider(name="evdb_cars", default_capability="cars", capabilities={"cars": cars}, live=True)
