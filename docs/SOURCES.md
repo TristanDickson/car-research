@@ -24,7 +24,7 @@ a combined fetch included).
 | `cinch_new` | cinch new-car API | 2 | PCP and cash quotes per new car |
 | `cinch_used` | cinch search API | about 129 | used stock with a full finance quote each |
 | `motorpoint_used` | Motorpoint search JSON | about 18 | used stock with the lowest monthly |
-| `ncd` | new-car-discount.com listings and `/fincalc` | about 172 | broker cash price per derivative and its PCP quote |
+| `ncd` | new-car-discount.com listings and `/fincalc` | about 250 | broker cash price per derivative and its PCP quote |
 | `leaseloco` | leaseloco.com model pages | about 249 (154 are guessed pages that 404) | best personal lease per derivative and profile, and the in-stock deal |
 | `rrg` | rrg-group.com Kia offers | about 15 | dealer PCP and lease examples for every Kia EV it advertises |
 | `kia_dealers` | Lloyd Motor Group, Halliwell Jones | about 23 | dealer PCP examples for Kia EVs |
@@ -158,8 +158,10 @@ stated saving. Each derivative's page shows a PCP panel whose figures come from
 - **Listings:** the EV6 range is under `/car/kia/ev6/4x4/all/all` as well as `/estate/`, added
   11 Oct. NCD prints the make before the model on Kia listings ("KIA EV6 ELECTRIC ESTATE");
   until 11 Oct no Kia line matched a car except through the owner's own decisions.
-- **Left:** the HP quote (one more call a car); models nobody tracks (Ioniq 5 N, Ioniq 6 N,
-  Ioniq 9, EV4, EV5, EV9 listings).
+- **Listings added 11 Oct:** every other electric Hyundai and Kia on NCD's make pages (Ioniq 5 N,
+  Ioniq 6 N, Ioniq 9, EV4 hatchback and saloon, EV5, EV9). The EV4 saloon is Carwow's EV4
+  Fastback; NCD's RRP picks between the two bodies, which share trims and powertrains.
+- **Left:** the HP quote (one more call a car).
 
 ## LeaseLoco
 
@@ -272,6 +274,6 @@ nightly budget; the site refuses the laptop often, so it rests after refused nig
    health (Motorpoint). One page per car; 145 and 43 for Hyundai and Kia at cinch and
    Motorpoint.
 2. Kia's own offer pages: the order window and per-trim contributions. Four pages.
-3. NCD's HP quote and the models NCD lists that we do not.
+3. NCD's HP quote.
 4. Carwow's configurator, once its new flow is surveyed.
 5. LeaseLoco's other deals per model, if its price API can be found.

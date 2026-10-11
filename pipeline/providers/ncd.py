@@ -45,6 +45,14 @@ LISTINGS = {
     "kia/ev6": "/car/kia/ev6/estate/all/all",        # the GT only
     "kia/ev6-4x4": "/car/kia/ev6/4x4/all/all",       # every other EV6, and a GT of its own
     "kia/pv5": "/car/kia/pv5/mpv/all/all",
+    # Every other electric Hyundai and Kia NCD's make pages listed on 11 Oct 2026.
+    "hyundai/ioniq-5-n": "/car/hyundai/ioniq-5-n/hatchback/all/all",
+    "hyundai/ioniq-6-n": "/car/hyundai/ioniq-6-n/saloon/all/all",
+    "hyundai/ioniq-9": "/car/hyundai/ioniq-9/4x4/all/all",
+    "kia/ev4": "/car/kia/ev4/hatchback/all/all",
+    "kia/ev4-saloon": "/car/kia/ev4/saloon/all/all",   # Carwow's EV4 Fastback; NCD's RRP tells the bodies apart
+    "kia/ev5": "/car/kia/ev5/4x4/all/all",
+    "kia/ev9": "/car/kia/ev9/4x4/all/all",
 }
 ITEM_RE = re.compile(r'<li class="example-listing">(.*?)</li>', re.S)
 
