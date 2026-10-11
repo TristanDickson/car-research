@@ -13,15 +13,15 @@
   "models": 249,
   "models_with_deals": 178,
   "models_with_specs": 219,
-  "observations": 6116,
-  "offers": 3076,
+  "observations": 6166,
+  "offers": 3126,
   "options_pages": 1145,
-  "sightings": 13549,
+  "sightings": 13599,
   "specs": 2239,
   "specs_mapped": 919,
-  "trim_map_auto": 2603,
+  "trim_map_auto": 2628,
   "trim_map_mapped": 56,
-  "trim_map_unmapped": 274,
+  "trim_map_unmapped": 279,
   "used_listings": 4110,
   "used_models": 145,
   "used_spans": 7433
@@ -57,17 +57,17 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-11T11:39:44+00:00",
+ "generated_at": "2026-10-11T12:06:45+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
-  "expired": 3,
+  "expired": 4,
   "historical": 1,
   "illustrative": 66,
   "illustrative (stale)": 42,
   "lead": 2459,
   "lead (stale)": 484,
-  "live": 11,
+  "live": 60,
   "live (stale)": 1
  },
  "providers": [
@@ -278,6 +278,36 @@
    "capabilities": [
     {
      "kinds": [
+      "offer"
+     ],
+     "name": "quotes",
+     "parser_version": "1"
+    }
+   ],
+   "description": "cinch's new cars: a complete PCP quote for every electric car it stocks, and its cash price.",
+   "live": true,
+   "name": "cinch_new",
+   "source": "cinch"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "offer"
+     ],
+     "name": "offers",
+     "parser_version": "1"
+    }
+   ],
+   "description": "Kia dealer groups' offer pages: the worked PCP example each prints for an electric model.",
+   "live": true,
+   "name": "kia_dealers",
+   "source": "kia-dealers"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
       "spec"
      ],
      "name": "specs",
@@ -403,17 +433,43 @@
   }
  ],
  "resolution_methods": {
-  "base": 222,
+  "base": 227,
   "bracket": 77,
   "cap-id": 1120,
   "manual": 56,
-  "name": 30,
+  "name": 31,
   "rrp": 17,
   "stub": 833,
-  "trim-powertrain": 295,
+  "trim-powertrain": 314,
   "version": 9
  },
  "runs": [
+  {
+   "artifacts": 2,
+   "capability": "offers",
+   "errors": 0,
+   "finished_at": "2026-10-11T11:53:35+00:00",
+   "id": 39,
+   "records": 7,
+   "source": "kia_dealers",
+   "started_at": "2026-10-11T11:52:25+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
+   "artifacts": 1,
+   "capability": "quotes",
+   "errors": 0,
+   "finished_at": "2026-10-11T11:42:30+00:00",
+   "id": 38,
+   "records": 42,
+   "source": "cinch_new",
+   "started_at": "2026-10-11T11:42:30+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
   {
    "artifacts": 1,
    "capability": "used-stock",
@@ -647,38 +703,13 @@
    "status": "ok",
    "target": "all",
    "unmapped": 0
-  },
-  {
-   "artifacts": 51,
-   "capability": "used-stock",
-   "errors": 0,
-   "finished_at": "2026-10-10T18:32:19+00:00",
-   "id": 19,
-   "records": 1243,
-   "source": "cinch_used",
-   "started_at": "2026-10-10T18:30:04+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
-  },
-  {
-   "artifacts": 249,
-   "capability": "used-stock",
-   "errors": 0,
-   "finished_at": "2026-10-10T18:30:04+00:00",
-   "id": 18,
-   "records": 1036,
-   "source": "carwow_used",
-   "started_at": "2026-10-10T18:11:50+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
   }
  ],
  "sources": {
   "carwow": "Carwow",
   "cinch": "cinch",
   "hyundai": "Hyundai UK",
+  "kia-dealers": "Kia dealers",
   "leaseloco": "LeaseLoco",
   "manual": "Hand-entered",
   "motorpoint": "Motorpoint",
@@ -8272,6 +8303,75 @@
    "source": "leaseloco",
    "source_key": "volkswagen|id.7|250kw 4motion gtx plus 86kwh 5dr auto [ext+ pan]",
    "status": "conflict"
+  },
+  {
+   "evidence": {
+    "candidates": 2
+   },
+   "example_url": "https://search-api.snc-prod.aws.cinch.co.uk/new-cars?url=electric-fuel-type&channelId=CINCH",
+   "first_seen_at": "2026-10-11T11:42:30+00:00",
+   "label": "BYD Atto 3 150kW Comfort 60kWh 5dr Auto",
+   "last_seen_at": "2026-10-11T11:42:30+00:00",
+   "method": "none",
+   "source": "cinch-new",
+   "source_key": "byd|atto 3|150kw comfort 60kwh 5dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "reason": "tie between different trims or powertrains",
+    "tied": [
+     "carwow-cap:106391",
+     "carwow-cap:106392"
+    ]
+   },
+   "example_url": "https://www.halliwelljones.co.uk/kia/offers",
+   "first_seen_at": "2026-10-11T11:53:14+00:00",
+   "label": "Kia EV3 Air",
+   "last_seen_at": "2026-10-11T11:53:14+00:00",
+   "method": "none",
+   "source": "kia-dealer",
+   "source_key": "hj|kia ev3 air",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 8
+   },
+   "example_url": "https://www.halliwelljones.co.uk/kia/offers",
+   "first_seen_at": "2026-10-11T11:53:14+00:00",
+   "label": "Kia EV5",
+   "last_seen_at": "2026-10-11T11:53:14+00:00",
+   "method": "none",
+   "source": "kia-dealer",
+   "source_key": "hj|kia ev5",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 7
+   },
+   "example_url": "https://www.halliwelljones.co.uk/kia/offers",
+   "first_seen_at": "2026-10-11T11:53:14+00:00",
+   "label": "Kia EV6 GT-Line",
+   "last_seen_at": "2026-10-11T11:53:14+00:00",
+   "method": "none",
+   "source": "kia-dealer",
+   "source_key": "hj|kia ev6 gt-line",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 7
+   },
+   "example_url": "https://www.lloydmotorgroup.com/Kia/Current-Offers",
+   "first_seen_at": "2026-10-11T11:52:25+00:00",
+   "label": "Kia EV6 GT-Line S 168kW 84kWh 5 Door Auto including Metallic Paint",
+   "last_seen_at": "2026-10-11T11:52:25+00:00",
+   "method": "none",
+   "source": "kia-dealer",
+   "source_key": "lloyd|kia ev6 gt-line s 168kw 84kwh 5 door auto including metallic paint",
+   "status": "unmapped"
   },
   {
    "evidence": {
