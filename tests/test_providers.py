@@ -224,5 +224,42 @@ class CinchNewCars(unittest.TestCase):
         self.assertEqual((cash["vehicle_price"], cash["fees_gbp"]), (26584.0, 99.0))
 
 
+class KiaDealers(unittest.TestCase):
+    """Two dealer groups' EV3 pages (captured 11 Oct 2026): the worked PCP example each prints."""
+
+    def rows(self, site, f):
+        from pipeline.providers import kia_dealers
+        return kia_dealers.parse_page(fixture(f), "u", site, T)
+
+    def test_lloyd_s_example_with_its_own_contribution(self):
+        (r,) = self.rows("lloyd", "kia_dealer_lloyd_ev3.html")
+        self.assertEqual((r["car_ref"]["model"], r["car_ref"]["derivative"]), ("EV3", "GT-Line 150kW 81.4kWh Auto"))
+        self.assertEqual((r["list_price"], r["grant_gbp"], r["vehicle_price"], r["customer_deposit"]), (40105.0, 1500.0, 38605.0, 4499.0))
+        self.assertEqual((r["kia_contribution"], r["dealer_contribution"], r["manufacturer_contribution"]), (2000.0, 430.0, 2430.0))
+        self.assertEqual((r["amount_of_credit"], r["monthly_payment"], r["num_payments"], r["term_months"]), (31676.0, 449.45, 36, 37))
+        self.assertEqual((r["apr"], r["gfv"], r["annual_mileage"], r["excess_mileage_ppm"], r["reconciles"]), (0.039, 18469.34, 6000, 9.0, True))
+        self.assertEqual(r["valid_to"], "2026-09-30", "the page still shows July's offer, so it shows as expired")
+
+    def test_halliwell_jones_only_where_the_example_names_its_car(self):
+        rows = self.rows("hj", "kia_dealer_hj_ev3.html")
+        self.assertEqual([r["car_ref"]["label"] for r in rows], ["Kia EV3 GT-Line"], "the model page's other examples sit under the wrong headings")
+        r = rows[0]
+        self.assertEqual((r["vehicle_price"], r["manufacturer_contribution"], r["amount_of_credit"], r["monthly_payment"], r["valid_to"]),
+                         (37955.0, 2955.0, 30001.0, 399.0, "2026-12-31"))
+        self.assertTrue(r["reconciles"])
+
+    def test_a_halliwell_jones_offer_page_is_labelled_by_its_heading_when_the_banner_agrees(self):
+        from pipeline.providers import kia_dealers
+        url = "https://www.halliwelljones.co.uk/kia/offers/kia-ev3-gt-line-pcp"
+        rows = kia_dealers.parse_page(fixture("kia_dealer_hj_ev3_gt-line_offer.html"), url, "hj", T)
+        self.assertEqual([(r["car_ref"]["label"], r["monthly_payment"], r["customer_deposit"]) for r in rows], [("Kia EV3 GT-Line", 399.0, 4999.0)],
+                         "the page's second example (an Air) does not match its banner, so it is left out")
+
+    def test_the_index_links_only_electric_retail_offers(self):
+        from pipeline.providers import kia_dealers
+        page = 'href="/Kia/Current-Offers/Kia-EV3-Deals/382" href="/Kia/Current-Offers/Kia-Sportage/205" href="/Kia/Current-Offers/Kia-EV2-on-the-Motability-Scheme/631"'
+        self.assertEqual(kia_dealers.offer_links(page, "lloyd"), ["https://www.lloydmotorgroup.com/Kia/Current-Offers/Kia-EV3-Deals/382"])
+
+
 if __name__ == "__main__":
     unittest.main()

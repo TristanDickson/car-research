@@ -20,6 +20,7 @@ from pipeline.providers import (
     hyundai_configurator,
     hyundai_offers,
     hyundai_specs,
+    kia_dealers,
     kia_specs,
     leaseloco,
     manual_seed,
@@ -50,7 +51,8 @@ PROVIDERS: dict[str, Provider] = {
         ncd.provider,
         leaseloco.provider,
         rrg.provider,
-        cinch_new.provider,        # cinch's new cars: a real PCP quote and a cash price for every electric car it stocks
+        cinch_new.provider,
+        kia_dealers.provider,      # Kia dealer groups' offer pages: the full worked PCP example each prints, with its own contribution        # cinch's new cars: a real PCP quote and a cash price for every electric car it stocks
         kia_specs.provider,       # the makers' own grade tables: what each trim is fitted with, by the maker's word
         hyundai_specs.provider,
         hyundai_configurator.provider,   # what the maker will actually build at what price: the strongest word on what is fitted

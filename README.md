@@ -101,6 +101,8 @@ Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
 | `ncd` | new-car-discount.com model listings | broker all-in cash price per derivative | scrapes |
 | `leaseloco` | leaseloco.com model pages (the known ones plus a guess per catalogue model; a 404 is skipped) | best personal-lease deal per derivative and profile, VAT added | scrapes |
 | `rrg` | rrg-group.com Kia PV5 offers | the dealer's PCP example for the PV5 7-seat | scrapes |
+| `cinch_new` | cinch's new-car search API (Marshall Motor Group's stock) | a real PCP quote for every electric car it stocks (deposit, payment, number of payments, APR, final payment, credit, charges, mileage) and its cash price; the contribution a quote implies where it finances less than the price | scrapes |
+| `kia_dealers` | Lloyd Motor Group's and Halliwell Jones's Kia offer pages | the full worked PCP example each prints per electric model, Kia's and the dealer's contributions apart, with its validity dates | scrapes |
 | `carwow_model` | carwow.co.uk `/<make>/<model>`, the public model page | the derivative registry: every derivative by its CAP name with the brackets CAP prints (`[No Heat Pump]`, `[Heat Pump]`, `[7 seat]`), RRP, engine and version date; the description of any derivative the specification page omits, and the facts the brackets and their twins carry | scrapes |
 | `carwow_options` | quotes.carwow.co.uk's configurator, one page per derivative; a derivative never read first, then any read more than 7 days ago, stalest first, 250 a night | every option and pack the derivative can be ordered with, with prices and what each pack bundles; a feature in neither is not available on that derivative | scrapes |
 | `carwow_specs` | carwow.co.uk `/specifications` per catalogue model | equipment per trim, numbers per engine, CAP ids with version dates, an image per derivative; the fullest description of every derivative it lists | scrapes |
@@ -355,6 +357,14 @@ rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Context log
 
+- **2026-10-11 (afternoon)** Ready for a visitor. An "On sale now" flag (1,589 of 1,978 cars:
+  Carwow lists the derivative, or it has a current price) drives the default search; the 389 old
+  price-list versions stay, with their history. 1,037 cars that shared a displayed name now say
+  what differs (the CAP name's pack, seats, price list, RRP). A used car counts as a car only when
+  it is the same trim and battery (609 cars have one today), not the model's cheapest of any trim.
+  Two new sources of real PCP figures: cinch's new cars (20 quotes on cars) and two Kia dealer
+  groups' examples (11); cars with a current PCP figure 74 → 94. Blocking is planned for: a
+  refusing site rests for a growing number of nights and comes back gently.
 - **2026-10-11** Every record any parser distils, from every page, every committed history row
   and the owner's files, now goes into one table, `records`: one row per source, key and page for
   each stretch of time over which it read the same (`python -m pipeline records <key>` prints a

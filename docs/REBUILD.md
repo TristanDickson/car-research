@@ -219,6 +219,10 @@ These were found or agreed on 10 Oct and should be built on the new design.
 
 ### Real PCP quotes (the owner wants authoritative figures, never derived ones)
 
+Built on 11 Oct: `cinch_new` (cinch's new-car API) and `kia_dealers` (Lloyd Motor Group and
+Halliwell Jones). Cars with a current PCP figure went from 74 to 94. RRG's EV3 page and the other
+Kia and Hyundai groups below are still to do. The notes from 10 Oct follow.
+
 Only 74 of 1,978 cars have a current PCP figure: Carwow's public deals page prints one
 worked example per model and only for 15 makes (no Kia). Sources that print complete,
 real examples per derivative, checked on 10 Oct:
@@ -271,7 +275,10 @@ real examples per derivative, checked on 10 Oct:
   count a used car towards a derivative only when it is that derivative, or at least the
   same trim and battery.
 
-The owner has not yet answered the three proposals above; ask before building them.
+Built on 11 Oct, when the owner asked for the data to be ready for someone to use the app: an
+"On sale now" flag on every car that the default search uses (old price-list versions hidden by
+default, history kept); a note on every car that shares its displayed name saying what differs;
+and the buy-used route counting a used car only for a car of the same trim and battery.
 
 ### EV Database car pages
 
