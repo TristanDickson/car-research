@@ -7,8 +7,9 @@ IndexedDB. The decision is due before the current car's PCP ends on 10 Dec 2026.
 
 Read first: `README.md` (why, sources, how to work on it, next steps, context log, newest
 first), then `docs/ARCHITECTURE.md` (the raw store, the build, matching, the snapshot contract,
-the claim store, the app) and `docs/REBUILD.md` (the owner's design, after their project
-bolthole, and where the rebuild stands). What the household needs from a car:
+the claim store, the app), `docs/REBUILD.md` (the owner's design, after their project
+bolthole, and where the rebuild stands) and `docs/SOURCES.md` (what each source prints, what we
+read, what we leave). What the household needs from a car:
 `docs/requirements.md`; deal rules: `docs/research-notes.md`.
 
 ## Where things stand (10 Oct 2026)
@@ -21,7 +22,8 @@ laptop (`CAR_RESEARCH_RAW`), and holds the committed history of 6 to 10 Oct (and
 The laptop's Task Scheduler job runs `main` at 03:17 local: it scrapes into the raw store, builds,
 and pushes the snapshot and the deal table to `main`, which deploys the site. Each night's log is
 `D:\car-research-raw\logs\nightly\<date>.log`; check it the morning after a change. There is no
-GitHub scrape any more. Next: real PCP quotes (cinch's new-car API, dealer groups' offer pages).
+GitHub scrape any more. On 11 Oct every source was surveyed against its pages
+(`docs/SOURCES.md`) and the parsers fixed to read what they print, for the right car.
 
 ## Commands
 
@@ -64,6 +66,10 @@ under `%USERPROFILE%\tools`); xpdf's and pypdf read the guides' tables wrongly.
   `SnapshotCar` in `web/src/lib/types.ts`, and one line in `web/src/lib/fields.ts`, which
   makes it a Cars-table column, a search bound and a car-page row. A new equipment flag goes
   in `pipeline/services/features.py` and appears in the app by itself.
+- **No new source without a survey.** Before writing a parser, list every page type the site
+  has, everything each prints that the household could use, and what reading it costs; record in
+  `docs/SOURCES.md` what is read, what is left and why. Re-survey a source when its parser
+  changes. Data printed on a page we already fetch and do not read is a bug.
 - A new provider: a module in `pipeline/providers/`, registered in `providers/__init__.py`
   (order matters), with a fixture and a test. Whatever its parser needs goes in the target's
   metadata, which the raw store keeps with each fetch. If it reads many pages, give it a per-run
@@ -98,7 +104,9 @@ under `%USERPROFILE%\tools`); xpdf's and pypdf read the guides' tables wrongly.
   guides and `hyundai_configurator` the configurator's GraphQL endpoint.
 - The Kia Finance quote API answers "No quote available"; Kia finance examples are captured
   by hand.
-- Carwow's used cards come back in a different order on every request, so each night samples the
-  stock; a Carwow used car counts as gone only after a week unseen (`gold.SAMPLED_SOURCES`).
+- Carwow's used results name every car on one request (`per_page=200`), but only about four
+  cards a page come in full; the rest are fetched one by one within a nightly budget
+  (`carwow_used.CARD_BUDGET`). Until a few nights confirm the stock is complete, a Carwow used
+  car counts as gone only after a week unseen (`gold.SAMPLED_SOURCES`).
 - The committed history (before 10 Oct 2026) has no pages behind it: only its matching is
   re-derived, not its parsing.

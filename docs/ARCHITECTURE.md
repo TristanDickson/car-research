@@ -19,7 +19,7 @@ providers (discover → fetch → parse)       pipeline/providers/*      Python,
    hyundai_offers  hyundai.com/uk (live)     Hyundai Finance national PCP example per model, with validity dates
    ncd             new-car-discount.com      broker all-in cash price per derivative
    leaseloco       leaseloco.com (live)      best personal lease per derivative/profile (ex-VAT → inc.)
-   rrg             rrg-group.com (live)      dealer PCP example for the PV5 7-seat
+   rrg             rrg-group.com (live)      dealer PCP and lease examples for every Kia EV offer
    kia_specs       kia.com/uk (live)         grade × feature ticks, numbers per powertrain, seat variants
    hyundai_specs   hyundai.com/uk (live)     the Tech & Spec guide PDF per model: ● / - per trim, battery-qualified ticks, packs with prices
    hyundai_configurator  hyundai.com/uk (live)  the build-and-price GraphQL: every orderable configuration, its price, the packages in it

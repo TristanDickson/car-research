@@ -248,14 +248,14 @@ real examples per derivative, checked on 10 Oct:
     Months, Customer Deposit £4,999.00, Kia UK Deposit contribution £2,000.00, Electric Car
     Grant £1,500.00, Dealer Contribution £955.00 ... Optional Final Payment £18,469.34 ...
     Representative APR 3.9%".
-  - RRG (`pipeline/providers/rrg.py` reads its PV5 page): the EV3 page
-    (`https://www.rrg-group.com/kia/new-car-offers/ev3/`) did not show its example in the
-    HTML; look for where it loads from.
+  - RRG (`pipeline/providers/rrg.py`) reads every Kia EV offer page its index lists since 11 Oct.
+    There is no EV3 offer: the EV3 URL returns the index page itself.
   - Other Kia/Hyundai groups print similar pages (Snows, WJ King, Howards, Gravells); many
     run on shared dealer-website platforms, so one parser may cover several.
-- **Not usable**: Kia's own offer pages show only the headline ("3.9% APR, up to £3,000
-  contribution"); the worked figures come from the quote API that answers "No quote
-  available". Auto Trader's monthly figures are, by its own description, indicative (dealer
+- **Not usable for a quote**: Kia's own offer pages print no worked example (that comes from the
+  quote API that answers "No quote available"), but the 11 Oct survey found they do print the
+  contribution and grant per trim and the order window (EV3: 01.10.2026 to 15.12.2026), which
+  nothing reads yet (`docs/SOURCES.md`). Auto Trader's monthly figures are, by its own description, indicative (dealer
   supplied or a generic example from its broker, Zuto). What Car?'s Target PCP is indicative
   on a fixed basis. Zuto, MoneySuperMarket (Motiv) and Quotezone quote only after a credit
   application. The owner's logged-in Carwow dealer quotes stay as pastes

@@ -71,6 +71,9 @@ class CarwowSpecs(unittest.TestCase):
         # The model prints '5 - 7' seats and a '350 - 1,330 L' boot: ranges, so no derivative takes a value from them.
         n = by_cap["108178"]["numbers"]
         self.assertEqual((n["seats"], n["seats_range"], n["boot_l"], n["boot_l_range"]), (None, [5.0, 7.0], None, [350.0, 1330.0]))
+        # The model's cheapest lease ('Monthly £386*') and the basis its footnote prints.
+        self.assertEqual((n["lease_from_gbp"], by_cap["108178"]["lease_from_basis"]),
+                         (386.0, "personal contract hire, 9 month upfront fee, 48 month term, 8000 miles annually, inc VAT, excluding fees"))
         # The trim article prints the Essential's cheapest RRP; the Long Range's own slide prints its own.
         self.assertEqual((by_cap["108178"]["rrp"], by_cap["108178"]["trim_rrp"]), (36195.0, 33195.0))
 

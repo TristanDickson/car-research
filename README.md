@@ -100,7 +100,7 @@ Details, the snapshot contract and the decisions are in `docs/ARCHITECTURE.md`.
 | `hyundai_offers` | hyundai.com/uk per-model offer pages | Hyundai Finance's full national PCP example per model (deposit, contribution, APR, GFV, validity dates) | scrapes |
 | `ncd` | new-car-discount.com model listings | broker all-in cash price per derivative | scrapes |
 | `leaseloco` | leaseloco.com model pages (the known ones plus a guess per catalogue model; a 404 is skipped) | best personal-lease deal per derivative and profile, VAT added | scrapes |
-| `rrg` | rrg-group.com Kia PV5 offers | the dealer's PCP example for the PV5 7-seat | scrapes |
+| `rrg` | rrg-group.com Kia offers | the dealer's PCP and lease examples for every Kia EV it advertises | scrapes |
 | `cinch_new` | cinch's new-car search API (Marshall Motor Group's stock) | a real PCP quote for every electric car it stocks (deposit, payment, number of payments, APR, final payment, credit, charges, mileage) and its cash price; the contribution a quote implies where it finances less than the price | scrapes |
 | `kia_dealers` | Lloyd Motor Group's and Halliwell Jones's Kia offer pages | the full worked PCP example each prints per electric model, Kia's and the dealer's contributions apart, with its validity dates | scrapes |
 | `carwow_model` | carwow.co.uk `/<make>/<model>`, the public model page | the derivative registry: every derivative by its CAP name with the brackets CAP prints (`[No Heat Pump]`, `[Heat Pump]`, `[7 seat]`), RRP, engine and version date; the description of any derivative the specification page omits, and the facts the brackets and their twins carry | scrapes |
@@ -358,6 +358,19 @@ rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Context log
 
+- **2026-10-11 (evening)** Every source surveyed against its own pages (`docs/SOURCES.md`, and a
+  rule in `CLAUDE.md`: no new source without one). Wrong figures fixed first: Carwow gave 18 of 48
+  sampled derivatives another derivative's range (each now reads its own slide), took model-wide
+  ranges as exact values, and put the Ioniq 5's representative PCP on the wrong twin; Hyundai's
+  Ioniq 3 grant read as £0; Halliwell Jones's examples were named from wrong captions; a dealer
+  example whose price fits no derivative its text names is now a conflict, not a car. Data the
+  pages printed and we dropped is now read: every Carwow used car, not only the sponsored ones
+  (1,317 of 8,204 stated before); NCD's PCP quote per car; every RRG Kia offer; cinch's and
+  Motorpoint's finance quote per used car; Hyundai's loan quotes, guide prices per powertrain and
+  Technical pages; Kia's charge times, towing and PV5 seat tables; LeaseLoco's in-stock deals;
+  EV Database's on-sale dates. The makers' figures now reach the car records. The new fetches
+  start with the 12 Oct nightly: NCD goes from 8 requests to about 172, RRG from 1 to 15, Carwow
+  used to between 700 and 1,240.
 - **2026-10-11 (afternoon)** Ready for a visitor. An "On sale now" flag (1,589 of 1,978 cars:
   Carwow lists the derivative, or it has a current price) drives the default search; the 389 old
   price-list versions stay, with their history. 1,037 cars that shared a displayed name now say
@@ -497,10 +510,10 @@ rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Next steps
 
-1. Check the laptop's first nightly push (11 Oct) in its log and on the site. Open: a backup for
-   `D:\car-research-raw`, the only copy of the past.
-2. Real PCP quotes: cinch's new-car API and dealer groups' offer pages (Lloyd Motor
-   Group, Halliwell Jones, RRG beyond the PV5); details in `docs/REBUILD.md`.
+1. Check the 12 Oct nightly's log: the first night of NCD's quotes, every RRG offer and
+   Carwow's used cards, and whether any of those hosts refused.
+2. What the pages print that is still not read, by value, is at the end of `docs/SOURCES.md`
+   (used cars' detail pages, Kia's own offer pages, NCD's HP quote).
 3. Ask the owner about the three proposals on look-alike cars in `docs/REBUILD.md` (hide old
    price-list versions; label live twins by what differs; count a used car only towards its
    own derivative).

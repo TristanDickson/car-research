@@ -131,7 +131,9 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str, mak
     facts = {text(k): text(v) for k, v in DTDD_RE.findall(page)}
     # Model-level facts. Where the page prints the model's range ('5 - 7' seats, '350 - 1,330 L'), no
     # derivative gets a value from it: the range is kept as <field>_range and the field left blank.
-    model_facts: dict = {"used_from_gbp": money(facts.get("Used"))}
+    model_facts: dict = {"used_from_gbp": money(facts.get("Used")), "cash_from_gbp": money(facts.get("Cash")),
+                         # 'Monthly £336*': the model's cheapest lease, on the basis the page's footnote prints.
+                         "lease_from_gbp": money(facts.get("Monthly"))}
     for field, label, unit in (("seats", "Number of seats", ""), ("doors", "Number of doors", ""),
                                ("boot_l", "Boot (seats up)", "L"), ("boot_max_l", "Boot (seats down)", "L"),
                                ("turning_circle_m", "Turning circle", "m"), ("wheelbase_m", "Wheelbase", "m"),
@@ -140,6 +142,8 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str, mak
         model_facts[field] = int(value) if value is not None and field in ("seats", "doors") else value
         if span:
             model_facts[f"{field}_range"] = span
+    basis = re.search(r"Illustrations are based on ([^.]*)", text(page))
+    lease_basis = basis.group(1).strip() if basis else None
     slides = _slides(page)
     engines = _engines(page)
     heads = [m.start() for m in HEAD_RE.finditer(page)]
@@ -184,6 +188,7 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str, mak
                 "description": text(desc.group(1)) if desc else None,
                 "features": items, "options": [], "flags": flags_for(items, []),
                 "numbers": numbers,
+                "lease_from_basis": lease_basis if model_facts.get("lease_from_gbp") else None,
                 "raw_numbers": e.get("raw", {}),
             })
     return rows

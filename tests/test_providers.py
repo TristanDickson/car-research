@@ -54,6 +54,9 @@ class CarwowDeals(unittest.TestCase):
         gts = by_key["carwow:cash:106394"]
         self.assertEqual((gts["list_price"], gts["vehicle_price"], gts["pcp_finance_price"]), (43055.0, 40099.0, 37100.0))
         self.assertEqual(gts["pcp_finance_price_delta"], -2999.0)
+        # The card's footnotes: what its PCP price assumes.
+        air = by_key["carwow:cash:106391"]
+        self.assertEqual((air["finance_deposit_contribution"], air["finance_apr"]), (2000.0, 0.039))
         self.assertNotIn("monthly_from_indicative", gts)
         self.assertEqual(sorted(k for k in by_key if k.startswith("carwow:cash:")),
                          ["carwow:cash:106391", "carwow:cash:106392", "carwow:cash:106393", "carwow:cash:106394", "carwow:cash:110993"])
@@ -99,6 +102,14 @@ class LeaseLoco(unittest.TestCase):
         self.assertEqual(first["initial_rental"], 3453.36)
         self.assertEqual((first["profile"], first["num_rentals"], first["term_months"]), ("12+47", 47, 48))
         self.assertEqual((first["fees_gbp"], first["annual_mileage"]), (358.0, 6000))
+
+    def test_the_in_stock_deal_keeps_a_key_of_its_own(self):
+        """The Kona N Line's in-stock deal (£267.04) shares its vehicle and profile with the factory-order best
+        deal (£269.16); it is kept beside it, not over it."""
+        rows = {r["offer_key"]: r for r in leaseloco.parse_page(fixture("leaseloco_hyundai_kona-electric_2026-10-11.html"), "u", T)}
+        stock, best = rows["leaseloco:44399:48:12:6000:in-stock"], rows["leaseloco:44399:48:12:6000"]
+        self.assertEqual((stock["monthly_rental"], stock["stock_status"], stock["source"]), (267.04, 1, "LeaseLoco in-stock personal lease"))
+        self.assertEqual((best["monthly_rental"], best["in_stock_list"]), (269.16, False))
 
     def test_missing_next_data_raises(self):
         with self.assertRaises(ValueError):

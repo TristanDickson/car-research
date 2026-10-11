@@ -73,7 +73,12 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str, mak
         version = re.search(r"derivative_version_id=([^&\"']+)", b)
         rrp = money(re.search(r"rrp-value'>\s*(£[\d,]+)", b).group(1)) if re.search(r"rrp-value'>\s*(£[\d,]+)", b) else None
         prices = {text(k): text(v) for k, v in PRICE_RE.findall(b)}
+        # 'With finance deposit contribution of £2,000', 'Representative APR 3.9%': what the card's PCP price assumes.
+        notes = [text(x) for x in re.findall(r"product-deal__pricing__footnote'>(.*?)</div>", b, re.S)]
+        contribution = next((money(n) for n in notes if "deposit contribution" in n.lower()), None)
+        apr = next((pct(n) for n in notes if "apr" in n.lower()), None)
         derivatives.append({
+            "finance_contribution": contribution, "finance_apr": apr, "footnotes": notes,
             "cap": cap.group(1), "trim": trim.group(1) if trim else None, "title": " ".join(parts),
             # title parts are [model, engine]: enough to generate a car for a derivative nobody curates
             "model_name": parts[0] if parts else model, "engine": " ".join(parts[1:]),
@@ -112,6 +117,12 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str, mak
             "carwow_trim": d["trim"], "carwow_title": d["title"],
             "notes": "Best price across Carwow's dealers for this derivative; a named dealer offer needs the logged-in quotes page.",
         }
+        if d["finance_contribution"] is not None:
+            row["finance_deposit_contribution"] = d["finance_contribution"]
+        if d["finance_apr"] is not None:
+            row["finance_apr"] = d["finance_apr"]
+        if d["footnotes"]:
+            row["card_footnotes"] = d["footnotes"]
         if d["pcp_price"] is not None:
             row["pcp_finance_price"] = d["pcp_price"]
             row["pcp_finance_price_delta"] = round(d["pcp_price"] - d["cash"], 2) if d["cash"] else None

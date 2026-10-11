@@ -54,14 +54,24 @@ def parse_page(page: str, url: str, observed_at: str) -> list[dict]:
     props = json.loads(m.group(1))["props"]["pageProps"]
     # Most model pages carry a curated originalBestDealList; some (Inster) ship
     # only the first page of search results. Take both, first list wins on dupes.
-    deals, seen = [], set()
+    deals, seen = [], {}
     for list_name in ("originalBestDealList", "originalSearchResultDeals"):
         for d in props.get(list_name) or []:
             pid = (d.get("vehiclePrice") or {}).get("id")
             if pid in seen:
                 continue
-            seen.add(pid)
-            deals.append(dict(d, _list=list_name))
+            seen[pid] = dict(d, _list=list_name)
+            deals.append(seen[pid])
+    # The page's in-stock deal: often one of the deals above (then it is marked), else a deal of its own
+    # for a car the best list prices on factory order. It keeps a key of its own, so it never overwrites
+    # the best deal for the same derivative and profile.
+    for d in props.get("originalInStockDealList") or []:
+        pid = (d.get("vehiclePrice") or {}).get("id")
+        if pid in seen:
+            seen[pid]["_in_stock_list"] = True
+        else:
+            seen[pid] = dict(d, _list="originalInStockDealList", _in_stock_list=True)
+            deals.append(seen[pid])
     rows = []
     for d in deals:
         v, p = d.get("vehicle") or {}, d.get("vehiclePrice") or {}
@@ -79,11 +89,12 @@ def parse_page(page: str, url: str, observed_at: str) -> list[dict]:
         term = int(p.get("term") or 0)
         fee = round(float(p.get("documentFee") or 0) * VAT, 2)
         mileage = int(p.get("mileage") or 0) or None
-        key = f"leaseloco:{v.get('id')}:{term}:{init_months}:{mileage}"
+        key = f"leaseloco:{v.get('id')}:{term}:{init_months}:{mileage}" + (":in-stock" if d["_list"] == "originalInStockDealList" else "")
         rows.append({
             "id": key, "offer_key": key,
             "observed_at": observed_at, "captured_at": observed_at[:10], "present": 1,
-            "status": "lead", "verification": "scraped", "source": "LeaseLoco best personal lease",
+            "status": "lead", "verification": "scraped",
+            "source": "LeaseLoco in-stock personal lease" if d["_list"] == "originalInStockDealList" else "LeaseLoco best personal lease",
             "source_url": url, "source_ref": f"deal {p.get('id')} vehicle {v.get('id')}",
             "car_ref": {"source": SITE,
                         "key": norm_key(v.get("manufacturerName", ""), v.get("modelName", ""), v.get("derivativeName", "")),
@@ -95,6 +106,7 @@ def parse_page(page: str, url: str, observed_at: str) -> list[dict]:
             "initial_rental": round(monthly * init_months, 2), "num_rentals": term - 1, "monthly_rental": monthly,
             "fees_gbp": fee, "annual_mileage": mileage, "lease_type": p.get("leaseType"),
             "stock_status": p.get("stockStatus"), "locoscore": p.get("rating"), "deal_list": d["_list"],
+            "in_stock_list": bool(d.get("_in_stock_list")),
             "notes": "Best personal-lease price on LeaseLoco for this derivative and profile; figures converted from ex-VAT.",
         })
     return rows
