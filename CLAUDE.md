@@ -32,6 +32,7 @@ python -m pipeline nightly      # new committed history into the store, scrape, 
 python -m pipeline scrape --only <provider>   # live sources into the raw store
 python -m pipeline raw-status   # what the raw store holds, by source
 python -m pipeline trims        # records the rules could not place
+scripts/nightly.sh --push --build-only   # put a code change on the site now (build from the raws held, publish)
 make test                       # python unittest + web lint, typecheck, vitest
 make web-dev                    # http://localhost:3001
 ```
@@ -68,6 +69,7 @@ under `%USERPROFILE%\tools`); xpdf's and pypdf read the guides' tables wrongly.
   metadata, which the raw store keeps with each fetch. If it reads many pages, give it a per-run
   cap or a freshness rotation (see `evdb_cars`, `carwow_options`).
 - Pushing to `main` deploys the site.
+- Scripts are bash (Git Bash on this laptop), never PowerShell: the project is platform agnostic.
 - Done means: Python tests and web lint/typecheck/vitest pass locally, and `pipeline-ci`,
   `web-ci` and the Pages deploy are green on the pushed commit.
 

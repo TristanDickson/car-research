@@ -276,7 +276,7 @@ model/deal_math.py      PCP / PCH / cash / used normalisation in Python: the ora
 web/src/lib/model/      the cost model the app runs: dealMath.ts (the port, checked against the fixture), horizon.ts (deals of other lengths over the reader's term), sightings.ts (every route and source over time), recompute.ts (one pass, stored in IndexedDB)
 data/seed/              the owner's cars (19), offers (29), requirements, picks, and decisions (trim_map.json: 56 "this is that car", 163 "not one of mine")
 data/pastes/            pasted source pages, one file each (carwow: 4, richmond: 2)
-scripts/                the laptop's nightly job (nightly.ps1), its Task Scheduler entry (install-nightly.ps1), a snapshot comparison
+scripts/                the nightly job (nightly.sh), its scheduler entry (install-nightly.sh: Task Scheduler or cron), a snapshot comparison
 web/                    Next.js static SPA: pick, compare, cars, car detail (price board, history, equipment, every field), specs, settings (saved searches, budget line, quoting basis), data, offers
   src/lib/fields.ts     the one list of car fields: Cars table columns, search bounds, the car page's Spec card
   src/lib/query.ts      the search (URL state), facets, ranges, saved-search descriptions; src/lib/db.ts the IndexedDB store
@@ -296,6 +296,7 @@ python -m pipeline scrape --only carwow_deals,ncd   # some live sources into the
 python -m pipeline raw-status   # what the raw store holds
 python -m pipeline trims        # records the rules could not place
 python -m pipeline backfill --since 2025-01-01   # Wayback captures into the raw store; then build
+scripts/nightly.sh --push --build-only            # put a code change on the site now: build from the raws held, publish
 make test                       # python unittest + web lint/typecheck/vitest
 make web-dev                    # http://localhost:3001
 ```
@@ -313,7 +314,7 @@ throttles the laptop. Refusals are expected, not failures: a refusing site is no
 night, rests for a growing number of nights, and comes back with a few pages, doubling each clean
 night (`pipeline/providers/politeness.py`); the build keeps what earlier pages said meanwhile.
 
-**Nightly:** the laptop's Task Scheduler job (`scripts/nightly.ps1`, 03:17) scrapes, builds, and
+**Nightly:** the laptop's scheduled job (`scripts/nightly.sh`, 03:17) scrapes, builds, and
 commits `web/public/data` and `docs/deal-comparison.md` to `main`, which redeploys the app. Its
 log is `D:\car-research-raw\logs\nightly\<date>.log`. A site that changes its layout shows up as a provider
 with 0 records and its offers going stale a fortnight later; fix the parser against a fresh

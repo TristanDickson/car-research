@@ -31,7 +31,7 @@ runs `main` at 03:17 and pushes.
   car creation during ingestion, the history export and replay, and the 10 Oct stopgap are
   deleted, as listed under "What the rebuild deletes".
 - **The scraper** keeps raws and nothing else; **the laptop's nightly job**
-  (`scripts/nightly.ps1`), registered with Task Scheduler for 03:17 daily: it scrapes, builds,
+  (`scripts/nightly.sh`, bash; scheduled for 03:17 daily by `scripts/install-nightly.sh`): it scrapes, builds,
   and pushes the snapshot to `main` (without `-Push` it would only log a comparison with main).
 - **CI** (`pipeline-ci`): unit tests, which build from a raw store of the captured fixtures, and
   a build over the owner's files with an empty store. The GitHub scrape and backfill workflows

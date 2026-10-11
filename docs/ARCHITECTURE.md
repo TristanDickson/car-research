@@ -615,16 +615,18 @@ the default branch later does not update the rule. The workflow deploys from `ma
 `main` under Settings → Environments → github-pages → Deployment branches and tags. A run
 rejected by that rule fails in two seconds with no runner and no logs.
 
-The nightly job runs on the owner's laptop, where the raws live (`scripts/nightly.ps1`, registered
-with Task Scheduler by `scripts/install-nightly.ps1`, daily at 03:17, waking the laptop and
-catching up after a missed start). In a worktree of its own (`%USERPROFILE%\car-research-nightly`)
-it checks out `origin/<branch>` and runs `python -m pipeline nightly`: new committed history into
-the raw store, scrape every live source into it, build from scratch, snapshot, deal table. With
-`-Push` it commits `web/public/data` and `docs/deal-comparison.md` and pushes to `main`, which
-deploys the site; if `main` moved meanwhile it builds again on it from the raws (no new fetching)
-and retries. Without `-Push` it pushes nothing and logs how its snapshot differs from main's
-(`scripts/compare_snapshots.py`): the mode for nights when the GitHub scrape still runs. Each
-night's log is `<raw store>\logs\nightly\<date>.log`. Each provider keeps itself inside a few
+The nightly job runs on the owner's laptop, where the raws live: `scripts/nightly.sh`, a bash
+script (Git Bash on Windows, any bash elsewhere), scheduled by `scripts/install-nightly.sh` daily at
+03:17 (on Windows a Task Scheduler task that wakes the laptop and catches up after a missed start;
+elsewhere a crontab line). In a worktree of its own (`~/car-research-nightly`) it checks out
+`origin/<branch>` and runs `python -m pipeline nightly`: new committed history into the raw store,
+scrape every live source into it, build from scratch, snapshot, deal table. With `--push` it commits
+`web/public/data` and `docs/deal-comparison.md` and pushes to `main`, which deploys the site; if
+`main` moved meanwhile it builds again on it from the raws (no new fetching) and retries. With
+`--build-only` it builds from the raws already held instead of scraping (with `--push`, how a code
+change reaches the site at once). With neither it pushes nothing and logs how its snapshot differs
+from main's (`scripts/compare_snapshots.py`). Each night's log is
+`<raw store>/logs/nightly/<date>.log`. Each provider keeps itself inside a few
 hours: the configurator pages rotate weekly (250 a night), EV Database car pages stop at 60 or
 25 minutes.
 
