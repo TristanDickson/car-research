@@ -458,6 +458,7 @@
 | Volvo EX30 Plus · 200kW Single Motor 51kWh Auto | lead | 24 | £3,383 | £282 × 23 | £0 | £9,868 | £411 | £417 | 8000 |
 | Volvo EX30 Core · 200kW Single Motor 51kWh Auto | lead | 48 | £4,323 | £360 × 47 | £0 | £21,254 | £443 | £451 | 10000 |
 | Volvo EX30 Plus Black Edition · 200kW P5 Long Range Plus Black Ed 69kWh Auto | lead | 48 | £5,201 | £433 × 47 | £0 | £25,573 | £533 | £542 | 10000 |
+| XPeng G6 Performance · 358kW 80kWh AWD Auto | lead | 36 | £4,665 | £389 × 35 | £0 | £18,273 | £508 | £516 | 6000 |
 | Hyundai Kona Electric Advance · 115kW 48kWh Auto | lead | 48 | £3,802 | £317 × 47 | £199 | £18,890 | £394 | £401 | 10000 |
 | Hyundai Kona Electric Advance 65kWh | lead | 48 | £3,346 | £279 × 47 | £385 | £16,834 | £351 | £358 | 5000 |
 | Hyundai Kona Electric Advance · 160kW 65kWh Auto | lead | 48 | £3,123 | £260 × 47 | £358 | £15,712 | £327 | £334 | 6000 |
@@ -1058,7 +1059,7 @@
 | Volvo EX90 Core · 335kW Twin Motor 106kWh Auto | lead | 48 | £9,690 | £807 × 47 | £350 | £47,991 | £1,000 | £1,018 | 8000 |
 | XPeng G6 Standard Range · 185kW 68kWh RWD Auto | lead | 36 | £3,888 | £324 × 35 | £0 | £15,228 | £423 | £430 | 6000 |
 | XPeng G6 Long Range · 218kW 80kWh RWD Auto | lead | 36 | £3,972 | £331 × 35 | £300 | £15,859 | £441 | £448 | 5000 |
-| XPeng G6 Performance · 358kW 80kWh AWD Auto | lead | 36 | £4,665 | £389 × 35 | £0 | £18,273 | £508 | £516 | 6000 |
+| XPeng G6 Performance · 358kW 80kWh AWD Auto | lead | 36 | £4,484 | £374 × 35 | £300 | £17,861 | £496 | £505 | 5000 |
 
 ## Cash prices (benchmarks)
 
