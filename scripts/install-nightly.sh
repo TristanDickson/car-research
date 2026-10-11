@@ -57,7 +57,7 @@ case "$(uname -s)" in
     <Arguments>-l ${script} --branch ${branch}${push}</Arguments></Exec></Actions>
 </Task>
 XML
-    iconv -f UTF-8 -t UTF-16 "$xml.utf8" > "$xml"
+    { printf '\377\376'; iconv -f UTF-8 -t UTF-16LE "$xml.utf8"; } > "$xml"   # little-endian with its byte-order mark
     schtasks.exe //Create //TN "$task" //XML "$(cygpath -w "$xml")" //F
     rm -f "$xml" "$xml.utf8"
     schtasks.exe //Query //TN "$task" //FO LIST | grep -E "TaskName|Next Run Time|Status" || true
