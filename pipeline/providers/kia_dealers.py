@@ -141,7 +141,8 @@ def parse_page(page: str, url: str, site: str, observed_at: str) -> list[dict]:
         loyalty = _money(block, r"Kia UK Loyalty contribution") or 0.0
         dealer = _money(block, r"(?:Lloyd Kia|Dealer) (?:Deposit )?Contribution") or 0.0
         credit = _money(block, r"Amount of Credit")
-        term = re.search(r"(?:Duration|Term) of Agreement\s*(\d+)\s*months", block, re.I)
+        term = re.search(r"(?:Duration|Term) of Agreement\s*(\d+)", block, re.I)   # 'months' is sometimes left off
+        payments = re.search(r"(\d+)\s*Monthly Payments", block, re.I)
         miles = re.search(r"Estimated Annual Mileage\s*([\d,]+)", block, re.I) or re.search(r"\(([\d,]+) per annum\)", block, re.I)
         excess = re.search(r"Excess Mileage Charge[^£\d]{0,30}(£\s*0?\.(\d+)|(\d+(?:\.\d+)?)p)", block, re.I)
         ppm = (float("0." + excess.group(2)) * 100 if excess.group(2) else float(excess.group(3))) if excess else None
@@ -151,7 +152,7 @@ def parse_page(page: str, url: str, site: str, observed_at: str) -> list[dict]:
         contribution = kia + loyalty + dealer
         reconciles = abs(price - deposit - contribution - credit) <= 2 if price and credit else None
         key = f"{site}:{norm_key(name).replace(' ', '-')}:pcp"
-        n = int(term.group(1)) - 1 if term else None
+        n = int(payments.group(1)) if payments else (int(term.group(1)) - 1 if term else None)
         rows.append({
             "id": key, "offer_key": key, "observed_at": observed_at, "captured_at": observed_at[:10], "present": 1,
             "status": "live", "verification": "scraped", "source": SITES[site]["name"], "dealer": SITES[site]["name"],

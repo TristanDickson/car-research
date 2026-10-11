@@ -166,6 +166,9 @@ def pcp_metrics(d, best_cash, basis=None, residuals=None, floor_gfv=None):
             return out
         m = solve_monthly(credit, apr, gfv, n)
         derived.append("monthly_payment")
+    if n is None:
+        out["skipped"] = "no number of payments"
+        return out
     first = d.get("first_payment") or m
 
     if credit is None:
