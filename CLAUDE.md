@@ -86,8 +86,12 @@ under `%USERPROFILE%\tools`); xpdf's and pypdf read the guides' tables wrongly.
 
 ## Known limits
 
-- EV Database rate-limits hard from some addresses (none from GitHub's runners); how it treats
-  the laptop is not yet known. `evdb_cars` slows down on a 429 and stops after 25 minutes.
+- Sites refuse sometimes, and that is normal (`pipeline/providers/politeness.py`): a host that
+  refuses twice in a row is not asked again that run; after a night that ended refused it rests
+  one night, then two, four ...; it comes back at 10 pages and doubles each clean night. A page
+  not fetched loses nothing: the build keeps what earlier pages said. EV Database does this to the
+  laptop (55 pages the first night, refused at once the second). A guessed LeaseLoco page that
+  404'd is not asked again for a week.
 - Hyundai UK has no spec page readable without a browser; `hyundai_specs` reads the PDF
   guides and `hyundai_configurator` the configurator's GraphQL endpoint.
 - The Kia Finance quote API answers "No quote available"; Kia finance examples are captured

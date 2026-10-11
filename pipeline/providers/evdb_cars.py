@@ -289,7 +289,14 @@ def discover(target: Target, ctx: Context) -> Iterator[Target]:
                 _, vid, p = q.pop(0)
                 order.append((vid, p))
     order += [(vid, p) for _, vid, p in sorted(stale)]
-    budget = int(ctx.extras.get("evdb_cars_per_run", PER_RUN)) if target.identifier == "all" else len(order)
+    if target.identifier == "all":
+        # Tonight's share: none while backing off after refusals, then a few more each clean night (politeness.py).
+        from pipeline.providers.politeness import allowance
+        budget = allowance(ctx.extras.get("raw_store"), "ev-database.org", int(ctx.extras.get("evdb_cars_per_run", PER_RUN)))
+        if budget == 0:
+            print("  evdb_cars: EV Database refused on recent nights; resting it tonight", flush=True)
+    else:
+        budget = len(order)
     deadline = time.monotonic() + float(ctx.extras.get("evdb_cars_budget_s", BUDGET_SECONDS))
     _refused = False
     for vid, p in order[:budget]:
@@ -315,7 +322,7 @@ def fetch(target: Target, ctx: Context) -> Fetched:
         try:
             return fetch_url(target.metadata["url"], ctx, retries=0)
         except Exception as e:  # noqa: BLE001
-            if "429" not in str(e) or attempt:
+            if "429" not in str(e) or attempt or getattr(e, "status", None) is None:
                 _refused = _refused or "429" in str(e)
                 raise
             _pace = min(_pace + 15.0, 120.0)

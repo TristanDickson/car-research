@@ -307,7 +307,9 @@ parse at the next build that has one. The database
 (`data/car-research.sqlite`, `CAR_RESEARCH_DB`) and the parse cache are disposable.
 
 A full scrape reads ~1,500 pages at a polite pace and takes about two hours. EV Database
-throttles hard from some addresses; `evdb_cars` slows down on a 429 and stops after 25 minutes.
+throttles the laptop. Refusals are expected, not failures: a refusing site is not asked again that
+night, rests for a growing number of nights, and comes back with a few pages, doubling each clean
+night (`pipeline/providers/politeness.py`); the build keeps what earlier pages said meanwhile.
 
 **Nightly:** the laptop's Task Scheduler job (`scripts/nightly.ps1`, 03:17) scrapes, builds, and
 commits `web/public/data` and `docs/deal-comparison.md` to `main`, which redeploys the app. Its

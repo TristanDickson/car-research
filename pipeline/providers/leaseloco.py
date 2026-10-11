@@ -28,6 +28,8 @@ def discover(target: Target, ctx: Context) -> Iterator[Target]:
     mostly match Carwow's (bmw/i4, tesla/model-y), and a guess that 404s is
     skipped quietly (optional target), not counted as a failure."""
     seen: set[str] = set()
+    from pipeline.providers.politeness import recently_missing
+    missing = recently_missing(ctx.extras.get("raw_store"), "leaseloco")   # a guess that 404'd this week waits a week
     for slug in SLUGS:
         seen.add(slug)
         if target.identifier in ("all", slug):
@@ -37,7 +39,7 @@ def discover(target: Target, ctx: Context) -> Iterator[Target]:
         if slug in seen:
             continue
         seen.add(slug)
-        if target.identifier in ("all", slug):
+        if target.identifier == slug or (target.identifier == "all" and slug not in missing):
             yield Target(identifier=slug, metadata={"url": f"https://www.leaseloco.com/car-leasing/{slug}", "optional": True})
 
 

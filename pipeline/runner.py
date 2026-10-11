@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 
 from pipeline import gold
-from pipeline.providers.http import FetchError
+from pipeline.providers.http import Blocked, FetchError
 from pipeline.providers.types import Capability, Context, Provider, Target
 from pipeline.raw import RawStore, sha256
 
@@ -32,6 +32,7 @@ class RunResult:
     records: int
     errors: int = 0
     skipped: int = 0   # optional targets the source does not have (404)
+    deferred: int = 0  # not asked: the site refused twice in a row this run; asked again another night
 
 
 def _keep(store: RawStore, provider: Provider, cap: Capability, t: Target, url: str | None, status: int | None,
@@ -64,7 +65,7 @@ def run(store: RawStore, conn: sqlite3.Connection | None, provider: Provider, ca
     if conn is not None:
         ctx.extras.setdefault("db", conn)   # discover may read the catalogue to know what to fetch
     started = _now()
-    n_fetch = n_new = n_rec = n_skipped = 0
+    n_fetch = n_new = n_rec = n_skipped = n_deferred = 0
     failures: list[str] = []
     status = "ok"
     try:
@@ -74,6 +75,9 @@ def run(store: RawStore, conn: sqlite3.Connection | None, provider: Provider, ca
             fetched_at = _now()
             try:
                 fetched = cap.fetch(t, ctx)
+            except Blocked:
+                n_deferred += 1
+                continue
             except FetchError as e:
                 _keep_parts(store, provider, cap, t, getattr(e, "parts", ()), fetched_at)
                 if e.status is not None or e.body is not None:
@@ -115,8 +119,8 @@ def run(store: RawStore, conn: sqlite3.Connection | None, provider: Provider, ca
                         by_kind.setdefault(r.kind, []).append((None, r))
                 gold.write(conn, provider.name, by_kind, None, now=meta["observed_at"])
                 conn.commit()
-        status = "ok" if (n_fetch - len(failures) > 0 or not failures) else "error"
-        return RunResult(provider.name, cap.name, n_fetch, n_new, n_rec, len(failures), n_skipped)
+        status = "ok" if (n_fetch - len(failures) > 0 or not failures) else ("refused" if n_deferred else "error")
+        return RunResult(provider.name, cap.name, n_fetch, n_new, n_rec, len(failures), n_skipped, n_deferred)
     except Exception:
         status = "error"
         failures.append(traceback.format_exc())
@@ -124,4 +128,5 @@ def run(store: RawStore, conn: sqlite3.Connection | None, provider: Provider, ca
     finally:
         store.log_run({"source": provider.name, "capability": cap.name, "target": target, "started_at": started,
                        "finished_at": _now(), "status": status, "fetches": n_fetch, "new_bodies": n_new, "records": n_rec,
-                       "errors": len(failures), "skipped": n_skipped, "error": "\n".join(failures)[:20000] or None})
+                       "errors": len(failures), "skipped": n_skipped, "deferred": n_deferred,
+                       "error": "\n".join(failures)[:20000] or None})

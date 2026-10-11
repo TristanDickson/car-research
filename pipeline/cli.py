@@ -32,6 +32,7 @@ def _store(args):
 def _print_run(res) -> None:
     extra = f", {res.errors} failed" if res.errors else ""
     extra += f", {res.skipped} not on the site" if res.skipped else ""
+    extra += f", {res.deferred} left for another night (the site refused)" if getattr(res, "deferred", 0) else ""
     print(f"{res.source}/{res.capability}: {res.fetches} fetched ({res.new_bodies} new pages), {res.records} records{extra}", flush=True)
 
 
@@ -68,6 +69,8 @@ def _scrape(args, store) -> list[str]:
     conn = _open()
     only = set(args.only.split(",")) if args.only else None
     ctx = Context(root=ROOT, extras={"raw_store": store})
+    from pipeline.providers.http import reset_refusals
+    reset_refusals()
     failed = []
     for name, provider in PROVIDERS.items():
         if not provider.live or (only and name not in only):

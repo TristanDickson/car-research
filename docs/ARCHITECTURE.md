@@ -249,8 +249,20 @@ car image (exact derivative first, then the same model and trim word).
 
 ## Live scraping
 
-`providers/http.py` is the one fetch path: a browser user agent, a per-host delay, two retries
-on 429/5xx, and a `FetchError` that keeps the status and body of an HTTP error. The scraper
+`providers/http.py` is the one fetch path: a browser user agent, a per-host delay, retries on
+5xx, and a `FetchError` that keeps the status and body of an HTTP error.
+
+Blocking is normal and planned for (`providers/politeness.py`). Within one run, a refusal (429 or
+403) is not retried at once (a short `Retry-After` is waited out once), and a host that refuses
+twice in a row is not asked again that run: its remaining pages are counted as left for another
+night, and nothing is stored for them since nothing was asked. Across nights, read from the raw
+store's index: after a night that ended in a refusal the host rests one night, then two, four, up
+to sixteen while refusals continue; the first night back asks for 10 pages and each clean night
+doubles that up to the provider's usual number (`politeness.allowance`, which `evdb_cars` uses for
+EV Database). A guessed page that answered 404 within the week is not asked again until the week
+is out (`politeness.recently_missing`, for LeaseLoco's guesses). Missing pages cost nothing but
+freshness: the build keeps what earlier pages said, a price span simply is not extended, and no
+used car is taken as sold by a page that was not read. The scraper
 (`pipeline/runner.py`) keeps every response in the raw store, a failed one too when the site
 answered, and records the run in the store's log; one dead page does not sink a provider's run.
 A fetch that combines several responses (cinch's and Motorpoint's pages, Hyundai's configurator
