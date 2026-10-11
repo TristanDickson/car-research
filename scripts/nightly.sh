@@ -29,7 +29,17 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-: "${CAR_RESEARCH_RAW:?CAR_RESEARCH_RAW is not set: it names the raw store folder}"
+# Settings for this machine, the same way everywhere: ~/.car-research.env (KEY=value lines), e.g.
+#   CAR_RESEARCH_RAW=/d/car-research-raw
+#   CAR_RESEARCH_PDFTOTEXT=/c/Users/me/tools/poppler-26.09.0/poppler-26.09.0/Library/bin/pdftotext.exe
+# Variables already set in the environment win.
+if [ -f "$HOME/.car-research.env" ]; then
+  while IFS='=' read -r key value; do
+    case "$key" in ''|\#*) continue ;; esac
+    [ -n "${!key:-}" ] || export "$key=$value"
+  done < "$HOME/.car-research.env"
+fi
+: "${CAR_RESEARCH_RAW:?CAR_RESEARCH_RAW is not set (in the environment or ~/.car-research.env): it names the raw store folder}"
 export PYTHONUTF8=1 PYTHONUNBUFFERED=1
 # Poppler's pdftotext reads Hyundai's PDF guides (the parser is written against its layout):
 # CAR_RESEARCH_PDFTOTEXT, else one installed under ~/tools, else whatever is on the PATH.
