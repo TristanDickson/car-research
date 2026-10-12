@@ -468,6 +468,76 @@ export interface DataPage {
   sources?: Record<string, string>;
   /** How resolved trim-map rows were resolved: manual, cap-id, rrp, bracket, ... */
   resolution_methods?: Record<string, number>;
+  /** What each source holds at each level, and what each stage did night by night (pipeline/stages.py). */
+  pipeline?: { levels: PipelineLevel[]; nights: PipelineNight[] };
+}
+
+/** One source at each level: the raw store, the records read from it, those that name a car, the snapshot. */
+export interface PipelineLevel {
+  provider: string;
+  /** Its records describe a model, trim or variant, laid over cars by model and battery: "names a car" does not apply. */
+  describes_models: boolean;
+  raw?: { fetches: number; responses: number; failed: number; refused: number; wayback: number; bodies: number;
+          first_at: string | null; last_at: string | null } | null;
+  /** Distinct record keys by kind (offer, used, spec, ...), and how many were first seen on a live page. */
+  records?: Record<string, { keys: number; first_seen_live: number }> | null;
+  /** By kind (offers, specs, used): how many there are, how many name a car, how many the rules refused to guess. */
+  matched?: Record<string, { total: number; matched: number; conflict: number }> | null;
+  /** What this snapshot carries from it: offers, used listings on sale, spec rows. */
+  in_snapshot: Record<string, number>;
+}
+
+/** One source's scrape on one night (its capabilities' runs added together). */
+export interface PipelineScrape {
+  source: string;
+  capabilities: string[];
+  runs: number;
+  started_at: string | null;
+  finished_at: string | null;
+  /** The night's worst: error, refused, ok; null when only the index saw it fetch. */
+  status: string | null;
+  /** Pages asked for (a fetch that combines several pages counts once). */
+  fetches: number;
+  records: number;
+  errors: number;
+  /** Guessed pages the site does not have (404). */
+  skipped: number;
+  /** Not asked: the site refused twice in a row. */
+  deferred: number;
+  /** Every response kept, the parts of a combined fetch included; failed and refused (429, 403) among them. */
+  responses: number;
+  failed: number;
+  refused: number;
+  /** host → [pages allowed tonight, the usual number]: 0 is resting after refusals. */
+  allowance: Record<string, [number, number]> | null;
+}
+
+export interface PipelineBuild {
+  mode: string;
+  started_at: string;
+  finished_at: string;
+  seconds: number;
+  commit: string | null;
+  fetches: number;
+  parsed: number;
+  from_cache: number;
+  records: number;
+  sightings: number;
+  record_spans: number;
+  /** Stored pages the parsers could not read. */
+  unparsed: number;
+  snapshot: Record<string, number>;
+  /** The build that made this snapshot. */
+  this?: boolean;
+}
+
+export interface PipelineNight {
+  /** The date twelve hours before: the evening's runs and the 03:17 run after them share it. */
+  night: string;
+  scrapes: PipelineScrape[];
+  builds: PipelineBuild[];
+  /** The snapshot's commits that night, each a deploy of the site. */
+  publishes: { sha: string; at: string; subject: string }[];
 }
 
 export interface RequirementRule {

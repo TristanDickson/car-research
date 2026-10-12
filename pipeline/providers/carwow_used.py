@@ -311,7 +311,7 @@ def _quotas(ctx: Context, idents: list[str]) -> dict[str, int]:
     site is being rested; the others share CARD_BUDGET: first the cars their last fetch named that have
     never had a card, then the ones whose card is oldest. politeness.allowance cuts the whole night's number
     after refusals, from the results pages' answers and the cards' alike."""
-    from pipeline.providers.politeness import allowance
+    from pipeline.providers.politeness import allowance, note
 
     st = _state(ctx)
     cutoff = _refresh_cutoff()
@@ -332,6 +332,7 @@ def _quotas(ctx: Context, idents: list[str]) -> dict[str, int]:
     need = sum(house.values())
     tonight = min(allowance(st["store"], HOST, need + CARD_BUDGET),
                   allowance(_CardFetches(st["card_fetches"]), HOST, need + CARD_BUDGET))
+    note(ctx, HOST, tonight, need + CARD_BUDGET)
     if tonight == 0:
         print("  carwow_used: Carwow refused on recent nights; no deal cards tonight", flush=True)
     quotas: dict[str, int] = {}

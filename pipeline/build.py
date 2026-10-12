@@ -32,7 +32,7 @@ import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from pipeline import gold, history
+from pipeline import gold, history, stages
 from pipeline.db import ROOT, connect, init_schema
 from pipeline.providers import PROVIDERS
 from pipeline.providers.types import Context, ParsedRecord, Target
@@ -165,6 +165,8 @@ class Build:
         self.resolutions: dict[tuple[str, str], dict] = {}
         self.said: list[tuple] = []   # (source, kind, key, page, at, priority, origin, fetch, row): every record, for `records`
         self.order = 0
+        self.levels: dict[str, dict] = {}   # per source, what each level holds (pipeline/stages.py)
+        self.fetch_rows: list[tuple] = []
 
     # -- 1. what each source said
 
@@ -399,8 +401,9 @@ class Build:
         for s in self.sightings:
             if s.key not in latest or (s.at, s.priority, s.order) > (latest[s.key].at, latest[s.key].priority, latest[s.key].order):
                 latest[s.key] = s
-        used = [(r["listing_key"], json.loads(r["payload"]).get("car_ref") or {})
-                for r in self.conn.execute("SELECT listing_key, payload FROM used_listings")]
+        used_rows = self.conn.execute("SELECT listing_key, source, payload FROM used_listings").fetchall()
+        used = [(r["listing_key"], json.loads(r["payload"]).get("car_ref") or {}) for r in used_rows]
+        used_source = {r["listing_key"]: r["source"] for r in used_rows}
         # Pins from every sighting, not just the latest: a page that printed the RRP once has tied that CAP name to one twin.
         refs = {json.dumps(r, sort_keys=True): r for r in [s.row.get("car_ref") or {} for s in self.sightings] + [ref for _, ref in used]
                 if r.get("rrp")}
@@ -408,14 +411,19 @@ class Build:
 
         car_of: dict[str, str] = {}
         for key, s in latest.items():
+            tally = self._matched(s.provider, "offers")
             if key in self.owner_offer_cars:
                 car_of[key] = self.owner_offer_cars[key]
+                tally["matched"] += 1
                 continue
             ref = s.row.get("car_ref") or {}
             m = self.match(ref, s.provider)
             self._note(ref, s.provider, m, s.at, s.url)
             if m["car_id"]:
                 car_of[key] = m["car_id"]
+                tally["matched"] += 1
+            elif m.get("status") == "conflict":
+                tally["conflict"] += 1
         first = {}
         for s in self.sightings:
             first[s.key] = min(first.get(s.key, s.at), s.at)
@@ -427,10 +435,12 @@ class Build:
 
         for r in self.conn.execute("SELECT spec_key, source, payload, first_seen_at, last_seen_at FROM specs").fetchall():
             ref = json.loads(r["payload"]).get("car_ref") or {}
+            tally = self._matched(r["source"], "specs")
             if not ref:
                 continue
             m = self.match(ref, r["source"], text_match=False)
             if m["car_id"]:
+                tally["matched"] += 1
                 self.conn.execute("UPDATE specs SET car_id=? WHERE spec_key=?", (m["car_id"], r["spec_key"]))
                 if ref.get("source") == "carwow-cap":
                     self._note(ref, r["source"], m, r["first_seen_at"], None)
@@ -438,14 +448,22 @@ class Build:
                         self.resolutions[(ref["source"], ref["key"])]["last_seen_at"], r["last_seen_at"])
 
         for listing_key, ref in used:
+            tally = self._matched(used_source[listing_key], "used")
             d = self.decisions.get((ref.get("source"), ref.get("key", "")))
             car = d["car_id"] if d and d.get("car_id") else None
             if car is None and ref.get("make"):
                 res = resolve.choose(ref, self._candidates(ref), self.pins)
                 car = self._named(res.car_id)
             if car:
+                tally["matched"] += 1
                 self.conn.execute("UPDATE used_listings SET car_id=? WHERE listing_key=?", (car, listing_key))
         return car_of
+
+    def _matched(self, provider: str, kind: str) -> dict:
+        """The running count, for one source and kind of record, of how many there are and how many name a car."""
+        t = self.levels.setdefault(provider, {}).setdefault("matched", {}).setdefault(kind, {"total": 0, "matched": 0, "conflict": 0})
+        t["total"] += 1
+        return t
 
     # -- 4. prices as spans
 
@@ -549,24 +567,43 @@ class Build:
                  m["first_seen_at"], m["last_seen_at"], m.get("method"), resolve.dump_evidence(ev) if ev else None, m.get("name_key")))
 
     def logs(self) -> None:
-        """The scraper's run log (the Data page shows it) and the Wayback backfill's finished pages."""
+        """The scraper's run log and the build log (the Data page shows them), the Wayback backfill's finished
+        pages, and what each level holds per source."""
+        self.stage_tables()
         if not self.store:
             return
         for r in self.store.read_log("runs"):
             self.conn.execute(
-                "INSERT INTO runs (source, capability, target, started_at, finished_at, status, artifacts, records, unmapped, errors, error) "
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                "INSERT INTO runs (source, capability, target, started_at, finished_at, status, artifacts, records, unmapped, errors, error, "
+                "skipped, deferred, new_bodies, allowance) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 (r["source"], r["capability"], r.get("target", "all"), r["started_at"], r.get("finished_at"), r["status"],
-                 r.get("fetches", 0), r.get("records", 0), 0, r.get("errors", 0), r.get("error")))
+                 r.get("fetches", 0), r.get("records", 0), 0, r.get("errors", 0), r.get("error"), r.get("skipped", 0),
+                 r.get("deferred", 0), r.get("new_bodies", 0), json.dumps(r["allowance"]) if r.get("allowance") else None))
+        for b in self.store.read_log("builds"):
+            self.conn.execute("INSERT INTO builds (finished_at, payload) VALUES (?,?)", (b.get("finished_at"), json.dumps(b, sort_keys=True)))
         for d in self.store.read_log("backfill"):
             self.conn.execute("""INSERT INTO backfill_ledger (url, since, every_days, source, captures, done_at) VALUES (?,?,?,?,?,?)
                                  ON CONFLICT(url, since, every_days) DO UPDATE SET done_at=MAX(backfill_ledger.done_at, excluded.done_at),
                                    captures=excluded.captures, source=excluded.source""",
                               (d["url"], d["since"], int(d["every_days"]), d.get("source"), d.get("captures"), d["done_at"]))
 
+    def stage_tables(self) -> None:
+        """Per source: the raw store (counted while reading), records (from `records`), matched (counted while
+        matching); each night's responses; and the snapshot's publishes, from git."""
+        for r in self.conn.execute("SELECT source, kind, COUNT(DISTINCT record_key) AS n, "
+                                   "COUNT(DISTINCT CASE WHEN origin='live' THEN record_key END) AS live FROM records GROUP BY source, kind"):
+            self.levels.setdefault(r["source"], {}).setdefault("records", {})[r["kind"]] = {"keys": r["n"], "first_seen_live": r["live"]}
+        for provider, lv in sorted(self.levels.items()):
+            self.conn.execute("INSERT INTO source_levels (provider, payload) VALUES (?,?)", (provider, json.dumps(lv, sort_keys=True)))
+        self.conn.executemany("INSERT INTO fetch_nights (night, source, responses, failed, refused) VALUES (?,?,?,?,?)", self.fetch_rows)
+        self.conn.executemany("INSERT OR IGNORE INTO publishes (sha, at, subject) VALUES (?,?,?)",
+                              [(p["sha"], p["at"], p["subject"]) for p in stages.publishes(self.root)])
+
     def run(self) -> Report:
         started = time.monotonic()
         entries = list(self.store.entries()) if self.store else []
+        self.levels = {src: {"raw": lv} for src, lv in stages.raw_levels(entries).items()}
+        self.fetch_rows = stages.fetch_nights(entries)
         self.owner()
         if self.store:
             self.history(entries)

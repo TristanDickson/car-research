@@ -291,8 +291,10 @@ def discover(target: Target, ctx: Context) -> Iterator[Target]:
     order += [(vid, p) for _, vid, p in sorted(stale)]
     if target.identifier == "all":
         # Tonight's share: none while backing off after refusals, then a few more each clean night (politeness.py).
-        from pipeline.providers.politeness import allowance
-        budget = allowance(ctx.extras.get("raw_store"), "ev-database.org", int(ctx.extras.get("evdb_cars_per_run", PER_RUN)))
+        from pipeline.providers.politeness import allowance, note
+        usual = int(ctx.extras.get("evdb_cars_per_run", PER_RUN))
+        budget = allowance(ctx.extras.get("raw_store"), "ev-database.org", usual)
+        note(ctx, "ev-database.org", budget, usual)
         if budget == 0:
             print("  evdb_cars: EV Database refused on recent nights; resting it tonight", flush=True)
     else:

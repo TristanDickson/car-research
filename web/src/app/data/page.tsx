@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
+import { LevelsTable, NightsGrid } from "@/components/PipelineView";
 import { Badge, Card, Empty, ErrorNote, Loading, PageHeader } from "@/components/ui";
 import { dateLabel } from "@/lib/format";
 import { pct } from "@/lib/format";
@@ -10,7 +11,8 @@ import { useBasis, useComputeStats, useDataPage, useModels, useSnapshot } from "
 
 /**
  * Where the numbers come from and what is wrong with them. Leads with the
- * sources and their latest runs, then the issues a reader can act on (broker
+ * sources and their latest runs, what each level of the pipeline holds per source
+ * and what each stage did night by night, then the issues a reader can act on (broker
  * rows that matched no derivative, twins the rules refused to guess between),
  * then the catalogue coverage; the assumptions and the raw counts close the
  * page. Every sighting ever observed is one click away.
@@ -23,8 +25,14 @@ export default function DataPage() {
   const { data, error } = useDataPage();
   const [issueFilter, setIssueFilter] = useState<"all" | "conflict" | "unmapped">("all");
 
+  // Each source's latest scrape: from the night history where the snapshot has one, else the run log's last rows.
   const lastRun = useMemo(() => {
-    const out = new Map<string, (typeof data extends infer T ? T extends { runs: (infer R)[] } ? R : never : never)>();
+    const out = new Map<string, { finished_at: string | null; status: string; errors?: number; artifacts: number; records: number }>();
+    for (const n of data?.pipeline?.nights ?? []) {
+      for (const s of n.scrapes) {
+        if (!out.has(s.source) && s.status) out.set(s.source, { finished_at: s.finished_at, status: s.status, errors: s.errors, artifacts: s.fetches, records: s.records });
+      }
+    }
     for (const r of data?.runs ?? []) if (!out.has(r.source)) out.set(r.source, r);
     return out;
   }, [data]);
@@ -52,7 +60,7 @@ export default function DataPage() {
       <Card title="Sources">
         <table className="w-full text-sm">
           <thead className="text-left text-xs uppercase text-gray-500">
-            <tr><th className="py-1 pr-3">Source</th><th className="py-1 pr-3">What it gives</th><th className="py-1 pr-3">Last run</th><th className="py-1 pr-3">Status</th><th className="py-1 pr-3 text-right">Pages</th><th className="py-1 pr-3 text-right">Records</th><th className="py-1 text-right">Unmatched</th></tr>
+            <tr><th className="py-1 pr-3">Source</th><th className="py-1 pr-3">What it gives</th><th className="py-1 pr-3">Last run</th><th className="py-1 pr-3">Status</th><th className="py-1 pr-3 text-right">Pages</th><th className="py-1 text-right">Records</th></tr>
           </thead>
           <tbody>
             {data.providers.map((p) => {
@@ -67,13 +75,23 @@ export default function DataPage() {
                   <td className="py-1 pr-3 whitespace-nowrap text-gray-400">{r ? dateLabel(r.finished_at) : "—"}</td>
                   <td className="py-1 pr-3">{r ? <Badge tone={r.status === "ok" ? "good" : "bad"}>{r.status}{r.errors ? ` · ${r.errors} failed` : ""}</Badge> : <Badge tone="muted">no run in this snapshot</Badge>}</td>
                   <td className="py-1 pr-3 text-right tabular-nums">{r?.artifacts ?? "—"}</td>
-                  <td className="py-1 pr-3 text-right tabular-nums">{r?.records ?? "—"}</td>
-                  <td className="py-1 text-right tabular-nums">{r?.unmapped ?? "—"}</td>
+                  <td className="py-1 text-right tabular-nums">{r?.records ?? "—"}</td>
                 </tr>
               );
             })}
           </tbody>
         </table>
+      </Card>
+
+      <Card title="What each level holds, per source">
+        <p className="mb-2 text-xs text-gray-500">
+          Each source&apos;s pages go into the raw store (kept for good), the build reads records from every page held, matches them to cars, and writes what the app shows. A source that describes models (a spec table, EV Database) is laid over the cars by model and battery instead of naming one.
+        </p>
+        <LevelsTable levels={data.pipeline?.levels ?? []} />
+      </Card>
+
+      <Card title="Night by night: scrape, build, publish">
+        <NightsGrid nights={data.pipeline?.nights ?? []} />
       </Card>
 
       <Card title={`Issues · ${data.unmapped_trims.length} broker rows with no car (${conflicts} conflicts)`}>
@@ -157,27 +175,6 @@ export default function DataPage() {
         )}
       </Card>
 
-      <Card title="Recent runs">
-        <table className="w-full text-sm">
-          <thead className="text-xs uppercase text-gray-500">
-            <tr><th className="text-left">Provider</th><th className="text-left">Capability</th><th className="text-left">Finished</th><th className="text-left">Status</th><th className="text-right">Pages</th><th className="text-right">Records</th><th className="text-right">Unmatched</th><th className="text-right">Failed targets</th></tr>
-          </thead>
-          <tbody>
-            {data.runs.map((r) => (
-              <tr key={r.id} className="border-t border-gray-800">
-                <td className="py-1 pr-3">{r.source}</td>
-                <td className="py-1 pr-3">{r.capability}</td>
-                <td className="py-1 pr-3 whitespace-nowrap">{dateLabel(r.finished_at)}</td>
-                <td className="py-1 pr-3"><Badge tone={r.status === "ok" ? "good" : "bad"}>{r.status}</Badge></td>
-                <td className="py-1 text-right tabular-nums">{r.artifacts}</td>
-                <td className="py-1 text-right tabular-nums">{r.records}</td>
-                <td className="py-1 text-right tabular-nums">{r.unmapped}</td>
-                <td className="py-1 text-right tabular-nums">{r.errors ?? 0}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </Card>
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Card title="Costed in this browser">

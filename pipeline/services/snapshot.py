@@ -26,6 +26,7 @@ from __future__ import annotations
 import json
 import re
 import sqlite3
+from collections import Counter
 from datetime import date, datetime, timezone
 from pathlib import Path
 
@@ -510,6 +511,24 @@ def latest_offers(conn: sqlite3.Connection, today: date | None = None) -> list[d
     return out
 
 
+def _pipeline(conn: sqlite3.Connection, this_build: dict | None, sightings: list[dict], used: list[dict], specs: list[dict]) -> dict:
+    """The Data page's pipeline section (pipeline/stages.py), with what this snapshot carries per source:
+    offers (by key), used listings still on sale, spec rows the app shows."""
+    from pipeline import stages
+
+    exported: dict[str, dict[str, int]] = {}
+    for p, n in Counter(s.get("provider") for s in {s["key"]: s for s in sightings}.values()).items():
+        exported.setdefault(p, {})["offers"] = n
+    for p, n in Counter(l.get("provider") for l in used if l.get("present")).items():
+        exported.setdefault(p, {})["used"] = n
+    for p, n in Counter(sp.get("provider") for sp in specs if sp.get("provider") not in ("evdb", "evdb_cars")).items():
+        exported.setdefault(p, {})["specs"] = n
+    try:
+        return stages.page(conn, this_build, exported)
+    except sqlite3.OperationalError:   # a database built before the pipeline tables existed
+        return {"levels": [], "nights": []}
+
+
 def latest_runs(conn: sqlite3.Connection, limit: int = 20) -> list[dict]:
     rows = conn.execute(
         "SELECT id, source, capability, target, started_at, finished_at, status, artifacts, records, unmapped, errors "
@@ -555,7 +574,7 @@ def _provider_blurb(name: str) -> str:
 
 
 def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at: str | None = None,
-                    root: Path = ROOT, runs_conn: sqlite3.Connection | None = None) -> dict:
+                    root: Path = ROOT, runs_conn: sqlite3.Connection | None = None, this_build: dict | None = None) -> dict:
     """The snapshot from `conn`; the run log the Data page shows from `runs_conn` when given (the
     nightly builds the snapshot from a replay of the history it wrote, but its runs were the live ones)."""
     from pipeline.providers import PROVIDERS
@@ -682,6 +701,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
             for p in PROVIDERS.values()
         ],
         "runs": latest_runs(runs_conn or conn),
+        "pipeline": _pipeline(conn, this_build, sightings, used, specs),
         "unmapped_trims": unmapped,
         "resolution_methods": resolution_methods(conn),
         "offer_states": states,

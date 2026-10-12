@@ -65,6 +65,7 @@ def run(store: RawStore, conn: sqlite3.Connection | None, provider: Provider, ca
     if conn is not None:
         ctx.extras.setdefault("db", conn)   # discover may read the catalogue to know what to fetch
     started = _now()
+    ctx.extras["allowance"] = {}   # what politeness lets this run ask for, per host (providers/politeness.py note)
     n_fetch = n_new = n_rec = n_skipped = n_deferred = 0
     failures: list[str] = []
     status = "ok"
@@ -129,4 +130,5 @@ def run(store: RawStore, conn: sqlite3.Connection | None, provider: Provider, ca
         store.log_run({"source": provider.name, "capability": cap.name, "target": target, "started_at": started,
                        "finished_at": _now(), "status": status, "fetches": n_fetch, "new_bodies": n_new, "records": n_rec,
                        "errors": len(failures), "skipped": n_skipped, "deferred": n_deferred,
+                       "allowance": ctx.extras.get("allowance") or None,
                        "error": "\n".join(failures)[:20000] or None})

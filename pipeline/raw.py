@@ -7,8 +7,9 @@ process that can be re-run from scratch (docs/REBUILD.md).
     bodies/<sha[:2]>/<sha256>.gz    one gzipped file per distinct body, named by the
                                     sha256 of the uncompressed bytes; written once
     index/<YYYY-MM>.jsonl           one line per fetch, appended, never rewritten
-    logs/<kind>-<YYYY-MM>.jsonl     what the scraper did: runs (the Data page's run log) and the
-                                    Wayback backfill's finished pages; appended, never rewritten
+    logs/<kind>-<YYYY-MM>.jsonl     what the pipeline did: runs (each scrape), builds (each build of
+                                    the real snapshot) and the Wayback backfill's finished pages, which
+                                    the Data page's night history reads; appended, never rewritten
 
 An index line says what was fetched and when: source, capability, target (with the
 metadata the parser needs to read the page again), url, fetched_at, status, sha256,

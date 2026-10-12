@@ -31,7 +31,7 @@ providers (discover → fetch → parse)       pipeline/providers/*      Python,
         ▼
 RAW STORE  $CAR_RESEARCH_RAW (D:\car-research-raw)   on the owner's laptop, outside git, never rewritten
         │  bodies/<sha[:2]>/<sha256>.gz   one per distinct body       index/<YYYY-MM>.jsonl  one line per fetch
-        │  logs/                          runs, the backfill's finished pages, each night's job log
+        │  logs/                          runs, builds, the backfill's finished pages, each night's job log
         │  plus the source `history`: every committed version of the old data/history (pipeline/history.py)
         │
         │  build (pipeline/build.py), from scratch every run, into a disposable SQLite database:
@@ -337,7 +337,7 @@ in the browser").
 | `models.json` | the catalogue: every electric model, printed names, has_deals / has_specs, and per model how many derivatives, cars, cars with a live sighting and used examples we hold |
 | `specs.json` | every scraped variant: features, options, canonical flags, numbers, image, provider, car_id when mapped |
 | `requirements.json` | the requirements document as seeded; the reader edits their own copy in the browser |
-| `data.json` | providers, `sources` (id → name), recent runs, unmapped trims, offer-state counts, catalogue counts: the SPA's Data page |
+| `data.json` | providers, `sources` (id → name), recent runs, `pipeline` (per source: raw pages, records, those naming a car, rows in the snapshot; night by night: each source's scrape, the builds, the publishes; `pipeline/stages.py`), unmapped trims, offer-state counts, catalogue counts: the SPA's Data page |
 
 `source` on a span is the site, not the provider: `snapshot.SOURCES` folds Carwow's deal,
 paste and used providers into one source, so the same derivative and route can be read

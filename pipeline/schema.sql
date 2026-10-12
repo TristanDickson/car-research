@@ -56,7 +56,35 @@ CREATE TABLE IF NOT EXISTS runs (
   records     INTEGER DEFAULT 0,
   unmapped    INTEGER DEFAULT 0,      -- offers skipped because their trim is not in trim_map
   errors      INTEGER DEFAULT 0,      -- targets that failed to fetch or parse (run continues)
-  error       TEXT
+  error       TEXT,
+  skipped     INTEGER DEFAULT 0,      -- guessed pages the site does not have (404)
+  deferred    INTEGER DEFAULT 0,      -- not asked: the site refused twice in a row this run
+  new_bodies  INTEGER DEFAULT 0,
+  allowance   TEXT                    -- JSON {host: [allowed, usual]}: pages politeness let it ask for tonight
+);
+
+-- The pipeline's own history and levels, for the Data page (pipeline/stages.py).
+CREATE TABLE IF NOT EXISTS source_levels (
+  provider    TEXT PRIMARY KEY,
+  payload     TEXT NOT NULL            -- JSON: raw store, records, matched
+);
+CREATE TABLE IF NOT EXISTS fetch_nights (
+  night       TEXT NOT NULL,           -- the date twelve hours before the fetch
+  source      TEXT NOT NULL,
+  responses   INTEGER NOT NULL,        -- every response kept, the parts of a combined fetch included
+  failed      INTEGER NOT NULL,
+  refused     INTEGER NOT NULL,        -- 429 or 403
+  PRIMARY KEY (night, source)
+);
+CREATE TABLE IF NOT EXISTS builds (
+  id          INTEGER PRIMARY KEY,
+  finished_at TEXT,
+  payload     TEXT NOT NULL            -- one line of the raw store's build log
+);
+CREATE TABLE IF NOT EXISTS publishes (
+  sha         TEXT PRIMARY KEY,
+  at          TEXT NOT NULL,
+  subject     TEXT NOT NULL
 );
 
 -- Gold: canonical entities. The full record lives in `payload` (JSON); the

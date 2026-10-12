@@ -37,16 +37,32 @@ def _print_run(res) -> None:
 
 
 def _build(args, store, out: str | None) -> None:
+    from datetime import datetime, timezone
+
+    from pipeline import stages
     from pipeline.build import build
     from pipeline.services.snapshot import export_snapshot
 
+    now = lambda: datetime.now(timezone.utc).isoformat(timespec="seconds")  # noqa: E731
+    started = now()
     db = getattr(args, "db", None) or db_path()
     report = build(db, store, cache_path=None if getattr(args, "no_cache", False) else PARSE_CACHE)
     for line in report.lines():
         print(line, flush=True)
     if out:
-        manifest = export_snapshot(connect(db), out, generated_at=getattr(args, "generated_at", None))
+        # Only a build of the real snapshot goes in the build log the Data page shows; a build into a
+        # scratch folder is someone trying something.
+        real = store is not None and Path(out).resolve() == Path(DEFAULT_OUT).resolve()
+        mode = getattr(args, "cmd", None) or "build"
+        record = stages.build_record(report, mode, started, now(), ROOT, None) if real else None
+        conn = connect(db)
+        try:
+            manifest = export_snapshot(conn, out, generated_at=getattr(args, "generated_at", None), this_build=record)
+        finally:
+            conn.close()
         print(f"snapshot -> {out}: {json.dumps(manifest['counts'])}", flush=True)
+        if record:
+            store.log("builds", {**record, "finished_at": now(), "snapshot": manifest["counts"]})
 
 
 def cmd_build(args) -> int:

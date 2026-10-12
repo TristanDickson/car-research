@@ -62,6 +62,12 @@ def allowance(store, host: str, usual: int, now: datetime | None = None) -> int:
     return min(usual, START * 2 ** clean)
 
 
+def note(ctx, host: str, allowed: int, usual: int) -> None:
+    """Tell the run log what tonight's allowance was for `host` (0: resting; below `usual`: coming back)."""
+    if ctx is not None:
+        ctx.extras.setdefault("allowance", {})[host] = [allowed, usual]
+
+
 def recently_missing(store, source: str, days: int = 7, today: datetime | None = None) -> set[str]:
     """Targets of `source` whose latest answer, within the last `days`, was a 404: a guessed page the site
     does not have. Asked again once that answer is older than `days`."""
