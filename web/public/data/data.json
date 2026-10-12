@@ -3,28 +3,28 @@
   "cars": 1978,
   "cars_curated": 19,
   "cars_generated": 1959,
-  "claims": 107485,
-  "configurations": 51,
-  "configured": 23,
-  "derivatives": 912,
-  "disagreements": 135,
-  "fields_from_claims": 105404,
+  "claims": 107984,
+  "configurations": 71,
+  "configured": 33,
+  "derivatives": 913,
+  "disagreements": 133,
+  "fields_from_claims": 105420,
   "makes": 50,
   "models": 249,
   "models_with_deals": 178,
   "models_with_specs": 219,
-  "observations": 6192,
-  "offers": 3159,
-  "options_pages": 1145,
-  "sightings": 13625,
+  "observations": 6435,
+  "offers": 3368,
+  "options_pages": 1146,
+  "sightings": 21011,
   "specs": 2239,
   "specs_mapped": 919,
-  "trim_map_auto": 2636,
+  "trim_map_auto": 2694,
   "trim_map_mapped": 56,
-  "trim_map_unmapped": 283,
-  "used_listings": 4127,
-  "used_models": 145,
-  "used_spans": 7433
+  "trim_map_unmapped": 320,
+  "used_listings": 10989,
+  "used_models": 214,
+  "used_spans": 14576
  },
  "flag_labels": {
   "adaptive_cruise": "Adaptive cruise control",
@@ -57,17 +57,17 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-12T00:07:44+00:00",
+ "generated_at": "2026-10-12T03:37:08+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
   "expired": 4,
   "historical": 1,
-  "illustrative": 67,
+  "illustrative": 167,
   "illustrative (stale)": 42,
-  "lead": 2488,
+  "lead": 2589,
   "lead (stale)": 483,
-  "live": 64,
+  "live": 72,
   "live (stale)": 1
  },
  "pipeline": {
@@ -77,13 +77,13 @@
     "in_snapshot": {},
     "provider": "carwow_catalog",
     "raw": {
-     "bodies": 95,
+     "bodies": 142,
      "failed": 0,
-     "fetches": 96,
+     "fetches": 144,
      "first_at": "2026-10-10T17:12:04+00:00",
-     "last_at": "2026-10-11T02:18:33+00:00",
+     "last_at": "2026-10-12T02:18:35+00:00",
      "refused": 0,
-     "responses": 96,
+     "responses": 144,
      "wayback": 0
     },
     "records": {
@@ -107,18 +107,18 @@
     },
     "provider": "carwow_deals",
     "raw": {
-     "bodies": 356,
+     "bodies": 534,
      "failed": 0,
-     "fetches": 356,
+     "fetches": 534,
      "first_at": "2026-10-10T17:29:32+00:00",
-     "last_at": "2026-10-11T02:39:43+00:00",
+     "last_at": "2026-10-12T02:40:31+00:00",
      "refused": 0,
-     "responses": 356,
+     "responses": 534,
      "wayback": 0
     },
     "records": {
      "offer": {
-      "first_seen_live": 1513,
+      "first_seen_live": 1538,
       "keys": 2056
      }
     }
@@ -128,19 +128,19 @@
     "in_snapshot": {},
     "provider": "carwow_model",
     "raw": {
-     "bodies": 498,
+     "bodies": 747,
      "failed": 0,
-     "fetches": 498,
+     "fetches": 747,
      "first_at": "2026-10-10T17:20:53+00:00",
-     "last_at": "2026-10-11T02:34:36+00:00",
+     "last_at": "2026-10-12T02:35:21+00:00",
      "refused": 0,
-     "responses": 498,
+     "responses": 747,
      "wayback": 0
     },
     "records": {
      "derivative": {
-      "first_seen_live": 908,
-      "keys": 1819
+      "first_seen_live": 909,
+      "keys": 1820
      }
     }
    },
@@ -149,13 +149,13 @@
     "in_snapshot": {},
     "provider": "carwow_options",
     "raw": {
-     "bodies": 2,
+     "bodies": 3,
      "failed": 0,
-     "fetches": 2,
+     "fetches": 3,
      "first_at": "2026-10-10T17:29:31+00:00",
-     "last_at": "2026-10-11T02:34:38+00:00",
+     "last_at": "2026-10-12T02:35:23+00:00",
      "refused": 0,
-     "responses": 2,
+     "responses": 3,
      "wayback": 0
     },
     "records": {
@@ -199,13 +199,13 @@
     },
     "provider": "carwow_specs",
     "raw": {
-     "bodies": 438,
+     "bodies": 657,
      "failed": 0,
-     "fetches": 438,
+     "fetches": 657,
      "first_at": "2026-10-10T17:13:28+00:00",
-     "last_at": "2026-10-11T02:25:50+00:00",
+     "last_at": "2026-10-12T02:26:21+00:00",
      "refused": 0,
-     "responses": 438,
+     "responses": 657,
      "wayback": 0
     },
     "records": {
@@ -218,30 +218,30 @@
    {
     "describes_models": false,
     "in_snapshot": {
-     "used": 2313
+     "used": 9241
     },
     "matched": {
      "used": {
       "conflict": 0,
-      "matched": 1485,
-      "total": 2664
+      "matched": 1995,
+      "total": 9473
      }
     },
     "provider": "carwow_used",
     "raw": {
-     "bodies": 899,
+     "bodies": 2273,
      "failed": 0,
-     "fetches": 473,
+     "fetches": 722,
      "first_at": "2026-10-10T18:11:50+00:00",
-     "last_at": "2026-10-11T03:18:23+00:00",
+     "last_at": "2026-10-12T03:33:03+00:00",
      "refused": 0,
-     "responses": 1220,
+     "responses": 2594,
      "wayback": 0
     },
     "records": {
      "used": {
-      "first_seen_live": 1608,
-      "keys": 2664
+      "first_seen_live": 8670,
+      "keys": 9473
      }
     }
    },
@@ -261,11 +261,11 @@
     "raw": {
      "bodies": 2,
      "failed": 0,
-     "fetches": 1,
+     "fetches": 2,
      "first_at": "2026-10-11T11:42:30+00:00",
-     "last_at": "2026-10-11T11:42:30+00:00",
+     "last_at": "2026-10-12T02:52:52+00:00",
      "refused": 0,
-     "responses": 2,
+     "responses": 4,
      "wayback": 0
     },
     "records": {
@@ -278,30 +278,30 @@
    {
     "describes_models": false,
     "in_snapshot": {
-     "used": 1239
+     "used": 1198
     },
     "matched": {
      "used": {
       "conflict": 0,
-      "matched": 680,
-      "total": 1484
+      "matched": 686,
+      "total": 1506
      }
     },
     "provider": "cinch_used",
     "raw": {
-     "bodies": 168,
+     "bodies": 285,
      "failed": 0,
-     "fetches": 102,
+     "fetches": 153,
      "first_at": "2026-10-10T18:30:04+00:00",
-     "last_at": "2026-10-11T03:20:36+00:00",
+     "last_at": "2026-10-12T03:35:18+00:00",
      "refused": 0,
-     "responses": 180,
+     "responses": 309,
      "wayback": 0
     },
     "records": {
      "used": {
-      "first_seen_live": 1247,
-      "keys": 1484
+      "first_seen_live": 1279,
+      "keys": 1506
      }
     }
    },
@@ -317,13 +317,13 @@
     },
     "provider": "evdb",
     "raw": {
-     "bodies": 2,
+     "bodies": 3,
      "failed": 0,
-     "fetches": 2,
+     "fetches": 3,
      "first_at": "2026-10-10T17:44:34+00:00",
-     "last_at": "2026-10-11T02:49:38+00:00",
+     "last_at": "2026-10-12T02:54:10+00:00",
      "refused": 0,
-     "responses": 2,
+     "responses": 3,
      "wayback": 0
     },
     "records": {
@@ -346,12 +346,12 @@
     "provider": "evdb_cars",
     "raw": {
      "bodies": 55,
-     "failed": 2,
-     "fetches": 56,
+     "failed": 3,
+     "fetches": 57,
      "first_at": "2026-10-10T17:44:37+00:00",
-     "last_at": "2026-10-11T02:49:40+00:00",
-     "refused": 2,
-     "responses": 56,
+     "last_at": "2026-10-12T02:54:12+00:00",
+     "refused": 3,
+     "responses": 57,
      "wayback": 0
     },
     "records": {
@@ -381,19 +381,19 @@
     "in_snapshot": {},
     "provider": "hyundai_configurator",
     "raw": {
-     "bodies": 19,
+     "bodies": 30,
      "failed": 0,
-     "fetches": 10,
+     "fetches": 16,
      "first_at": "2026-10-10T17:44:27+00:00",
-     "last_at": "2026-10-11T02:49:37+00:00",
+     "last_at": "2026-10-12T02:54:08+00:00",
      "refused": 0,
-     "responses": 20,
+     "responses": 38,
      "wayback": 0
     },
     "records": {
      "configuration": {
-      "first_seen_live": 51,
-      "keys": 102
+      "first_seen_live": 71,
+      "keys": 122
      }
     }
    },
@@ -413,11 +413,11 @@
     "raw": {
      "bodies": 4,
      "failed": 0,
-     "fetches": 12,
+     "fetches": 16,
      "first_at": "2026-10-10T16:58:06+00:00",
-     "last_at": "2026-10-11T02:39:50+00:00",
+     "last_at": "2026-10-12T02:40:37+00:00",
      "refused": 0,
-     "responses": 12,
+     "responses": 16,
      "wayback": 0
     },
     "records": {
@@ -443,11 +443,11 @@
     "raw": {
      "bodies": 10,
      "failed": 0,
-     "fetches": 10,
+     "fetches": 15,
      "first_at": "2026-10-10T17:44:17+00:00",
-     "last_at": "2026-10-11T02:49:29+00:00",
+     "last_at": "2026-10-12T02:53:57+00:00",
      "refused": 0,
-     "responses": 15,
+     "responses": 25,
      "wayback": 0
     },
     "records": {
@@ -471,13 +471,13 @@
     },
     "provider": "kia_dealers",
     "raw": {
-     "bodies": 21,
+     "bodies": 42,
      "failed": 0,
-     "fetches": 2,
+     "fetches": 4,
      "first_at": "2026-10-11T11:52:25+00:00",
-     "last_at": "2026-10-11T11:53:14+00:00",
+     "last_at": "2026-10-12T02:53:16+00:00",
      "refused": 0,
-     "responses": 23,
+     "responses": 46,
      "wayback": 0
     },
     "records": {
@@ -503,11 +503,11 @@
     "raw": {
      "bodies": 4,
      "failed": 0,
-     "fetches": 8,
+     "fetches": 12,
      "first_at": "2026-10-10T17:44:12+00:00",
-     "last_at": "2026-10-11T02:49:19+00:00",
+     "last_at": "2026-10-12T02:53:47+00:00",
      "refused": 0,
-     "responses": 8,
+     "responses": 12,
      "wayback": 0
     },
     "records": {
@@ -520,30 +520,30 @@
    {
     "describes_models": false,
     "in_snapshot": {
-     "offers": 940
+     "offers": 1006
     },
     "matched": {
      "offers": {
-      "conflict": 293,
-      "matched": 940,
-      "total": 1313
+      "conflict": 324,
+      "matched": 1006,
+      "total": 1428
      }
     },
     "provider": "leaseloco",
     "raw": {
-     "bodies": 191,
+     "bodies": 286,
      "failed": 308,
-     "fetches": 498,
+     "fetches": 593,
      "first_at": "2026-10-10T17:34:59+00:00",
-     "last_at": "2026-10-11T02:49:13+00:00",
+     "last_at": "2026-10-12T02:52:22+00:00",
      "refused": 0,
-     "responses": 498,
+     "responses": 593,
      "wayback": 0
     },
     "records": {
      "offer": {
-      "first_seen_live": 882,
-      "keys": 1313
+      "first_seen_live": 1011,
+      "keys": 1428
      }
     }
    },
@@ -582,90 +582,90 @@
    {
     "describes_models": false,
     "in_snapshot": {
-     "used": 575
+     "used": 550
     },
     "matched": {
      "used": {
       "conflict": 0,
-      "matched": 362,
-      "total": 682
+      "matched": 365,
+      "total": 685
      }
     },
     "provider": "motorpoint_used",
     "raw": {
-     "bodies": 19,
+     "bodies": 36,
      "failed": 0,
-     "fetches": 2,
+     "fetches": 3,
      "first_at": "2026-10-10T18:32:19+00:00",
-     "last_at": "2026-10-11T03:20:37+00:00",
+     "last_at": "2026-10-12T03:35:20+00:00",
+     "refused": 0,
+     "responses": 36,
+     "wayback": 0
+    },
+    "records": {
+     "used": {
+      "first_seen_live": 585,
+      "keys": 685
+     }
+    }
+   },
+   {
+    "describes_models": false,
+    "in_snapshot": {
+     "offers": 206
+    },
+    "matched": {
+     "offers": {
+      "conflict": 3,
+      "matched": 206,
+      "total": 220
+     }
+    },
+    "provider": "ncd",
+    "raw": {
+     "bodies": 253,
+     "failed": 7,
+     "fetches": 56,
+     "first_at": "2026-10-10T16:58:13+00:00",
+     "last_at": "2026-10-12T02:47:47+00:00",
+     "refused": 0,
+     "responses": 294,
+     "wayback": 0
+    },
+    "records": {
+     "offer": {
+      "first_seen_live": 216,
+      "keys": 220
+     }
+    }
+   },
+   {
+    "describes_models": false,
+    "in_snapshot": {
+     "offers": 9
+    },
+    "matched": {
+     "offers": {
+      "conflict": 2,
+      "matched": 9,
+      "total": 13
+     }
+    },
+    "provider": "rrg",
+    "raw": {
+     "bodies": 17,
+     "failed": 0,
+     "fetches": 4,
+     "first_at": "2026-10-10T16:58:24+00:00",
+     "last_at": "2026-10-12T02:52:24+00:00",
      "refused": 0,
      "responses": 19,
      "wayback": 0
     },
     "records": {
-     "used": {
-      "first_seen_live": 581,
-      "keys": 682
-     }
-    }
-   },
-   {
-    "describes_models": false,
-    "in_snapshot": {
-     "offers": 71
-    },
-    "matched": {
-     "offers": {
-      "conflict": 2,
-      "matched": 71,
-      "total": 74
-     }
-    },
-    "provider": "ncd",
-    "raw": {
-     "bodies": 8,
-     "failed": 0,
-     "fetches": 24,
-     "first_at": "2026-10-10T16:58:13+00:00",
-     "last_at": "2026-10-11T02:40:02+00:00",
-     "refused": 0,
-     "responses": 24,
-     "wayback": 0
-    },
-    "records": {
      "offer": {
-      "first_seen_live": 70,
-      "keys": 74
-     }
-    }
-   },
-   {
-    "describes_models": false,
-    "in_snapshot": {
-     "offers": 1
-    },
-    "matched": {
-     "offers": {
-      "conflict": 0,
-      "matched": 1,
-      "total": 1
-     }
-    },
-    "provider": "rrg",
-    "raw": {
-     "bodies": 1,
-     "failed": 0,
-     "fetches": 3,
-     "first_at": "2026-10-10T16:58:24+00:00",
-     "last_at": "2026-10-11T02:49:16+00:00",
-     "refused": 0,
-     "responses": 3,
-     "wayback": 0
-    },
-    "records": {
-     "offer": {
-      "first_seen_live": 1,
-      "keys": 1
+      "first_seen_live": 13,
+      "keys": 13
      }
     }
    }
@@ -676,7 +676,7 @@
      {
       "commit": "8c6f21a299",
       "fetches": 2283,
-      "finished_at": "2026-10-12T00:07:44+00:00",
+      "finished_at": "2026-10-12T00:08:14+00:00",
       "from_cache": 0,
       "mode": "build",
       "parsed": 2283,
@@ -684,9 +684,36 @@
       "records": 20348,
       "seconds": 118.7,
       "sightings": 75448,
-      "snapshot": {},
+      "snapshot": {
+       "cars": 1978,
+       "cars_generated": 1959,
+       "cash_benchmarks": 2045,
+       "models": 249,
+       "observations": 6192,
+       "offers": 3159,
+       "specs": 2239,
+       "unmapped_trims": 283,
+       "used_listings": 4127,
+       "used_spans": 7433
+      },
       "stage": "build",
       "started_at": "2026-10-12T00:05:43+00:00",
+      "unparsed": 0
+     },
+     {
+      "commit": "f8e82fe224",
+      "fetches": 3429,
+      "finished_at": "2026-10-12T03:37:08+00:00",
+      "from_cache": 2283,
+      "mode": "nightly",
+      "parsed": 1146,
+      "record_spans": 38120,
+      "records": 36978,
+      "seconds": 75.4,
+      "sightings": 78261,
+      "snapshot": {},
+      "stage": "build",
+      "started_at": "2026-10-12T03:35:52+00:00",
       "this": true,
       "unparsed": 0
      }
@@ -707,9 +734,387 @@
       "at": "2026-10-11T19:44:00+01:00",
       "sha": "789d4a0821",
       "subject": "data: build from the raw store 2026-10-11"
+     },
+     {
+      "at": "2026-10-12T01:08:17+01:00",
+      "sha": "f8e82fe224",
+      "subject": "data: build from the raw store 2026-10-12"
      }
     ],
-    "scrapes": []
+    "scrapes": [
+     {
+      "allowance": null,
+      "capabilities": [
+       "catalog"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 48,
+      "finished_at": "2026-10-12T02:18:37+00:00",
+      "records": 1496,
+      "refused": 0,
+      "responses": 48,
+      "runs": 1,
+      "skipped": 0,
+      "source": "carwow_catalog",
+      "started_at": "2026-10-12T02:17:15+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "deals"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 178,
+      "finished_at": "2026-10-12T02:40:32+00:00",
+      "records": 1537,
+      "refused": 0,
+      "responses": 178,
+      "runs": 1,
+      "skipped": 0,
+      "source": "carwow_deals",
+      "started_at": "2026-10-12T02:35:24+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "derivatives"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 249,
+      "finished_at": "2026-10-12T02:35:23+00:00",
+      "records": 908,
+      "refused": 0,
+      "responses": 249,
+      "runs": 1,
+      "skipped": 0,
+      "source": "carwow_model",
+      "started_at": "2026-10-12T02:26:23+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "options"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 1,
+      "finished_at": "2026-10-12T02:35:24+00:00",
+      "records": 0,
+      "refused": 0,
+      "responses": 1,
+      "runs": 1,
+      "skipped": 0,
+      "source": "carwow_options",
+      "started_at": "2026-10-12T02:35:23+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "specs"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 219,
+      "finished_at": "2026-10-12T02:26:23+00:00",
+      "records": 913,
+      "refused": 0,
+      "responses": 219,
+      "runs": 1,
+      "skipped": 0,
+      "source": "carwow_specs",
+      "started_at": "2026-10-12T02:18:37+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": {
+       "quotes.carwow.co.uk": [
+        890,
+        890
+       ]
+      },
+      "capabilities": [
+       "used-stock"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 249,
+      "finished_at": "2026-10-12T03:33:07+00:00",
+      "records": 7533,
+      "refused": 0,
+      "responses": 1374,
+      "runs": 1,
+      "skipped": 0,
+      "source": "carwow_used",
+      "started_at": "2026-10-12T02:58:52+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "quotes"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 1,
+      "finished_at": "2026-10-12T02:52:52+00:00",
+      "records": 42,
+      "refused": 0,
+      "responses": 2,
+      "runs": 1,
+      "skipped": 0,
+      "source": "cinch_new",
+      "started_at": "2026-10-12T02:52:52+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "used-stock"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 51,
+      "finished_at": "2026-10-12T03:35:20+00:00",
+      "records": 1198,
+      "refused": 0,
+      "responses": 129,
+      "runs": 1,
+      "skipped": 0,
+      "source": "cinch_used",
+      "started_at": "2026-10-12T03:33:07+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "specs"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 1,
+      "finished_at": "2026-10-12T02:54:11+00:00",
+      "records": 1105,
+      "refused": 0,
+      "responses": 1,
+      "runs": 1,
+      "skipped": 0,
+      "source": "evdb",
+      "started_at": "2026-10-12T02:54:10+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": {
+       "ev-database.org": [
+        20,
+        60
+       ]
+      },
+      "capabilities": [
+       "cars"
+      ],
+      "deferred": 0,
+      "errors": 1,
+      "failed": 1,
+      "fetches": 1,
+      "finished_at": "2026-10-12T02:58:52+00:00",
+      "records": 0,
+      "refused": 1,
+      "responses": 1,
+      "runs": 1,
+      "skipped": 0,
+      "source": "evdb_cars",
+      "started_at": "2026-10-12T02:54:11+00:00",
+      "status": "error"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "configurations"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 6,
+      "finished_at": "2026-10-12T02:54:10+00:00",
+      "records": 71,
+      "refused": 0,
+      "responses": 18,
+      "runs": 1,
+      "skipped": 0,
+      "source": "hyundai_configurator",
+      "started_at": "2026-10-12T02:53:58+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "offers"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 4,
+      "finished_at": "2026-10-12T02:40:39+00:00",
+      "records": 8,
+      "refused": 0,
+      "responses": 4,
+      "runs": 1,
+      "skipped": 0,
+      "source": "hyundai_offers",
+      "started_at": "2026-10-12T02:40:32+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "specs"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 5,
+      "finished_at": "2026-10-12T02:53:58+00:00",
+      "records": 20,
+      "refused": 0,
+      "responses": 10,
+      "runs": 1,
+      "skipped": 0,
+      "source": "hyundai_specs",
+      "started_at": "2026-10-12T02:53:49+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "offers"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 2,
+      "finished_at": "2026-10-12T02:53:44+00:00",
+      "records": 15,
+      "refused": 0,
+      "responses": 23,
+      "runs": 1,
+      "skipped": 0,
+      "source": "kia_dealers",
+      "started_at": "2026-10-12T02:52:52+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "specs"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 4,
+      "finished_at": "2026-10-12T02:53:49+00:00",
+      "records": 23,
+      "refused": 0,
+      "responses": 4,
+      "runs": 1,
+      "skipped": 0,
+      "source": "kia_specs",
+      "started_at": "2026-10-12T02:53:44+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "best-deals"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 95,
+      "finished_at": "2026-10-12T02:52:24+00:00",
+      "records": 982,
+      "refused": 0,
+      "responses": 95,
+      "runs": 1,
+      "skipped": 0,
+      "source": "leaseloco",
+      "started_at": "2026-10-12T02:48:08+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "used-stock"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 1,
+      "finished_at": "2026-10-12T03:35:52+00:00",
+      "records": 550,
+      "refused": 0,
+      "responses": 17,
+      "runs": 1,
+      "skipped": 0,
+      "source": "motorpoint_used",
+      "started_at": "2026-10-12T03:35:20+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "listing",
+       "pcp"
+      ],
+      "deferred": 0,
+      "errors": 1,
+      "failed": 7,
+      "fetches": 32,
+      "finished_at": "2026-10-12T02:48:08+00:00",
+      "records": 216,
+      "refused": 0,
+      "responses": 270,
+      "runs": 2,
+      "skipped": 0,
+      "source": "ncd",
+      "started_at": "2026-10-12T02:40:39+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "offers"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 1,
+      "finished_at": "2026-10-12T02:52:52+00:00",
+      "records": 13,
+      "refused": 0,
+      "responses": 16,
+      "runs": 1,
+      "skipped": 0,
+      "source": "rrg",
+      "started_at": "2026-10-12T02:52:24+00:00",
+      "status": "ok"
+     }
+    ]
    },
    {
     "builds": [],
@@ -1707,52 +2112,26 @@
   }
  ],
  "resolution_methods": {
-  "base": 228,
+  "base": 229,
   "bracket": 74,
   "cap-id": 1120,
   "manual": 56,
-  "name": 35,
-  "rrp": 25,
+  "name": 50,
+  "rrp": 44,
   "stub": 833,
-  "trim-powertrain": 319,
+  "trim-powertrain": 342,
   "version": 2
  },
  "runs": [
   {
-   "artifacts": 2,
-   "capability": "offers",
-   "errors": 0,
-   "finished_at": "2026-10-11T11:53:35+00:00",
-   "id": 39,
-   "records": 7,
-   "source": "kia_dealers",
-   "started_at": "2026-10-11T11:52:25+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
-  },
-  {
-   "artifacts": 1,
-   "capability": "quotes",
-   "errors": 0,
-   "finished_at": "2026-10-11T11:42:30+00:00",
-   "id": 38,
-   "records": 42,
-   "source": "cinch_new",
-   "started_at": "2026-10-11T11:42:30+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
-  },
-  {
    "artifacts": 1,
    "capability": "used-stock",
    "errors": 0,
-   "finished_at": "2026-10-11T03:21:11+00:00",
-   "id": 37,
-   "records": 509,
+   "finished_at": "2026-10-12T03:35:52+00:00",
+   "id": 59,
+   "records": 550,
    "source": "motorpoint_used",
-   "started_at": "2026-10-11T03:20:37+00:00",
+   "started_at": "2026-10-12T03:35:20+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -1761,11 +2140,11 @@
    "artifacts": 51,
    "capability": "used-stock",
    "errors": 0,
-   "finished_at": "2026-10-11T03:20:37+00:00",
-   "id": 36,
-   "records": 1239,
+   "finished_at": "2026-10-12T03:35:20+00:00",
+   "id": 58,
+   "records": 1198,
    "source": "cinch_used",
-   "started_at": "2026-10-11T03:18:24+00:00",
+   "started_at": "2026-10-12T03:33:07+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -1774,11 +2153,11 @@
    "artifacts": 249,
    "capability": "used-stock",
    "errors": 0,
-   "finished_at": "2026-10-11T03:18:24+00:00",
-   "id": 35,
-   "records": 1356,
+   "finished_at": "2026-10-12T03:33:07+00:00",
+   "id": 57,
+   "records": 7533,
    "source": "carwow_used",
-   "started_at": "2026-10-11T02:54:20+00:00",
+   "started_at": "2026-10-12T02:58:52+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -1787,11 +2166,11 @@
    "artifacts": 1,
    "capability": "cars",
    "errors": 1,
-   "finished_at": "2026-10-11T02:54:20+00:00",
-   "id": 34,
+   "finished_at": "2026-10-12T02:58:52+00:00",
+   "id": 56,
    "records": 0,
    "source": "evdb_cars",
-   "started_at": "2026-10-11T02:49:39+00:00",
+   "started_at": "2026-10-12T02:54:11+00:00",
    "status": "error",
    "target": "all",
    "unmapped": 0
@@ -1800,24 +2179,24 @@
    "artifacts": 1,
    "capability": "specs",
    "errors": 0,
-   "finished_at": "2026-10-11T02:49:39+00:00",
-   "id": 33,
+   "finished_at": "2026-10-12T02:54:11+00:00",
+   "id": 55,
    "records": 1105,
    "source": "evdb",
-   "started_at": "2026-10-11T02:49:38+00:00",
+   "started_at": "2026-10-12T02:54:10+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
   },
   {
-   "artifacts": 5,
+   "artifacts": 6,
    "capability": "configurations",
    "errors": 0,
-   "finished_at": "2026-10-11T02:49:38+00:00",
-   "id": 32,
-   "records": 51,
+   "finished_at": "2026-10-12T02:54:10+00:00",
+   "id": 54,
+   "records": 71,
    "source": "hyundai_configurator",
-   "started_at": "2026-10-11T02:49:30+00:00",
+   "started_at": "2026-10-12T02:53:58+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -1826,11 +2205,11 @@
    "artifacts": 5,
    "capability": "specs",
    "errors": 0,
-   "finished_at": "2026-10-11T02:49:30+00:00",
-   "id": 31,
+   "finished_at": "2026-10-12T02:53:58+00:00",
+   "id": 53,
    "records": 20,
    "source": "hyundai_specs",
-   "started_at": "2026-10-11T02:49:21+00:00",
+   "started_at": "2026-10-12T02:53:49+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -1839,11 +2218,37 @@
    "artifacts": 4,
    "capability": "specs",
    "errors": 0,
-   "finished_at": "2026-10-11T02:49:21+00:00",
-   "id": 30,
+   "finished_at": "2026-10-12T02:53:49+00:00",
+   "id": 52,
    "records": 23,
    "source": "kia_specs",
-   "started_at": "2026-10-11T02:49:16+00:00",
+   "started_at": "2026-10-12T02:53:44+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
+   "artifacts": 2,
+   "capability": "offers",
+   "errors": 0,
+   "finished_at": "2026-10-12T02:53:44+00:00",
+   "id": 51,
+   "records": 15,
+   "source": "kia_dealers",
+   "started_at": "2026-10-12T02:52:52+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
+   "artifacts": 1,
+   "capability": "quotes",
+   "errors": 0,
+   "finished_at": "2026-10-12T02:52:52+00:00",
+   "id": 50,
+   "records": 42,
+   "source": "cinch_new",
+   "started_at": "2026-10-12T02:52:52+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -1852,37 +2257,50 @@
    "artifacts": 1,
    "capability": "offers",
    "errors": 0,
-   "finished_at": "2026-10-11T02:49:16+00:00",
-   "id": 29,
-   "records": 1,
+   "finished_at": "2026-10-12T02:52:52+00:00",
+   "id": 49,
+   "records": 13,
    "source": "rrg",
-   "started_at": "2026-10-11T02:49:16+00:00",
+   "started_at": "2026-10-12T02:52:24+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
   },
   {
-   "artifacts": 249,
+   "artifacts": 95,
    "capability": "best-deals",
    "errors": 0,
-   "finished_at": "2026-10-11T02:49:16+00:00",
-   "id": 28,
-   "records": 929,
+   "finished_at": "2026-10-12T02:52:24+00:00",
+   "id": 48,
+   "records": 982,
    "source": "leaseloco",
-   "started_at": "2026-10-11T02:40:03+00:00",
+   "started_at": "2026-10-12T02:48:08+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
   },
   {
-   "artifacts": 8,
+   "artifacts": 16,
+   "capability": "pcp",
+   "errors": 1,
+   "finished_at": "2026-10-12T02:48:08+00:00",
+   "id": 47,
+   "records": 105,
+   "source": "ncd",
+   "started_at": "2026-10-12T02:41:04+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
+   "artifacts": 16,
    "capability": "listing",
    "errors": 0,
-   "finished_at": "2026-10-11T02:40:03+00:00",
-   "id": 27,
-   "records": 70,
+   "finished_at": "2026-10-12T02:41:04+00:00",
+   "id": 46,
+   "records": 111,
    "source": "ncd",
-   "started_at": "2026-10-11T02:39:52+00:00",
+   "started_at": "2026-10-12T02:40:39+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -1891,11 +2309,11 @@
    "artifacts": 4,
    "capability": "offers",
    "errors": 0,
-   "finished_at": "2026-10-11T02:39:52+00:00",
-   "id": 26,
-   "records": 4,
+   "finished_at": "2026-10-12T02:40:39+00:00",
+   "id": 45,
+   "records": 8,
    "source": "hyundai_offers",
-   "started_at": "2026-10-11T02:39:45+00:00",
+   "started_at": "2026-10-12T02:40:32+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -1904,11 +2322,11 @@
    "artifacts": 178,
    "capability": "deals",
    "errors": 0,
-   "finished_at": "2026-10-11T02:39:45+00:00",
-   "id": 25,
-   "records": 1513,
+   "finished_at": "2026-10-12T02:40:32+00:00",
+   "id": 44,
+   "records": 1537,
    "source": "carwow_deals",
-   "started_at": "2026-10-11T02:34:39+00:00",
+   "started_at": "2026-10-12T02:35:24+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -1917,11 +2335,11 @@
    "artifacts": 1,
    "capability": "options",
    "errors": 0,
-   "finished_at": "2026-10-11T02:34:39+00:00",
-   "id": 24,
+   "finished_at": "2026-10-12T02:35:24+00:00",
+   "id": 43,
    "records": 0,
    "source": "carwow_options",
-   "started_at": "2026-10-11T02:34:38+00:00",
+   "started_at": "2026-10-12T02:35:23+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -1930,11 +2348,11 @@
    "artifacts": 249,
    "capability": "derivatives",
    "errors": 0,
-   "finished_at": "2026-10-11T02:34:38+00:00",
-   "id": 23,
+   "finished_at": "2026-10-12T02:35:23+00:00",
+   "id": 42,
    "records": 908,
    "source": "carwow_model",
-   "started_at": "2026-10-11T02:25:52+00:00",
+   "started_at": "2026-10-12T02:26:23+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -1943,11 +2361,11 @@
    "artifacts": 219,
    "capability": "specs",
    "errors": 0,
-   "finished_at": "2026-10-11T02:25:52+00:00",
-   "id": 22,
+   "finished_at": "2026-10-12T02:26:23+00:00",
+   "id": 41,
    "records": 913,
    "source": "carwow_specs",
-   "started_at": "2026-10-11T02:18:34+00:00",
+   "started_at": "2026-10-12T02:18:37+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -1956,24 +2374,11 @@
    "artifacts": 48,
    "capability": "catalog",
    "errors": 0,
-   "finished_at": "2026-10-11T02:18:34+00:00",
-   "id": 21,
-   "records": 1494,
+   "finished_at": "2026-10-12T02:18:37+00:00",
+   "id": 40,
+   "records": 1496,
    "source": "carwow_catalog",
-   "started_at": "2026-10-11T02:17:11+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
-  },
-  {
-   "artifacts": 1,
-   "capability": "used-stock",
-   "errors": 0,
-   "finished_at": "2026-10-10T18:32:51+00:00",
-   "id": 20,
-   "records": 511,
-   "source": "motorpoint_used",
-   "started_at": "2026-10-10T18:32:19+00:00",
+   "started_at": "2026-10-12T02:17:15+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
@@ -2031,7 +2436,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q4-e-tron-sportback",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Audi Q4 e-tron Sportback 150kW 63kWh Black Edition 5dr Auto [Tech Pack]",
-   "last_seen_at": "2026-10-11T02:40:45+00:00",
+   "last_seen_at": "2026-10-12T02:48:31+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q4 e-tron sportback|150kw 63kwh black edition 5dr auto [tech pack]",
@@ -2076,7 +2481,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q4-e-tron-sportback",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Audi Q4 e-tron Sportback 150kW 63kWh S Line 5dr Auto [Tech Pack]",
-   "last_seen_at": "2026-10-11T02:40:45+00:00",
+   "last_seen_at": "2026-10-12T02:48:31+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q4 e-tron sportback|150kw 63kwh s line 5dr auto [tech pack]",
@@ -2120,7 +2525,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q4-e-tron-sportback",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Audi Q4 e-tron Sportback 150kW 63kWh Sport 5dr Auto [Tech Pack]",
-   "last_seen_at": "2026-10-11T02:40:45+00:00",
+   "last_seen_at": "2026-10-12T02:48:31+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q4 e-tron sportback|150kw 63kwh sport 5dr auto [tech pack]",
@@ -2153,7 +2558,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q4-e-tron-sportback",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Audi Q4 e-tron Sportback 210kW 45 82kWh Black Edition 5dr Auto [Tech Pack]",
-   "last_seen_at": "2026-10-11T02:40:45+00:00",
+   "last_seen_at": "2026-10-12T02:48:31+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q4 e-tron sportback|210kw 45 82kwh black edition 5dr auto [tech pack]",
@@ -2202,7 +2607,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q4-e-tron-sportback",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Audi Q4 e-tron Sportback 210kW 45 82kWh S Line 5dr Auto [Leather]",
-   "last_seen_at": "2026-10-11T02:40:45+00:00",
+   "last_seen_at": "2026-10-12T02:48:31+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q4 e-tron sportback|210kw 45 82kwh s line 5dr auto [leather]",
@@ -2239,7 +2644,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q4-e-tron-sportback",
    "first_seen_at": "2026-10-06T23:39:25+00:00",
    "label": "Audi Q4 e-tron Sportback 210kW Perf 82kWh Black Edition 5dr Auto [Tech]",
-   "last_seen_at": "2026-10-11T02:40:45+00:00",
+   "last_seen_at": "2026-10-12T02:48:31+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q4 e-tron sportback|210kw perf 82kwh black edition 5dr auto [tech]",
@@ -2272,7 +2677,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q4-e-tron-sportback",
    "first_seen_at": "2026-10-06T23:39:25+00:00",
    "label": "Audi Q4 e-tron Sportback 210kW Performance 82kWh S Line 5dr Auto [Tech]",
-   "last_seen_at": "2026-10-11T02:40:45+00:00",
+   "last_seen_at": "2026-10-12T02:48:31+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q4 e-tron sportback|210kw performance 82kwh s line 5dr auto [tech]",
@@ -2305,7 +2710,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q4-e-tron-sportback",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Audi Q4 e-tron Sportback 210kW Performance 82kWh Sport 5dr Auto [Tech Pack]",
-   "last_seen_at": "2026-10-11T02:40:45+00:00",
+   "last_seen_at": "2026-10-12T02:48:31+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q4 e-tron sportback|210kw performance 82kwh sport 5dr auto [tech pack]",
@@ -2342,7 +2747,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q4-e-tron",
    "first_seen_at": "2026-10-06T23:39:25+00:00",
    "label": "Audi Q4 e-tron 210kW Perf 82kWh Black Edition 5dr Auto [Tech]",
-   "last_seen_at": "2026-10-11T02:40:42+00:00",
+   "last_seen_at": "2026-10-12T02:48:28+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q4 e-tron|210kw perf 82kwh black edition 5dr auto [tech]",
@@ -2375,7 +2780,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q4-e-tron",
    "first_seen_at": "2026-10-06T23:39:25+00:00",
    "label": "Audi Q4 e-tron 210kW Performance 82kWh S Line 5dr Auto [Tech]",
-   "last_seen_at": "2026-10-11T02:40:42+00:00",
+   "last_seen_at": "2026-10-12T02:48:28+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q4 e-tron|210kw performance 82kwh s line 5dr auto [tech]",
@@ -2408,7 +2813,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q6-e-tron",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Audi Q6 e-tron Sportback 315kW Quattro 100kWh Black Edition 5dr Auto [Tech]",
-   "last_seen_at": "2026-10-11T02:40:48+00:00",
+   "last_seen_at": "2026-10-12T02:48:34+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q6 e-tron sportback|315kw quattro 100kwh black edition 5dr auto [tech]",
@@ -2441,7 +2846,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q6-e-tron",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Audi Q6 e-tron Sportback 315kW Quattro 100kWh S Line 5dr Auto [Tech]",
-   "last_seen_at": "2026-10-11T02:40:48+00:00",
+   "last_seen_at": "2026-10-12T02:48:34+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q6 e-tron sportback|315kw quattro 100kwh s line 5dr auto [tech]",
@@ -2474,7 +2879,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q6-e-tron",
    "first_seen_at": "2026-10-10T17:35:46+00:00",
    "label": "Audi Q6 e-tron Sportback 315kW Quattro 100kWh Sport 5dr Auto [Tech]",
-   "last_seen_at": "2026-10-11T02:40:48+00:00",
+   "last_seen_at": "2026-10-12T02:48:34+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q6 e-tron sportback|315kw quattro 100kwh sport 5dr auto [tech]",
@@ -2542,7 +2947,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q6-e-tron",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Audi Q6 e-tron 225kW Performance 100kWh S Line 5dr Auto [Tech]",
-   "last_seen_at": "2026-10-11T02:40:48+00:00",
+   "last_seen_at": "2026-10-12T02:48:34+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q6 e-tron|225kw performance 100kwh s line 5dr auto [tech]",
@@ -2575,7 +2980,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q6-e-tron",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Audi Q6 e-tron 315kW Quattro 100kWh Black Edition 5dr Auto [Tech]",
-   "last_seen_at": "2026-10-11T02:40:48+00:00",
+   "last_seen_at": "2026-10-12T02:48:34+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q6 e-tron|315kw quattro 100kwh black edition 5dr auto [tech]",
@@ -2608,7 +3013,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q6-e-tron",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Audi Q6 e-tron 315kW Quattro 100kWh S Line 5dr Auto [Tech]",
-   "last_seen_at": "2026-10-11T02:40:48+00:00",
+   "last_seen_at": "2026-10-12T02:48:34+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q6 e-tron|315kw quattro 100kwh s line 5dr auto [tech]",
@@ -2641,10 +3046,307 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q6-e-tron",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Audi Q6 e-tron 315kW Quattro 100kWh Sport 5dr Auto [Tech]",
-   "last_seen_at": "2026-10-11T02:40:48+00:00",
+   "last_seen_at": "2026-10-12T02:48:34+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "audi|q6 e-tron|315kw quattro 100kwh sport 5dr auto [tech]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Pro Pack",
+     "5 seat"
+    ],
+    "packs": [
+     "Pro Pack"
+    ],
+    "prices": [
+     52870.0,
+     54970.0,
+     55895.0,
+     58095.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 7,
+    "twins": [
+     "carwow-cap:102449",
+     "carwow-cap:102450",
+     "carwow-cap:102451",
+     "carwow-cap:102452"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i4",
+   "first_seen_at": "2026-10-12T02:48:41+00:00",
+   "label": "BMW i4 Gran Coupe 210kW eDrive35 M Sport 70kWh 5dr Auto [Pro Pack]",
+   "last_seen_at": "2026-10-12T02:48:41+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|i4 gran coupe|210kw edrive35 m sport 70kwh 5dr auto [pro pack]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Tech Pack",
+     "5 seat"
+    ],
+    "packs": [
+     "Tech Pack"
+    ],
+    "prices": [
+     52870.0,
+     54970.0,
+     55895.0,
+     58095.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 7,
+    "twins": [
+     "carwow-cap:102449",
+     "carwow-cap:102450",
+     "carwow-cap:102451",
+     "carwow-cap:102452"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i4",
+   "first_seen_at": "2026-10-12T02:48:41+00:00",
+   "label": "BMW i4 Gran Coupe 210kW eDrive35 M Sport 70kWh 5dr Auto [Tech Pack]",
+   "last_seen_at": "2026-10-12T02:48:41+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|i4 gran coupe|210kw edrive35 m sport 70kwh 5dr auto [tech pack]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Tech/Pro",
+     "5 seat"
+    ],
+    "packs": [
+     "Tech/Pro"
+    ],
+    "prices": [
+     52870.0,
+     54970.0,
+     55895.0,
+     58095.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 7,
+    "twins": [
+     "carwow-cap:102449",
+     "carwow-cap:102450",
+     "carwow-cap:102451",
+     "carwow-cap:102452"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i4",
+   "first_seen_at": "2026-10-12T02:48:41+00:00",
+   "label": "BMW i4 Gran Coupe 210kW eDrive35 M Sport 70kWh 5dr Auto [Tech/Pro]",
+   "last_seen_at": "2026-10-12T02:48:41+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|i4 gran coupe|210kw edrive35 m sport 70kwh 5dr auto [tech/pro]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Pro Pack",
+     "5 seat"
+    ],
+    "packs": [
+     "Pro Pack"
+    ],
+    "prices": [
+     60965.0,
+     63065.0,
+     64090.0,
+     66190.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 7,
+    "twins": [
+     "carwow-cap:98386",
+     "carwow-cap:98387",
+     "carwow-cap:98388",
+     "carwow-cap:98389"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i4",
+   "first_seen_at": "2026-10-12T02:48:41+00:00",
+   "label": "BMW i4 Gran Coupe 250kW eDrive40 M Sport 83.9kWh 5dr Auto [Pro Pack]",
+   "last_seen_at": "2026-10-12T02:48:41+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|i4 gran coupe|250kw edrive40 m sport 83.9kwh 5dr auto [pro pack]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Tech/Pro",
+     "5 seat"
+    ],
+    "packs": [
+     "Tech/Pro"
+    ],
+    "prices": [
+     60965.0,
+     63065.0,
+     64090.0,
+     66190.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 7,
+    "twins": [
+     "carwow-cap:98386",
+     "carwow-cap:98387",
+     "carwow-cap:98388",
+     "carwow-cap:98389"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i4",
+   "first_seen_at": "2026-10-12T02:48:41+00:00",
+   "label": "BMW i4 Gran Coupe 250kW eDrive40 M Sport 83.9kWh 5dr Auto [Tech/Pro]",
+   "last_seen_at": "2026-10-12T02:48:41+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|i4 gran coupe|250kw edrive40 m sport 83.9kwh 5dr auto [tech/pro]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Tech",
+     "5 seat"
+    ],
+    "packs": [
+     "Tech"
+    ],
+    "prices": [
+     60965.0,
+     63065.0,
+     64090.0,
+     66190.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 7,
+    "twins": [
+     "carwow-cap:98386",
+     "carwow-cap:98387",
+     "carwow-cap:98388",
+     "carwow-cap:98389"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i4",
+   "first_seen_at": "2026-10-12T02:48:41+00:00",
+   "label": "BMW i4 Gran Coupe 250kW eDrive40 M Sport 83.9kWh 5dr Auto [Tech]",
+   "last_seen_at": "2026-10-12T02:48:41+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|i4 gran coupe|250kw edrive40 m sport 83.9kwh 5dr auto [tech]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Pro pack",
+     "5 seat"
+    ],
+    "packs": [
+     "Pro pack"
+    ],
+    "prices": [
+     71525.0,
+     73625.0,
+     73950.0,
+     76050.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 4,
+    "twins": [
+     "carwow-cap:108210",
+     "carwow-cap:109527",
+     "carwow-cap:109528",
+     "carwow-cap:109529"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i4",
+   "first_seen_at": "2026-10-12T02:48:41+00:00",
+   "label": "BMW i4 Gran Coupe 440kW M60 83.9kWh 5dr Auto [Pro pack]",
+   "last_seen_at": "2026-10-12T02:48:41+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|i4 gran coupe|440kw m60 83.9kwh 5dr auto [pro pack]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Tech pack",
+     "5 seat"
+    ],
+    "packs": [
+     "Tech pack"
+    ],
+    "prices": [
+     71525.0,
+     73625.0,
+     73950.0,
+     76050.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 4,
+    "twins": [
+     "carwow-cap:108210",
+     "carwow-cap:109527",
+     "carwow-cap:109528",
+     "carwow-cap:109529"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i4",
+   "first_seen_at": "2026-10-12T02:48:41+00:00",
+   "label": "BMW i4 Gran Coupe 440kW M60 83.9kWh 5dr Auto [Tech pack]",
+   "last_seen_at": "2026-10-12T02:48:41+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|i4 gran coupe|440kw m60 83.9kwh 5dr auto [tech pack]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Tech/Pro pack",
+     "5 seat"
+    ],
+    "packs": [
+     "Tech/Pro pack"
+    ],
+    "prices": [
+     71525.0,
+     73625.0,
+     73950.0,
+     76050.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 4,
+    "twins": [
+     "carwow-cap:108210",
+     "carwow-cap:109527",
+     "carwow-cap:109528",
+     "carwow-cap:109529"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i4",
+   "first_seen_at": "2026-10-12T02:48:41+00:00",
+   "label": "BMW i4 Gran Coupe 440kW M60 83.9kWh 5dr Auto [Tech/Pro pack]",
+   "last_seen_at": "2026-10-12T02:48:41+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|i4 gran coupe|440kw m60 83.9kwh 5dr auto [tech/pro pack]",
    "status": "conflict"
   },
   {
@@ -2674,7 +3376,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW i5 Touring 250kW eDr40 M Sport 84kWh 5dr Auto [Comfort+/22kW]",
-   "last_seen_at": "2026-10-11T02:41:19+00:00",
+   "last_seen_at": "2026-10-12T02:48:47+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i5 touring|250kw edr40 m sport 84kwh 5dr auto [comfort+/22kw]",
@@ -2723,7 +3425,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW i5 Touring 250kW eDrive40 M Sport 84kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-11T02:41:19+00:00",
+   "last_seen_at": "2026-10-12T02:48:47+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i5 touring|250kw edrive40 m sport 84kwh 5dr auto [22kwch]",
@@ -2772,7 +3474,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW i5 Touring 250kW eDrive40 M Sport 84kWh 5dr Auto [Comfort+]",
-   "last_seen_at": "2026-10-11T02:41:19+00:00",
+   "last_seen_at": "2026-10-12T02:48:47+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i5 touring|250kw edrive40 m sport 84kwh 5dr auto [comfort+]",
@@ -2825,7 +3527,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW i5 Touring 250kW eDrive40 M Sport 84kWh 5dr Auto [Tech+/22kW]",
-   "last_seen_at": "2026-10-11T02:41:19+00:00",
+   "last_seen_at": "2026-10-12T02:48:47+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i5 touring|250kw edrive40 m sport 84kwh 5dr auto [tech+/22kw]",
@@ -2878,7 +3580,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW i5 Touring 250kW eDrive40 M Sport 84kWh 5dr Auto [Tech+]",
-   "last_seen_at": "2026-10-11T02:41:19+00:00",
+   "last_seen_at": "2026-10-12T02:48:47+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i5 touring|250kw edrive40 m sport 84kwh 5dr auto [tech+]",
@@ -2919,7 +3621,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW i5 Touring 250kW eDrive40 M Sport Pro 84kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-11T02:41:19+00:00",
+   "last_seen_at": "2026-10-12T02:48:47+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i5 touring|250kw edrive40 m sport pro 84kwh 5dr auto [22kwch]",
@@ -2968,7 +3670,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW i5 Touring 250kW eDrive40 M Sport Pro 84kWh 5dr Auto [Comf+]",
-   "last_seen_at": "2026-10-11T02:41:19+00:00",
+   "last_seen_at": "2026-10-12T02:48:47+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i5 touring|250kw edrive40 m sport pro 84kwh 5dr auto [comf+]",
@@ -3017,7 +3719,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW i5 Touring 250kW eDrive40 M Sport Pro 84kWh 5dr Auto [Tech+]",
-   "last_seen_at": "2026-10-11T02:41:19+00:00",
+   "last_seen_at": "2026-10-12T02:48:47+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i5 touring|250kw edrive40 m sport pro 84kwh 5dr auto [tech+]",
@@ -3058,7 +3760,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW i5 Touring 250kW eDrive40 Sport Edition 84kWh 5dr Auto [Cmf+]",
-   "last_seen_at": "2026-10-11T02:41:19+00:00",
+   "last_seen_at": "2026-10-12T02:48:47+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i5 touring|250kw edrive40 sport edition 84kwh 5dr auto [cmf+]",
@@ -3099,7 +3801,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW i5 Touring 250kW eDrive40 Sport Edition 84kWh 5dr Auto [Tec+]",
-   "last_seen_at": "2026-10-11T02:41:19+00:00",
+   "last_seen_at": "2026-10-12T02:48:47+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i5 touring|250kw edrive40 sport edition 84kwh 5dr auto [tec+]",
@@ -3132,7 +3834,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW i5 Touring 442kW M60 xDrive 84kWh 5dr Auto [Ultimate Pack]",
-   "last_seen_at": "2026-10-11T02:41:19+00:00",
+   "last_seen_at": "2026-10-12T02:48:47+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i5 touring|442kw m60 xdrive 84kwh 5dr auto [ultimate pack]",
@@ -3173,10 +3875,59 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW i5 250kW eDrive40 M Sport Pro 84kWh 4dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-11T02:41:16+00:00",
+   "last_seen_at": "2026-10-12T02:48:44+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i5|250kw edrive40 m sport pro 84kwh 4dr auto [22kwch]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Comf+",
+     "5 seat"
+    ],
+    "packs": [
+     "Comf+"
+    ],
+    "prices": [
+     77205.0,
+     78405.0,
+     79455.0,
+     80655.0,
+     81525.0,
+     82205.0,
+     83405.0,
+     83775.0,
+     84055.0,
+     85255.0,
+     85505.0,
+     87355.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 9,
+    "twins": [
+     "carwow-cap:103367",
+     "carwow-cap:103368",
+     "carwow-cap:103369",
+     "carwow-cap:103370",
+     "carwow-cap:103558",
+     "carwow-cap:103559",
+     "carwow-cap:105008",
+     "carwow-cap:105009",
+     "carwow-cap:105010",
+     "carwow-cap:105011",
+     "carwow-cap:105012",
+     "carwow-cap:105013"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5",
+   "first_seen_at": "2026-10-12T02:48:44+00:00",
+   "label": "BMW i5 250kW eDrive40 M Sport Pro 84kWh 4dr Auto [Comf+]",
+   "last_seen_at": "2026-10-12T02:48:44+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|i5|250kw edrive40 m sport pro 84kwh 4dr auto [comf+]",
    "status": "conflict"
   },
   {
@@ -3222,7 +3973,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW i5 250kW eDrive40 M Sport Pro 84kWh 4dr Auto [Tech+]",
-   "last_seen_at": "2026-10-11T02:41:16+00:00",
+   "last_seen_at": "2026-10-12T02:48:44+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i5|250kw edrive40 m sport pro 84kwh 4dr auto [tech+]",
@@ -3255,7 +4006,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW i5 442kW M60 xDrive 84kWh 4dr Auto [Ultimate Pack]",
-   "last_seen_at": "2026-10-11T02:41:16+00:00",
+   "last_seen_at": "2026-10-12T02:48:44+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i5|442kw m60 xdrive 84kwh 4dr auto [ultimate pack]",
@@ -3286,7 +4037,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i7",
    "first_seen_at": "2026-10-10T17:36:20+00:00",
    "label": "BMW i7 400kW xDrive60 M Sport 105.7kWh 4dr Auto [Exec]",
-   "last_seen_at": "2026-10-11T02:41:22+00:00",
+   "last_seen_at": "2026-10-12T02:48:50+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i7|400kw xdrive60 m sport 105.7kwh 4dr auto [exec]",
@@ -3317,7 +4068,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i7",
    "first_seen_at": "2026-10-10T17:36:20+00:00",
    "label": "BMW i7 400kW xDrive60 M Sport 105.7kWh 4dr Auto [Ulti Pk]",
-   "last_seen_at": "2026-10-11T02:41:22+00:00",
+   "last_seen_at": "2026-10-12T02:48:50+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i7|400kw xdrive60 m sport 105.7kwh 4dr auto [ulti pk]",
@@ -3354,7 +4105,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX1 150kW eDrive20 M Sport 65kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-11T02:41:28+00:00",
+   "last_seen_at": "2026-10-12T02:48:56+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix1|150kw edrive20 m sport 65kwh 5dr auto [22kwch]",
@@ -3391,7 +4142,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX1 150kW eDrive20 M Sport 65kWh 5dr Auto [Tech+/22kW]",
-   "last_seen_at": "2026-10-11T02:41:28+00:00",
+   "last_seen_at": "2026-10-12T02:48:56+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix1|150kw edrive20 m sport 65kwh 5dr auto [tech+/22kw]",
@@ -3428,7 +4179,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX1 150kW eDrive20 M Sport 65kWh 5dr Auto [Tech+]",
-   "last_seen_at": "2026-10-11T02:41:28+00:00",
+   "last_seen_at": "2026-10-12T02:48:56+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix1|150kw edrive20 m sport 65kwh 5dr auto [tech+]",
@@ -3465,7 +4216,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX1 150kW eDrive20 M Sport 65kWh 5dr Auto [Tech/Pro]",
-   "last_seen_at": "2026-10-11T02:41:28+00:00",
+   "last_seen_at": "2026-10-12T02:48:56+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix1|150kw edrive20 m sport 65kwh 5dr auto [tech/pro]",
@@ -3496,7 +4247,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX1 150kW eDrive20 Shadow Ed 65kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-11T02:41:28+00:00",
+   "last_seen_at": "2026-10-12T02:48:56+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix1|150kw edrive20 shadow ed 65kwh 5dr auto [22kwch]",
@@ -3529,7 +4280,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX1 150kW eDrive20 Sport 65kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-11T02:41:28+00:00",
+   "last_seen_at": "2026-10-12T02:48:56+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix1|150kw edrive20 sport 65kwh 5dr auto [22kwch]",
@@ -3562,7 +4313,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX1 150kW eDrive20 xLine 65kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-11T02:41:28+00:00",
+   "last_seen_at": "2026-10-12T02:48:56+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix1|150kw edrive20 xline 65kwh 5dr auto [22kwch]",
@@ -3595,7 +4346,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX1 150kW eDrive20 xLine 65kWh 5dr Auto [Tech+/22kWCh]",
-   "last_seen_at": "2026-10-11T02:41:28+00:00",
+   "last_seen_at": "2026-10-12T02:48:56+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix1|150kw edrive20 xline 65kwh 5dr auto [tech+/22kwch]",
@@ -3628,7 +4379,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX1 150kW eDrive20 xLine 65kWh 5dr Auto [Tech+]",
-   "last_seen_at": "2026-10-11T02:41:28+00:00",
+   "last_seen_at": "2026-10-12T02:48:56+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix1|150kw edrive20 xline 65kwh 5dr auto [tech+]",
@@ -3665,7 +4416,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX1 230kW xDrive30 M Sport 65kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-11T02:41:28+00:00",
+   "last_seen_at": "2026-10-12T02:48:56+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix1|230kw xdrive30 m sport 65kwh 5dr auto [22kwch]",
@@ -3702,7 +4453,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX1 230kW xDrive30 M Sport 65kWh 5dr Auto [Tech+]",
-   "last_seen_at": "2026-10-11T02:41:28+00:00",
+   "last_seen_at": "2026-10-12T02:48:56+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix1|230kw xdrive30 m sport 65kwh 5dr auto [tech+]",
@@ -3733,7 +4484,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX1 230kW xDrive30 Shadow Ed 65kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-11T02:41:28+00:00",
+   "last_seen_at": "2026-10-12T02:48:56+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix1|230kw xdrive30 shadow ed 65kwh 5dr auto [22kwch]",
@@ -3766,7 +4517,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX1 230kW xDrive30 xLine 65kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-11T02:41:28+00:00",
+   "last_seen_at": "2026-10-12T02:48:56+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix1|230kw xdrive30 xline 65kwh 5dr auto [22kwch]",
@@ -3832,7 +4583,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX1 230kW xDrive30 xLine 65kWh 5dr Auto [Tech+]",
-   "last_seen_at": "2026-10-11T02:41:28+00:00",
+   "last_seen_at": "2026-10-12T02:48:56+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix1|230kw xdrive30 xline 65kwh 5dr auto [tech+]",
@@ -3869,7 +4620,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX2 150kW eDrive20 M Sport 65kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-11T02:41:31+00:00",
+   "last_seen_at": "2026-10-12T02:48:59+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix2|150kw edrive20 m sport 65kwh 5dr auto [22kwch]",
@@ -3906,7 +4657,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX2 150kW eDrive20 M Sport 65kWh 5dr Auto [Tech+/22kW]",
-   "last_seen_at": "2026-10-11T02:41:31+00:00",
+   "last_seen_at": "2026-10-12T02:48:59+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix2|150kw edrive20 m sport 65kwh 5dr auto [tech+/22kw]",
@@ -3943,7 +4694,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX2 150kW eDrive20 M Sport 65kWh 5dr Auto [Tech+]",
-   "last_seen_at": "2026-10-11T02:41:31+00:00",
+   "last_seen_at": "2026-10-12T02:48:59+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix2|150kw edrive20 m sport 65kwh 5dr auto [tech+]",
@@ -3980,7 +4731,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX2 150kW eDrive20 M Sport 65kWh 5dr Auto [Tech/Pro]",
-   "last_seen_at": "2026-10-11T02:41:31+00:00",
+   "last_seen_at": "2026-10-12T02:48:59+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix2|150kw edrive20 m sport 65kwh 5dr auto [tech/pro]",
@@ -4011,7 +4762,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX2 150kW eDrive20 Shadow Ed 65kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-11T02:41:31+00:00",
+   "last_seen_at": "2026-10-12T02:48:59+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix2|150kw edrive20 shadow ed 65kwh 5dr auto [22kwch]",
@@ -4042,7 +4793,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX2 150kW eDrive20 Shadow Ed 65kWh 5dr Auto [Tech+]",
-   "last_seen_at": "2026-10-11T02:41:31+00:00",
+   "last_seen_at": "2026-10-12T02:48:59+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix2|150kw edrive20 shadow ed 65kwh 5dr auto [tech+]",
@@ -4075,7 +4826,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX2 150kW eDrive20 Sport 65kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-11T02:41:31+00:00",
+   "last_seen_at": "2026-10-12T02:48:59+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix2|150kw edrive20 sport 65kwh 5dr auto [22kwch]",
@@ -4108,7 +4859,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX2 150kW eDrive20 Sport 65kWh 5dr Auto [Tech+/22kW]",
-   "last_seen_at": "2026-10-11T02:41:31+00:00",
+   "last_seen_at": "2026-10-12T02:48:59+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix2|150kw edrive20 sport 65kwh 5dr auto [tech+/22kw]",
@@ -4141,7 +4892,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX2 150kW eDrive20 Sport 65kWh 5dr Auto [Tech+]",
-   "last_seen_at": "2026-10-11T02:41:31+00:00",
+   "last_seen_at": "2026-10-12T02:48:59+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix2|150kw edrive20 sport 65kwh 5dr auto [tech+]",
@@ -4178,7 +4929,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX2 230kW xDrive30 M Sport 65kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-11T02:41:31+00:00",
+   "last_seen_at": "2026-10-12T02:48:59+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix2|230kw xdrive30 m sport 65kwh 5dr auto [22kwch]",
@@ -4215,7 +4966,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX2 230kW xDrive30 M Sport 65kWh 5dr Auto [Tech+/22kW]",
-   "last_seen_at": "2026-10-11T02:41:31+00:00",
+   "last_seen_at": "2026-10-12T02:48:59+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix2|230kw xdrive30 m sport 65kwh 5dr auto [tech+/22kw]",
@@ -4252,7 +5003,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX2 230kW xDrive30 M Sport 65kWh 5dr Auto [Tech+]",
-   "last_seen_at": "2026-10-11T02:41:31+00:00",
+   "last_seen_at": "2026-10-12T02:48:59+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix2|230kw xdrive30 m sport 65kwh 5dr auto [tech+]",
@@ -4289,7 +5040,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX2 230kW xDrive30 M Sport 65kWh 5dr Auto [Tech/Pro]",
-   "last_seen_at": "2026-10-11T02:41:31+00:00",
+   "last_seen_at": "2026-10-12T02:48:59+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix2|230kw xdrive30 m sport 65kwh 5dr auto [tech/pro]",
@@ -4322,7 +5073,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX3 238kW eDrive40 87kWh 5dr Auto [22kW]",
-   "last_seen_at": "2026-10-11T02:41:34+00:00",
+   "last_seen_at": "2026-10-12T02:49:02+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix3|238kw edrive40 87kwh 5dr auto [22kw]",
@@ -4355,7 +5106,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX3 238kW eDrive40 87kWh 5dr Auto [Tech plus/22kW]",
-   "last_seen_at": "2026-10-11T02:41:34+00:00",
+   "last_seen_at": "2026-10-12T02:49:02+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix3|238kw edrive40 87kwh 5dr auto [tech plus/22kw]",
@@ -4388,7 +5139,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX3 238kW eDrive40 87kWh 5dr Auto [Tech plus]",
-   "last_seen_at": "2026-10-11T02:41:34+00:00",
+   "last_seen_at": "2026-10-12T02:49:02+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix3|238kw edrive40 87kwh 5dr auto [tech plus]",
@@ -4421,7 +5172,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX3 238kW eDrive40 M Sport 87kWh 5dr Auto [22kW]",
-   "last_seen_at": "2026-10-11T02:41:34+00:00",
+   "last_seen_at": "2026-10-12T02:49:02+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix3|238kw edrive40 m sport 87kwh 5dr auto [22kw]",
@@ -4454,7 +5205,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX3 238kW eDrive40 M Sport 87kWh 5dr Auto [Tech plus]",
-   "last_seen_at": "2026-10-11T02:41:34+00:00",
+   "last_seen_at": "2026-10-12T02:49:02+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix3|238kw edrive40 m sport 87kwh 5dr auto [tech plus]",
@@ -4487,7 +5238,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX3 238kW eDrive40 M Sport 87kWh 5dr Auto [Tech+/22kW]",
-   "last_seen_at": "2026-10-11T02:41:34+00:00",
+   "last_seen_at": "2026-10-12T02:49:02+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix3|238kw edrive40 m sport 87kwh 5dr auto [tech+/22kw]",
@@ -4518,7 +5269,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX3 238kW eDrive40 M Sport Pro 87kWh 5dr Auto [22kW]",
-   "last_seen_at": "2026-10-11T02:41:34+00:00",
+   "last_seen_at": "2026-10-12T02:49:02+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix3|238kw edrive40 m sport pro 87kwh 5dr auto [22kw]",
@@ -4551,7 +5302,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX3 238kW eDrive40 M Sport Pro 87kWh 5dr Auto [Tech+]",
-   "last_seen_at": "2026-10-11T02:41:34+00:00",
+   "last_seen_at": "2026-10-12T02:49:02+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix3|238kw edrive40 m sport pro 87kwh 5dr auto [tech+]",
@@ -4584,7 +5335,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX3 345kW xDrive50 M Sport 113kWh 5dr Auto [22kW]",
-   "last_seen_at": "2026-10-11T02:41:34+00:00",
+   "last_seen_at": "2026-10-12T02:49:02+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix3|345kw xdrive50 m sport 113kwh 5dr auto [22kw]",
@@ -4617,7 +5368,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
    "first_seen_at": "2026-10-06T23:25:47+00:00",
    "label": "BMW iX3 345kW xDrive50 M Sport 113kWh 5dr Auto [Tech plus]",
-   "last_seen_at": "2026-10-11T02:41:34+00:00",
+   "last_seen_at": "2026-10-12T02:49:02+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix3|345kw xdrive50 m sport 113kwh 5dr auto [tech plus]",
@@ -4648,7 +5399,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX3 345kW xDrive50 M Sport Pro 113kWh 5dr Auto [22kW]",
-   "last_seen_at": "2026-10-11T02:41:34+00:00",
+   "last_seen_at": "2026-10-12T02:49:02+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix3|345kw xdrive50 m sport pro 113kwh 5dr auto [22kw]",
@@ -4681,10 +5432,343 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX3 345kW xDrive50 M Sport Pro 113kWh 5dr Auto [Tech+]",
-   "last_seen_at": "2026-10-11T02:41:34+00:00",
+   "last_seen_at": "2026-10-12T02:49:02+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix3|345kw xdrive50 m sport pro 113kwh 5dr auto [tech+]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Pro Pack",
+     "5 seat"
+    ],
+    "packs": [
+     "Pro Pack"
+    ],
+    "prices": [
+     78405.0,
+     79755.0,
+     81605.0,
+     81655.0,
+     82955.0,
+     83005.0,
+     84855.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 7,
+    "twins": [
+     "carwow-cap:107332",
+     "carwow-cap:107333",
+     "carwow-cap:107334",
+     "carwow-cap:107335",
+     "carwow-cap:107787",
+     "carwow-cap:107788",
+     "carwow-cap:107789"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
+   "first_seen_at": "2026-10-12T02:48:53+00:00",
+   "label": "BMW iX 300kW xDrive45 M Sport 101kWh 5dr Auto [Pro Pack]",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|ix|300kw xdrive45 m sport 101kwh 5dr auto [pro pack]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Sky/Pro",
+     "5 seat"
+    ],
+    "packs": [
+     "Sky/Pro"
+    ],
+    "prices": [
+     78405.0,
+     79755.0,
+     81605.0,
+     81655.0,
+     82955.0,
+     83005.0,
+     84855.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 7,
+    "twins": [
+     "carwow-cap:107332",
+     "carwow-cap:107333",
+     "carwow-cap:107334",
+     "carwow-cap:107335",
+     "carwow-cap:107787",
+     "carwow-cap:107788",
+     "carwow-cap:107789"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
+   "first_seen_at": "2026-10-12T02:48:53+00:00",
+   "label": "BMW iX 300kW xDrive45 M Sport 101kWh 5dr Auto [Sky/Pro]",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|ix|300kw xdrive45 m sport 101kwh 5dr auto [sky/pro]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Skylounge",
+     "5 seat"
+    ],
+    "packs": [
+     "Skylounge"
+    ],
+    "prices": [
+     78405.0,
+     79755.0,
+     81605.0,
+     81655.0,
+     82955.0,
+     83005.0,
+     84855.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 7,
+    "twins": [
+     "carwow-cap:107332",
+     "carwow-cap:107333",
+     "carwow-cap:107334",
+     "carwow-cap:107335",
+     "carwow-cap:107787",
+     "carwow-cap:107788",
+     "carwow-cap:107789"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
+   "first_seen_at": "2026-10-12T02:48:53+00:00",
+   "label": "BMW iX 300kW xDrive45 M Sport 101kWh 5dr Auto [Skylounge]",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|ix|300kw xdrive45 m sport 101kwh 5dr auto [skylounge]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Tech/Pro",
+     "5 seat"
+    ],
+    "packs": [
+     "Tech/Pro"
+    ],
+    "prices": [
+     78405.0,
+     79755.0,
+     81605.0,
+     81655.0,
+     82955.0,
+     83005.0,
+     84855.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 7,
+    "twins": [
+     "carwow-cap:107332",
+     "carwow-cap:107333",
+     "carwow-cap:107334",
+     "carwow-cap:107335",
+     "carwow-cap:107787",
+     "carwow-cap:107788",
+     "carwow-cap:107789"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
+   "first_seen_at": "2026-10-12T02:48:53+00:00",
+   "label": "BMW iX 300kW xDrive45 M Sport 101kWh 5dr Auto [Tech/Pro]",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|ix|300kw xdrive45 m sport 101kwh 5dr auto [tech/pro]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Tech/Sky",
+     "5 seat"
+    ],
+    "packs": [
+     "Tech/Sky"
+    ],
+    "prices": [
+     78405.0,
+     79755.0,
+     81605.0,
+     81655.0,
+     82955.0,
+     83005.0,
+     84855.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 7,
+    "twins": [
+     "carwow-cap:107332",
+     "carwow-cap:107333",
+     "carwow-cap:107334",
+     "carwow-cap:107335",
+     "carwow-cap:107787",
+     "carwow-cap:107788",
+     "carwow-cap:107789"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
+   "first_seen_at": "2026-10-12T02:48:53+00:00",
+   "label": "BMW iX 300kW xDrive45 M Sport 101kWh 5dr Auto [Tech/Sky]",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|ix|300kw xdrive45 m sport 101kwh 5dr auto [tech/sky]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Tech",
+     "5 seat"
+    ],
+    "packs": [
+     "Tech"
+    ],
+    "prices": [
+     78405.0,
+     79755.0,
+     81605.0,
+     81655.0,
+     82955.0,
+     83005.0,
+     84855.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 7,
+    "twins": [
+     "carwow-cap:107332",
+     "carwow-cap:107333",
+     "carwow-cap:107334",
+     "carwow-cap:107335",
+     "carwow-cap:107787",
+     "carwow-cap:107788",
+     "carwow-cap:107789"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
+   "first_seen_at": "2026-10-12T02:48:53+00:00",
+   "label": "BMW iX 300kW xDrive45 M Sport 101kWh 5dr Auto [Tech]",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|ix|300kw xdrive45 m sport 101kwh 5dr auto [tech]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Skylounge",
+     "5 seat"
+    ],
+    "packs": [
+     "Skylounge"
+    ],
+    "prices": [
+     75405.0,
+     78655.0,
+     78755.0,
+     82005.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 5,
+    "twins": [
+     "carwow-cap:107328",
+     "carwow-cap:107329",
+     "carwow-cap:107330",
+     "carwow-cap:107331"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
+   "first_seen_at": "2026-10-12T02:48:53+00:00",
+   "label": "BMW iX 300kW xDrive45 Sport 101kWh 5dr Auto [Skylounge]",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|ix|300kw xdrive45 sport 101kwh 5dr auto [skylounge]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Tech/Sky",
+     "5 seat"
+    ],
+    "packs": [
+     "Tech/Sky"
+    ],
+    "prices": [
+     75405.0,
+     78655.0,
+     78755.0,
+     82005.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 5,
+    "twins": [
+     "carwow-cap:107328",
+     "carwow-cap:107329",
+     "carwow-cap:107330",
+     "carwow-cap:107331"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
+   "first_seen_at": "2026-10-12T02:48:53+00:00",
+   "label": "BMW iX 300kW xDrive45 Sport 101kWh 5dr Auto [Tech/Sky]",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|ix|300kw xdrive45 sport 101kwh 5dr auto [tech/sky]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Technology",
+     "5 seat"
+    ],
+    "packs": [
+     "Technology"
+    ],
+    "prices": [
+     75405.0,
+     78655.0,
+     78755.0,
+     82005.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 5,
+    "twins": [
+     "carwow-cap:107328",
+     "carwow-cap:107329",
+     "carwow-cap:107330",
+     "carwow-cap:107331"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
+   "first_seen_at": "2026-10-12T02:48:53+00:00",
+   "label": "BMW iX 300kW xDrive45 Sport 101kWh 5dr Auto [Technology]",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "bmw|ix|300kw xdrive45 sport 101kwh 5dr auto [technology]",
    "status": "conflict"
   },
   {
@@ -4720,7 +5804,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX 400kW xDrive60 M Sport 112kWh 5dr Auto [Pro Pack]",
-   "last_seen_at": "2026-10-11T02:41:25+00:00",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix|400kw xdrive60 m sport 112kwh 5dr auto [pro pack]",
@@ -4759,7 +5843,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX 400kW xDrive60 M Sport 112kWh 5dr Auto [Sky/Pro]",
-   "last_seen_at": "2026-10-11T02:41:25+00:00",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix|400kw xdrive60 m sport 112kwh 5dr auto [sky/pro]",
@@ -4798,7 +5882,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX 400kW xDrive60 M Sport 112kWh 5dr Auto [Skylounge]",
-   "last_seen_at": "2026-10-11T02:41:25+00:00",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix|400kw xdrive60 m sport 112kwh 5dr auto [skylounge]",
@@ -4837,7 +5921,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX 400kW xDrive60 M Sport 112kWh 5dr Auto [Tech/Pro]",
-   "last_seen_at": "2026-10-11T02:41:25+00:00",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix|400kw xdrive60 m sport 112kwh 5dr auto [tech/pro]",
@@ -4876,7 +5960,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX 400kW xDrive60 M Sport 112kWh 5dr Auto [Tech/Sky]",
-   "last_seen_at": "2026-10-11T02:41:25+00:00",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix|400kw xdrive60 m sport 112kwh 5dr auto [tech/sky]",
@@ -4915,7 +5999,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX 400kW xDrive60 M Sport 112kWh 5dr Auto [Tech]",
-   "last_seen_at": "2026-10-11T02:41:25+00:00",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix|400kw xdrive60 m sport 112kwh 5dr auto [tech]",
@@ -4948,7 +6032,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX 485kW M70 xDrive 112kWh 5dr Auto [Skylounge]",
-   "last_seen_at": "2026-10-11T02:41:25+00:00",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix|485kw m70 xdrive 112kwh 5dr auto [skylounge]",
@@ -4981,7 +6065,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX 485kW M70 xDrive 112kWh 5dr Auto [Tech/Skylounge]",
-   "last_seen_at": "2026-10-11T02:41:25+00:00",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix|485kw m70 xdrive 112kwh 5dr auto [tech/skylounge]",
@@ -5014,7 +6098,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "BMW iX 485kW M70 xDrive 112kWh 5dr Auto [Technology]",
-   "last_seen_at": "2026-10-11T02:41:25+00:00",
+   "last_seen_at": "2026-10-12T02:48:53+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix|485kw m70 xdrive 112kwh 5dr auto [technology]",
@@ -5047,7 +6131,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "CUPRA Tavascan 210kW V1 77kWh 5dr Auto [IDP+Winter Pack]",
-   "last_seen_at": "2026-10-11T02:42:15+00:00",
+   "last_seen_at": "2026-10-12T02:49:25+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "cupra|tavascan|210kw v1 77kwh 5dr auto [idp+winter pack]",
@@ -5080,7 +6164,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "CUPRA Tavascan 210kW V1 77kWh 5dr Auto [IDP]",
-   "last_seen_at": "2026-10-11T02:42:15+00:00",
+   "last_seen_at": "2026-10-12T02:49:25+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "cupra|tavascan|210kw v1 77kwh 5dr auto [idp]",
@@ -5113,7 +6197,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "CUPRA Tavascan 210kW V1 77kWh 5dr Auto [Winter Pack]",
-   "last_seen_at": "2026-10-11T02:42:15+00:00",
+   "last_seen_at": "2026-10-12T02:49:25+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "cupra|tavascan|210kw v1 77kwh 5dr auto [winter pack]",
@@ -5146,7 +6230,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "CUPRA Tavascan 210kW V2 77kWh 5dr Auto [IDP+Winter Pack]",
-   "last_seen_at": "2026-10-11T02:42:15+00:00",
+   "last_seen_at": "2026-10-12T02:49:25+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "cupra|tavascan|210kw v2 77kwh 5dr auto [idp+winter pack]",
@@ -5179,7 +6263,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "CUPRA Tavascan 210kW V2 77kWh 5dr Auto [IDP]",
-   "last_seen_at": "2026-10-11T02:42:15+00:00",
+   "last_seen_at": "2026-10-12T02:49:25+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "cupra|tavascan|210kw v2 77kwh 5dr auto [idp]",
@@ -5212,7 +6296,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "CUPRA Tavascan 210kW V2 77kWh 5dr Auto [Winter Pack]",
-   "last_seen_at": "2026-10-11T02:42:15+00:00",
+   "last_seen_at": "2026-10-12T02:49:25+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "cupra|tavascan|210kw v2 77kwh 5dr auto [winter pack]",
@@ -5245,7 +6329,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "CUPRA Tavascan 250kW VZ1 77kWh AWD 5dr Auto [IDP+Winter Pack]",
-   "last_seen_at": "2026-10-11T02:42:15+00:00",
+   "last_seen_at": "2026-10-12T02:49:25+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "cupra|tavascan|250kw vz1 77kwh awd 5dr auto [idp+winter pack]",
@@ -5278,7 +6362,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "CUPRA Tavascan 250kW VZ1 77kWh AWD 5dr Auto [IDP]",
-   "last_seen_at": "2026-10-11T02:42:15+00:00",
+   "last_seen_at": "2026-10-12T02:49:25+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "cupra|tavascan|250kw vz1 77kwh awd 5dr auto [idp]",
@@ -5311,7 +6395,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "CUPRA Tavascan 250kW VZ1 77kWh AWD 5dr Auto [Winter Pack]",
-   "last_seen_at": "2026-10-11T02:42:15+00:00",
+   "last_seen_at": "2026-10-12T02:49:25+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "cupra|tavascan|250kw vz1 77kwh awd 5dr auto [winter pack]",
@@ -5344,7 +6428,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "CUPRA Tavascan 250kW VZ2 77kWh AWD 5dr Auto [IDP+Winter Pack]",
-   "last_seen_at": "2026-10-11T02:42:15+00:00",
+   "last_seen_at": "2026-10-12T02:49:25+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "cupra|tavascan|250kw vz2 77kwh awd 5dr auto [idp+winter pack]",
@@ -5377,7 +6461,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "CUPRA Tavascan 250kW VZ2 77kWh AWD 5dr Auto [IDP]",
-   "last_seen_at": "2026-10-11T02:42:15+00:00",
+   "last_seen_at": "2026-10-12T02:49:25+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "cupra|tavascan|250kw vz2 77kwh awd 5dr auto [idp]",
@@ -5410,7 +6494,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "CUPRA Tavascan 250kW VZ2 77kWh AWD 5dr Auto [Winter Pack]",
-   "last_seen_at": "2026-10-11T02:42:15+00:00",
+   "last_seen_at": "2026-10-12T02:49:25+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "cupra|tavascan|250kw vz2 77kwh awd 5dr auto [winter pack]",
@@ -5443,7 +6527,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/capri",
    "first_seen_at": "2026-10-10T17:37:36+00:00",
    "label": "Ford Capri 125kW Style 52kWh 5dr Auto [Comfort Pack]",
-   "last_seen_at": "2026-10-11T02:42:40+00:00",
+   "last_seen_at": "2026-10-12T02:49:30+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "ford|capri|125kw style 52kwh 5dr auto [comfort pack]",
@@ -5476,7 +6560,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/capri",
    "first_seen_at": "2026-10-10T17:37:36+00:00",
    "label": "Ford Capri 125kW Style 52kWh 5dr Auto [Comfort/Driver Assist]",
-   "last_seen_at": "2026-10-11T02:42:40+00:00",
+   "last_seen_at": "2026-10-12T02:49:30+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "ford|capri|125kw style 52kwh 5dr auto [comfort/driver assist]",
@@ -5509,7 +6593,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/capri",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Ford Capri 140kW Style 58kWh 5dr Auto [Comfort Pack]",
-   "last_seen_at": "2026-10-11T02:42:40+00:00",
+   "last_seen_at": "2026-10-12T02:49:30+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "ford|capri|140kw style 58kwh 5dr auto [comfort pack]",
@@ -5542,7 +6626,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/capri",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Ford Capri 140kW Style 58kWh 5dr Auto [Comfort/Driver Assist]",
-   "last_seen_at": "2026-10-11T02:42:40+00:00",
+   "last_seen_at": "2026-10-12T02:49:30+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "ford|capri|140kw style 58kwh 5dr auto [comfort/driver assist]",
@@ -5575,7 +6659,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/capri",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Ford Capri 140kW Style 58kWh 5dr Auto [Driver Assist Pack]",
-   "last_seen_at": "2026-10-11T02:42:40+00:00",
+   "last_seen_at": "2026-10-12T02:49:30+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "ford|capri|140kw style 58kwh 5dr auto [driver assist pack]",
@@ -5608,7 +6692,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/explorer",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Ford Explorer 140kW Style 58kWh 5dr Auto [Comfort Pack]",
-   "last_seen_at": "2026-10-11T02:42:42+00:00",
+   "last_seen_at": "2026-10-12T02:49:33+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "ford|explorer|140kw style 58kwh 5dr auto [comfort pack]",
@@ -5641,7 +6725,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/explorer",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Ford Explorer 140kW Style 58kWh 5dr Auto [Comfort/Driver Assist]",
-   "last_seen_at": "2026-10-11T02:42:42+00:00",
+   "last_seen_at": "2026-10-12T02:49:33+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "ford|explorer|140kw style 58kwh 5dr auto [comfort/driver assist]",
@@ -5674,7 +6758,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/explorer",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Ford Explorer 140kW Style 58kWh 5dr Auto [Driver Assist Pack]",
-   "last_seen_at": "2026-10-11T02:42:42+00:00",
+   "last_seen_at": "2026-10-12T02:49:33+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "ford|explorer|140kw style 58kwh 5dr auto [driver assist pack]",
@@ -5707,7 +6791,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/explorer",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Ford Explorer 210kW Style 79kWh 5dr Auto [Comfort Pack]",
-   "last_seen_at": "2026-10-11T02:42:42+00:00",
+   "last_seen_at": "2026-10-12T02:49:33+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "ford|explorer|210kw style 79kwh 5dr auto [comfort pack]",
@@ -5740,7 +6824,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/explorer",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Ford Explorer 210kW Style 79kWh 5dr Auto [Comfort/Driver Assist]",
-   "last_seen_at": "2026-10-11T02:42:42+00:00",
+   "last_seen_at": "2026-10-12T02:49:33+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "ford|explorer|210kw style 79kwh 5dr auto [comfort/driver assist]",
@@ -5773,7 +6857,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/explorer",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Ford Explorer 210kW Style 79kWh 5dr Auto [Driver Assist Pack]",
-   "last_seen_at": "2026-10-11T02:42:42+00:00",
+   "last_seen_at": "2026-10-12T02:49:33+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "ford|explorer|210kw style 79kwh 5dr auto [driver assist pack]",
@@ -5806,7 +6890,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/puma-gen-e",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Ford Puma Gen-E 124kW Select 47kWh 5dr Auto [Adv Driver Assist]",
-   "last_seen_at": "2026-10-11T02:42:51+00:00",
+   "last_seen_at": "2026-10-12T02:49:41+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "ford|puma gen-e|124kw select 47kwh 5dr auto [adv driver assist]",
@@ -5839,7 +6923,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/puma-gen-e",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Ford Puma Gen-E 124kW Select 47kWh 5dr Auto [Comfort Pack]",
-   "last_seen_at": "2026-10-11T02:42:51+00:00",
+   "last_seen_at": "2026-10-12T02:49:41+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "ford|puma gen-e|124kw select 47kwh 5dr auto [comfort pack]",
@@ -5872,7 +6956,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/puma-gen-e",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Ford Puma Gen-E 124kW Select 47kWh 5dr Auto [Comfort/Adv Drv Asst]",
-   "last_seen_at": "2026-10-11T02:42:51+00:00",
+   "last_seen_at": "2026-10-12T02:49:41+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "ford|puma gen-e|124kw select 47kwh 5dr auto [comfort/adv drv asst]",
@@ -5905,7 +6989,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/genesis/gv60",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Genesis GV60 168kW Pure 84kWh 5dr Auto [Comfort/Innovation]",
-   "last_seen_at": "2026-10-11T02:43:02+00:00",
+   "last_seen_at": "2026-10-12T02:49:47+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "genesis|gv60|168kw pure 84kwh 5dr auto [comfort/innovation]",
@@ -5938,7 +7022,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/genesis/gv60",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Genesis GV60 168kW Pure 84kWh 5dr Auto [Comfort]",
-   "last_seen_at": "2026-10-11T02:43:02+00:00",
+   "last_seen_at": "2026-10-12T02:49:47+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "genesis|gv60|168kw pure 84kwh 5dr auto [comfort]",
@@ -5971,7 +7055,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/genesis/gv60",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Genesis GV60 168kW Pure 84kWh 5dr Auto [Innovation]",
-   "last_seen_at": "2026-10-11T02:43:02+00:00",
+   "last_seen_at": "2026-10-12T02:49:47+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "genesis|gv60|168kw pure 84kwh 5dr auto [innovation]",
@@ -6004,7 +7088,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/genesis/gv60",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Genesis GV60 234kW Sport 84kWh 5dr AWD Auto [Comf/Innovation]",
-   "last_seen_at": "2026-10-11T02:43:02+00:00",
+   "last_seen_at": "2026-10-12T02:49:47+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "genesis|gv60|234kw sport 84kwh 5dr awd auto [comf/innovation]",
@@ -6037,7 +7121,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/genesis/gv60",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Genesis GV60 234kW Sport 84kWh 5dr AWD Auto [Comfort]",
-   "last_seen_at": "2026-10-11T02:43:02+00:00",
+   "last_seen_at": "2026-10-12T02:49:47+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "genesis|gv60|234kw sport 84kwh 5dr awd auto [comfort]",
@@ -6070,7 +7154,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/genesis/gv60",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
    "label": "Genesis GV60 234kW Sport 84kWh 5dr AWD Auto [Innovation]",
-   "last_seen_at": "2026-10-11T02:43:02+00:00",
+   "last_seen_at": "2026-10-12T02:49:47+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "genesis|gv60|234kw sport 84kwh 5dr awd auto [innovation]",
@@ -6112,72 +7196,6 @@
   {
    "evidence": {
     "brackets": [
-     "Heat Pump",
-     "5 seat"
-    ],
-    "packs": [
-     "Heat Pump"
-    ],
-    "prices": [
-     43945.0,
-     44845.0,
-     45445.0,
-     46345.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 6,
-    "twins": [
-     "carwow-cap:108379",
-     "carwow-cap:108381",
-     "carwow-cap:110980",
-     "carwow-cap:111000"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/kia/ev4",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "KIA EV4 Fastback 150kW GT-Line S 81kWh 4dr Auto [Heat Pump]",
-   "last_seen_at": "2026-10-11T02:43:45+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "kia|ev4 fastback|150kw gt-line s 81kwh 4dr auto [heat pump]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Heat Pump",
-     "5 seat"
-    ],
-    "packs": [
-     "Heat Pump"
-    ],
-    "prices": [
-     43945.0,
-     44845.0,
-     45445.0,
-     46345.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 6,
-    "twins": [
-     "carwow-cap:108379",
-     "carwow-cap:108381",
-     "carwow-cap:110980",
-     "carwow-cap:111000"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/kia/ev4",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "KIA EV4 150kW GT-Line S 81kWh 5dr Auto [Heat Pump]",
-   "last_seen_at": "2026-10-11T02:43:45+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "kia|ev4|150kw gt-line s 81kwh 5dr auto [heat pump]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
      "18\" Wheels",
      "5 seat"
     ],
@@ -6202,7 +7220,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/lexus/rz",
    "first_seen_at": "2026-07-12T02:15:54+00:00",
    "label": "Lexus RZ 300e 150kW Premium + 71 kWh 5dr Auto [18\" Wheels]",
-   "last_seen_at": "2026-10-11T02:44:15+00:00",
+   "last_seen_at": "2026-10-12T02:50:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "lexus|rz|300e 150kw premium + 71kwh 5dr auto [18\" wheels]",
@@ -6233,7 +7251,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/lexus/rz",
    "first_seen_at": "2026-07-12T02:15:54+00:00",
    "label": "Lexus RZ 350e 165kW Premium+ 77 kWh 5dr Auto [20\" Wheels]",
-   "last_seen_at": "2026-10-11T02:44:15+00:00",
+   "last_seen_at": "2026-10-12T02:50:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "lexus|rz|350e 165kw premium+ 77kwh 5dr auto [20\" wheels]",
@@ -6264,7 +7282,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/lexus/rz",
    "first_seen_at": "2026-07-12T02:15:54+00:00",
    "label": "Lexus RZ 350e 165kW Premium+ 77 kWh 5dr Auto [20\"/BiTone]",
-   "last_seen_at": "2026-10-11T02:44:15+00:00",
+   "last_seen_at": "2026-10-12T02:50:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "lexus|rz|350e 165kw premium+ 77kwh 5dr auto [20\"/bitone]",
@@ -6295,7 +7313,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/lexus/rz",
    "first_seen_at": "2026-07-12T02:15:54+00:00",
    "label": "Lexus RZ 350e 165kW Premium+ 77 kWh 5dr Auto [BiTone]",
-   "last_seen_at": "2026-10-11T02:44:15+00:00",
+   "last_seen_at": "2026-10-12T02:50:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "lexus|rz|350e 165kw premium+ 77kwh 5dr auto [bitone]",
@@ -6326,7 +7344,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "MINI Aceman 135kW E Exclusive [Level 1] 43kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "last_seen_at": "2026-10-12T02:50:32+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "mini|aceman|135kw e exclusive [level 1] 43kwh 5dr auto",
@@ -6357,7 +7375,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "MINI Aceman 135kW E Exclusive [Level 2] 43kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "last_seen_at": "2026-10-12T02:50:32+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "mini|aceman|135kw e exclusive [level 2] 43kwh 5dr auto",
@@ -6390,7 +7408,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "MINI Aceman 135kW E Sport [Level 1] 43kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "last_seen_at": "2026-10-12T02:50:32+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "mini|aceman|135kw e sport [level 1] 43kwh 5dr auto",
@@ -6423,7 +7441,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "MINI Aceman 135kW E Sport [Level 2] 43kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "last_seen_at": "2026-10-12T02:50:32+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "mini|aceman|135kw e sport [level 2] 43kwh 5dr auto",
@@ -6456,7 +7474,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "MINI Aceman 135kW E Sport [Level 3] 43kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "last_seen_at": "2026-10-12T02:50:32+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "mini|aceman|135kw e sport [level 3] 43kwh 5dr auto",
@@ -6487,7 +7505,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "MINI Aceman 160kW SE Sport [Level 2] 54kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "last_seen_at": "2026-10-12T02:50:32+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "mini|aceman|160kw se sport [level 2] 54kwh 5dr auto",
@@ -6518,7 +7536,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "MINI Aceman 160kW SE Sport [Level 3] 54kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "last_seen_at": "2026-10-12T02:50:32+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "mini|aceman|160kw se sport [level 3] 54kwh 5dr auto",
@@ -6549,7 +7567,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "MINI Aceman 190kW John Cooper Works [Level 2] 54kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "last_seen_at": "2026-10-12T02:50:32+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "mini|aceman|190kw john cooper works [level 2] 54kwh 5dr auto",
@@ -6580,7 +7598,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "MINI Aceman 190kW John Cooper Works [Level 3] 54kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "last_seen_at": "2026-10-12T02:50:32+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "mini|aceman|190kw john cooper works [level 3] 54kwh 5dr auto",
@@ -6617,7 +7635,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/nissan/ariya",
    "first_seen_at": "2026-10-10T17:40:37+00:00",
    "label": "Nissan ARIYA 160kW Advance 63kWh 5dr Auto [Sky Pack]",
-   "last_seen_at": "2026-10-11T02:45:44+00:00",
+   "last_seen_at": "2026-10-12T02:50:35+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "nissan|ariya|160kw advance 63kwh 5dr auto [sky pack]",
@@ -6648,7 +7666,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/nissan/ariya",
    "first_seen_at": "2026-10-10T17:40:37+00:00",
    "label": "Nissan ARIYA 160kW Evolve 63kWh 22kWCh 5dr Auto [Sport Pack]",
-   "last_seen_at": "2026-10-11T02:45:44+00:00",
+   "last_seen_at": "2026-10-12T02:50:35+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "nissan|ariya|160kw evolve 63kwh 22kwch 5dr auto [sport pack]",
@@ -6685,7 +7703,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/nissan/ariya",
    "first_seen_at": "2026-10-10T17:40:37+00:00",
    "label": "Nissan ARIYA 160kW Evolve 63kWh 5dr Auto [Nappa Leather]",
-   "last_seen_at": "2026-10-11T02:45:44+00:00",
+   "last_seen_at": "2026-10-12T02:50:35+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "nissan|ariya|160kw evolve 63kwh 5dr auto [nappa leather]",
@@ -6722,7 +7740,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/nissan/ariya",
    "first_seen_at": "2026-10-10T17:40:37+00:00",
    "label": "Nissan ARIYA 160kW Evolve 63kWh 5dr Auto [Sport Pack]",
-   "last_seen_at": "2026-10-11T02:45:44+00:00",
+   "last_seen_at": "2026-10-12T02:50:35+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "nissan|ariya|160kw evolve 63kwh 5dr auto [sport pack]",
@@ -6753,7 +7771,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/nissan/ariya",
    "first_seen_at": "2026-10-06T23:30:43+00:00",
    "label": "Nissan ARIYA 178kW Advance 87kWh 22kWCh 5dr Auto [Sky Pack]",
-   "last_seen_at": "2026-10-11T02:45:44+00:00",
+   "last_seen_at": "2026-10-12T02:50:35+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "nissan|ariya|178kw advance 87kwh 22kwch 5dr auto [sky pack]",
@@ -6784,7 +7802,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/nissan/ariya",
    "first_seen_at": "2026-10-10T17:40:37+00:00",
    "label": "Nissan ARIYA 178kW Evolve 87kWh 22kWCh 5dr Auto [Leather]",
-   "last_seen_at": "2026-10-11T02:45:44+00:00",
+   "last_seen_at": "2026-10-12T02:50:35+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "nissan|ariya|178kw evolve 87kwh 22kwch 5dr auto [leather]",
@@ -6815,7 +7833,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/nissan/ariya",
    "first_seen_at": "2026-10-10T17:40:37+00:00",
    "label": "Nissan ARIYA 178kW Evolve 87kWh 22kWCh 5dr Auto [Sport Pack]",
-   "last_seen_at": "2026-10-11T02:45:44+00:00",
+   "last_seen_at": "2026-10-12T02:50:35+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "nissan|ariya|178kw evolve 87kwh 22kwch 5dr auto [sport pack]",
@@ -6846,7 +7864,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/nissan/ariya",
    "first_seen_at": "2026-10-10T17:40:37+00:00",
    "label": "Nissan ARIYA 225kW Evolve 87kWh 22kWCh 5dr e-4ORCE Auto [Lthr]",
-   "last_seen_at": "2026-10-11T02:45:44+00:00",
+   "last_seen_at": "2026-10-12T02:50:35+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "nissan|ariya|225kw evolve 87kwh 22kwch 5dr e-4orce auto [lthr]",
@@ -6877,7 +7895,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/nissan/ariya",
    "first_seen_at": "2026-10-10T17:40:37+00:00",
    "label": "Nissan ARIYA 225kW Evolve 87kWh 22kWCh 5dr e-4ORCE Auto[SprtPk]",
-   "last_seen_at": "2026-10-11T02:45:44+00:00",
+   "last_seen_at": "2026-10-12T02:50:35+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "nissan|ariya|225kw evolve 87kwh 22kwch 5dr e-4orce auto[sprtpk]",
@@ -6914,7 +7932,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
    "first_seen_at": "2026-10-10T17:41:21+00:00",
    "label": "Polestar 4 200kW 100kWh LR Single Motor [Pilot] 5dr Auto",
-   "last_seen_at": "2026-10-11T02:46:29+00:00",
+   "last_seen_at": "2026-10-12T02:51:04+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "polestar|4|200kw 100kwh lr single motor [pilot] 5dr auto",
@@ -6951,7 +7969,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
    "first_seen_at": "2026-10-10T17:41:21+00:00",
    "label": "Polestar 4 200kW 100kWh LR Single Motor [Pro] 5dr Auto",
-   "last_seen_at": "2026-10-11T02:46:29+00:00",
+   "last_seen_at": "2026-10-12T02:51:04+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "polestar|4|200kw 100kwh lr single motor [pro] 5dr auto",
@@ -7583,7 +8601,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-10T17:41:54+00:00",
    "label": "SKODA Elroq 210kW 85 Edition 82 kWh 5dr Auto [Advanced]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 edition 82kwh 5dr auto [advanced]",
@@ -7632,7 +8650,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-10T17:41:54+00:00",
    "label": "SKODA Elroq 210kW 85 Edition 82 kWh 5dr Auto [Lodge/Advanced]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 edition 82kwh 5dr auto [lodge/advanced]",
@@ -7681,7 +8699,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-10T17:41:54+00:00",
    "label": "SKODA Elroq 210kW 85 Edition 82kWh 5dr Auto [Lodge/Maxx]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 edition 82kwh 5dr auto [lodge/maxx]",
@@ -7730,7 +8748,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-10T17:41:54+00:00",
    "label": "SKODA Elroq 210kW 85 Edition 82kWh 5dr Auto [Lodge/Plus]]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 edition 82kwh 5dr auto [lodge/plus]]",
@@ -7779,7 +8797,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-10T17:41:54+00:00",
    "label": "SKODA Elroq 210kW 85 Edition 82kWh 5dr Auto [Lodge]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 edition 82kwh 5dr auto [lodge]",
@@ -7828,7 +8846,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-10T17:41:54+00:00",
    "label": "SKODA Elroq 210kW 85 Edition 82kWh 5dr Auto [Maxx]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 edition 82kwh 5dr auto [maxx]",
@@ -7877,7 +8895,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-10T17:41:54+00:00",
    "label": "SKODA Elroq 210kW 85 Edition 82kWh 5dr Auto [Plus]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 edition 82kwh 5dr auto [plus]",
@@ -7926,7 +8944,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-10T17:41:54+00:00",
    "label": "SKODA Elroq 210kW 85 Edition 82kWh 5dr Auto [Suite/Plus]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 edition 82kwh 5dr auto [suite/plus]",
@@ -7975,7 +8993,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-10T17:41:54+00:00",
    "label": "SKODA Elroq 210kW 85 Edition 82kWh 5dr Auto [Suite]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 edition 82kwh 5dr auto [suite]",
@@ -8024,7 +9042,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-10T17:41:54+00:00",
    "label": "SKODA Elroq 210kW 85 Edition 84 kWh 5dr Auto [Advanced]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 edition 84kwh 5dr auto [advanced]",
@@ -8073,7 +9091,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-10T17:41:54+00:00",
    "label": "SKODA Elroq 210kW 85 Edition 84kWh 5dr Auto [Lodge/Maxx]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 edition 84kwh 5dr auto [lodge/maxx]",
@@ -8122,7 +9140,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "SKODA Elroq 210kW 85 Edition 84kWh 5dr Auto [Lodge/Plus]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 edition 84kwh 5dr auto [lodge/plus]",
@@ -8171,7 +9189,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "SKODA Elroq 210kW 85 Edition 84kWh 5dr Auto [Lodge]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 edition 84kwh 5dr auto [lodge]",
@@ -8220,7 +9238,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-10T17:41:54+00:00",
    "label": "SKODA Elroq 210kW 85 Edition 84kWh 5dr Auto [Maxx]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 edition 84kwh 5dr auto [maxx]",
@@ -8269,7 +9287,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "SKODA Elroq 210kW 85 Edition 84kWh 5dr Auto [Plus]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 edition 84kwh 5dr auto [plus]",
@@ -8318,7 +9336,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "SKODA Elroq 210kW 85 Edition 84kWh 5dr Auto [Suite]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 edition 84kwh 5dr auto [suite]",
@@ -8349,7 +9367,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-10T17:41:54+00:00",
    "label": "SKODA Elroq 210kW 85 SportLine 82kWh 5dr Auto [Advanced]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 sportline 82kwh 5dr auto [advanced]",
@@ -8380,7 +9398,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-10T17:41:54+00:00",
    "label": "SKODA Elroq 210kW 85 SportLine 82kWh 5dr Auto [Maxx]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 sportline 82kwh 5dr auto [maxx]",
@@ -8411,7 +9429,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-10T17:41:54+00:00",
    "label": "SKODA Elroq 210kW 85 SportLine 84kWh 5dr Auto [Advanced]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 sportline 84kwh 5dr auto [advanced]",
@@ -8442,7 +9460,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
    "first_seen_at": "2026-10-10T17:41:54+00:00",
    "label": "SKODA Elroq 210kW 85 SportLine 84kWh 5dr Auto [Maxx]",
-   "last_seen_at": "2026-10-11T02:47:00+00:00",
+   "last_seen_at": "2026-10-12T02:51:18+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|elroq|210kw 85 sportline 84kwh 5dr auto [maxx]",
@@ -8475,7 +9493,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/enyaq",
    "first_seen_at": "2026-10-10T17:41:57+00:00",
    "label": "SKODA Enyaq Coupe 210kW 85x Sportline 82kWh 4x4 5dr Auto [Maxx]",
-   "last_seen_at": "2026-10-11T02:47:03+00:00",
+   "last_seen_at": "2026-10-12T02:51:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|enyaq coupe|210kw 85x sportline 82kwh 4x4 5dr auto [maxx]",
@@ -8508,7 +9526,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/enyaq",
    "first_seen_at": "2026-10-10T17:41:57+00:00",
    "label": "SKODA Enyaq Coupe 220kW 85x Sportline 82kWh 4x4 5dr Auto [Maxx]",
-   "last_seen_at": "2026-10-11T02:47:03+00:00",
+   "last_seen_at": "2026-10-12T02:51:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|enyaq coupe|220kw 85x sportline 82kwh 4x4 5dr auto [maxx]",
@@ -8892,7 +9910,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/enyaq",
    "first_seen_at": "2026-10-10T17:41:57+00:00",
    "label": "SKODA Enyaq 210kW 85 SE L 82kWh 5dr Auto [Lodge]",
-   "last_seen_at": "2026-10-11T02:47:03+00:00",
+   "last_seen_at": "2026-10-12T02:51:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|enyaq|210kw 85 se l 82kwh 5dr auto [lodge]",
@@ -8933,7 +9951,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/enyaq",
    "first_seen_at": "2026-10-10T17:41:57+00:00",
    "label": "SKODA Enyaq 210kW 85 SE L 82kWh 5dr Auto [Lounge]",
-   "last_seen_at": "2026-10-11T02:47:03+00:00",
+   "last_seen_at": "2026-10-12T02:51:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|enyaq|210kw 85 se l 82kwh 5dr auto [lounge]",
@@ -8974,7 +9992,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/enyaq",
    "first_seen_at": "2026-10-10T17:41:57+00:00",
    "label": "SKODA Enyaq 210kW 85 SE L 82kWh 5dr Auto [Plus/Lodge]",
-   "last_seen_at": "2026-10-11T02:47:03+00:00",
+   "last_seen_at": "2026-10-12T02:51:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|enyaq|210kw 85 se l 82kwh 5dr auto [plus/lodge]",
@@ -9015,7 +10033,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/enyaq",
    "first_seen_at": "2026-10-10T17:41:57+00:00",
    "label": "SKODA Enyaq 210kW 85 SE L 82kWh 5dr Auto [Plus/Lounge]",
-   "last_seen_at": "2026-10-11T02:47:03+00:00",
+   "last_seen_at": "2026-10-12T02:51:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|enyaq|210kw 85 se l 82kwh 5dr auto [plus/lounge]",
@@ -9056,7 +10074,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/enyaq",
    "first_seen_at": "2026-10-10T17:41:57+00:00",
    "label": "SKODA Enyaq 210kW 85 SE L 82kWh 5dr Auto [Plus]",
-   "last_seen_at": "2026-10-11T02:47:03+00:00",
+   "last_seen_at": "2026-10-12T02:51:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|enyaq|210kw 85 se l 82kwh 5dr auto [plus]",
@@ -9097,7 +10115,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/enyaq",
    "first_seen_at": "2026-10-10T17:41:57+00:00",
    "label": "SKODA Enyaq 210kW 85 SE L 82kWh 5dr Auto [Suite]",
-   "last_seen_at": "2026-10-11T02:47:03+00:00",
+   "last_seen_at": "2026-10-12T02:51:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|enyaq|210kw 85 se l 82kwh 5dr auto [suite]",
@@ -9138,7 +10156,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/enyaq",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "SKODA Enyaq 210kW 85 SE L 84kWh 5dr Auto [Lodge]",
-   "last_seen_at": "2026-10-11T02:47:03+00:00",
+   "last_seen_at": "2026-10-12T02:51:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|enyaq|210kw 85 se l 84kwh 5dr auto [lodge]",
@@ -9179,7 +10197,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/enyaq",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "SKODA Enyaq 210kW 85 SE L 84kWh 5dr Auto [Lounge]",
-   "last_seen_at": "2026-10-11T02:47:03+00:00",
+   "last_seen_at": "2026-10-12T02:51:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|enyaq|210kw 85 se l 84kwh 5dr auto [lounge]",
@@ -9220,7 +10238,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/enyaq",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "SKODA Enyaq 210kW 85 SE L 84kWh 5dr Auto [Plus/Lodge]",
-   "last_seen_at": "2026-10-11T02:47:03+00:00",
+   "last_seen_at": "2026-10-12T02:51:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|enyaq|210kw 85 se l 84kwh 5dr auto [plus/lodge]",
@@ -9261,7 +10279,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/enyaq",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "SKODA Enyaq 210kW 85 SE L 84kWh 5dr Auto [Plus/Lounge]",
-   "last_seen_at": "2026-10-11T02:47:03+00:00",
+   "last_seen_at": "2026-10-12T02:51:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|enyaq|210kw 85 se l 84kwh 5dr auto [plus/lounge]",
@@ -9343,7 +10361,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/enyaq",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "SKODA Enyaq 210kW 85 SE L 84kWh 5dr Auto [Plus]",
-   "last_seen_at": "2026-10-11T02:47:03+00:00",
+   "last_seen_at": "2026-10-12T02:51:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|enyaq|210kw 85 se l 84kwh 5dr auto [plus]",
@@ -9384,7 +10402,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/skoda/enyaq",
    "first_seen_at": "2026-10-10T17:41:57+00:00",
    "label": "SKODA Enyaq 210kW 85 SE L 84kWh 5dr Auto [Suite]",
-   "last_seen_at": "2026-10-11T02:47:03+00:00",
+   "last_seen_at": "2026-10-12T02:51:21+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "skoda|enyaq|210kw 85 se l 84kwh 5dr auto [suite]",
@@ -9425,7 +10443,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7-tourer",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "Volkswagen ID.7 Tourer 210kW Match Pro Plus 77kWh 5dr Auto [Ext+ Pan]",
-   "last_seen_at": "2026-10-11T02:48:47+00:00",
+   "last_seen_at": "2026-10-12T02:52:04+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "volkswagen|id.7 tourer|210kw match pro plus 77kwh 5dr auto [ext+ pan]",
@@ -9466,7 +10484,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7-tourer",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "Volkswagen ID.7 Tourer 210kW Match Pro Plus 77kWh 5dr Auto [Int+ Pack]",
-   "last_seen_at": "2026-10-11T02:48:47+00:00",
+   "last_seen_at": "2026-10-12T02:52:04+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "volkswagen|id.7 tourer|210kw match pro plus 77kwh 5dr auto [int+ pack]",
@@ -9507,7 +10525,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7-tourer",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "Volkswagen ID.7 Tourer 210kW Match Pro Plus 77kWh 5dr Auto [Int+Ext+ Pan]",
-   "last_seen_at": "2026-10-11T02:48:47+00:00",
+   "last_seen_at": "2026-10-12T02:52:04+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "volkswagen|id.7 tourer|210kw match pro plus 77kwh 5dr auto [int+ext+ pan]",
@@ -9548,7 +10566,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7-tourer",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "Volkswagen ID.7 Tourer 210kW Match Pro S Plus 86kWh 5dr Auto [Int+ Pack]",
-   "last_seen_at": "2026-10-11T02:48:47+00:00",
+   "last_seen_at": "2026-10-12T02:52:04+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "volkswagen|id.7 tourer|210kw match pro s plus 86kwh 5dr auto [int+ pack]",
@@ -9581,7 +10599,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7-tourer",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "Volkswagen ID.7 Tourer 250kW 4MOTION GTX Plus 86kWh 5dr Auto [Ext+ Pan]",
-   "last_seen_at": "2026-10-11T02:48:47+00:00",
+   "last_seen_at": "2026-10-12T02:52:04+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "volkswagen|id.7 tourer|250kw 4motion gtx plus 86kwh 5dr auto [ext+ pan]",
@@ -9622,7 +10640,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "Volkswagen ID.7 210kW Match Pro Plus 77kWh 5dr Auto [Ext+ Pan]",
-   "last_seen_at": "2026-10-11T02:48:44+00:00",
+   "last_seen_at": "2026-10-12T02:52:01+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "volkswagen|id.7|210kw match pro plus 77kwh 5dr auto [ext+ pan]",
@@ -9663,7 +10681,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "Volkswagen ID.7 210kW Match Pro Plus 77kWh 5dr Auto [Int+ Pack]",
-   "last_seen_at": "2026-10-11T02:48:44+00:00",
+   "last_seen_at": "2026-10-12T02:52:01+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "volkswagen|id.7|210kw match pro plus 77kwh 5dr auto [int+ pack]",
@@ -9704,7 +10722,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "Volkswagen ID.7 210kW Match Pro Plus 77kWh 5dr Auto [Int+Ext+ Pan]",
-   "last_seen_at": "2026-10-11T02:48:44+00:00",
+   "last_seen_at": "2026-10-12T02:52:01+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "volkswagen|id.7|210kw match pro plus 77kwh 5dr auto [int+ext+ pan]",
@@ -9745,7 +10763,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "Volkswagen ID.7 210kW Match Pro S Plus 86kWh 5dr Auto [Int+ Pack]",
-   "last_seen_at": "2026-10-11T02:48:44+00:00",
+   "last_seen_at": "2026-10-12T02:52:01+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "volkswagen|id.7|210kw match pro s plus 86kwh 5dr auto [int+ pack]",
@@ -9778,7 +10796,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "Volkswagen ID.7 250kW 4MOTION GTX Plus 86kWh 5dr Auto [Ext+ Pan]",
-   "last_seen_at": "2026-10-11T02:48:44+00:00",
+   "last_seen_at": "2026-10-12T02:52:01+00:00",
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "volkswagen|id.7|250kw 4motion gtx plus 86kwh 5dr auto [ext+ pan]",
@@ -9832,10 +10850,60 @@
    "example_url": "https://www.new-car-discount.com/car/hyundai/ioniq-5/hatchback/all/all",
    "first_seen_at": "2025-02-15T01:03:50+00:00",
    "label": "IONIQ 5 ELECTRIC HATCHBACK 239kW Ultimate 84 kWh 5dr AWD Auto [Tech Pack]",
-   "last_seen_at": "2026-10-11T02:39:55+00:00",
+   "last_seen_at": "2026-10-12T02:43:17+00:00",
    "method": "conflict",
    "source": "ncd",
    "source_key": "hyundai|ioniq 5 electric hatchback|239kw ultimate 84kwh 5dr awd auto [tech pack]",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [],
+    "list_prices": [
+     45635.0
+    ],
+    "prices": [
+     45635.0
+    ],
+    "reason": "the record's price fits no derivative its text names",
+    "rrp": 52835.0,
+    "score": 3,
+    "twins": [
+     "carwow-cap:106637"
+    ]
+   },
+   "example_url": "https://www.rrg-group.com/kia/new-car-offers/",
+   "first_seen_at": "2026-10-12T02:52:24+00:00",
+   "label": "Kia EV6 'Air' 84.0kWh lithium-ion RWD EV Automatic",
+   "last_seen_at": "2026-10-12T02:52:24+00:00",
+   "method": "conflict",
+   "source": "rrg",
+   "source_key": "kia|ev6 'air' 84.0kwh lithium-ion rwd ev automatic",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [],
+    "list_prices": [
+     66645.0
+    ],
+    "prices": [
+     66645.0
+    ],
+    "reason": "the record's price fits no derivative its text names",
+    "rrp": 78395.0,
+    "score": 3,
+    "twins": [
+     "carwow-cap:103690"
+    ]
+   },
+   "example_url": "https://www.rrg-group.com/kia/new-car-offers/",
+   "first_seen_at": "2026-10-12T02:52:24+00:00",
+   "label": "Kia EV9 'Air' 99.8kWh lithium-ion AWD EV Automatic 7-seat",
+   "last_seen_at": "2026-10-12T02:52:24+00:00",
+   "method": "conflict",
+   "source": "rrg",
+   "source_key": "kia|ev9 'air' 99.8kwh lithium-ion awd ev automatic 7-seat",
    "status": "conflict"
   },
   {
@@ -9845,7 +10913,7 @@
    "example_url": "https://search-api.snc-prod.aws.cinch.co.uk/new-cars?url=electric-fuel-type&channelId=CINCH",
    "first_seen_at": "2026-10-11T11:42:30+00:00",
    "label": "BYD Atto 3 150kW Comfort 60kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T11:42:30+00:00",
+   "last_seen_at": "2026-10-12T02:52:52+00:00",
    "method": "none",
    "source": "cinch-new",
    "source_key": "byd|atto 3|150kw comfort 60kwh 5dr auto",
@@ -9862,7 +10930,7 @@
    "example_url": "https://www.halliwelljones.co.uk/kia/offers",
    "first_seen_at": "2026-10-11T11:53:14+00:00",
    "label": "Kia EV3 Air",
-   "last_seen_at": "2026-10-11T11:53:14+00:00",
+   "last_seen_at": "2026-10-12T02:53:16+00:00",
    "method": "none",
    "source": "kia-dealer",
    "source_key": "hj|kia ev3 air",
@@ -9879,7 +10947,7 @@
    "example_url": "https://www.halliwelljones.co.uk/kia/offers",
    "first_seen_at": "2026-10-11T11:53:14+00:00",
    "label": "Kia EV5 GT-Line Auto EV Automatic",
-   "last_seen_at": "2026-10-11T11:53:14+00:00",
+   "last_seen_at": "2026-10-12T02:53:16+00:00",
    "method": "none",
    "source": "kia-dealer",
    "source_key": "hj|kia ev5 gt-line auto ev automatic",
@@ -9892,7 +10960,7 @@
    "example_url": "https://www.halliwelljones.co.uk/kia/offers",
    "first_seen_at": "2026-10-11T11:53:14+00:00",
    "label": "Kia EV6 GT-Line",
-   "last_seen_at": "2026-10-11T11:53:14+00:00",
+   "last_seen_at": "2026-10-12T02:53:16+00:00",
    "method": "none",
    "source": "kia-dealer",
    "source_key": "hj|kia ev6 gt-line",
@@ -9905,7 +10973,7 @@
    "example_url": "https://www.lloydmotorgroup.com/Kia/Current-Offers",
    "first_seen_at": "2026-10-11T11:52:25+00:00",
    "label": "Kia EV6 GT-Line S 168kW 84kWh 5 Door Auto including Metallic Paint",
-   "last_seen_at": "2026-10-11T11:52:25+00:00",
+   "last_seen_at": "2026-10-12T02:52:52+00:00",
    "method": "none",
    "source": "kia-dealer",
    "source_key": "lloyd|kia ev6 gt-line s 168kw 84kwh 5 door auto including metallic paint",
@@ -9923,7 +10991,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/e-tron-gt",
    "first_seen_at": "2026-10-06T23:39:25+00:00",
    "label": "Audi e-tron GT 370kW 105kWh Quattro Vorsprung 4dr Auto",
-   "last_seen_at": "2026-10-11T02:40:38+00:00",
+   "last_seen_at": "2026-10-12T02:48:26+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "audi|e-tron gt|370kw 105kwh quattro vorsprung 4dr auto",
@@ -9936,7 +11004,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q6-e-tron",
    "first_seen_at": "2026-10-10T17:35:46+00:00",
    "label": "Audi Q6 e-tron 360kW SQ6 Quattro 100kWh Black Ed 5dr Auto [Tech]",
-   "last_seen_at": "2026-10-11T02:40:48+00:00",
+   "last_seen_at": "2026-10-12T02:48:34+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "audi|q6 e-tron|360kw sq6 quattro 100kwh black ed 5dr auto [tech]",
@@ -9949,7 +11017,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q6-e-tron",
    "first_seen_at": "2026-10-10T17:35:46+00:00",
    "label": "Audi Q6 e-tron 360kW SQ6 Quattro 100kWh Black Edition 5dr Auto",
-   "last_seen_at": "2026-10-11T02:40:48+00:00",
+   "last_seen_at": "2026-10-12T02:48:34+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "audi|q6 e-tron|360kw sq6 quattro 100kwh black edition 5dr auto",
@@ -9962,7 +11030,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q6-e-tron",
    "first_seen_at": "2026-10-10T17:35:46+00:00",
    "label": "Audi Q6 e-tron 360kW SQ6 Quattro 100kWh Vorsprung 5dr Auto",
-   "last_seen_at": "2026-10-11T02:40:48+00:00",
+   "last_seen_at": "2026-10-12T02:48:34+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "audi|q6 e-tron|360kw sq6 quattro 100kwh vorsprung 5dr auto",
@@ -9975,7 +11043,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/cupra/born",
    "first_seen_at": "2026-10-10T17:37:07+00:00",
    "label": "CUPRA Born 169kW e-Boost V2 Edition 58kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:42:10+00:00",
+   "last_seen_at": "2026-10-12T02:49:22+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "cupra|born|169kw e-boost v2 edition 58kwh 5dr auto",
@@ -9988,7 +11056,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/cupra/born",
    "first_seen_at": "2026-10-10T17:37:07+00:00",
    "label": "CUPRA Born 169kW e-Boost V3 Edition 58kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:42:10+00:00",
+   "last_seen_at": "2026-10-12T02:49:22+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "cupra|born|169kw e-boost v3 edition 58kwh 5dr auto",
@@ -10001,7 +11069,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/cupra/born",
    "first_seen_at": "2026-10-10T17:37:07+00:00",
    "label": "CUPRA Born 170kW e-Boost Exclusive Edition 59kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:42:10+00:00",
+   "last_seen_at": "2026-10-12T02:49:22+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "cupra|born|170kw e-boost exclusive edition 59kwh 5dr auto",
@@ -10014,7 +11082,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
    "first_seen_at": "2026-10-10T17:37:12+00:00",
    "label": "CUPRA Tavascan 140kW Origin 58kWh 5dr Auto [IDP+Winter Pack]",
-   "last_seen_at": "2026-10-11T02:42:15+00:00",
+   "last_seen_at": "2026-10-12T02:49:25+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "cupra|tavascan|140kw origin 58kwh 5dr auto [idp+winter pack]",
@@ -10027,7 +11095,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
    "first_seen_at": "2026-10-10T17:37:12+00:00",
    "label": "CUPRA Tavascan 140kW Origin 58kWh 5dr Auto [IDP]",
-   "last_seen_at": "2026-10-11T02:42:15+00:00",
+   "last_seen_at": "2026-10-12T02:49:25+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "cupra|tavascan|140kw origin 58kwh 5dr auto [idp]",
@@ -10040,7 +11108,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/mustang-mach-e",
    "first_seen_at": "2026-10-10T17:37:44+00:00",
    "label": "Ford Mustang Mach-E 198kW Select 72kWh RWD 5dr Auto",
-   "last_seen_at": "2026-10-11T02:42:48+00:00",
+   "last_seen_at": "2026-10-12T02:49:38+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "ford|mustang mach-e|198kw select 72kwh rwd 5dr auto",
@@ -10053,7 +11121,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/mustang-mach-e",
    "first_seen_at": "2026-10-10T17:37:44+00:00",
    "label": "Ford Mustang Mach-E 198kW Select 72kWh RWD 5dr Auto [Tech+]",
-   "last_seen_at": "2026-10-11T02:42:48+00:00",
+   "last_seen_at": "2026-10-12T02:49:38+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "ford|mustang mach-e|198kw select 72kwh rwd 5dr auto [tech+]",
@@ -10066,7 +11134,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/mustang-mach-e",
    "first_seen_at": "2026-10-10T17:37:44+00:00",
    "label": "Ford Mustang Mach-E 258kW Premium 91kWh AWD 5dr Auto",
-   "last_seen_at": "2026-10-11T02:42:48+00:00",
+   "last_seen_at": "2026-10-12T02:49:38+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "ford|mustang mach-e|258kw premium 91kwh awd 5dr auto",
@@ -10079,7 +11147,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/ford/focus",
    "first_seen_at": "2026-10-10T17:37:42+00:00",
    "label": "Ford Tourneo Courier 100kW Titanium 46kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:42:45+00:00",
+   "last_seen_at": "2026-10-12T02:49:36+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "ford|tourneo courier|100kw titanium 46kwh 5dr auto",
@@ -10092,7 +11160,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/hyundai/ioniq-6",
    "first_seen_at": "2026-10-10T17:38:15+00:00",
    "label": "Hyundai IONIQ 6 168kW N-Line 84kWh 4dr Auto",
-   "last_seen_at": "2026-10-11T02:43:22+00:00",
+   "last_seen_at": "2026-10-12T02:49:58+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "hyundai|ioniq 6|168kw n-line 84kwh 4dr auto",
@@ -10105,7 +11173,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/hyundai/ioniq-6",
    "first_seen_at": "2026-10-10T17:38:15+00:00",
    "label": "Hyundai IONIQ 6 168kW N-Line Evo 84kWh 4dr Auto",
-   "last_seen_at": "2026-10-11T02:43:22+00:00",
+   "last_seen_at": "2026-10-12T02:49:58+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "hyundai|ioniq 6|168kw n-line evo 84kwh 4dr auto",
@@ -10118,7 +11186,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/hyundai/ioniq-6",
    "first_seen_at": "2026-10-10T17:38:15+00:00",
    "label": "Hyundai IONIQ 6 168kW Premium 84kWh 4dr Auto",
-   "last_seen_at": "2026-10-11T02:43:22+00:00",
+   "last_seen_at": "2026-10-12T02:49:58+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "hyundai|ioniq 6|168kw premium 84kwh 4dr auto",
@@ -10131,7 +11199,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/hyundai/ioniq-6",
    "first_seen_at": "2026-10-10T17:38:15+00:00",
    "label": "Hyundai IONIQ 6 239kW N-Line 84kWh 4dr AWD Auto",
-   "last_seen_at": "2026-10-11T02:43:22+00:00",
+   "last_seen_at": "2026-10-12T02:49:58+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "hyundai|ioniq 6|239kw n-line 84kwh 4dr awd auto",
@@ -10144,7 +11212,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/hyundai/ioniq-6",
    "first_seen_at": "2026-10-10T17:38:15+00:00",
    "label": "Hyundai IONIQ 6 239kW N-Line Evo 84kWh 4dr AWD Auto",
-   "last_seen_at": "2026-10-11T02:43:22+00:00",
+   "last_seen_at": "2026-10-12T02:49:58+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "hyundai|ioniq 6|239kw n-line evo 84kwh 4dr awd auto",
@@ -10157,7 +11225,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/hyundai/ioniq-9",
    "first_seen_at": "2026-10-10T17:38:20+00:00",
    "label": "Hyundai IONIQ 9 160kW Ultimate 110kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:43:27+00:00",
+   "last_seen_at": "2026-10-12T02:50:01+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "hyundai|ioniq 9|160kw ultimate 110kwh 5dr auto",
@@ -10170,7 +11238,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/kia/ev4",
    "first_seen_at": "2026-10-10T17:38:39+00:00",
    "label": "KIA EV4 Fastback 215kW GT 81kWh 4dr Auto AWD",
-   "last_seen_at": "2026-10-11T02:43:45+00:00",
+   "last_seen_at": "2026-10-12T02:50:06+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "kia|ev4 fastback|215kw gt 81kwh 4dr auto awd",
@@ -10183,7 +11251,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/kia/ev4",
    "first_seen_at": "2026-10-10T17:38:39+00:00",
    "label": "KIA EV4 215kW GT 81kWh AWD 5dr Auto",
-   "last_seen_at": "2026-10-11T02:43:45+00:00",
+   "last_seen_at": "2026-10-12T02:50:06+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "kia|ev4|215kw gt 81kwh awd 5dr auto",
@@ -10196,10 +11264,36 @@
    "example_url": "https://www.leaseloco.com/car-leasing/kia/ev5",
    "first_seen_at": "2026-10-10T17:38:43+00:00",
    "label": "KIA EV5 225kW GT 81.4kWh 5dr Auto AWD",
-   "last_seen_at": "2026-10-11T02:43:50+00:00",
+   "last_seen_at": "2026-10-12T02:50:09+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "kia|ev5|225kw gt 81.4kwh 5dr auto awd",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 9
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/lotus/emeya",
+   "first_seen_at": "2026-10-12T02:50:27+00:00",
+   "label": "Lotus Emeya 675kW R 102kWh 4dr Auto",
+   "last_seen_at": "2026-10-12T02:50:27+00:00",
+   "method": "none",
+   "source": "leaseloco",
+   "source_key": "lotus|emeya|675kw r 102kwh 4dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 9
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/lotus/emeya",
+   "first_seen_at": "2026-10-12T02:50:27+00:00",
+   "label": "Lotus Emeya 675kW R 102kWh 4dr Auto [4 Seat]",
+   "last_seen_at": "2026-10-12T02:50:27+00:00",
+   "method": "none",
+   "source": "leaseloco",
+   "source_key": "lotus|emeya|675kw r 102kwh 4dr auto [4 seat]",
    "status": "unmapped"
   },
   {
@@ -10214,7 +11308,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "MINI Aceman 135kW E Classic 43kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "last_seen_at": "2026-10-12T02:50:32+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "mini|aceman|135kw e classic 43kwh 5dr auto",
@@ -10232,7 +11326,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "MINI Aceman 135kW E Classic [Level 1] 43kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "last_seen_at": "2026-10-12T02:50:32+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "mini|aceman|135kw e classic [level 1] 43kwh 5dr auto",
@@ -10250,7 +11344,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "MINI Aceman 135kW E Classic [Level 2] 43kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "last_seen_at": "2026-10-12T02:50:32+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "mini|aceman|135kw e classic [level 2] 43kwh 5dr auto",
@@ -10268,7 +11362,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "MINI Aceman 160kW SE Exclusive 54kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "last_seen_at": "2026-10-12T02:50:32+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "mini|aceman|160kw se exclusive 54kwh 5dr auto",
@@ -10286,7 +11380,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "MINI Aceman 160kW SE Exclusive [Level 2] 54kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "last_seen_at": "2026-10-12T02:50:32+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "mini|aceman|160kw se exclusive [level 2] 54kwh 5dr auto",
@@ -10304,7 +11398,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
    "first_seen_at": "2026-10-06T23:39:27+00:00",
    "label": "MINI Aceman 160kW SE Exclusive [Level 3] 54kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:45:31+00:00",
+   "last_seen_at": "2026-10-12T02:50:32+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "mini|aceman|160kw se exclusive [level 3] 54kwh 5dr auto",
@@ -10317,7 +11411,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/nissan/ariya",
    "first_seen_at": "2026-10-10T17:40:37+00:00",
    "label": "Nissan ARIYA 320kW Nismo 87kWh 22kWCh 5dr e-4ORCE Auto",
-   "last_seen_at": "2026-10-11T02:45:44+00:00",
+   "last_seen_at": "2026-10-12T02:50:35+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "nissan|ariya|320kw nismo 87kwh 22kwch 5dr e-4orce auto",
@@ -10330,7 +11424,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/polestar/3",
    "first_seen_at": "2026-10-10T17:41:18+00:00",
    "label": "Polestar 3 245kW 92kWh Rear Motor Plus 5dr Auto",
-   "last_seen_at": "2026-10-11T02:46:26+00:00",
+   "last_seen_at": "2026-10-12T02:51:02+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "polestar|3|245kw 92kwh rear motor plus 5dr auto",
@@ -10343,7 +11437,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/polestar/3",
    "first_seen_at": "2026-10-10T17:41:18+00:00",
    "label": "Polestar 3 400kW 106kWh Dual Motor Plus 5dr Auto",
-   "last_seen_at": "2026-10-11T02:46:26+00:00",
+   "last_seen_at": "2026-10-12T02:51:02+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "polestar|3|400kw 106kwh dual motor plus 5dr auto",
@@ -10356,7 +11450,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
    "first_seen_at": "2026-10-10T17:41:21+00:00",
    "label": "Polestar 4 200kW 100kWh LR SM [Pilot/Pro] 5dr Auto",
-   "last_seen_at": "2026-10-11T02:46:29+00:00",
+   "last_seen_at": "2026-10-12T02:51:04+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "polestar|4|200kw 100kwh lr sm [pilot/pro] 5dr auto",
@@ -10369,7 +11463,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
    "first_seen_at": "2026-10-10T17:41:21+00:00",
    "label": "Polestar 4 200kW 100kWh LR SM Plus [Pilot/Pro] 5dr Auto",
-   "last_seen_at": "2026-10-11T02:46:29+00:00",
+   "last_seen_at": "2026-10-12T02:51:04+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "polestar|4|200kw 100kwh lr sm plus [pilot/pro] 5dr auto",
@@ -10382,7 +11476,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
    "first_seen_at": "2026-10-10T17:41:21+00:00",
    "label": "Polestar 4 400kW 100kWh LR DM Plus [Performance] 5dr Auto",
-   "last_seen_at": "2026-10-11T02:46:29+00:00",
+   "last_seen_at": "2026-10-12T02:51:04+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "polestar|4|400kw 100kwh lr dm plus [performance] 5dr auto",
@@ -10395,7 +11489,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
    "first_seen_at": "2026-10-10T17:41:21+00:00",
    "label": "Polestar 4 400kW 100kWh LR DM Plus [Pilot/Perform] 5dr Auto",
-   "last_seen_at": "2026-10-11T02:46:29+00:00",
+   "last_seen_at": "2026-10-12T02:51:04+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "polestar|4|400kw 100kwh lr dm plus [pilot/perform] 5dr auto",
@@ -10408,7 +11502,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
    "first_seen_at": "2026-10-10T17:41:21+00:00",
    "label": "Polestar 4 400kW 100kWh LR DM Plus [Pilot/Pro] 5dr Auto",
-   "last_seen_at": "2026-10-11T02:46:29+00:00",
+   "last_seen_at": "2026-10-12T02:51:04+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "polestar|4|400kw 100kwh lr dm plus [pilot/pro] 5dr auto",
@@ -10421,7 +11515,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Cross Turismo 440kW 4S 105kWh 5dr Auto [5 Seat] [Revised]",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan cross turismo|440kw 4s 105kwh 5dr auto [5 seat] [revised]",
@@ -10434,7 +11528,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Cross Turismo 440kW 4S 105kWh 5dr Auto [Revised]",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan cross turismo|440kw 4s 105kwh 5dr auto [revised]",
@@ -10447,7 +11541,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Cross Turismo 440kW 4S 105kWh 5dr E-Shift [5 Seat] [Revised]",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan cross turismo|440kw 4s 105kwh 5dr e-shift [5 seat] [revised]",
@@ -10460,7 +11554,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Cross Turismo 440kW 4S 105kWh 5dr E-Shift [Revised]",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan cross turismo|440kw 4s 105kwh 5dr e-shift [revised]",
@@ -10473,7 +11567,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 320kW 105kWh 5dr RWD E-Shift [5 Seat] [Revised]",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|320kw 105kwh 5dr rwd e-shift [5 seat] [revised]",
@@ -10486,7 +11580,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 320kW 105kWh 5dr RWD E-Shift [Revised]",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|320kw 105kwh 5dr rwd e-shift [revised]",
@@ -10499,7 +11593,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 320kW 105kWh Black Edition 5dr RWD Auto",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|320kw 105kwh black edition 5dr rwd auto",
@@ -10512,7 +11606,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 320kW 105kWh Black Edition 5dr RWD Auto [5 Seat]",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|320kw 105kwh black edition 5dr rwd auto [5 seat]",
@@ -10525,7 +11619,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 320kW 105kWh Black Edition 5dr RWD E-Shift",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|320kw 105kwh black edition 5dr rwd e-shift",
@@ -10538,7 +11632,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 320kW 105kWh Black Edition 5dr RWD E-Shift [5Seat]",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|320kw 105kwh black edition 5dr rwd e-shift [5seat]",
@@ -10551,7 +11645,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 440kW 105kWh 4S Black Edition 5dr Auto",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|440kw 105kwh 4s black edition 5dr auto",
@@ -10564,7 +11658,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 440kW 105kWh 4S Black Edition 5dr Auto [5 Seat]",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|440kw 105kwh 4s black edition 5dr auto [5 seat]",
@@ -10577,7 +11671,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 440kW 105kWh 4S Black Edition 5dr E-Shift",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|440kw 105kwh 4s black edition 5dr e-shift",
@@ -10590,7 +11684,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 440kW 105kWh 4S Black Edition 5dr E-Shift [5 Seat]",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|440kw 105kwh 4s black edition 5dr e-shift [5 seat]",
@@ -10603,7 +11697,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 440kW 4S 105kWh 5dr Auto [5 Seat] [Revised]",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|440kw 4s 105kwh 5dr auto [5 seat] [revised]",
@@ -10616,7 +11710,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 440kW 4S 105kWh 5dr Auto [Revised]",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|440kw 4s 105kwh 5dr auto [revised]",
@@ -10629,7 +11723,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 440kW 4S 105kWh 5dr E-Shift [5 Seat] [Revised]",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|440kw 4s 105kwh 5dr e-shift [5 seat] [revised]",
@@ -10642,7 +11736,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 440kW 4S 105kWh 5dr E-Shift [Revised]",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|440kw 4s 105kwh 5dr e-shift [revised]",
@@ -10655,7 +11749,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 515kW GTS 105kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|515kw gts 105kwh 5dr auto",
@@ -10668,7 +11762,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 515kW GTS 105kWh 5dr Auto [5 Seat]",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|515kw gts 105kwh 5dr auto [5 seat]",
@@ -10681,7 +11775,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 515kW GTS 105kWh 5dr E-Shift",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|515kw gts 105kwh 5dr e-shift",
@@ -10694,7 +11788,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan Sport Turismo 515kW GTS 105kWh 5dr E-Shift [5 Seat]",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan sport turismo|515kw gts 105kwh 5dr e-shift [5 seat]",
@@ -10707,7 +11801,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan 320kW 105kWh Black Edition 4dr RWD E-Shift",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan|320kw 105kwh black edition 4dr rwd e-shift",
@@ -10720,7 +11814,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/porsche/taycan",
    "first_seen_at": "2026-10-10T17:41:32+00:00",
    "label": "Porsche Taycan 320kW 105kWh Black Edition 4dr RWD E-Shift [5Seat]",
-   "last_seen_at": "2026-10-11T02:46:40+00:00",
+   "last_seen_at": "2026-10-12T02:51:10+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "porsche|taycan|320kw 105kwh black edition 4dr rwd e-shift [5seat]",
@@ -10733,7 +11827,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/subaru/solterra",
    "first_seen_at": "2026-10-10T17:42:31+00:00",
    "label": "Subaru Solterra 150kW Limited 71.4kWh 5dr Auto AWD",
-   "last_seen_at": "2026-10-11T02:47:36+00:00",
+   "last_seen_at": "2026-10-12T02:51:33+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "subaru|solterra|150kw limited 71.4kwh 5dr auto awd",
@@ -10746,7 +11840,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/subaru/solterra",
    "first_seen_at": "2026-10-10T17:42:31+00:00",
    "label": "Subaru Solterra 150kW Touring 71.4kWh 5dr Auto AWD",
-   "last_seen_at": "2026-10-11T02:47:36+00:00",
+   "last_seen_at": "2026-10-12T02:51:33+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "subaru|solterra|150kw touring 71.4kwh 5dr auto awd",
@@ -10759,7 +11853,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/vauxhall/mokka-e",
    "first_seen_at": "2026-10-10T17:43:17+00:00",
    "label": "Vauxhall Mokka-e 115kW Griffin 54kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:48:24+00:00",
+   "last_seen_at": "2026-10-12T02:51:50+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "vauxhall|mokka-e|115kw griffin 54kwh 5dr auto",
@@ -10772,7 +11866,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id3",
    "first_seen_at": "2026-10-10T17:43:28+00:00",
    "label": "Volkswagen ID.3 125kW Match Pure 52kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:48:34+00:00",
+   "last_seen_at": "2026-10-12T02:51:53+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "volkswagen|id.3|125kw match pure 52kwh 5dr auto",
@@ -10783,9 +11877,35 @@
     "candidates": 0
    },
    "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id4",
+   "first_seen_at": "2026-10-12T02:51:56+00:00",
+   "label": "Volkswagen ID.4 140kW Essential Pure 58kWh 5dr Auto",
+   "last_seen_at": "2026-10-12T02:51:56+00:00",
+   "method": "none",
+   "source": "leaseloco",
+   "source_key": "volkswagen|id.4|140kw essential pure 58kwh 5dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 0
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id4",
+   "first_seen_at": "2026-10-12T02:51:56+00:00",
+   "label": "Volkswagen ID.4 140kW Match Pure 58kWh 5dr Auto",
+   "last_seen_at": "2026-10-12T02:51:56+00:00",
+   "method": "none",
+   "source": "leaseloco",
+   "source_key": "volkswagen|id.4|140kw match pure 58kwh 5dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 0
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id4",
    "first_seen_at": "2026-10-10T17:43:33+00:00",
    "label": "Volkswagen ID.4 210kW Black Edition Pro 79kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:48:39+00:00",
+   "last_seen_at": "2026-10-12T02:51:56+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "volkswagen|id.4|210kw black edition pro 79kwh 5dr auto",
@@ -10796,9 +11916,22 @@
     "candidates": 0
    },
    "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id4",
+   "first_seen_at": "2026-10-12T02:51:56+00:00",
+   "label": "Volkswagen ID.4 210kW Essential Pro 79kWh 5dr Auto",
+   "last_seen_at": "2026-10-12T02:51:56+00:00",
+   "method": "none",
+   "source": "leaseloco",
+   "source_key": "volkswagen|id.4|210kw essential pro 79kwh 5dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 0
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id4",
    "first_seen_at": "2026-10-10T17:43:33+00:00",
    "label": "Volkswagen ID.4 210kW Match Pro 79kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:48:39+00:00",
+   "last_seen_at": "2026-10-12T02:51:56+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "volkswagen|id.4|210kw match pro 79kwh 5dr auto",
@@ -10808,10 +11941,62 @@
    "evidence": {
     "candidates": 0
    },
+   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id4",
+   "first_seen_at": "2026-10-12T02:51:56+00:00",
+   "label": "Volkswagen ID.4 220kW 4MOTION Black Edition Pro 77kWh 5dr Auto",
+   "last_seen_at": "2026-10-12T02:51:56+00:00",
+   "method": "none",
+   "source": "leaseloco",
+   "source_key": "volkswagen|id.4|220kw 4motion black edition pro 77kwh 5dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 0
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id4",
+   "first_seen_at": "2026-10-12T02:51:56+00:00",
+   "label": "Volkswagen ID.4 220kW 4MOTION Match Pro 77kWh 5dr Auto",
+   "last_seen_at": "2026-10-12T02:51:56+00:00",
+   "method": "none",
+   "source": "leaseloco",
+   "source_key": "volkswagen|id.4|220kw 4motion match pro 77kwh 5dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 0
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id5",
+   "first_seen_at": "2026-10-12T02:51:59+00:00",
+   "label": "Volkswagen ID.5 140kW Match Pure 58kWh 5dr Auto",
+   "last_seen_at": "2026-10-12T02:51:59+00:00",
+   "method": "none",
+   "source": "leaseloco",
+   "source_key": "volkswagen|id.5|140kw match pure 58kwh 5dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 0
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id5",
+   "first_seen_at": "2026-10-12T02:51:59+00:00",
+   "label": "Volkswagen ID.5 210kW Essential Pro 79kWh 5dr Auto",
+   "last_seen_at": "2026-10-12T02:51:59+00:00",
+   "method": "none",
+   "source": "leaseloco",
+   "source_key": "volkswagen|id.5|210kw essential pro 79kwh 5dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 0
+   },
    "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id5",
    "first_seen_at": "2026-10-10T17:43:36+00:00",
    "label": "Volkswagen ID.5 210kW Match Pro 77kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:48:42+00:00",
+   "last_seen_at": "2026-10-12T02:51:59+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "volkswagen|id.5|210kw match pro 77kwh 5dr auto",
@@ -10824,7 +12009,7 @@
    "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id5",
    "first_seen_at": "2026-10-10T17:43:36+00:00",
    "label": "Volkswagen ID.5 210kW Match Pro 79kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:48:42+00:00",
+   "last_seen_at": "2026-10-12T02:51:59+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "volkswagen|id.5|210kw match pro 79kwh 5dr auto",
@@ -10834,13 +12019,151 @@
    "evidence": {
     "candidates": 0
    },
+   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id5",
+   "first_seen_at": "2026-10-12T02:51:59+00:00",
+   "label": "Volkswagen ID.5 250kW 4MOTION GTX Edition 77kWh 5dr Auto",
+   "last_seen_at": "2026-10-12T02:51:59+00:00",
+   "method": "none",
+   "source": "leaseloco",
+   "source_key": "volkswagen|id.5|250kw 4motion gtx edition 77kwh 5dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 0
+   },
    "example_url": "https://www.leaseloco.com/car-leasing/volvo/xc40-electric",
    "first_seen_at": "2026-10-10T17:44:07+00:00",
    "label": "Volvo XC40 Electric 175kW Recharge Core 69kWh 5dr Auto",
-   "last_seen_at": "2026-10-11T02:49:10+00:00",
+   "last_seen_at": "2026-10-12T02:52:19+00:00",
    "method": "none",
    "source": "leaseloco",
    "source_key": "volvo|xc40 electric|175kw recharge core 69kwh 5dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "reason": "tie between different trims or powertrains",
+    "tied": [
+     "carwow-cap:104139",
+     "carwow-cap:104140"
+    ]
+   },
+   "example_url": "https://www.new-car-discount.com/car/hyundai/ioniq-5-n/hatchback/all/all",
+   "first_seen_at": "2026-10-12T02:40:53+00:00",
+   "label": "IONIQ 5 N ELECTRIC HATCHBACK 478kW 84 kWh 5dr Auto",
+   "last_seen_at": "2026-10-12T02:45:55+00:00",
+   "method": "none",
+   "source": "ncd",
+   "source_key": "hyundai|ioniq 5 n electric hatchback|478kw 84kwh 5dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "reason": "tie between different trims or powertrains",
+    "tied": [
+     "carwow-cap:104139",
+     "carwow-cap:104140"
+    ]
+   },
+   "example_url": "https://www.new-car-discount.com/car/hyundai/ioniq-5-n/hatchback/all/all",
+   "first_seen_at": "2026-10-12T02:40:53+00:00",
+   "label": "IONIQ 5 N ELECTRIC HATCHBACK 478kW 84 kWh 5dr Auto [Vision Roof]",
+   "last_seen_at": "2026-10-12T02:45:55+00:00",
+   "method": "none",
+   "source": "ncd",
+   "source_key": "hyundai|ioniq 5 n electric hatchback|478kw 84kwh 5dr auto [vision roof]",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "reason": "tie between different trims or powertrains",
+    "tied": [
+     "carwow-cap:109561",
+     "carwow-cap:109562"
+    ]
+   },
+   "example_url": "https://www.new-car-discount.com/car/hyundai/ioniq-6-n/saloon/all/all",
+   "first_seen_at": "2026-10-12T02:40:54+00:00",
+   "label": "IONIQ 6 N ELECTRIC SALOON 478kW 84 kWh 4dr Auto",
+   "last_seen_at": "2026-10-12T02:46:03+00:00",
+   "method": "none",
+   "source": "ncd",
+   "source_key": "hyundai|ioniq 6 n electric saloon|478kw 84kwh 4dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "reason": "tie between different trims or powertrains",
+    "tied": [
+     "carwow-cap:109561",
+     "carwow-cap:109562"
+    ]
+   },
+   "example_url": "https://www.new-car-discount.com/car/hyundai/ioniq-6-n/saloon/all/all",
+   "first_seen_at": "2026-10-12T02:40:54+00:00",
+   "label": "IONIQ 6 N ELECTRIC SALOON 478kW 84 kWh 4dr Auto [Vision Roof]",
+   "last_seen_at": "2026-10-12T02:46:03+00:00",
+   "method": "none",
+   "source": "ncd",
+   "source_key": "hyundai|ioniq 6 n electric saloon|478kw 84kwh 4dr auto [vision roof]",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 9
+   },
+   "example_url": "https://www.new-car-discount.com/car/kia/ev4/hatchback/all/all",
+   "first_seen_at": "2026-10-12T02:40:57+00:00",
+   "label": "KIA EV4 ELECTRIC HATCHBACK 215kW GT 81kWh AWD 5dr Auto",
+   "last_seen_at": "2026-10-12T02:40:57+00:00",
+   "method": "none",
+   "source": "ncd",
+   "source_key": "kia|kia ev4 electric hatchback|215kw gt 81kwh awd 5dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 8
+   },
+   "example_url": "https://www.new-car-discount.com/car/kia/ev5/4x4/all/all",
+   "first_seen_at": "2026-10-12T02:41:01+00:00",
+   "label": "KIA EV5 ELECTRIC ESTATE 225kW GT 81.4kWh 5dr Auto AWD",
+   "last_seen_at": "2026-10-12T02:41:01+00:00",
+   "method": "none",
+   "source": "ncd",
+   "source_key": "kia|kia ev5 electric estate|225kw gt 81.4kwh 5dr auto awd",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 5
+   },
+   "example_url": "https://www.rrg-group.com/kia/new-car-offers/",
+   "first_seen_at": "2026-10-12T02:52:24+00:00",
+   "label": "Kia EV2",
+   "last_seen_at": "2026-10-12T02:52:24+00:00",
+   "method": "none",
+   "source": "rrg",
+   "source_key": "kia|ev2",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "reason": "tie between different trims or powertrains",
+    "tied": [
+     "carwow-cap:108177",
+     "carwow-cap:108178",
+     "carwow-cap:110973"
+    ]
+   },
+   "example_url": "https://www.rrg-group.com/kia/new-car-offers/",
+   "first_seen_at": "2026-10-12T02:52:24+00:00",
+   "label": "Kia PV5 Passenger standard range essential 5 seater",
+   "last_seen_at": "2026-10-12T02:52:24+00:00",
+   "method": "none",
+   "source": "rrg",
+   "source_key": "kia|pv5 passenger standard range essential 5 seater",
    "status": "unmapped"
   }
  ]
