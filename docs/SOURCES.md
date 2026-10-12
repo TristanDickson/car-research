@@ -55,10 +55,11 @@ PCP example for the model (deposit, monthly, final payment, APR, mileage, RRP).
   payment. A tie that stays a tie is left unmatched.
 - **Its number of payments:** the example prints its term ("36 months") but not how many
   monthly payments it has, and lenders differ: Hyundai's 36 months is 36 payments then the
-  final one, Jeep's (and 54 of the 108 examples on 6 to 10 Oct) 35 then the final one in month
-  36. The count is whichever makes the example's total payable add up; the monthly is printed
-  rounded up to the pound (£218 for £217.40). Until 12 Oct every example was read as 36, the
-  committed history included (now corrected as it is read, `history.upgrade`).
+  final one, Jeep's 35 then the final one in month 36. The count is whichever makes the
+  example's total payable add up; the monthly is printed rounded up to the pound (£218 for
+  £217.40). Until 12 Oct the term was read as the count: of the 108 examples held, 64 had one
+  payment too many (54 at 36 months, 10 at 37), the committed history included (now corrected
+  as it is read, `history.upgrade`).
 - **Left:** nothing on the page. Named dealer offers need the logged-in quotes page.
 
 ### carwow_model

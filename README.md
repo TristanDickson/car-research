@@ -367,9 +367,11 @@ rejected by that rule fails in two seconds with no runner and no logs.
   paying the cheapest cash price, and what you pay back to own the car. Later: every PCP quote
   is checked against itself (`pcpAddsUp`, ARCHITECTURE "The true monthly"); 81 of 212 failed a
   full check, and the causes were ours but one: Carwow's examples print their term, not their
-  number of payments, and 54 of 108 have 35 where we read 36 (fixed in `carwow_deals` and, for
-  the committed history, `history.upgrade`; the rest was whole-pound rounding and the grant in
-  Lloyd's and RRG's totals). What still fails after the rebuild: Halliwell Jones's EV5 Storm
+  number of payments, and we read the term as the count, one payment too many on 64 of the 108
+  held (54 at 36 months, 10 at 37; fixed in `carwow_deals` and, for the committed history,
+  `history.upgrade`). The rest was Carwow's whole-pound rounding (29), the grant in Lloyd's and
+  RRG's totals, and Halliwell Jones's price points (the commit message's "the other 10 were only
+  rounding" is wrong: those 10 were the 37-month ones). What still fails after the rebuild: Halliwell Jones's EV5 Storm
   (prints £449, its own figures give £500.09), left out of the cheapest prices and listed on the
   Data page, and the owner's own Ioniq 5 entry from memory (£540 where 0% gives £527.78).
 - **2026-10-11 (evening)** Every source surveyed against its own pages (`docs/SOURCES.md`, and a
