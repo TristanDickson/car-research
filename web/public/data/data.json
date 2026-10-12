@@ -13,10 +13,10 @@
   "models": 249,
   "models_with_deals": 178,
   "models_with_specs": 219,
-  "observations": 6172,
-  "offers": 3139,
+  "observations": 6192,
+  "offers": 3159,
   "options_pages": 1145,
-  "sightings": 13605,
+  "sightings": 13625,
   "specs": 2239,
   "specs_mapped": 919,
   "trim_map_auto": 2636,
@@ -57,7 +57,7 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-11T18:43:14+00:00",
+ "generated_at": "2026-10-12T00:07:44+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
@@ -65,10 +65,1277 @@
   "historical": 1,
   "illustrative": 67,
   "illustrative (stale)": 42,
-  "lead": 2468,
+  "lead": 2488,
   "lead (stale)": 483,
   "live": 64,
   "live (stale)": 1
+ },
+ "pipeline": {
+  "levels": [
+   {
+    "describes_models": true,
+    "in_snapshot": {},
+    "provider": "carwow_catalog",
+    "raw": {
+     "bodies": 95,
+     "failed": 0,
+     "fetches": 96,
+     "first_at": "2026-10-10T17:12:04+00:00",
+     "last_at": "2026-10-11T02:18:33+00:00",
+     "refused": 0,
+     "responses": 96,
+     "wayback": 0
+    },
+    "records": {
+     "model": {
+      "first_seen_live": 890,
+      "keys": 890
+     }
+    }
+   },
+   {
+    "describes_models": false,
+    "in_snapshot": {
+     "offers": 2056
+    },
+    "matched": {
+     "offers": {
+      "conflict": 0,
+      "matched": 2056,
+      "total": 2056
+     }
+    },
+    "provider": "carwow_deals",
+    "raw": {
+     "bodies": 356,
+     "failed": 0,
+     "fetches": 356,
+     "first_at": "2026-10-10T17:29:32+00:00",
+     "last_at": "2026-10-11T02:39:43+00:00",
+     "refused": 0,
+     "responses": 356,
+     "wayback": 0
+    },
+    "records": {
+     "offer": {
+      "first_seen_live": 1513,
+      "keys": 2056
+     }
+    }
+   },
+   {
+    "describes_models": true,
+    "in_snapshot": {},
+    "provider": "carwow_model",
+    "raw": {
+     "bodies": 498,
+     "failed": 0,
+     "fetches": 498,
+     "first_at": "2026-10-10T17:20:53+00:00",
+     "last_at": "2026-10-11T02:34:36+00:00",
+     "refused": 0,
+     "responses": 498,
+     "wayback": 0
+    },
+    "records": {
+     "derivative": {
+      "first_seen_live": 908,
+      "keys": 1819
+     }
+    }
+   },
+   {
+    "describes_models": true,
+    "in_snapshot": {},
+    "provider": "carwow_options",
+    "raw": {
+     "bodies": 2,
+     "failed": 0,
+     "fetches": 2,
+     "first_at": "2026-10-10T17:29:31+00:00",
+     "last_at": "2026-10-11T02:34:38+00:00",
+     "refused": 0,
+     "responses": 2,
+     "wayback": 0
+    },
+    "records": {
+     "options": {
+      "first_seen_live": 0,
+      "keys": 1040
+     }
+    }
+   },
+   {
+    "describes_models": false,
+    "in_snapshot": {
+     "offers": 4
+    },
+    "matched": {
+     "offers": {
+      "conflict": 0,
+      "matched": 4,
+      "total": 4
+     }
+    },
+    "provider": "carwow_paste",
+    "records": {
+     "offer": {
+      "first_seen_live": 0,
+      "keys": 4
+     }
+    }
+   },
+   {
+    "describes_models": false,
+    "in_snapshot": {
+     "specs": 913
+    },
+    "matched": {
+     "specs": {
+      "conflict": 0,
+      "matched": 913,
+      "total": 913
+     }
+    },
+    "provider": "carwow_specs",
+    "raw": {
+     "bodies": 438,
+     "failed": 0,
+     "fetches": 438,
+     "first_at": "2026-10-10T17:13:28+00:00",
+     "last_at": "2026-10-11T02:25:50+00:00",
+     "refused": 0,
+     "responses": 438,
+     "wayback": 0
+    },
+    "records": {
+     "spec": {
+      "first_seen_live": 913,
+      "keys": 913
+     }
+    }
+   },
+   {
+    "describes_models": false,
+    "in_snapshot": {
+     "used": 2313
+    },
+    "matched": {
+     "used": {
+      "conflict": 0,
+      "matched": 1485,
+      "total": 2664
+     }
+    },
+    "provider": "carwow_used",
+    "raw": {
+     "bodies": 899,
+     "failed": 0,
+     "fetches": 473,
+     "first_at": "2026-10-10T18:11:50+00:00",
+     "last_at": "2026-10-11T03:18:23+00:00",
+     "refused": 0,
+     "responses": 1220,
+     "wayback": 0
+    },
+    "records": {
+     "used": {
+      "first_seen_live": 1608,
+      "keys": 2664
+     }
+    }
+   },
+   {
+    "describes_models": false,
+    "in_snapshot": {
+     "offers": 40
+    },
+    "matched": {
+     "offers": {
+      "conflict": 0,
+      "matched": 40,
+      "total": 42
+     }
+    },
+    "provider": "cinch_new",
+    "raw": {
+     "bodies": 2,
+     "failed": 0,
+     "fetches": 1,
+     "first_at": "2026-10-11T11:42:30+00:00",
+     "last_at": "2026-10-11T11:42:30+00:00",
+     "refused": 0,
+     "responses": 2,
+     "wayback": 0
+    },
+    "records": {
+     "offer": {
+      "first_seen_live": 42,
+      "keys": 42
+     }
+    }
+   },
+   {
+    "describes_models": false,
+    "in_snapshot": {
+     "used": 1239
+    },
+    "matched": {
+     "used": {
+      "conflict": 0,
+      "matched": 680,
+      "total": 1484
+     }
+    },
+    "provider": "cinch_used",
+    "raw": {
+     "bodies": 168,
+     "failed": 0,
+     "fetches": 102,
+     "first_at": "2026-10-10T18:30:04+00:00",
+     "last_at": "2026-10-11T03:20:36+00:00",
+     "refused": 0,
+     "responses": 180,
+     "wayback": 0
+    },
+    "records": {
+     "used": {
+      "first_seen_live": 1247,
+      "keys": 1484
+     }
+    }
+   },
+   {
+    "describes_models": true,
+    "in_snapshot": {},
+    "matched": {
+     "specs": {
+      "conflict": 0,
+      "matched": 0,
+      "total": 1106
+     }
+    },
+    "provider": "evdb",
+    "raw": {
+     "bodies": 2,
+     "failed": 0,
+     "fetches": 2,
+     "first_at": "2026-10-10T17:44:34+00:00",
+     "last_at": "2026-10-11T02:49:38+00:00",
+     "refused": 0,
+     "responses": 2,
+     "wayback": 0
+    },
+    "records": {
+     "spec": {
+      "first_seen_live": 1105,
+      "keys": 1106
+     }
+    }
+   },
+   {
+    "describes_models": true,
+    "in_snapshot": {},
+    "matched": {
+     "specs": {
+      "conflict": 0,
+      "matched": 0,
+      "total": 177
+     }
+    },
+    "provider": "evdb_cars",
+    "raw": {
+     "bodies": 55,
+     "failed": 2,
+     "fetches": 56,
+     "first_at": "2026-10-10T17:44:37+00:00",
+     "last_at": "2026-10-11T02:49:40+00:00",
+     "refused": 2,
+     "responses": 56,
+     "wayback": 0
+    },
+    "records": {
+     "spec": {
+      "first_seen_live": 54,
+      "keys": 177
+     }
+    }
+   },
+   {
+    "describes_models": false,
+    "in_snapshot": {},
+    "provider": "history",
+    "raw": {
+     "bodies": 59,
+     "failed": 0,
+     "fetches": 60,
+     "first_at": "2026-10-06T17:27:17+00:00",
+     "last_at": "2026-10-10T11:40:53+00:00",
+     "refused": 0,
+     "responses": 60,
+     "wayback": 0
+    }
+   },
+   {
+    "describes_models": true,
+    "in_snapshot": {},
+    "provider": "hyundai_configurator",
+    "raw": {
+     "bodies": 19,
+     "failed": 0,
+     "fetches": 10,
+     "first_at": "2026-10-10T17:44:27+00:00",
+     "last_at": "2026-10-11T02:49:37+00:00",
+     "refused": 0,
+     "responses": 20,
+     "wayback": 0
+    },
+    "records": {
+     "configuration": {
+      "first_seen_live": 51,
+      "keys": 102
+     }
+    }
+   },
+   {
+    "describes_models": false,
+    "in_snapshot": {
+     "offers": 7
+    },
+    "matched": {
+     "offers": {
+      "conflict": 0,
+      "matched": 7,
+      "total": 9
+     }
+    },
+    "provider": "hyundai_offers",
+    "raw": {
+     "bodies": 4,
+     "failed": 0,
+     "fetches": 12,
+     "first_at": "2026-10-10T16:58:06+00:00",
+     "last_at": "2026-10-11T02:39:50+00:00",
+     "refused": 0,
+     "responses": 12,
+     "wayback": 0
+    },
+    "records": {
+     "offer": {
+      "first_seen_live": 8,
+      "keys": 9
+     }
+    }
+   },
+   {
+    "describes_models": true,
+    "in_snapshot": {
+     "specs": 20
+    },
+    "matched": {
+     "specs": {
+      "conflict": 0,
+      "matched": 0,
+      "total": 20
+     }
+    },
+    "provider": "hyundai_specs",
+    "raw": {
+     "bodies": 10,
+     "failed": 0,
+     "fetches": 10,
+     "first_at": "2026-10-10T17:44:17+00:00",
+     "last_at": "2026-10-11T02:49:29+00:00",
+     "refused": 0,
+     "responses": 15,
+     "wayback": 0
+    },
+    "records": {
+     "spec": {
+      "first_seen_live": 20,
+      "keys": 20
+     }
+    }
+   },
+   {
+    "describes_models": false,
+    "in_snapshot": {
+     "offers": 11
+    },
+    "matched": {
+     "offers": {
+      "conflict": 0,
+      "matched": 11,
+      "total": 15
+     }
+    },
+    "provider": "kia_dealers",
+    "raw": {
+     "bodies": 21,
+     "failed": 0,
+     "fetches": 2,
+     "first_at": "2026-10-11T11:52:25+00:00",
+     "last_at": "2026-10-11T11:53:14+00:00",
+     "refused": 0,
+     "responses": 23,
+     "wayback": 0
+    },
+    "records": {
+     "offer": {
+      "first_seen_live": 15,
+      "keys": 15
+     }
+    }
+   },
+   {
+    "describes_models": true,
+    "in_snapshot": {
+     "specs": 23
+    },
+    "matched": {
+     "specs": {
+      "conflict": 0,
+      "matched": 6,
+      "total": 23
+     }
+    },
+    "provider": "kia_specs",
+    "raw": {
+     "bodies": 4,
+     "failed": 0,
+     "fetches": 8,
+     "first_at": "2026-10-10T17:44:12+00:00",
+     "last_at": "2026-10-11T02:49:19+00:00",
+     "refused": 0,
+     "responses": 8,
+     "wayback": 0
+    },
+    "records": {
+     "spec": {
+      "first_seen_live": 23,
+      "keys": 23
+     }
+    }
+   },
+   {
+    "describes_models": false,
+    "in_snapshot": {
+     "offers": 940
+    },
+    "matched": {
+     "offers": {
+      "conflict": 293,
+      "matched": 940,
+      "total": 1313
+     }
+    },
+    "provider": "leaseloco",
+    "raw": {
+     "bodies": 191,
+     "failed": 308,
+     "fetches": 498,
+     "first_at": "2026-10-10T17:34:59+00:00",
+     "last_at": "2026-10-11T02:49:13+00:00",
+     "refused": 0,
+     "responses": 498,
+     "wayback": 0
+    },
+    "records": {
+     "offer": {
+      "first_seen_live": 882,
+      "keys": 1313
+     }
+    }
+   },
+   {
+    "describes_models": false,
+    "in_snapshot": {
+     "offers": 29
+    },
+    "matched": {
+     "offers": {
+      "conflict": 0,
+      "matched": 29,
+      "total": 29
+     }
+    },
+    "provider": "manual_seed",
+    "records": {
+     "car": {
+      "first_seen_live": 0,
+      "keys": 19
+     },
+     "offer": {
+      "first_seen_live": 0,
+      "keys": 29
+     },
+     "requirements": {
+      "first_seen_live": 0,
+      "keys": 1
+     },
+     "trim_map": {
+      "first_seen_live": 0,
+      "keys": 219
+     }
+    }
+   },
+   {
+    "describes_models": false,
+    "in_snapshot": {
+     "used": 575
+    },
+    "matched": {
+     "used": {
+      "conflict": 0,
+      "matched": 362,
+      "total": 682
+     }
+    },
+    "provider": "motorpoint_used",
+    "raw": {
+     "bodies": 19,
+     "failed": 0,
+     "fetches": 2,
+     "first_at": "2026-10-10T18:32:19+00:00",
+     "last_at": "2026-10-11T03:20:37+00:00",
+     "refused": 0,
+     "responses": 19,
+     "wayback": 0
+    },
+    "records": {
+     "used": {
+      "first_seen_live": 581,
+      "keys": 682
+     }
+    }
+   },
+   {
+    "describes_models": false,
+    "in_snapshot": {
+     "offers": 71
+    },
+    "matched": {
+     "offers": {
+      "conflict": 2,
+      "matched": 71,
+      "total": 74
+     }
+    },
+    "provider": "ncd",
+    "raw": {
+     "bodies": 8,
+     "failed": 0,
+     "fetches": 24,
+     "first_at": "2026-10-10T16:58:13+00:00",
+     "last_at": "2026-10-11T02:40:02+00:00",
+     "refused": 0,
+     "responses": 24,
+     "wayback": 0
+    },
+    "records": {
+     "offer": {
+      "first_seen_live": 70,
+      "keys": 74
+     }
+    }
+   },
+   {
+    "describes_models": false,
+    "in_snapshot": {
+     "offers": 1
+    },
+    "matched": {
+     "offers": {
+      "conflict": 0,
+      "matched": 1,
+      "total": 1
+     }
+    },
+    "provider": "rrg",
+    "raw": {
+     "bodies": 1,
+     "failed": 0,
+     "fetches": 3,
+     "first_at": "2026-10-10T16:58:24+00:00",
+     "last_at": "2026-10-11T02:49:16+00:00",
+     "refused": 0,
+     "responses": 3,
+     "wayback": 0
+    },
+    "records": {
+     "offer": {
+      "first_seen_live": 1,
+      "keys": 1
+     }
+    }
+   }
+  ],
+  "nights": [
+   {
+    "builds": [
+     {
+      "commit": "8c6f21a299",
+      "fetches": 2283,
+      "finished_at": "2026-10-12T00:07:44+00:00",
+      "from_cache": 0,
+      "mode": "build",
+      "parsed": 2283,
+      "record_spans": 30015,
+      "records": 20348,
+      "seconds": 118.7,
+      "sightings": 75448,
+      "snapshot": {},
+      "stage": "build",
+      "started_at": "2026-10-12T00:05:43+00:00",
+      "this": true,
+      "unparsed": 0
+     }
+    ],
+    "night": "2026-10-11",
+    "publishes": [
+     {
+      "at": "2026-10-11T13:07:19+01:00",
+      "sha": "af460fb466",
+      "subject": "data: build from the raw store 2026-10-11"
+     },
+     {
+      "at": "2026-10-11T18:25:05+01:00",
+      "sha": "03cc859d51",
+      "subject": "data: build from the raw store 2026-10-11"
+     },
+     {
+      "at": "2026-10-11T19:44:00+01:00",
+      "sha": "789d4a0821",
+      "subject": "data: build from the raw store 2026-10-11"
+     }
+    ],
+    "scrapes": []
+   },
+   {
+    "builds": [],
+    "night": "2026-10-10",
+    "publishes": [
+     {
+      "at": "2026-10-10T21:36:16+01:00",
+      "sha": "3500388d58",
+      "subject": "data: first build from the raw store (2026-10-10)"
+     },
+     {
+      "at": "2026-10-11T04:22:22+01:00",
+      "sha": "1e0b11fb03",
+      "subject": "data: nightly build 2026-10-11"
+     },
+     {
+      "at": "2026-10-11T12:40:25+01:00",
+      "sha": "708bc6638d",
+      "subject": "data: build from the raw store 2026-10-11"
+     }
+    ],
+    "scrapes": [
+     {
+      "allowance": null,
+      "capabilities": [
+       "catalog"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 96,
+      "finished_at": "2026-10-11T02:18:34+00:00",
+      "records": 2983,
+      "refused": 0,
+      "responses": 96,
+      "runs": 2,
+      "skipped": 0,
+      "source": "carwow_catalog",
+      "started_at": "2026-10-10T17:12:04+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "deals"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 356,
+      "finished_at": "2026-10-11T02:39:45+00:00",
+      "records": 3026,
+      "refused": 0,
+      "responses": 356,
+      "runs": 2,
+      "skipped": 0,
+      "source": "carwow_deals",
+      "started_at": "2026-10-10T17:29:32+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "derivatives"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 498,
+      "finished_at": "2026-10-11T02:34:38+00:00",
+      "records": 1816,
+      "refused": 0,
+      "responses": 498,
+      "runs": 2,
+      "skipped": 0,
+      "source": "carwow_model",
+      "started_at": "2026-10-10T17:20:53+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "options"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 2,
+      "finished_at": "2026-10-11T02:34:39+00:00",
+      "records": 0,
+      "refused": 0,
+      "responses": 2,
+      "runs": 2,
+      "skipped": 0,
+      "source": "carwow_options",
+      "started_at": "2026-10-10T17:29:31+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "specs"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 438,
+      "finished_at": "2026-10-11T02:25:52+00:00",
+      "records": 1826,
+      "refused": 0,
+      "responses": 438,
+      "runs": 2,
+      "skipped": 0,
+      "source": "carwow_specs",
+      "started_at": "2026-10-10T17:13:28+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "used-stock"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 498,
+      "finished_at": "2026-10-11T03:18:24+00:00",
+      "records": 2392,
+      "refused": 0,
+      "responses": 1220,
+      "runs": 2,
+      "skipped": 0,
+      "source": "carwow_used",
+      "started_at": "2026-10-10T18:11:50+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "quotes"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 1,
+      "finished_at": "2026-10-11T11:42:30+00:00",
+      "records": 42,
+      "refused": 0,
+      "responses": 2,
+      "runs": 1,
+      "skipped": 0,
+      "source": "cinch_new",
+      "started_at": "2026-10-11T11:42:30+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "used-stock"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 102,
+      "finished_at": "2026-10-11T03:20:37+00:00",
+      "records": 2482,
+      "refused": 0,
+      "responses": 180,
+      "runs": 2,
+      "skipped": 0,
+      "source": "cinch_used",
+      "started_at": "2026-10-10T18:30:04+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "specs"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 2,
+      "finished_at": "2026-10-11T02:49:39+00:00",
+      "records": 2210,
+      "refused": 0,
+      "responses": 2,
+      "runs": 2,
+      "skipped": 0,
+      "source": "evdb",
+      "started_at": "2026-10-10T17:44:34+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "cars"
+      ],
+      "deferred": 0,
+      "errors": 2,
+      "failed": 2,
+      "fetches": 56,
+      "finished_at": "2026-10-11T02:54:20+00:00",
+      "records": 54,
+      "refused": 2,
+      "responses": 56,
+      "runs": 2,
+      "skipped": 0,
+      "source": "evdb_cars",
+      "started_at": "2026-10-10T17:44:35+00:00",
+      "status": "error"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "configurations"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 10,
+      "finished_at": "2026-10-11T02:49:38+00:00",
+      "records": 102,
+      "refused": 0,
+      "responses": 20,
+      "runs": 2,
+      "skipped": 0,
+      "source": "hyundai_configurator",
+      "started_at": "2026-10-10T17:44:27+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "offers"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 12,
+      "finished_at": "2026-10-11T02:39:52+00:00",
+      "records": 12,
+      "refused": 0,
+      "responses": 12,
+      "runs": 3,
+      "skipped": 0,
+      "source": "hyundai_offers",
+      "started_at": "2026-10-10T16:58:06+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "specs"
+      ],
+      "deferred": 0,
+      "errors": 5,
+      "failed": 0,
+      "fetches": 10,
+      "finished_at": "2026-10-11T02:49:30+00:00",
+      "records": 20,
+      "refused": 0,
+      "responses": 15,
+      "runs": 2,
+      "skipped": 0,
+      "source": "hyundai_specs",
+      "started_at": "2026-10-10T17:44:17+00:00",
+      "status": "error"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "offers"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 2,
+      "finished_at": "2026-10-11T11:53:35+00:00",
+      "records": 7,
+      "refused": 0,
+      "responses": 23,
+      "runs": 1,
+      "skipped": 0,
+      "source": "kia_dealers",
+      "started_at": "2026-10-11T11:52:25+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "specs"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 8,
+      "finished_at": "2026-10-11T02:49:21+00:00",
+      "records": 46,
+      "refused": 0,
+      "responses": 8,
+      "runs": 2,
+      "skipped": 0,
+      "source": "kia_specs",
+      "started_at": "2026-10-10T17:44:12+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "best-deals"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 308,
+      "fetches": 498,
+      "finished_at": "2026-10-11T02:49:16+00:00",
+      "records": 1858,
+      "refused": 0,
+      "responses": 498,
+      "runs": 2,
+      "skipped": 308,
+      "source": "leaseloco",
+      "started_at": "2026-10-10T17:34:59+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "used-stock"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 2,
+      "finished_at": "2026-10-11T03:21:11+00:00",
+      "records": 1020,
+      "refused": 0,
+      "responses": 19,
+      "runs": 2,
+      "skipped": 0,
+      "source": "motorpoint_used",
+      "started_at": "2026-10-10T18:32:19+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "listing"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 24,
+      "finished_at": "2026-10-11T02:40:03+00:00",
+      "records": 210,
+      "refused": 0,
+      "responses": 24,
+      "runs": 3,
+      "skipped": 0,
+      "source": "ncd",
+      "started_at": "2026-10-10T16:58:13+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "offers"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 3,
+      "finished_at": "2026-10-11T02:49:16+00:00",
+      "records": 3,
+      "refused": 0,
+      "responses": 3,
+      "runs": 3,
+      "skipped": 0,
+      "source": "rrg",
+      "started_at": "2026-10-10T16:58:24+00:00",
+      "status": "ok"
+     }
+    ]
+   },
+   {
+    "builds": [],
+    "night": "2026-10-09",
+    "publishes": [
+     {
+      "at": "2026-10-09T13:04:12Z",
+      "sha": "ba0d878b5a",
+      "subject": "Every car field as a column, a bound and a car-page line; wheel size; EV Database car pages"
+     },
+     {
+      "at": "2026-10-09T16:02:54Z",
+      "sha": "b6f6d89218",
+      "subject": "data: first 29 EV Database car pages; a model match ends on a word"
+     },
+     {
+      "at": "2026-10-09T17:41:21Z",
+      "sha": "75a9c6ac89",
+      "subject": "data: nightly price scrape 2026-10-09"
+     },
+     {
+      "at": "2026-10-10T03:32:53Z",
+      "sha": "31c2c9a6cb",
+      "subject": "data: snapshot rebuilt from the committed history"
+     },
+     {
+      "at": "2026-10-10T07:53:21Z",
+      "sha": "c0acadf29d",
+      "subject": "A hand-curated car is its CAP derivative: no generated twin beside it"
+     },
+     {
+      "at": "2026-10-10T11:40:53Z",
+      "sha": "893cef8f05",
+      "subject": "data: nightly price scrape 2026-10-10"
+     }
+    ],
+    "scrapes": []
+   },
+   {
+    "builds": [],
+    "night": "2026-10-08",
+    "publishes": [
+     {
+      "at": "2026-10-08T12:11:59Z",
+      "sha": "dd4f94e31e",
+      "subject": "Flags: read 'V2L - Internal 3 pin plug' as the cabin socket; a charging cable is not a socket"
+     },
+     {
+      "at": "2026-10-08T12:12:43Z",
+      "sha": "a059cdabfd",
+      "subject": "A hand-curated car inherits what is said of its derivative"
+     },
+     {
+      "at": "2026-10-08T13:38:30Z",
+      "sha": "f2ae8e93be",
+      "subject": "The maker's table ranks with CAP's brackets: Hyundai UK's Tech & Spec guides as a source"
+     },
+     {
+      "at": "2026-10-08T15:03:36Z",
+      "sha": "35d2246d8d",
+      "subject": "Hyundai's own configurator settles the Inster: the maker's orderable configurations as the strongest source"
+     },
+     {
+      "at": "2026-10-08T18:56:16Z",
+      "sha": "a27689b0d0",
+      "subject": "Saved searches instead of requirements, a column chooser, and the app works offline"
+     }
+    ],
+    "scrapes": []
+   },
+   {
+    "builds": [],
+    "night": "2026-10-07",
+    "publishes": [
+     {
+      "at": "2026-10-07T13:43:27Z",
+      "sha": "6ce4772d1f",
+      "subject": "Sightings: every route, every source, over time, on one footing"
+     },
+     {
+      "at": "2026-10-07T13:44:50Z",
+      "sha": "48a152a62b",
+      "subject": "Series: an offer's price holds to its next sighting unless seen gone between"
+     },
+     {
+      "at": "2026-10-07T19:14:28Z",
+      "sha": "8d7f3d2abf",
+      "subject": "Requirements as the reader's data; cars.json slimmed and the Pick page off the offers table"
+     },
+     {
+      "at": "2026-10-07T19:21:34Z",
+      "sha": "c2644e35f7",
+      "subject": "One search for every car view: tri-state facets, ranges, all/any, in the URL"
+     },
+     {
+      "at": "2026-10-07T19:33:37Z",
+      "sha": "c978ccb143",
+      "subject": "Facts with their sources: EV Database fills the measured numbers; curated trims reach their generated twins"
+     },
+     {
+      "at": "2026-10-08T01:55:13Z",
+      "sha": "ae40383aa1",
+      "subject": "The cost model moves into the browser; the pipeline exports facts only"
+     },
+     {
+      "at": "2026-10-08T06:04:54Z",
+      "sha": "a94d576a90",
+      "subject": "Derivative registry from Carwow's model pages; one date for every figure; leases cut to the term; a progress bar"
+     },
+     {
+      "at": "2026-10-08T11:26:11Z",
+      "sha": "c510c426c6",
+      "subject": "One claim store for every car field; Carwow's configurator as a source; the brief prices its packs"
+     }
+    ],
+    "scrapes": []
+   },
+   {
+    "builds": [],
+    "night": "2026-10-06",
+    "publishes": [
+     {
+      "at": "2026-10-06T14:00:58Z",
+      "sha": "8ed117270d",
+      "subject": "Offers as observations, trim map, Carwow paste provider, freshness in the SPA"
+     },
+     {
+      "at": "2026-10-06T14:11:39Z",
+      "sha": "c28d434068",
+      "subject": "Pick page, compare page, household picks, photo convention; scrub names"
+     },
+     {
+      "at": "2026-10-06T17:27:17Z",
+      "sha": "dd32336ec2",
+      "subject": "Live price scrapers, sighting history replay, nightly scrape workflow"
+     },
+     {
+      "at": "2026-10-06T17:58:05Z",
+      "sha": "f799f08b91",
+      "subject": "data: nightly price scrape 2026-10-06"
+     },
+     {
+      "at": "2026-10-06T20:49:43Z",
+      "sha": "cecc08b945",
+      "subject": "data: Wayback backfill since 2025-01-01 (2026-10-06)"
+     },
+     {
+      "at": "2026-10-06T21:17:05Z",
+      "sha": "ae311201e6",
+      "subject": "data: Wayback backfill since 2025-01-01 (2026-10-06)"
+     },
+     {
+      "at": "2026-10-06T22:26:10Z",
+      "sha": "4759a67753",
+      "subject": "data: regenerate snapshot from the merged history (116 sightings, 65 specs)"
+     },
+     {
+      "at": "2026-10-06T23:18:06Z",
+      "sha": "f4503c8e4a",
+      "subject": "Every EV on sale: Carwow catalogue, generated cars, deals and leases for all of them"
+     },
+     {
+      "at": "2026-10-06T23:44:34Z",
+      "sha": "83e2b76193",
+      "subject": "data: first crawl of every EV on sale (247 models, 1,440 generated cars, 2,270 offers)"
+     },
+     {
+      "at": "2026-10-07T00:16:40Z",
+      "sha": "7c7deae3f4",
+      "subject": "data: Wayback backfill since 2025-01-01 (2026-10-07)"
+     },
+     {
+      "at": "2026-10-07T00:42:08Z",
+      "sha": "e71b1c9a2a",
+      "subject": "data: Wayback backfill since 2025-01-01 (2026-10-07)"
+     },
+     {
+      "at": "2026-10-07T01:15:48Z",
+      "sha": "7b03c55a78",
+      "subject": "data: Wayback backfill since 2025-01-01 (2026-10-07)"
+     },
+     {
+      "at": "2026-10-07T01:39:56Z",
+      "sha": "2132388f07",
+      "subject": "data: Wayback backfill since 2025-01-01 (2026-10-07)"
+     },
+     {
+      "at": "2026-10-07T02:04:49Z",
+      "sha": "5b065f70c2",
+      "subject": "data: Wayback backfill since 2025-01-01 (2026-10-07)"
+     },
+     {
+      "at": "2026-10-07T02:25:03Z",
+      "sha": "0852aa55b2",
+      "subject": "data: Wayback backfill since 2025-01-01 (2026-10-07)"
+     },
+     {
+      "at": "2026-10-07T02:49:15Z",
+      "sha": "ad3e8abc56",
+      "subject": "data: Wayback backfill since 2025-01-01 (2026-10-07)"
+     },
+     {
+      "at": "2026-10-07T08:30:41Z",
+      "sha": "5f6b27f7f7",
+      "subject": "Resolution with evidence, and a true monthly across cash, PCP and lease"
+     },
+     {
+      "at": "2026-10-07T08:31:02Z",
+      "sha": "b27835172e",
+      "subject": "data: regenerate the snapshot on the merged backfill history"
+     },
+     {
+      "at": "2026-10-07T08:42:23Z",
+      "sha": "5814cf6a2d",
+      "subject": "Used stock: Carwow's used listings per model as the fourth route and the residual evidence"
+     },
+     {
+      "at": "2026-10-07T09:29:57Z",
+      "sha": "ff75e0dfc0",
+      "subject": "data: used stock from cinch and Motorpoint beside Carwow's"
+     },
+     {
+      "at": "2026-10-07T11:04:59Z",
+      "sha": "3a141b1436",
+      "subject": "Catalogue: the MINI Cooper Electric, with its deals, specs and used stock"
+     }
+    ],
+    "scrapes": []
+   },
+   {
+    "builds": [],
+    "night": "2026-10-05",
+    "publishes": [
+     {
+      "at": "2026-10-06T11:23:05Z",
+      "sha": "ca3b1ed6c5",
+      "subject": "Build the platform: pipeline, SQLite medallion, static SPA, Pages deploy"
+     }
+    ],
+    "scrapes": []
+   }
+  ]
  },
  "providers": [
   {
