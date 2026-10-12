@@ -200,6 +200,11 @@ class CommittedHistory(unittest.TestCase):
         self.assertEqual(rows[0]["payload"]["car_ref"]["rrp"], 30000.0 + 2000.0 - OTR_EXTRAS_GBP,
                          "the RRP today's parser derives from the price and saving the row kept")
         self.assertEqual(history.read("resolutions", b'{"car_id": "x"}\n'), [], "the old matches yield nothing")
+        # A Carwow example kept 36 payments for its 36-month term; its own total says 35 (the Avenger's, 6 Oct).
+        rep = json.dumps({"offer_key": "carwow:rep:110446", "source": "carwow_deals", "finance_type": "pcp", "observed_at": "t", "present": 1,
+                          "payload": {"term_months": 36, "num_payments": 36, "monthly_payment": 294.0, "customer_deposit": 6621.0,
+                                      "manufacturer_contribution": 6550.0, "gfv": 11963.0, "total_payable_stated": 35412.0}}).encode()
+        self.assertEqual(history.read("observations", rep)[0]["payload"]["num_payments"], 35)
         self.assertNotIn("car_id", history.read("specs", b'{"spec_key": "s", "car_id": "c", "payload": {"car_id": "c"}}\n')[0])
 
     def test_migrate_copies_every_committed_version_once(self):

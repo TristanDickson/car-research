@@ -527,6 +527,7 @@
    ],
    "expected": [
     {
+     "adds_up": false,
      "amount_of_credit": 43000,
      "apr_implied": 0.0043,
      "apr_stated": 0.0,
@@ -548,6 +549,7 @@
      "list_price": 46000,
      "manufacturer_contribution": 0.0,
      "monthly_at_0pct_same_gfv": 527.78,
+     "monthly_at_stated_apr": 527.78,
      "monthly_payment": 540,
      "num_payments": 36,
      "paid_if_bought": 43440.0,
@@ -562,6 +564,7 @@
      "vehicle_price": 43000
     },
     {
+     "adds_up": true,
      "amount_of_credit": 25000,
      "apr_implied": 0.0,
      "apr_stated": 0.0,
@@ -583,6 +586,7 @@
      "list_price": 35000,
      "manufacturer_contribution": 0.0,
      "monthly_at_0pct_same_gfv": 359.19,
+     "monthly_at_stated_apr": 359.19,
      "monthly_payment": 359.19,
      "num_payments": 36,
      "paid_if_bought": 28000.0,
@@ -597,6 +601,7 @@
      "vehicle_price": 28000
     },
     {
+     "adds_up": true,
      "amount_of_credit": 27570,
      "apr_implied": 0.0,
      "apr_stated": 0.0,
@@ -618,6 +623,7 @@
      "list_price": 35000,
      "manufacturer_contribution": 0.0,
      "monthly_at_0pct_same_gfv": 430.58,
+     "monthly_at_stated_apr": 430.58,
      "monthly_payment": 430.58,
      "num_payments": 36,
      "paid_if_bought": 28000.0,
@@ -741,6 +747,7 @@
      "status": "campaign"
     },
     {
+     "adds_up": true,
      "amount_of_credit": 21640.18,
      "apr_implied": 0.089,
      "apr_stated": 0.089,
@@ -765,6 +772,7 @@
      "list_price": null,
      "manufacturer_contribution": 0.0,
      "monthly_at_0pct_same_gfv": 236.47,
+     "monthly_at_stated_apr": 354.72,
      "monthly_payment": 354.72,
      "num_payments": 48,
      "paid_if_bought": 27671.19,
@@ -786,6 +794,7 @@
      "status": "illustrative"
     },
     {
+     "adds_up": null,
      "amount_of_credit": 40330,
      "apr_implied": 0.039,
      "apr_stated": 0.039,
@@ -809,6 +818,7 @@
      "list_price": 41975,
      "manufacturer_contribution": 0.0,
      "monthly_at_0pct_same_gfv": 601.9,
+     "monthly_at_stated_apr": 699.27,
      "monthly_payment": 699.27,
      "num_payments": 36,
      "paid_if_bought": 43835.36,
@@ -823,6 +833,7 @@
      "vehicle_price": 40330
     },
     {
+     "adds_up": true,
      "amount_of_credit": 32476,
      "apr_implied": 0.039,
      "apr_stated": 0.039,
@@ -844,6 +855,7 @@
      "list_price": 41975,
      "manufacturer_contribution": 0.0,
      "monthly_at_0pct_same_gfv": 383.74,
+     "monthly_at_stated_apr": 467.98,
      "monthly_payment": 467.98,
      "num_payments": 36,
      "paid_if_bought": 43507.78,
@@ -858,6 +870,7 @@
      "vehicle_price": 40475
     },
     {
+     "adds_up": true,
      "amount_of_credit": 29696,
      "apr_implied": 0.0385,
      "apr_stated": 0.039,
@@ -879,6 +892,7 @@
      "list_price": 36995,
      "manufacturer_contribution": 0.0,
      "monthly_at_0pct_same_gfv": 342.39,
+     "monthly_at_stated_apr": 419.91,
      "monthly_payment": 419,
      "num_payments": 36,
      "paid_if_bought": 36953.0,
@@ -995,6 +1009,7 @@
     },
     {
      "acquisition_penalty_vs_cash": 3692,
+     "adds_up": null,
      "amount_of_credit": 40955,
      "apr_implied": 0.039,
      "apr_stated": 0.039,
@@ -1022,6 +1037,7 @@
      "list_price": 43955,
      "manufacturer_contribution": 3000,
      "monthly_at_0pct_same_gfv": 580.33,
+     "monthly_at_stated_apr": 681.0,
      "monthly_payment": 681.0,
      "num_payments": 36,
      "paid_if_bought": 44578.97,
@@ -1146,6 +1162,7 @@
    "expected": [
     {
      "acquisition_penalty_vs_cash": 2000.0,
+     "adds_up": true,
      "amount_of_credit": 36000.0,
      "apr_implied": 0.0,
      "apr_stated": 0.0,
@@ -1171,6 +1188,7 @@
      "list_price": 40000.0,
      "manufacturer_contribution": 0.0,
      "monthly_at_0pct_same_gfv": 500.0,
+     "monthly_at_stated_apr": 500.0,
      "monthly_payment": 500.0,
      "num_payments": 36,
      "paid_if_bought": 36000.0,
@@ -1270,6 +1288,7 @@
    "expected": [
     {
      "acquisition_penalty_vs_cash": 2000.0,
+     "adds_up": true,
      "amount_of_credit": 36000.0,
      "apr_implied": 0.0,
      "apr_stated": 0.0,
@@ -1295,6 +1314,7 @@
      "list_price": 40000.0,
      "manufacturer_contribution": 0.0,
      "monthly_at_0pct_same_gfv": 500.0,
+     "monthly_at_stated_apr": 500.0,
      "monthly_payment": 500.0,
      "num_payments": 36,
      "paid_if_bought": 36000.0,
@@ -1383,6 +1403,7 @@
    "expected": [
     {
      "acquisition_penalty_vs_cash": 2000.0,
+     "adds_up": true,
      "amount_of_credit": 36000.0,
      "apr_implied": 0.0,
      "apr_stated": 0.0,
@@ -1408,6 +1429,7 @@
      "list_price": 40000.0,
      "manufacturer_contribution": 0.0,
      "monthly_at_0pct_same_gfv": 500.0,
+     "monthly_at_stated_apr": 500.0,
      "monthly_payment": 500.0,
      "num_payments": 36,
      "paid_if_bought": 36000.0,
@@ -1485,6 +1507,7 @@
    "expected": [
     {
      "acquisition_penalty_vs_cash": 2500.0,
+     "adds_up": false,
      "amount_of_credit": 34500.0,
      "apr_implied": 0.0137,
      "apr_stated": 0.069,
@@ -1510,6 +1533,7 @@
      "list_price": 40000.0,
      "manufacturer_contribution": 1000.0,
      "monthly_at_0pct_same_gfv": 427.08,
+     "monthly_at_stated_apr": 569.92,
      "monthly_payment": 455.0,
      "num_payments": 48,
      "paid_if_bought": 37860.0,
@@ -1577,6 +1601,7 @@
    "expected": [
     {
      "acquisition_penalty_vs_cash": 1500.0,
+     "adds_up": null,
      "amount_of_credit": 35500.0,
      "apr_implied": 0.089,
      "apr_stated": 0.089,
@@ -1604,6 +1629,7 @@
      "list_price": 40000.0,
      "manufacturer_contribution": 500.0,
      "monthly_at_0pct_same_gfv": 513.89,
+     "monthly_at_stated_apr": 708.64,
      "monthly_payment": 708.64,
      "num_payments": 36,
      "paid_if_bought": 42511.1,
@@ -1670,6 +1696,7 @@
    ],
    "expected": [
     {
+     "adds_up": true,
      "amount_of_credit": 21064.53,
      "apr_implied": 0.049,
      "apr_stated": 0.049,
@@ -1694,6 +1721,7 @@
      "list_price": 30000.0,
      "manufacturer_contribution": 0.0,
      "monthly_at_0pct_same_gfv": 251.79,
+     "monthly_at_stated_apr": 320.0,
      "monthly_payment": 320.0,
      "num_payments": 36,
      "paid_if_bought": 24520.0,
@@ -1784,6 +1812,125 @@
     }
    ],
    "name": "a campaign is skipped",
+   "residuals": {}
+  },
+  {
+   "basis": {
+    "residual_at_months": 36,
+    "residual_pct_of_list": 0.45,
+    "savings_rate_apr": 0.04,
+    "term_months": 37
+   },
+   "deals": [
+    {
+     "amount_of_credit": 36500.0,
+     "apr": 0.039,
+     "car_id": "c",
+     "customer_deposit": 3999.0,
+     "finance_type": "pcp",
+     "gfv": 21962.58,
+     "id": "pm",
+     "list_price": 43145.0,
+     "manufacturer_contribution": 2646.0,
+     "monthly_payment": 449.0,
+     "num_payments": 36,
+     "status": "live",
+     "term_months": 37,
+     "vehicle_price": 43145.0
+    },
+    {
+     "apr": 0.0,
+     "car_id": "c",
+     "customer_deposit": 0.0,
+     "finance_type": "pcp",
+     "gfv": 18000.0,
+     "id": "p",
+     "list_price": 40000.0,
+     "manufacturer_contribution": 0.0,
+     "monthly_payment": 500.0,
+     "num_payments": 36,
+     "status": "live",
+     "term_months": 37,
+     "vehicle_price": 36000.0
+    }
+   ],
+   "expected": [
+    {
+     "adds_up": false,
+     "amount_of_credit": 36500.0,
+     "apr_implied": 0.0182,
+     "apr_stated": 0.039,
+     "car_id": "c",
+     "cost_of_credit": 1626.58,
+     "customer_deposit": 3999.0,
+     "derived_fields": [],
+     "effective_monthly_hand_back": 544.95,
+     "expected_equity": 2823.21,
+     "expected_value_at_end": 24785.79,
+     "finance_type": "pcp",
+     "finance_vs_own_cash_price": -1019.42,
+     "gfv": 21962.58,
+     "gfv_pct_of_list": 0.509,
+     "gfv_pct_of_price": 0.509,
+     "horizon_months": 37,
+     "id": "pm",
+     "interest_per_month": 45.18,
+     "list_price": 43145.0,
+     "manufacturer_contribution": 2646.0,
+     "monthly_at_0pct_same_gfv": 403.82,
+     "monthly_at_stated_apr": 500.09,
+     "monthly_payment": 449.0,
+     "num_payments": 36,
+     "paid_if_bought": 42125.58,
+     "paid_if_handed_back": 20163.0,
+     "pv_cost": 16721.74,
+     "pv_cost_floor": 19223.37,
+     "residual_source": "gfv-grown",
+     "status": "live",
+     "term_months": 37,
+     "true_monthly": 480.6,
+     "true_monthly_floor": 552.5,
+     "vehicle_price": 43145.0
+    },
+    {
+     "adds_up": true,
+     "amount_of_credit": 36000.0,
+     "apr_implied": 0.0,
+     "apr_stated": 0.0,
+     "car_id": "c",
+     "cost_of_credit": 0.0,
+     "customer_deposit": 0.0,
+     "derived_fields": [],
+     "effective_monthly_hand_back": 486.49,
+     "expected_equity": 2313.84,
+     "expected_value_at_end": 20313.84,
+     "finance_type": "pcp",
+     "finance_vs_own_cash_price": 0.0,
+     "gfv": 18000.0,
+     "gfv_pct_of_list": 0.45,
+     "gfv_pct_of_price": 0.5,
+     "horizon_months": 37,
+     "id": "p",
+     "interest_per_month": 0.0,
+     "list_price": 40000.0,
+     "manufacturer_contribution": 0.0,
+     "monthly_at_0pct_same_gfv": 500.0,
+     "monthly_at_stated_apr": 500.0,
+     "monthly_payment": 500.0,
+     "num_payments": 36,
+     "paid_if_bought": 36000.0,
+     "paid_if_handed_back": 18000.0,
+     "pv_cost": 14903.36,
+     "pv_cost_floor": 16953.64,
+     "residual_source": "gfv-grown",
+     "status": "live",
+     "term_months": 37,
+     "true_monthly": 428.34,
+     "true_monthly_floor": 487.27,
+     "vehicle_price": 36000.0
+    }
+   ],
+   "name": "a printed monthly its own figures do not support",
    "residuals": {}
   }
  ],

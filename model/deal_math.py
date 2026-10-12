@@ -138,6 +138,34 @@ def pv_of_payments(monthly, apr, gfv, n, first=None):
     return pv + gfv / (1 + r) ** (n + 1)
 
 
+def monthly_for(credit, apr, gfv, n, first=None):
+    """The monthly that `credit` at `apr` repays with `gfv` after the last payment, the first payment held at `first`."""
+    if first is None or n < 2:
+        return solve_monthly(credit, apr, gfv, n)
+    r = monthly_rate(apr)
+    a = sum(1 / (1 + r) ** k for k in range(2, n + 1))
+    return (credit - first / (1 + r) - gfv / (1 + r) ** (n + 1)) / a
+
+
+# What a printed monthly may sit from the one its figures give: a seller's rounding or price point.
+MONTHLY_SLACK_GBP = 1.5
+
+
+def pcp_adds_up(price, dep, contrib, credit, printed_credit, apr, gfv, n, m, first, fees, derived):
+    """Whether a PCP's own figures agree (dealMath.ts, pcpAddsUp): the price less what goes down is what it lends, and
+    the printed monthly is the one that loan at its APR repays with the final payment. None when there is nothing to
+    check the monthly against."""
+    if "monthly_payment" in derived:
+        return None
+    if printed_credit is not None and abs(price - dep - contrib - printed_credit) > 2:
+        return False
+    if apr is None:
+        return None
+    held = first if first != m else None
+    at = [monthly_for(c, a, gfv, n, held) for a in (max(0.0, apr - 0.0005), apr + 0.0005) for c in (credit, credit - fees)]
+    return min(at) - MONTHLY_SLACK_GBP <= m <= max(at) + MONTHLY_SLACK_GBP
+
+
 def payment_flows(d, n, m, first, gfv):
     flows = [(1, -first)] + [(k, -m) for k in range(2, n + 1)]
     flows.append((n + 1, -gfv))
@@ -211,6 +239,8 @@ def pcp_metrics(d, best_cash, basis=None, residuals=None, floor_gfv=None):
         "effective_monthly_hand_back": round(paid_hand_back / term, 2),
         "monthly_at_0pct_same_gfv": round(zero_pct_monthly, 2),
         "interest_per_month": round(m - zero_pct_monthly, 2),
+        "monthly_at_stated_apr": round(monthly_for(credit, apr, gfv, n, first if first != m else None), 2) if apr is not None else None,
+        "adds_up": pcp_adds_up(price, dep, contrib, credit, d.get("amount_of_credit"), apr, gfv, n, m, first, fees, derived),
         "derived_fields": derived,
     })
     # True monthly: deposit + fees now, the payments, and at the end the option to

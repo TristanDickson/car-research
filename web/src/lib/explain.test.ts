@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { rateVsCashSteps } from "./explain";
+import { doesNotAddUp, rateVsCashSteps } from "./explain";
 import { pcpMetrics, type DealFields } from "./model/dealMath";
 import type { SnapshotOffer } from "./types";
 
@@ -35,5 +35,20 @@ describe("the rate against cash, step by step", () => {
   it("says nothing without a cash price for the same car", () => {
     const d: DealFields = { id: "p", car_id: "c", finance_type: "pcp", vehicle_price: 36000, num_payments: 36, monthly_payment: 500, gfv: 18000 };
     expect(rateVsCashSteps({ ...d, metrics: pcpMetrics(d, null) } as unknown as SnapshotOffer)).toBeNull();
+  });
+});
+
+describe("a quote whose own figures do not add up", () => {
+  it("says what it prints, what its figures give, and the headline that disagrees too", () => {
+    // Halliwell Jones's EV5 Storm example of 11 Oct 2026.
+    const d: DealFields = { id: "p", car_id: "c", finance_type: "pcp", vehicle_price: 43145, customer_deposit: 3999, manufacturer_contribution: 2646,
+      amount_of_credit: 36500, apr: 0.039, num_payments: 36, gfv: 21962.58, monthly_payment: 449 };
+    const o = { ...d, banner_monthly: 499, metrics: pcpMetrics(d, null) } as unknown as SnapshotOffer & { banner_monthly: number };
+    expect(doesNotAddUp(o)).toBe([
+      "It prints £449.00 a month, but the £36,500 it lends at its 3.9% APR, with £21,963 at the end, comes to £500.09 a month.",
+      "The headline above it says £499 a month.",
+      "So it is left out of the cheapest prices. Check it with the seller before relying on it.",
+    ].join("\n"));
+    expect(doesNotAddUp({ ...o, monthly_payment: 500, metrics: pcpMetrics({ ...d, monthly_payment: 500 }, null) } as unknown as SnapshotOffer)).toBeNull();
   });
 });

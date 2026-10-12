@@ -37,6 +37,10 @@ PCP_DERIVED = {"id": "pd", "car_id": "c", "finance_type": "pcp", "status": "deri
 # Credit to be back-solved from the payments; the price follows.
 PCP_BACKSOLVED = {"id": "pb", "car_id": "c2", "finance_type": "pcp", "status": "live", "list_price": 30000.0, "customer_deposit": 1000.0,
                   "manufacturer_contribution": 0.0, "apr": 0.049, "num_payments": 36, "gfv": 12000.0, "monthly_payment": 320.0}
+# A monthly its own credit, APR and final payment do not support (Halliwell Jones's EV5 Storm, 11 Oct 2026: they give £500.09).
+PCP_MISPRINTED = {"id": "pm", "car_id": "c", "finance_type": "pcp", "status": "live", "list_price": 43145.0, "vehicle_price": 43145.0,
+                  "customer_deposit": 3999.0, "manufacturer_contribution": 2646.0, "amount_of_credit": 36500.0, "apr": 0.039,
+                  "num_payments": 36, "term_months": 37, "gfv": 21962.58, "monthly_payment": 449.0}
 CAMPAIGN = {"id": "cmp", "car_id": "c", "finance_type": "campaign", "status": "campaign", "apr": 0.0, "manufacturer_contribution": 1500.0}
 
 BASIS_ZERO = {"term_months": 37, "savings_rate_apr": 0.0, "residual_pct_of_list": 0.45, "residual_at_months": 37}
@@ -68,6 +72,7 @@ def build() -> dict:
             _deal_case("monthly solved from apr", [PCP_DERIVED, CASH], DEFAULT_BASIS),
             _deal_case("credit back-solved, no cash benchmark, no floor for cash", [PCP_BACKSOLVED, {**CASH, "car_id": "c3", "id": "k3"}], BASIS_25),
             _deal_case("a campaign is skipped", [CAMPAIGN, PCH], DEFAULT_BASIS),
+            _deal_case("a printed monthly its own figures do not support", [PCP_MISPRINTED, PCP], DEFAULT_BASIS),
         ],
         "used_cases": [
             _used_case("used with the market's figure", 19000.0, 2, DEFAULT_BASIS, 9000.0),

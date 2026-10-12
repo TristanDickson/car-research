@@ -107,6 +107,11 @@ def upgrade(provider: str, row: dict) -> None:
     payload of its first sighting, so a field a parser learned to derive later is
     missing from older rows although everything it is derived from is there."""
     ref = row.get("car_ref")
+    # Carwow's representative example: a row kept 36 payments for a 36-month term that has 35 (carwow_deals.payments_in).
+    if provider == "carwow_deals" and row.get("term_months") and row.get("monthly_payment"):
+        from pipeline.providers.carwow_deals import payments_in
+        row["num_payments"] = payments_in(row["term_months"], row.get("monthly_payment"), row.get("total_payable_stated"),
+                                          row.get("customer_deposit"), row.get("manufacturer_contribution"), row.get("gfv"))
     if provider == "ncd" and isinstance(ref, dict) and ref.get("rrp") is None:
         from pipeline.providers.ncd import OTR_EXTRAS_GBP
         if row.get("vehicle_price") and row.get("saving_stated"):

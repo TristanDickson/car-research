@@ -53,6 +53,12 @@ PCP example for the model (deposit, monthly, final payment, APR, mileage, RRP).
 - **The example's car:** matched by RRP; where two derivatives share an RRP (the Ioniq 5
   Advance 63 kWh model years, £40,695), by the card whose "Monthly from" is the example's
   payment. A tie that stays a tie is left unmatched.
+- **Its number of payments:** the example prints its term ("36 months") but not how many
+  monthly payments it has, and lenders differ: Hyundai's 36 months is 36 payments then the
+  final one, Jeep's (and 54 of the 108 examples on 6 to 10 Oct) 35 then the final one in month
+  36. The count is whichever makes the example's total payable add up; the monthly is printed
+  rounded up to the pound (£218 for £217.40). Until 12 Oct every example was read as 36, the
+  committed history included (now corrected as it is read, `history.upgrade`).
 - **Left:** nothing on the page. Named dealer offers need the logged-in quotes page.
 
 ### carwow_model
@@ -200,7 +206,12 @@ Lloyd Motor Group's and Halliwell Jones's Kia offer pages, each a representative
 - **Halliwell Jones:** an offer page's first example is its own; its heading names the car
   (the captions above examples are often wrong: an "EV3 Air" caption over the GT-Line's
   £39,455). The banner ("From only £499 p/m") is kept beside the example; the EV5 Storm's
-  example prints £449, which its own credit, APR and final payment do not support.
+  example prints £449, which its own credit, APR, final payment, total and banner do not
+  support (they give about £500): the app marks it as not adding up. Elsewhere its printed
+  monthly is a price point up to £1.30 under what its APR and total give (£399 for £400.12),
+  and its total payable leaves out its own contribution and the grant.
+- **Lloyd and RRG:** the total payable counts the government's Electric Car Grant (£3,750 or
+  £1,500) as paid, RRG's EV4 example does not; either way the rest of the example agrees.
 - **Left:** Kia's own offer pages (`kia.com/uk/new-cars/offers/<model>/`): contributions per
   trim, the grant per trim, the order window (to 15 Dec 2026). Four pages; a new source, so it
   needs its own survey first.

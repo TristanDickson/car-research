@@ -238,7 +238,8 @@ export function cost(s: Sighting, basis: Basis, residual: ResidualAt, floorGfv: 
       const n = num(d.num_payments);
       const floor = floorGfv(s.car_id, asOf);
       m = pcpMetrics(d, null, basis, n != null ? residualsFor(s, n + 1, asOf, residual) : null, floor);
-      if (m.skipped || m.true_monthly == null || n == null) return null;
+      // A quote whose own figures do not add up is no price to rank by: it stays in the offer lists, marked.
+      if (m.skipped || m.true_monthly == null || n == null || m.adds_up === false) return null;
       headline = m.monthly_payment ?? null;
       own = { tm: m.true_monthly, floor: m.true_monthly_floor ?? null, pv: m.pv_cost ?? null, months: n + 1 };
       if (H === n + 1) hz = { ...own, kind: "as_agreed", end: m.expected_value_at_end ?? null, src: m.residual_source ?? null };

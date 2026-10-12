@@ -158,6 +158,32 @@ export function pvOfPayments(monthly: number, apr: number, gfv: number, n: numbe
   return pv + gfv / Math.pow(1 + r, n + 1);
 }
 
+/** The monthly that `credit` at `apr` repays with `gfv` after the last payment, the first payment held at `first` when it differs. */
+export function monthlyFor(credit: number, apr: number, gfv: number, n: number, first?: number | null): number {
+  if (first == null || n < 2) return solveMonthly(credit, apr, gfv, n);
+  const r = monthlyRate(apr);
+  let a = 0;
+  for (let k = 2; k <= n; k++) a += 1 / Math.pow(1 + r, k);
+  return (credit - first / (1 + r) - gfv / Math.pow(1 + r, n + 1)) / a;
+}
+
+/** What a printed monthly may sit from the one its figures give: a seller's rounding or price point (Carwow rounds up
+ * to the pound; Halliwell Jones prints £399 for £400.12). */
+export const MONTHLY_SLACK_GBP = 1.5;
+
+/** Whether a PCP's own figures agree: the price less what goes down is what it lends, and the printed monthly is the one
+ * that loan at its APR repays with the final payment (within what printing the APR to one decimal moves it, the fees
+ * in or out of the APR, and MONTHLY_SLACK_GBP). Null when the monthly has nothing to be checked against: no APR, or a
+ * monthly the maths solved from them. */
+export function pcpAddsUp(t: PcpTerms, printedCredit: number | null): boolean | null {
+  if (t.derived.includes("monthly_payment")) return null;
+  if (printedCredit != null && Math.abs(t.price - t.dep - t.contrib - printedCredit) > 2) return false;
+  if (t.apr == null) return null;
+  const first = t.first !== t.m ? t.first : null;
+  const at = [Math.max(0, t.apr - 0.0005), t.apr + 0.0005].flatMap((a) => [monthlyFor(t.credit, a, t.gfv, t.n, first), monthlyFor(t.credit - t.fees, a, t.gfv, t.n, first)]);
+  return t.m >= Math.min(...at) - MONTHLY_SLACK_GBP && t.m <= Math.max(...at) + MONTHLY_SLACK_GBP;
+}
+
 function paymentFlows(n: number, m: number, first: number, gfv: number): Flow[] {
   const flows: Flow[] = [[1, -first]];
   for (let k = 2; k <= n; k++) flows.push([k, -m]);
@@ -261,6 +287,8 @@ export function pcpMetrics(d: DealFields, bestCash: DealFields | null | undefine
     effective_monthly_hand_back: round2(paidHandBack / term),
     monthly_at_0pct_same_gfv: round2(zeroPctMonthly),
     interest_per_month: round2(m - zeroPctMonthly),
+    monthly_at_stated_apr: apr != null ? round2(monthlyFor(credit, apr, gfv, n, first !== m ? first : null)) : null,
+    adds_up: pcpAddsUp(t, num(d.amount_of_credit)),
     derived_fields: t.derived,
   });
   // True monthly: deposit and fees now, the payments, and at the end the option

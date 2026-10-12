@@ -5,7 +5,10 @@ CAP derivative id, RRP, Carwow's best cash price and either an indicative
 "Monthly from" (Hyundai pages, on the footnote's basis) or a separate "PCP
 Finance" price (Kia pages: the price you pay if you take the manufacturer's
 PCP, which can differ from cash). Plus one model-level representative PCP
-example, matched to its derivative by RRP.
+example, matched to its derivative by RRP. The example prints its term ('36
+months') but not how many monthly payments it has, and lenders differ: Hyundai's
+36 months is 36 payments and then the final one, Jeep's is 35 and the final one in
+month 36. The example's own total payable says which (`payments_in`).
 
 Emits one cash observation per derivative (offer key carwow:cash:<cap id>) and
 one illustrative PCP observation for the example. Trim resolution is by CAP id
@@ -57,6 +60,21 @@ def discover(target: Target, ctx: Context) -> Iterator[Target]:
 
 def fetch(target: Target, ctx: Context) -> Fetched:
     return fetch_url(target.metadata["url"], ctx)
+
+
+def payments_in(term: int | None, monthly: float | None, total: float | None, deposit: float | None,
+                contribution: float | None, final: float | None) -> int | None:
+    """How many monthly payments a representative example has: of the term and one fewer, the count
+    whose payments make up the example's total payable with what goes down and the final payment
+    (Carwow rounds the monthly up to the pound, so within £1 of it). Without a total, the term."""
+    if not term:
+        return None
+    if total and monthly:
+        paid = total - (deposit or 0.0) - (contribution or 0.0) - (final or 0.0)
+        fits = [(abs(paid / n - monthly), n) for n in (term - 1, term) if n > 0 and abs(paid / n - monthly) <= 1.0]
+        if fits:
+            return min(fits)[1]
+    return term
 
 
 def parse_page(page: str, make: str, model: str, url: str, observed_at: str, make_name: str | None = None) -> list[dict]:
@@ -145,6 +163,9 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str, mak
         if match:
             term = int(number(example.get("Term of agreement")) or 0) or None
             contrib_key = next((k for k in example if k.endswith("deposit contribution")), None)
+            deposit = money(example.get("Customer deposit")) or 0.0
+            contribution = money(example.get(contrib_key)) if contrib_key else 0.0
+            monthly, final, total = money(example.get("Monthly payment")), money(example.get("Optional final payment")), money(example.get("Total amount payable"))
             rows.append({
                 "id": f"carwow:rep:{match['cap']}", "offer_key": f"carwow:rep:{match['cap']}",
                 "observed_at": observed_at, "captured_at": observed_at[:10], "present": 1,
@@ -154,15 +175,13 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str, mak
                 "car_ref": ref(match, f"{make_name} {match['title']} · {match['trim']}"),
                 "finance_type": "pcp",
                 "list_price": rrp, "vehicle_price": money(example.get("Carwow price")),
-                "customer_deposit": money(example.get("Customer deposit")) or 0.0,
-                "manufacturer_contribution": money(example.get(contrib_key)) if contrib_key else 0.0,
+                "customer_deposit": deposit, "manufacturer_contribution": contribution,
                 "amount_of_credit": money(example.get("Amount of credit")),
-                "term_months": term, "num_payments": term,
-                "monthly_payment": money(example.get("Monthly payment")),
+                "term_months": term, "num_payments": payments_in(term, monthly, total, deposit, contribution, final),
+                "monthly_payment": monthly,
                 "apr": pct(example.get("Representative APR")),
                 "fixed_rate_pa": pct(example.get("Fixed rate of interest")),
-                "gfv": money(example.get("Optional final payment")),
-                "total_payable_stated": money(example.get("Total amount payable")),
+                "gfv": final, "total_payable_stated": total,
                 "cost_of_credit_stated": money(example.get("Interest charges")),
                 "annual_mileage": int(number(example.get("Mileage per annum")) or 0) or None,
                 "excess_mileage_ppm": number(example.get("Excess mileage charges")),

@@ -5,9 +5,10 @@ import { useMemo, useState } from "react";
 
 import { LevelsTable, NightsGrid } from "@/components/PipelineView";
 import { Badge, Card, Empty, ErrorNote, Loading, PageHeader } from "@/components/ui";
-import { dateLabel } from "@/lib/format";
+import { doesNotAddUp } from "@/lib/explain";
+import { carName, dateLabel, gbp } from "@/lib/format";
 import { pct } from "@/lib/format";
-import { useBasis, useComputeStats, useDataPage, useModels, useSnapshot } from "@/lib/hooks";
+import { useBasis, useCars, useComputeStats, useDataPage, useModels, useOffers, useSnapshot } from "@/lib/hooks";
 
 /**
  * Where the numbers come from and what is wrong with them. Leads with the
@@ -23,7 +24,13 @@ export default function DataPage() {
   const basis = useBasis();
   const computed = useComputeStats();
   const { data, error } = useDataPage();
+  const offers = useOffers();
+  const cars = useCars();
   const [issueFilter, setIssueFilter] = useState<"all" | "conflict" | "unmapped">("all");
+  // PCP quotes whose own figures disagree (lib/model/dealMath.ts, pcpAddsUp), newest first.
+  const unsound = useMemo(() => (offers.data ?? []).filter((o) => o.finance_type === "pcp" && o.metrics.adds_up === false)
+    .sort((a, b) => (b.freshness.last_seen_at ?? "").localeCompare(a.freshness.last_seen_at ?? "")), [offers.data]);
+  const carById = useMemo(() => new Map((cars.data ?? []).map((c) => [c.id, c])), [cars.data]);
 
   // Each source's latest scrape: from the night history where the snapshot has one, else the run log's last rows.
   const lastRun = useMemo(() => {
@@ -136,6 +143,35 @@ export default function DataPage() {
               </tbody>
             </table>
           </div>
+        )}
+      </Card>
+
+      <Card title={`Quotes that don't add up · ${unsound.length}`}>
+        <p className="mb-2 text-sm text-gray-400">
+          A PCP quote whose printed monthly is not what its own amount borrowed, APR and final payment give (allowing for the APR printed to one decimal and a pound or so of the seller&apos;s rounding),
+          or whose price less the deposit is not what it lends. It stays in the offer lists, marked, and is left out of every cheapest price.
+        </p>
+        {unsound.length === 0 ? (
+          <Empty>Every PCP quote&apos;s figures agree with each other.</Empty>
+        ) : (
+          <table className="w-full text-sm">
+            <thead className="text-left text-xs uppercase text-gray-500"><tr><th className="py-1 pr-3">Car</th><th className="py-1 pr-3">Seller</th><th className="py-1 pr-3 text-right">Printed</th><th className="py-1 pr-3 text-right">Its figures give</th><th className="py-1 pr-3">Why</th><th className="py-1">Last seen</th></tr></thead>
+            <tbody>
+              {unsound.map((o) => {
+                const c = carById.get(o.car_id);
+                return (
+                  <tr key={o.id} className="border-t border-gray-800 align-top">
+                    <td className="py-1 pr-3"><Link href={`/cars/view?id=${encodeURIComponent(o.car_id)}`} className="text-gray-100 hover:underline">{c ? carName(c) : o.car_id}</Link></td>
+                    <td className="py-1 pr-3 text-gray-300">{o.source_url ? <a href={o.source_url} target="_blank" rel="noreferrer" className="hover:underline">{o.dealer ?? o.source}</a> : (o.dealer ?? o.source)}</td>
+                    <td className="py-1 pr-3 text-right tabular-nums">{gbp(o.metrics.monthly_payment, 2)}</td>
+                    <td className="py-1 pr-3 text-right tabular-nums">{gbp(o.metrics.monthly_at_stated_apr, 2)}</td>
+                    <td className="max-w-[28rem] whitespace-pre-line py-1 pr-3 text-xs text-gray-400">{doesNotAddUp(o)}</td>
+                    <td className="whitespace-nowrap py-1 text-xs text-gray-400">{o.freshness.last_seen_at?.slice(0, 10) ?? "—"}{o.freshness.state === "gone" ? " · gone" : ""}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         )}
       </Card>
 

@@ -52,6 +52,15 @@ describe("costing", () => {
     expect([june.headline, june.as_of, june.at_horizon, june.horizon_months]).toEqual([500, "2026-06-01", "as_agreed", 37]);
     expect(june.own_true_monthly).toBe(june.true_monthly);
   });
+  it("a pcp quote whose own figures do not add up is not a price to rank by", () => {
+    // £36,000 at 0% with £18,000 at the end over 36 payments is £500 a month, not £449.
+    const ok = offer("p", "pcp", "hyundai", PCP, "2026-10-01", "2026-10-07");
+    const bad = offer("q", "pcp", "dealer", { ...PCP, monthly_payment: 449 }, "2026-10-01", "2026-10-07");
+    expect(cost(ok, BASIS, residualAt([]), floorGfvAt([ok]), "2026-10-07")).not.toBeNull();
+    expect(cost(bad, BASIS, residualAt([]), floorGfvAt([bad]), "2026-10-07")).toBeNull();
+    // A seller's price point a pound under, or Carwow's rounding up, still adds up.
+    for (const m of [499, 500.99]) expect(cost(offer("r", "pcp", "x", { ...PCP, monthly_payment: m }, "2026-10-01", "2026-10-07"), BASIS, residualAt([]), floorGfvAt([]), "2026-10-07")).not.toBeNull();
+  });
   it("a used sighting is costed like the used route", () => {
     const c = cost(used("x", 19000, 2024, "2026-10-07", "2026-10-07"), BASIS, residualAt(STOCK), floorGfvAt([]), "2026-10-07")!;
     expect([c.headline, c.residual_source]).toEqual([19000, "assumption"]);   // nothing from 2021 says what a 2024 car is worth in 2029
@@ -96,7 +105,7 @@ describe("the reader's horizon", () => {
     const same = pcpOverHorizon({ ...PCP, car_id: "c", finance_type: "pcp" }, 37, zero, null, null, 0)!;
     expect(same.at_horizon).toBe("as_agreed");
     expect(same.true_monthly).toBeCloseTo(500 * 36 / 37, 2);
-    const s = offer("p49", "pcp", "hyundai", long, "2026-10-01", "2026-10-07");
+    const s = offer("p49", "pcp", "hyundai", { ...long, vehicle_price: 33200 }, "2026-10-01", "2026-10-07");   // 48 × £400 + £14,000 at 0%
     const overH = cost(s, BASIS, residualAt([]), floorGfvAt([]), "2026-10-07")!;
     const own = cost(s, { ...BASIS, compare_over: "own" }, residualAt([]), floorGfvAt([]), "2026-10-07")!;
     expect([overH.horizon_months, overH.at_horizon, own.horizon_months, own.at_horizon]).toEqual([37, "settle_early", 49, "as_agreed"]);
@@ -123,7 +132,7 @@ describe("series", () => {
   it("group by subject, route and source", () => {
     const rows = costAll([
       offer("p", "pcp", "hyundai", PCP, "2026-06-01", "2026-10-07"),
-      offer("p-again", "pcp", "hyundai", { ...PCP, monthly_payment: 480 }, "2026-10-01", "2026-10-07"),
+      offer("p-again", "pcp", "hyundai", { ...PCP, monthly_payment: 480, gfv: 18720 }, "2026-10-01", "2026-10-07"),
       offer("k", "cash", "ncd", CASH, "2026-10-05", "2026-10-07"),
       offer("k2", "cash", "carwow", { ...CASH, vehicle_price: 35000 }, "2026-10-05", "2026-10-07"),
       used("u1", 20000, 2023, "2026-10-01", "2026-10-07", { vrm: "A" }),

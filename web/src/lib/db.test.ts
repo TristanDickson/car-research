@@ -34,7 +34,7 @@ function snapshot(generated_at: string, carIds: string[]) {
     "cars.json": carIds.map((id) => ({ ...car(id), used_key: "hyundai/ioniq-3|advance|61" })),
     "sightings.json": [
       span("k1", carIds[0], "cash", { list_price: 30000, vehicle_price: 27000 }),
-      span("p1", carIds[0], "pcp", { list_price: 30000, vehicle_price: 27000, customer_deposit: 0, apr: 0.069, num_payments: 48, term_months: 49, gfv: 11000, monthly_payment: 380 }),
+      span("p1", carIds[0], "pcp", { list_price: 30000, vehicle_price: 27000, customer_deposit: 0, apr: 0.069, num_payments: 48, term_months: 49, gfv: 11000, monthly_payment: 443.3 }),
     ],
     "used_spans.json": [2021, 2021, 2021].map((year, i) => ({ key: `u${i}`, source: "cinch", model: "hyundai/ioniq-3", car_id: null, used_key: "hyundai/ioniq-3|advance|61", year, price: 12000 + i * 500, mileage: 10000 + i, vrm: `V${i}`, town: null, from: "2026-09-01", to: today, present: true })),
     "requirements.json": { as_of: "2026-10-06", hard: [], preferences: [], wants: [], quoting_basis: { term_months: 37, savings_rate_apr: 0.04, residual_pct_of_list: 0.45, residual_at_months: 36 },

@@ -349,6 +349,9 @@ export interface DealMetrics {
   effective_monthly_hand_back?: number;
   monthly_at_0pct_same_gfv?: number;
   interest_per_month?: number;
+  /** The monthly its credit, APR and final payment give, and whether the printed one is it (lib/model/dealMath.ts, pcpAddsUp). */
+  monthly_at_stated_apr?: number | null;
+  adds_up?: boolean | null;
   derived_fields?: string[];
   best_cash_price?: number;
   best_cash_deal_id?: string;

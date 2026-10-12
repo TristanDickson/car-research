@@ -364,7 +364,14 @@ rejected by that rule fails in two seconds with no runner and no logs.
   (`web/src/lib/names.ts`) and sits under the name, not in it. The PCP rate against cash now
   counts the fees (the research notes' rule 5 always said so; 20 cinch quotes carry £99), and
   hovering over it shows the sum (`web/src/lib/explain.ts`): what stays with you today by not
-  paying the cheapest cash price, and what you pay back to own the car.
+  paying the cheapest cash price, and what you pay back to own the car. Later: every PCP quote
+  is checked against itself (`pcpAddsUp`, ARCHITECTURE "The true monthly"); 81 of 212 failed a
+  full check, and the causes were ours but one: Carwow's examples print their term, not their
+  number of payments, and 54 of 108 have 35 where we read 36 (fixed in `carwow_deals` and, for
+  the committed history, `history.upgrade`; the rest was whole-pound rounding and the grant in
+  Lloyd's and RRG's totals). What still fails after the rebuild: Halliwell Jones's EV5 Storm
+  (prints £449, its own figures give £500.09), left out of the cheapest prices and listed on the
+  Data page, and the owner's own Ioniq 5 entry from memory (£540 where 0% gives £527.78).
 - **2026-10-11 (evening)** Every source surveyed against its own pages (`docs/SOURCES.md`, and a
   rule in `CLAUDE.md`: no new source without one). Wrong figures fixed first: Carwow gave 18 of 48
   sampled derivatives another derivative's range (each now reads its own slide), took model-wide

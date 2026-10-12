@@ -367,6 +367,15 @@ from the reader's quoting basis (`requirements.quoting_basis`: `term_months`,
 `pct ** (t / at)`, `compare_over`), edited in Settings. With V = GFV the PCP
 figure is today's hand-back arithmetic, so `true_monthly_floor` is the pessimistic case.
 
+A PCP quote is checked against itself first (`pcpAddsUp`): its price less what goes down
+must be what it lends, and its printed monthly must be the one that loan at its APR repays
+with the final payment (`monthly_at_stated_apr`), within what printing the APR to one
+decimal moves it, fees in or out of the APR, and £1.50 of a seller's rounding (Carwow
+rounds up to the pound; Halliwell Jones prints £399 for £400.12). A quote that fails
+(`adds_up: false`) is not costed for ranking: it stays in the offer lists, marked, and on
+the Data page, and is in no cheapest price or trend line. A monthly the maths solved, or a
+quote with no APR, is not checked (`adds_up: null`).
+
 `model/deal_math.py` is the same arithmetic in Python. It is the oracle, not the exporter:
 `python3 -m model.cost_fixture > tests/fixtures/cost_cases.json` writes what it says a set
 of deals cost, `tests/test_deal_math.py` asserts the file is still what the module

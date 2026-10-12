@@ -33,3 +33,19 @@ export function rateVsCashSteps(o: Pick<SnapshotOffer, "metrics" | "first_paymen
     "Either way you own the car at the end, so what it will then be worth does not come into it, nor does your term.",
   ].join("\n");
 }
+
+/** Why a PCP quote's own figures do not add up (lib/model/dealMath.ts, pcpAddsUp), one point a line; null when
+ * they do, or there is nothing to check them against. */
+export function doesNotAddUp(o: Pick<SnapshotOffer, "metrics"> & { banner_monthly?: number | null }): string | null {
+  const m = o.metrics;
+  if (m.adds_up !== false) return null;
+  const dep = m.customer_deposit ?? 0, con = m.manufacturer_contribution ?? 0, price = m.vehicle_price, credit = m.amount_of_credit;
+  const lines = [
+    price != null && credit != null && Math.abs(price - dep - con - credit) > 2
+      ? `Its price less the deposit and contributions is ${gbp(price - dep - con)}, but it lends ${gbp(credit)}.`
+      : `It prints ${gbp(m.monthly_payment, 2)} a month, but the ${gbp(credit)} it lends at its ${pct(m.apr_stated)} APR, with ${gbp(m.gfv)} at the end, comes to ${gbp(m.monthly_at_stated_apr, 2)} a month.`,
+  ];
+  if (o.banner_monthly != null && o.banner_monthly !== m.monthly_payment) lines.push(`The headline above it says ${gbp(o.banner_monthly)} a month.`);
+  lines.push("So it is left out of the cheapest prices. Check it with the seller before relying on it.");
+  return lines.join("\n");
+}

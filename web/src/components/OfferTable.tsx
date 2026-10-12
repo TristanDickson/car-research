@@ -5,7 +5,7 @@ import Link from "next/link";
 import { DataTable, type Column } from "@/components/DataTable";
 import { Badge, SeenBadge, StatusBadge } from "@/components/ui";
 import { carName, gbp, nameDetail, pct, sortName } from "@/lib/format";
-import { rateVsCashSteps } from "@/lib/explain";
+import { doesNotAddUp, rateVsCashSteps } from "@/lib/explain";
 import { ageLabel, isStale } from "@/lib/freshness";
 import type { SnapshotCar, SnapshotOffer } from "@/lib/types";
 
@@ -116,7 +116,18 @@ export function OfferTable({ offers, cars, staleDays, showCar = true, defaultSor
       render: (o) => (o.manufacturer_contribution ? gbp(o.manufacturer_contribution) : "—"),
     },
     { key: "dep", header: "Deposit", align: "right", sortValue: (o) => o.customer_deposit ?? o.initial_rental, render: (o) => gbp(o.customer_deposit ?? o.initial_rental) },
-    { key: "monthly", header: "Monthly × n", align: "right", sortValue: (o) => o.metrics.monthly_payment ?? o.metrics.monthly_rental, render: monthly },
+    {
+      key: "monthly",
+      header: "Monthly × n",
+      align: "right",
+      sortValue: (o) => o.metrics.monthly_payment ?? o.metrics.monthly_rental,
+      render: (o) => {
+        const why = doesNotAddUp(o);
+        return why ? (
+          <span title={why} className="cursor-help whitespace-nowrap">{monthly(o)} <Badge tone="warn">doesn&apos;t add up</Badge></span>
+        ) : monthly(o);
+      },
+    },
     {
       key: "apr",
       header: "APR stated / implied",
@@ -146,7 +157,10 @@ export function OfferTable({ offers, cars, staleDays, showCar = true, defaultSor
       sortValue: (o) => o.comparable?.true_monthly ?? o.metrics.true_monthly,
       render: (o) => {
         const c = o.comparable;
-        if (!c || c.true_monthly == null) return o.metrics.true_monthly != null ? <span className="text-gray-500" title="not current">{gbp(o.metrics.true_monthly)}</span> : "—";
+        if (!c || c.true_monthly == null) {
+          const note = o.metrics.adds_up === false ? "left out of the cheapest prices: its own figures don't add up" : "not current";
+          return o.metrics.true_monthly != null ? <span className="text-gray-500" title={note}>{gbp(o.metrics.true_monthly)}</span> : "—";
+        }
         const kind = c.at_horizon === "settle_early" ? "settled at the horizon, car sold" : c.at_horizon === "balloon_then_keep" ? "balloon paid, car kept and sold at the horizon"
           : c.at_horizon === "lease_cut" ? "the rentals within the horizon" : c.at_horizon === "lease_ends" ? "the same cost per month assumed to continue" : null;
         return (
