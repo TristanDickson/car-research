@@ -5,6 +5,7 @@ import Link from "next/link";
 import { DataTable, type Column } from "@/components/DataTable";
 import { Badge, SeenBadge, StatusBadge } from "@/components/ui";
 import { carName, gbp, nameDetail, pct, sortName } from "@/lib/format";
+import { rateVsCashSteps } from "@/lib/explain";
 import { ageLabel, isStale } from "@/lib/freshness";
 import type { SnapshotCar, SnapshotOffer } from "@/lib/types";
 
@@ -199,12 +200,13 @@ export function OfferTable({ offers, cars, staleDays, showCar = true, defaultSor
     {
       key: "effrate",
       header: "Eff. rate vs cash",
-      title: "Annualised cost of taking this finance instead of the best cash price",
+      title: "The yearly rate you in effect pay by taking this PCP instead of paying the cheapest cash price for the same car, if you pay the final payment and keep the car. Only printed figures: no guess at what the car will be worth, no adjustment to your term. Hover over a figure for its sum.",
       align: "right",
       sortValue: (o) => o.metrics.effective_rate_vs_cash,
       render: (o) =>
         o.metrics.effective_rate_vs_cash != null ? (
-          <span className={o.metrics.effective_rate_vs_cash > 0.06 ? "text-rose-300" : o.metrics.effective_rate_vs_cash <= 0 ? "text-emerald-300" : ""}>
+          <span title={rateVsCashSteps(o) ?? undefined}
+            className={`cursor-help ${o.metrics.effective_rate_vs_cash > 0.06 ? "text-rose-300" : o.metrics.effective_rate_vs_cash <= 0 ? "text-emerald-300" : ""}`}>
             {pct(o.metrics.effective_rate_vs_cash)}
           </span>
         ) : (

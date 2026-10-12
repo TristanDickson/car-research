@@ -1495,7 +1495,7 @@
      "customer_deposit": 2000.0,
      "derived_fields": [],
      "effective_monthly_hand_back": 486.94,
-     "effective_rate_vs_cash": 0.0414,
+     "effective_rate_vs_cash": 0.0415,
      "expected_equity": 2431.64,
      "expected_value_at_end": 16431.64,
      "finance_type": "pcp",

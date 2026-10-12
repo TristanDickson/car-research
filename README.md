@@ -358,6 +358,13 @@ rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Context log
 
+- **2026-10-12** App-side changes, no rebuild of the data needed. The Cars table's PCP and lease
+  columns sort by what they show, and each route has two: the true cost a month and the
+  advertised monthly payment. The note that tells look-alike cars apart is worked out in the app
+  (`web/src/lib/names.ts`) and sits under the name, not in it. The PCP rate against cash now
+  counts the fees (the research notes' rule 5 always said so; 20 cinch quotes carry £99), and
+  hovering over it shows the sum (`web/src/lib/explain.ts`): what stays with you today by not
+  paying the cheapest cash price, and what you pay back to own the car.
 - **2026-10-11 (evening)** Every source surveyed against its own pages (`docs/SOURCES.md`, and a
   rule in `CLAUDE.md`: no new source without one). Wrong figures fixed first: Carwow gave 18 of 48
   sampled derivatives another derivative's range (each now reads its own slide), took model-wide

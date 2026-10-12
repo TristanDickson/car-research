@@ -231,7 +231,9 @@ def pcp_metrics(d, best_cash, basis=None, residuals=None, floor_gfv=None):
         bc = best_cash["vehicle_price"]
         acq_penalty = (price - contrib) - bc
         funding_premium = paid_bought - bc
-        r2 = irr_monthly([(0, bc - dep)] + payment_flows(d, n, m, first, gfv))
+        # The rate if the car is bought at the end, which owns it as the cash buyer does: the cash price less
+        # what goes down today (deposit and fees) is in effect borrowed, repaid by the payments and the balloon.
+        r2 = irr_monthly([(0, bc - dep - fees)] + payment_flows(d, n, m, first, gfv))
         out.update({
             "best_cash_price": bc,
             "best_cash_deal_id": best_cash["id"],

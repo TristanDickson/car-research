@@ -279,7 +279,9 @@ export function pcpMetrics(d: DealFields, bestCash: DealFields | null | undefine
   });
   if (bestCash && num(bestCash.vehicle_price) != null) {
     const bc = bestCash.vehicle_price as number;
-    const r2 = irrMonthly([[0, bc - dep], ...paymentFlows(n, m, first, gfv)]);
+    // The rate if the car is bought at the end, which owns it as the cash buyer does: the cash price less
+    // what goes down today (deposit and fees) is in effect borrowed, repaid by the payments and the balloon.
+    const r2 = irrMonthly([[0, bc - dep - fees], ...paymentFlows(n, m, first, gfv)]);
     Object.assign(out, {
       best_cash_price: bc,
       best_cash_deal_id: bestCash.id,

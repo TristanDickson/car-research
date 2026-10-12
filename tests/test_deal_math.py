@@ -127,6 +127,18 @@ class TrueMonthly(unittest.TestCase):
         self.assertEqual(r["l"]["horizon_months"], 36)
 
 
+    def test_the_rate_against_cash_counts_the_fees(self):
+        from model.deal_math import compute
+        # Same price as cash, 0% and no fees: nothing is paid for the credit.
+        cash = dict(self.CASH, vehicle_price=36000.0)
+        free = {m["id"]: m for m in compute([self.PCP, cash])}["p"]
+        self.assertAlmostEqual(free["effective_rate_vs_cash"], 0.0, delta=0.0001)
+        # A fee is paid to own the car, so the rate against cash is above nothing, and what is paid
+        # back beyond what was kept is the premium over cash.
+        fee = {m["id"]: m for m in compute([dict(self.PCP, fees_gbp=99.0), cash])}["p"]
+        self.assertGreater(fee["effective_rate_vs_cash"], 0.0)
+        self.assertAlmostEqual(fee["funding_premium_vs_cash"], 99.0, places=2)
+
 class SharedFixture(unittest.TestCase):
     """tests/fixtures/cost_cases.json is what this module said the cases cost when
     it was last regenerated (python3 -m model.cost_fixture); the browser's port
