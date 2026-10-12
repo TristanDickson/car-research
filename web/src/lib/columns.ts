@@ -3,7 +3,7 @@
 // few that matter first. Pure arrangement here; components/DataTable draws it.
 
 export interface ColumnPrefs {
-  /** Column keys in the reader's order; a column not named keeps its default place after them. */
+  /** Column keys in the reader's order; a column not named (one added since) goes after the column it follows by default. */
   order: string[];
   /** Shown (true) or not (false); a column not named follows its default. */
   visible: Record<string, boolean>;
@@ -19,14 +19,26 @@ export interface Arrangeable {
   hidden?: boolean;
 }
 
-/** Every column in the reader's order: pinned first, then the named order, then the rest in default order. */
+/** Every column in the reader's order: pinned first, then the named order. A column the reader's order does not
+ * name (a column added since they chose) goes straight after the column it follows by default, so a new
+ * "advertised" column lands beside its "true cost" column wherever the reader moved that. */
 export function arrange<C extends Arrangeable>(columns: C[], prefs: ColumnPrefs): C[] {
   const byKey = new Map(columns.map((c) => [c.key, c]));
   const pinned = columns.filter((c) => c.pinned);
-  const named = prefs.order.map((k) => byKey.get(k)).filter((c): c is C => !!c && !c.pinned);
-  const seen = new Set(named.map((c) => c.key));
-  const rest = columns.filter((c) => !c.pinned && !seen.has(c.key));
-  return [...pinned, ...named, ...rest];
+  const free = columns.filter((c) => !c.pinned);
+  const out = prefs.order.map((k) => byKey.get(k)).filter((c): c is C => !!c && !c.pinned);
+  const placed = new Set(out.map((c) => c.key));
+  free.forEach((c, i) => {
+    if (placed.has(c.key)) return;
+    let at = 0;
+    for (let j = i - 1; j >= 0; j--) {
+      const k = out.findIndex((x) => x.key === free[j].key);
+      if (k >= 0) { at = k + 1; break; }
+    }
+    out.splice(at, 0, c);
+    placed.add(c.key);
+  });
+  return [...pinned, ...out];
 }
 
 export const isShown = (c: Arrangeable, prefs: ColumnPrefs): boolean => !!c.pinned || (prefs.visible[c.key] ?? !c.hidden);

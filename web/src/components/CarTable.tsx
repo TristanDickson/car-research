@@ -17,11 +17,13 @@ function ageHint(days: number | null | undefined): string | undefined {
 }
 
 /** Shown until the reader picks otherwise; every other field is one click away in the chooser. */
-const DEFAULT_SHOWN = ["true", "seats", "range", "width", "wheels", "flag:heat_pump", "flag:v2l_internal", "battery", "dc", "list", "cash", "pcp", "pch", "used", "grant"];
+const DEFAULT_SHOWN = ["true", "seats", "range", "width", "wheels", "flag:heat_pump", "flag:v2l_internal", "battery", "dc", "list", "cash",
+  "pcp", "pcpAdvertised", "pch", "pchAdvertised", "used", "grant"];
 
 /** The cost columns say where their figure came from on hover. */
 function costCell(key: string, k: CarCosts): ReactNode | undefined {
-  const route = key === "pcp" || key === "pch" || key === "used" ? k.byRoute[key] : null;
+  const routeKey = ({ pcp: "pcp", pcpAdvertised: "pcp", pch: "pch", pchAdvertised: "pch", used: "used" } as const)[key as "pcp"];
+  const route = routeKey ? k.byRoute[routeKey] : null;
   switch (key) {
     case "true": {
       const t = k.trueCost;
@@ -36,12 +38,14 @@ function costCell(key: string, k: CarCosts): ReactNode | undefined {
       return k.cash ? <span title={ageHint(k.cash.ageDays)}>{gbp(k.cash.price)}</span> : "—";
     case "pcp":
     case "pch":
+    case "pcpAdvertised":
+    case "pchAdvertised":
     case "used":
-      // PCP and lease show what the column sorts by, the true cost per month; used shows the asking price.
-      // The deal as the seller printed it is in the tooltip.
+      // Each cell shows what its column sorts by: the true cost per month, the advertised monthly payment, or
+      // (used) the asking price. The whole deal as the seller printed it is in the tooltip.
       return route ? (
-        <span title={`As printed: ${printed(route)} · ${route.sourceName}${route.ageDays != null ? ` · ${ageHint(route.ageDays)}` : ""}`}>
-          {key === "used" ? gbp(route.headline) : `${gbp(route.monthly)}/mo`}
+        <span title={`As advertised: ${printed(route)} · ${route.sourceName}${route.ageDays != null ? ` · ${ageHint(route.ageDays)}` : ""}`}>
+          {key === "used" ? gbp(route.headline) : `${gbp(key === "pcp" || key === "pch" ? route.monthly : route.headline)}/mo`}
         </span>
       ) : "—";
   }

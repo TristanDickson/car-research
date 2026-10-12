@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { deleteSearch, ensureComputed, ensureSeeded, getBasis, getCarDetails, getComputeStats, getDataPage, getDb, getRequirements, getSearches, getSeedRequirements, getUsedForModel, renameSearch, resetRequirements, resetSearches, saveRequirements, saveSearch, setDefaultSearch, type SearchList } from "./db";
 import type { CarCostRow } from "./model/recompute";
+import { withNameNotes } from "./names";
 import type { Requirements } from "./types";
 
 const FOREVER = Number.POSITIVE_INFINITY;
@@ -17,7 +18,7 @@ export function useCars() {
     queryKey: ["cars"],
     queryFn: async () => {
       await ensureSeeded();
-      return getDb().cars.orderBy("id").toArray();
+      return withNameNotes(await getDb().cars.orderBy("id").toArray());
     },
     staleTime: FOREVER,
   });
@@ -28,7 +29,11 @@ export function useCar(id: string | null) {
     queryKey: ["car", id],
     queryFn: async () => {
       await ensureSeeded();
-      return (await getDb().cars.get(id as string)) ?? null;
+      const car = await getDb().cars.get(id as string);
+      if (!car) return null;
+      // The note that tells it from look-alikes needs the other cars of its make and model.
+      const siblings = await getDb().cars.where("make").equals(car.make).filter((c) => c.model === car.model).toArray();
+      return withNameNotes(siblings).find((c) => c.id === car.id) ?? car;
     },
     enabled: !!id,
     staleTime: FOREVER,

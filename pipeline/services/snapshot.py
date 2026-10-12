@@ -432,41 +432,6 @@ def on_sale(conn: sqlite3.Connection, priced: set[str], today: date) -> set[str]
     return out
 
 
-def name_notes(cars: list[dict]) -> dict[str, str]:
-    """For cars that share a displayed name (make, model, trim), a short note saying what tells them apart.
-    The aspects are tried in order (the brackets in the CAP name, seats, the price list's month, the RRP) and
-    taken only while the cars are not yet told apart, so a price shows only when nothing else separates them;
-    the CAP id if all else agrees. The app shows the note under the name, never in it."""
-    import re as _re
-    groups: dict[tuple, list[dict]] = {}
-    for c in cars:
-        groups.setdefault((c.get("make"), c.get("model"), c.get("trim")), []).append(c)
-    month = lambda d: date.fromisoformat(d[:10]).strftime("price list %b %Y") if d and len(d) >= 10 else None
-    aspects = [
-        lambda c: " ".join(f"[{b}]" for b in _re.findall(r"\[([^\]]+)\]", c.get("cap_name") or "")) or None,
-        lambda c: f"{c['seats']} seats" if c.get("seats") else None,
-        lambda c: month(c.get("version_date")),
-        lambda c: f"£{c['list_price_gbp']:,.0f}" if c.get("list_price_gbp") else None,
-    ]
-    out: dict[str, str] = {}
-    for members in groups.values():
-        if len(members) < 2:
-            continue
-        used: list = []
-        for a in aspects:
-            if len({a(c) for c in members}) < 2:
-                continue
-            used.append(a)
-            if len({tuple(u(c) for u in used) for c in members}) == len(members):
-                break
-        notes = {c["id"]: " · ".join(v for v in (a(c) for a in used) if v) for c in members}
-        if len(set(notes.values())) < len(members):
-            notes = {c["id"]: " · ".join(v for v in (notes[c["id"]], f"CAP {c['cap_id']}" if c.get("cap_id") else None) if v)
-                     for c in members}
-        out.update({k: v for k, v in notes.items() if v})
-    return out
-
-
 def _freshness(obs: list[sqlite3.Row], payload: dict, today: date) -> dict:
     latest = obs[-1]
     seen = [o for o in obs if o["present"]]
@@ -635,7 +600,6 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     current = {s["car_id"] for s in sightings if s["present"] and s["route"] in ("cash", "pcp", "pch")
                and (today - date.fromisoformat(s["to"])).days <= STALE_DAYS}
     selling = on_sale(conn, current, today)
-    notes = name_notes(cars)
 
     used_by_model: dict[tuple[str, str], list[dict]] = {}
     for l in used:
@@ -653,8 +617,6 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         c["used_key"] = used_key({"trim": d.get("trim"), "variant": d.get("engine"), "battery_kwh": c.get("battery_kwh")} if d else c,
                                  c["model_key"])
         c["on_sale"] = c["id"] in selling
-        if notes.get(c["id"]):
-            c["name_note"] = notes[c["id"]]
         c["picks"] = picks.get(c["id"], [])
         mine = specs_by_car.get(c["id"], [])
         spec_rows = [{"spec_key": sp["spec_key"], "provider": sp["provider"], "variant": sp.get("variant"),

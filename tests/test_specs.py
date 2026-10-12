@@ -205,25 +205,8 @@ class ThroughTheBuild(unittest.TestCase):
 
 
 class ReadyForAVisitor(unittest.TestCase):
-    """What a visitor needs from the snapshot: what is on sale, look-alikes told apart, used cars by trim and battery."""
-
-    def test_name_notes_say_what_differs(self):
-        from pipeline.services.snapshot import name_notes
-        base = {"make": "BMW", "model": "iX1", "trim": "xLine · 150kW eDrive20 65kWh Auto", "seats": 5}
-        cars = [dict(base, id="a", cap_name="150kW eDrive20 xLine 65kWh 5dr Auto", version_date="2025-03-01", list_price_gbp=49065.0),
-                dict(base, id="b", cap_name="150kW eDrive20 xLine 65kWh 5dr Auto [22kWCh]", version_date="2026-07-23", list_price_gbp=39945.0),
-                dict(base, id="c", cap_name="150kW eDrive20 xLine 65kWh 5dr Auto", version_date="2026-07-23", list_price_gbp=39065.0),
-                dict(base, id="d", trim="M Sport · 150kW eDrive20 65kWh Auto")]
-        notes = name_notes(cars)
-        self.assertEqual(notes, {"a": "price list Mar 2025", "b": "[22kWCh] · price list Jul 2026",
-                                 "c": "price list Jul 2026"},
-                         "seats agree, so they are not mentioned; the price list's month already tells them apart, so no price; "
-                         "a lone name gets no note")
-        same_month = [dict(base, id="p", version_date="2026-07-23", list_price_gbp=39065.0),
-                      dict(base, id="q", version_date="2026-07-23", list_price_gbp=41815.0)]
-        self.assertEqual(name_notes(same_month), {"p": "£39,065", "q": "£41,815"}, "the price only when nothing else separates them")
-        twins = [dict(base, id="x", cap_id="1"), dict(base, id="y", cap_id="2")]
-        self.assertEqual(name_notes(twins), {"x": "CAP 1", "y": "CAP 2"}, "when nothing else differs, the CAP id")
+    """What a visitor needs from the snapshot: what is on sale, used cars by trim and battery. (Look-alikes are
+    told apart in the app, web/src/lib/names.ts: that is presentation, not something the build decides.)"""
 
     def test_a_used_car_counts_as_a_car_of_its_trim_and_battery(self):
         from pipeline.services.snapshot import used_key, used_key_for_text

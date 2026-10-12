@@ -177,7 +177,7 @@ export interface SnapshotCar {
   used_key?: string | null;
   /** Carwow lists the derivative now, or it has a current price; false = an old price-list version. */
   on_sale?: boolean;
-  /** What tells this car apart from others of the same displayed name ('[Heat Pump] · price list Jul 2026'). */
+  /** What tells this car apart from others of the same displayed name ('[Heat Pump] · price list Jul 2026'): set by the app when cars load (lib/names.ts), not by the data. */
   name_note?: string;
   id: string;
   /** How many spec rows describe this car (details.json has them). */

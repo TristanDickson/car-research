@@ -19,13 +19,19 @@ describe("the reader's columns", () => {
     expect(move(cols, p, "car", 1)).toBe(p);      // the pinned one does not move
   });
 
-  it("turns columns on and off; the pinned one stays on; a new column joins after the reader's order", () => {
+  it("turns columns on and off; the pinned one stays on", () => {
     let p = toggle(cols, NO_PREFS, "turn");
     p = toggle(cols, p, "seats");
     p = toggle(cols, p, "car");
     expect(cols.filter((c) => isShown(c, p)).map((c) => c.key)).toEqual(["car", "true", "width", "turn"]);
-    const more = [...cols, { key: "boot" }];
-    expect(keys(arrange(more, { ...p, order: ["turn", "true"] }))).toEqual(["car", "turn", "true", "seats", "width", "boot"]);
+  });
+
+  it("a column added since the reader chose an order goes straight after the column it follows by default", () => {
+    const before = [{ key: "car", pinned: true }, { key: "true" }, { key: "pcp" }, { key: "pch" }, { key: "seats" }];
+    const prefs = { order: ["seats", "pcp", "true", "pch"], visible: {} };
+    const after = [{ key: "car", pinned: true }, { key: "true" }, { key: "pcp" }, { key: "pcpAdvertised" }, { key: "pch" }, { key: "pchAdvertised" }, { key: "seats" }];
+    expect(keys(arrange(before, prefs))).toEqual(["car", "seats", "pcp", "true", "pch"]);
+    expect(keys(arrange(after, prefs))).toEqual(["car", "seats", "pcp", "pcpAdvertised", "true", "pch", "pchAdvertised"]);
   });
 
   it("a column turned on joins the end of the shown ones; moving steps over hidden columns", () => {
