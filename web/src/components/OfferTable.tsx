@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { DataTable, type Column } from "@/components/DataTable";
 import { Badge, SeenBadge, StatusBadge } from "@/components/ui";
-import { carName, gbp, pct } from "@/lib/format";
+import { carName, gbp, nameDetail, pct, sortName } from "@/lib/format";
 import { ageLabel, isStale } from "@/lib/freshness";
 import type { SnapshotCar, SnapshotOffer } from "@/lib/types";
 
@@ -63,13 +63,16 @@ export function OfferTable({ offers, cars, staleDays, showCar = true, defaultSor
           {
             key: "car",
             header: "Car",
-            sortValue: (o: SnapshotOffer) => (cars.get(o.car_id) ? carName(cars.get(o.car_id)!) : o.car_id),
+            sortValue: (o: SnapshotOffer) => (cars.get(o.car_id) ? sortName(cars.get(o.car_id)!) : o.car_id),
             render: (o: SnapshotOffer) => {
               const c = cars.get(o.car_id);
               return (
-                <Link href={`/cars/view?id=${encodeURIComponent(o.car_id)}`} className="text-gray-100 hover:underline">
-                  {c ? carName(c) : o.car_id}
-                </Link>
+                <>
+                  <Link href={`/cars/view?id=${encodeURIComponent(o.car_id)}`} className="text-gray-100 hover:underline">
+                    {c ? carName(c) : o.car_id}
+                  </Link>
+                  {c && nameDetail(c) && <div className="text-xs text-gray-500">{nameDetail(c)}</div>}
+                </>
               );
             },
           } satisfies Column<SnapshotOffer>,

@@ -16,7 +16,7 @@ import { useCallback, useEffect, useMemo } from "react";
 
 import type { CarCosts } from "./costs";
 import { FIELD_BY_KEY, RANGE_FIELDS, show } from "./fields";
-import { carName } from "./format";
+import { carName, sortName } from "./format";
 import type { SnapshotCar } from "./types";
 
 export type FacetState = "off" | "standard" | "listed" | "hide";
@@ -201,7 +201,7 @@ export function matches(c: SnapshotCar, ctx: CarContext, f: Query): boolean {
   if (!modelMatches(c.model, f.model)) return false;
   if (f.year && String(c.model_year ?? "") !== f.year) return false;
   if (f.q) {
-    const hay = norm([carName(c), c.variant, (c.packs ?? []).join(" "), c.notes, c.body, c.drive, c.segment, c.platform, c.battery_chemistry, c.charge_port, c.cap_name].filter(Boolean).join(" "));
+    const hay = norm([sortName(c), c.variant, (c.packs ?? []).join(" "), c.notes, c.body, c.drive, c.segment, c.platform, c.battery_chemistry, c.charge_port, c.cap_name].filter(Boolean).join(" "));
     if (!hay.includes(norm(f.q))) return false;
   }
   for (const [key, r] of Object.entries(f.ranges)) {
@@ -265,7 +265,7 @@ export function sortKey(sort: string, c: SnapshotCar, ctx: CarContext): number |
     case "fell": return ctx.costs.trend?.delta ?? null;
     case "range": return c.wltp_range_mi == null ? null : -c.wltp_range_mi;
     case "seats": return c.seats == null ? null : -c.seats;
-    case "name": return carName(c);
+    case "name": return sortName(c);
     default: return k.trueCost?.monthly ?? null;
   }
 }
@@ -273,7 +273,7 @@ export function sortKey(sort: string, c: SnapshotCar, ctx: CarContext): number |
 export function compareBy(sort: string, ctxOf: (c: SnapshotCar) => CarContext) {
   return (a: SnapshotCar, b: SnapshotCar): number => {
     const ka = sortKey(sort, a, ctxOf(a)), kb = sortKey(sort, b, ctxOf(b));
-    if (ka == null && kb == null) return carName(a).localeCompare(carName(b));
+    if (ka == null && kb == null) return sortName(a).localeCompare(sortName(b));
     if (ka == null) return 1;
     if (kb == null) return -1;
     return typeof ka === "number" && typeof kb === "number" ? ka - kb : String(ka).localeCompare(String(kb));

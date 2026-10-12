@@ -8,7 +8,7 @@ import { Badge, TriBadge } from "@/components/ui";
 import { printed } from "@/components/CarCard";
 import { ROUTE_SHORT, type CarCosts } from "@/lib/costs";
 import { FIELDS, flagFields, show, triOf, type Field } from "@/lib/fields";
-import { carName, gbp } from "@/lib/format";
+import { carName, gbp, nameDetail, sortName } from "@/lib/format";
 import type { CarContext } from "@/lib/query";
 import type { SnapshotCar } from "@/lib/types";
 
@@ -37,9 +37,11 @@ function costCell(key: string, k: CarCosts): ReactNode | undefined {
     case "pcp":
     case "pch":
     case "used":
+      // PCP and lease show what the column sorts by, the true cost per month; used shows the asking price.
+      // The deal as the seller printed it is in the tooltip.
       return route ? (
-        <span title={`${printed(route)} · ${route.sourceName}${route.ageDays != null ? ` · ${ageHint(route.ageDays)}` : ""}`}>
-          {gbp(route.headline)}{key === "used" ? "" : "/mo"}
+        <span title={`As printed: ${printed(route)} · ${route.sourceName}${route.ageDays != null ? ` · ${ageHint(route.ageDays)}` : ""}`}>
+          {key === "used" ? gbp(route.headline) : `${gbp(route.monthly)}/mo`}
         </span>
       ) : "—";
   }
@@ -82,14 +84,14 @@ export function CarTable({ cars, ctxOf, horizon, flagLabels }: {
       key: "car",
       header: "Car",
       pinned: true,
-      sortValue: (c) => carName(c),
+      sortValue: (c) => sortName(c),
       render: (c) => (
         <div className="min-w-[8rem] max-w-[12rem] sm:max-w-[20rem]">
           <Link href={`/cars/view?id=${encodeURIComponent(c.id)}`} className="font-medium text-gray-100 hover:underline">
             {carName(c)}
           </Link>
           {c.used && <Badge tone="muted">used</Badge>}
-          {c.packs && c.packs.length > 0 && <div className="text-xs text-gray-500">{c.packs.join(" + ")}</div>}
+          {nameDetail(c) && <div className="text-xs text-gray-500">{nameDetail(c)}</div>}
         </div>
       ),
     };

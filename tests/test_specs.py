@@ -215,8 +215,13 @@ class ReadyForAVisitor(unittest.TestCase):
                 dict(base, id="c", cap_name="150kW eDrive20 xLine 65kWh 5dr Auto", version_date="2026-07-23", list_price_gbp=39065.0),
                 dict(base, id="d", trim="M Sport · 150kW eDrive20 65kWh Auto")]
         notes = name_notes(cars)
-        self.assertEqual(notes, {"a": "price list Mar 2025 · £49,065", "b": "[22kWCh] · price list Jul 2026 · £39,945",
-                                 "c": "price list Jul 2026 · £39,065"}, "seats agree, so they are not mentioned; a lone name gets no note")
+        self.assertEqual(notes, {"a": "price list Mar 2025", "b": "[22kWCh] · price list Jul 2026",
+                                 "c": "price list Jul 2026"},
+                         "seats agree, so they are not mentioned; the price list's month already tells them apart, so no price; "
+                         "a lone name gets no note")
+        same_month = [dict(base, id="p", version_date="2026-07-23", list_price_gbp=39065.0),
+                      dict(base, id="q", version_date="2026-07-23", list_price_gbp=41815.0)]
+        self.assertEqual(name_notes(same_month), {"p": "£39,065", "q": "£41,815"}, "the price only when nothing else separates them")
         twins = [dict(base, id="x", cap_id="1"), dict(base, id="y", cap_id="2")]
         self.assertEqual(name_notes(twins), {"x": "CAP 1", "y": "CAP 2"}, "when nothing else differs, the CAP id")
 

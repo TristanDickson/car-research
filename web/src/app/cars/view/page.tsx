@@ -54,6 +54,7 @@ function CarView() {
         title={carName(c)}
         subtitle={
           <>
+            {c.name_note ? <><span className="text-gray-300">{c.name_note}</span> · </> : null}
             {c.cap_name ? <><span className="text-gray-300">{c.cap_name}</span> · </> : null}{c.body ?? ""} · {c.model_year ?? ""} {c.used ? "· used" : ""} ·{" "}
             <Link href="/cars" className="underline">all cars</Link>
             {c.auto && (

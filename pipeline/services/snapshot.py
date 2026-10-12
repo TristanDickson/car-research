@@ -433,8 +433,10 @@ def on_sale(conn: sqlite3.Connection, priced: set[str], today: date) -> set[str]
 
 
 def name_notes(cars: list[dict]) -> dict[str, str]:
-    """For cars that share a displayed name (make, model, trim), a short note saying what tells them apart:
-    the brackets in the CAP name, seats, the price list's month, the RRP, and the CAP id if all else agrees."""
+    """For cars that share a displayed name (make, model, trim), a short note saying what tells them apart.
+    The aspects are tried in order (the brackets in the CAP name, seats, the price list's month, the RRP) and
+    taken only while the cars are not yet told apart, so a price shows only when nothing else separates them;
+    the CAP id if all else agrees. The app shows the note under the name, never in it."""
     import re as _re
     groups: dict[tuple, list[dict]] = {}
     for c in cars:
@@ -450,7 +452,13 @@ def name_notes(cars: list[dict]) -> dict[str, str]:
     for members in groups.values():
         if len(members) < 2:
             continue
-        used = [a for a in aspects if len({a(c) for c in members}) > 1]
+        used: list = []
+        for a in aspects:
+            if len({a(c) for c in members}) < 2:
+                continue
+            used.append(a)
+            if len({tuple(u(c) for u in used) for c in members}) == len(members):
+                break
         notes = {c["id"]: " · ".join(v for v in (a(c) for a in used) if v) for c in members}
         if len(set(notes.values())) < len(members):
             notes = {c["id"]: " · ".join(v for v in (notes[c["id"]], f"CAP {c['cap_id']}" if c.get("cap_id") else None) if v)

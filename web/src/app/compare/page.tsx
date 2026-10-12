@@ -7,7 +7,7 @@ import { Suspense, useMemo, type ReactNode } from "react";
 import { CarImage } from "@/components/CarImage";
 import { Badge, Empty, ErrorNote, Loading, PageHeader } from "@/components/ui";
 import { carCosts, ROUTE_LABEL, type CarCosts } from "@/lib/costs";
-import { carName, gbp, num } from "@/lib/format";
+import { carName, gbp, nameDetail, num } from "@/lib/format";
 import { useCars, useCosts, useDataPage } from "@/lib/hooks";
 import type { SnapshotCar, Tri } from "@/lib/types";
 
@@ -92,6 +92,7 @@ function Compare() {
                 <th key={c.id} className="p-2 text-left align-top">
                   <div className="aspect-[16/9] w-full min-w-[12rem] overflow-hidden rounded-md"><CarImage car={c} /></div>
                   <Link href={`/cars/view?id=${encodeURIComponent(c.id)}`} className="mt-2 block font-semibold text-gray-100 hover:underline">{carName(c)}</Link>
+                  {nameDetail(c) && <div className="text-xs font-normal text-gray-500">{nameDetail(c)}</div>}
                   {base?.id === c.id && <Badge tone="good">cheapest true cost</Badge>}
                 </th>
               ))}

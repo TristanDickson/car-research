@@ -7,7 +7,7 @@ import { Sparkline } from "@/components/charts/Sparkline";
 import { Badge } from "@/components/ui";
 import { budgetGap, IONIQ5_WIDTH_MM, printed, ROUTE_SHORT, ROUTES, type CarCosts, type TrueCost } from "@/lib/costs";
 export { printed } from "@/lib/costs";
-import { carName, gbp, num } from "@/lib/format";
+import { carName, gbp, nameDetail, num } from "@/lib/format";
 import type { Trend } from "@/lib/model/sightings";
 import type { SearchPack } from "@/lib/query";
 import type { SnapshotCar } from "@/lib/types";
@@ -77,7 +77,7 @@ export function CarCard({ car, costs, packs = [], flagLabels = {}, ceiling, hori
             )}
           </div>
           <div className="text-xs text-gray-500">
-            {car.packs?.length ? car.packs.join(" + ") : car.used ? "used" : car.body ?? ""}
+            {nameDetail(car) || (car.used ? "used" : car.body ?? "")}
             {car.model_year ? `${car.packs?.length || car.used || car.body ? " · " : ""}${car.model_year}` : ""}
           </div>
         </div>
