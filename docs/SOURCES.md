@@ -162,9 +162,13 @@ stated saving. Each derivative's page shows a PCP panel whose figures come from
 - **Read:** every listing line, and since 11 Oct each electric derivative's PCP quote at the
   page's own defaults (10,000 miles, £1,000 deposit, 36 months), marked illustrative as NCD
   says. The Ioniq 5 N Line returns £683.01 × 35, final payment £15,623.74, 7.9%.
-- **Listings:** the EV6 range is under `/car/kia/ev6/4x4/all/all` as well as `/estate/`, added
-  11 Oct. NCD prints the make before the model on Kia listings ("KIA EV6 ELECTRIC ESTATE");
-  until 11 Oct no Kia line matched a car except through the owner's own decisions.
+- **Listings:** the EV6 range is under `/car/kia/ev6/4x4/all/all`, added 11 Oct. NCD prints the
+  make before the model on Kia listings ("KIA EV6 ELECTRIC ESTATE"); until 11 Oct no Kia line
+  matched a car except through the owner's own decisions.
+- **Left, on purpose:** `/car/kia/ev6/estate/all/all`, which holds only a second copy of the EV6
+  GT filed as a diesel. Its vehicle code says diesel (`KIEV00G845ED` against the electric copy's
+  `KIEV00G845EE`), NCD's finance quote answers "not found in residual database", and its £60,728
+  sat £60 under the electric copy. Any electric car NCD files under another fuel is skipped.
 - **Listings added 11 Oct:** every other electric Hyundai and Kia on NCD's make pages (Ioniq 5 N,
   Ioniq 6 N, Ioniq 9, EV4 hatchback and saloon, EV5, EV9). The EV4 saloon is Carwow's EV4
   Fastback; NCD's RRP picks between the two bodies, which share trims and powertrains.

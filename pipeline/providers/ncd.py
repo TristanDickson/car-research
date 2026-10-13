@@ -42,8 +42,9 @@ LISTINGS = {
     "hyundai/ioniq-5": "/car/hyundai/ioniq-5/hatchback/all/all",
     "kia/ev2": "/car/kia/ev2/hatchback/all/all",
     "kia/ev3": "/car/kia/ev3/estate/all/all",
-    "kia/ev6": "/car/kia/ev6/estate/all/all",        # the GT only
-    "kia/ev6-4x4": "/car/kia/ev6/4x4/all/all",       # every other EV6, and a GT of its own
+    # Every EV6. NCD's /kia/ev6/estate/ listing holds only a second copy of the GT filed as a diesel, whose
+    # vehicle code (KIEV00G845ED, D for diesel) its finance lender cannot price; it is not read.
+    "kia/ev6-4x4": "/car/kia/ev6/4x4/all/all",
     "kia/pv5": "/car/kia/pv5/mpv/all/all",
     # Every other electric Hyundai and Kia NCD's make pages listed on 11 Oct 2026.
     "hyundai/ioniq-5-n": "/car/hyundai/ioniq-5-n/hatchback/all/all",
@@ -81,6 +82,12 @@ def parse_page(page: str, make: str, url: str, observed_at: str) -> list[dict]:
         name_t, group_t = text(name.group(1)), text(group.group(1)) if group else ""
         if "kw" not in name_t.lower():
             continue  # not electric
+        # The derivative's address names its fuel (/car/<model>/<body>/<fuel>/...). An electric car NCD files
+        # under another fuel is a copy with the wrong vehicle code: the EV6 GT as a diesel, £60 under the
+        # electric copy, that NCD's own finance quote cannot price.
+        fuel = href.group(1).split("/")[5:6]
+        if fuel and fuel[0] != "electric":
+            continue
         rows.append({
             "id": f"ncd:{href.group(1)}", "offer_key": f"ncd:{href.group(1)}",
             "observed_at": observed_at, "captured_at": observed_at[:10], "present": 1,

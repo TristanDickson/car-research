@@ -161,10 +161,18 @@ class Listings(unittest.TestCase):
     def test_ev6_4x4_listing_read(self):
         targets = {t.identifier: t.metadata["url"] for t in ncd.discover(Target("all"), Context(root=FIX))}
         self.assertEqual(targets["kia/ev6-4x4"], LISTING_URL)
-        self.assertEqual(targets["kia/ev6"], "https://www.new-car-discount.com/car/kia/ev6/estate/all/all")
+        self.assertNotIn("kia/ev6", targets, "the estate listing holds only the GT's diesel-coded copy")
         rows = ncd.parse_page(fixture("ncd_kia_ev6_4x4_listing.html"), "kia", LISTING_URL, T)
         self.assertEqual(len(rows), 7)
         self.assertEqual(rows[0]["car_ref"]["key"], "kia|kia ev6 electric estate|125kw air sr 63kwh 5dr auto")
+
+    def test_an_electric_car_filed_under_another_fuel_is_not_read(self):
+        """NCD's EV6 estate listing (11 Oct 2026) holds one line, the EV6 GT filed as a diesel: a copy with the
+        wrong vehicle code, priced £60 under the electric one, that NCD's finance quote answers 'not found in
+        residual database'."""
+        page = fixture("ncd_kia_ev6_estate_listing.html")
+        self.assertIn("/estate/diesel/automatic/478kw-gt-84kwh-5dr-awd-auto/", page)
+        self.assertEqual(ncd.parse_page(page, "kia", "https://www.new-car-discount.com/car/kia/ev6/estate/all/all", T), [])
 
     def test_capabilities(self):
         self.assertEqual(sorted(ncd.provider.capabilities), ["backfill", "listing", "pcp"])
