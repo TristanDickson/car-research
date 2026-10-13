@@ -3,12 +3,12 @@
   "cars": 1978,
   "cars_curated": 19,
   "cars_generated": 1959,
-  "claims": 109819,
+  "claims": 109914,
   "configurations": 71,
   "configured": 33,
   "derivatives": 913,
   "disagreements": 133,
-  "fields_from_claims": 114478,
+  "fields_from_claims": 115396,
   "makes": 50,
   "models": 249,
   "models_with_deals": 178,
@@ -57,7 +57,7 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-13T19:59:53+00:00",
+ "generated_at": "2026-10-13T21:21:16+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
@@ -741,7 +741,7 @@
      {
       "commit": "7a3adbc5bc",
       "fetches": 4673,
-      "finished_at": "2026-10-13T19:59:53+00:00",
+      "finished_at": "2026-10-13T20:00:26+00:00",
       "from_cache": 0,
       "mode": "build",
       "parsed": 4673,
@@ -749,15 +749,48 @@
       "records": 53988,
       "seconds": 218.6,
       "sightings": 81085,
-      "snapshot": {},
+      "snapshot": {
+       "cars": 1978,
+       "cars_generated": 1959,
+       "cash_benchmarks": 2079,
+       "models": 249,
+       "observations": 6634,
+       "offers": 3425,
+       "specs": 2516,
+       "unmapped_trims": 325,
+       "used_listings": 11459,
+       "used_spans": 17322
+      },
       "stage": "build",
       "started_at": "2026-10-13T19:56:10+00:00",
+      "unparsed": 0
+     },
+     {
+      "commit": "d6b4870d8c",
+      "fetches": 4673,
+      "finished_at": "2026-10-13T21:21:15+00:00",
+      "from_cache": 0,
+      "mode": "build",
+      "parsed": 4673,
+      "record_spans": 42868,
+      "records": 53988,
+      "seconds": 563.0,
+      "sightings": 81085,
+      "snapshot": {},
+      "stage": "build",
+      "started_at": "2026-10-13T21:11:46+00:00",
       "this": true,
       "unparsed": 0
      }
     ],
     "night": "2026-10-13",
-    "publishes": [],
+    "publishes": [
+     {
+      "at": "2026-10-13T21:00:31+01:00",
+      "sha": "b793ab8ee7",
+      "subject": "data: build from the raw store 2026-10-13"
+     }
+    ],
     "scrapes": [
      {
       "allowance": null,
@@ -2662,14 +2695,14 @@
       "spec"
      ],
      "name": "autotest",
-     "parser_version": "1"
+     "parser_version": "2"
     },
     {
      "kinds": [
       "spec"
      ],
      "name": "breakdowns",
-     "parser_version": "1"
+     "parser_version": "2"
     }
    ],
    "description": "ADAC Autotest (adac.de, Germany's motoring club): its test of one car of a model, and the model's",
@@ -2684,7 +2717,7 @@
       "spec"
      ],
      "name": "reliability",
-     "parser_version": "1"
+     "parser_version": "2"
     }
    ],
    "description": "What Car? Reliability Survey: owners' reports of the faults their cars (up to five years old) had,",
