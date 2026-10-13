@@ -34,7 +34,8 @@ class ParsePage(unittest.TestCase):
         self.assertEqual(r["spec_key"], "adac:hyundai/kona-electric")
         self.assertEqual(r["numbers"], {"adac_suspension": 2.5, "adac_comfort": 2.4, "adac_build": 3.6, "adac_boot": 2.6, "adac_rear_space": 2.3,
                                         "adac_total": 2, "adac_family": 2.7, "adac_tested": "Kona Elektro (65 kWh) Prime-Paket, 12/2023",
-                                        "adac_breakdowns": 6.1, "adac_breakdown_year": 2023, "adac_breakdown_rating": "satisfactory"})
+                                        "adac_breakdowns": 6.1, "adac_breakdown_year": 2023, "adac_breakdown_rating": "satisfactory",
+                                        "adac_breakdown_causes": "12-volt battery (2018-2021, 2023); ignition coil (2018)"})
         self.assertEqual(r["grades"]["Komfort"]["subs"]["Federung"], 2.5)
         self.assertEqual(r["breakdowns"]["name"], "Hyundai Kona")
         self.assertEqual(r["breakdowns"]["years"][:2], [{"year": 2023, "per_1000": 6.1, "grade": 3}, {"year": 2022, "per_1000": 6.6, "grade": 2}])
@@ -59,7 +60,8 @@ class RangePage(unittest.TestCase):
     def test_the_ioniq5s_breakdowns(self):
         r = adac.parse_range_page(page("adac_range_hyundai_ioniq-5_2026-10-13.html"), "hyundai/ioniq-5", "u", T)
         self.assertEqual(r["spec_key"], "adac:breakdowns:hyundai/ioniq-5")
-        self.assertEqual(r["numbers"], {"adac_breakdowns": 19.5, "adac_breakdown_year": 2023, "adac_breakdown_rating": "poor"})
+        self.assertEqual(r["numbers"], {"adac_breakdowns": 19.5, "adac_breakdown_year": 2023, "adac_breakdown_rating": "poor",
+                                        "adac_breakdown_causes": "general electrics (2022-2023); 12-volt battery (2021-2023)"})
         self.assertEqual(r["breakdowns"]["years"], [{"year": 2023, "per_1000": 19.5, "grade": 5}, {"year": 2022, "per_1000": 28.2, "grade": 5}])
         self.assertEqual([d["name"] for d in r["breakdowns"]["defects"]], ["Fahrzeugelektrik allgemein", "Starterbatterie"])
 

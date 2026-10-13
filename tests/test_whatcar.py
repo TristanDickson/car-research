@@ -40,7 +40,7 @@ class ParsePage(unittest.TestCase):
         self.assertEqual(len(rs), 19)
         (ioniq5,) = named(rs, "Hyundai Ioniq 5")
         self.assertEqual((ioniq5["rank"], ioniq5["of"], ioniq5["list"], ioniq5["numbers"], ioniq5["years"], ioniq5["current"]),
-                         (18, 19, "least", {"reliability_pct": 80.7}, "2021-present", True))
+                         (18, 19, "least", {"reliability_pct": 80.7, "faulty_pct": 42.0, "repairs_free_pct": 90.0, "off_road_week_pct": 56.0}, "2021-present", True))
         self.assertTrue(ioniq5["faults"].startswith("12-volt battery 20%"))
         self.assertEqual((ioniq5["published"], ioniq5["modified"]), ("2025-02-03", "2026-04-26"))
         (i3,) = named(rs, "BMW i3")   # the table puts the years first for a model no longer sold
@@ -61,6 +61,29 @@ class ParsePage(unittest.TestCase):
         self.assertEqual(len([r for r in rs if r["rank"] == 1 and r["list"] == "most"]), 2)   # '=1.': a tie
         self.assertEqual(len(named(rs, "Kia Niro hybrid and PHEV")), 2)                      # two generations, two rows
 
+    def test_the_write_ups_figures(self):
+        (ioniq5,) = named(rows("electric-cars"), "Hyundai Ioniq 5")
+        self.assertEqual({k: ioniq5["numbers"].get(k) for k in ("faulty_pct", "repairs_free_pct", "off_road_week_pct")},
+                         {"faulty_pct": 42.0, "repairs_free_pct": 90.0, "off_road_week_pct": 56.0})
+        # Not '56% of faulty Ioniq 5s off the road', nor the EV6's 30%, which the cars article does not rate.
+        self.assertEqual(ioniq5["faulty_said"], "Overall, 42% of Ioniq 5s went wrong, compared with 30% of EV6s.")
+
+    def test_a_share_spelled_out_and_a_model_named_in_passing(self):
+        suvs = rows("electric-suvs")
+        (id4,) = named(suvs, "Volkswagen ID 4")
+        (enyaq,) = named(suvs, "Skoda Enyaq")
+        (q4,) = named(suvs, "Audi Q4 e-tron")
+        self.assertEqual((id4["numbers"]["faulty_pct"], enyaq["numbers"]["faulty_pct"], q4["numbers"]["faulty_pct"]), (36.0, 30.0, 29.0))
+        self.assertTrue(enyaq["faulty_said"].startswith("36% of ID 4 owners had gripes, compared with 30% of people with Enyaqs"))
+        (ev3,) = named(suvs, "Kia EV3")
+        self.assertEqual((ev3["numbers"]["faulty_pct"], ev3["numbers"].get("repairs_free_pct")), (0.0, None))   # 'n/a': nothing went wrong
+        (y,) = named(suvs, "Tesla Model Y")
+        self.assertEqual(y["numbers"]["off_road_week_pct"], 0.0)   # 42% a day or less, 58% a day to a week
+
+    def test_a_share_of_another_model_is_not_this_ones(self):
+        (aygo,) = named(rows("overall"), "Toyota Aygo X")
+        self.assertEqual(aygo["numbers"]["faulty_pct"], 3.0)   # not the Yaris's 'fault rate of 20%' earlier in the sentence
+
     def test_discover(self):
         self.assertEqual([t.identifier for t in whatcar.discover(Target("all"), Context(root=FIX))], ["electric-cars", "electric-suvs", "overall"])
 
@@ -79,6 +102,11 @@ class Claims(unittest.TestCase):
         self.assertEqual(car["whatcar_reliability_pct"], 80.7)
         self.assertTrue(car["whatcar_reliability"].startswith("80.7%, 18th of 19 electric cars (Hyundai Ioniq 5 2021-present); most common faults: 12-volt battery 20%"))
         self.assertEqual(self.resolve("Ioniq 5 N")["whatcar_reliability_pct"], 80.7)   # a variant filed as a model of its own
+
+    def test_the_write_ups_figures_reach_the_car(self):
+        car = self.resolve("Ioniq 5")
+        self.assertEqual((car["whatcar_faulty_pct"], car["whatcar_repairs_free_pct"], car["whatcar_off_road_week_pct"]), (42.0, 90.0, 56.0))
+        self.assertIn('"Overall, 42% of Ioniq 5s went wrong', car["field_sources"]["whatcar_faulty_pct"])
 
     def test_the_newest_survey_wins(self):
         car = self.resolve("ID.4")

@@ -263,9 +263,17 @@ export interface SnapshotCar {
   adac_breakdowns?: number | null;
   adac_breakdown_year?: number | null;
   adac_breakdown_rating?: string | null;
+  /** What broke down, as ADAC lists it, with the registration years: '12-volt battery (2021-2023); general electrics (2022-2023)'. */
+  adac_breakdown_causes?: string | null;
   /** What Car?'s owner reliability rating for the model, and its place and common faults. */
   whatcar_reliability_pct?: number | null;
   whatcar_reliability?: string | null;
+  /** From What Car?'s write-up: the share of cars with a fault, of repairs that cost the owner nothing, of faulty cars off the road over a week. */
+  whatcar_faulty_pct?: number | null;
+  whatcar_repairs_free_pct?: number | null;
+  whatcar_off_road_week_pct?: number | null;
+  /** What What Car?'s owners and ADAC say of the other models on the car's platform. */
+  platform_reliability?: string | null;
   segment?: string | null;
   platform?: string | null;
   ncap_stars?: number | null;

@@ -380,7 +380,13 @@ rejected by that rule fails in two seconds with no runner and no logs.
   owner reliability ratings (`whatcar`). Surveys in `docs/SOURCES.md`, made with a research
   agent: sidewall height is not what decides ride across models (springs and dampers are);
   ADAC grades suspension on a fixed route. Which?, Driver Power and the TÜV Report were
-  surveyed and left.
+  surveyed and left. Later the owner asked whether the What Car? survey was in the app "or are
+  you making the same mistake of answering me and not making the response durable and general?":
+  it was, but the write-ups' figures quoted to them were not. Now read: the share of cars that
+  had a fault, of repairs that cost nothing and of faulty cars off the road over a week; ADAC's
+  breakdown causes in English; and, per car, what owners and ADAC say of the other models on its
+  platform (`claims.platform_reliability`; 500 of the 1,590 cars on sale have a platform from EV
+  Database so far).
 
 - **2026-10-12** App-side changes, no rebuild of the data needed. The Cars table's PCP and lease
   columns sort by what they show, and each route has two: the true cost a month and the

@@ -182,6 +182,12 @@ GRADES = {
     "adac_rear_space": ("Innenraum", "Raumangebot hinten"),
 }
 BREAKDOWN_GRADES = {1: "very good", 2: "good", 3: "satisfactory", 4: "adequate", 5: "poor"}
+# ADAC's names for what broke down, in English; a name not here is shown as ADAC printed it.
+CAUSES = {"Starterbatterie": "12-volt battery", "Fahrzeugelektrik allgemein": "general electrics", "Zündspule": "ignition coil",
+          "Zündkerze": "spark plug", "Zündung allgemein": "ignition", "Öldruck": "oil pressure", "Generator": "alternator",
+          "Anlasser": "starter motor", "Hochvoltbatterie": "high-voltage battery", "Kraftstoffpumpe": "fuel pump",
+          "Motorsteuerung": "engine management", "Bordnetz": "on-board electrics", "Wegfahrsperre": "immobiliser",
+          "Schlüssel": "key", "Reifen": "tyres", "Bremsen": "brakes", "Kühlmittelverlust": "coolant loss"}
 
 
 def _household(conn: sqlite3.Connection) -> set[str]:
@@ -272,6 +278,9 @@ def breakdowns(stats: dict | None) -> tuple[dict, dict | None]:
         return {}, None
     y, v, key = years[0]
     numbers = {"adac_breakdowns": v, "adac_breakdown_year": y, **({"adac_breakdown_rating": BREAKDOWN_GRADES[key]} if key in BREAKDOWN_GRADES else {})}
+    causes = [f"{CAUSES.get(d.get('name'), d.get('name'))} ({d.get('year')})" for d in stats.get("defects") or [] if d.get("name")]
+    if causes:
+        numbers["adac_breakdown_causes"] = "; ".join(causes)
     return numbers, {"name": stats.get("name"), "years": [{"year": y, "per_1000": v, "grade": k} for y, v, k in years],
                      "defects": [{"name": d.get("name"), "years": d.get("year")} for d in stats.get("defects") or []]}
 
@@ -336,6 +345,6 @@ def parse_ranges(body: bytes, target: Target) -> Iterator[ParsedRecord]:
             yield ParsedRecord(kind="spec", key=row["spec_key"], row=row)
 
 
-autotest = Capability(name="autotest", parser_version="1", discover=discover, fetch=fetch, parse=parse, kinds=("spec",))
-breakdown_stats = Capability(name="breakdowns", parser_version="1", discover=discover_ranges, fetch=fetch, parse=parse_ranges, kinds=("spec",))
+autotest = Capability(name="autotest", parser_version="2", discover=discover, fetch=fetch, parse=parse, kinds=("spec",))
+breakdown_stats = Capability(name="breakdowns", parser_version="2", discover=discover_ranges, fetch=fetch, parse=parse_ranges, kinds=("spec",))
 provider = Provider(name="adac", default_capability="autotest", capabilities={"autotest": autotest, "breakdowns": breakdown_stats}, live=True)

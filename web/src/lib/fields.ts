@@ -150,9 +150,17 @@ export const FIELDS: Field[] = [
     title: "ADAC's roadside callouts in Germany per 1,000 cars of the model first registered in the year shown, every powertrain of the model together" },
   { ...n("breakdown_year", "adac_breakdown_year", "Breakdowns: cars first registered in", "Tests and reliability", "", 0, 1, "Breakdowns year"), plain: true },
   t("breakdown_rating", "adac_breakdown_rating", "Breakdowns: ADAC's grade against other cars that age", "Tests and reliability", "Breakdown grade"),
+  t("breakdown_causes", "adac_breakdown_causes", "Breakdowns: what broke, and in which years' cars (ADAC)", "Tests and reliability", "Breakdown causes"),
   { ...n("reliability", "whatcar_reliability_pct", "Owners' reliability rating (What Car?)", "Tests and reliability", "%", 1, 1, "Reliability %"),
     title: "What Car?'s survey of owners of cars up to five years old: faults, repair costs and time off the road, as a percentage" },
   t("reliability_note", "whatcar_reliability", "Owners' reliability: place and common faults (What Car?)", "Tests and reliability", "Reliability"),
+  { ...n("faulty", "whatcar_faulty_pct", "Cars that had a fault (What Car?)", "Tests and reliability", "%", 0, 1, "Had a fault %"),
+    title: "The share of the model's cars in What Car?'s survey that went wrong, as its write-up states it" },
+  { ...n("repairs_free", "whatcar_repairs_free_pct", "Repairs that cost the owner nothing (What Car?)", "Tests and reliability", "%", 0, 1, "Free repairs %"),
+    title: "Of the faults owners reported, the share whose repair cost them £0" },
+  { ...n("off_road_week", "whatcar_off_road_week_pct", "Faulty cars off the road over a week (What Car?)", "Tests and reliability", "%", 0, 1, "Off road >1 wk %"),
+    title: "Of the cars that went wrong, the share out of action for more than a week" },
+  t("platform_reliability", "platform_reliability", "Reliability of other models on its platform", "Tests and reliability", "Platform siblings"),
 
   // Safety and warranty
   n("ncap", "ncap_stars", "Euro NCAP stars", "Safety and warranty", "", 0, 1, "NCAP ★"),

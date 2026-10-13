@@ -329,7 +329,9 @@ Every request in the survey returned 200 (217 pages 2 s apart), with no challeng
   The breakdown statistics: callouts in Germany per 1,000 cars of the model first registered in
   each year from 2016 to 2023, graded 1 (sehr gut) to 5 (mangelhaft) against that year's
   spread, all powertrains of the model together ("Hyundai Kona" counts the petrol and hybrid
-  cars too), and the recurring defects. The app shows the latest year. A test page carries only
+  cars too), and the recurring defects, which the app shows in English ("Starterbatterie" is the
+  12-volt battery, "Fahrzeugelektrik allgemein" general electrics; a name not yet translated is
+  shown as printed). The app shows the latest year. A test page carries only
   its own generation's statistics, so the facelifted Ioniq 5's has none; the range page of each
   model's test (100 pages) carries the range's latest generation that has any (the Ioniq 5's
   first generation: 19.5 per 1,000 for 2023 cars, grade 5), and the build takes it over a test
@@ -364,7 +366,16 @@ in 2026). Surveyed 13 Oct 2026.
   the 2025 survey (modified April 2026), so a model's rating comes from the newest article
   naming it: the ID.4 is 66.9% (2026) rather than 79.6% (2025). Only models still on sale
   ("2021-present") are applied, so the 2018-2023 Kona Electric's 92.8% does not land on the
-  current car. A name rates its variants filed as models of their own (the Ioniq 5 rates the
+  current car. Since 13 Oct also each write-up's figures: the share of repairs that cost the
+  owner nothing ("Average repair cost: 90% £0, ..."), the share of faulty cars off the road for
+  more than a week ("Typical time off road: 56% more than a week, ..."), and the share of cars
+  that had a fault, which is only in the prose ("Overall, 42% of Ioniq 5s went wrong, compared
+  with 30% of EV6s"; "Thirty-six percent of ID 4 owners had gripes, compared with 30% of people
+  with Enyaqs"). A sentence that says cars went wrong or had a fault gives its share of the cars
+  or owners in general, or of the entry's own model, to the entry; a share of another model in
+  the article goes to that model when it has none of its own; a share of faulty cars is not one.
+  The sentence is kept and shown as the figure's source. 42 entries of the three articles have
+  one. A name rates its variants filed as models of their own (the Ioniq 5 rates the
   Ioniq 5 N, the MG 4 the MG4 Urban, which over-reaches); the overall article is matched only
   by exact name, since its Porsche Macan is the petrol one.
 - **Left:** the per-car lookup by registration (needs a login); the other class articles, which

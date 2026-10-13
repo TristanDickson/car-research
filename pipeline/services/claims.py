@@ -78,8 +78,8 @@ NUMBERS = ("battery_kwh", "battery_usable_kwh", "wltp_range_mi", "real_range_mi"
            "list_price_gbp", "used_from_gbp", "drive")
 # What independent testers say of a model (providers/adac.py, providers/whatcar.py): said at model level.
 ADAC_FIELDS = ("adac_total", "adac_suspension", "adac_comfort", "adac_build", "adac_boot", "adac_rear_space", "adac_family", "adac_tested",
-               "adac_breakdowns", "adac_breakdown_year", "adac_breakdown_rating")
-WHATCAR_FIELDS = ("whatcar_reliability_pct", "whatcar_reliability")
+               "adac_breakdowns", "adac_breakdown_year", "adac_breakdown_rating", "adac_breakdown_causes")
+WHATCAR_FIELDS = ("whatcar_reliability_pct", "whatcar_reliability", "whatcar_faulty_pct", "whatcar_repairs_free_pct", "whatcar_off_road_week_pct")
 NUMBERS = NUMBERS + ADAC_FIELDS + WHATCAR_FIELDS
 ENGINE_FIELDS = ("battery_kwh", "wltp_range_mi", "power_hp", "zero_to_62_s", "top_speed_mph", "efficiency_mi_kwh", "ac_kw", "drive", "dc_peak_kw", "dc_10_80_min")
 BODY_FIELDS = ("seats", "doors", "boot_l", "boot_max_l", "turning_circle_m", "wheelbase_m", "length_mm", "width_mm", "height_mm")
@@ -426,6 +426,12 @@ def from_whatcar(store: Store, rows: list[dict], catalogue: list[dict]) -> None:
         seen = (r.get("last_seen_at") or r.get("observed_at") or "")[:10] or None
         store.add(sub, Claim("whatcar_reliability_pct", pct, "measured", "What Car?", label, seen=seen))
         store.add(sub, Claim("whatcar_reliability", note, "measured", "What Car?", label, seen=seen))
+        nums = r.get("numbers") or {}
+        if nums.get("faulty_pct") is not None:
+            store.add(sub, Claim("whatcar_faulty_pct", nums["faulty_pct"], "measured", "What Car?", f"{label}: \"{r.get('faulty_said')}\"", seen=seen))
+        for f, k in (("whatcar_repairs_free_pct", "repairs_free_pct"), ("whatcar_off_road_week_pct", "off_road_week_pct")):
+            if nums.get(k) is not None:
+                store.add(sub, Claim(f, nums[k], "measured", "What Car?", label, seen=seen))
 
 
 def _maker_verdicts(row: dict) -> dict[str, str]:
@@ -1014,4 +1020,44 @@ def resolve_all(cars: list[dict], store: Store) -> dict:
         resolve_car(c, store)
         n_fields += len(c.get("field_sources") or {})
         n_dis += len(c.get("disagreements") or {})
+    platform_reliability(cars)
     return {"claims": store.count(), "subjects": len(store.claims), "fields_from_claims": n_fields, "disagreements": n_dis}
+
+
+RATED_AS_RE = re.compile(r"\(([^()]*\d{4}-(?:present|\d{4}))\)")
+
+
+def platform_reliability(cars: list[dict]) -> None:
+    """For each car on a platform (EV Database's word), what owners and ADAC say of the other models built on it:
+    a model too new to be rated (the Elroq) is best judged by its siblings (the Enyaq, the ID.4), and a rated one
+    beside them (the Ioniq 5 at 80.7% against the EV6 at 89.5%). Each rated model once, by the name it was rated as."""
+    by: dict[str, dict[str, dict]] = {}
+    for c in cars:
+        p = c.get("platform")
+        if not p:
+            continue
+        m = by.setdefault(p, {})
+        if c.get("whatcar_reliability_pct") is not None:
+            rated = RATED_AS_RE.search(c.get("whatcar_reliability") or "")
+            name = rated.group(1).rsplit(" ", 1)[0] if rated else f"{c.get('make')} {c.get('model')}"
+            e = m.setdefault(name, {"models": set()})
+            e["owners"] = c["whatcar_reliability_pct"]
+            if c.get("whatcar_faulty_pct") is not None:
+                e["faulty"] = c["whatcar_faulty_pct"]
+            e["models"].add(c.get("model"))
+        if c.get("adac_breakdowns") is not None:
+            e = m.setdefault(f"{c.get('make')} {c.get('model')}", {"models": set()})
+            e.update(breakdowns=c["adac_breakdowns"], year=c.get("adac_breakdown_year"))
+            e["models"].add(c.get("model"))
+    for c in cars:
+        p = c.get("platform")
+        others = {n: v for n, v in (by.get(p) or {}).items() if c.get("model") not in v["models"]} if p else {}
+        owners = sorted(((n, v) for n, v in others.items() if "owners" in v), key=lambda nv: -nv[1]["owners"])
+        breaks = sorted(((n, v) for n, v in others.items() if "breakdowns" in v), key=lambda nv: nv[1]["breakdowns"])
+        parts = []
+        if owners:
+            parts.append("owners (What Car?): " + ", ".join(
+                f"{n} {v['owners']:g}%" + (f" ({v['faulty']:g}% had a fault)" if v.get("faulty") is not None else "") for n, v in owners))
+        if breaks:
+            parts.append("breakdowns per 1,000 (ADAC): " + ", ".join(f"{n} {v['breakdowns']:g} ({v['year']} cars)" for n, v in breaks))
+        c["platform_reliability"] = f"{p}: " + "; ".join(parts) if parts else None
