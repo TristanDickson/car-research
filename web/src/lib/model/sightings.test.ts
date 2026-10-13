@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { DEFAULT_BASIS, usedRoute, type Basis, type DealFields } from "./dealMath";
 import { pcpOverHorizon } from "./horizon";
-import { bestByRoute, cost, costAll, current, floorGfvAt, goneDates, markCurrent, residualAt, residualSeries, series, subject, trend, usedStock, type Sighting } from "./sightings";
+import { bestByRoute, cost, costAll, current, floorGfvAt, goneDates, markCurrent, residualAt, residualSeries, series, subject, trend, usedEndValue, usedStock, type Sighting } from "./sightings";
 
 const BASIS: Basis = { ...DEFAULT_BASIS, term_months: 37, savings_rate_apr: 0.04, residual_pct_of_list: 0.45, residual_at_months: 36 };
 const MODEL = "hyundai/ioniq-5";
@@ -65,6 +65,16 @@ describe("costing", () => {
     const c = cost(used("x", 19000, 2024, "2026-10-07", "2026-10-07"), BASIS, residualAt(STOCK), floorGfvAt([]), "2026-10-07")!;
     expect([c.headline, c.residual_source]).toEqual([19000, "assumption"]);   // nothing from 2021 says what a 2024 car is worth in 2029
     expect(c.true_monthly).toBeCloseTo(usedRoute(19000, 2, BASIS).true_monthly!, 2);
+  });
+  it("a used car ends worth its own price scaled by how much its model's older examples ask less", () => {
+    // 2026 examples ask a median £30,000 and 2023 ones £21,000: a 2026 car loses 30% in three years.
+    const stock = [...STOCK, ...[29000, 30000, 31000].map((p, i) => used(`n${i}`, p, 2026, "2026-10-01", "2026-10-07", { vrm: `N${i}`, mileage: 10 + i }))];
+    const tired = cost(used("x", 24000, 2026, "2026-10-07", "2026-10-07", { vrm: "X", mileage: 90000 }), BASIS, residualAt(stock), floorGfvAt([]), "2026-10-07")!;
+    expect([tired.residual_source, tired.end_value]).toEqual(["used-market", 16800]);   // not the £21,000 an average 2023 car asks
+    const dearer = residualAt([...stock, ...[25000, 26000, 27000].map((p, i) => used(`o${i}`, p, 2023, "2026-10-01", "2026-10-07", { vrm: `O${i}`, mileage: 20 + i }))]);
+    expect(usedEndValue(24000, MODEL, 2026, 37, "2026-10-07", dearer)).toBeCloseTo(24000 * 23500 / 30000, 6);   // 2023's median now £23,500
+    const old = residualAt([...STOCK, ...[19000, 20000, 21000].map((p, i) => used(`m${i}`, p, 2026, "2026-10-01", "2026-10-07", { vrm: `M${i}`, mileage: 30 + i }))]);
+    expect(usedEndValue(24000, MODEL, 2026, 37, "2026-10-07", old)).toBeNull();          // older examples asking no less say nothing about depreciation
   });
   it("costAll dates history by first day and today by today, and drops what it cannot cost", () => {
     const pcp = offer("p", "pcp", "hyundai", PCP, "2026-06-01", "2026-10-07");
@@ -166,18 +176,20 @@ describe("series", () => {
   });
   it("current is the cheapest per route and source as of today", () => {
     const today = "2026-10-07";
-    const rows = costAll([
+    const rows = costAll(markCurrent([
       offer("k", "cash", "ncd", CASH, "2026-10-05", "2026-10-07"),
       offer("k-old", "cash", "ncd", { ...CASH, vehicle_price: 30000 }, "2026-08-01", "2026-08-20"),   // stale
-      offer("k2", "cash", "carwow", { ...CASH, vehicle_price: 35000 }, "2026-10-05", "2026-10-07"),
+      offer("k2", "cash", "carwow", { ...CASH, vehicle_price: 33000 }, "2026-09-28", "2026-10-02"),
+      offer("k2", "cash", "carwow", { ...CASH, vehicle_price: 35000 }, "2026-10-03", "2026-10-07"),   // the same offer, since risen
       offer("p", "pcp", "hyundai", PCP, "2026-06-01", "2026-10-07"),
       used("u1", 20000, 2023, "2026-10-01", "2026-10-07", { vrm: "A" }), used("u2", 18000, 2023, "2026-10-04", "2026-10-07", { vrm: "B" }),
-    ], BASIS, today);
-    const cur = current(rows, today, 14);
+    ], today, 14), BASIS, today);
+    const cur = current(rows, today);
     expect(Array.from(cur.keys()).sort()).toEqual(["car-a", "model:hyundai/ioniq-5"]);
     const cash = cur.get("car-a")!.cash!;
     expect(Object.keys(cash).sort()).toEqual(["carwow", "ncd"]);
     expect([cash.ncd.key, cash.ncd.headline, cash.ncd.age_days]).toEqual(["k", 34000, 0]);
+    expect(cash.carwow.headline).toBe(35000);                          // its price now, not the cheaper one it replaced
     expect(cur.get("model:hyundai/ioniq-5")!.used!.cinch.key).toBe("u2");
     const best = bestByRoute({ ...cur.get("car-a")!, ...cur.get("model:hyundai/ioniq-5")! });
     expect([best.cash!.key, best.used!.key]).toEqual(["k", "u2"]);

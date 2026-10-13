@@ -53,7 +53,7 @@ export function computeAll(input: ComputeInput): ComputeResult {
   const history = costAll(all, input.basis);
   const now = costAll(all, input.basis, input.today);
   const rows = series(history, goneDates(all));
-  const cur = current(now, input.today, input.staleDays);
+  const cur = current(now, input.today);
   const cashSeries = new Map<string, SeriesRow[]>();
   for (const r of rows) {
     if (r.route !== "cash") continue;

@@ -215,6 +215,15 @@ function residualsFor(s: Sighting, months: number, asOf: string, residual: Resid
   return ev ? { [s.car_id]: { value: ev[0], source: "used-market", n: ev[1] } } : null;
 }
 
+/** What a used car is worth `months` on: its own price, scaled by what its model's examples that many years older ask
+ * against those of its own year. A cheap, high-mileage example ends cheap too, where the older examples' median alone
+ * would hand it the value of an average one. Null without enough examples of both years, or when the older ones ask no less. */
+export function usedEndValue(price: number, model: string, year: number, months: number, asOf: string, residual: ResidualAt): number | null {
+  const then = residual(model, year - yearsOf(months), asOf), now = residual(model, year, asOf);
+  if (!then || !now || then[0] >= now[0]) return null;
+  return (price * then[0]) / now[0];
+}
+
 /** One sighting on the common footing, with the used market read as of `asOf`. */
 export function cost(s: Sighting, basis: Basis, residual: ResidualAt, floorGfv: FloorGfvAt, asOf: string): Costed | null {
   const H = Math.max(1, Math.trunc(basis.term_months || 37));
@@ -222,8 +231,7 @@ export function cost(s: Sighting, basis: Basis, residual: ResidualAt, floorGfv: 
   if (s.route === "used") {
     const price = num(s.deal.price), year = num(s.deal.year);
     if (!price) return null;
-    const ev = year ? residual(s.model, year - yearsOf(H), asOf) : null;
-    const m = usedRoute(price, year ? yearOf(asOf) - year : null, basis, ev ? ev[0] : null);
+    const m = usedRoute(price, year ? yearOf(asOf) - year : null, basis, year ? usedEndValue(price, s.model, year, H, asOf, residual) : null);
     return { s, as_of: asOf, headline: price, true_monthly: m.true_monthly, true_monthly_floor: null, pv_cost: m.pv_cost,
              horizon_months: H, at_horizon: "sold", own_true_monthly: m.true_monthly, own_horizon_months: H,
              end_value: m.expected_value_at_end, residual_source: m.residual_source, metrics: null, terms: printedTerms("used", s.deal, null) };
@@ -432,13 +440,13 @@ export interface CurrentPoint extends Point {
 /** subject → route → source → the cheapest sighting still current. */
 export type Current = Map<string, Partial<Record<Route, Record<string, CurrentPoint>>>>;
 
-/** The cheapest sighting still current (last confirmed within `staleDays`) per subject, route and source, costed as of today. */
-export function current(costedToday: Costed[], today: string, staleDays: number): Current {
-  const cutoff = addDays(today, -staleDays);
+/** The cheapest current sighting (its key's latest state, marked by markCurrent) per subject, route and source, costed as of today.
+ * An offer's earlier states are history: a price that has since risen is not still on offer. */
+export function current(costedToday: Costed[], today: string): Current {
   const out: Current = new Map();
   for (const c of costedToday) {
     const s = c.s;
-    if (s.to.slice(0, 10) < cutoff || c.true_monthly == null) continue;
+    if (!s.current || c.true_monthly == null) continue;
     let routes = out.get(subject(s));
     if (!routes) { routes = {}; out.set(subject(s), routes); }
     const slot = (routes[s.route] ??= {});

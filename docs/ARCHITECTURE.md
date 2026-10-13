@@ -388,7 +388,10 @@ Where V comes from, in order (`expectedValue`, reported as `residual_source`):
    term-years ago (three or more of them), across `carwow_used`, `cinch_used` and
    `motorpoint_used` with the same car listed twice counted once (the same registration,
    or the same mileage where a site prints none). Model-level, not per trim, and read
-   *as of a date* from the used spans (`sightings.residualAt`).
+   *as of a date* from the used spans (`sightings.residualAt`). A used car's own V is its
+   price scaled by that median against the median of its own registration year
+   (`sightings.usedEndValue`), so a cheap, high-mileage example ends cheap too; with too
+   few examples of either year, or older ones asking no less, it falls to the assumption.
 2. **gfv-grown**: the highest GFV any lender guarantees for the car that day, grown at
    the savings rate over the term. The lender stood behind the floor; the expectation
    sits above it by about the rate they discounted at. No forecasting beyond that.
@@ -546,7 +549,8 @@ so); what things cost now is the same function as of today. `series` groups cost
 sightings by subject, route and source (an offer as flat spans held to its next sighting
 unless seen gone between; a model's used stock as the cheapest example day by day);
 `residualSeries` samples the evidence monthly; `current` picks the cheapest per route and
-source as of today; `trend` reads the movement of the best cash price; `usedStock` the
+source among each key's latest state (`markCurrent`: present and confirmed within the stale
+window), so an offer whose price has since risen shows its price now; `trend` reads the movement of the best cash price; `usedStock` the
 model's stock by registration year.
 
 ## The cost model lives in the browser
