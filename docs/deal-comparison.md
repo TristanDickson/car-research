@@ -3366,7 +3366,6 @@
 | Kia EV3 GT-Line · 150kW 81.4kWh Auto | lead |  | £33,022 |  |
 | Kia EV3 GT-Line S 81.4kWh + Heat Pump | lead |  | £38,234 |  |
 | Kia EV3 GT-Line S · 150kW 81.4kWh Auto | lead |  | £37,914 |  |
-| Kia EV6 GT · 478kW 84kWh AWD Auto | lead |  | £60,728 |  |
 | Kia EV6 Air SR · 125kW 63kWh Auto | lead |  | £32,976 |  |
 | Kia EV6 Air · 168kW 84kWh Auto | lead |  | £38,053 |  |
 | Kia EV6 GT Line · 168kW 84kWh Auto | lead |  | £40,423 |  |
