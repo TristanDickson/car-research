@@ -372,7 +372,7 @@ rejected by that rule fails in two seconds with no runner and no logs.
   (a 58,161-mile Kona at £14,550 came out at £82 a month), now its own price scaled. A new car's
   end value is now scaled to its trim, and each car page shows where finance and buying
   outright cross (the savings rate, and the resale price): the Kona Ultimate's lease beats cash
-  above 5.9%, and NCD's PCPs cross at their 7.9% APR, as a PCP with nothing from the maker
+  above 7.6% (or if the car sells for less than £14,930), and NCD's PCPs cross at their 7.9% APR, as a PCP with nothing from the maker
   must. New: tyre sizes and the front sidewall from NCD's derivative pages, read back from the
   parts the pcp fetch already kept (106 Hyundai and Kia cars); ADAC's Autotest grades and
   breakdown statistics per model (`adac`, 124 models on 101 test pages and 100 range pages, 25
