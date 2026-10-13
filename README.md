@@ -173,6 +173,12 @@ value at the end comes from the used market where the three used sources list en
 examples of that age (the median asking price), else from the best GFV known for the car
 grown at the savings rate, else from the flat assumption; each figure says which.
 
+A new car's value at the end is the used median scaled by its trim's list price against its
+model's typical trim; a used car's is its own price scaled by how much older examples of its
+model ask. Each car page says, for its cheapest PCP and lease against its cheapest cash price,
+the savings rate above which the finance is cheaper and the resale price above which buying
+outright is (`web/src/lib/model/breakeven.ts`).
+
 The term, the savings rate, the residual assumption and how deals of other lengths rank
 are the reader's, set in Settings and kept in the browser; the pipeline
 exports facts and nothing else. Changing them recomputes every figure in the browser
@@ -358,6 +364,24 @@ rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Context log
 
+- **2026-10-13** The owner asked "fix the bugs", then, of the proposals that followed, "fine,
+  yes, go ahead with all of it as you proposed". Two cost-model bugs fixed in the browser: the
+  current price of an offer was the cheapest of every state seen in the last 14 days, so 355
+  cars showed a Carwow cash price that had since risen (a median £1,416 under the price now);
+  and a used car's end value was its model's older examples' median whatever its own price
+  (a 58,161-mile Kona at £14,550 came out at £82 a month), now its own price scaled. A new car's
+  end value is now scaled to its trim, and each car page shows where finance and buying
+  outright cross (the savings rate, and the resale price): the Kona Ultimate's lease beats cash
+  above 5.9%, and NCD's PCPs cross at their 7.9% APR, as a PCP with nothing from the maker
+  must. New: tyre sizes and the front sidewall from NCD's derivative pages, read back from the
+  parts the pcp fetch already kept (106 Hyundai and Kia cars); ADAC's Autotest grades and
+  breakdown statistics per model (`adac`, 124 models on 101 test pages and 100 range pages, 25
+  of each a night); What Car?'s
+  owner reliability ratings (`whatcar`). Surveys in `docs/SOURCES.md`, made with a research
+  agent: sidewall height is not what decides ride across models (springs and dampers are);
+  ADAC grades suspension on a fixed route. Which?, Driver Power and the TÜV Report were
+  surveyed and left.
+
 - **2026-10-12** App-side changes, no rebuild of the data needed. The Cars table's PCP and lease
   columns sort by what they show, and each route has two: the true cost a month and the
   advertised monthly payment. The note that tells look-alike cars apart is worked out in the app
@@ -526,8 +550,8 @@ rejected by that rule fails in two seconds with no runner and no logs.
 
 ## Next steps
 
-1. Check the 12 Oct nightly's log: the first night of NCD's quotes, every RRG offer and
-   Carwow's used cards, and whether any of those hosts refused.
+1. Check the 14 Oct nightly's log: ADAC's next batches (50 test pages and 25 range pages were
+   read on 13 Oct; the rest take about three nights) and What Car?, and whether adac.de refused.
 2. What the pages print that is still not read, by value, is at the end of `docs/SOURCES.md`
    (used cars' detail pages, Kia's own offer pages, NCD's HP quote).
 3. Ask the owner about the three proposals on look-alike cars in `docs/REBUILD.md` (hide old

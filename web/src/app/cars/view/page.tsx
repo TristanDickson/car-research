@@ -160,7 +160,7 @@ function CarView() {
         </Card>
       )}
 
-      <Pricing car={c} costs={costs} horizon={horizon} sources={data.data?.sources ?? {}} staleDays={data.data?.stale_days ?? 14} />
+      <Pricing car={c} costs={costs} horizon={horizon} savingsRate={basis.data?.savings_rate_apr ?? 0.04} sources={data.data?.sources ?? {}} staleDays={data.data?.stale_days ?? 14} />
 
       <EquipmentCard car={c} specs={specs.data ?? []} specCheck={details.data?.spec_check} flagLabels={data.data?.flag_labels ?? {}} />
 

@@ -163,7 +163,8 @@ class RawStore:
              fetched_at: str, status: int | None, body: bytes | None, content_type: str | None = None,
              error: str | None = None, origin: str = "live", note: str | None = None, role: str | None = None) -> dict:
         """Keep one fetch: the body (if any) and its index line. `role` 'part' marks one of the responses a
-        combined fetch was made of (kept as it came; the build parses the combined body)."""
+        combined fetch was made of (kept as it came; the build parses the combined body, and hands the parts to
+        a parser that reads them)."""
         sha = self.put(body) if body is not None else None
         return self.record({
             "source": source, "capability": capability, "target": target, "metadata": metadata or None,

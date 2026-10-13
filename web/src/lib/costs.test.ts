@@ -21,6 +21,8 @@ const row: CarCostRow = {
   best: {},
   trend: { now: 26966, then: 27445, delta: -479, window_days: 30, first_at: "2026-09-01", days_at_now: 3, spark: [] },
   stock: null,
+  trim_scale: 1,
+  breakeven: [],
 };
 
 describe("carCosts", () => {

@@ -68,6 +68,9 @@ class Capability:
     fetch: FetchFn
     parse: ParseFn
     kinds: tuple[str, ...]   # record kinds this capability emits (Gold rows replaced per run)
+    # The parser also reads the responses a combined fetch was made of, as target.metadata["parts"]:
+    # [{"url", "status", "body"}], in the order fetched (the live run's, or the raw store's).
+    reads_parts: bool = False
 
 
 @dataclass(frozen=True)

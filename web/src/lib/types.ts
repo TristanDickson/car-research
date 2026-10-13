@@ -245,6 +245,27 @@ export interface SnapshotCar {
   wheel_in?: number | null;
   /** Other sizes the configurator offers: '19", 20"'. */
   wheel_options?: string | null;
+  /** The tyres the derivative is sold on, as CAP's technical data gives them: '215/55 R17'. */
+  tyre_front?: string | null;
+  tyre_rear?: string | null;
+  /** The front tyre's sidewall height, mm: width × profile. */
+  sidewall_mm?: number | null;
+  /** ADAC's Autotest of the model (German school grades: 0.6 best, 5.5 worst) and what it tested. */
+  adac_total?: number | null;
+  adac_suspension?: number | null;
+  adac_comfort?: number | null;
+  adac_build?: number | null;
+  adac_boot?: number | null;
+  adac_rear_space?: number | null;
+  adac_family?: number | null;
+  adac_tested?: string | null;
+  /** ADAC's breakdown statistics for the model: callouts per 1,000 cars first registered in that year, and its grade. */
+  adac_breakdowns?: number | null;
+  adac_breakdown_year?: number | null;
+  adac_breakdown_rating?: string | null;
+  /** What Car?'s owner reliability rating for the model, and its place and common faults. */
+  whatcar_reliability_pct?: number | null;
+  whatcar_reliability?: string | null;
   segment?: string | null;
   platform?: string | null;
   ncap_stars?: number | null;

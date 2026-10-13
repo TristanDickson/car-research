@@ -7,7 +7,7 @@ import { LineChart } from "@/components/charts/LineChart";
 import { OfferTable } from "@/components/OfferTable";
 import { WindowPicker, type Window } from "@/components/PriceHistory";
 import { Badge, Card, Empty } from "@/components/ui";
-import { ROUTE_LABEL, ROUTE_SHORT, ROUTES, type CarCosts } from "@/lib/costs";
+import { breakEvenText, ROUTE_LABEL, ROUTE_SHORT, ROUTES, type CarCosts } from "@/lib/costs";
 import { gbp, num } from "@/lib/format";
 import { useOffersForCar, useResidualsForModel, useSeriesForCar, useUsedForModel } from "@/lib/hooks";
 import type { UsedStock } from "@/lib/model/sightings";
@@ -26,7 +26,7 @@ const day = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en
  * here: every figure comes from the stored results of lib/model, computed
  * under the reader's basis.
  */
-export function Pricing({ car, costs, horizon, sources, staleDays }: { car: SnapshotCar; costs: CarCosts; horizon: number; sources: Record<string, string>; staleDays: number }) {
+export function Pricing({ car, costs, horizon, savingsRate, sources, staleDays }: { car: SnapshotCar; costs: CarCosts; horizon: number; savingsRate: number; sources: Record<string, string>; staleDays: number }) {
   const series = useSeriesForCar(car);
   const offers = useOffersForCar(car.id);
   const used = useUsedForModel(car.model_key ?? null);
@@ -77,6 +77,20 @@ export function Pricing({ car, costs, horizon, sources, staleDays }: { car: Snap
           );
         })}
       </div>
+
+      {costs.breakeven.length > 0 && (
+        <div className="mb-4 rounded-lg border border-gray-800 bg-gray-950/60 p-3 text-sm">
+          <div className="mb-1 text-xs uppercase tracking-wide text-gray-500">Buying outright against finance, at your {(savingsRate * 100).toFixed(1)}% savings rate (Settings)</div>
+          <ul className="space-y-1 text-gray-300">
+            {costs.breakeven.map((b) => {
+              const t = costs.byRoute[b.route];
+              const label = `the ${b.route === "pch" ? "lease" : "PCP"}${t ? ` at ${gbp(t.monthly)}/mo` : ""}`;
+              const [rate, resale] = breakEvenText(b, label, b.route === "pcp" && !!t && t.atHorizon !== "as_agreed");
+              return <li key={b.route}>{rate} {resale}</li>;
+            })}
+          </ul>
+        </div>
+      )}
 
       {active && (
         <div className="space-y-4">
@@ -130,7 +144,7 @@ export function Pricing({ car, costs, horizon, sources, staleDays }: { car: Snap
           )}
 
           {active === "used" && (
-            <UsedStockView car={car} listings={used.data ?? []} stock={costs.stock} byYear={byYear} />
+            <UsedStockView car={car} listings={used.data ?? []} stock={costs.stock} byYear={byYear} trimScale={costs.trimScale} />
           )}
         </div>
       )}
@@ -138,7 +152,7 @@ export function Pricing({ car, costs, horizon, sources, staleDays }: { car: Snap
   );
 }
 
-function UsedStockView({ car, listings, stock, byYear }: { car: SnapshotCar; listings: SnapshotUsed[]; stock: UsedStock | null; byYear: { year: number; points: { date: string; median: number; n: number }[] }[] }) {
+function UsedStockView({ car, listings, stock, byYear, trimScale }: { car: SnapshotCar; listings: SnapshotUsed[]; stock: UsedStock | null; byYear: { year: number; points: { date: string; median: number; n: number }[] }[]; trimScale: number }) {
   const [all, setAll] = useState(false);
   // This car's own trim and battery first; the model's other listings stay as evidence of what a used one is worth.
   const mine = (l: SnapshotUsed) => !!car.used_key && l.used_key === car.used_key;
@@ -216,7 +230,10 @@ function UsedStockView({ car, listings, stock, byYear }: { car: SnapshotCar; lis
         )}
         {stock?.residual && (
           <p className="mt-2 text-xs text-gray-500">
-            The {stock.residual.year} median ({gbp(stock.residual.value)}, {stock.residual.n} cars, the same car on two sites counted once) is the end-of-term value behind this car&apos;s PCP equity and outright cost. Older years are what the used route itself will be worth later.
+            The {stock.residual.year} median ({gbp(stock.residual.value)}, {stock.residual.n} cars, the same car on two sites counted once)
+            {trimScale !== 1 ? `, × ${trimScale.toFixed(2)} for this trim's list price against the model's typical trim (${gbp(stock.residual.value * trimScale)}),` : ""} is
+            the end-of-term value behind this car&apos;s PCP equity and outright cost. A used car&apos;s own end value is its price scaled by how much
+            its model&apos;s examples that many years older ask less than those of its own year.
           </p>
         )}
       </div>

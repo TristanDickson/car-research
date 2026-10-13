@@ -9,7 +9,7 @@ import type { SnapshotCar, Tri } from "./types";
 export type FieldKind = "number" | "money" | "text" | "bool" | "tri";
 
 export const GROUPS = ["Price and cost", "Range and efficiency", "Battery and charging", "Performance", "Size and practicality",
-  "Wheels", "Safety and warranty", "Equipment", "About"] as const;
+  "Wheels", "Safety and warranty", "Tests and reliability", "Equipment", "About"] as const;
 export type Group = (typeof GROUPS)[number];
 
 export interface Field {
@@ -128,6 +128,31 @@ export const FIELDS: Field[] = [
   // Wheels
   n("wheels", "wheel_in", "Wheel size", "Wheels", "in", 0, 1, "Wheels in"),
   t("wheel_options", "wheel_options", "Other wheel sizes offered", "Wheels", "Wheel options"),
+  t("tyres", "tyre_front", "Tyre size, front", "Wheels", "Tyres"),
+  t("tyres_rear", "tyre_rear", "Tyre size, rear", "Wheels", "Rear tyres"),
+  { ...n("sidewall", "sidewall_mm", "Tyre sidewall height (front)", "Wheels", "mm", 0, 5, "Sidewall mm"),
+    title: "Tyre width × profile. Within one model, a taller sidewall usually softens sharp bumps; across models the suspension matters more" },
+
+  // Tests and reliability: ADAC's Autotest of the model, graded as German school marks (lower is better), its breakdown
+  // statistics, and What Car?'s survey of owners. Said of the model, from the one car each tested.
+  ...(([
+    ["adac_ride", "adac_suspension", "ADAC suspension (ride) grade", "ADAC ride"],
+    ["adac_build", "adac_build", "ADAC build quality grade", "ADAC build"],
+    ["adac_rear", "adac_rear_space", "ADAC rear seat space grade", "ADAC rear space"],
+    ["adac_boot", "adac_boot", "ADAC boot space grade", "ADAC boot"],
+    ["adac_comfort", "adac_comfort", "ADAC comfort grade", "ADAC comfort"],
+    ["adac_family", "adac_family", "ADAC grade for families", "ADAC family"],
+    ["adac_total", "adac_total", "ADAC overall grade", "ADAC overall"],
+  ] as const).map(([key, field, label, short]): Field =>
+    ({ ...n(key, field, label, "Tests and reliability", "", 1, 0.1, short), title: "ADAC's grade, as a German school mark: 0.6 is the best, 5.5 the worst" }))),
+  t("adac_tested", "adac_tested", "What ADAC tested", "Tests and reliability", "ADAC tested"),
+  { ...n("breakdowns", "adac_breakdowns", "Breakdowns per 1,000 cars (ADAC)", "Tests and reliability", "", 1, 1, "Breakdowns /1,000"),
+    title: "ADAC's roadside callouts in Germany per 1,000 cars of the model first registered in the year shown, every powertrain of the model together" },
+  { ...n("breakdown_year", "adac_breakdown_year", "Breakdowns: cars first registered in", "Tests and reliability", "", 0, 1, "Breakdowns year"), plain: true },
+  t("breakdown_rating", "adac_breakdown_rating", "Breakdowns: ADAC's grade against other cars that age", "Tests and reliability", "Breakdown grade"),
+  { ...n("reliability", "whatcar_reliability_pct", "Owners' reliability rating (What Car?)", "Tests and reliability", "%", 1, 1, "Reliability %"),
+    title: "What Car?'s survey of owners of cars up to five years old: faults, repair costs and time off the road, as a percentage" },
+  t("reliability_note", "whatcar_reliability", "Owners' reliability: place and common faults (What Car?)", "Tests and reliability", "Reliability"),
 
   // Safety and warranty
   n("ncap", "ncap_stars", "Euro NCAP stars", "Safety and warranty", "", 0, 1, "NCAP ★"),

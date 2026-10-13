@@ -24,6 +24,8 @@ providers (discover → fetch → parse)       pipeline/providers/*      Python,
    hyundai_specs   hyundai.com/uk (live)     the Tech & Spec guide PDF per model: ● / - per trim, battery-qualified ticks, packs with prices
    hyundai_configurator  hyundai.com/uk (live)  the build-and-price GraphQL: every orderable configuration, its price, the packages in it
    evdb, evdb_cars ev-database.org (live)    measured numbers per variant; each variant's own page
+   adac            adac.de (live)            ADAC's Autotest of each model (ride, build quality, space grades) and its breakdown statistics
+   whatcar         whatcar.com (live)        What Car?'s owner reliability survey: rating, place in class, common faults per model
    carwow_used     quotes.carwow.co.uk        used stock per model: derivative, price, year, mileage (the buy-used route; residual evidence)
    cinch_used      search-api...cinch.co.uk   used stock per make (electric), with registrations; folded with the others per model
    motorpoint_used motorpoint.co.uk           the supermarket's electric stock, nearly new; list price when new per car
@@ -268,7 +270,9 @@ answered, and records the run in the store's log; one dead page does not sink a 
 A fetch that combines several responses (cinch's and Motorpoint's pages, Hyundai's configurator
 page and the API call it names, Hyundai's downloads page and the PDF it links) hands the parser
 one body and also returns each response as it came, which the store keeps beside it (role
-`part`). Each live provider is a `parse_page(text, …) -> rows` pure function with the real
+`part`). A parser that needs those responses too (NCD's derivative pages, for their tyre sizes)
+declares `reads_parts` on its capability and gets them as `target.metadata["parts"]`, from the
+live fetch or, at a build, from the store. Each live provider is a `parse_page(text, …) -> rows` pure function with the real
 captured page in `tests/fixtures/`, so a layout change fails `tests/test_providers.py` rather
 than writing nonsense; the page is kept either way, so the fixed parser reads it again at the
 next build.
@@ -387,8 +391,11 @@ Where V comes from, in order (`expectedValue`, reported as `residual_source`):
 1. **used-market**: the median asking price of the model's used examples registered
    term-years ago (three or more of them), across `carwow_used`, `cinch_used` and
    `motorpoint_used` with the same car listed twice counted once (the same registration,
-   or the same mileage where a site prints none). Model-level, not per trim, and read
-   *as of a date* from the used spans (`sightings.residualAt`). A used car's own V is its
+   or the same mileage where a site prints none). Model-level, and read *as of a date* from
+   the used spans (`sightings.residualAt`). A new car's V is that median scaled to its trim:
+   its list price over its model's typical one, the median across the model's trims on sale,
+   each trim and battery counted once (`sightings.trimScale`), so a top trim is not charged
+   its whole premium as depreciation. A used car's own V is its
    price scaled by that median against the median of its own registration year
    (`sightings.usedEndValue`), so a cheap, high-mileage example ends cheap too; with too
    few examples of either year, or older ones asking no less, it falls to the assumption.
@@ -396,6 +403,15 @@ Where V comes from, in order (`expectedValue`, reported as `residual_source`):
    the savings rate over the term. The lender stood behind the floor; the expectation
    sits above it by about the rate they discounted at. No forecasting beyond that.
 3. **assumption**: the flat share of list from the basis.
+
+### Where buying outright and financing cross
+
+For each car, `model/breakeven.ts` sets its cheapest current PCP and its cheapest current lease
+against its cheapest current cash price, re-costing those same sightings with `cost`: the
+savings rate at which the two cost the same (by bisection up to 30%; a PCP with nothing from the
+maker crosses at its own APR), and what the car would have to sell for at the end, at the
+reader's rate (the gap is linear in the end value, with one kink at a PCP's GFV, so three
+points find it). The car page prints both under its four route cards.
 
 ### Deals of different lengths
 

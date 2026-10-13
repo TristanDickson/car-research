@@ -277,6 +277,10 @@ SOURCES = {
 }
 
 
+# Sources whose rows reach the app only as the fields they give each car (services/claims.py): not spec rows of their own.
+FIELDS_ONLY = ("evdb", "evdb_cars", "ncd", "adac", "whatcar")
+
+
 def source_of(provider: str) -> str:
     return SOURCES.get(provider, (provider, provider))[0]
 
@@ -494,7 +498,7 @@ def _pipeline(conn: sqlite3.Connection, this_build: dict | None, sightings: list
         exported.setdefault(p, {})["offers"] = n
     for p, n in Counter(l.get("provider") for l in used if l.get("present")).items():
         exported.setdefault(p, {})["used"] = n
-    for p, n in Counter(sp.get("provider") for sp in specs if sp.get("provider") not in ("evdb", "evdb_cars")).items():
+    for p, n in Counter(sp.get("provider") for sp in specs if sp.get("provider") not in FIELDS_ONLY).items():
         exported.setdefault(p, {})["specs"] = n
     try:
         return stages.page(conn, this_build, exported)
@@ -712,7 +716,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     _write(out / "details.json", details)
     # ~1,500 spec rows: leave out what the app never reads (the full history keeps it).
     # EV Database rows belong to no car (the claim store lays them over cars by model and battery); no page lists them.
-    _write(out / "specs.json", [{k: v for k, v in sp.items() if k not in SPEC_PRIVATE} for sp in specs if sp.get("provider") not in ("evdb", "evdb_cars")])
+    _write(out / "specs.json", [{k: v for k, v in sp.items() if k not in SPEC_PRIVATE} for sp in specs if sp.get("provider") not in FIELDS_ONLY])
     _write(out / "models.json", models)
     _write(out / "sightings.json", sightings)
     key_of = {c["id"]: c.get("used_key") for c in cars}

@@ -48,13 +48,17 @@ class Raws:
 
     def add(self, provider: str | Provider, ident: str, fixture: str | None = None, *, body: bytes | None = None,
             capability: str | None = None, at: str = T, metadata: dict | None = None, status: int = 200,
-            db: sqlite3.Connection | None = None) -> dict:
+            db: sqlite3.Connection | None = None, parts: tuple = ()) -> dict:
+        """`parts`: the responses a combined fetch was made of (Fetched), kept beside it as the runner keeps them."""
         p = PROVIDERS[provider] if isinstance(provider, str) else provider
         cap = p.capability_for(capability)
         if metadata is None:
             metadata = target_for(p, cap.name, ident, db).metadata
         if body is None:
             body = (FIX / fixture).read_bytes()
+        for i, part in enumerate(parts):
+            self.store.save(source=p.name, capability=cap.name, target=ident, metadata={"part": i + 1, "of": len(parts)}, url=part.url,
+                            fetched_at=at, status=part.status_code, body=part.body, content_type=part.content_type, role="part")
         return self.store.save(source=p.name, capability=cap.name, target=ident, metadata=metadata, url=metadata.get("url"),
                                fetched_at=at, status=status, body=body)
 

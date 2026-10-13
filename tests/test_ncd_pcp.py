@@ -86,6 +86,42 @@ class ParsePcp(unittest.TestCase):
         self.assertEqual(self.rows(), self.rows())
 
 
+class Tyres(unittest.TestCase):
+    """Each derivative page prints CAP's technical data under its CAP id: the tyres and wheels are read."""
+
+    def test_the_pages_tyres_and_wheels(self):
+        r = ncd.spec_row(fixture("ncd_hyundai_ioniq-3_premium-ev-pack_derivative.html"), ncd.BASE + ThroughTheBuild.PREMIUM, "hyundai", T)
+        self.assertEqual((r["spec_key"], r["cap_id"]), ("ncd:111014", "111014"))
+        self.assertEqual(r["numbers"], {"tyre_front": "215/55 R17", "tyre_rear": "215/55 R17", "wheel_in": 17})
+        self.assertEqual(r["wheel_type"], '17" ALLOY')
+        n_line = ncd.spec_row(fixture("ncd_hyundai_ioniq-5_nline_derivative.html"), ncd.BASE + "/car/x/", "hyundai", T)
+        self.assertEqual((n_line["cap_id"], n_line["numbers"]["tyre_front"], n_line["numbers"]["wheel_in"]), ("105818", "255/45 R20", 20))
+
+    def test_tyre_sizes_as_printed_elsewhere(self):
+        self.assertEqual(ncd.tyre("245/40ZR20"), {"width_mm": 245, "profile_pct": 40, "rim_in": 20})
+        self.assertEqual(ncd.tyre("235/45 R19 98W"), {"width_mm": 235, "profile_pct": 45, "rim_in": 19})
+        self.assertIsNone(ncd.tyre("17\" ALLOY"))
+
+    def test_a_page_without_the_table(self):
+        self.assertIsNone(ncd.spec_row("<html><body>gone</body></html>", ncd.BASE + "/car/x/", "hyundai", T))
+
+    def test_parse_reads_the_pages_from_the_parts(self):
+        body = json.dumps({"listing_url": LISTING_URL, "listing": fixture("ncd_kia_ev6_4x4_listing.html"),
+                           "quotes": [{"href": GT, "page_url": ncd.BASE + GT}]}).encode()
+        parts = [{"url": ncd.BASE + GT, "status": 200, "body": (FIX / "ncd_kia_ev6_gt_4x4_derivative.html").read_bytes()}]
+        specs = [r for r in ncd.parse_pcp(body, ev6_target(observed_at=T, parts=parts)) if r.kind == "spec"]
+        self.assertEqual([(r.key, r.row["numbers"]["tyre_front"]) for r in specs], [("ncd:108315", "255/40 R21")])
+        self.assertEqual([r for r in ncd.parse_pcp(body, ev6_target(observed_at=T)) if r.kind == "spec"], [])   # no parts, no pages
+
+    def test_claims_give_the_sidewall(self):
+        from pipeline.services import claims
+        store = claims.Store()
+        claims.from_ncd_spec(store, {"cap_id": "111014", "variant": "99kw-premium", "numbers": {"tyre_front": "215/55 R17", "tyre_rear": "215/55 R17", "wheel_in": 17}})
+        subjects = [("derivative", "derivative:111014")]
+        got = {f: claims.resolve_number(f, subjects, store).value for f in ("tyre_front", "tyre_rear", "wheel_in", "sidewall_mm")}
+        self.assertEqual(got, {"tyre_front": "215/55 R17", "tyre_rear": "215/55 R17", "wheel_in": 17, "sidewall_mm": 118})
+
+
 class FetchQuotes(unittest.TestCase):
     """fetch_quotes against the captured responses, with a stand-in for fetch_url."""
 
@@ -146,11 +182,14 @@ class ThroughTheBuild(unittest.TestCase):
         from tests.helpers import Raws
         target = Target("hyundai/ioniq-3", {"make": "hyundai", "url": self.URL})
         with mock.patch.object(ncd, "fetch_url", self.fetch_url):
-            body = ncd.pcp.fetch(target, Context(root=FIX)).body
+            fetched = ncd.pcp.fetch(target, Context(root=FIX))
         with Raws() as raws:
             raws.add("ncd", "hyundai/ioniq-3", "ncd_hyundai_ioniq-3_listing_2026-10-11.html", at=T)
-            raws.add("ncd", "hyundai/ioniq-3", body=body, capability="pcp", at=T)
+            raws.add("ncd", "hyundai/ioniq-3", body=fetched.body, capability="pcp", at=T, parts=fetched.parts)
             conn = raws.build()
+        # The derivative page, kept as a part of the fetch, is read back by the build for its tyres.
+        spec = conn.execute("SELECT cap_id, payload FROM specs WHERE spec_key='ncd:111014'").fetchone()
+        self.assertEqual((spec["cap_id"], json.loads(spec["payload"])["numbers"]["tyre_front"]), ("111014", "215/55 R17"))
         q = "SELECT car_id, status, vehicle_price, monthly_payment FROM offer_observations WHERE offer_key=?"
         cash, pcp = conn.execute(q, (f"ncd:{self.PREMIUM}",)).fetchone(), conn.execute(q, (f"ncd:pcp:{self.PREMIUM}",)).fetchone()
         self.assertEqual(tuple(cash), ("hyundai-ioniq3-61-premium-evpack", "lead", 28829.0, None))

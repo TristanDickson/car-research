@@ -209,10 +209,39 @@ export interface Costed {
   terms: PrintedTerms;
 }
 
-function residualsFor(s: Sighting, months: number, asOf: string, residual: ResidualAt): Residuals | null {
+/** car → how its list price compares with its model's: the factor that turns the model's used median into this trim's. */
+export type TrimScale = (carId: string | null) => number;
+export const NO_SCALE: TrimScale = () => 1;
+
+/** Each car's list price over its model's typical list price: the median across the model's trims on sale, each
+ * trim and battery counted once at its own median (a range listed as nine Ultimates and one Advance is not an
+ * Ultimate range). The used median mixes every trim of a model, so a top trim would otherwise be charged its whole
+ * premium as depreciation and a base trim none of its own. 1 where the car or its model has no list price. */
+export function trimScale(cars: { id: string; model_key?: string | null; used_key?: string | null; list_price_gbp?: number | null; on_sale?: boolean | null }[]): TrimScale {
+  const trims = new Map<string, Map<string, number[]>>();
+  for (const c of cars) {
+    if (!c.model_key || !num(c.list_price_gbp) || c.on_sale === false) continue;
+    let byTrim = trims.get(c.model_key);
+    if (!byTrim) { byTrim = new Map(); trims.set(c.model_key, byTrim); }
+    const k = c.used_key || c.id;
+    const list = byTrim.get(k);
+    if (list) list.push(c.list_price_gbp as number);
+    else byTrim.set(k, [c.list_price_gbp as number]);
+  }
+  const sorted = (v: number[]) => v.sort((a, b) => a - b);
+  const mid = new Map(Array.from(trims, ([k, byTrim]) => [k, median(sorted(Array.from(byTrim.values(), (v) => median(sorted(v)))))]));
+  const scale = new Map<string, number>();
+  for (const c of cars) {
+    const m = c.model_key ? mid.get(c.model_key) : undefined;
+    if (m && num(c.list_price_gbp)) scale.set(c.id, (c.list_price_gbp as number) / m);
+  }
+  return (carId) => (carId ? scale.get(carId) ?? 1 : 1);
+}
+
+function residualsFor(s: Sighting, months: number, asOf: string, residual: ResidualAt, trim: TrimScale): Residuals | null {
   if (!s.car_id) return null;
   const ev = residual(s.model, yearOf(asOf) - yearsOf(months), asOf);
-  return ev ? { [s.car_id]: { value: ev[0], source: "used-market", n: ev[1] } } : null;
+  return ev ? { [s.car_id]: { value: ev[0] * trim(s.car_id), source: "used-market", n: ev[1] } } : null;
 }
 
 /** What a used car is worth `months` on: its own price, scaled by what its model's examples that many years older ask
@@ -225,7 +254,7 @@ export function usedEndValue(price: number, model: string, year: number, months:
 }
 
 /** One sighting on the common footing, with the used market read as of `asOf`. */
-export function cost(s: Sighting, basis: Basis, residual: ResidualAt, floorGfv: FloorGfvAt, asOf: string): Costed | null {
+export function cost(s: Sighting, basis: Basis, residual: ResidualAt, floorGfv: FloorGfvAt, asOf: string, trim: TrimScale = NO_SCALE): Costed | null {
   const H = Math.max(1, Math.trunc(basis.term_months || 37));
   const overHorizon = basis.compare_over !== "own";
   if (s.route === "used") {
@@ -245,14 +274,14 @@ export function cost(s: Sighting, basis: Basis, residual: ResidualAt, floorGfv: 
     if (s.route === "pcp") {
       const n = num(d.num_payments);
       const floor = floorGfv(s.car_id, asOf);
-      m = pcpMetrics(d, null, basis, n != null ? residualsFor(s, n + 1, asOf, residual) : null, floor);
+      m = pcpMetrics(d, null, basis, n != null ? residualsFor(s, n + 1, asOf, residual, trim) : null, floor);
       // A quote whose own figures do not add up is no price to rank by: it stays in the offer lists, marked.
       if (m.skipped || m.true_monthly == null || n == null || m.adds_up === false) return null;
       headline = m.monthly_payment ?? null;
       own = { tm: m.true_monthly, floor: m.true_monthly_floor ?? null, pv: m.pv_cost ?? null, months: n + 1 };
       if (H === n + 1) hz = { ...own, kind: "as_agreed", end: m.expected_value_at_end ?? null, src: m.residual_source ?? null };
       else {
-        const h = pcpOverHorizon(d, H, basis, residualsFor(s, H, asOf, residual), floor, m.apr_implied ?? null);
+        const h = pcpOverHorizon(d, H, basis, residualsFor(s, H, asOf, residual, trim), floor, m.apr_implied ?? null);
         if (!h) return null;
         hz = { tm: h.true_monthly, floor: h.true_monthly_floor, pv: h.pv_cost, months: h.horizon_months, kind: h.at_horizon, end: h.expected_value_at_end, src: h.residual_source };
       }
@@ -264,7 +293,7 @@ export function cost(s: Sighting, basis: Basis, residual: ResidualAt, floorGfv: 
       const h = pchOverHorizon(m.initial_rental ?? 0, m.fees ?? 0, m.num_rentals ?? 0, m.monthly_rental ?? 0, own.months, own.tm, H, basis);
       hz = { tm: h.true_monthly, floor: h.true_monthly_floor, pv: h.pv_cost, months: h.horizon_months, kind: h.at_horizon, end: null, src: null };
     } else if (s.route === "cash") {
-      m = cashMetrics(d, basis, floorGfv(s.car_id, asOf), residualsFor(s, H, asOf, residual));
+      m = cashMetrics(d, basis, floorGfv(s.car_id, asOf), residualsFor(s, H, asOf, residual, trim));
       if (m.skipped || m.true_monthly == null) return null;
       headline = num(d.vehicle_price);
       own = { tm: m.true_monthly, floor: m.true_monthly_floor ?? null, pv: m.pv_cost ?? null, months: H };
@@ -280,13 +309,13 @@ export function cost(s: Sighting, basis: Basis, residual: ResidualAt, floorGfv: 
 }
 
 /** Every present sighting costed, each as of its own first day (history) or as of one date (`asOf`, for what things cost today). */
-export function costAll(sightings: Sighting[], basis: Basis, asOf?: string): Costed[] {
+export function costAll(sightings: Sighting[], basis: Basis, asOf?: string, trim: TrimScale = NO_SCALE): Costed[] {
   const residual = residualAt(sightings.filter((s) => s.route === "used"));
   const floor = floorGfvAt(sightings.filter((s) => s.route !== "used"));
   const out: Costed[] = [];
   for (const s of sightings) {
     if (!s.present) continue;
-    const c = cost(s, basis, residual, floor, asOf ?? s.from.slice(0, 10));
+    const c = cost(s, basis, residual, floor, asOf ?? s.from.slice(0, 10), trim);
     if (c) out.push(c);
   }
   return out;

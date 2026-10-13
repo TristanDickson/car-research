@@ -2,6 +2,7 @@ import { gbp, num } from "./format";
 // What a car costs, read off the stored results of the one cost model
 // (lib/model, run by lib/db.ts under the reader's basis). Nothing here is
 // computed from offers at render time; a page needs a car and its cost row.
+import { MAX_RATE, type BreakEven } from "./model/breakeven";
 import type { AtHorizon } from "./model/horizon";
 import type { CarCostRow } from "./model/recompute";
 import type { CurrentPoint, PrintedTerms, Trend, UsedStock } from "./model/sightings";
@@ -50,6 +51,10 @@ export interface CarCosts {
   trend: Trend | null;
   /** The model's used stock: the evidence behind the end values. */
   stock: UsedStock | null;
+  /** Where the cheapest PCP and lease overtake the cheapest cash price. */
+  breakeven: BreakEven[];
+  /** This trim's list price over its model's typical one: what scales the used median to it. */
+  trimScale: number;
 }
 
 function toTrueCost(route: Route, p: CurrentPoint, names: Record<string, string>): TrueCost | null {
@@ -60,7 +65,8 @@ function toTrueCost(route: Route, p: CurrentPoint, names: Record<string, string>
            ownHorizonMonths: p.own_horizon_months, terms: p.terms };
 }
 
-export const NO_COSTS: CarCosts = { trueCost: null, byRoute: {}, sources: 0, monthly: null, monthlyRoute: null, threeYear: null, cash: null, trend: null, stock: null };
+export const NO_COSTS: CarCosts = { trueCost: null, byRoute: {}, sources: 0, monthly: null, monthlyRoute: null, threeYear: null, cash: null, trend: null, stock: null,
+                                     breakeven: [], trimScale: 1 };
 
 /** The car's costs from its stored row; `names` maps source ids to display names (data.json). */
 export function carCosts(car: SnapshotCar, row: CarCostRow | null | undefined, names: Record<string, string> = {}): CarCosts {
@@ -94,9 +100,31 @@ export function carCosts(car: SnapshotCar, row: CarCostRow | null | undefined, n
     trueCost, byRoute, sources: sources.size,
     monthly: monthly?.headline ?? null, monthlyRoute: monthly ? (monthly.route as "pcp" | "pch") : null, threeYear: monthly?.terms.paid ?? null,
     cash: cash ? { offerId: cash.offerId, dealer: cash.dealer, price: cash.headline!, ageDays: cash.ageDays } : null,
-    trend: row.trend, stock: row.stock,
+    trend: row.trend, stock: row.stock, breakeven: row.breakeven ?? [], trimScale: row.trim_scale ?? 1,
   };
 }
+
+const pct = (r: number) => `${(r * 100).toFixed(1)}%`;
+
+/** One finance route against buying outright, in two sentences: the savings rate where they cross, and what the
+ * car must sell for at the end. `label` names the deal ("the lease at £395/mo"); `bothSell` says the finance
+ * figure also ends with the car sold (a PCP shorter or longer than the term), so its price moves both alike. */
+export function breakEvenText(b: BreakEven, label: string, bothSell: boolean): [string, string] {
+  const rate = b.rate != null
+    ? (b.cheaper_below === "cash" ? `${cap(label)} beats buying outright once your savings earn more than ${pct(b.rate)} a year.`
+                                  : `Buying outright beats ${label} once your savings earn more than ${pct(b.rate)} a year.`)
+    : (b.cheaper_below === "cash" ? `Buying outright is cheaper than ${label} at any savings rate up to ${pct(MAX_RATE)}.`
+                                  : `${cap(label)} is cheaper than buying outright at any savings rate up to ${pct(MAX_RATE)}.`);
+  const expect = b.expected != null ? ` The cash figure expects ${gbp(b.expected)}.` : "";
+  const resale = b.resale != null
+    ? (b.cheaper_above === "cash" ? `Buying outright stays cheaper while the car sells for more than ${gbp(b.resale)} at the end.${expect}`
+                                  : `${cap(label)} stays cheaper while the car sells for more than ${gbp(b.resale)} at the end.${expect}`)
+    : bothSell ? "What the car sells for changes both alike: this figure also has you own it at the end."
+    : b.cheaper_above === "cash" ? "Buying outright is cheaper whatever the car sells for." : `${cap(label)} is cheaper whatever the car sells for.`;
+  return [rate, resale];
+}
+
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 /** Positive = over the ceiling by this much per month; 0 or negative = within budget. */
 export function budgetGap(monthly: number | null, ceiling: number | null | undefined): number | null {

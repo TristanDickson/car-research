@@ -15,6 +15,12 @@ echoes those inputs with the payment, APR, final value and total repayable. NCD 
 "Based on 35 monthly payments ... APR for illustration is 7.9%", so the row is `illustrative`.
 The combined body holds the listing and every request and answer; the derivative pages and
 answers are kept as parts. Offer key `ncd:pcp:<derivative path>`, with the cash row's car_ref.
+
+Each derivative page also prints CAP's technical data for the derivative (`tech-name` /
+`tech-value` pairs) under its CAP id (hidden `derivative-code`, the id Carwow's registry uses).
+The parser reads the pages back from the fetch's parts and takes the tyre sizes and the wheel
+size: spec key `ncd:<CAP id>`. The rest of the table (battery, range, power, dimensions) is
+what Carwow, EV Database and the makers already say of the car.
 """
 from __future__ import annotations
 
@@ -269,6 +275,46 @@ def quote_row(q: dict, cash: dict, observed_at: str) -> dict | None:
     }
 
 
+TECH_RE = re.compile(r'class="tech-name">([^<]*)</span>\s*<span class="tech-value">([^<]*)</span>')
+TYRE_RE = re.compile(r"(\d{3})\s*/\s*(\d{2})\s*Z?R\s*(\d{2})", re.I)
+INCH_RE = re.compile(r"(\d{2})\s*(?:\"|in\b|inch)", re.I)
+
+
+def tech_table(page: str) -> dict[str, str]:
+    """The derivative's technical data as printed: name → value (empty values left out)."""
+    return {text(k): text(v) for k, v in TECH_RE.findall(page) if text(v)}
+
+
+def tyre(size: str | None) -> dict | None:
+    """'215/55 R17' → its width, profile and rim; None when it is not a tyre size."""
+    m = TYRE_RE.search(size or "")
+    return {"width_mm": int(m.group(1)), "profile_pct": int(m.group(2)), "rim_in": int(m.group(3))} if m else None
+
+
+def spec_row(page: str, url: str, make: str, observed_at: str) -> dict | None:
+    """The tyres and wheels a derivative's page prints, under its CAP id."""
+    cap = re.search(r'<input[^>]*\bid="derivative-code"[^>]*\bvalue="(\d+)"', page) or re.search(r'<input[^>]*\bvalue="(\d+)"[^>]*\bid="derivative-code"', page)
+    tech = tech_table(page)
+    if not cap or not tech:
+        return None
+    front, rear = tech.get("Tyre Size Front"), tech.get("Tyre Size Rear")
+    wheel = INCH_RE.search(tech.get("Wheel Type") or "")
+    numbers: dict = {}
+    if t := tyre(front):
+        numbers["tyre_front"] = f"{t['width_mm']}/{t['profile_pct']} R{t['rim_in']}"
+    if t := tyre(rear):
+        numbers["tyre_rear"] = f"{t['width_mm']}/{t['profile_pct']} R{t['rim_in']}"
+    if wheel:
+        numbers["wheel_in"] = int(wheel.group(1))
+    elif tyre(front):
+        numbers["wheel_in"] = tyre(front)["rim_in"]
+    if not numbers:
+        return None
+    path = url[len(BASE):] if url.startswith(BASE) else url
+    return {"spec_key": f"ncd:{cap.group(1)}", "cap_id": cap.group(1), "make": make, "variant": path.strip("/").split("/")[-1] or None,
+            "source_url": url, "observed_at": observed_at, "numbers": numbers, "wheel_type": tech.get("Wheel Type")}
+
+
 def parse_quotes(doc: dict, make: str, observed_at: str) -> list[dict]:
     cash = {r["source_url"][len(BASE):]: r for r in parse_page(doc.get("listing") or "", make, doc.get("listing_url") or "", observed_at)}
     rows = []
@@ -280,12 +326,19 @@ def parse_quotes(doc: dict, make: str, observed_at: str) -> list[dict]:
 
 def parse_pcp(body: bytes, target: Target) -> Iterator[ParsedRecord]:
     doc = json.loads(body.decode("utf-8", "replace"))
-    for row in parse_quotes(doc, target.metadata["make"], observed_at_for(target)):
+    at = observed_at_for(target)
+    for row in parse_quotes(doc, target.metadata["make"], at):
         yield ParsedRecord(kind="offer", key=row["offer_key"], row=row)
+    pages = {p["url"]: p["body"] for p in target.metadata.get("parts") or [] if p.get("status") == 200 and p.get("body")}
+    for q in doc.get("quotes") or []:
+        page = pages.get(q.get("page_url"))
+        if page and (row := spec_row(page.decode("utf-8", "replace"), q["page_url"], target.metadata["make"], at)):
+            yield ParsedRecord(kind="spec", key=row["spec_key"], row=row)
 
 
 listing = Capability(name="listing", parser_version="1", discover=discover, fetch=fetch, parse=parse, kinds=("offer",))
 # No backfill: the Wayback Machine keeps pages, not the quote calls they make.
-pcp = Capability(name="pcp", parser_version="1", discover=discover, fetch=fetch_quotes, parse=parse_pcp, kinds=("offer",))
+pcp = Capability(name="pcp", parser_version="2", discover=discover, fetch=fetch_quotes, parse=parse_pcp, kinds=("offer", "spec"),
+                 reads_parts=True)
 provider = Provider(name="ncd", default_capability="listing",
                     capabilities={"listing": listing, "pcp": pcp, "backfill": backfill_capability(listing)}, live=True)

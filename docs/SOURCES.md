@@ -3,7 +3,8 @@
 One section per source the nightly job reads. Each says which pages it fetches and how many a
 night, what those pages print, what the parser keeps, and what it leaves out and why. The
 surveys behind it were made on 11 Oct 2026 against the pages in the raw store and a few live
-fetches; the figures quoted are from those pages.
+fetches (ADAC, What Car? and the other reliability sources on 13 Oct); the figures quoted are
+from those pages.
 
 The rule this file serves (CLAUDE.md): **no new source without a survey**. Before a parser is
 written, list every page type the site has, everything each one prints that the household could
@@ -34,6 +35,8 @@ a combined fetch included).
 | `hyundai_configurator` | Hyundai configurator GraphQL | about 15 | every orderable configuration with its price and packs |
 | `evdb` | ev-database.org UK index | 1 | measured range, efficiency, charging, weight per variant; on-sale dates |
 | `evdb_cars` | ev-database.org car pages | budgeted, resting after refusals | the variant's full page: dimensions, warranty, charging curve |
+| `adac` | adac.de car catalogue: the tested car's page, the range page | up to 50 (25 of each; a page every 90 days) | ADAC's Autotest grades per model (ride, build quality, space) and its breakdown statistics |
+| `whatcar` | whatcar.com Reliability Survey articles | 3 | owners' reliability rating per model, its place in its class and the common faults |
 
 ## Carwow
 
@@ -172,7 +175,15 @@ stated saving. Each derivative's page shows a PCP panel whose figures come from
 - **Listings added 11 Oct:** every other electric Hyundai and Kia on NCD's make pages (Ioniq 5 N,
   Ioniq 6 N, Ioniq 9, EV4 hatchback and saloon, EV5, EV9). The EV4 saloon is Carwow's EV4
   Fastback; NCD's RRP picks between the two bodies, which share trims and powertrains.
-- **Left:** the HP quote (one more call a car).
+- **Read since 13 Oct:** each derivative page prints CAP's technical data (`tech-name` /
+  `tech-value` pairs) under its CAP id (hidden `derivative-code`, the id Carwow's registry
+  uses: 111014 is the Ioniq 3 Premium EV Pack). The parser reads the pages back from the pcp
+  fetch's stored parts and takes the front and rear tyre sizes and the wheel size; the build
+  works out the front tyre's sidewall height (width × profile: 215/55 R17 is 118 mm). 106 of
+  the 1,590 cars on sale have them, all Hyundai and Kia, the makes NCD lists.
+- **Left:** the HP quote (one more call a car); the rest of the technical table (battery, WLTP
+  range, charging, power, torque, 0-62, length, wheelbase, luggage, seats), which Carwow, EV
+  Database and the makers already give.
 
 ## LeaseLoco
 
@@ -187,7 +198,9 @@ Each model page's `__NEXT_DATA__` holds the best personal-lease deal per derivat
   the 95 in-stock deals are already in the best lists and are marked there.
 - **Left:** the other few thousand deals per model (the Ioniq 5 page counts 5,602) load from an
   API not traced; the `/config` page's equipment list (one fetch per derivative, about 55 for
-  the household's models).
+  the household's models); the technical-data block, which is one per model page, for a
+  derivative it does not name, with values visibly out of place ("Engine Power - PS: True",
+  "0 to 60 mph (secs): False"), its tyre size among them.
 - **Guessed pages:** a model page that 404s is not asked again for a week.
 
 ## Kia dealers
@@ -231,7 +244,8 @@ powertrain or seat count, performance, charging, dimensions, weights and towing.
 - **Read:** since 11 Oct also DC and AC charge times per charger, braked towing, the PV5's
   5-seat and 7-seat tables, the EV6's Wh/km as mi/kWh, cells that span several columns.
 - **Left:** torque, the battery pack table (cells, voltage, weight), CO2, city range, track
-  widths, service interval, the PV5's cabin dimensions. Kia prints no prices here.
+  widths, service interval, the PV5's cabin dimensions; tyre sizes, which NCD's page gives per
+  derivative. Kia prints no prices here.
 
 ## Hyundai
 
@@ -253,7 +267,8 @@ Hyundai publishes no readable spec page, so this reads the PDF price and specifi
 - **Read:** grade equipment, and since 11 Oct the price table per powertrain (OTR, insurance
   group, P11D, BIK), paint and option prices, and the Technical pages (towing, range, charging,
   boot, weights, warranty).
-- **Left:** there is no Ioniq 3 guide (its downloads page 404s).
+- **Left:** there is no Ioniq 3 guide (its downloads page 404s); tyre sizes, which NCD's page
+  gives per derivative.
 
 ### hyundai_configurator
 
@@ -284,6 +299,88 @@ nightly budget; the site refuses the laptop often, so it rests after refused nig
 - **Left:** "Electric Car Grant applied £1,500", V2H/V2G and Plug & Charge are printed and not
   mapped.
 
+## ADAC
+
+### adac
+
+ADAC, Germany's motoring club, tests about 100 cars a year on a fixed procedure and grades them
+on the German school scale (0.6 best, 5.5 worst). The grades are its testers' judgement on a set
+route, calibrated between testers, not instrument readings. Surveyed 13 Oct 2026. Page types,
+under `https://www.adac.de/rund-ums-fahrzeug/autokatalog/marken-modelle/`:
+
+| Page | Prints | Cost |
+|---|---|---|
+| `<make>/<range>/<generation>/<car id>/`, a car's page | the page's data as JSON (`window.__APOLLO_STATE__`) in the plain HTML. On the tested car's page: the Autotest (date, the car tested, the overall grade, seven sections with their sub-grades, target-group scores, strengths and weaknesses, the PDF's path). On every car page: the model's breakdown statistics, every test of the generation (`rangeTests`), the maker's specification, German prices and running costs, Euro NCAP, the measured charging curve | one request, 0.6 to 1.3 MB |
+| the test PDF (assets.adac.de) | the same grades, and ADAC's own measurements: boot, turning circle, the tyres fitted (size and brand), braking from 100 km/h, noise at 130 km/h, Ecotest range, DC 10-80% | one request, 1 to 1.7 MB |
+| `<make>/<range>/`, a range page | generations and years; the breakdown statistics of the range's latest generation that has any; no tests | 310 to 350 KB |
+| generation and make pages | generations, body styles and years; no tests | 550 to 620 KB |
+| `sitemap-autokatalog.xml` | 20,101 car pages | 2.5 MB |
+| the Autotest index | a search the browser fills from `/bff`, which robots.txt disallows | not usable |
+
+Every request in the survey returned 200 (217 pages 2 s apart), with no challenge page.
+
+- **Read:** the tested car's page for each catalogue model with an electric test. `TESTS` in
+  `providers/adac.py` names it: the newest electric test in the newest ADAC generation the
+  model belongs to, an N model taking only N tests and no other model one. 124 of the 188
+  catalogue models have one, on 101 pages. The Autotest's overall grade, Komfort (comfort) and its Federung
+  (suspension), Karosserie's Verarbeitung (build quality) and Kofferraum-Volumen (boot),
+  Innenraum's Raumangebot hinten (rear space), the family score, and what was tested
+  ("Kona Elektro (65 kWh) Prime-Paket, 12/2023"); the rest of the grades are kept in the row.
+  The breakdown statistics: callouts in Germany per 1,000 cars of the model first registered in
+  each year from 2016 to 2023, graded 1 (sehr gut) to 5 (mangelhaft) against that year's
+  spread, all powertrains of the model together ("Hyundai Kona" counts the petrol and hybrid
+  cars too), and the recurring defects. The app shows the latest year. A test page carries only
+  its own generation's statistics, so the facelifted Ioniq 5's has none; the range page of each
+  model's test (100 pages) carries the range's latest generation that has any (the Ioniq 5's
+  first generation: 19.5 per 1,000 for 2023 cars, grade 5), and the build takes it over a test
+  page's. Pages are read again after 90 days, 25 of each kind a night, never-read ones first
+  and the household's models before the rest: a test never changes, and the statistics once a
+  year (April).
+- **Mapping:** ADAC's generation is wider than our model, so the A6 Sportback reads the A6
+  Avant's test and the EV4 Fastback the hatchback's, and its names are German (Opel for
+  Vauxhall, `mercedes-benz`). Seven tests the survey's electric filter let through were petrol
+  or diesel and were taken out (Range Rover D350, CLA 180, B 250, two Mini Coopers). The page's
+  `rangeTests` are kept with each row, so a newer electric test of the generation can be seen.
+- **Left:** the PDF's measurements (one more request a model, and poppler); German prices,
+  running costs and insurance; the maker's specification, which our UK sources give; the
+  conclusion text; Euro NCAP, which EV Database gives.
+
+## What Car?
+
+### whatcar
+
+What Car?'s Reliability Survey asks owners of cars up to five years old about faults, repair
+costs and time off the road, and rates each model as a percentage (39,332 owners and 225 models
+in 2026). Surveyed 13 Oct 2026.
+
+- **Pages:** one article per class, each writing up the ten most and ten least reliable models
+  and ending with a table that ranks every model in the class (electric cars n26158, 19 models;
+  electric SUVs n26161, 27), and one article for each year's edition overall (n27337, the 2026
+  survey, published 22 Sep 2026: its top 20 and bottom 10, every fuel). All in the plain HTML;
+  each page repeats the article in a script, which is not read.
+- **Read:** the three articles, every night (three requests). Per model: the rating, its rank
+  and the class size, the list it is written up in, the years it covers, the common faults, and
+  the article's publication dates. The class articles are re-published in place and still carry
+  the 2025 survey (modified April 2026), so a model's rating comes from the newest article
+  naming it: the ID.4 is 66.9% (2026) rather than 79.6% (2025). Only models still on sale
+  ("2021-present") are applied, so the 2018-2023 Kona Electric's 92.8% does not land on the
+  current car. A name rates its variants filed as models of their own (the Ioniq 5 rates the
+  Ioniq 5 N, the MG 4 the MG4 Urban, which over-reaches); the overall article is matched only
+  by exact name, since its Porsche Macan is the petrol one.
+- **Left:** the per-car lookup by registration (needs a login); the other class articles, which
+  rate few electric cars.
+
+## Reliability sources surveyed and left
+
+Surveyed 13 Oct 2026 for evidence of how a model holds up in owners' hands.
+
+- **Which?** (63,334 owners): the model names are withheld from non-members.
+- **Auto Express Driver Power 2026:** an overall top 50 and a reliability top 10, which cover two
+  of the household's candidates (Model 3, Model Y).
+- **TÜV Report 2026:** the share of cars failing the German roadworthiness test on significant
+  defects, which measures wear (brakes, suspension, lights) rather than reliability. Its 18-EV
+  table is in a presentation PDF on a third-party site; the full table is in a paid booklet.
+
 ## What is still on the table, by value
 
 1. Detail pages for used cars: registration and keepers (cinch, Motorpoint, Carwow), battery
@@ -293,3 +390,6 @@ nightly budget; the site refuses the laptop often, so it rests after refused nig
 3. NCD's HP quote.
 4. Carwow's configurator, once its new flow is surveyed.
 5. LeaseLoco's other deals per model, if its price API can be found.
+6. ADAC's test PDFs: the tyres the test car rode on (the ride grade depends on them), and ADAC's
+   own measured boot, braking, noise, range and charge time. One PDF a model.
+7. A new ADAC test of a generation is seen in `rangeTests` but read only once `TESTS` names it.

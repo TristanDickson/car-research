@@ -73,9 +73,14 @@ NUMBERS = ("battery_kwh", "battery_usable_kwh", "wltp_range_mi", "real_range_mi"
            "efficiency_mi_kwh", "dc_peak_kw", "dc_avg_kw", "dc_10_80_min", "ac_kw", "charge_port", "architecture_v", "battery_chemistry",
            "v2l_kw", "seats", "isofix_seats", "doors", "boot_l", "boot_max_l", "frunk_l", "turning_circle_m", "wheelbase_m", "length_mm",
            "width_mm", "width_mirrors_mm", "height_mm", "weight_kg", "gvwr_kg", "payload_kg", "roof_load_kg", "tow_kg", "tow_unbraked_kg",
-           "wheel_in", "wheel_options", "roof_rails", "body", "segment", "platform", "ncap_stars", "ncap_adult_pct", "ncap_child_pct",
+           "wheel_in", "wheel_options", "tyre_front", "tyre_rear", "sidewall_mm", "roof_rails", "body", "segment", "platform", "ncap_stars", "ncap_adult_pct", "ncap_child_pct",
            "ncap_vru_pct", "ncap_assist_pct", "ncap_year", "warranty_years", "warranty_miles", "insurance_group",
            "list_price_gbp", "used_from_gbp", "drive")
+# What independent testers say of a model (providers/adac.py, providers/whatcar.py): said at model level.
+ADAC_FIELDS = ("adac_total", "adac_suspension", "adac_comfort", "adac_build", "adac_boot", "adac_rear_space", "adac_family", "adac_tested",
+               "adac_breakdowns", "adac_breakdown_year", "adac_breakdown_rating")
+WHATCAR_FIELDS = ("whatcar_reliability_pct", "whatcar_reliability")
+NUMBERS = NUMBERS + ADAC_FIELDS + WHATCAR_FIELDS
 ENGINE_FIELDS = ("battery_kwh", "wltp_range_mi", "power_hp", "zero_to_62_s", "top_speed_mph", "efficiency_mi_kwh", "ac_kw", "drive", "dc_peak_kw", "dc_10_80_min")
 BODY_FIELDS = ("seats", "doors", "boot_l", "boot_max_l", "turning_circle_m", "wheelbase_m", "length_mm", "width_mm", "height_mm")
 NUMBER_ALIASES = {"zero_to_60_s": "zero_to_62_s", "power_bhp": "power_hp", "kerb_weight_kg": "weight_kg"}
@@ -106,6 +111,7 @@ SIGHTING_NAMES = {"carwow": "Carwow", "carwow_deals": "Carwow", "carwow_paste": 
                   "rrg": "RRG", "hyundai_offers": "Hyundai UK", "manual_seed": "hand-entered"}
 KWH_RE = re.compile(r"(\d+(?:\.\d+)?)\s*kwh", re.I)
 SEATS_RE = re.compile(r"^\s*(\d)\s*-?\s*(?:seat|seats|seater|st)\b", re.I)
+TYRE_RE = re.compile(r"^(\d{3})/(\d{2}) R(\d{2})$")
 
 
 def norm(s: str | None) -> str:
@@ -308,6 +314,118 @@ def from_carwow_spec(store: Store, row: dict) -> None:
             store.add(tsub, Claim(k, "none", "absent", src, f"not in {src.split(' ')[0]}'s standard equipment for {trim}"))
     for k in _described(row.get("description")):
         store.add(tsub, Claim(k, "standard", "described", src, f"Carwow trim description · {trim}"))
+
+
+def from_ncd_spec(store: Store, row: dict) -> None:
+    """New Car Discount's technical data for one derivative (CAP's, under its CAP id): the tyres and wheels it
+    is sold on, and the front tyre's sidewall height (width × profile)."""
+    cap, nums = row.get("cap_id"), row.get("numbers") or {}
+    if not cap:
+        return
+    src = "New Car Discount technical data"
+    label = f"{src} · {row.get('variant') or cap}"
+    seen = (row.get("last_seen_at") or row.get("observed_at") or "")[:10] or None
+    sub = f"derivative:{cap}"
+    for f in ("tyre_front", "tyre_rear", "wheel_in"):
+        if nums.get(f) not in (None, ""):
+            store.add(sub, Claim(f, nums[f], "measured", src, label, seen=seen))
+    if m := TYRE_RE.match(nums.get("tyre_front") or ""):
+        w, p = int(m.group(1)), int(m.group(2))
+        store.add(sub, Claim("sidewall_mm", round(w * p / 100), "measured", src, f"{label} · {nums['tyre_front']}: {w} mm at {p}%", seen=seen))
+
+
+def _catalogue(catalogue: list[dict], slug: str | None) -> dict | None:
+    return next((m for m in catalogue if m.get("slug") == slug), None) if slug else None
+
+
+def _model_sub(m: dict) -> str:
+    return model_subject(m.get("make_name") or m["make"], m.get("model_name") or m["model"])
+
+
+def from_adac(store: Store, rows: list[dict], catalogue: list[dict]) -> None:
+    """ADAC's Autotest of a model and its breakdown statistics, said of the catalogue model the page was read for.
+    The range page's statistics (the range's latest generation that has any) are taken over a test page's."""
+    ranged = {r.get("model_slug") for r in rows if (r.get("spec_key") or "").startswith("adac:breakdowns:")}
+    for r in rows:
+        m = _catalogue(catalogue, r.get("model_slug"))
+        if not m:
+            continue
+        from_range = (r.get("spec_key") or "").startswith("adac:breakdowns:")
+        nums, test, b = r.get("numbers") or {}, r.get("test") or {}, r.get("breakdowns") or {}
+        seen = (r.get("last_seen_at") or r.get("observed_at") or "")[:10] or None
+        tested = f"ADAC Autotest · {test.get('model')}, {test.get('date')}"
+        breakdowns = f"ADAC breakdown statistics · {b.get('name')}, every powertrain, cars first registered in {nums.get('adac_breakdown_year')}"
+        for f in ADAC_FIELDS:
+            if f.startswith("adac_breakdown") and not from_range and r.get("model_slug") in ranged:
+                continue
+            if nums.get(f) not in (None, ""):
+                store.add(_model_sub(m), Claim(f, nums[f], "measured", "ADAC", breakdowns if f.startswith("adac_breakdown") else tested, seen=seen))
+
+
+def _ordinal(n: int) -> str:
+    return f"{n}{'th' if 10 <= n % 100 <= 20 else {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th')}"
+
+
+def _word_ends(s: str) -> set[str]:
+    """A name up to each of its word ends, normalised: 'MG4 EV XPOWER' → mg4, mg4ev, mg4evxpower. 'MG 4' is
+    the first; 'iX' is none of 'iX1'."""
+    out, acc = set(), ""
+    for w in s.split():
+        acc += norm(w)
+        out.add(acc)
+    return out
+
+
+def _rated_models(name: str, catalogue: list[dict], exact: bool = False) -> list[dict]:
+    """The catalogue models a What Car? name rates. The make is the name's first one, two or three words; the
+    model is the rest, or the whole name ('MG 4' is the MG4). The catalogue model of that name, and unless `exact`,
+    every one whose name begins with its words: 'Ioniq 5' rates the Ioniq 5 N, 'Scenic' the Scenic E-Tech. An
+    article of every fuel is read `exact`, so the petrol Macan's rating does not land on the Macan Electric."""
+    words = name.split()
+    for i in (1, 2, 3):
+        mk = norm(" ".join(words[:i]))
+        same = [c for c in catalogue if mk in (norm(c.get("make_name")), norm(c["make"])) or (mk == "mercedes" and c["make"] == "mercedes")]
+        if not same or i >= len(words):
+            continue
+        out = []
+        for text in (" ".join(words[i:]), name):
+            for c in same:
+                cn = c.get("model_name") or c["model"]
+                if (norm(cn) == norm(text) or (not exact and norm(text) in _word_ends(cn))) and c not in out:
+                    out.append(c)
+        return out
+    return []
+
+
+def from_whatcar(store: Store, rows: list[dict], catalogue: list[dict]) -> None:
+    """What Car?'s reliability rating of a model still on sale, from the newest article that names it."""
+    best: dict[str, tuple[tuple, dict]] = {}
+    for r in rows:
+        if not r.get("current"):
+            continue
+        every_fuel = (r.get("spec_key") or "").split(":")[1:2] == ["overall"]
+        for m in _rated_models(r.get("name") or "", catalogue, exact=every_fuel):
+            when = (r.get("published") or "", r.get("modified") or "")
+            sub = _model_sub(m)
+            if sub not in best or when > best[sub][0]:
+                best[sub] = (when, r)
+    for sub, (_, r) in best.items():
+        pct = (r.get("numbers") or {}).get("reliability_pct")
+        if pct is None:
+            continue
+        cls = re.search(r"most reliable (.+)$", r.get("article") or "", re.I)
+        cls = cls.group(1).strip() if cls else "cars"
+        if r.get("of") and r.get("rank"):
+            place = f"{_ordinal(r['rank'])} of {r['of']} {cls}"
+        elif r.get("rank") and r.get("list"):
+            place = f"{_ordinal(r['rank'])} {r['list']} reliable of all {cls}"
+        else:
+            place = cls
+        note = f"{pct:g}%, {place} ({r.get('name')} {r.get('years')})" + (f"; most common faults: {r['faults']}" if r.get("faults") else "")
+        label = f"What Car? Reliability Survey · {r.get('article')}, published {r.get('published')}"
+        seen = (r.get("last_seen_at") or r.get("observed_at") or "")[:10] or None
+        store.add(sub, Claim("whatcar_reliability_pct", pct, "measured", "What Car?", label, seen=seen))
+        store.add(sub, Claim("whatcar_reliability", note, "measured", "What Car?", label, seen=seen))
 
 
 def _maker_verdicts(row: dict) -> dict[str, str]:
@@ -688,6 +806,10 @@ def build_store(cars: list[dict], specs: list[dict], catalogue: list[dict], deri
     for sp in specs:
         if sp.get("provider") == "carwow_specs":
             from_carwow_spec(store, sp)
+        elif sp.get("provider") == "ncd":
+            from_ncd_spec(store, sp)
+    from_adac(store, [sp for sp in specs if sp.get("provider") == "adac"], catalogue)
+    from_whatcar(store, [sp for sp in specs if sp.get("provider") == "whatcar"], catalogue)
     from_maker_specs(store, [sp for sp in specs if sp.get("provider") in MAKER_PROVIDERS])
     from_evdb(store, [sp for sp in specs if sp.get("provider") == "evdb"], catalogue, [sp for sp in specs if sp.get("provider") == "evdb_cars"])
     from_registry(store, derivatives)

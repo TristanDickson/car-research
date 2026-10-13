@@ -124,13 +124,33 @@ class ParseCache:
             self.conn.close()
 
 
-def parse_entry(store: RawStore, e: dict) -> tuple[str, list[ParsedRecord]]:
+def parse_entry(store: RawStore, e: dict, parts: list[dict] | None = None) -> tuple[str, list[ParsedRecord]]:
     """(when the page said it, its records): the parser reads the target as it was fetched,
-    dated by the fetch (or by the archive's capture, for a Wayback copy)."""
+    dated by the fetch (or by the archive's capture, for a Wayback copy). A parser that reads
+    parts gets the responses the fetch was made of (`parts`: their index lines)."""
     cap = PROVIDERS[e["source"]].capabilities[e["capability"]]
     meta = dict(e.get("metadata") or {})
     meta.setdefault("observed_at", e["fetched_at"])
+    if cap.reads_parts:
+        meta["parts"] = [{"url": p.get("url"), "status": p.get("status"), "body": store.get(p["sha256"]) if p.get("sha256") else None}
+                         for p in parts or []]
     return meta["observed_at"], list(cap.parse(store.get(e["sha256"]), Target(identifier=e["target"], metadata=meta)))
+
+
+def part_index(entries: list[dict]) -> dict[tuple, list[dict]]:
+    """(source, capability, target, fetched_at) → the parts kept with that fetch, in order, for the
+    capabilities whose parser reads them."""
+    out: dict[tuple, list[dict]] = {}
+    for e in entries:
+        if e.get("role") != "part":
+            continue
+        provider = PROVIDERS.get(e["source"])
+        cap = provider.capabilities.get(e["capability"]) if provider else None
+        if cap and cap.reads_parts:
+            out.setdefault((e["source"], e["capability"], e["target"], e["fetched_at"]), []).append(e)
+    for v in out.values():
+        v.sort(key=lambda p: (p.get("metadata") or {}).get("part") or 0)
+    return out
 
 
 # ---------------------------------------------------------------- the build
@@ -266,6 +286,7 @@ class Build:
 
     def raws(self, entries: list[dict]) -> None:
         code = code_version(self.root)
+        parts = part_index(entries)
         batches: list[tuple[str, int, dict, list[ParsedRecord]]] = []
         for i, e in enumerate(entries):
             if e.get("origin") in history.ORIGINS or e.get("role") == "part" or not e.get("sha256") or e.get("status") != 200:
@@ -280,7 +301,7 @@ class Build:
             at = meta.get("observed_at") or e["fetched_at"]
             if records is None:
                 try:
-                    at, records = parse_entry(self.store, e)
+                    at, records = parse_entry(self.store, e, parts.get((e["source"], e["capability"], e["target"], e["fetched_at"])))
                 except Exception as ex:  # noqa: BLE001
                     self.report.failures.append(f"{e['source']}/{e['capability']} {e['target']} {e['fetched_at']}: {ex}")
                     continue

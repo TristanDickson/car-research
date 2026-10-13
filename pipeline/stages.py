@@ -29,7 +29,7 @@ REFUSED = (429, 403)
 # Sources whose records describe a model, a trim or a variant rather than one car: they are laid over
 # the cars by model and battery (services/claims.py), so "names a car" does not apply to them.
 DESCRIBES_MODELS = ("carwow_catalog", "carwow_model", "evdb", "evdb_cars", "kia_specs", "hyundai_specs",
-                    "hyundai_configurator", "carwow_options")
+                    "hyundai_configurator", "carwow_options", "adac", "whatcar")
 
 
 def night_of(iso: str | None) -> str | None:

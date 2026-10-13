@@ -108,6 +108,8 @@ def run(store: RawStore, conn: sqlite3.Connection | None, provider: Provider, ca
             try:
                 meta = dict(t.metadata)
                 meta.setdefault("observed_at", fetched_at)
+                if cap.reads_parts:
+                    meta["parts"] = [{"url": p.url, "status": p.status_code, "body": p.body} for p in fetched.parts]
                 records = list(cap.parse(fetched.body, Target(identifier=t.identifier, metadata=meta)))
             except Exception as e:  # noqa: BLE001
                 failures.append(f"{t.identifier}: parse: {e}")
