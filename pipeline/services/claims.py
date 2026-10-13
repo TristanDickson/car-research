@@ -1149,7 +1149,9 @@ def platform_reliability(cars: list[dict]) -> None:
                 e["faulty"] = c["whatcar_faulty_pct"]
             e["models"].add(c.get("model"))
         if c.get("adac_breakdowns") is not None:
-            e = m.setdefault(f"{c.get('make')} {c.get('model')}", {"models": set()})
+            # By the ADAC series the figure is of: the Ioniq 5 N's is the Ioniq 5's, not a sibling's.
+            series = re.search(r"ADAC breakdown statistics · (.+?), every powertrain", (c.get("field_sources") or {}).get("adac_breakdowns") or "")
+            e = m.setdefault(series.group(1) if series else f"{c.get('make')} {c.get('model')}", {"models": set()})
             e.update(breakdowns=c["adac_breakdowns"], year=c.get("adac_breakdown_year"))
             e["models"].add(c.get("model"))
     for c in cars:

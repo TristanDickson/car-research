@@ -169,9 +169,11 @@ class PlatformReliability(unittest.TestCase):
     def test_siblings_not_itself(self):
         cars = [
             {"id": "a", "make": "Hyundai", "model": "Ioniq 5", "platform": "HMG E-GMP", "whatcar_reliability_pct": 80.7, "whatcar_faulty_pct": 42.0,
-             "whatcar_reliability": "80.7%, 18th of 19 electric cars (Hyundai Ioniq 5 2021-present)", "adac_breakdowns": 19.5, "adac_breakdown_year": 2023},
+             "whatcar_reliability": "80.7%, 18th of 19 electric cars (Hyundai Ioniq 5 2021-present)", "adac_breakdowns": 19.5, "adac_breakdown_year": 2023,
+             "field_sources": {"adac_breakdowns": "ADAC breakdown statistics · Hyundai IONIQ 5, every powertrain, cars first registered in 2023"}},
             {"id": "b", "make": "Hyundai", "model": "Ioniq 5 N", "platform": "HMG E-GMP", "whatcar_reliability_pct": 80.7,
-             "whatcar_reliability": "80.7%, 18th of 19 electric cars (Hyundai Ioniq 5 2021-present)"},
+             "whatcar_reliability": "80.7%, 18th of 19 electric cars (Hyundai Ioniq 5 2021-present)", "adac_breakdowns": 19.5, "adac_breakdown_year": 2023,
+             "field_sources": {"adac_breakdowns": "ADAC breakdown statistics · Hyundai IONIQ 5, every powertrain, cars first registered in 2023"}},
             {"id": "c", "make": "Kia", "model": "EV6", "platform": "HMG E-GMP", "whatcar_reliability_pct": 89.5,
              "whatcar_reliability": "89.5%, 17th of 27 electric SUVs (Kia EV6 2021-present)"},
             {"id": "d", "make": "Hyundai", "model": "Ioniq 3", "platform": "HMG E-GMP"},
@@ -182,7 +184,7 @@ class PlatformReliability(unittest.TestCase):
         self.assertEqual(by["Ioniq 5"], "HMG E-GMP: owners (What Car?): Kia EV6 89.5%")   # the N is the Ioniq 5's own rating
         self.assertEqual(by["Ioniq 5 N"], "HMG E-GMP: owners (What Car?): Kia EV6 89.5%")
         self.assertEqual(by["Ioniq 3"], "HMG E-GMP: owners (What Car?): Kia EV6 89.5%, Hyundai Ioniq 5 80.7% (42% had a fault); "
-                                        "breakdowns per 1,000 (ADAC): Hyundai Ioniq 5 19.5 (2023 cars)")
+                                        "breakdowns per 1,000 (ADAC): Hyundai IONIQ 5 19.5 (2023 cars)")
         self.assertIsNone(by["Elroq"])   # no platform known yet
 
 if __name__ == "__main__":
