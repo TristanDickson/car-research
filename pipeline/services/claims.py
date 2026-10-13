@@ -80,7 +80,8 @@ NUMBERS = ("battery_kwh", "battery_usable_kwh", "wltp_range_mi", "real_range_mi"
 ADAC_FIELDS = ("adac_total", "adac_suspension", "adac_comfort", "adac_build", "adac_boot", "adac_rear_space", "adac_family", "adac_tested",
                "adac_breakdowns", "adac_breakdown_year", "adac_breakdown_rating", "adac_breakdown_causes")
 WHATCAR_FIELDS = ("whatcar_reliability_pct", "whatcar_reliability", "whatcar_faulty_pct", "whatcar_repairs_free_pct", "whatcar_off_road_week_pct")
-NUMBERS = NUMBERS + ADAC_FIELDS + WHATCAR_FIELDS
+RECALL_FIELDS = ("recalls_count", "recalls_latest", "recalls")
+NUMBERS = NUMBERS + ADAC_FIELDS + WHATCAR_FIELDS + RECALL_FIELDS
 ENGINE_FIELDS = ("battery_kwh", "wltp_range_mi", "power_hp", "zero_to_62_s", "top_speed_mph", "efficiency_mi_kwh", "ac_kw", "drive", "dc_peak_kw", "dc_10_80_min")
 BODY_FIELDS = ("seats", "doors", "boot_l", "boot_max_l", "turning_circle_m", "wheelbase_m", "length_mm", "width_mm", "height_mm")
 NUMBER_ALIASES = {"zero_to_60_s": "zero_to_62_s", "power_bhp": "power_hp", "kerb_weight_kg": "weight_kg"}
@@ -432,6 +433,107 @@ def from_whatcar(store: Store, rows: list[dict], catalogue: list[dict]) -> None:
         for f, k in (("whatcar_repairs_free_pct", "repairs_free_pct"), ("whatcar_off_road_week_pct", "off_road_week_pct")):
             if nums.get(k) is not None:
                 store.add(sub, Claim(f, nums[k], "measured", "What Car?", label, seen=seen))
+
+
+RECALL_FUEL = {"electric", "ev", "e", "electrified", "elektro", "bev"}
+# A recall line of a combustion car: its own words name an engine, or (when they do not say electric) its
+# defect is in parts an electric car does not have.
+ICE_LINE_RE = re.compile(r"\b(t-?gdi|gdi|crdi|hev|phev|mhev|hybrid|petrol|diesel|tdi|tsi|tfsi|ecoboost)\b|\b\d\.\d\b(?!\s*kwh)", re.I)
+ICE_PART_RE = re.compile(r"\b(engine|dct|dual[- ]clutch|clutch|fuel|turbo|exhaust|spark plug|ignition|oil|transmission|gearbox|adblue|egr|dpf|catalytic)\b", re.I)
+RECALL_MAKES = {"vw": ["volkswagen"], "fiat": ["fiat", "abarth", "jeep", "alfa-romeo"], "land": ["land-rover"], "alfa": ["alfa-romeo"],
+                "seat": ["seat", "cupra"]}
+RECALL_REF_RE = re.compile(r"\bR/\d{4}/\d{3}\b")
+RECALL_AGAIN_RE = re.compile(r"previous(?:ly)? recall|incorrectly completed|not (?:have )?been (?:delivered|completed|carried out) (?:properly|correctly)", re.I)
+
+
+def _recall_words(s: str) -> list[str]:
+    return [w for w in re.findall(r"[a-z]+|[0-9]+", (s or "").lower().replace("-", " ")) if w not in RECALL_FUEL]
+
+
+def _day(iso: str | None) -> str:
+    if not iso:
+        return "?"
+    y, m, d = iso.split("-")
+    return f"{int(d)} {('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')[int(m) - 1]} {y}"
+
+
+def recalls_by_model(lines: list[dict], catalogue: list[dict]) -> dict[str, list[dict]]:
+    """catalogue slug → its recalls, newest first, each the recall's lines that name the model combined. A line
+    names a model of its make when the model's words (fuel words aside) begin it ('KONA OS EV' is the Kona
+    Electric's), the longest such model taking it ('Ioniq 5 N' is the N's, not the Ioniq 5's), or, when none
+    does, when it begins the model's words ('PV5' names the PV5 Passenger). Combustion cars' lines are left."""
+    by_make: dict[str, list[tuple[list[str], dict]]] = {}
+    for m in catalogue:
+        by_make.setdefault(m["make"], []).append((_recall_words(m.get("model_name") or m["slug"].split("/")[-1]), m))
+    hits: dict[str, dict[str, list[dict]]] = {}
+    for r in lines:
+        first = (re.findall(r"[a-z]+", r["make"].lower()) or [""])[0]
+        makes = RECALL_MAKES.get(first) or [k for k in by_make if k.split("-")[0] == first]
+        text = f"{r['model']} {r.get('model_info') or ''}"
+        if ICE_LINE_RE.search(text) or (not re.search(r"\b(ev|electric|e-tron|bev|elektro)\b", text, re.I) and ICE_PART_RE.search(r["defect"])):
+            continue
+        for mk in makes:
+            cands = by_make.get(mk) or []
+            words = _recall_words(r["model"])
+            if words[:1] and words[0] in {w for k in makes for w in k.split("-")}:
+                words = words[1:]   # 'CUPRA BORN' filed under SEAT
+            if not words:
+                continue
+            prefix = [(len(c), m) for c, m in cands if c and words[:len(c)] == c]
+            if prefix:
+                best = max(n for n, _ in prefix)
+                targets = [m for n, m in prefix if n == best]
+            else:
+                targets = [m for c, m in cands if c[:len(words)] == words]
+            for m in targets:
+                hits.setdefault(m["slug"], {}).setdefault(r["number"], []).append(r)
+    out: dict[str, list[dict]] = {}
+    for slug, by_number in hits.items():
+        recalls = []
+        for number, rs in by_number.items():
+            r0 = rs[0]
+            said = f"{r0['defect']} {r0['remedy']}"
+            recalls.append({
+                "number": number, "launched": r0["launched"], "concern": r0["concern"], "defect": r0["defect"], "remedy": r0["remedy"],
+                "models": sorted({r["model"] for r in rs}), "vehicles": sum(r["vehicles"] or 0 for r in rs) or None,
+                "built_from": min((r["built_from"] for r in rs if r["built_from"]), default=None),
+                "built_to": max((r["built_to"] for r in rs if r["built_to"]), default=None),
+                "follows": sorted(set(RECALL_REF_RE.findall(said)) - {number}), "again": bool(RECALL_AGAIN_RE.search(said)),
+            })
+        numbers = {x["number"] for x in recalls}
+        for x in recalls:
+            x["followed_by"] = sorted(y["number"] for y in recalls if x["number"] in y["follows"])
+            x["follows"] = [n for n in x["follows"] if n in numbers] or x["follows"]
+        out[slug] = sorted(recalls, key=lambda x: (x["launched"], x["number"]), reverse=True)
+    return out
+
+
+def recall_text(x: dict) -> str:
+    """One recall in a line: when, what, the fix, which cars, and whether it follows a fix that did not hold."""
+    built = f"cars built {_day(x['built_from'])} to {_day(x['built_to'])}" if x["built_from"] else "cars"
+    count = f" ({x['vehicles']:,})" if x["vehicles"] else ""
+    again = ""
+    if x["follows"]:
+        again = f" Follows {', '.join(x['follows'])}, a fix that did not hold."
+    elif x["again"]:
+        again = " Follows an earlier recall that did not hold."
+    if x["followed_by"]:
+        again += f" Followed by {', '.join(x['followed_by'])}."
+    return f"{_day(x['launched'])}, {x['number']}: {x['defect']} Fix: {x['remedy']} {built}{count}, listed as {', '.join(x['models'])}.{again}"
+
+
+def from_recalls(store: Store, rows: list[dict], catalogue: list[dict]) -> None:
+    """DVSA's recalls of each catalogue model: how many, the latest, and each in a line."""
+    lines = [r for row in rows for r in row.get("recalls") or []]
+    for slug, recalls in recalls_by_model(lines, catalogue).items():
+        m = _catalogue(catalogue, slug)
+        if not m:
+            continue
+        sub, src = _model_sub(m), "DVSA vehicle safety recalls"
+        label = f"{src} · every recall naming the {m.get('model_name') or slug} since 2012"
+        store.add(sub, Claim("recalls_count", len(recalls), "measured", src, label))
+        store.add(sub, Claim("recalls_latest", recalls[0]["launched"], "measured", src, label))
+        store.add(sub, Claim("recalls", "\n".join(recall_text(x) for x in recalls), "measured", src, label))
 
 
 def _maker_verdicts(row: dict) -> dict[str, str]:
@@ -816,6 +918,7 @@ def build_store(cars: list[dict], specs: list[dict], catalogue: list[dict], deri
             from_ncd_spec(store, sp)
     from_adac(store, [sp for sp in specs if sp.get("provider") == "adac"], catalogue)
     from_whatcar(store, [sp for sp in specs if sp.get("provider") == "whatcar"], catalogue)
+    from_recalls(store, [sp for sp in specs if sp.get("provider") == "dvsa_recalls"], catalogue)
     from_maker_specs(store, [sp for sp in specs if sp.get("provider") in MAKER_PROVIDERS])
     from_evdb(store, [sp for sp in specs if sp.get("provider") == "evdb"], catalogue, [sp for sp in specs if sp.get("provider") == "evdb_cars"])
     from_registry(store, derivatives)

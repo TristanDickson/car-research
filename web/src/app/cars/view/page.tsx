@@ -153,6 +153,19 @@ function CarView() {
         )}
       </Card>
 
+      {c.recalls && (
+        <Card title={`UK safety recalls · ${c.recalls_count ?? 0}`}>
+          <ul className="space-y-2 text-sm text-gray-300">
+            {c.recalls.split("\n").map((line) => <li key={line.slice(0, 40)}>{line}</li>)}
+          </ul>
+          <p className="mt-3 text-xs text-gray-500">
+            Every DVSA recall since 2012 that names the model, earlier generations included, newest first. Whether a
+            particular car is affected, and whether its recall work is done, is on{" "}
+            <a href="https://www.check-vehicle-recalls.service.gov.uk/" target="_blank" rel="noreferrer" className="underline">GOV.UK</a> by registration.
+          </p>
+        </Card>
+      )}
+
       {c.notes && (
         <Card title="Notes">
           <p className="text-sm text-gray-300">{c.notes}</p>

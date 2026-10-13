@@ -386,7 +386,10 @@ rejected by that rule fails in two seconds with no runner and no logs.
   had a fault, of repairs that cost nothing and of faulty cars off the road over a week; ADAC's
   breakdown causes in English; and, per car, what owners and ADAC say of the other models on its
   platform (`claims.platform_reliability`; 500 of the 1,590 cars on sale have a platform from EV
-  Database so far).
+  Database so far). Then UK safety recalls (`dvsa_recalls`): the service blocks scripts, and the
+  owner asked to work around it ("This is a personal product not a commercial one"), so Chrome
+  downloads the file (`scripts/fetch-with-chrome.mjs`, about 15 s). 141 models have a recall; the
+  car page lists them, and one that follows a fix that did not hold says so.
 
 - **2026-10-12** App-side changes, no rebuild of the data needed. The Cars table's PCP and lease
   columns sort by what they show, and each route has two: the true cost a month and the
@@ -557,7 +560,9 @@ rejected by that rule fails in two seconds with no runner and no logs.
 ## Next steps
 
 1. Check the 14 Oct nightly's log: ADAC's next batches (50 test pages and 25 range pages were
-   read on 13 Oct; the rest take about three nights) and What Car?, and whether adac.de refused.
+   read on 13 Oct; the rest take about three nights), What Car?, whether adac.de refused, and that
+   `dvsa_recalls` found node and Chrome under the scheduled task (a Chrome window opens for about
+   15 s).
 2. What the pages print that is still not read, by value, is at the end of `docs/SOURCES.md`
    (used cars' detail pages, Kia's own offer pages, NCD's HP quote).
 3. Ask the owner about the three proposals on look-alike cars in `docs/REBUILD.md` (hide old

@@ -161,6 +161,9 @@ export const FIELDS: Field[] = [
   { ...n("off_road_week", "whatcar_off_road_week_pct", "Faulty cars off the road over a week (What Car?)", "Tests and reliability", "%", 0, 1, "Off road >1 wk %"),
     title: "Of the cars that went wrong, the share out of action for more than a week" },
   t("platform_reliability", "platform_reliability", "Reliability of other models on its platform", "Tests and reliability", "Platform siblings"),
+  { ...n("recalls", "recalls_count", "UK safety recalls naming the model", "Tests and reliability", "", 0, 1, "Recalls"),
+    title: "Every DVSA safety recall since 2012 that names the model, earlier generations included; the car page lists them" },
+  t("recalls_latest", "recalls_latest", "Latest UK safety recall", "Tests and reliability", "Latest recall"),
 
   // Safety and warranty
   n("ncap", "ncap_stars", "Euro NCAP stars", "Safety and warranty", "", 0, 1, "NCAP ★"),

@@ -274,6 +274,10 @@ export interface SnapshotCar {
   whatcar_off_road_week_pct?: number | null;
   /** What What Car?'s owners and ADAC say of the other models on the car's platform. */
   platform_reliability?: string | null;
+  /** DVSA's safety recalls naming the model since 2012: how many, the latest launch date, and one line each, newest first. */
+  recalls_count?: number | null;
+  recalls_latest?: string | null;
+  recalls?: string | null;
   segment?: string | null;
   platform?: string | null;
   ncap_stars?: number | null;

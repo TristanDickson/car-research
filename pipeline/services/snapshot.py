@@ -278,7 +278,7 @@ SOURCES = {
 
 
 # Sources whose rows reach the app only as the fields they give each car (services/claims.py): not spec rows of their own.
-FIELDS_ONLY = ("evdb", "evdb_cars", "ncd", "adac", "whatcar")
+FIELDS_ONLY = ("evdb", "evdb_cars", "ncd", "adac", "whatcar", "dvsa_recalls")
 
 
 def source_of(provider: str) -> str:

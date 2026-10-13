@@ -16,6 +16,7 @@ from pipeline.providers import (
     cinch_new,
     cinch_used,
     adac,
+    dvsa_recalls,
     evdb,
     evdb_cars,
     hyundai_configurator,
@@ -62,6 +63,7 @@ PROVIDERS: dict[str, Provider] = {
         evdb_cars.provider,       # each variant's own page: dimensions, weights, charging, V2L outlets, NCAP (a batch a night)
         adac.provider,            # ADAC's test of each model (ride, build quality, space) and its breakdown statistics (a batch a night)
         whatcar.provider,         # What Car?'s owner reliability survey, per model
+        dvsa_recalls.provider,    # every UK safety recall, laid over the models by the build (Chrome downloads the file)
         carwow_used.provider,      # used stock per model: the 'buy used' route and the residual evidence
         cinch_used.provider,       # more used stock, with registrations; the snapshot folds the sources
         motorpoint_used.provider,  # nearly-new stock: what a car is worth after a PCP term

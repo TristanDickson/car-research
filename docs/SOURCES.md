@@ -37,6 +37,7 @@ a combined fetch included).
 | `evdb_cars` | ev-database.org car pages | budgeted, resting after refusals | the variant's full page: dimensions, warranty, charging curve |
 | `adac` | adac.de car catalogue: the tested car's page, the range page | up to 50 (25 of each; a page every 90 days) | ADAC's Autotest grades per model (ride, build quality, space) and its breakdown statistics |
 | `whatcar` | whatcar.com Reliability Survey articles | 3 | owners' reliability rating per model, its place in its class and the common faults |
+| `dvsa_recalls` | check-vehicle-recalls.service.gov.uk, "All recalls since 1992" | 1 (7.7 MB, downloaded by Chrome) | every UK safety recall: defect, remedy, build dates, cars affected |
 
 ## Carwow
 
@@ -380,6 +381,39 @@ in 2026). Surveyed 13 Oct 2026.
   by exact name, since its Porsche Macan is the petrol one.
 - **Left:** the per-car lookup by registration (needs a login); the other class articles, which
   rate few electric cars.
+
+## DVSA
+
+### dvsa_recalls
+
+The Driver and Vehicle Standards Agency's recall service. Surveyed 13 Oct 2026. Its pages: a
+question (vehicle recalls or equipment), a search by make and model, a check by registration, and
+two downloads, "All recalls since 1992 (CSV)" and a data guide (DOC). The service answers a script
+with a JavaScript check (Imperva) and a browser with the file; it has no robots.txt, and the
+data.gov.uk entry for it has no files. The owner, 13 Oct: "I think we should work around the
+block. This is a personal product not a commercial one", then "its just a government check
+they're not really serious about". So the fetch asks the installed Chrome to download the file
+(`scripts/fetch-with-chrome.mjs`: Chrome started normally with a profile of its own, about 15 s,
+nothing faked; a page asking a person to prove themselves is not answered).
+
+- **The file:** 17,744 rows, one per recall and model line, from 9 Jan 1992: launch date, recall
+  number, make (as the importer names itself: 'VW', 'MERCEDES-BENZ CARS UK LTD'), the model as the
+  maker wrote it ('IONIQ 5', 'KONA OS EV', 'Kona SX2 1.0 T GDI', 'PV5'), concern, defect, remedy,
+  vehicles affected, the maker's reference, VIN and build ranges. A recall that follows one whose
+  fix did not hold says so ("recall R/2023/154 has been incorrectly completed").
+- **Read:** every row launched since 2012 whose make is not a lorry, bus, motorcycle or caravan
+  maker (10,932 rows). The build lays them over the catalogue (`claims.recalls_by_model`): a line
+  names the model of its make whose words begin it ('KONA OS EV' is the Kona Electric's), the
+  longest such ('Ioniq 5 N' is the N's), or when none does, the models whose words it begins
+  ('PV5' is the PV5 Passenger's); a make the importer files elsewhere is followed ('CUPRA BORN'
+  under SEAT). A line that names an engine ('1.0 T GDI', 'HEV') or, not saying electric, has its
+  defect in parts an electric car lacks (the gearbox, the fuel system) is left: Hyundai's 'Kona'
+  covers petrol, hybrid and electric cars. Lines of one recall are combined per model. 141 of the
+  249 catalogue models have a recall. The app shows the count, the latest, and each recall in a
+  line on the car page; a recall that names an earlier one says "Follows R/..., a fix that did not
+  hold" and the earlier "Followed by R/...".
+- **Left:** the VIN ranges; the registration check (per car, for the reader); other equipment;
+  older generations are not told apart from the current one (the build dates show which).
 
 ## Reliability sources surveyed and left
 
