@@ -3,21 +3,21 @@
   "cars": 1978,
   "cars_curated": 19,
   "cars_generated": 1959,
-  "claims": 108716,
+  "claims": 109819,
   "configurations": 71,
   "configured": 33,
   "derivatives": 913,
   "disagreements": 133,
-  "fields_from_claims": 105694,
+  "fields_from_claims": 114478,
   "makes": 50,
   "models": 249,
   "models_with_deals": 178,
   "models_with_specs": 219,
   "observations": 6634,
   "offers": 3425,
-  "options_pages": 1146,
+  "options_pages": 1166,
   "sightings": 23956,
-  "specs": 2259,
+  "specs": 2516,
   "specs_mapped": 919,
   "trim_map_auto": 2694,
   "trim_map_mapped": 56,
@@ -57,7 +57,7 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-13T09:24:26+00:00",
+ "generated_at": "2026-10-13T19:59:53+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
@@ -72,6 +72,34 @@
  },
  "pipeline": {
   "levels": [
+   {
+    "describes_models": true,
+    "in_snapshot": {},
+    "matched": {
+     "specs": {
+      "conflict": 0,
+      "matched": 0,
+      "total": 69
+     }
+    },
+    "provider": "adac",
+    "raw": {
+     "bodies": 75,
+     "failed": 0,
+     "fetches": 75,
+     "first_at": "2026-10-13T19:39:41+00:00",
+     "last_at": "2026-10-13T19:49:15+00:00",
+     "refused": 0,
+     "responses": 75,
+     "wayback": 0
+    },
+    "records": {
+     "spec": {
+      "first_seen_live": 69,
+      "keys": 69
+     }
+    }
+   },
    {
     "describes_models": true,
     "in_snapshot": {},
@@ -619,6 +647,11 @@
       "conflict": 3,
       "matched": 205,
       "total": 219
+     },
+     "specs": {
+      "conflict": 0,
+      "matched": 0,
+      "total": 110
      }
     },
     "provider": "ncd",
@@ -636,6 +669,10 @@
      "offer": {
       "first_seen_live": 215,
       "keys": 219
+     },
+     "spec": {
+      "first_seen_live": 110,
+      "keys": 110
      }
     }
    },
@@ -668,9 +705,101 @@
       "keys": 13
      }
     }
+   },
+   {
+    "describes_models": true,
+    "in_snapshot": {},
+    "matched": {
+     "specs": {
+      "conflict": 0,
+      "matched": 0,
+      "total": 78
+     }
+    },
+    "provider": "whatcar",
+    "raw": {
+     "bodies": 3,
+     "failed": 0,
+     "fetches": 3,
+     "first_at": "2026-10-13T19:40:36+00:00",
+     "last_at": "2026-10-13T19:40:40+00:00",
+     "refused": 0,
+     "responses": 3,
+     "wayback": 0
+    },
+    "records": {
+     "spec": {
+      "first_seen_live": 78,
+      "keys": 78
+     }
+    }
    }
   ],
   "nights": [
+   {
+    "builds": [
+     {
+      "commit": "7a3adbc5bc",
+      "fetches": 4673,
+      "finished_at": "2026-10-13T19:59:53+00:00",
+      "from_cache": 0,
+      "mode": "build",
+      "parsed": 4673,
+      "record_spans": 42868,
+      "records": 53988,
+      "seconds": 218.6,
+      "sightings": 81085,
+      "snapshot": {},
+      "stage": "build",
+      "started_at": "2026-10-13T19:56:10+00:00",
+      "this": true,
+      "unparsed": 0
+     }
+    ],
+    "night": "2026-10-13",
+    "publishes": [],
+    "scrapes": [
+     {
+      "allowance": null,
+      "capabilities": [
+       "autotest",
+       "breakdowns"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 75,
+      "finished_at": "2026-10-13T19:49:17+00:00",
+      "records": 69,
+      "refused": 0,
+      "responses": 75,
+      "runs": 3,
+      "skipped": 0,
+      "source": "adac",
+      "started_at": "2026-10-13T19:39:41+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "reliability"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 3,
+      "finished_at": "2026-10-13T19:40:41+00:00",
+      "records": 78,
+      "refused": 0,
+      "responses": 3,
+      "runs": 1,
+      "skipped": 0,
+      "source": "whatcar",
+      "started_at": "2026-10-13T19:40:36+00:00",
+      "status": "ok"
+     }
+    ]
+   },
    {
     "builds": [
      {
@@ -703,7 +832,7 @@
      {
       "commit": "30986bb239",
       "fetches": 4595,
-      "finished_at": "2026-10-13T09:24:25+00:00",
+      "finished_at": "2026-10-13T09:24:57+00:00",
       "from_cache": 0,
       "mode": "build",
       "parsed": 4595,
@@ -711,10 +840,20 @@
       "records": 53622,
       "seconds": 270.0,
       "sightings": 81085,
-      "snapshot": {},
+      "snapshot": {
+       "cars": 1978,
+       "cars_generated": 1959,
+       "cash_benchmarks": 2079,
+       "models": 249,
+       "observations": 6634,
+       "offers": 3425,
+       "specs": 2259,
+       "unmapped_trims": 325,
+       "used_listings": 11459,
+       "used_spans": 17322
+      },
       "stage": "build",
       "started_at": "2026-10-13T09:19:53+00:00",
-      "this": true,
       "unparsed": 0
      }
     ],
@@ -724,6 +863,11 @@
       "at": "2026-10-13T04:27:37+01:00",
       "sha": "506d9d8774",
       "subject": "data: nightly build 2026-10-13"
+     },
+     {
+      "at": "2026-10-13T10:25:01+01:00",
+      "sha": "b3f7dde32b",
+      "subject": "data: build from the raw store 2026-10-13"
      }
     ],
     "scrapes": [
@@ -2336,10 +2480,11 @@
     },
     {
      "kinds": [
-      "offer"
+      "offer",
+      "spec"
      ],
      "name": "pcp",
-     "parser_version": "1"
+     "parser_version": "2"
     },
     {
      "kinds": [
@@ -2514,6 +2659,43 @@
    "capabilities": [
     {
      "kinds": [
+      "spec"
+     ],
+     "name": "autotest",
+     "parser_version": "1"
+    },
+    {
+     "kinds": [
+      "spec"
+     ],
+     "name": "breakdowns",
+     "parser_version": "1"
+    }
+   ],
+   "description": "ADAC Autotest (adac.de, Germany's motoring club): its test of one car of a model, and the model's",
+   "live": true,
+   "name": "adac",
+   "source": "adac"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "spec"
+     ],
+     "name": "reliability",
+     "parser_version": "1"
+    }
+   ],
+   "description": "What Car? Reliability Survey: owners' reports of the faults their cars (up to five years old) had,",
+   "live": true,
+   "name": "whatcar",
+   "source": "whatcar"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
       "used"
      ],
      "name": "used-stock",
@@ -2568,6 +2750,58 @@
   "version": 2
  },
  "runs": [
+  {
+   "artifacts": 25,
+   "capability": "breakdowns",
+   "errors": 0,
+   "finished_at": "2026-10-13T19:49:17+00:00",
+   "id": 83,
+   "records": 11,
+   "source": "adac",
+   "started_at": "2026-10-13T19:48:27+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
+   "artifacts": 25,
+   "capability": "autotest",
+   "errors": 0,
+   "finished_at": "2026-10-13T19:48:27+00:00",
+   "id": 82,
+   "records": 27,
+   "source": "adac",
+   "started_at": "2026-10-13T19:47:28+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
+   "artifacts": 3,
+   "capability": "reliability",
+   "errors": 0,
+   "finished_at": "2026-10-13T19:40:41+00:00",
+   "id": 81,
+   "records": 78,
+   "source": "whatcar",
+   "started_at": "2026-10-13T19:40:36+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
+   "artifacts": 25,
+   "capability": "autotest",
+   "errors": 0,
+   "finished_at": "2026-10-13T19:40:36+00:00",
+   "id": 80,
+   "records": 31,
+   "source": "adac",
+   "started_at": "2026-10-13T19:39:41+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
   {
    "artifacts": 1,
    "capability": "used-stock",
@@ -2772,58 +3006,6 @@
    "records": 1537,
    "source": "carwow_deals",
    "started_at": "2026-10-13T02:34:16+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
-  },
-  {
-   "artifacts": 1,
-   "capability": "options",
-   "errors": 0,
-   "finished_at": "2026-10-13T02:34:16+00:00",
-   "id": 63,
-   "records": 0,
-   "source": "carwow_options",
-   "started_at": "2026-10-13T02:34:15+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
-  },
-  {
-   "artifacts": 249,
-   "capability": "derivatives",
-   "errors": 0,
-   "finished_at": "2026-10-13T02:34:15+00:00",
-   "id": 62,
-   "records": 908,
-   "source": "carwow_model",
-   "started_at": "2026-10-13T02:25:43+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
-  },
-  {
-   "artifacts": 219,
-   "capability": "specs",
-   "errors": 0,
-   "finished_at": "2026-10-13T02:25:43+00:00",
-   "id": 61,
-   "records": 913,
-   "source": "carwow_specs",
-   "started_at": "2026-10-13T02:18:37+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
-  },
-  {
-   "artifacts": 48,
-   "capability": "catalog",
-   "errors": 0,
-   "finished_at": "2026-10-13T02:18:37+00:00",
-   "id": 60,
-   "records": 1495,
-   "source": "carwow_catalog",
-   "started_at": "2026-10-13T02:17:15+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
