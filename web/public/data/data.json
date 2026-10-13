@@ -3,12 +3,12 @@
   "cars": 1978,
   "cars_curated": 19,
   "cars_generated": 1959,
-  "claims": 109914,
+  "claims": 110337,
   "configurations": 71,
   "configured": 33,
   "derivatives": 913,
   "disagreements": 133,
-  "fields_from_claims": 115396,
+  "fields_from_claims": 119023,
   "makes": 50,
   "models": 249,
   "models_with_deals": 178,
@@ -17,7 +17,7 @@
   "offers": 3425,
   "options_pages": 1166,
   "sightings": 23956,
-  "specs": 2516,
+  "specs": 2517,
   "specs_mapped": 919,
   "trim_map_auto": 2694,
   "trim_map_mapped": 56,
@@ -57,7 +57,7 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-13T21:21:16+00:00",
+ "generated_at": "2026-10-13T22:05:48+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
@@ -330,6 +330,34 @@
      "used": {
       "first_seen_live": 1389,
       "keys": 1597
+     }
+    }
+   },
+   {
+    "describes_models": true,
+    "in_snapshot": {},
+    "matched": {
+     "specs": {
+      "conflict": 0,
+      "matched": 0,
+      "total": 1
+     }
+    },
+    "provider": "dvsa_recalls",
+    "raw": {
+     "bodies": 1,
+     "failed": 0,
+     "fetches": 1,
+     "first_at": "2026-10-13T21:56:37+00:00",
+     "last_at": "2026-10-13T21:56:37+00:00",
+     "refused": 0,
+     "responses": 1,
+     "wayback": 0
+    },
+    "records": {
+     "spec": {
+      "first_seen_live": 1,
+      "keys": 1
      }
     }
    },
@@ -768,7 +796,7 @@
      {
       "commit": "d6b4870d8c",
       "fetches": 4673,
-      "finished_at": "2026-10-13T21:21:15+00:00",
+      "finished_at": "2026-10-13T21:21:57+00:00",
       "from_cache": 0,
       "mode": "build",
       "parsed": 4673,
@@ -776,9 +804,36 @@
       "records": 53988,
       "seconds": 563.0,
       "sightings": 81085,
-      "snapshot": {},
+      "snapshot": {
+       "cars": 1978,
+       "cars_generated": 1959,
+       "cash_benchmarks": 2079,
+       "models": 249,
+       "observations": 6634,
+       "offers": 3425,
+       "specs": 2516,
+       "unmapped_trims": 325,
+       "used_listings": 11459,
+       "used_spans": 17322
+      },
       "stage": "build",
       "started_at": "2026-10-13T21:11:46+00:00",
+      "unparsed": 0
+     },
+     {
+      "commit": "fe8b9e8267",
+      "fetches": 4674,
+      "finished_at": "2026-10-13T22:05:48+00:00",
+      "from_cache": 0,
+      "mode": "build",
+      "parsed": 4674,
+      "record_spans": 42869,
+      "records": 53989,
+      "seconds": 513.0,
+      "sightings": 81085,
+      "snapshot": {},
+      "stage": "build",
+      "started_at": "2026-10-13T21:57:09+00:00",
       "this": true,
       "unparsed": 0
      }
@@ -788,6 +843,11 @@
      {
       "at": "2026-10-13T21:00:31+01:00",
       "sha": "b793ab8ee7",
+      "subject": "data: build from the raw store 2026-10-13"
+     },
+     {
+      "at": "2026-10-13T22:22:05+01:00",
+      "sha": "a60a256f88",
       "subject": "data: build from the raw store 2026-10-13"
      }
     ],
@@ -810,6 +870,25 @@
       "skipped": 0,
       "source": "adac",
       "started_at": "2026-10-13T19:39:41+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "recalls"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 1,
+      "finished_at": "2026-10-13T21:56:50+00:00",
+      "records": 1,
+      "refused": 0,
+      "responses": 1,
+      "runs": 1,
+      "skipped": 0,
+      "source": "dvsa_recalls",
+      "started_at": "2026-10-13T21:56:37+00:00",
       "status": "ok"
      },
      {
@@ -2729,6 +2808,21 @@
    "capabilities": [
     {
      "kinds": [
+      "spec"
+     ],
+     "name": "recalls",
+     "parser_version": "1"
+    }
+   ],
+   "description": "DVSA's vehicle safety recalls (check-vehicle-recalls.service.gov.uk): every recall in Great Britain",
+   "live": true,
+   "name": "dvsa_recalls",
+   "source": "dvsa_recalls"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
       "used"
      ],
      "name": "used-stock",
@@ -2783,6 +2877,19 @@
   "version": 2
  },
  "runs": [
+  {
+   "artifacts": 1,
+   "capability": "recalls",
+   "errors": 0,
+   "finished_at": "2026-10-13T21:56:50+00:00",
+   "id": 84,
+   "records": 1,
+   "source": "dvsa_recalls",
+   "started_at": "2026-10-13T21:56:37+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
   {
    "artifacts": 25,
    "capability": "breakdowns",
@@ -3026,19 +3133,6 @@
    "records": 8,
    "source": "hyundai_offers",
    "started_at": "2026-10-13T02:39:21+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
-  },
-  {
-   "artifacts": 178,
-   "capability": "deals",
-   "errors": 0,
-   "finished_at": "2026-10-13T02:39:21+00:00",
-   "id": 64,
-   "records": 1537,
-   "source": "carwow_deals",
-   "started_at": "2026-10-13T02:34:16+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
