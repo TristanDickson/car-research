@@ -17,8 +17,17 @@ generation the model belongs to (an N model takes only N tests, and no other mod
 chosen from the survey of 13 Oct 2026 (docs/SOURCES.md). ADAC's generation is wider than the
 model: the A6 Sportback reads the A6 Avant's test, the EV4 Fastback the hatchback's. The page's
 `rangeTests` are kept with the row, so a newer test of the generation shows when one appears.
-Left: the test PDF (ADAC's own measurements, the tyres fitted), German prices and running costs,
-the maker's specification (our UK sources give it), and the conclusion text.
+Left: German prices and running costs, the maker's specification (our UK sources give it), and
+the conclusion text.
+
+The `pdf` capability reads each test's PDF (the page's `document`, under ASSETS), found from the
+test rows the last build made, with poppler's pdftotext as hyundai_specs reads the Hyundai guides.
+Its "ADAC Messwerte" block is ADAC's own measurements of the car tested: the tyres fitted, boot,
+turning circle, braking from 100 km/h, noise at 130 km/h, the Ecotest (from 2026 "Autotest")
+consumption and range, width, weight; the electric-drive page (the 2019 i3 test has none) adds
+the energy for a full charge and the DC 10-80% time and average power. Two layouts: to 2025 one line
+a measurement, from 2026 two columns with some labels wrapped onto a second line.
+
 
 A tested car's page carries the breakdown statistics of its own generation only, so a test of a
 generation too new to have any (the Ioniq 5 facelift's) has none. The `breakdowns` capability
@@ -29,7 +38,8 @@ build takes those over a test page's.
 A test never changes and the breakdown statistics change once a year (April), so a page is read
 again only after FRESH_DAYS; PER_RUN pages a run per capability, never-read ones first. A page
 several models read (the four Enyaqs) is fetched once for all of them. Emits 'spec' records
-keyed adac:<catalogue model> (the test) and adac:breakdowns:<catalogue model> (the range page).
+keyed adac:<catalogue model> (the test), adac:breakdowns:<catalogue model> (the range page) and
+adac:pdf:<catalogue model> (the test's PDF).
 """
 from __future__ import annotations
 
@@ -40,11 +50,13 @@ from collections.abc import Iterator
 from datetime import datetime, timedelta, timezone
 
 from pipeline.providers.http import fetch_url
+from pipeline.providers.hyundai_specs import pdf_text
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 from pipeline.providers.wayback import observed_at_for
 
 SITE = "adac"
 BASE = "https://www.adac.de/rund-ums-fahrzeug/autokatalog/marken-modelle/"
+ASSETS = "https://assets.adac.de/image/upload/Autodatenbank/Autotest/"
 FRESH_DAYS = 90
 PER_RUN = 25
 TESTS = {
@@ -217,17 +229,21 @@ def _targets(target: Target, ctx: Context, page_of, prefix: str) -> Iterator[Tar
         except sqlite3.OperationalError:
             pass
     wanted = [s for s in TESTS if target.identifier in ("all", s, page_of(TESTS[s]))]
-    if target.identifier != "all":
-        order = wanted
-    else:
-        cutoff = (datetime.now(timezone.utc) - timedelta(days=FRESH_DAYS)).isoformat()
-        order = (sorted((s for s in wanted if s not in seen), key=lambda s: s not in mine)
-                 + sorted((s for s in wanted if s in seen and seen[s] < cutoff), key=lambda s: seen[s]))
     pages: dict[str, None] = {}
-    for slug in order:
+    for slug in _order(wanted, seen, mine, target.identifier == "all"):
         pages.setdefault(page_of(TESTS[slug]))
     for path in list(pages)[:PER_RUN]:
         yield Target(identifier=path, metadata={"url": BASE + path + "/", "models": [s for s in TESTS if page_of(TESTS[s]) == path]})
+
+
+def _order(wanted: list[str], seen: dict[str, str], mine: set[str], rotate: bool) -> list[str]:
+    """Never-read models first (the household's own before the rest), then those read more than FRESH_DAYS ago,
+    stalest first; on demand (`rotate` false), every model asked for."""
+    if not rotate:
+        return wanted
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=FRESH_DAYS)).isoformat()
+    return (sorted((s for s in wanted if s not in seen), key=lambda s: s not in mine)
+            + sorted((s for s in wanted if s in seen and seen[s] < cutoff), key=lambda s: seen[s]))
 
 
 def discover(target: Target, ctx: Context) -> Iterator[Target]:
@@ -240,8 +256,46 @@ def discover_ranges(target: Target, ctx: Context) -> Iterator[Target]:
     return _targets(target, ctx, range_of, "adac:breakdowns:")
 
 
+def discover_pdfs(target: Target, ctx: Context) -> Iterator[Target]:
+    """The PDF of each test the autotest capability has read, from the test rows in the build's database: one
+    target a PDF, shared by the models that read the test. A model's PDF counts as read once a PDF row of the
+    same test exists, so a model whose test changes reads the new one's PDF as never read."""
+    conn: sqlite3.Connection | None = ctx.extras.get("db")
+    if conn is None:
+        return
+    tests: dict[str, dict] = {}            # model -> the test its test page row names
+    pdfs: dict[str, tuple] = {}            # model -> (the test its PDF row is of, last seen)
+    try:
+        for key, payload, last in conn.execute("SELECT spec_key, payload, last_seen_at FROM specs WHERE source='adac'"):
+            p = json.loads(payload)
+            test, model = p.get("test") or {}, p.get("model_slug")
+            if key.startswith("adac:pdf:"):
+                pdfs[model] = (test.get("id"), last)
+            elif model in TESTS and p.get("source_url") == BASE + TESTS[model] + "/" and test.get("document"):
+                tests[model] = test   # the test of the page TESTS names now, not one it named before
+    except sqlite3.OperationalError:
+        return
+    try:
+        mine = _household(conn)
+    except sqlite3.OperationalError:
+        mine = set()
+    seen = {m: last for m, (tid, last) in pdfs.items() if m in tests and tid == tests[m].get("id")}
+    wanted = [s for s in TESTS if s in tests and target.identifier in ("all", s, tests[s]["document"])]
+    docs: dict[str, None] = {}
+    for slug in _order(wanted, seen, mine, target.identifier == "all"):
+        docs.setdefault(tests[slug]["document"])
+    for doc in list(docs)[:PER_RUN]:
+        models = [s for s in TESTS if s in tests and tests[s]["document"] == doc]
+        test = {k: tests[models[0]].get(k) for k in ("id", "date", "model", "document")}
+        yield Target(identifier=doc, metadata={"url": ASSETS + doc, "models": models, "test": test})
+
+
 def fetch(target: Target, ctx: Context) -> Fetched:
     return fetch_url(target.metadata["url"], ctx)
+
+
+def fetch_pdf(target: Target, ctx: Context) -> Fetched:
+    return fetch_url(target.metadata["url"], ctx, accept="application/pdf")
 
 
 def apollo(page: str) -> dict:
@@ -345,6 +399,118 @@ def parse_ranges(body: bytes, target: Target) -> Iterator[ParsedRecord]:
             yield ParsedRecord(kind="spec", key=row["spec_key"], row=row)
 
 
+# ---------------------------------------------------------------- the test PDF
+
+# The 'ADAC Messwerte' block's labels, as printed in either layout: (what, the label, the whole left-hand cell).
+MEASURES = (
+    ("overtake_60_100_s", r"Überholvorgang 60-100 km/h(?: \(in Fahrstufe D\))?"),
+    ("overtake_80_120_s", r"Überholvorgang 80-120 km/h"),
+    ("braking_100_m", r"Bremsweg aus 100 km/h"),
+    ("tyre_size", r"Reifengröße(?: Testwagen)?"),
+    ("tyre_brand", r"Reifen(?:marke Testwagen)?"),
+    ("turning_circle_m", r"Wendekreis(?: links/rechts| \(li\./re\.\))?"),
+    ("consumption", r"(?:Eco[Tt]est|Autotest)-Verbrauch"),
+    ("range_km", r"Reichweite"),
+    ("noise_130_db", r"Innengeräusch 130 km/h"),
+    ("width_mirrors_mm", r"Fahrzeugbreite(?: \(inkl\. Außenspiegel\))?"),
+    ("weight_payload_kg", r"Leergewicht/Zuladung"),
+    ("boot_l", r"Kofferraum normal(?:/geklappt/dachhoch)?"),
+    ("boot_folded_l", r"geklappt/dachhoch"),   # the 2026 layout wraps 'Kofferraum normal' onto a second line
+)
+DE_NUM_RE = re.compile(r"\d{1,3}(?:\.\d{3})+(?:,\d+)?|\d+(?:,\d+)?")   # '1.320' is 1320, '35,7' is 35.7
+KM_PER_MILE = 1.609344
+
+
+def _de(text: str) -> list[float]:
+    return [float(x.replace(".", "").replace(",", ".")) if "," in x else int(x.replace(".", "")) for x in DE_NUM_RE.findall(text)]
+
+
+def messwerte(text: str) -> dict[str, tuple[str, str]]:
+    """The block's left-hand column: {what: (the label as printed, the value as printed)}. The right-hand columns
+    (equipment, grades) start far to the right, so a cell is the line's text up to its next wide gap."""
+    lines = text.splitlines()
+    start = next((i for i, line in enumerate(lines) if "ADAC Messwerte" in line), None)
+    if start is None:
+        return {}
+    out: dict[str, tuple[str, str]] = {}
+    for line in lines[start + 1:]:
+        if re.match(r"\s*(?:KOSTEN|Kosten)\b", line):
+            break
+        if len(line) - len(line.lstrip()) > 10:   # a right-hand column's line
+            continue
+        cells = re.split(r"\s{3,}", line.strip())
+        if len(cells) < 2:
+            continue
+        for what, label in MEASURES:
+            if what not in out and re.fullmatch(label, cells[0]):
+                out[what] = (cells[0], cells[1])
+                break
+    return out
+
+
+def parse_pdf_text(text: str, model: str, url: str, observed_at: str, test: dict) -> dict | None:
+    """ADAC's measurements of the car tested, from the PDF's text, for the catalogue model it was read for."""
+    cells = messwerte(text)
+    printed: dict = {}
+    for what, (label, value) in cells.items():
+        nums = _de(value)
+        if what in ("tyre_size", "tyre_brand"):
+            printed[what] = value
+        elif what == "consumption":
+            m = re.search(r"([\d,]+)\s*kWh/100\s*km", value)
+            if m:
+                printed["consumption_kwh_100km"] = _de(m.group(1))[0]
+                printed["cycle"] = "Autotest" if label.startswith("Autotest") else "Ecotest"
+        elif what == "boot_l" and "/" in label and len(nums) == 3:
+            printed.update(boot_l=nums[0], boot_folded_l=nums[1], boot_roof_l=nums[2])
+        elif what == "boot_folded_l" and len(nums) == 2:
+            printed.update(boot_folded_l=nums[0], boot_roof_l=nums[1])
+        elif what == "turning_circle_m" and nums:
+            printed[what] = nums   # left and right, or one figure
+        elif what == "weight_payload_kg" and len(nums) == 2:
+            printed.update(weight_kg=nums[0], payload_kg=nums[1])
+        elif nums and what not in ("boot_folded_l", "weight_payload_kg"):
+            printed[what] = nums[0]
+    # The electric-drive page: energy from the socket for a full charge, and ADAC's own DC charge from 10 to 80%.
+    if m := re.search(r"[Kk]omplette Vollladung mit(?: Ladeverlusten)?\s+([\d,]+)\s*kWh", text):
+        printed["full_charge_kwh"] = _de(m.group(1))[0]
+    if m := re.search(r"Ø Ladeleistung\s+([\d,]+)\s*kW", text):
+        printed["dc_avg_kw"] = _de(m.group(1))[0]
+    if m := re.search(r"Ladedauer\s+(\d{1,2}):(\d{2})\b", text):
+        printed["dc_10_80_min"] = int(m.group(1)) * 60 + int(m.group(2))
+    if m := re.search(r"Testwagenpreis inkl\.(?: Sonderausstattung)?\s+([\d.]+) Euro", text):
+        printed["price_tested_eur"] = _de(m.group(1))[0]   # German, so kept and not shown
+    numbers: dict = {}
+    tyres = ", ".join(printed[k] for k in ("tyre_size", "tyre_brand") if printed.get(k))
+    if tyres:
+        numbers["adac_tyres_tested"] = tyres
+    for field, key in (("adac_boot_measured_l", "boot_l"), ("adac_boot_max_measured_l", "boot_roof_l"), ("adac_braking_100_m", "braking_100_m"),
+                       ("adac_noise_130_db", "noise_130_db"), ("adac_60_100_s", "overtake_60_100_s"), ("adac_width_mirrors_mm", "width_mirrors_mm"),
+                       ("adac_weight_kg", "weight_kg"), ("adac_payload_kg", "payload_kg"), ("adac_dc_10_80_min", "dc_10_80_min"),
+                       ("adac_dc_avg_kw", "dc_avg_kw"), ("adac_full_charge_kwh", "full_charge_kwh")):
+        if printed.get(key) is not None:
+            numbers[field] = printed[key]
+    if printed.get("turning_circle_m"):
+        numbers["adac_turning_circle_m"] = max(printed["turning_circle_m"])
+    if printed.get("range_km"):
+        numbers["adac_ecotest_range_mi"] = round(printed["range_km"] / KM_PER_MILE)
+    if printed.get("consumption_kwh_100km"):
+        numbers["adac_ecotest_mi_kwh"] = round(100 / printed["consumption_kwh_100km"] / KM_PER_MILE, 2)
+    if not numbers:
+        return None
+    return {"spec_key": f"adac:pdf:{model}", "model_slug": model, "source_url": url, "observed_at": observed_at,
+            "numbers": numbers, "test": test, "printed": printed}
+
+
+def parse_pdfs(body: bytes, target: Target) -> Iterator[ParsedRecord]:
+    text = pdf_text(body)
+    for model in target.metadata.get("models") or []:
+        row = parse_pdf_text(text, model, target.metadata.get("url") or "", observed_at_for(target), target.metadata.get("test") or {})
+        if row:
+            yield ParsedRecord(kind="spec", key=row["spec_key"], row=row)
+
+
 autotest = Capability(name="autotest", parser_version="2", discover=discover, fetch=fetch, parse=parse, kinds=("spec",))
 breakdown_stats = Capability(name="breakdowns", parser_version="2", discover=discover_ranges, fetch=fetch, parse=parse_ranges, kinds=("spec",))
-provider = Provider(name="adac", default_capability="autotest", capabilities={"autotest": autotest, "breakdowns": breakdown_stats}, live=True)
+pdf = Capability(name="pdf", parser_version="1", discover=discover_pdfs, fetch=fetch_pdf, parse=parse_pdfs, kinds=("spec",))
+provider = Provider(name="adac", default_capability="autotest", capabilities={"autotest": autotest, "breakdowns": breakdown_stats, "pdf": pdf}, live=True)

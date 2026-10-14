@@ -86,7 +86,11 @@ REVIEW_FIELDS = ("review_good", "review_not_so_good", "review_rear_seat_notes", 
                  "review_ride_motorway", "review_interior", "review_reliability")
 # Interior space by row of seats, mm, as the makers print it (providers/hyundai_specs.py, kia_specs.py); rear is the 2nd row.
 INTERIOR_FIELDS = ("legroom_front_mm", "legroom_rear_mm", "headroom_front_mm", "headroom_rear_mm", "shoulder_front_mm", "shoulder_rear_mm")
-NUMBERS = NUMBERS + ADAC_FIELDS + WHATCAR_FIELDS + RECALL_FIELDS + REVIEW_FIELDS + INTERIOR_FIELDS
+# ADAC's own measurements of the car it tested, from the test's PDF (providers/adac.py, the `pdf` capability).
+ADAC_PDF_FIELDS = ("adac_tyres_tested", "adac_boot_measured_l", "adac_boot_max_measured_l", "adac_turning_circle_m", "adac_braking_100_m",
+                   "adac_noise_130_db", "adac_ecotest_range_mi", "adac_ecotest_mi_kwh", "adac_dc_10_80_min", "adac_dc_avg_kw",
+                   "adac_full_charge_kwh", "adac_60_100_s", "adac_width_mirrors_mm", "adac_weight_kg", "adac_payload_kg")
+NUMBERS = NUMBERS + ADAC_FIELDS + WHATCAR_FIELDS + RECALL_FIELDS + REVIEW_FIELDS + INTERIOR_FIELDS + ADAC_PDF_FIELDS
 ENGINE_FIELDS = ("battery_kwh", "wltp_range_mi", "power_hp", "zero_to_62_s", "top_speed_mph", "efficiency_mi_kwh", "ac_kw", "drive", "dc_peak_kw", "dc_10_80_min")
 BODY_FIELDS = ("seats", "doors", "boot_l", "boot_max_l", "turning_circle_m", "wheelbase_m", "length_mm", "width_mm", "height_mm")
 NUMBER_ALIASES = {"zero_to_60_s": "zero_to_62_s", "power_bhp": "power_hp", "kerb_weight_kg": "weight_kg"}
@@ -352,6 +356,10 @@ def from_adac(store: Store, rows: list[dict], catalogue: list[dict]) -> None:
     """ADAC's Autotest of a model and its breakdown statistics, said of the catalogue model the page was read for.
     The range page's statistics (the range's latest generation that has any) are taken over a test page's."""
     ranged = {r.get("model_slug") for r in rows if (r.get("spec_key") or "").startswith("adac:breakdowns:")}
+    # A test PDF's measurements count only while the model's test page names that test.
+    tests = {r.get("model_slug"): (r.get("test") or {}).get("id") for r in rows if not (r.get("spec_key") or "").startswith(("adac:breakdowns:", "adac:pdf:"))}
+    pdfs = {r.get("model_slug"): r for r in rows if (r.get("spec_key") or "").startswith("adac:pdf:")
+            and (r.get("test") or {}).get("id") and (r.get("test") or {}).get("id") == tests.get(r.get("model_slug"))}
     for r in rows:
         m = _catalogue(catalogue, r.get("model_slug"))
         if not m:
@@ -360,12 +368,37 @@ def from_adac(store: Store, rows: list[dict], catalogue: list[dict]) -> None:
         nums, test, b = r.get("numbers") or {}, r.get("test") or {}, r.get("breakdowns") or {}
         seen = (r.get("last_seen_at") or r.get("observed_at") or "")[:10] or None
         tested = f"ADAC Autotest · {test.get('model')}, {test.get('date')}"
+        if (r.get("spec_key") or "").startswith("adac:pdf:"):
+            if pdfs.get(r.get("model_slug")) is r:
+                _from_adac_pdf(store, _model_sub(m), r, tested, seen)
+            continue
         breakdowns = f"ADAC breakdown statistics · {b.get('name')}, every powertrain, cars first registered in {nums.get('adac_breakdown_year')}"
+        tyres = ((pdfs.get(r.get("model_slug")) or {}).get("numbers") or {}).get("adac_tyres_tested")
         for f in ADAC_FIELDS:
             if f.startswith("adac_breakdown") and not from_range and r.get("model_slug") in ranged:
                 continue
             if nums.get(f) not in (None, ""):
-                store.add(_model_sub(m), Claim(f, nums[f], "measured", "ADAC", breakdowns if f.startswith("adac_breakdown") else tested, seen=seen))
+                label = breakdowns if f.startswith("adac_breakdown") else tested
+                if f == "adac_suspension" and tyres:
+                    label += f" · on {tyres}"   # the ride grade is of the car on these tyres
+                store.add(_model_sub(m), Claim(f, nums[f], "measured", "ADAC", label, seen=seen))
+
+
+def _from_adac_pdf(store: Store, sub: str, r: dict, tested: str, seen: str | None) -> None:
+    """ADAC's measurements of the car tested, from the test's PDF, said of the model as the test's grades are."""
+    nums, printed = r.get("numbers") or {}, r.get("printed") or {}
+    cycle = printed.get("cycle") or "Ecotest"
+    notes = {"adac_ecotest_range_mi": f"{cycle} range {printed.get('range_km'):g} km, converted to miles" if printed.get("range_km") else "",
+             "adac_ecotest_mi_kwh": (f"{cycle} consumption {printed.get('consumption_kwh_100km'):g} kWh/100 km with charging losses, "
+                                     "converted to miles/kWh") if printed.get("consumption_kwh_100km") else "",
+             "adac_boot_max_measured_l": "seats folded, to the roof",
+             "adac_full_charge_kwh": "from the socket, charging losses included",
+             "adac_turning_circle_m": " and ".join(f"{v:g} m" for v in printed.get("turning_circle_m") or []) + " (left and right), the larger"
+             if len(printed.get("turning_circle_m") or []) > 1 else ""}
+    for f in ADAC_PDF_FIELDS:
+        if nums.get(f) not in (None, ""):
+            label = f"{tested} · ADAC's measurement" + (f" · {notes[f]}" if notes.get(f) else "")
+            store.add(sub, Claim(f, nums[f], "measured", "ADAC", label, seen=seen))
 
 
 def _ordinal(n: int) -> str:

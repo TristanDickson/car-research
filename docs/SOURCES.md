@@ -35,7 +35,7 @@ a combined fetch included).
 | `hyundai_configurator` | Hyundai configurator GraphQL | about 15 | every orderable configuration with its price and packs |
 | `evdb` | ev-database.org UK index | 1 | measured range, efficiency, charging, weight per variant; on-sale dates |
 | `evdb_cars` | ev-database.org car pages | budgeted, resting after refusals | the variant's full page: dimensions, warranty, charging curve |
-| `adac` | adac.de car catalogue: the tested car's page, the range page | up to 50 (25 of each; a page every 90 days) | ADAC's Autotest grades per model (ride, build quality, space) and its breakdown statistics |
+| `adac` | adac.de car catalogue: the tested car's page, the range page; the test PDF | up to 75 (25 of each; a page every 90 days) | ADAC's Autotest grades per model (ride, build quality, space), its breakdown statistics, and its measurements of the car tested (tyres, boot, braking, noise, range, DC charging) |
 | `whatcar` | whatcar.com Reliability Survey articles | 3 | owners' reliability rating per model, its place in its class and the common faults |
 | `dvsa_recalls` | check-vehicle-recalls.service.gov.uk, "All recalls since 1992" | 1 (7.7 MB, downloaded by Chrome) | every UK safety recall: defect, remedy, build dates, cars affected |
 
@@ -361,7 +361,28 @@ Every request in the survey returned 200 (217 pages 2 s apart), with no challeng
   Vauxhall, `mercedes-benz`). Seven tests the survey's electric filter let through were petrol
   or diesel and were taken out (Range Rover D350, CLA 180, B 250, two Mini Coopers). The page's
   `rangeTests` are kept with each row, so a newer electric test of the generation can be seen.
-- **Left:** the PDF's measurements (one more request a model, and poppler); German prices,
+- **Read, the test PDF** (the `pdf` capability, added 14 Oct 2026): the PDF of each test the
+  page rows name (`document`), one a test however many models read it, with poppler's
+  pdftotext as `hyundai_specs` reads the Hyundai guides. It runs from the last build's rows, so a
+  newly read test's PDF follows a night later; 25 a night, never-read first and the household's
+  before the rest, again after 90 days, and as never read when a model's test changes. From the
+  "ADAC Messwerte" block: the tyres the test car was on (size and brand), the boot seats up and
+  folded to the roof, the turning circle (the larger of left and right), braking from 100 km/h,
+  noise at 130 km/h, 60-100 km/h, the test cycle's consumption and range (Ecotest to 2025,
+  "Autotest" from 2026; both include charging losses, and the app shows them in miles), the
+  width with mirrors, and the weight and payload as tested. From the electric-drive page: the
+  energy for a full charge from the socket, and ADAC's own DC charge from 10 to 80% (time and
+  average power). The model's ride grade names the tyres it was given on. Two layouts were
+  checked on nine PDFs from 2019 to 2026: to 2025 one line a measurement; from 2026 two columns
+  with some labels wrapped onto a second line, one turning circle or a left/right pair, and a
+  charge time as hh:mm. The 2019 i3 test has no electric-drive page, so no charging figures.
+  A measurement is said only while the model's test page names the same test.
+- **Left, in the PDF:** the boot folded to the window line, 80-120 km/h (2026 layout only) and
+  the price as tested (German), which are kept in the row; the 5, 10, 20 and 30 minute charging
+  table; the AC charging times; the 2026 layout's interior measurements (legroom and headroom by
+  occupant height, interior width), which the older layout prints only as a drawing; the
+  equipment list, which is the German car's; the costs; the text.
+- **Left:** German prices,
   running costs and insurance; the maker's specification, which our UK sources give; the
   conclusion text; Euro NCAP, which EV Database gives.
 
@@ -452,6 +473,7 @@ Surveyed 13 Oct 2026 for evidence of how a model holds up in owners' hands.
 3. NCD's HP quote.
 4. Carwow's configurator, once its new flow is surveyed.
 5. LeaseLoco's other deals per model, if its price API can be found.
-6. ADAC's test PDFs: the tyres the test car rode on (the ride grade depends on them), and ADAC's
-   own measured boot, braking, noise, range and charge time. One PDF a model.
+6. ADAC's test PDFs are read (14 Oct). Still in them: the 2026 layout's interior measurements
+   (rear legroom and headroom by occupant height, interior width), and the charging table at
+   5 to 30 minutes.
 7. A new ADAC test of a generation is seen in `rangeTests` but read only once `TESTS` names it.

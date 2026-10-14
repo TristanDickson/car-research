@@ -1,0 +1,875 @@
+                    autotest
+
+
+Hyundai Kona Elektro                                                                      ADAC-Urteil
+(65,4 kWh) Prime-Paket
+Fünftüriges SUV der unteren Mittelklasse (160 kW / 218 PS)                                AUTOTEST             2,0
+
+F       ür Hyundai ist der Kona Elektro eine Erfolgsgeschichte. Er gehörte zeitweise zu
+        den meistverkauften Elektroautos in Europa und wird dafür auch in Tsche-
+                                                                                          AUTOKOSTEN           2,7
+chien gefertigt. Daher darf auch bei der zweiten Kona-Generation die Elektrovariante
+nicht fehlen. Es gibt ihn wieder mit zwei Batteriegrößen (48,4 kWh und 65,4 kWh). Im      Zielgruppencheck
+Test trat letztere in der höchsten Ausstattung mit Prime-Paket an.
+Wer altes und neues Modell nebeneinander sieht, merkt es gleich: Der neue ist deutlich        Familie          2,7
+größer geworden, in der Länge gar um 15 cm auf stattliche 4,36 m gewachsen. Das
+kommt dem Innenraum zugute, denn selbst vier Erwachsene sitzen bequem auf lan-                Stadtverkehr     3,7
+gen Strecken und müssen dank des größeren Kofferraums nicht auf ihr Reisegepäck
+                                                                                              Senioren         2,2
+verzichten. Dachlast und Stützlast mit je 100 kg sind vorbildlich, die maximale Anhän-
+gelast von 750 kg dagegen sehr mager.
+                                                                                              Langstrecke      2,6
+Umso üppiger fällt die Ausstattung aus, im Komfort- wie im Sicherheitsbereich be-
+kommt man im neuen Kona so gut wie alles, was Hyundai aktuell in seinen Modellen              Transport        2,7
+offeriert. Die Abstimmung der seit neuestem vorgeschriebenen Systeme Tempolimit-
+warnung und Fahrerüberwachung ist gründlich misslungen, die ausgesprochen nervi-              Fahrspaß         1,9
+gen Systeme sind nur umständlich abschaltbar und werden bei jedem Fahrzeugstart
+neu aktiviert (EU-Vorschrift). Die anderen Assistenten dagegen funktionieren gut und          Preis/Leistung   2,3
+praxistauglich, daher sollten sich die Ingenieure im Rahmen der Möglichkeiten für die
+beiden Problemfälle eine bessere Abstimmung überlegen. Auch in Anbetracht der
+Preisvorstellungen - für unser Testmodell möchten die Koreaner deutlich über 50.000       Ecotest
+Euro. Konkurrenten: u.a. KIA Niro EV, KIA Soul EV, Opel Mokka-e, Peugeot e-2008.
+
++ gutes Platzangebot, umfangreiche Komfort- und Sicherheitsausstattung (teils
+     Option), ausgewogene Fahrwerksabstimmung, lange Garantien
+
+- geringe Anhängelast, hintere Fensterheber ohne Einklemmschutz, einfache
+     Materialien im Innenraum, hoher Kaufpreis
+                                                                                                                 Hyundai Kona Elektro
+                                                                                                               (65,4 kWh) Prime-Paket
+
+
+ 2,7         KAROSSERIE / KOFFERRAUM
+
+ 3,6       Verarbeitung
+Die Karosserie des neuen Kona hat Hyundai ordentlich gefer-         das Innenmaterial im Detail arg günstig wirkt, die Verarbeitung
+tigt, die Spaltmaße dürften aber teils schmäler und gleichmä-       gibt wenig Grund zur Klage – nichts klappert oder knistert
+ßiger sein. Leider sind die Türenrahmen nach wie vor aus meh-       selbst auf schlechten Fahrbahnen.
+reren Teilen zusammengesetzt, an den Kanten sieht man un-
+                                                                    + Hyundai setzt zwei Gasdruckfedern ein, die das Anheben
+schöne Schweißnähte - auch weil es keine Türrahmenverklei-
+                                                                    der Fronthaube zu erleichtern und die Haube oben halten - das
+dung gibt. Der Unterboden ist umfassend verkleidet und wird
+                                                                    ist vorbildlich.
+von der großen Batterieplatte dominiert, die nicht zusätzlich
+"versteckt" ist; spezielle aerodynamische Optimierungen sind        - Es fällt vielleicht nicht gleich auf, aber tatsächlich stellen
+jedoch nicht zu sehen. Der Innenraum gefällt auf den ersten         die Frontscheinwerfer und die Rückleuchten die äußersten
+Blick durch sein modernes Design und die schicken Oberflä-          Enden des Kona dar - d.h. selbst wenn das Auto nur knapp
+chen, bei genauerem Hinsehen fallen aber die sehr einfach ge-       gestreift wird, sind sofort die Lichter beschädigt. Gerade vorn
+haltenen Materialien auf - Hyundai verbaut ausschließlich har-      kann das zu hohen Kosten führen, denn beschädigte
+ten Kunststoff, was dieser Preisklasse absolut nicht angemes-       Scheinwerfer werden bei der Hauptuntersuchung nicht
+sen ist. Nur beim Dachhimmel haben die Koreaner tatsächlich         akzeptiert. Sie müssen umgehend komplett getauscht werden,
+auf wertigeren und schöneren Stoffbezug gesetzt, was eine           weil LED-Frontscheinwerfer als ganzes Zugelassen sind und
+Aufwertung gegenüber dem Vorgänger bedeutet. Auch wenn              somit nicht repariert werden dürfen.
+
+
+ 3,1       Alltagstauglichkeit
+Die 65,4-kWh-Batterie des Kona Elektro kann serienmäßig mit         konnte. Beim neuen rein elektrischen Kona gibt es eine Batte-
+Wechselstrom (AC, Steckertyp 2) und Gleichstrom (DC, Ste-           rieheizung, welche bedarfsgerecht automatisch bei einer Lade-
+ckertyp CCS) geladen werden. Ein Ladekabel für die typische         säule als Ziel oder manuell gestartet wird, so dass auch im Win-
+Haushaltssteckdose (Schuko) ist dabei, ebenso das Kabel mit         ter ein schnelleres Laden möglich ist.
+Typ-2-Stecker. Beide Kabel finden in einem separaten Fach un-       Es ist eine Dachlast von hohen 100 kg erlaubt, die sich an den
+ter der Fronthaube Platz und sind dort immer problemlos er-         praktischen Dachschienen gut befestigen lässt. Die Stützlast
+reichbar. Das Laden über 230 V dauert etwa 33 Stunden. An ei-       beträgt ebenso großzügige 100 kg, somit lassen sich selbst zwei
+ner geeigneten Wallbox benötigt man mit Wechselstrom für            schwere E-Bikes bedenkenlos transportieren.
+die Vollladung etwa sieben Stunden. Deutlich schneller geht es      Mit seiner moderaten Außenlänge von 4,36 m und seinem klei-
+mit Gleichstrom über CCS, hier akzeptiert der Kona Elektro so-      nen Wendekreis von 10,4 m ist der Kona in der Stadt wendig
+gar bis 102 kW; die Ladung auf 80 Prozent dauert dann 39 Minu-      unterwegs, nur die üppige Breite von 2,11 m (inkl. Außenspie-
+ten, was erheblich schneller als beim Vorgänger ist, für sich be-   gel) stören da etwas. Der Ladestecker am Kona wird vor unbe-
+trachtet aber keine Glanzleistung. Die Spitzenladeleistung ist      fugtem Abziehen gesichert; man kann den Sicherungsmecha-
+beim Kona - anders als bei den neuen IONIQ-Modellen - nicht         nismus aber so konfigurieren, dass er den Stecker freigibt, so-
+so besonders hoch, allerdings wird bis gut 60 % Ladestand mit       bald der Kona Elektro geladen ist – dann kann der Nächste die
+95 bis über 100 kW geladen, so dass nach etwa 20 Minuten            Ladestation nutzen, ohne dass man dafür extra zum Auto
+trotzdem rund 200 km Reichweite unter günstigen Bedingun-           müsste.
+gen nachgeladen sind.
+                                                                    - Die erlaubte Anhängelast für Anhänger mit eigener Bremse
+Eine volle Batterie erlaubt auf Basis des Ecotest-Verbrauchs
+                                                                    wurde auf 750 kg erhöht - das ist aber immer noch sehr wenig
+eine Reichweite von rund 410 km – für ein Elektroauto der un-
+                                                                    und schränkt die Einsatzmöglichkeiten als Zugwagen stark ein.
+teren Mittelklasse ein sehr guter Wert. Zumal bei innerorts-
+                                                                    Für ungebremste Anhänger liegt die Lastgrenze bei noch
+Fahrten oder bei ruhiger Fahrweise außerorts (möglichst unter
+                                                                    magereren 300 kg. Ein Reserverad oder Notrad sind nicht
+100 km/h) auch Reichweiten von über 450 km möglich sind.
+                                                                    lieferbar, es gibt nur ein Reifenpannenset; Wagenheber und
+Bei Kälte allerdings erhöht sich der Verbrauch erheblich und
+                                                                    Schraubenschlüssel sind nicht vorhanden.
+verringert sich entsprechend die Reichweite, schon unter 10 °C
+kommt man kaum noch 300 km weit - hier unterscheidet sich
+der neue Kona deutlich vom alten, dem Kälte weniger anhaben
+
+
+
+
+       Autotest                                                                                                  © ADAC e.V. | Seite 2
+                                                                                                              Hyundai Kona Elektro
+                                                                                                            (65,4 kWh) Prime-Paket
+
+ 3,1       Licht und Sicht
+Die Enden des kompakten SUV kann man nicht einsehen und
+muss sie daher gut abschätzen. Die Vorderkante der Motor-
+haube entzieht sich dem Blick des Fahrers und die schräge
+Heckscheibe lässt das Fahrzeugheck auch nicht genau erken-
+nen. Die ADAC Rundumsichtmessung bescheinigt dem neuen
+Kona Elektro eine entsprechend mäßige Sicht nach draußen;
+ungünstig sind hauptsächlich die breiten C-Säulen, die den
+Blick nach schräg hinten stark beeinträchtigen. Die etwas er-
+höhte Sitzposition dagegen hilft, den umliegenden Verkehr gut
+zu überblicken. Die Außenspiegel sind groß genug und bieten
+eine gute Sicht nach hinten, allerdings verfügt keiner der bei-
+den über einen asphärischen Bereich, um das Blickfeld nach
+schräg hinten zu erweitern. Ein automatisch abblendender In-        Breite Dachsäulen und nicht vollständig versenkbare Kopf-
+nenspiegel ist Serie, für die Außenspiegel gibt es diese Funk-      stützen schränken die Sicht nach hinten ein.
+tion nicht.
+                                                                    Rundumsicht
+In jedem Fall praktisch sind die serienmäßigen Parksensoren         Die Rundumsichtnote informiert über die Sichtbehinderung
+vorn und hinten sowie die Rückfahrkamera. Im Prime-Paket            des Fahrers durch Fensterpfosten und Kopfstützen
+gibt es zusätzlich Rundum-Kameras für ein 360-Grad-Bild so-
+wie einen Parkassistenten, der u.a. ein ferngesteuertes Vor-                                         2,3
+wärts- und Rückwärtsfahren über die Autofernbedienung er-
+möglicht. Die serienmäßigen LED-Scheinwerfer leuchten die                4,1                                            4,5
+Fahrbahn gut aus. Der Fernlichtassistent kann nur automa-
+                                                                                                    4,0
+tisch auf- und abblenden, nicht jedoch andere Verkehrsteil-
+nehmer gezielt schattieren. Die Rücklichter sind in LED-                                             3,8
+Technik ausgeführt, so spricht das Bremslicht schneller an und
+ist für den nachfolgenden Verkehr besser wahrzunehmen.              Vorderes und hinteres Nahfeld
+                                                                    Die Noten des vorderen und hinteren Nahfeldes zeigen, wie
+- Den Scheinwerfern fehlen hilfreiche Funktionen wie                gut der Fahrer Hindernisse unmittelbar vor und hinter dem
+Kurvenlicht und Abbiegelicht. Außerdem muss die Leucht-             Fahrzeug erkennt.
+weite manuell reguliert werden und es gibt keine Schein-
+werferreinigungsanlage. Bei den Lichtfunktionen wird klar an
+der falschen Stelle gespart, denn durch die modischen LED-
+                                                                         2,6                                            4,2
+Lichtbänder an Front und Heck erhöht sich die Fahrsicherheit
+nachts nicht. Bei aktivierter Warnblinkanlage ist die Blinker-
+funktion deaktiviert – beim Abschleppvorgang kann also eine
+Fahrtrichtungsänderung nicht angezeigt werden.
+
+
+ 2,1       Ein-/Ausstieg
++ Der Kona baut etwa höher als beispielsweise ein i30 aus           Stand auch in gewünschter Stellung, aber schon bei geringer
+dem gleichen Hause, was Vorteile beim Ein- und Aussteigen           Fahrzeugneigung halten sie nicht mehr zuverlässig. Ein
+bietet. Denn die vorderen Sitzflächen befinden sich mit 53 cm       schlüsselloses Zugangssystem hat der Kona in der Prime-
+über der Straße (Sitz ganz nach unten gestellt) in sehr günstiger   Ausstattung serienmäßig an Bord, das Keyless-System lässt
+Höhe. Außerdem sind die Türausschnitte hoch und breit               sich jedoch nicht deaktivieren. Leuchten u.a. unten an den
+genug. Nur der Schweller liegt auch etwas höher und ist nicht       Außenspiegeln erhellen nachts das Umfeld des Autos.
+gerade schmal ausgeführt. Der Stromer kommt hinten ohne
+                                                                    - Das schlüssellose Zugangssystem besitzt einen
+Mitteltunnel am Fußboden aus, so dass man leichter von einer
+                                                                    ungenügenden Diebstahlschutz. Das Fahrzeug kann über
+Seite zur anderen durchrutschen kann. Am Dachhimmel gibt
+                                                                    einen Funkverlängerer unbefugt geöffnet und gestartet
+es immerhin drei Haltegriffe, der Fahrer muss ohne einen
+                                                                    werden. Ein Bewegungssensor im Schlüssel, der nach einer
+auskommen. Die Türen werden vorn in drei, hinten in nur zwei
+                                                                    gewissen Zeit das Funksignal in einem ruhenden Schlüssel
+Positionen gehalten; dazwischen verbleiben sie bei ebenem
+
+
+       Autotest                                                                                              © ADAC e.V. | Seite 3
+                                                                                                             Hyundai Kona Elektro
+                                                                                                           (65,4 kWh) Prime-Paket
+
+abschaltet, ist letztlich kein ausreichender Schutz vor der
+Fahrzeugentwendung. Weiterführende Informationen gibt es
+unter www.adac.de/keyless.
+
+
+ 2,6       Kofferraum-Volumen
+Der neue Kona ist nicht nur in der Außenlänge gewachsen,
+auch der Gepäckraum hat kräftig zugelegt. Unter der Koffer-
+raumabdeckung stehen nun 350 l zur Verfügung - beim Vor-
+gänger waren es nur 225 l. Entfernt man die Laderaumabde-
+ckung und nutzt den Stauraum bis zum Dach hoch, erweitert
+sich das Volumen auf 525 l. Alternativ können im Kofferraum
+auch bis zu neun Getränkekisten untergebracht werden. Der
+Kofferraumboden kann ein Stück nach oben versetzt werden,
+so dass darunter etwa 40 l des Kofferraums abgetrennt werden.
+Klappt man die Rücksitze um und beschränkt sich auf den
+Stauraum bis zur Fensterunterkante (aus Sicherheitsgründen
+empfehlenswert), lassen sich bis 775 l verstauen. Unter Ausnut-
+zung des kompletten Raums hinter den Vordersitzen sind bis
+                                                                   Mit 350 l Volumen bietet der Kofferraum des Kona Elektro or-
+zu 1.320 l Volumen verfügbar. Zusätzlich gibt es noch einen        dentlich Platz für das Gepäck.
+kleinen Stauraum unter dem Kofferraumboden (70 l) und ein
+Fach unter der Fronthaube (20 l).
+
+
+ 2,3       Kofferraum-Nutzbarkeit
++ In der Prime-Ausstattung bringt der Kona Elektro einen
+elektrischen Antrieb für die Heckklappe serienmäßig mit.
+Ebenso inklusive ist die berührungslose Öffnung, wenn man
+mit dem Schlüssel in der Tasche kurz hinter dem Auto stehen
+bleibt (Funktion abschaltbar). Die Öffnungshöhe der Heck-
+klappe beträgt rund 1,90 m und ist einstellbar - eine praktische
+Funktion, damit sie beispielsweise nicht an eine niedrige
+Garagendecke stößt. Die Gepäckraumabdeckung wird über
+Schnüre mit angehoben und ist damit nicht im Weg. Die
+Kofferraumöffnung ist hoch und breit genug, der Laderaum
+dadurch gut nutzbar. Die Höhe der Ladekante fällt
+zufriedenstellend aus, sie liegt bei 69 cm über der Straße, das
+Gepäck muss beim Beladen also nicht zu weit angehoben
+werden. Erfreulich: Der Kofferraumboden befindet sich in
+seiner oberen Position auf gleicher Höhe mit der Ladekante,
+das erleichtert das Ausladen; liegt der Boden in seiner unteren
+Position, hat man innen eine 5 cm hohe Stufe.
+- Der Kofferraum wird nur von einer Lampe seitlich
+                                                                   Die Ladekante liegt auf einer vernünftigen Höhe und erleich-
+ausgeleuchtet, das ist etwas mager.                                tert damit das Be- und Entladen des Kofferraums.
+
+
+ 2,0       Kofferraum-Variabilität
++ Die Rücksitzlehne lässt dreigeteilt im Verhältnis 40:20:40       um sie nicht einzuklemmen. Das Umklappen der
+umklappen. Das funktioniert einfach und recht leichtgängig,        Rücksitzlehnen ist nur von vorn, nicht aber vom Kofferraum
+die Kopfstützen müssen dafür nicht abgezogen werden. Beim          aus möglich. Links im Kofferraum gibt es ein Fach und zwei
+Aufstellen der Lehne sollte man auf die äußeren Gurte achten,      Taschenhaken, rechts immerhin einen Taschenhaken.
+
+
+       Autotest                                                                                              © ADAC e.V. | Seite 4
+                                                                                                               Hyundai Kona Elektro
+                                                                                                             (65,4 kWh) Prime-Paket
+
+Hyundai verbaut vier Verzurrösen, um ein Netz am                  klein, aber trotzdem ausreichend groß für die beiden Ladekabel
+Kofferraumboden einzuspannen zu können. Zusätzlich gibt es        ausfällt.
+ein Fach unter der Fronthaube (Frunk), das insgesamt zwar
+
+
+ 2,1         INNENRAUM
+
+ 2,1       Bedienung
++ Das Lenkrad kann manuell in Höhe und Weite angepasst            samt Antippautomatik für die vorderen Scheiben. Positiv
+werden. Die Pedale sind gut angeordnet, dem Bremspedal fehlt      hervorheben muss man auch, dass Hyundai auf umständliche
+allerdings ein Unterrutschschutz zum Gaspedal hin. Der            Touchflächen zur Bedienung verzichtet und stattdessen auf
+Motorstart erfolgt über einen gut zugänglichen Knopf, der         haptisch gut fühlbare Tasten mit klarem Druckpunkt setzt. Es
+allerdings etwas versteckt hinter dem Lenkrad in der              gibt überdies noch zwei Drehregler für die Lautstärke und zum
+Armaturentafel verbaut ist. Der Getriebewählhebel - oder          Scrollen oder Zoomen im Infotainment.
+besser gesagt der Fahrtrichtungswählhebel - befindet sich an
+                                                                  - Hyundai verzichtet bei den hinteren Fensterhebern auf
+ungewohnter Position rechts unten hinter dem Lenkrad. Dort
+                                                                  eine Automatikfunktion und auf den Einklemmschutz -
+ist er je nach Lenkradstellung nicht gut zu sehen, liegt aber
+                                                                  ausgerechnet dort, wo im Zweifel die Kinder spielen. Man
+griffgünstig. Die Modi D, N, R und P sind beleuchtet, die
+                                                                  muss sich zum Schließen ganz offener Türen weit aus dem
+ausgewählte Stufe farblich abgesetzt - das hilft aber nur, wenn
+                                                                  Auto lehnen, weil die Griffmulden in den Türverkleidungen
+der Blick zum Hebel frei ist. Man gewöhnt sich aber schnell
+                                                                  wenig günstig platziert sind.
+daran, zumal die Bedienung sinnig ist.
+Das digitale Kombiinstrument - mit 12,25 Zoll vorbildlich groß
+- ist in den meisten Einstellungen klar gezeichnet und auch die
+Anzeige zwischen den Rundinstrumenten gut ablesbar. Der
+ebenfalls 12,25 Zoll große Hauptbildschirm des Infotainment-
+systems liegt weit oben und gut im Sichtfeld des Fahrers. Das
+Multimediamenü ist verständlich strukturiert, aber umfang-
+reich. Das separate Klimabedienteil ist übersichtlich gestaltet
+und die Automatikfunktion entlastet den Fahrer; es ist nur ein
+wenig tief positioniert, wodurch der Blick beim Bedienen von
+der Fahrbahn abgewendet werden muss. Die weiße Schrift auf
+silbergrauem Hintergrund ist bei starkem Lichteinfall nicht
+mehr gut zu erkennen. Weitere serienmäßige und komfort-
+steigernde Helferlein sind beispielsweise der serienmäßige        Die Verarbeitungsqualität im Innenraum ist ordentlich. Bei
+Licht- und Regensensor sowie die elektrischen Fensterheber        den verwendeten Materialien regiert der Rotstift - hier würde
+                                                                  man sich doch eine etwas wertigere Anmutung wünschen. Die
+                                                                  Bedienung gibt keine Rätsel auf und ist weitgehend gelungen.
+ 1,8       Multimedia/Konnektivität
++ In der Prime-Ausstattung ist der Kona Elektro umfangreich       Die integrierte Sprachsteuerung verfügt über Basisumfänge,
+ausstaffiert. Ein Radio mit DAB-Empfang, Apple CarPlay und        man kann alternativ die Spracherkennung eines kompatiblen
+Android Auto (beiedes kabelgebunden) sowie eine Bluetooth-        Smartphones nutzen. Es gibt USB-Anschlüsse vorn und hinten,
+Freisprechanlage sind an Bord, auch das Navigationssystem         für die vorderen Plätze zudem eine 12-V-Steckdose. Über die
+mit Echtzeit-Verkehrsinformationen liefert Hyundai immer          induktive Ladeschale in der Mittelablage kann man bequem
+mit. Over-the-Air-Updates sind ebenfalls möglich. Die             ein entsprechendes Smartphone aufladen. Als Prime kommt
+Fahrtrouten können in der Bluelink Cloud berechnet werden,        der Kona Elektro ab Werk mit einem Soundsystem mit sieben
+sodass genauere Verkehrsprognosen und Ankunftszeiten              Lautsprechern und Subwoofer, gegen Aufpreis erhält man ein
+sowie zuverlässigere Neuberechnungen der Route möglich            Soundsystem von Bose. Letzteres enthält im Paket einen
+werden. Ladestopps werden in die Routenplanung integriert,        virtuellen Fahrsound, den man sich getrost sparen kann - das
+endlich wird auch die Ladezeit in der Gesamtreisezeit             Geräusch klingt sehr künstlich und ist mäßig adaptiert. Es beißt
+berücksichtigt. Aber das Navi geht davon aus, dass man immer      sich immer wieder mit Gesprächen oder Musik aus dem Radio
+bis 100 % lädt, was natürlich keinen Sinn macht, weil sich        und zeigt, dass die Integration von künstlichen
+allein zwischen 80 und 100 % die Ladezeit ungefähr verdoppelt.    Fahrgeräuschen in den Fahralltag alles andere als trivial ist.
+
+
+
+       Autotest                                                                                                © ADAC e.V. | Seite 5
+                                                                                                                  Hyundai Kona Elektro
+                                                                                                                (65,4 kWh) Prime-Paket
+
+Der Hyundai Kona Elektro verfügt zudem über die so                    Smartphone-App können auch verschiedene Fahrzeug-
+genannten Bluelink Telematikdienste, die zahlreiche                   informationen wie Ladestand und -status abgerufen werden.
+Funktionen wie Live Services (u. a. Verkehrsinformationen,            Es können verschiedene Nutzerprofile angelegt und mit der
+Wetter, Ladesäulen, Parkhaussuche) und Remote-Funktionen              Hyundai-App verknüpft werden. Inzwischen leider Standard:
+über die integrierte SIM-Karte ermöglichen. Mittels der               Einen CD-Player gibt es nicht mehr, auch nicht gegen Aufpreis.
+
+
+ 1,7       Raumangebot vorn
++ Vorn reicht das Platzangebot für fast zwei Meter große              sogar üppig. So empfindet man das Raumangebot als
+Personen, wobei nur die Beinfreiheit limitierend ist, die             großzügig. Das optionale Glasschiebedach lässt auf Wunsch
+Kopffreiheit würde auch für 2,10 m große Menschen genügen.            viel Licht in den Innenraum.
+Der Innenraum ist breit genug und für die untere Mittelklasse
+
+
+ 2,3       Raumangebot hinten
++ Sind die Vordersitze für 1,85 m große Menschen eingestellt,
+haben auf den Rücksitzen trotzdem etwa 1,95 m große
+Personen Platz – limitierend ist dabei die Kopffreiheit, bei der
+Beinfreiheit würde es erst mit etwa 2,05 m Größe eng werden.
+Für zwei Leute nebeneinander ist die Innenbreite völlig
+ausreichend, für drei Erwachsene wird es allerdings etwas eng.
+Das subjektive Raumgefühl ist insgesamt gut und wird
+lediglich durch die nahe am Kopf befindliche C-Säule
+geschmälert. Das optionale Glasschiebedach reicht nicht bis
+über die Rücksitze.
+
+
+ 3,4       Innenraum-Variabilität                                     Im Fond finden Personen bis zu einer Körpergröße von 1,95 m
+Die Variabilität der Sitzplätze beschränkt sich auf die dreigeteilt   Platz.
+umklappbaren Rücksitzlehnen; verschiebbare Sitze oder in der
+                                                                      abschließbar und bereits mit der dicken Bordmappe weitge-
+Neigung justierbare Lehnen hinten gibt es nicht. Bodenfächer
+                                                                      hend ausgefüllt. Hinten gibt es eine Mittelarmlehne mit zwei
+hat der Kona Elektro keine. Vorn stehen genügend Ablagen zur
+                                                                      Becherhaltern, Netze an den Rückseiten der Vordersitze und
+Verfügung. Smartphone, 1-l-Flaschen, Becher und einiges an
+                                                                      Türfächer, in die zumindest noch kleinere Flaschen passen.
+Kleinkram finden Platz. Das Handschuhfach ist ausreichend
+groß und beleuchtet, allerdings weder klimatisiert noch
+
+
+ 2,4         KOMFORT
+
+ 2,5       Federung
++ Elektronisch geregelte Dämpfer gibt es für den Kona                 Innerorts werden Unebenheiten ordentlich geschluckt, nur
+Elektro zwar nicht, das Standardfahrwerk bietet aber schon            Kanten spürt man etwas deutlicher. Kopfsteinpflaster fällt auf,
+einen guten Federungskomfort. Das Fahrwerk hat Hyundai                stört aber nicht. Über Geschwindigkeitshügel zeigt sich das
+tendenziell komfortabel abgestimmt, bei flotter Gangart hat           gute Schluckvermögen der Federung. Mit zunehmender
+man entsprechend mehr Seitenneigung und Karosserie-                   Geschwindigkeit wird die Federung geschmeidiger, schlechte
+bewegungen. Dennoch passt die Abstimmung sehr gut zum                 Landstraßen bringen den Kona nicht aus dem Konzept. Auch
+Charakter des kompakten Elektro-SUV. Die optionale 19-Zoll-           auf der Autobahn geht es entspannt dahin, so dass sich der
+Bereifung macht es für das Fahrwerk nicht so leicht, schlechte        Fahrkomfort auch prima für lange Strecken eignet.
+Straßenzustände zu kaschieren, das Ergebnis kann sich
+dennoch sehen lassen.
+
+
+
+
+       Autotest                                                                                                   © ADAC e.V. | Seite 6
+                                                                                                                Hyundai Kona Elektro
+                                                                                                              (65,4 kWh) Prime-Paket
+
+ 2,5       Sitze
++ In der Prime-Ausstattung ermöglichen die beiden                 Hinten geht es weniger komfortabel zu, allerdings sind
+Vordersitze eine elektrische Sitzhöhen-, Sitzneigungs-,           zumindest die äußeren beiden Plätze alles andere als
+Sitzlängs- sowie Lehnenneigungseinstellung. Der Fahrersitz ist    unbequem. Wie üblich in dieser Klasse sind Lehne und
+zudem mit einer elektrischen Zweiwege-Lordosenstütze sowie        Sitzfläche wenig konturiert und bieten kaum eigenen
+einer Memory-Funktion ausgestattet. Die Konturen der              Seitenhalt – das müssen die Türen und die ausklappbare
+Lehnen und Sitzflächen der Vordersitze sind angenehm, es          Mittelarmlehne übernehmen. Insgesamt ergibt sich eine
+ergibt sich ein ordentlicher Seitenhalt, auch wenn sich groß      ordentliche Sitzposition, die selbst für längere Strecken taugt,
+gewachsene Europäer etwas mehr Beinauflage und größere            auch weil man mit einem brauchbaren Kniewinkel sitzen
+Lehnen wünschen würden. Die Mittelarmlehne kann nur               kann. In der Mitte sitzt man auf einer straffen Polsterung,
+hochgeklappt werden, um das darunterliegende Fach zu              immerhin gibt es im Fußraum keine Einschränkungen, weil
+öffnen, sie lässt sich weder längs noch in der Höhe einstellen.   kein Mitteltunnel vorhanden ist.
+Die Armauflagen in den Türen sind vorn wie hinten gepolstert.
+
+
+ 2,8       Innengeräusch
+Oberhalb von etwa 30 km/h dominieren bei den meisten Autos        Stellen auffällig, nehmen aber allgemein höheren Geschwin-
+Abroll- und später Windgeräusche, so auch beim neuen Kona         digkeiten wie üblich zu. Sie gehen letztlich in den allgemeinen
+Elektro. Der Motor selbst ist nicht zu hören, wenn dann ein de-   Fahrgeräuschen unter. Bei 130 km/h herrscht im Innenraum
+zentes Singen vom Getriebe bzw. Differenzial, das im Testwa-      des elektrischen Kona ein Geräuschpegel von 67,6 dB(A), ein
+gen besonders bei niedrigen Geschwindigkeiten recht deutlich      zufriedenstellender und langstreckentauglicher Wert.
+zu hören war. Windgeräusche sind nicht an bestimmten
+
+
+ 2,0       Klimatisierung
++ Der Kona Elektro ist in der Prime-Ausstattung serienmäßig       Hyundai damit eine Standklimatisierung um, sie kann
+mit einer Zweizonen-Klimaautomatik und einer Wärme-               programmiert oder über die Fahrzeug-App remote gestartet
+pumpe für mehr Effizienz in der Übergangszeit ausgestattet.       werden.
+Die Automatikfunktion der Klimatisierung bietet drei
+                                                                  - Bei allen Lüftungsdüsen lässt sich die Strömungsrichtung
+Intensitätsstufen. Für die Rücksitze gibt es Mittelausströmer
+                                                                  und -intensität leider nicht unabhängig voneinander
+zwischen den Vordersitzlehnen und Lüftungsdüsen unter den
+                                                                  einstellen; es kann daher passieren, dass man eine
+Vordersitzen. Die Sitzheizung vorn und die Lenkradheizung
+                                                                  Lüftungsdüse zu weit verstellt und versehentlich verschließt -
+sind Serie, gegen Aufpreis gibt es die Sitzheizung auch hinten
+                                                                  gerade während der Fahrt ist das schlecht zu kontrollieren und
+und für die vorderen Sitze eine Belüftung. Bei Prime mit dabei
+                                                                  daher ungünstig.
+sind ebenso die getönten hinteren Scheiben. Da Heizung und
+Kühlung für den Innenraum elektrisch funktionieren, setzt
+
+
+ 1,1         MOTOR/ANTRIEB
+
+ 1,3       Fahrleistungen
++ Der Elektromotor leistet 160 kW / 218 PS und gibt ein           vergehen nur 3,7 s. Von 80 auf 120 km/h kommt man in 4,8 s.
+maximales Drehmoment von 255 Nm ab. Trotz des hohen               Selbst bei Autobahngeschwindigkeiten lässt der Vorwärts-
+Fahrzeuggewichts von 1,8 t sorgt der kräftige E-Anrieb im         drang kaum nach. Von null auf 100 km/h verspricht Hyundai
+kompakten SUV für durchaus sportliche Fahrleistungen. Der         7,8 s, abgeregelt wird der Kona Elektro mit der größeren Batterie
+Kona Elektro beschleunigt in rund einer Sekunde von 15 auf 30     bei echten 172 km/h (Tacho 180).
+km/h. Darüber geht es flott weiter, von 60 bis 100 km/h
+
+
+ 1,1       Laufkultur/Leistungsentfaltung
++ Wie von einem ausgereiften Elektromotorsystem zu                Motorgeräusche. Einzig das Singen von Getriebe bzw.
+erwarten, ergeben sich keinerlei Vibrationen oder störende        Differenzial bei niedrigen Geschwindigkeiten ist auffällig. Der
+
+
+
+       Autotest                                                                                                 © ADAC e.V. | Seite 7
+                                                                                                              Hyundai Kona Elektro
+                                                                                                            (65,4 kWh) Prime-Paket
+
+Motor zieht vom Start weg mit Nachdruck an, er gibt seine         geschwindigkeiten und dann hohen Drehzahlen ein wenig
+Leistung gleichmäßig ab und lässt erst bei Autobahn-              nach.
+
+
+ 0,9       Schaltung/Getriebe
++ Der Elektromotor deckt ein sehr weites Drehzahlband ab,         Lenkrad einstellen. So kann man über weite Strecken
+daher benötigt der Kona Elektro kein Getriebe mit                 ausschließlich mit dem Elektromotor bremsen und muss die
+verschiedenen Übersetzungsstufen. Vom Stand weg verläuft          Scheibenbremsen am Auto selten einsetzen. Eine weitere
+die Beschleunigung konstant und ruckfrei. Das Umschalten          Möglichkeit ist die Auto-Rekuperation, die ebenfalls über
+von Vorwärts- auf Rückwärtsfahrt von Systemseite aus klappt       mehrere Grundstufen verfügt: In diesem Modus nutzt das
+schnell. An die Bedienung des kleinen Hebels hinter dem           System die Informationen vom Frontradarsensor und wählt
+Lenkrad muss man sich erst gewöhnen, dann aber ist eine           die Rekuperation automatisch nach Bedarf und
+Bedienung auch ohne Hinsehen möglich, weil logisch                vorausfahrendem Verkehr. Das funktioniert im Alltag gut, das
+nachvollziehbar. Die vier Rekuperationsstufen (0 bis 3) kann      Bremspedal muss man nur selten bedienen, gleichzeitig wird
+man für jeden Fahrmodus (Sport bis Eco) im Menü                   nur soviel über Rekuperation gebremst, wie nötig ist.
+vordefinieren, ganz praktisch aber auch über die Paddels am
+
+
+ 2,5         FAHREIGENSCHAFTEN
+
+ 2,4       Fahrstabilität
++ Der Kona Elektro bietet insgesamt eine gute Fahrstabilität      bei unwirschem Beschleunigen gut kontrollierbar.
+und beruhigt sich nach plötzlichen Lenkmanövern zügig             Im ADAC Ausweichtest reagiert der Koreaner gut auf die
+wieder. Spurrinnen beeinflussen die Richtungsstabilität des       Lenkbefehle, wobei er schon recht deutliche Seitenneigung
+Hyundai nur wenig. Es ergeben sich merkliche Aufbau-              zeigt. Im Grenzbereich ergibt sich leichtes Untersteuern, ein
+bewegungen und leichtes Wippen nach Bodenwellen,                  Lastwechsel lässt das Heck etwas nach außen drängen. Das
+insgesamt halten sie sich jedoch in sicheren Grenzen. Hebt        alles wird aber von einem moderat regelnden ESP im sicheren
+man das Gaspedal in Kurven, zeigt sich zwar eine leichte          Rahmen gehalten. Wer sich von den Karosseriebewegungen
+Lastwechselreaktionen, diese wird bei Bedarf allerdings zuver-    nicht irritieren lässt, kann sogar seinen Fahrspaß dabei haben.
+lässig vom ESP eingefangen. In der Summe bleibt der als untere    Denn dank des effektiv und dezent regelnden ESP durcheilt das
+Mittelklasse eingestufte Kona gut beherrschbar und ist sicher     Elektro-SUV erstaunlich schnell den Parcours und lässt sich bis
+unterwegs. Die Traktionskontrolle bremst die Antriebsräder        in den Grenzbereich gut beherrschen. Auch weil Korrekturen
+des Fronttrieblers im Bedarfsfall ein, der Kona bleibt so auch    des Fahrers immer gut umgesetzt werden.
+
+
+ 2,2       Lenkung
++ Die Lenkung reagiert auf Lenkbefehle passend, sie bietet        erfühlen. Die Zielgenauigkeit geht in Ordnung, auch bei
+aber nur eine mäßige Rückmeldung und ein eher                     höheren Geschwindigkeiten. Die Lenkung ist insgesamt
+synthetisches Gefühl. Um die Mittellage könnte das                angenehm direkt übersetzt, von Anschlag zu Anschlag sind
+Rückstellmoment gerade bei niedrigeren Geschwindigkeiten          lediglich 2,6 Umdrehungen erforderlich.
+ein wenig ausgeprägter sein, die Nulllage lässt sich aber gut
+
+
+ 2,7       Bremse
+Bei einer Notbremsung aus 100 km/h bis zum Stillstand benö-       Wirkung der Scheibenbremsen haben die Ingenieure gut hin-
+tigt der Kona Elektro 35,7 m (Mittel aus zehn Bremsungen) – ein   bekommen - man spürt den Übergang praktisch nicht. So sind
+brauchbarer Wert. Das Bremsgefühl ist im Alltag angenehm,         auch Ansprechen und Dosierbarkeit einwandfrei.
+das Zusammenspiel zwischen Rekuperationsverzögerung und
+
+
+
+
+       Autotest                                                                                               © ADAC e.V. | Seite 8
+                                                                                                       Hyundai Kona Elektro
+                                                                                                     (65,4 kWh) Prime-Paket
+
+
+ 2,1         SICHERHEIT                                            DIE ASSISTENZSYSTEME IN DER ÜBERSICHT
+
+           Aktive Sicherheit - Assistenzsysteme                         ESP                          Serie
+ 1,3
++ Die Sicherheitsausstattung des Kona Elektro in der Prime-             Abstandswarnung              nicht erhältlich
+Ausstattung ist sehr umfangreich, vieles gibt es serienmäßig.
+Ein Notbremssystem samt Kollisionswarnung ist ebenso Serie
+                                                                        Kollisionswarnung            Serie
+wie auch der Spurhalte- und der Spurwechselassistent.
+Letzterer umfasst den Ausparkassistenten, der mit Radar-
+                                                                        City-Notbremssystem          Serie
+Sensoren in der Heckschürze den kreuzenden Verkehr
+überwacht, beim Rückwärtsausparken vor Gefahren warnt und               Vorausschauendes Notbrems-
+sogar die Funktion der Ausstiegswarnung übernimmt. Ein                                               Serie
+                                                                        system
+Geschwindigkeitsbegrenzer sowie die adaptive Geschwindig-
+                                                                        Vorausschauender Kreu-
+keitsregelung (ACC) sind ebenfalls serienmäßig im Kona mit                                           Option
+                                                                        zungsassistent
+Prime-Paket. Die gut funktionierende Verkehrszeichener-
+                                                                        Vorausschauendes Fußgän-
+kennung kombiniert die Informationen der Frontkamera mit                                             Serie
+                                                                        ger-Notbremssystem
+dem Navigationskartenmaterial. Der optionale Autobahn-
+assistent beinhaltet neben der Spurwechselautomatik zudem               Querverkehrerkennung beim
+                                                                                                     Serie
+                                                                        Rückwärtsfahren
+die navigationsbasierte adaptive Geschwindigkeitsregelung,
+die anhand der Kartendaten des Navigationssystems die Route             Geschwindigkeitsbegrenzer    Serie
+des Fahrzeugs erkennt und beispielsweise vor einem
+Ortsschild, einem Kreisverkehr oder einer scharfen Kurve
+                                                                        Tempomat                     Serie
+rechtzeitig die Geschwindigkeit automatisch reduziert. Serie
+dagegen sind die Müdigkeitserkennung und das direkt
+                                                                        Abstandsregeltempomat        Serie
+messende Reifendruck-Kontrollsystem sowie in der höchsten
+Ausstattung sogar ein Head-up-Display, das seine Infor-
+mationen in die Windschutzscheibe projiziert. Bei einer                 Autobahn-/Stauassistent      Option
+Notbremsung blinken zunächst die Bremslichter in hoher
+Frequenz, um auf die Notsituation aufmerksam zu machen.                 Verkehrszeichenerkennung     Serie
+Anschließend wird automatisch die Warnblinkanlage
+eingeschaltet.                                                          Spurassistent                Serie
+- Leider hat Hyundai die Fahrerüberwachung wie auch die
+neu vorgeschriebene Geschwindigkeitswarnung mangelhaft                  Totwinkelassistent           Serie
+implementiert. Ständige unnötige und maximal nervende
+Warnungen rauben den an sich sinnvollen Assistenzsystemen               Spurwechselautomatik         Option
+jegliche Akzeptanz. So gibt es in der Elektroversion des Kona
+immerhin die Möglichkeit, die akustischen Warnungen der                 Ausweichassistent            Option
+Verkehrszeichenerkennung abzuschalten, ohne das System
+komplett deaktivieren zu müssen. Leider wird bei jedem                  Notfallassistent             nicht erhältlich
+Neustart die akustische Warnung ab minimaler Tempo-
+überschreitung nach Tacho (nicht nach tatsächlicher                     Ausstiegswarnung             Serie
+Geschwindigkeit) wieder aktiviert - das ist allerdings in dieser
+Form EU-Vorschrift. Wer sich kurz versucht, am Tachodisplay
+                                                                        Müdigkeitswarner             Serie
+zu orientieren, bekommt sofort eine Warnung, auf die Straße
+zu schauen - hier ist die Karenzzeit viel zu kurz und
+                                                                        Head-up-Display              Serie
+praxisfremd. Die schlechte Abstimmung der beiden Systeme
+führt zu einer Abwertung im Kapitel Assistenzsysteme. Dass              Warnblinker/Flashing Brake
+der Kona dennoch eine Note 1,3 in diesem Bereich erzielt, zeigt                                      Serie
+                                                                        Light bei Notbremsung
+die eigentlich hervorragende Ausstattung des Modells.
+                                                                                                     Serie (direkt mes-
+                                                                        Reifendruck-Kontrollsystem
+                                                                                                     send)
+
+
+
+
+       Autotest                                                                                       © ADAC e.V. | Seite 9
+                                                                                                                    Hyundai Kona Elektro
+                                                                                                                  (65,4 kWh) Prime-Paket
+
+ 2,3       Passive Sicherheit - Insassen
++ Beim ADAC Crashtest nach Euro NCAP-Norm erreicht der           gegebenenfalls erneut auf ein Hindernis trifft.
+Kona ein gutes Ergebnis von 80 Prozent der Maximalpunkte         Die vorderen wie auch die hinteren Insassen werden bei Bedarf
+(Test 12/2023). Dafür gibt es immerhin vier von fünf Sternen.    optisch und akustisch ermahnt, sich anzuschnallen. Beim
+Front- und Seitenairbags vorn sowie von vorn nach hinten         Abschnallen während der Fahrt ertönt ein Warnsignal und die
+durchgehende Kopfairbags sind ebenso serienmäßig wie auch        Anzeige zu den belegten Sitzplätzen erscheint erneut. Vier
+der Center Airbag zwischen Fahrer und Beifahrer, der ein         Verzurrösen im Kofferraum ermöglichen eine Ladungs-
+Zusammenstoßen mit den Köpfen verhindern soll. Bis auf den       sicherung über Kreuz, allerdings machen sie keinen sonderlich
+Gurt des Fondmittelsitzes sind alle Sitze sowohl mit             stabilen Eindruck.
+Gurtstraffern als auch mit Gurtkraftbegrenzern ausgestattet.
+                                                                 - Die hinteren Kopfstützen bieten Insassen bis zu einer
+Die vorderen Kopfstützen bieten Personen bis zu einer Größe
+                                                                 Körpergröße von knapp 1,70 m Schutz - hier gibt es noch
+von 2,05 m einen guten Schutz, der Abstand zum Kopf ist
+                                                                 Verbesserungspotenzial. Warndreieck und Verbandkasten
+allerdings nicht verstellbar.
+                                                                 befinden sich unter dem Kofferraumboden und sind so bei
+Ein E-Call-System ist serienmäßig an Bord und informiert nach
+                                                                 beladenem Fahrzeug schlecht erreichbar. Ein Kofferraum-
+einem Unfall automatisch die Rettungskräfte – per Knopfdruck
+                                                                 trennnetz zur Gepäcksicherung im Kofferraum ist nicht
+kann manuell ein Notruf ausgelöst werden. Der Kona ist mit
+                                                                 erhältlich.
+einer Multikollisionsbremse ausgestattet – sie verhindert nach
+einem Unfall, dass das Auto unkontrolliert weiter rollt und
+
+
+ 2,5       Kindersicherheit
++ Beim Crashtest nach Euro NCAP-Norm bekommt der Kona            Kindersitze
+83 Prozent für eine gute Kindersicherheit. Der Beifahrerairbag   Die Grafik zeigt, welcher Sitzplatz sich wie gut für Kindersitze
+lässt sich per Schlüsselschalter deaktivieren, dann kann man     eignet.
+auf dem Beifahrerplatz rückwärtsgerichtete Kindersitze mit
+dem Gurt fixieren. Das Fahrzeug verfügt serienmäßig über zwei
+Isofix-Halterungen an den hinteren Außenplätzen (mit i-Size-
+Freigabe). Die Kindersicherung der Fondtüren lässt sich
+ausschließlich mit dem Schlüssel bedienen und ist daher nicht
+einfach von den Kindern selbst veränderbar.
+Nutzt man im Fond platzeinnehmende Babyschalen mit Basis
+und Stützfuß, so lassen sich die Vordersitze nicht mehr ganz
+nach hinten schieben – daher ist eine Sitz- und Montageprobe
+vor dem Kauf ratsam.                                             Notenskala
+- Auf dem mittleren Rücksitzplatz steht weder Isofix zur            sehr gut (0,6 – 1,5)    gut (1,6 – 2,5)   befriedigend (2,6 – 3,5)
+                                                                    ausreichend (3,6 – 4,5)    mangelhaft (4,6 – 5,5)
+Verfügung noch lässt sich wegen der ungünstigen Gurt-
+anlenkpunkte ein Kindersitz ordentlich befestigen. Für die
+hinteren Fensterheber fehlt ein Einklemmschutz.
+
+
+ 3,7       Fußgängerschutz
+Beim Fußgängerschutz sieht es nicht so ideal aus, im ADAC        bremssystem auch Fußgänger und Radfahrer und kann im
+Crashtest nach Euro NCAP Norm reicht der Kona nur für mä-        Notfall eine Kollision verhindern oder zumindest die Schwere
+ßige 64 Prozent der möglichen Punkte. Spezielle Schutzmaß-       des Zusammenstoßes verringern. Die vorgeschriebene akusti-
+nahmen wie eine aktive Motorhaube sind nicht verbaut. Die        sche Geräuschkulisse macht in ausreichendem Maße auf den
+Vorderkante der Motorhaube sowie insbesondere die A-Säulen       Kona Elektro aufmerksam, ohne das Umfeld zu sehr zu nerven
+sind zu unnachgiebig und bergen für Personen ein hohes Ver-      - Hyundai hat hier einen guten Kompromiss gefunden.
+letzungsrisiko. Immerhin erkennt das serienmäßige Not-
+
+
+
+
+       Autotest                                                                                                    © ADAC e.V. | Seite 10
+                                                                                                                 Hyundai Kona Elektro
+                                                                                                               (65,4 kWh) Prime-Paket
+
+
+ 1,3         UMWELT/ECOTEST
+
+ 0,8       Verbrauch/CO2
++ Im Elektrozyklus des Ecotest wurde ein durchschnittlicher        werden 77,3 kWh benötigt. Aus dem Verbrauch von 18,8
+Stromverbrauch von 18,8 kWh pro 100 km ermittelt. Damit ist        kWh/100 km im Ecotest errechnet sich eine CO2-Bilanz von 94
+der neue Kona Elektro nicht mehr so sparsam wie der                g pro km (Basis deutscher Strommix von 500 g/kWh; 2020 vom
+Vorgänger, der mit 16,7 kWh/100 km auskam. Noch eklatanter         UBA veröffentlichter Wert, für das Berichtsjahr 2021). Das ergibt
+wird der Unterschied, wenn es kalt wird. Bei Temperaturen          im CO2-Bereich des Ecotest 52 von 60 möglichen Punkten.
+unter 10 °C steigt der Verbrauch je nach Fahrprofil um 3-5         Der Verbrauch inklusive Ladeverluste liegt innerorts bei etwa
+kWh/100, unter 0 °C noch stärker. Dann muss man schon nach         14, außerorts bei 19 und auf der Autobahn bei 24 kWh/100 km.
+gut 200 km wieder nach einer Lademöglichkeit Ausschau              Der elektrische Kona ist also in der Stadt am sparsamsten
+halten. Die rund 400 km, die bei Temperaturen um 22 °C             unterwegs, dort sind Reichweiten von um die 500 km möglich.
+erreicht werden können, sind damit in weiter Ferne. Alle           Sparsam ausgelegte elektrische Verbraucher wie die
+Verbrauchsangaben beinhaltet auch die Ladeverluste; um die         Klimatisierung (Wärmepumpe Serie) unterstützen dabei, eine
+65,4-kWh-Batterie einmal komplett von leer auf voll zu laden,      möglichst gute Reichweite zu erzielen.
+
+
+ 1,8       Schadstoffe
++ Direkt am Auto entstehen zwar keine Schadstoff-                  einem Stromverbrauch von 18,8 kWh pro 100 km sind
+emissionen, in den für die Stromversorgung in Deutschland          beispielsweise NOx-Emissionen von 76 mg/km verbunden –
+nötigen Kraftwerken aber schon. Diese Emissionen werden            dafür gibt es ein paar Punkte Abzug, so dass der Kona Elektro
+wie auch die CO2-Emissionen durch die Stromproduktion dem          im Bereich Schadstoffe 42 von 50 Punkten erhält. Wird der
+E-Auto zugerechnet. Je niedriger der Stromverbrauch des            Strommix sauberer, steigen automatisch die Punkte. In der
+Autos, desto sauberer die Gesamtbilanz. Für den Ecotest ist        Summe kommt der Kona Elektro somit auf 94 Punkte und
+nicht eine möglichst große Reichweite entscheidend, sondern        schafft somit ein Fünf-Sterne-Ergebnis im ADAC Ecotest.
+die Effizienz des Antriebs – egal welche Antriebsform. Mit
+
+
+ 2,7         AUTOKOSTEN
+
+ 2,7       Monatliche Gesamtkosten
+Der Aufschlag für den elektrischen Antrieb im Kona ist erheb-       Gesamtkosten pro Monat in Euro
+lich, denn erst bei knapp 42.000 Euro geht es los - dann in Ba-     Anhand von Jahresfahrleistung und Fahrzeughaltedauer
+sisausstattung und kleinerer Batterie. Für unseren Testwagen        ermitteln Sie Ihre persönlichen monatlichen Kosten (Bei-
+mit Top-Ausstattung und großem Stromspeicher wollen die             spiel: 767 Euro bei 15000 km jährlicher Fahrleistung und 5
+                                                                    Jahren Haltedauer).
+Koreaner gar mindestens 50.690 Euro. Auch dann ist das Ende
+der finanziellen Fahnenstange noch nicht erreicht, denn unser
+Testwagen kostet gar 55.290 Euro. Wirklich viel Geld für ein
+Auto der unteren Mittelklasse. Als Kfz-Steuer werden 68 Euro
+fällig – aber erst nach 2030, denn solange sind rein elektrisch
+angetriebene Autos aktuell steuerfrei. Die Einstufungen bei der
+Versicherung gehen noch in Ordnung, wobei die Kosten für die
+Vollkasko schon nicht mehr so günstig wie einst beim Vorgän-
+ger sind (Haftplicht 16, Teilkasko 24, Vollkasko 25). Die Ausga-
+ben für die Wartungen sollten überschaubar ausfallen, es gibt
+deutlich weniger mechanische Teile und keine Ölwechsel; ein-
+zig die Aufwendungen für die Reifen können teuer werden,
+wenn man öfter mal das üppige Drehmoment des Motors aus-
+nutzt und damit die Vorderreifen in Windeseile verschleißt. Er-
+freulich ist, dass Hyundai das Wartungsintervall beim neuen
+Kona Elektro auf zwei Jahre oder alle 30.000 km hochgesetzt
+
+
+       Autotest                                                                                                © ADAC e.V. | Seite 11
+                                                                                                                       Hyundai Kona Elektro
+                                                                                                                     (65,4 kWh) Prime-Paket
+
+hat. Der größte Posten der monatlichen Kosten ist wie meistens            Auto hat ebenfalls acht Jahre Garantie, sogar ohne km-Limit, al-
+der Wertverlust. Der muss nach wie vor mehr geschätzt werden              lerdings greift ab dem sechsten Jahr eine abgespeckte Garantie-
+als dass man ihn exakt berechnen könnte. Maßgeblich hängt er              versicherung der Real Garant Versicherung AG - trotzdem in
+von der Haltbarkeit der Batterie ab; Hyundai gibt hier acht Jahre         der Summe ein sehr attraktives Angebot, welches das Kostenri-
+Garantie bis 160.000 km auf die Hochvolt-Batterie. Das ganze              siko lange Zeit kalkulierbar hält.
+
+
+ DIE MOTORVARIANTEN
+ in der preisgünstigsten Modellversion
+Typ                                                  Kona Elektro (48,4 kWh)
+ Aufbau/Türen                                        SUV/5
+ Zylinder/Hubraum [ccm]                              -/-
+ Leistung [kW (PS)]                                  115 (156)
+ Max. Drehmoment [Nm] bei 1/min                      255/0
+ 0-100 km/h [s]                                      8,8
+ Höchstgeschwindigkeit [km/h]                        162
+ Verbrauch pro 100 km lt. Hersteller                 14,6/14,6 kWh E
+ (NEFZ/WLTP)
+ CO2 [g/km] lt. Hersteller (NEFZ/WLTP)               0/0
+ Versicherungsklassen KH/VK/TK                       16/25/24
+ Steuer pro Jahr [Euro]                              62
+ Monatliche Gesamtkosten [Euro]                      678
+ Preis [Euro]                                        41.990
+
+
+Aufbau                                                                    Versicherung        Kraftstoff
+ST = Stufenheck        KT = Kleintransporter          KB = Kombi          KH = KFZ-Haftpfl.   N = Normalbenzin      FG   = Flüssiggas
+SR = Schrägheck        HKB = Hochdachkombi            GR = Van            VK = Vollkasko      S    = Superbenzin    G    = Erdgas
+CP = Coupe             TR = Transporter               GE = Geländewagen   TK = Teilkasko      SP = SuperPlus        E    = Strom
+C    = Cabriolet       BU = Bus                       PK = Pick-Up                            D     = Diesel
+RO = Roadster          SUV = Sport Utility Vehicle
+
+
+
+
+      Autotest                                                                                                        © ADAC e.V. | Seite 12
+                                                                                                                                            Hyundai Kona Elektro
+                                                                                                                                          (65,4 kWh) Prime-Paket
+              SPEZIFISCHE EIGENSCHAFTEN DES ELEKTRO-ANTRIEBS
+
+              ELEKTROMOTOR                                                            WARNUNG BEI LEERER BATTERIE
+      maximale Leistung                                     160 kW (218 PS)           Warnbeginn bei leerer Batterie         SoC 20% Batt. orange "Bitte laden",
+      Dauerleistung nach Fahrzeugschein                              53 kW                                              SoC 10% "Niedriger SoC", 0% Schildkröte
+      maximales Drehmoment                                         255 Nm             Leistungsreduzierung                                                  n.b.
+      Ecotest Verbrauch/Reichweite                  18,8 kWh/100km/412 km             Notfallstrecke bei Neustart                                           n.b.
+
+              BATTERIE                                                                LADEMÖGLICHKEITEN
+      Batteriegröße gesamt/nutzbar                               n.b./65,4 kWh        einstellbarer Ladestopp                                                    ja
+      komplette Vollladung mit Ladeverlusten                          77,3 kWh        regelbare Ladeleistung                                                ja, AC
+      Garantie/garantierte Kapazität                       8 Jahre, 160.000 km        Position der Ladeklappe                                           Front links
+                                                                                      Entriegelung Ladekabel                                             Schlüssel
+              REKUPERATION
+      Verzögerung bei Rekuperationsbegrenzung (z.B. Batterie voll)   reduziert         LADEKABEL                ANSCHLUSS                     SERIE / OPTION
+      Stufen / Einstellung                                     9/Schaltwippen         Schuko                    einphasig, 230 V, 10 A                      Serie
+                                                                                      Typ2                      dreiphasig, 230 V, 16 A                    Option
+              KLIMATISIERUNG
+      Wärmepumpe (Serie / Option / nein)                                 Serie        ANZEIGEN WÄHREND LADEVORGANG
+      Klimatisierung im Innenraum einschränkbar (z.B. nur Fahrer)           ja        Ladestand in Prozent / Restkilometer                                   ja/ja
+      Standklimatisierung                                                   ja        Anzeige Restdauer / Uhrzeit bis geladen                             ja/nein
+      Steuerung Smartphone / Vorprogrammierung                           ja/ja        Anzeige momentane Ladeleistung          ja (in kW im Instrumentendisplay)
+                                                                                      Ladeanzeige von außen sichtbar                ja (4 LEDs an Steckdose vorn)
+
+              LADEMÖGLICHKEITEN
+      Steckertyp                          Anschluss                     Ausstattung        Ladestrom                    Leistung                Ladezeit
+      Haushaltssteckdose                  einphasig, 230 V, AC          Serie              6 - 10 A                     1,3 - 2,3 kW            59,5 - 33,5 h
+      Typ 2                               einphasig, 230 V, AC          Serie              6 - 32 A                     1,3 - 7,4 kW            59,5 - 10,5 h
+      Typ 2                               zweiphasig, 230 V, AC         -                  -                            -                       -
+      Typ 2                               dreiphasig, 230 V, AC         Serie              6 - 16 A                     4,1 - 11 kW             19 - 7 h
+      DC Schnell                          CCS                           Serie              -                            bis zu 100 kW           39 min
+                                                                                                                                                       *10 bis 80 %
+
+              LADEKURVE DC
+                                                                                                            Ladevorgang 10 - 80 %
+                                                                                                            Ø Ladeleistung                              85,1 kW
+                                                                                                            Ladedauer                                   00:39:00
+                                                                                                            nachgeladene Energie                         49 kWh
+                                                                                                            nachgeladene Reichweite (EcoTest)            308 km
+
+
+
+
+Ladeleistung in kW
+
+
+
+
+                                                                                                                        Ladestand Batterie in Prozent
+
+              NACHGELADENE REICHWEITE
+                                                                                                   Nachgeladen in         kWh         Reichweite       SOC
+                                                                                                      10 min            15,7 kWh        99 km          33%
+                                                                                                      20 min            31,5 kWh       198 km          56%
+                                                                                                      30 min            43,8 kWh       275 km          73%
+
+
+
+
+                                                                                                                                            ADAC-Messung kursiv
+
+                     Autotest                                                                                                             © ADAC e.V. | Seite 13
+  HERSTELLERANGABEN                                                                                  AUSSTATTUNG
+                                                                                                    TECHNIK (° im Testwagen vorhanden)           Hyundai Kona Elektro
+ Elektro, permanenterregter Synchronmotor an der Vorderachse                                                                                   (65,4 kWh) Prime-Paket
+ Leistung                                               160 kW/218 PS                               Adaptives Fahrwerk                                                                  -
+ Maximales Drehmoment                                           255 Nm                              Scheinwerfer Xenon/LED/Laser                                                -/Serie/-
+ Kraftübertragung                                          Frontantrieb                             Abbiege-/Kurvenlicht                                                                -
+ Getriebe                                            Reduktionsgetriebe                             Regen-/Lichtsensor                                                             Serie
+ Höchstgeschwindigkeit                                       172 km/h                               Fernlichtassistent                                                             Serie
+ Beschleunigung 0-100 km/h                                          7,8 s                           Tempomat/Limiter/ACC                                                           Serie
+ Verbrauch pro 100 km (WLTP)                                  14,7 kWh                              Einparkhilfe vorn/hinten                                                       Serie
+ CO₂-Ausstoß                                                            -                           Parklenkassistent                                                              Serie
+ Stirnfläche/cW-Wert                                           n.b./0,27                            Rückfahrkamera/360°-Kamera                                                     Serie
+ Klimaanlage Kältemittel                                       R1234yf                              Head-up-Display                                                                Serie
+ Reifengröße (Serie vo./hi.)                               215/60 R17                               Verkehrszeichenerkennung                                                       Serie
+ Länge/Breite/Höhe                             4.355/1.825/1.580 mm                                 Schlüsselloses Zugangssystem                                                   Serie
+ Leergewicht/Zuladung                                     1.773/447 kg                              SICHERHEIT
+ Kofferraumvolumen normal/geklappt                          466/1.300 l                             Seitenairbag vorn/hinten                                                      Serie/-
+ Anhängelast ungebremst/gebremst                            300/750 kg                              Kopfairbag vorn/hinten                                                         Serie
+ Stützlast/Dachlast                                         100/100 kg                              Knieairbag Fahrer/Beifahrer                                                         -
+ Batteriekapazität (netto)                                    65,4 kWh                              Kollisionswarnung/Notbremssystem                                               Serie
+ Garantie Allgemein/Rost                               5 Jahre/12 Jahre                             Fußgänger-/City-Notbremsfunktion                                               Serie
+ Produktion                                        Tschechien, Nosovice                             Spurassistent                                                                  Serie
+                                                                                                    Spurwechselassistent                                                           Serie
+  ADAC Messwerte                                                                                    INNEN
+                                                                                                    Radio/CD/USB/DAB                                               Serie/-/Serie/Serie
+ Überholvorgang 60-100 km/h (in Fahrstufe D)                    3,7 s
+                                                                                                    Bluetooth-Freisprecheinrichtung                                              Serie
+ Elastizität 60-100 km/h                                            -
+                                                                                                    Navigationssystem                                                            Serie
+ Drehzahl bei 130 km/h                                              -
+                                                                                                    Elektrische Fensterheber vorn/hinten                                         Serie
+ Bremsweg aus 100 km/h                                       35,7 m
+                                                                                                    Klimaanlage manuell/automatisch                                            -/Serie
+ Reifengröße Testwagen                              235/45 R19 99V
+                                                                                                    Autom. abblend. Innen-/Außenspiegel                                        Serie/-
+ Reifenmarke Testwagen                            Nexen N Fera Sport
+                                                                                                    Sitzheizung vorn/hinten                              Serie/ab 1.000 Euro° (Paket)
+ Wendekreis links/rechts                                10,4/10,3 m
+                                                                                                    Lenkradheizung                                                               Serie
+ Ecotest-Verbrauch                                 18,8 kWh/100km
+                                                                                                    Höheneinstellbarer Fahrer-/Beifahrersitz                                     Serie
+ Stadt/Land/BAB                                                  k.A.
+                                                                                                    Rücksitzlehne umklappbar                                                     Serie
+ CO₂-Ausstoß Ecotest                         0 g/km (WTW* 94 g/km)
+                                                                                                    AUSSEN
+ Reichweite                                                  410 km
+                                                                                                    Anhängerkupplung                                                            Zubehör
+ Innengeräusch 130 km/h                                   67,6 dB(A)
+                                                                                                    Metalliclackierung                                                        650 Euro°
+ Fahrzeugbreite (inkl. Außenspiegel)                      2.110 mm
+                                                                                                    Schiebedach/Panoramaglasdach                                               700 Euro
+ Leergewicht/Zuladung                                  1.762/458 kg
+ Kofferraum normal/geklappt/dachhoch                350/775/1.320 l
+                                                                                                    TESTURTEIL
+  KOSTEN (pro Monat, fünfjährige Haltung, 15.000 km/Jahr)                                                                                                                             2,0
+                                                                                                    AUTOTEST (ohne Autokosten)
+ Betriebskosten                    102 Euro Werkstattkosten                        66 Euro
+                                                                                                    AUTOKOSTEN                                                                        2,7
+ Fixkosten                         117 Euro Wertverlust                           482 Euro
+ Monatliche Gesamtkosten                                                         767 Euro           KATEGORIE                     NOTE KATEGORIE                                  NOTE
+                                                                                                    Karosserie/Kofferraum             2,7 Motor/Antrieb                                1,1
+ Steuer pro Jahr                                                                  68 Euro
+                                                                                                    Verarbeitung                      3,6      Fahrleistungen                         1,3
+ Versicherungs-Typklassen KH/VK/TK                                              16/25/24
+                                                                                                    Alltagstauglichkeit               3,1      Laufkultur/Leistungsentfaltung         1,1
+ Basispreis Kona Elektro (65,4 kWh) Prime-Paket                               50.690 Euro
+                                                                                                    Licht und Sicht                   3,1      Schaltung/Getriebe                     0,9
+  INFORMATIONEN ZUM TESTFAHRZEUG                                                                    Ein-/Ausstieg                     2,1      Fahreigenschaften                      2,5
+                                                                                                    Kofferraum-Volumen                2,6      Fahrstabilität                         2,4
+ Pressefahrzeug                                                            EZ: 30.08.2023
+                                                                                                    Kofferraum-Nutzbarkeit            2,3      Lenkung                                2,2
+ Testwagenpreis inkl. Sonderausstattung                                       55.290 Euro
+                                                                                                    Kofferraum-Variabilität           2,0      Bremse                                 2,7
+ Km-Stand bei Testbeginn                                                         2.324 km
+ Auffälligkeiten/Mängel                                                              keine          Innenraum                          2,1 Sicherheit                                  2,1
+Dieser ADAC Autotest wurde nach dem seit 01.02.2019 gültigen Testprotokoll erstellt und ist nicht   Bedienung                         2,1      Aktive Sicherheit - Assistenzsysteme   1,3
+mit älteren Autotests vergleichbar. Die Autokosten basieren auf dem seit 01.02.2019 gültigen Be-    Multimedia/Konnektivität          1,8      Passive Sicherheit - Insassen          2,3
+rechnungsmodell. Stets aktuelle Autokosten aller Modelle finden Sie unter www.adac.de/autokos-
+ten. Alle Bewertungen wurden nach strengen Qualitätsvorgaben und nach bestem Wissen und
+                                                                                                    Raumangebot vorn                  1,7      Kindersicherheit                       2,5
+Gewissen erstellt. Für die Richtigkeit aller erhobenen Daten und Aussagen wird die Haftung aus-     Raumangebot hinten                2,3      Fußgängerschutz                        3,7
+geschlossen. Alle Angaben ohne Gewähr. *WTW: (Well-to-Wheel): Der angegebene CO2-Ausstoß            Innenraum-Variabilität            3,4
+beinhaltet neben den gemessenen CO2-Emissionen auch die CO2-Emissionen, welche für die Be-                                                     Umwelt/EcoTest                          1,3
+reitstellung des Kraftstoffs entstehen. Durch die Well-to-Wheel Betrachtung ist eine bessere Ver-   Komfort                           2,4      Verbrauch/CO2                          0,8
+gleichbarkeit mit alternativen Antriebskonzepten (z.B. E-Fahrzeug) möglich. 1 Steuer nach WLTP-
+Zyklus für Fahrzeug in Serienausstattung. Die individuelle Steuer kann hiervon abweichen.
+                                                                                                    Federung                          2,5      Schadstoffe                            1,8
+                                                                                                    Sitze                             2,5
+Notenskala                                                                                          Innengeräusch                     2,8                             Stand: Dezember 2023
+                                                                                                                                                                Test und Text: M. Ruhdorfer
+     sehr gut (0,6 – 1,5)    gut (1,6 – 2,5)   befriedigend (2,6 – 3,5)                             Klimatisierung                    2,0
+     ausreichend (3,6 – 4,5)     mangelhaft (4,6 – 5,5)
+
+
+         Autotest                                                                                                                              © ADAC e.V. | Seite 14
+
