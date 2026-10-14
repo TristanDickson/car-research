@@ -164,6 +164,9 @@ export const FIELDS: Field[] = [
   { ...n("recalls", "recalls_count", "UK safety recalls naming the model", "Tests and reliability", "", 0, 1, "Recalls"),
     title: "Every DVSA safety recall since 2012 that names the model, earlier generations included; the car page lists them" },
   t("recalls_latest", "recalls_latest", "Latest UK safety recall", "Tests and reliability", "Latest recall"),
+  { ...n("us_recalls", "us_recalls_count", "US safety recalls naming the model", "Tests and reliability", "", 0, 1, "US recalls"),
+    title: "Every NHTSA safety recall of the US cars since model year 2019; blank where the model is not sold in the US; the car page lists them" },
+  t("us_recalls_latest", "us_recalls_latest", "Latest US safety recall", "Tests and reliability", "Latest US recall"),
 
   // Safety and warranty
   n("ncap", "ncap_stars", "Euro NCAP stars", "Safety and warranty", "", 0, 1, "NCAP ★"),

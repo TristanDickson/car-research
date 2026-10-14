@@ -82,6 +82,8 @@ ADAC_FIELDS = ("adac_total", "adac_suspension", "adac_comfort", "adac_build", "a
 WHATCAR_FIELDS = ("whatcar_reliability_pct", "whatcar_reliability", "whatcar_faulty_pct", "whatcar_repairs_free_pct", "whatcar_off_road_week_pct")
 RECALL_FIELDS = ("recalls_count", "recalls_latest", "recalls")
 NUMBERS = NUMBERS + ADAC_FIELDS + WHATCAR_FIELDS + RECALL_FIELDS
+US_RECALL_FIELDS = ("us_recalls_count", "us_recalls_latest", "us_recalls")   # NHTSA's register (providers/nhtsa_recalls.py)
+NUMBERS = NUMBERS + US_RECALL_FIELDS
 ENGINE_FIELDS = ("battery_kwh", "wltp_range_mi", "power_hp", "zero_to_62_s", "top_speed_mph", "efficiency_mi_kwh", "ac_kw", "drive", "dc_peak_kw", "dc_10_80_min")
 BODY_FIELDS = ("seats", "doors", "boot_l", "boot_max_l", "turning_circle_m", "wheelbase_m", "length_mm", "width_mm", "height_mm")
 NUMBER_ALIASES = {"zero_to_60_s": "zero_to_62_s", "power_bhp": "power_hp", "kerb_weight_kg": "weight_kg"}
@@ -536,6 +538,115 @@ def from_recalls(store: Store, rows: list[dict], catalogue: list[dict]) -> None:
         store.add(sub, Claim("recalls", "\n".join(recall_text(x) for x in recalls), "measured", src, label))
 
 
+US_REF_RE = re.compile(r"\b(\d\d)([VEC])-?(\d{3})(?:000)?\b")
+US_FOLLOWED_RE = re.compile(r"\b(?:replaced|superseded|superceded) by\b", re.I)
+US_NOT_HELD_RE = re.compile(r"previously (?:repaired|remedied|recalled)|already (?:repaired|remedied)|(?:repaired|remedied) (?:incorrectly|improperly)"
+                            r"|incorrectly (?:repaired|completed)|improper (?:interim )?repair|repaired again|need to have the new", re.I)
+US_REPLACES_RE = re.compile(r"\b(?:replaces|supersedes|supercedes)\b", re.I)
+US_EXPANDS_RE = re.compile(r"\b(?:expands|expansion|expanded)\b", re.I)
+US_LINK_RANK = {"mentions": 0, "expands": 1, "replaces": 2, "not_held": 3}
+US_PREVIOUS_RE = re.compile(r"\b(?:previous|earlier) recalls?\b", re.I)
+US_BOILERPLATE_RE = re.compile(r"letters|owners may (?:also )?contact|customer service|numbers? for this recall|became searchable|recall began|"
+                               r"vehicle safety hotline|www\.nhtsa\.gov|^note:?$", re.I)
+
+
+def _sentences(s: str) -> list[str]:
+    return [x.strip() for x in re.split(r"(?<=\.)\s+|\s*\|\|\s*", s or "") if x.strip()]
+
+
+def us_recall_links(r: dict) -> tuple[dict[str, str], list[str]]:
+    """What a US recall's text says of other recalls: ({number it follows: how}, [numbers it says replaced it]).
+    How, strongest first: not_held (cars it names were fixed under the other and need the fix again), replaces,
+    expands (more cars), mentions."""
+    follows: dict[str, str] = {}
+    replaced_by: list[str] = []
+    again = False   # "Vehicles repaired under the previous recall will need to have the new remedy completed."
+    for s in _sentences(f"{r.get('defect')} || {r.get('remedy')} || {r.get('notes')}"):
+        refs = [f"{a}{b}-{c}" for a, b, c in US_REF_RE.findall(s) if f"{a}{b}-{c}" != r["number"]]
+        if not refs:
+            again = again or bool(US_NOT_HELD_RE.search(s) and US_PREVIOUS_RE.search(s))
+            continue
+        if US_FOLLOWED_RE.search(s):
+            replaced_by += [n for n in refs if n not in replaced_by]
+            continue
+        how = ("not_held" if US_NOT_HELD_RE.search(s) else "replaces" if US_REPLACES_RE.search(s)
+               else "expands" if US_EXPANDS_RE.search(s) else "mentions")
+        for n in refs:
+            if US_LINK_RANK[how] > US_LINK_RANK.get(follows.get(n, ""), -1):
+                follows[n] = how
+    if again:
+        follows = {n: "not_held" if how in ("replaces", "expands") else how for n, how in follows.items()}
+    return follows, replaced_by
+
+
+def us_recalls_by_model(recalls: list[dict]) -> dict[str, list[dict]]:
+    """catalogue slug → its US recalls, newest first: each with the model years and names it lists for the model,
+    what it follows (and how) and what followed it."""
+    out: dict[str, list[dict]] = {}
+    for r in recalls:
+        follows, replaced_by = us_recall_links(r)
+        slugs = sorted({s for v in r["vehicles"] for s in v["models"]})
+        for slug in slugs:
+            mine = [v for v in r["vehicles"] if slug in v["models"]]
+            out.setdefault(slug, []).append({
+                **{k: r.get(k) for k in ("number", "reported", "defect", "remedy", "units", "built_from", "built_to", "do_not_drive", "park_outside")},
+                "years": sorted({v["year"] for v in mine}), "names": sorted({v["model"] for v in mine}),
+                "follows": follows, "replaced_by": list(replaced_by)})
+    for slug, xs in out.items():
+        for x in xs:
+            later = [(y["number"], y["follows"][x["number"]]) for y in xs if x["number"] in y["follows"]]
+            later += [(n, "replaces") for n in x["replaced_by"] if n not in {m for m, _ in later}]
+            x["followed_by"] = sorted(later)
+        out[slug] = sorted(xs, key=lambda x: (x["reported"] or "", x["number"]), reverse=True)
+    return out
+
+
+def us_recall_text(x: dict) -> str:
+    """One US recall in a line, in the UK reader's style: when, what, the fix, which cars, and whether it follows a
+    fix that did not hold or was itself replaced."""
+    fix = " ".join(s for s in _sentences(x["remedy"]) if not US_BOILERPLATE_RE.search(s) and not US_REF_RE.search(s))
+    years = x["years"]
+    cars = f"{years[0]} model year" if len(years) == 1 else f"{years[0]} to {years[-1]} model years"
+    if x["built_from"]:
+        cars += f" built {_day(x['built_from'])} to {_day(x['built_to'])}"
+    units = f" ({x['units']:,} US vehicle{'s' if x['units'] != 1 else ''} in the recall)" if x["units"] else ""
+    follows = {"not_held": "Follows {}, a fix that did not hold", "replaces": "Replaces {}", "expands": "Widens {} to more cars", "mentions": "Names {}"}
+    followed = {"not_held": "Cars it fixed were recalled again under {}", "replaces": "Replaced by {}", "expands": "Widened by {}", "mentions": "Named by {}"}
+    links = ""
+    for said, pairs in ((follows, x["follows"].items()), (followed, x["followed_by"])):
+        for how in ("not_held", "replaces", "expands", "mentions"):
+            ns = sorted(n for n, h in pairs if h == how)
+            if ns:
+                text = said[how].format(", ".join(ns))
+                links += " " + (text.replace("a fix that did not hold", "fixes that did not hold") if len(ns) > 1 else text) + "."
+    advice = (" NHTSA: do not drive it until repaired." if x["do_not_drive"] else "") + (" NHTSA: park it outside until repaired." if x["park_outside"] else "")
+    return (f"{_day(x['reported'])}, {x['number']}: {x['defect']}{' Fix: ' + fix if fix else ''} {cars}{units}, "
+            f"listed as {', '.join(x['names'])}.{advice}{links}")
+
+
+def from_us_recalls(store: Store, rows: list[dict], catalogue: list[dict]) -> None:
+    """NHTSA's recalls of each catalogue model sold in the US: how many, the latest, each in a line; and for a model
+    not sold there, or filed under a name its petrol cars share, a line that says so."""
+    for row in rows:
+        by = us_recalls_by_model(row.get("recalls") or [])
+        sold, shared = set(row.get("sold_in_us") or []), row.get("shared_names") or {}
+        src, seen = "NHTSA safety recalls (US)", (row.get("last_seen_at") or row.get("observed_at") or "")[:10] or None
+        for m in catalogue:
+            slug, name, sub = m["slug"], m.get("model_name") or m["slug"].split("/")[-1], _model_sub(m)
+            label = f"{src} · every US recall naming the {name} since model year 2019"
+            if slug in sold:
+                recalls = by.get(slug) or []
+                store.add(sub, Claim("us_recalls_count", len(recalls), "measured", src, label, seen=seen))
+                if recalls:
+                    store.add(sub, Claim("us_recalls_latest", recalls[0]["reported"], "measured", src, label, seen=seen))
+                text = "\n".join(us_recall_text(x) for x in recalls) or f"No US recall names the {name} since model year 2019."
+            elif slug in shared:
+                text = f"Sold in the US, but NHTSA files its recalls under {shared[slug]} with the petrol and hybrid cars of that name, so they are not told apart."
+            else:
+                text = f"Not sold in the US: NHTSA lists no {m.get('make_name') or m['make'].title()} {name} since model year 2019."
+            store.add(sub, Claim("us_recalls", text, "measured", src, label, seen=seen))
+
+
 def _maker_verdicts(row: dict) -> dict[str, str]:
     """Every flag a maker's row speaks to: standard (●), option (○, an extra), none (a printed -),
     or unlisted (a complete list that prints no blanks of its own does not name it: not fitted,
@@ -919,6 +1030,7 @@ def build_store(cars: list[dict], specs: list[dict], catalogue: list[dict], deri
     from_adac(store, [sp for sp in specs if sp.get("provider") == "adac"], catalogue)
     from_whatcar(store, [sp for sp in specs if sp.get("provider") == "whatcar"], catalogue)
     from_recalls(store, [sp for sp in specs if sp.get("provider") == "dvsa_recalls"], catalogue)
+    from_us_recalls(store, [sp for sp in specs if sp.get("provider") == "nhtsa_recalls"], catalogue)
     from_maker_specs(store, [sp for sp in specs if sp.get("provider") in MAKER_PROVIDERS])
     from_evdb(store, [sp for sp in specs if sp.get("provider") == "evdb"], catalogue, [sp for sp in specs if sp.get("provider") == "evdb_cars"])
     from_registry(store, derivatives)

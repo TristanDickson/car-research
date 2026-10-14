@@ -28,6 +28,7 @@ from pipeline.providers import (
     manual_seed,
     motorpoint_used,
     ncd,
+    nhtsa_recalls,
     rrg,
     whatcar,
 )
@@ -64,6 +65,7 @@ PROVIDERS: dict[str, Provider] = {
         adac.provider,            # ADAC's test of each model (ride, build quality, space) and its breakdown statistics (a batch a night)
         whatcar.provider,         # What Car?'s owner reliability survey, per model
         dvsa_recalls.provider,    # every UK safety recall, laid over the models by the build (Chrome downloads the file)
+        nhtsa_recalls.provider,   # every US safety recall (NHTSA), laid over the models sold there by the build
         carwow_used.provider,      # used stock per model: the 'buy used' route and the residual evidence
         cinch_used.provider,       # more used stock, with registrations; the snapshot folds the sources
         motorpoint_used.provider,  # nearly-new stock: what a car is worth after a PCP term

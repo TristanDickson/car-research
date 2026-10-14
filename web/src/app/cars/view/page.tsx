@@ -166,6 +166,20 @@ function CarView() {
         </Card>
       )}
 
+      {c.us_recalls && (
+        <Card title={c.us_recalls_count != null ? `US safety recalls · ${c.us_recalls_count}` : "US safety recalls"}>
+          <ul className="space-y-2 text-sm text-gray-300">
+            {c.us_recalls.split("\n").map((line) => <li key={line.slice(0, 40)}>{line}</li>)}
+          </ul>
+          <p className="mt-3 text-xs text-gray-500">
+            The US register (NHTSA), not the UK one: every recall of the US cars since model year 2019 that names the model,
+            newest first, with the number of US vehicles in each recall. It says more often than the UK register when a fix did
+            not hold and a later recall replaced it. A UK car may not share the part or the build recalled; for a UK car the
+            UK register is the one that applies.
+          </p>
+        </Card>
+      )}
+
       {c.notes && (
         <Card title="Notes">
           <p className="text-sm text-gray-300">{c.notes}</p>

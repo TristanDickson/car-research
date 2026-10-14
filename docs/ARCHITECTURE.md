@@ -27,6 +27,7 @@ providers (discover → fetch → parse)       pipeline/providers/*      Python,
    adac            adac.de (live)            ADAC's Autotest of each model (ride, build quality, space grades) and its breakdown statistics
    whatcar         whatcar.com (live)        What Car?'s owner reliability survey: rating, place in class, common faults per model
    dvsa_recalls    check-vehicle-recalls (live)  every UK safety recall, downloaded by Chrome (scripts/fetch-with-chrome.mjs); laid over the models at export
+   nhtsa_recalls   static.nhtsa.gov (live)   every US safety recall, NHTSA's download (weekly); laid over the models sold in the US at export
    carwow_used     quotes.carwow.co.uk        used stock per model: derivative, price, year, mileage (the buy-used route; residual evidence)
    cinch_used      search-api...cinch.co.uk   used stock per make (electric), with registrations; folded with the others per model
    motorpoint_used motorpoint.co.uk           the supermarket's electric stock, nearly new; list price when new per car
