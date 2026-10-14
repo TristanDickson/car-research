@@ -44,8 +44,8 @@ export function Badge({ tone = "muted", children, title }: { tone?: Tone; childr
   );
 }
 
-const TRI_TONE: Record<Tri, Tone> = { standard: "good", pack: "info", option: "info", none: "bad", unknown: "muted" };
-const TRI_LABEL: Record<Tri, string> = { standard: "std", pack: "pack", option: "option", none: "no", unknown: "?" };
+const TRI_TONE: Record<Tri, Tone> = { standard: "good", pack: "info", option: "info", listed: "info", none: "bad", unknown: "muted" };
+const TRI_LABEL: Record<Tri, string> = { standard: "std", pack: "pack", option: "option", listed: "std or opt", none: "no", unknown: "?" };
 
 export function TriBadge({ value, detail }: { value?: Tri; detail?: string }) {
   const v: Tri = value ?? "unknown";

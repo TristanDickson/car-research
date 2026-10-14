@@ -43,8 +43,9 @@ class Cards(unittest.TestCase):
 
     def test_heat_pump_wording_is_read_as_a_tri_state(self):
         for r in self.rows:
-            self.assertIn(r["flags"].get("heat_pump"), ("none", "standard", "option"))
-        self.assertEqual(next(r for r in self.rows if r["model"] == "INSTER Long Range")["flags"]["heat_pump"], "option", "'available' is offered, not promised standard")
+            self.assertIn(r["flags"].get("heat_pump"), ("none", "standard", "listed"))
+        self.assertEqual(next(r for r in self.rows if r["model"] == "INSTER Long Range")["flags"]["heat_pump"], "listed",
+                         "'available' is standard or an option; the card does not say which")
 
 
 class Overlays(unittest.TestCase):

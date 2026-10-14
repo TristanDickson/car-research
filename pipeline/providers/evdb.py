@@ -68,10 +68,10 @@ def parse_card(card: str, url: str, observed_at: str) -> dict | None:
     make, model = text(title.group(2)), text(title.group(3))
     wh_mi = _num(_spec(card, "efficiency"))
     # The index says only 'available' or 'not available': available is listed (standard or
-    # option, the card does not say), not available is a definite none.
+    # option, the card does not say; the car page, evdb_cars, does), not available is a definite none.
     heat = re.search(r'data-tooltip="Heat pump ([^"]*)"', card)
     heat_txt = (heat.group(1) if heat else "").lower()
-    heat_pump = None if not heat_txt else "none" if "not" in heat_txt else "standard" if heat_txt.startswith("standard") else "option"
+    heat_pump = None if not heat_txt else "none" if "not" in heat_txt else "standard" if heat_txt.startswith("standard") else "listed"
     v2l = re.search(r'data-tooltip="Vehicle-2-Load Bi-directional charging ([^"]*)"', card)
     v2l_ok = bool(v2l) and "not" not in v2l.group(1).lower()
     seats = re.search(r'data-tooltip="Number of seats">.*?<span>(\d+)</span>', card, re.S)

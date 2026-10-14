@@ -240,4 +240,4 @@ export function show(x: Field, v: ReturnType<Field["value"]>): string {
   return String(v);
 }
 
-export const triOf = (v: unknown): Tri => (v === "standard" || v === "pack" || v === "option" || v === "none" ? v : "unknown");
+export const triOf = (v: unknown): Tri => (v === "standard" || v === "pack" || v === "option" || v === "listed" || v === "none" ? v : "unknown");

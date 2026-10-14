@@ -60,8 +60,9 @@ from pipeline.services.facts import model_of, pick_variant
 from pipeline.services.features import FLAGS, flags_for, wheel_size, wheel_sizes
 
 EQUIPMENT: tuple[str, ...] = tuple(FLAGS)
-TRI = ("standard", "pack", "option", "none")
-TRI_RANK = {"standard": 3, "pack": 2, "option": 1, "none": 0}
+# listed: the car has it, standard or as an option, the source does not say which (EV Database's index card).
+TRI = ("standard", "pack", "option", "listed", "none")
+TRI_RANK = {"standard": 3, "pack": 2, "option": 1, "listed": 1, "none": 0}
 
 # The car record's own names for some flags (the brief and the UI read these), and booleans.
 CAR_TRI = {"heat_pump": "heat_pump", "internal_v2l": "v2l_internal", "external_v2l": "v2l_external"}
@@ -1064,7 +1065,8 @@ def _agree(cands: list[tuple[tuple, Claim]], bucket_of=lambda rank: rank) -> Res
 def resolve_equipment(field: str, subjects: list[tuple[str, str]], store: Store) -> Resolved:
     """Is it fitted? The strongest kind of claim across the car's levels must agree (standard, none,
     or what a curated car or EV Database says). A verdict of none means not fitted as standard:
-    where a pack or an option offers it, the answer is that pack or option, whoever said none."""
+    where a pack or an option offers it, the answer is that pack or option, whoever said none. So does a
+    verdict of listed (standard or option, not said which)."""
     cands: list[tuple[tuple, Claim]] = []
     for level, key in subjects:
         lr = LEVEL_ORDER.index(level)
@@ -1089,7 +1091,7 @@ def resolve_equipment(field: str, subjects: list[tuple[str, str]], store: Store)
         if r.claim is not None:
             best = EQUIP_RANK[r.claim.kind]
             r.overruled = [c for rank, c in fitted if rank[0] != best and c.kind in OVERRULED_KINDS and str(c.value) != str(r.value)] or None
-        if r.claim is None or r.value != "none" or not offers:
+        if r.claim is None or r.value not in ("none", "listed") or not offers:
             return r
         return Resolved(offers[0][1].value, offers[0][1], overruled=r.overruled)
     return Resolved(offers[0][1].value, offers[0][1])

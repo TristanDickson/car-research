@@ -33,6 +33,10 @@ describe("query", () => {
     expect(matches(unknown, ctx(), narrow)).toBe(false);
     expect(matches(unknown, ctx(), { ...narrow, keepUnknown: true })).toBe(true);
     expect(matches(known, ctx(), { ...narrow, keepUnknown: true })).toBe(false);   // too wide, and 'none' is an answer
+    const either = car({ flags: { v2l_internal: "listed" } } as never);   // standard or an option, not said which
+    expect(matches(either, ctx(), { ...EMPTY_QUERY, facets: { "flag:v2l_internal": "standard" } })).toBe(false);
+    expect(matches(either, ctx(), { ...EMPTY_QUERY, facets: { "flag:v2l_internal": "standard" }, keepUnknown: true })).toBe(true);
+    expect(matches(either, ctx(), { ...EMPTY_QUERY, facets: { "flag:v2l_internal": "listed" } })).toBe(true);
     const qs = serializeQuery({ ...narrow, keepUnknown: true });
     expect(qs).toContain("unknown=keep");
     expect(parseQuery(new URLSearchParams(qs)).keepUnknown).toBe(true);

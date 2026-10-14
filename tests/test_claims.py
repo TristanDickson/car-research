@@ -125,6 +125,17 @@ class Precedence(unittest.TestCase):
         self.assertNotIn("glass_roof", c["flags"])
         self.assertEqual(sorted(c["disagreements"]), ["glass_roof"])
 
+    def test_standard_or_option_stays_so_until_a_source_prices_the_option(self):
+        store = Store()
+        t = claims.trim_subject("Kia", "EV3", "Air")
+        store.add(t, claims.Claim("heat_pump", "listed", "available", "EV Database", "EV Database · EV3 Air"))
+        store.add(t, claims.Claim("glass_roof", "listed", "available", "EV Database", "EV Database · EV3 Air"))
+        store.add(t, claims.Claim("glass_roof", "option", "option", "Carwow configurator", "Carwow configurator · Glass roof", 900.0))
+        c = {"id": "carwow-cap:9", "auto": True, "cap_id": "9", "make": "Kia", "model": "EV3", "trim": "Air · 150kW 58kWh Auto", "variant": "150kW 58kWh Auto"}
+        resolve_car(c, store)
+        self.assertEqual(c["heat_pump"], "listed")
+        self.assertEqual(c["flags"]["glass_roof"], "option")
+
     def test_ev_database_decides_between_option_and_none_when_the_list_is_silent_and_agrees_across_variants(self):
         rows = [{"provider": "evdb", "spec_key": "evdb:1", "make": "Skoda", "model": "Elroq 60", "numbers": {"battery_usable_kwh": 59.0, "dc_avg_kw": 110.0}, "flags": {"heat_pump": "option"}, "source_url": "u1"},
                 {"provider": "evdb", "spec_key": "evdb:2", "make": "Skoda", "model": "Elroq 85", "numbers": {"battery_usable_kwh": 77.0, "dc_avg_kw": 130.0}, "flags": {"heat_pump": "option"}, "source_url": "u2"}]

@@ -390,6 +390,17 @@ rejected by that rule fails in two seconds with no runner and no logs.
   owner asked to work around it ("This is a personal product not a commercial one"), so Chrome
   downloads the file (`scripts/fetch-with-chrome.mjs`, about 15 s). 141 models have a recall; the
   car page lists them, and one that follows a fix that did not hold says so.
+- **2026-10-14 (evening)** The owner: "rear seat reading and any other features we've talked
+  about are a yes if they're buildable". Built, each by an agent on its own branch and merged:
+  Carwow's review per model (`carwow_model`), whose back-seat section's sentences about knees,
+  thighs and a high floor are a field (162 models); leg, head and shoulder room by row where the
+  makers print it (the Ioniq 6 guide and the PV5 Passenger page only); and ADAC's own measurements
+  from each test's PDF (`adac`, the `pdf` capability: tyres tested, boot, braking, noise at 130 km/h,
+  test-cycle range, charging). Also two labels that said more than the source: "Vehicle-to-load
+  (V2L) capability" alone no longer marks a cabin socket, and EV Database's index card, which
+  says only that a heat pump is "available", now shows "std or opt" rather than "option" (188 cars
+  on sale showed a heat pump "option" on EV Database's word, Teslas among them, some of them from
+  the car's own EV Database page, which does say which).
 - **2026-10-14 (later)** The owner: "build a generic app for me to explore car prices and plan
   upgrades regardless of starting vehicle". The app had the current Ioniq 5's width written into
   every card ("width versus the Ioniq 5"), and the pipeline exported a fixed requirement check per

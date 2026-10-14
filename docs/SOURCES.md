@@ -306,6 +306,9 @@ towing, boot, price, seats, and hidden availability dates.
 
 - **Read:** since 11 Oct the hidden dates too: 635 of 1,105 cards are discontinued, and a
   variant's on-sale state now comes from them.
+- **Heat pump:** the card says only "available" or "not available", and "available" covers
+  standard and option. Since 14 Oct the car shows "std or opt" until its own page
+  (`evdb_cars`) or a priced option says which; before, it showed "option".
 - **Left:** the BCH lease headline (business hire, of no use to the household).
 
 ### evdb_cars

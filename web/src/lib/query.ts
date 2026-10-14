@@ -181,11 +181,12 @@ function rangeValue(key: RangeKey, c: SnapshotCar, ctx: CarContext): number | nu
   return typeof v === "number" && Number.isFinite(v) ? v : null;
 }
 
-/** Does the car have the facet, and if so how: 'standard', 'option' (listed as an option or in a pack), or null. */
-export function facetValue(token: string, c: SnapshotCar, ctx: CarContext): "standard" | "option" | null {
+/** Does the car have the facet, and if so how: 'standard', 'option' (listed as an option or in a pack),
+ * 'listed' (standard or an option, the source does not say which), or null. */
+export function facetValue(token: string, c: SnapshotCar, ctx: CarContext): "standard" | "option" | "listed" | null {
   if (token.startsWith("flag:")) {
     const v = c.flags?.[token.slice(5)];
-    return v === "standard" ? "standard" : v === "option" || v === "pack" ? "option" : null;
+    return v === "standard" ? "standard" : v === "option" || v === "pack" ? "option" : v === "listed" ? "listed" : null;
   }
   if (token.startsWith("route:")) return ctx.costs.byRoute[token.slice(6) as keyof CarCosts["byRoute"]] ? "standard" : null;
   switch (token) {
@@ -196,12 +197,15 @@ export function facetValue(token: string, c: SnapshotCar, ctx: CarContext): "sta
   return null;
 }
 
-/** Does any source say whether the car has it ('none' is an answer; no value is not)? */
-function facetKnown(token: string, c: SnapshotCar): boolean {
-  return token.startsWith("flag:") ? c.flags?.[token.slice(5)] != null : true;
+/** Does any source say whether the car has it ('none' is an answer; no value is not)? Asked for it as standard,
+ * 'standard or an option' is not an answer either. */
+function facetKnown(token: string, c: SnapshotCar, state: FacetState): boolean {
+  if (!token.startsWith("flag:")) return true;
+  const v = c.flags?.[token.slice(5)];
+  return v != null && !(state === "standard" && v === "listed");
 }
 
-function facetHolds(state: FacetState, value: "standard" | "option" | null): boolean {
+function facetHolds(state: FacetState, value: "standard" | "option" | "listed" | null): boolean {
   if (state === "standard") return value === "standard";
   if (state === "listed") return value !== null;
   return true;
@@ -229,7 +233,7 @@ export function matches(c: SnapshotCar, ctx: CarContext, f: Query): boolean {
     if (s === "hide" && facetValue(tok, c, ctx) !== null) return false;
   }
   if (wanted.length) {
-    const holds = wanted.map(([tok, s]) => facetHolds(s, facetValue(tok, c, ctx)) || (f.keepUnknown && !facetKnown(tok, c)));
+    const holds = wanted.map(([tok, s]) => facetHolds(s, facetValue(tok, c, ctx)) || (f.keepUnknown && !facetKnown(tok, c, s)));
     if (f.mode === "all" ? !holds.every(Boolean) : !holds.some(Boolean)) return false;
   }
   return true;

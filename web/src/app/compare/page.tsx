@@ -19,7 +19,7 @@ export default function ComparePage() {
   );
 }
 
-const tri = (v?: Tri) => (v === "standard" ? "yes" : v === "pack" || v === "option" ? "with pack" : v === "none" ? "no" : "?");
+const tri = (v?: Tri) => (v === "standard" ? "yes" : v === "pack" || v === "option" ? "with pack" : v === "listed" ? "yes or option" : v === "none" ? "no" : "?");
 
 function Compare() {
   const ids = (useSearchParams().get("ids") ?? "").split(",").filter(Boolean).slice(0, 4);

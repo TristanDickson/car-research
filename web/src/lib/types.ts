@@ -10,7 +10,7 @@ export interface SnapshotManifest {
 
 /** standard = fitted on this trim; pack/option = available for this trim via a
  * named pack or option; none = not available; unknown = not captured. */
-export type Tri = "standard" | "pack" | "option" | "none" | "unknown";
+export type Tri = "standard" | "pack" | "option" | "listed" | "none" | "unknown";
 
 /** gone = the latest check did not find the offer; expired = past valid_to or
  * the source said so; otherwise the status the source implied when last seen. */
@@ -636,8 +636,9 @@ export interface Requirements {
 
 
 /** standard = fitted; pack = available through a named pack (packs_required says which, pack_prices_gbp what it costs);
- * option = available on its own; none = not available; null / absent = no source says. */
-export type FlagState = "standard" | "pack" | "option" | "none" | null;
+ * option = available on its own; listed = standard or an option, the source does not say which (EV Database's index);
+ * none = not available; null / absent = no source says. */
+export type FlagState = "standard" | "pack" | "option" | "listed" | "none" | null;
 
 /** One scraped variant: a Carwow CAP derivative or a Kia grade × powertrain (× seats). */
 export interface SnapshotSpec {

@@ -122,6 +122,8 @@ def spec_check(car: dict, specs: list[dict]) -> dict:
                 verdict = "agrees"
             elif hand in ("pack", "option") and seen in ("option", "standard"):
                 verdict = "agrees"  # we specify the car with it fitted; the source lists it as fitted or fittable
+            elif hand in ("standard", "pack", "option") and seen == "listed":
+                verdict = "agrees"  # the source says fitted or fittable, not which
             elif hand == "none" and seen:
                 verdict = "source lists it"
             elif hand in (None, "unknown"):

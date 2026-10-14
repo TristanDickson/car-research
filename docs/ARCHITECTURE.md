@@ -507,7 +507,9 @@ sells elsewhere and neither lists nor offers here is not available); named (a br
 and maker (the maker's own table: ● fitted, - not fitted), the same strength; named_twin (a trim with a `[No X]` version has X on its other
 derivatives), included (through an included pack), curated_twin, listed (a standard list,
 or fitted by default), described, offered (through a pack, with its price), option (on its
-own, with its price), available (EV Database), absent (not in a complete standard list,
+own, with its price), available (EV Database; its index card says only that a car has it,
+standard or as an option, and the verdict is then "listed", shown as "std or opt", until a
+priced option or a stronger source says which), absent (not in a complete standard list,
 or not offered as an option or pack). Numbers rank by level, nearest first.
 
 The resolver takes a field's strongest kind across the car's levels and requires it to
@@ -522,7 +524,7 @@ three brokers is one `named` claim with three sightings, not three claims. What 
 source sets aside is kept on the car as `overruled`, so the car page can say that Hyundai's
 table ticked the heat pump the configurator does not sell on that trim. Every resolved field names
 its claim (`field_sources`, exported in the per-car detail file, not `cars.json`), `flags` carries all 29 equipment flags with a verdict
-(standard, pack, option, none), `packs_required` and `pack_prices_gbp` say which pack a
+(standard, pack, option, listed, none), `packs_required` and `pack_prices_gbp` say which pack a
 "pack" verdict leans on and what it costs, and the app prices the packs a car needs for
 the equipment a search asks for (`lib/query.ts` `searchPacks`). Nothing in the resolver names a feature: the heat
 pump, the cabin socket and the powered tailgate are three flags among the 29
