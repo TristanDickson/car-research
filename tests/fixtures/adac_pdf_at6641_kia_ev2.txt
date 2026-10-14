@@ -1,0 +1,965 @@
+                                                                                                      Autotest
+   Elektro-Motor
+   36.240 €
+   108 kW/147 PS
+   245 km
+   18,8 kWh pro 100 km
+
+
+
+
+    Kia EV2 (42,2 kWh) Earth                                                                        ADAC Urteil
+                                                                                                     2,4     Autotest
+    Fünftüriges SUV der Kleinwagenklasse
+                                                                                                     2,2     Autokosten
+
+    Der Kia EV2 ist ein neuer Wettbewerber im immer weiter umkämpften Feld der Elektro‐             ADAC Zielgruppencheck
+    kleinwagen. Der Stromer tritt im Test in der mittleren Ausstattungsvariante Earth mit der
+    kleinen der beiden Akkuvarianten ab einem Preis von 31.290 Euro an. So viel vorab: Trotz         3,0     Familie
+    kompakter 4,06 m Außenlänge legt der Koreaner eine ausgesprochen erwachsene Leistung
+                                                                                                     3,3     Stadtverkehr
+    an den Tag. Dabei kann er mit einem guten Raumangebot überzeugen, indem er sowohl für
+    die Insassen der ersten Reihe als auch für das Gepäck reichlich Platz bietet. Einzig in der      2,1     Senioren
+    zweiten Reihe wird es hinsichtlich der Beinfreiheit knapp. Dass man in einem Kleinwagen
+    unterwegs ist, spürt man abseits der Außenabmessungen nur selten. Der Federungskom‐              2,7     Langstrecke
+    fort ist für diese Fahrzeugklasse wirklich gut, wobei die beim Testwagen verbauten 16-Zoll-      3,1     Transport
+    Räder mit hoher Reifenflanke gute Voraussetzungen mitbringen. Auch im Bereich der Fahr‐
+    assistenzfunktionen lässt der EV2 seine Klassenzugehörigkeit in den Hintergrund rücken.          2,3     Fahrspaß
+    Schon serienmäßig sind in der günstigsten Variante viele gewöhnlicherweise aufpreispflich‐
+                                                                                                     2,3     Preis/Leistung
+    tige Helfer an Bord und mit dem optionalen Technology-Paket leistet der ausgereifte Auto‐
+    bahnassistent 2.0 eine zuverlässige Entlastung des Fahrers. Allerdings bestätigt sich bei der
+    ADAC Verbrauchsmessung, dass die Autobahn nicht der hauptsächliche Einsatzzweck des             Konkurrenten
+    Kleinwagens sein wird. Die 42,2 kWh große Batterie ermöglicht auf Basis des gemessenen          u.a. BYD Dolphin Surf,
+    Verbrauchs von 18,8 kWh pro 100 km nur eine mäßige Reichweite von 245 km. Fährt man             Citroen e-C3, Hyundai
+    besonders sparsam und profitiert von günstigen Temperaturen, knackt man auch die 300-
+    km-Marke. Nichtsdestotrotz ist der EV2 damit als Kurzstreckenauto einzustufen. Erfreulich       Ioniq 3, Renault R4 E-
+    ist in diesem Kontext das optionale 22-kW-Laden, das eine Volladung in nur 2 h ermöglicht       Tech, Skoda Epiq, VW
+    – perfekt für einen Ladestopp beim Einkaufen. Dass Kia von seinem neuesten Spross über‐         ID.Cross
+    zeugt ist, zeigt der Blick auf die teure Aufpreisliste. Selbst die Laderoutenplanung kostet
+    extra und ist nur in Verbindung mit zwei Paketen erhältlich. Der größte Patzer des ansons‐
+    ten guten EV2: die vermaledeiten Türgriffe, die serienmäßig nicht automatisch ausfahren.
+
+              gutes Raumangebot, angenehmer Federungskomfort,
+              umfassende Fahrassistenzfunktionen (optional), 22-kW-Laden
+              (optional)
+              geringe Reichweite, unergonomische Türgriffe,
+              Laderoutenplanung aufpreispflichtig, beengtes Raumangebot im                                        Alle Infos und Bilder
+              Fond                                                                                                auch digital auf
+                                                                                                                  adac.de
+
+
+
+© ADAC e.V.                                                                                                Kia EV2 (42,2 kWh) Earth ·1 von 16
+                                                                                                                                     Kia EV2 (42,2 kWh) Earth
+
+
+    Inhaltsverzeichnis
+      2,8 Karosserie                                                              03           2,6 Fahreigenschaften                                                       09
+    Verarbeitung                                                                  03          Fahrstabilität                                                                09
+    Alltagstauglichkeit                                                           03          Lenkung                                                                       10
+    Licht und Sicht                                                               03          Bremse                                                                        10
+    Ein-/Ausstieg                                                                 04
+    Kofferraum-Volumen                                                            05           2,4 Sicherheit                                                              10
+    Kofferraum-Nutzbarkeit                                                        05
+    Kofferraum-Variabilität                                                       05          Aktive Sicherheit                                                             10
+                                                                                              Passive Sicherheit                                                             11
+      2,7    Innenraum                                                           06           Kindersicherheit                                                               11
+                                                                                              Sicherheit ungeschützte Personen                                               11
+    Bedienung                                                                     06
+    Multimedia                                                                    07            2,1    Umwelt                                                               12
+    Raumangebot vorn                                                              07
+    Raumangebot hinten                                                            08          Verbrauch                                                                      12
+    Innenraum-Variabilität                                                        08          Umwelteinfluss                                                                 12
+
+      2,5    Komfort                                                             08            2,2 Autokosten                                                               12
+
+    Federung                                                                      08          Monatliche Gesamtkosten                                                        12
+    Sitze                                                                         08
+    Innengeräusch                                                                 09          Motorvarianten                                                                13
+    Klimatisierung                                                                09
+                                                                                              Eigenschaften des Elektroantriebs                                            14
+      1,2    Antrieb                                                             09           Fahrzeugdaten                                                                 15
+    Fahrleistungen                                                                09          Bilder                                                                        16
+    Laufkultur                                                                    09
+    Getriebe                                                                      09
+
+
+
+
+Notenskala
+    sehr gut 0,6 - 1,5        gut 1,6 - 2,5       befriedigend 2,6 - 3,5          ausreichend 3,6 - 4,5          mangelhaft 4,6 - 5,5
+
+Dieser ADAC Autotest wurde nach dem seit 01.02.2026 gültigen Testprotokoll erstellt und ist nicht mit älteren Autotests vergleichbar. Die Autokosten basieren auf dem seit 01.02.2026
+gültigen Berechnungsmodell. Stets aktuelle Autokosten aller Modelle finden Sie unter www.adac.de/autokosten. Alle Bewertungen wurden nach strengen Qualitätsvorgaben und nach
+bestem Wissen und Gewissen erstellt. Für die Richtigkeit aller erhobenen Daten und Aussagen wird die Haftung ausgeschlossen.
+
+
+
+
+       © ADAC e.V.                                                                                                                                                           2 von 16
+                                                                                                                    Kia EV2 (42,2 kWh) Earth
+
+
+
+
+2,8 Karosserie
+
+3,0 Verarbeitung                                                   Die Transportfähigkeiten sind überdurchschnittlich gut. Der
+                                                                   1.584 kg schwere Testwagen darf 506 kg zuladen, was für
+Der Kia EV2 verfügt über eine ordentlich gefer tigte Karosserie.   einen Kleinwagen stattlich ist. Gleiches gilt für die Stützlast,
+Die Spaltmaße verlaufen recht gleichmäßig und weitgehend           welche bis zu 100 kg betragen darf und damit sogar den
+schmal. Die Türen fallen satt ins Schloss, womit sich manche       Transport von mehreren schweren E-Bikes samt Träger er‐
+Premiumfahrzeuge zum dreifachen Preis sogar schwer tun. An         laubt. Auf dem Dach lassen sich Lasten bis 70 kg befestigen,
+Details erkennt man dennoch den Kostendruck: Am Innenrah‐          wobei die Reling serienmäßig verbaut ist und die Montage der
+men der Heckklappe verzichtet Kia auf den Klarlack und unter       Dachlast erleichtert. Die Anhängelast fällt kleinwagentypisch
+der Frontklappe ist das Blech nur noch weiß grundiert. Aller‐      gering aus. Egal, ob der Anhänger über eine eigene Bremse
+dings: Da sich darunter der Frunk befindet, wird die Klappe        verfügt oder nicht: Bei 750 kg ist das zulässige Maximum er‐
+gleich mit zwei Gasdruckfedern offengehalten, was das Öffnen       reicht.
+und Schließen erleichtert. Mancherorts spart sich der Herstel‐
+ler auch Verkleidungsteile, wobei an anderer Stelle unerwar te‐    Die Reichweite des EV2 wird den meisten Besitzern im Alltag
+terweise hochwertiges Material zum Einsatz kommt. So ist der       nur dann ausreichen, wenn sie den Stromer vorrangig als Kurz‐
+Bereich um den Frunk im Motorraum unverkleidet, während            streckenauto einsetzen. Legt man den Verbrauch der ADAC
+unter dem Kofferraumboden das Blech sogar mit Filz ausge‐          Verbrauchsmessung von 18,8 kWh/100 km (inkl. Ladeverluste)
+legt ist. An dieser Stelle lassen sich zahlreiche Modelle nen‐     zugrunde, erreicht er mit dem 42,2 kWh großen Akku eine ma‐
+nen, bei denen man selbst in höherklassigen Autos unverklei‐       ximale Reichweite von 245 km. Im Vergleich mit seinen Kon‐
+detes Blech vorfindet. Wiederum schade, aber typisch für asia‐     kurrenten ist das klassenüblich. Wer mehr benötigt, muss zum
+tische Hersteller: Die Seitenverkleidungen im Kofferraum sind      ebenfalls erhältlichen 61-kWh-Akku greifen.
+aus hartem und kratzempfindlichem Kunststoff gefertigt. Der
+                                                                   Durchschnittlich ist auch die Ladeperformance des 400-V-
+Unterboden ist vollständig verkleidet, was die Effizienz vor
+                                                                   Systems. Den Ladehub von 10 auf 80 Prozent absolviert der
+allem bei Autobahnetappen steigert. Trotz der Kritikpunkte
+                                                                   EV2 mit dem kleinen Akku im Test in 28 Minuten und erreicht
+hinterlässt der Kia in Summe einen soliden Eindruck – vor
+                                                                   dabei eine maximale Ladeleistung von 114 kW. Aber: Im Mittel
+allem für einen Kleinwagen.
+                                                                   sind es nur 65 kW, was einer mageren Ladeleistung entspricht.
+Gleiches gilt für den Innenraum. Die Bauteile, die man täglich     Bei Betrachtung der Ladekurve fällt auf, dass die Ladeleistung
+anfasst, sind erstaunlich solide montiert. Es gibt nur wenige      bereits nach kurzer Zeit sukzessive abfällt und kein Plateau
+Ausnahmen, die den guten Eindruck schmälern. So knarzt der         bietet, bei dem gleichmäßig viel Strom in den Akku fließt. Ab
+Innenspiegel beim Verstellen und die Mittelkonsole gibt beim       zehn Prozent Batterieladung werden in 10 Minuten etwa
+Abstützen leicht nach. Schlecht entgratete Kanten findet man       85 km Reichweite nachgeladen. Unter dem Strich liefert der
+nur dort, wo man selten hingreift. Wie ein vermeintlich einfa‐     Kia hier keine Spitzenleistungen ab, erweist sich aber als pra‐
+cher Kleinwagen fühlt sich der EV2 von Seiten der Verarbei‐        xistaugliches Elektroauto für den Kurzstreckeneinsatz. Das
+tungsqualität also nicht an. Was die Materialqualität angeht       Laden an der heimischen Wallbox oder am öffentlichen Lade‐
+allerdings schon, wobei es den Koreanern gelingt, dass den‐        punkt gelingt mit 11 kW (dreiphasig, 16 A) in rund 4 Stunden
+noch ein wohnliches und modernes Ambiente entsteht. Klas‐          angemessen schnell. Bestellt man die optionale 22-kW-
+sentypisch dominiert aber har ter Kunststoff von der Instru‐       Ladefunktion, reduziert sich die Ladezeit um die Hälfte. Das
+mententafel über die Türverkleidungen bis hin zu den Dach‐         ist vor allem dann nützlich, wenn man beim Einkaufen oder
+säulenabdeckungen. Auch der Himmel ist aus einfachem Ma‐           dem Bummel in der Stadt schnell viel nachladen möchte.
+terial – man kann es dem kleinen Stromer aber verzeihen. Im‐
+                                                                   Vorsicht bei der Ausstattung: Die Laderoutenplanung ist in der
+merhin gibt es bequem gepolsterte Armauflagen sowie Stoff‐
+                                                                   Variante Earth nur mit an Bord, wenn man das optionale
+einsätze in den ansonsten harten Türverkleidungen. Was her‐
+                                                                   "Technology-Paket" bestellt. Steuert man die Ladesäule bei
+vorsticht, sind die beim Testwagen ansprechend gestalteten
+                                                                   kalten Temperaturen an, bietet der Kia sowohl ein automati‐
+Sitzbezüge: Kia beweist Geschmack und spart hier nicht an der
+                                                                   sches (bei Navigation an den DC-Lader) als auch ein manuel‐
+falschen Stelle.
+                                                                   les Vorheizen der Batterie und zeigt dies dem Fahrer in der In‐
+                                                                   strumentenkombination an.
+ 3,3 Alltagstauglichkeit
+                                                                       Serienmäßig liegt ein Reifenreparatur-Set bei, das im Un‐
+Der fünfsitzige EV2 (vier vollwertige Sitze, ein Notsitz) misst    terschied zu einem Notrad aber nur bei kleinen Reifenschäden
+4,06 m in der Länge und ist inklusive der Außenspiegel 2,06 m      eine Weiterfahrt ermöglicht.
+breit. Der gemessene Wendekreis liegt bei 11,7 m und fällt
+damit für einen Kleinwagen recht groß aus. Zum Vergleich: Der      2,8 Licht und Sicht
+VW ID.3 mit Heckantrieb zeigt, dass sogar in der Klasse dar‐
+über ein Wendekreis von rund 10 m möglich ist. Nichtsdesto‐        Die Enden des kleinen SUVs kann man recht gut überblicken.
+trotz ist der EV2 aufgrund seiner kompakten Abmessungen in         Die Vorderkante der Motorhaube lässt sich aufgrund der ecki‐
+beengten Umgebungen wie beispielsweise einer Tiefgarage            gen Form zufriedenstellend abschätzen und die einsehbare
+wendig genug.
+ © ADAC e.V.                                                                                                                        3 von 16
+                                                                                                                             Kia EV2 (42,2 kWh) Earth
+
+
+
+Unterkante der Heckscheibe markiert in etwa das Ende des                    Ein Plus an Sicherheit: Das Tagfahrlicht bindet die Rück‐
+Fahrzeugs. Die ADAC Rundumsichtmessung bescheinigt dem                  leuchten mit ein, was beispielsweise bei Nebel, wenn die
+EV2 allerdings nur eine ausreichend gute Sicht nach draußen.            Lichtautomatik gegebenenfalls noch nicht anspricht, die Sicht‐
+Ungünstig sind neben der raumgreifenden Kopfstütze des Bei‐             barkeit von hinten deutlich verbessert.
+fahrersitzes hauptsächlich die breiten C-Säulen, die den Blick
+nach schräg hinten beeinträchtigen, sowie die nicht vollstän‐               Bei aktivier ter Warnblinkanlage kann keine Fahrtrichtungs‐
+dig versenkbaren Kopfstützen der Rücksitzbank. Die leicht er‐           änderung mehr angezeigt werden. Hinderlich ist dies bei‐
+höhte Sitzposition hilft, den Verkehr gut zu überblicken. In            spielsweise beim Auffahren auf ein Stauende und gleichzeiti‐
+jedem Fall praktisch sind die serienmäßigen Parksensoren                gem Spurwechsel.
+vorn und hinten sowie die Rückfahrkamera, die jedoch nicht
+von einer Abdeckung vor Verunreinigungen geschützt wird und
+                                                                                                          3,4
+auch nicht über eine Reinigungsdüse verfügt. Gerade bei Fahr‐
+ten bei Nässe ist durch die aufgewirbelte Feuchtigkeit der
+Nutzen der Rückfahrkamera eingeschränkt. Ein Einparkassis‐
+tent (inkl. Fernsteuerungsfunktion) oder ein 360-Grad-
+Kamerasystem sind gegen Aufpreis erhältlich, auf Grund der                   3,0                                 3,8                    4,3
+kompakten Abmessungen aber wohl nur selten notwendig.
+
+Der Koreaner ist serienmäßig mit LED-Scheinwerfern ausge‐
+stattet, wobei das moderne Design nicht über die recht rudi‐
+                                                                                                          5,2
+mentäre Funktionalität hinwegtäuschen sollte. So verfügt das
+LED-Licht, das in kostengünstiger Reflektor-Bauweise ausge‐
+führt ist, über einen einfachen Fernlichtassistenten, der auf-          Rundumsicht – Die Rundumsichtnote informiert über die
+                                                                        Sichtbehinderung des Fahrers durch Fensterpfosten und Kopfstützen
+und abblendet, aber andere Verkehrsteilnehmer nicht aus dem
+Lichtkegel ausblenden kann. Darüber hinaus gibt es keine
+Adaptiv-Funktionen und auch kein Kurven- oder Abbiegelicht
+sowie nur eine manuelle Leuchtweitenregulierung. Die Aus‐
+leuchtung der Fahrbahn ist ordentlich, wobei der Lichtteppich
+etwas inhomogen ist und die Intensität des Abblendlichts
+kräftiger sein könnte. Zudem vermissen wir eine Scheinwerfer‐                2,7                                                        3,3
+reinigungsanlage, welche nicht nur die eigene Sicht verbes‐
+sern, sondern auch die Blendung anderer Verkehrsteilnehmer
+reduzieren kann.
+
+Im Bereich der Spiegel bietet der getestete EV2 serienmäßig
+einen automatisch abblendenden Innenspiegel, der Blendung
+bei Fahrten in der Dunkelheit reduziert. Die Außenspiegel ver‐
+fügen allerdings nicht über diese Funktion. Zudem verfügen              Vorderes und hinteres Nahfeld – Die Noten zeigen, wie gut der Fahrer
+                                                                        Hindernisse unmittelbar vor und hinter dem Fahrzeug erkennt.
+die Spiegelgläser nicht über einen asphärischen Bereich, der
+das Sichtfeld zur Seite hin aufweitet und so den toten Winkel
+                                                                         2,2 Ein-/Ausstieg
+verkleinert.
+                                                                        Der Einstieg in den EV2 gelingt gut. Der vordere Türausschnitt
+                                                                        ist für einen Kleinwagen dank der SUV-Form recht großzügig
+                                                                        bemessen, wobei die B-Säule sowie die hineinragende Instru‐
+                                                                        mententafel den Einstiegsbereich verkleinern. Förderlich für
+                                                                        einen komfortablen Ein- und Ausstieg ist die erhöhte Sitzposi‐
+                                                                        tion, bei der die Sitzfläche 51 cm über der Straße liegt (Sitz in
+                                                                        unterster Position). Die Rücksitzbank lässt sich ebenfalls recht
+                                                                        leicht erreichen, wobei der hintere Radlauf in den Türaus‐
+                                                                        schnitt ragt und der Fußraum recht beengt ausfällt. Da die
+                                                                        Türen hinten nur in zwei Stufen arretieren, wird das Öffnen in
+                                                                        beengten Umgebungen etwas erschwert. Positiv: Weil es hin‐
+                                                                        ten keinen Mitteltunnel gibt, gelingt das "Durchrutschen" mü‐
+                                                                        helos. Am Dachhimmel findet man mit Ausnahme des Fahrer‐
+                                                                        platzes praktische Haltegriffe vor.
+
+Die sehr breiten C-Säulen schränken die Sicht nach schräg hinten ein.   Praktisch, trotz kompakter Fahrzeugbreite: Die Außenspiegel
+Auch lassen sich die Kopfstützen nicht vollständig versenken und        klappen bei Verriegelung automatisch an und klappen wieder
+behindern den Blick hinten aus der Scheibe etwas.                       aus, sobald der EV2 aufgeschlossen wird. Zudem beleuchten
+                                                                        die Scheinwerfer den Bereich vor dem Auto, wobei es seitlich
+  © ADAC e.V.                                                                                                                                 4 von 16
+                                                                                                                     Kia EV2 (42,2 kWh) Earth
+
+
+
+aber dunkel bleibt. Die Türgriffe innen sind unbeleuchtet und     kante des Fensters), bei dachhohem Beladen beträgt das ma‐
+deshalb bei Dunkelheit nicht so einfach erkennbar. Wirklich       ximale Ladevolumen gute 1.140 l.
+suchen muss man sie allerdings nicht, da man sich schnell an
+die Positionierung gewöhnt.                                        3,2 Kofferraum-Nutzbarkeit
+    Der EV2 ist in allen Ausstattungsvarianten mit einem Kom‐     Die Kofferraumklappe lässt sich manuell leicht öffnen, da sie
+fortzugang samt flächenbündigen Türgriffen ausgestattet. Al‐      nach dem Anheben aufschwingt – ein elektrischer Antrieb ist,
+lerdings verfügt erst die teure GT-Line serienmäßig über die      wie in dieser Klasse üblich, nicht zu haben. Die Öffnungshöhe
+automatisch ausfahrbaren Griffe. In der getesteten Variante       bietet nur Personen bis knapp über 1,85 m ausreichend Platz.
+sind diese nicht standardmäßig verbaut, was zur Folge hat,        Darüber muss man auf seinen Kopf achten, um sich nicht am
+dass die Betätigung unergonomisch ausfällt. So lassen sich die    abstehenden Schloss zu stoßen. Beim Beladen stört die Lade‐
+Griffe an der linken Fahrzeugseite kaum mit der rechten Hand      kante, da sie mit knapp 77 cm recht weit über der Fahrbahn
+öffnen, wenn man beispielsweise etwas trägt. Und auch mit         liegt und das Gepäck weit angehoben werden muss. Störend
+der linken Hand kann es für manche Nutzer schwierig werden,       kommt hinzu, dass sich der Kofferraumboden 22 cm unterhalb
+den Griff komfor tabel zu betätigen. Dass die Betätigung          der Ladekante befindet. Setzt man den Zwischenboden ein,
+zudem nicht selbsterklärend ist, lässt sich an rätselnden Mit‐    fällt die dann noch verbleibende Stufe von rund 2 cm kaum ins
+fahrern erkennen. Abhilfe schafft in der Variante Earth das       Gewicht. Ansonsten kann der nicht sehr tiefe Kofferraum ver‐
+Design-Paket, das aber nur in Verbindung mit weiteren Pake‐       nünftig genutzt werden, wobei die Hutablage noch weiter
+ten erhältlich ist und den Preis schnell unverhältnismäßig an‐    hochklappen könnte, um den Zugang zum Ladeabteil zu er‐
+steigen lässt, da man den EV2 fast voll ausstatten muss. Möch‐    leichtern. Bei umgeklappter Lehne steigt die Ladefläche nur
+te man einen möglichst preisgünstigen EV2 fahren, muss man        leicht an.
+sich mit den unergonomischen Griffen abfinden.
+                                                                         Mit nur einer Lampe ist das Ladeabteil schwach beleuch‐
+Darüber hinaus besitzt der schlüssellose Zugang keinen zuver‐     tet.
+lässigen Diebstahlschutz, da das Schließsystem mittels Funk‐
+verlängerer überlistet werden kann. Weitere Informationen
+dazu unter www.adac.de/keyless.
+
+
+
+
+Der Kofferraum bietet ein ordentliches Ladevolumen, für einen
+Kleinwagen sogar ganz ansehnlich. Mit dem Zwischenboden hat man
+eine fast ebene Ladefläche, der "kleine" EV2 ist damit richtig
+praktisch. Bei Bedarf kann man bis zu 1.140 l verstauen.
+                                                                  Die Heckklappe öffnet man manuell, ein Elektroantrieb ist dafür
+ 3,1 Kofferraum-Volumen                                           nicht erhältlich und bei Kleinwagen auch nicht üblich. Die
+                                                                  Kofferraumöffnung ist groß genug, der Laderaum damit gut nutzbar.
+Der Kofferraum ist für einen Kleinwagen sogar großzügig be‐
+messen. Das Standardvolumen unter der Kofferraumabde‐              2,2 Kofferraum-Variabilität
+ckung beläuft sich auf 315 l. Zudem verfügt der EV2 über einen
+einsetzbaren Zwischenboden, mit dem sich vom Standardvolu‐        Das Umlegen der asymmetrisch geteilten Rücksitzlehne geht
+men 115 l nach unten abtrennen lassen. Ohne den Zwischenbo‐       leicht von der Hand. Durch den kurzen Kofferraum kann man
+den findet man unter dem Kofferraumbasisboden zusätzliche         zudem auch hinter dem Auto stehend an die Entriegelungshe‐
+15 l Volumen für kleine Utensilien. Wird die Laderaumabde‐        bel an der Oberseite der Lehnen gelangen. Die Gurtzungen
+ckung ausgebaut, passen 430 l oder sechs Getränkekisten hin‐      können dabei seitlich in der Verkleidung eingesteckt werden,
+ein. Setzt man den Zwischenboden in die obere Position, pas‐      damit sie beim Zurückklappen der Lehne nicht eingeklemmt
+sen fünf Kisten rein. Bei umgeklappten Rücksitzlehnen hat das     werden. An den Seitenverkleidungen findet man Arretierungs‐
+Gepäckabteil ein Volumen von 660 l (gemessen bis zur Unter‐       punkte für das sogenannte Add-Gear-System, welche auch als
+
+ © ADAC e.V.                                                                                                                         5 von 16
+                                                                                                                   Kia EV2 (42,2 kWh) Earth
+
+
+
+Taschenhaken funktionieren. Am Boden lässt sich zudem ein          Typ-2-Ladekabel ausreicht. Das Ladekabel sowie der optionale
+Gepäcknetz einspannen und unterhalb des Ladebodens gibt es         V2L-Adapter werden in praktischen Etuis mit Reißverschluss
+einen großzügigen Stauraum.                                        geliefert.
+
+    Unter der Frontklappe befindet sich ein gut nutzbarer             Kleine Fächer in den Seiten des Kofferraums gibt es auf
+Stauraum (Frunk) mit 10 l Volumen, der für das mitgeliefer te      Grund der schmalen Karosserie keine.
+
+
+2,7 Innenraum
+2,6 Bedienung                                                      sieren und die Touchfelder treffsicher zu bedienen. Der Funkti‐
+                                                                   onsumfang ist, wie bei einem modernen Auto zu erwarten,
+Die Bedienbarkeit des Kia EV2 fällt trotz seiner touch-lastigen    umfangreich, wobei die Software weitgehend eingängig aufge‐
+Auslegung recht gut aus – mit Ausnahme der bereits erwähn‐         baut ist. Permanent verfügbare Schnellwahltasten für wichti‐
+ten Türgriffe.                                                     ge Hauptfunktionen (Home, Karte, Medien, Einstellungen) er‐
+                                                                   leichtern die Bedienung. Allerdings sind diese Tasten im Ge‐
+Die grundlegende Einstellung der Fahrerposition gelingt dank       gensatz zu anderen Kia-Modellen als hybride Touchfelder aus‐
+der elektrischen Sitzeinstellung komfortabel. Die Fahrbereit‐      gelegt, was die Bedienbarkeit nur noch zufriedenstellend
+schaft lässt sich ebenfalls recht unkompliziert herstellen -       macht. Zudem gibt es ein Favoritenfeld, das sich aus einer vor‐
+wenn man sich gemerkt hat, wo der Knopf liegt, der je nach         gefertigten Liste belegen lässt – das Elektroantriebs-Menü er‐
+Lenkradstellung verdeckt sein kann. Hierfür gibt es einen be‐      gibt hier beispielsweise Sinn.
+leuchteten Schalter am rechten unteren Lenkstockhebel, mit
+dem man den Kia an- und ausschalten kann. Die Fahrtrichtung        Die volldigitale Instrumentenkombination überzeugt ebenfalls
+wird über Drehen des Hebels gewählt.                               mit hoher Auflösung und guter Ablesbarkeit. Auch die Schrif‐
+                                                                   ten sind passend dimensioniert, um sie schnell und sicher ab‐
+Die Einstellung der Sichtfunktionen wird teils durch Automati‐     zulesen. Der Bordcomputer ist übersichtlich gestaltet und gibt
+ken (Wischer, Licht) erleichtert, wobei die Lichtbedieneinheit     über die wichtigsten Kenndaten Auskunft. Mit enthalten sind
+mit in den Blinkerhebel integriert ist und sich damit nur wenig    Anzeigen für die letzte Fahrt, ab dem letzten Ladestopp und
+absetzt. Zudem kommt sie ohne Beleuchtung aus, was die Be‐         ein Langzeitspeicher.
+dienung bei Dunkelheit erschwert. Frontscheibenlüftung und
+Heckscheibenheizung aktiviert man über Touchfelder, wobei          Das Lenkrad bietet einwandfrei bedienbare, haptische Tasten,
+sie zumindest dauerhaft eingeblendet werden. Das ist sinn‐         über die sich sowohl die Fahrassistenz als auch weitere Funkti‐
+voll, da der Zugriff zu jeder Zeit gegeben sein sollte – das ist   onen bedienen lassen. Mit dabei ist eine weitere Favoritentas‐
+leider nicht durchgehend der Standard.                             te, welche beispielsweise ein schnelles Springen in das Fahras‐
+                                                                   sistenzmenü ermöglicht. Erfreulich: Fühlt man sich von der
+Mit einigen Kia-Modellen gemein hat der EV2 die zweigeteilte       Geschwindigkeitswarnung oder dem Spurhalteassistenten ge‐
+Einstellung der Klimafunktionen über einen festen Bereich im       stört, lassen sich beide Assistenzfunktionen mit nur einem
+Zentraldisplay sowie eine ausgeglieder te Tastenleiste. Letzte‐    Tastendruck am Lenkrad zeitweise deaktivieren, ohne den
+re besitzt gut erreichbare Wipptasten für die Temperaturein‐       Fahrer übermäßig vom Verkehrsgeschehen abzulenken. Im EV2
+stellung, die Lüfterstärke und die Luftverteilung – die Bedie‐     gesellt sich zu den beiden genannten Assistenten noch der
+nung klappt damit recht gut. Gleiches gilt für die Sitz- und       Aufmerksamkeitswarner dazu, der stellenweise etwas zu sen‐
+Lenkradheizung, zumindest sobald man sich an die Positionie‐       sibel agiert – hierfür werden mehrere Schritte zum Einstellen
+rung der Tasten in der Türverkleidung gewöhnt hat.                 benötigt. Weitere nützliche Tasten findet man für die Park-
+                                                                   und Kamerafunktionen.
+Das Zentraldisplay ist für die meisten Staturen gut erreichbar,
+nur der rechte Rand ist etwas weit entfernt, wo zudem nützli‐      Benötigt man Auskunft zur umfangreichen Bedienung, helfen
+che Einstellungen verortet sind. Die Ablesbarkeit ist dank des     die beigelegte und umfangreiche Betriebsanleitung sowie
+hochauflösenden und kontraststarken Monitors zumeist gut,          nützliche Erklärungen im Zentraldisplay.
+wobei die hohe Positionierung für geringe Blickabwendungs‐
+zeiten sorgt. Für Eingaben am oberen Rand kann man seine                Die weiteren Klima-Einstellungen (Frontscheibenbelüf‐
+Hand dort ablegen. Unten befindet sich ebenfalls eine kleine       tung, Heckscheibenheizung, Umluft, Intensität etc.) können
+Leiste, um die Bedienhand auf unruhigen Strecken zu stabili‐       schlecht erreichbar sein, da dieser Bereich je nach Statur und
+                                                                   Sitzposition vom Lenkrad verdeckt wird.
+
+
+
+
+ © ADAC e.V.                                                                                                                       6 von 16
+                                                                                                                             Kia EV2 (42,2 kWh) Earth
+
+
+
+
+Bei der Bedienung ist der EV2 ein typischer Kia. Nicht nur das Tacho-Design ist bekannt, auch die Menüstruktur des Infotainmentsystems. Hat
+man sich an die Kia-Struktur gewöhnt, kommt man mit dem EV2 gut zurecht. Das System läuft überdies flüssig und stabil.
+
+2,0 Multimedia                                                         Der Kia verfügt mit den erwähnten Paketen auch über die so‐
+                                                                       genannten Kia Connect Onlinedienste, die zahlreiche Funktio‐
+Die Variante Earth verfügt serienmäßig über ein Digitalradio           nen wie Live-Services (u. a. Verkehrsinformationen, Wetter,
+(DAB+), eine Bluetooth-Freisprechanlage sowie Apple CarPlay            Parkhaussuche) und Remote-Funktionen über die integrierte
+und Android Auto (beides kabellos). Kompatible Smartphones             SIM-Karte ermöglichen. Über den integrierten App-Store las‐
+können über die serienmäßige induktive Ladeschale oder die             sen sich zudem Videos streamen und Spiele spielen. Allerdings
+USB-Anschlüsse geladen werden, wovon es vorne drei und hin‐            laufen diese Kia Connect Premium-Dienste nur ein Jahr kos‐
+ten zwei gibt. Das Lautsprechersystem umfasst in der Basis             tenfrei.
+sechs Boxen – ausreichend, falls man keine besonderen An‐
+sprüche an den Klang hat. Mittels der Smartphone-App kön‐                  Serienmäßig verfügt die Variante Earth nicht über ein Navi‐
+nen verschiedene Fahrzeuginformationen (u. a. Klimatisierung,          gationssystem und damit auch nicht über eine Laderoutenpla‐
+Verriegelungszustand, Abstellort) abgerufen werden. Zudem              nung. Die Routenführung kann zumindest über die
+lassen sich Over-the-Air-Updates durchführen, um das Info‐             Smartphone-Anbindung erfolgen.
+tainment auf dem Stand zu halten, ohne den Händler besu‐
+chen zu müssen. Es ist außerdem möglich, verschiedene Nut‐              2,2 Raumangebot vorn
+zerprofile anzulegen und mit der Kia-App zu verknüpfen.
+                                                                       Der EV2 bietet in der ersten Reihe für einen Kleinwagen ein
+Das Navigationssystem mit Echtzeit-Verkehrsinformationen               wirklich gutes Raumangebot. Personen bis 1,95 m Körpergröße
+und Laderoutenplanung findet mit dem optionalen                        finden dort genügend Beinfreiheit vor. Die Kopffreiheit genügt
+Technology-Paket Einzug, welches zudem an das Winter-                  theoretisch sogar für über 2,10 m große Personen. Die Innen‐
+Connect-Paket (Wärmepumpe, V2L-Laden, 230-V-Steckdose im               breite fällt ebenfalls nicht beengend aus. Das Raumgefühl ist
+Fond) gekoppelt ist. Die Fahrtrouten können dann online in             angenehm und wird lediglich durch die hohe Fensterlinie
+der Cloud berechnet werden, sodass genauere Verkehrspro‐               etwas geschmälert. Bei Dunkelheit sorgt die optionale, mehr‐
+gnosen und Ankunftszeiten sowie zuverlässigere Neuberech‐              farbige Ambientebeleuchtung für ein angenehmeres Raum‐
+nungen der Route möglich werden. Zudem berücksichtigt die              empfinden.
+Routenführung dann auch den Ladestand und integriert Lade‐
+möglichkeiten entlang der Route.
+
+ © ADAC e.V.                                                                                                                                 7 von 16
+                                                                                                                     Kia EV2 (42,2 kWh) Earth
+
+
+
+3,6 Raumangebot hinten                                             Unter der Armauflage befindet sich ein geschlossenes Fach.
+                                                                   Die Türfächer fallen vorn wie hinten klein aus. Zumindest gibt
+In der zweiten Reihe setzt sich das großzügige Raumangebot         es vorn separate Aussparungen, in die auch 1-l-Flaschen pas‐
+nicht fort und der EV2 entpuppt sich als Kleinwagen. Während       sen – hinten finden nur 0,5-l-Flaschen ausreichend Platz.
+die Kopffreiheit laut den Messwerten bis zu einer Größe von
+1,95 m ausreichend wäre, limitiert die Beinfreiheit die maxima‐    Das beleuchtete Handschuhfach ist nicht abschließbar und mit
+le Personengröße auf rund 1,80 m (Vordersitz dabei auf 1,85-       der dicken Bordmappe schon größtenteils gefüllt. Im Fond fin‐
+m-Person eingestellt). Die Innenbreite ist für zwei Personen in    det man neben den kleinen Türfächern weitere Ablagen in
+jedem Fall ausreichend, zu dritt wird es eng. Bestellt man den     Form von geschlossenen Lehnentaschen. Zusätzlich gibt es
+EV2 in der viersitzigen Variante, wird man aber ohnehin nicht      zwei Jackenhalter.
+in diese Situation kommen. Das subjektive Raumgefühl im
+                                                                       Ab der Variante Earth ist der EV2 gegen Aufpreis mit dem
+Fond ist für einen Kleinwagen gut. Allerdings ist die Sitzbank
+                                                                   sogenannten Sitz-Paket erhältlich. Dieses ersetzt die Rücksitz‐
+recht hoch montiert, wodurch die Dachlinie größeren Perso‐
+                                                                   bank im Fond durch zwei Einzelsitze, die längsverschiebbar
+nen recht nah kommt, obwohl über dem Kopf noch Raum ist.
+                                                                   sind und bei denen sich die Lehnenneigung einstellen lässt.
+Außerdem ist die Seitenlinie auch hinten recht hoch. Da es
+                                                                   Zudem lassen sie sich einzeln umklappen.
+hinten auch gegen Aufpreis keine Ambientebeleuchtung gibt,
+bleibt es dort nachts dunkel.
+
+3,2 Innenraum-Variabilität
+
+In der Serienausstattung lässt sich die Rückbank nur asymme‐
+trisch geteilt umklappen. Das Angebot an Ablagen in der ers‐
+ten Reihe ist ordentlich, aber nicht übermäßig. Zwischen den
+Vordersitzen bietet die Mittelkonsole ein offenes Fach mit
+einem versetzbaren Trennsteg sowie Becherhaltern. Allerdings
+kommen die beiden Becherhalter ohne Haltenasen aus, was
+beispielsweise Dosen nicht ausreichend sichert. Stirnseitig be‐
+findet sich die Ablage für das Smartphone. Obwohl die Ablage‐
+flächen hier großzügig ausfallen, sind sie zu tief positioniert,
+um sie bequem zu erreichen.
+
+Auf der oberen Ebene der Mittelkonsole gibt es ein offenes         Sein Kleinwagenformat kann der EV2 auf der Rückbank nicht
+Fach, das aber wie alle anderen Fächer ohne Gummierung aus‐        verbergen. Über 1,80 m muss man Kompromisse eingehen, um
+kommen muss und daher Gegenstände zum Klappern bringt.             ausreichend Beinfreiheit zu haben.
+
+
+
+2,5 Komfort
+2,6 Federung                                                       gen. Schlechten Asphalt oder Unebenheiten am Rand der Stra‐
+                                                                   ße pariert er aber gut – auch hier hilft der große Gummipuffer
+Kia gelingt es mit dem EV2, einen komfor tablen Kleinwagen         der 16-Zoll-Räder. Auf der Autobahn kann der EV2 hinsichtlich
+auf die Beine zu stellen. Das Fahrwerk ist dabei klassentypisch    der Federung ebenfalls überzeugen, wobei immer leichte Ka‐
+aufgebaut: die Vorderachse in MacPherson-Bauart, die Hinter‐       rosseriebewegungen zu spüren sind und der kurze Radstand
+achse als einfache Verbundlenkerachse. Im Stadtverkehr fe‐         den Kleinwagen nicht ganz so satt liegen lässt, wie es in grö‐
+dert der Koreaner erfreulich komfortabel über Wellen und Ab‐       ßeren Autos der Fall ist.
+sätze und neigt dort kaum zum Wippen, wie es häufig bei
+weich gefederten Elektroautos zu spüren ist. Überfährt man          2,7 Sitze
+Einzelhindernisse wie abgesenkte Kanaldeckel oder tiefe
+Schlaglöcher, über tragen sich nur geringe Aufbaubeschleuni‐       Serienmäßig verbaut Kia im Modell Earth einen in den Grund‐
+gungen auf die Insassen. Vor allem die leichten 16-Zoll-Räder      funktionen elektrisch einstellbaren Fahrersitz. Zusätzlich dazu
+mit 65er Reifenquerschnitt federn hier einiges ab. Auch Kopf‐      gibt es eine Sitzflächenneigungseinstellung sowie eine Zwei-
+steinpflaster pariert das Fahrwerk damit erstaunlich gut.          Wege-Lendenwirbelstütze – für einen Kleinwagen ist das eine
+Querhindernisse wie Geschwindigkeitshügel spüren die Insas‐        gehobene Ausstattung. Der Beifahrersitz ist in den Grundfunk‐
+sen hingegen schon deutlicher: Die Vorderachse über trägt          tionen mechanisch einstellbar. Beide Vordersitze besitzen zu‐
+einen deutlichen Ruck und die Hinterachse rollt etwas straff       sätzlich höhen- und längsverstellbare Kopfstützen. Die Sitze
+hinterher.                                                         sind sowohl an der Sitzfläche als auch an den Lehnen körper‐
+                                                                   gerecht geformt. Der Seitenhalt ist für die Ansprüche des EV2
+Auf der Landstraße arbeitet das Fahrwerk recht komfor tabel,       passend gewählt und bietet den nötigen Halt, ohne einzuen‐
+wobei die weiche Federung in engen Kurven für deutliche Auf‐       gen. Eine Seltenheit bei Kleinwagen: Der Gur taustritt lässt sich
+baubewegungen sorgt, welche sich auf die Insassen über tra‐        an den vorderen Sitzen in der Höhe einstellen.
+ © ADAC e.V.                                                                                                                         8 von 16
+                                                                                                                      Kia EV2 (42,2 kWh) Earth
+
+
+
+Auf der Rücksitzbank warten außen ebenfalls angenehm ge‐            vernimmt man ein dezentes Fiepen. Die Windgeräusche hat
+formte Sitze, der Seitenhalt fällt aber gering aus. Die Sitzposi‐   der EV2 trotz seiner eckigen Form mit aufrechter Stirnfläche
+tion der äußeren Plätze ist recht komfortabel, auch wenn der        recht gut im Griff. Vor allem für einen Kleinwagen ist der Kore‐
+Kniewinkel etwas spitz ausfällt. Sowohl vorn als auch hinten        aner erfreulich gut gedämmt.
+fallen die Armlehnen in den Türen positiv auf: Sie sind weich
+gepolstert. Auf den Türbrüstungen lassen sich die Arme aller‐        2,1 Klimatisierung
+dings nicht bequem ablegen, da sie aus hartem Kunststoff
+sind.                                                               Der EV2 ist in der getesteten Variante serienmäßig mit einer
+                                                                    Zwei-Zonen-Klimaautomatik ausgestattet – das ist für einen
+     Der kleine Koreaner verdient ein Lob: Der Sitzkomfort in       Kleinwagen ein Wort. Die Intensität der automatischen Klima‐
+der ersten Reihe fällt nicht nur für einen Kleinwagen erfreu‐       regelung kann man in drei Stufen anpassen. Eine weitere De‐
+lich gut aus.                                                       taileinstellung über Drehrädchen an den Ausströmern gibt es
+                                                                    allerdings nicht. Eine vollwer tige Umluftautomatik ist ebenso
+    Der mittlere Sitz ist aufgrund der kompakten Innenbreite        nicht vorhanden; immerhin aktiviert der EV2 auf Wunsch die
+des EV2 sehr schmal und zudem straff gepolstert - er eignet         Umluftfunktion beim Durchfahren eines Tunnels und beim
+sich nur als Notsitz. An dieser Stelle sollte man sich überlegen,   Reinigen der Frontscheibe. Die Fondpassagiere werden mit
+ob man nicht die viersitzige Variante wählt, um eine verbesser‐     Luftausströmern am Ende der Mittelkonsole und unter den
+te Innenraumvariabilität zu bekommen.                               Vordersitzen mit Frischluft versorgt, was in der Kleinwagen‐
+                                                                    klasse ebenfalls nicht selbstverständlich ist. Für die kalte Jah‐
+ 2,1 Innengeräusch                                                  reszeit wartet der Koreaner mit einer Sitzheizung vorn sowie
+                                                                    einer Lenkradheizung auf. Gegen Aufpreis ziehen getönte
+Der gemessene Innengeräuschpegel bei 130 km/h beträgt 65,4          Scheiben ab der B-Säule ein.
+dB(A), was einem guten Geräuschkomfort entspricht. Auch die
+Fahrgeräusche werden gut gefiltert: Rauer Asphalt oder aufge‐          Wie bei einem Elektroauto zu erwarten, lässt sich der EV2
+wirbelte Kiesel treten nicht über Gebühr in Erscheinung. Den        im abgestellten Zustand heizen und kühlen.
+Elektroantrieb hört man zumeist nicht, nur unter hoher Last
+
+
+1,2 Antrieb
+
+ 1,9 Fahrleistungen                                                 wahrzunhemen. Der Elektromotor zieht vom Start weg recht
+                                                                    zügig an, gibt seine Leistung gleichmäßig ab und lässt erst bei
+Den Kia EV2 gibt es in zwei Antriebsvarianten, wobei stets die      Autobahngeschwindigkeiten und dann hohen Drehzahlen
+Vorderachse angetrieben wird. Im EV2 mit dem 42,2-kWh-Akku          spürbar nach.
+leistet die permanenterregte Synchronmaschine 108 kW/146
+PS. Die Variante mit der 61 kWh großen Batterie bringt es auf       0,7 Getriebe
+99,5 kW/135 PS. Beide Modelle entwickeln ein maximales
+Drehmoment von 250 Nm. Im Alltag ist man damit zu jeder             Der Elektromotor deckt ein sehr weites Drehzahlband ab, wes‐
+Zeit ausreichend kräftig motorisiert: Der EV2 wirkt trotz seines    halb der EV2 kein Getriebe mit verschiedenen Übersetzungs‐
+Leergewichts von rund 1,6 t flink. Von 60 auf 100 km/h be‐          stufen benötigt. Das Umschalten von Vorwärts- auf Rück‐
+schleunigt der Koreaner in 4,8 s, von 80 auf 120 km/h in 6,4 s      wärtsfahrt klappt schnell und erleichtert das Rangieren. Über
+– das sind gute Werte. Kia verspricht für den Sprint von 0 auf      die Schaltwippen am Lenkrad kann man die Rekuperation be‐
+100 km/h 8,7 s, wohingegen die Höchstgeschwindigkeit schon          einflussen. Von freiem Rollen über verschiedene Verzöge‐
+bei 161 km/h elektronisch limitiert wird.                           rungsstufen bis hin zu einer adaptiven Rekuperation (reagiert
+                                                                    auf Verkehr und Streckenführung) ist alles möglich. Auf
+ 1,0 Laufkultur                                                     Wunsch rekuperiert der EV2 bis in den Stillstand (One-Pedal-
+                                                                    Drive). Die elektrische Handbremse mit Autohold-Funktion ist
+Der E-Antrieb kann hinsichtlich der Laufkultur vollauf über‐        serienmäßig verbaut und besitzt eine eigene Taste – praktisch
+zeugen. Es sind keine Vibrationen oder Brummfrequenzen              für ein schnelles Deaktivieren beim zentimetergenauen Ein‐
+                                                                    parken.
+
+
+2,6 Fahreigenschaften
+2,6 Fahrstabilität                                                  dings pendelt die Lenkung um die Mittellage und der Aufbau
+                                                                    kommt deutlich in Bewegung, ehe sich der EV2 wieder von
+Die Fahrstabilität des Kleinwagens ist in allen abgeprüften         selbst stabilisiert. Der Geradeauslauf des Kleinwagens mit kur‐
+Disziplinen gut bis ordentlich. Auf einen abrupten Lenkimpuls,      zem Radstand ist ordentlich, wobei man auf gerader Strecke
+wie er beispielsweise bei einem Schreckmoment vorkommen             hin und wieder leichte Korrekturen am Lenkrad vornehmen
+kann, folgt nur eine geringe Änderung der Fahrtrichtung. Aller‐     muss.
+
+ © ADAC e.V.                                                                                                                          9 von 16
+                                                                                                                  Kia EV2 (42,2 kWh) Earth
+
+
+
+Fährt man zu schnell in eine Kurve und korrigiert mit einem        2,7 Lenkung
+abrupten Bremsimpuls, beginnt das Heck nur leicht zu drän‐
+gen. Legt man es allerdings darauf an, Lastwechselreaktionen      Die Lenkung des EV2 passt zum Anspruch eines unkomplizier‐
+zu provozieren, drängt das Heck vehement. Ein korrigierendes      ten Kleinwagens. Die Lenkkräfte sind eher niedrig angesetzt,
+Eingreifen durch den Fahrer wird zwar nicht notwendig, da das     womit sich das SUV recht mühelos steuern lässt. Mit 2,5 Lenk‐
+ESP den Fahrzustand stabilisiert, doch in einem Kleinwagen        radumdrehungen vom linken zum rechten Anschlag ist die
+ohne sportliche Ambitionen sollte das ESP früher agieren.         Lenkung angenehm direkt übersetzt, was für einen verhältnis‐
+                                                                  mäßig geringen Aufwand beim Abbiegen oder Parken sorgt. In‐
+Beim ADAC Ausweichtest liefert der EV2 eine gute Vorstellung      nerorts dürfte die Lenkung allerdings noch satter in der Mitte
+ab. Die Ausweichbewegung weg vom ersten Hindernis über‐           liegen, um den Geradeauslauf und das Lenkgefühl zu verbes‐
+trägt der Koreaner ausreichend direkt, wankt dabei aber recht     sern. Bei höheren Geschwindigkeiten fällt die Zentrierung defi‐
+deutlich. Das ESP greift hier bereits ein und verringert die      nierter aus, womit einer entspannten Autobahnetappe bezüg‐
+Fahrgeschwindigkeit im Sinne der Sicherheit. Den harten Lenk‐     lich der Lenkung nichts entgegensteht. Auf kurvigen Strecken
+einschlag in die entgegengesetzte Richtung – um dem zweiten       reichen Lenkgefühl und Zielgenauigkeit für die alltäglichen
+Hindernis auszuweichen – meistert der EV2 deshalb ohne aus‐       Bedürfnisse, wobei die Lenkung eher rückmeldungsarm arbei‐
+geprägtes Untersteuern und das Zurücklenken in die ur‐            tet und im Kurvenverlauf leichte Korrekturen notwendig sind.
+sprüngliche Fahrspur absolviert er ohne ein drängendes Heck.
+                                                                  2,6 Bremse
+Durchfährt man den Parcours mit Fokus auf eine möglichst
+schnelle und präzise Fahrweise, wirkt der EV2 durchaus freud‐     Bei einer Notbremsung aus 100 km/h bis zum Stillstand benö‐
+voll, ohne aber besonders agil zu sein. Die Lenkung bietet        tigt der EV2 36,3 m (Mittel aus zehn Bremsungen) – ein or‐
+wenig Rückmeldung und die recht schmalen und rollwider‐           dentlicher Wert. Die Bremse vermittelt ein passables Bremsge‐
+standsoptimierten Reifen verhindern eine bessere Querdyna‐        fühl.
+mik. Die Traktion des Frontantrieblers ist zumeist gut, nur bei
+Nässe oder vehementer Beschleunigung überreizt man sein
+Traktionsvermögen.
+
+
+2,4 Sicherheit
+ 1,8 Aktive Sicherheit                                            sen – einen automatisier ten Spurwechsel an. Der Fahrer muss
+                                                                  nur noch den Blinker setzen und der Kia wechselt die Spur auf
+Der Kia EV2 bietet in der Variante Earth eine ordentliche Aus‐    der Autobahn. Zudem reagiert das System auf die Strecken‐
+stattung an aktiver Fahrassistenz – weitere nützliche Funktio‐    führung der Autobahn (z. B. Abbremsen bei Kurven).
+nen kosten aber Aufpreis.
+                                                                      Schön gelöst: Der Testwagen mit dem Autobahnassisten‐
+Serienmäßig an Bord ist ein Notbremsassistent, der über einen     ten 2.0 regelt prädikativ auf Tempolimits und erreicht schon
+großen Geschwindigkeitsbereich den Bereich vor dem Fahr‐          beim Passieren des Schildes die maximal zulässige Geschwin‐
+zeug überwacht und gegebenenfalls eine Notbremsung einlei‐        digkeit. In anderen aktuellen Kia-Modellen regelt das System
+tet. Zudem vorhanden ist der hilfreiche Tot-Winkel-Assistent,     nicht so feinfühlig und erst ab dem Vorbeifahren am jeweili‐
+der beim Aussteigen oder beim Spurwechsel vor herannahen‐         gen Schild.
+den Hindernissen warnt. Ebenfalls dabei ist die Querverkehrer‐
+kennung beim Rückwärtsfahren, die beispielsweise beim rück‐
+wärts Ausparken vor einem kreuzenden Hindernis warnt oder
+                                                                  Übersicht der Assistenzsysteme
+mit einem Bremseingriff unterstützt. Diese Funktion ist vor
+allem dann nützlich, wenn man quer zur Fahrbahn einparkt               Serienmäßig enthalten
+und beim Rausfahren der Blick auf den Querverkehr durch an‐
+dere parkende Fahrzeuge blockiert ist. Bestellt man zusätzlich
+das "Drive Wise"-Paket, bremst der EV2 auch im niedrigen Ge‐             Notbremssystem
+schwindigkeitsbereich bei Hindernissen direkt hinter dem
+Heck wie beispielsweise Begrenzungspollern. Ebenfalls in dem      !
+                                                                         Abbiegeassistent
+Paket enthalten ist die praktische Kameraansicht in der Instru‐
+mentenkombination beim Blinken, die den toten Winkel ver‐                Notbremssystem für ungeschützte
+kleinern kann.                                                           Verkehrsteilnehmer
+
+Hinsichtlich der Geschwindigkeitsregelung ist die Variante         !     Querverkehrerkennung beim Rückwärtsfahren
+Earth mit einem Geschwindigkeitsbegrenzer und einem adap‐
+tiven Abstandstempomaten ausgerüstet. Bestellt man das                   Geschwindigkeitsbegrenzer
+"Technology-Paket", erweitert sich die Funktion zu einem
+Autobahn-Assistenten. Der EV2 kann dann zeitweise die Fahr‐              Abstandsregeltempomat
+spur halten und bietet – sobald die Rahmenbedingungen pas‐
+ © ADAC e.V.                                                                                                                     10 von 16
+                                                                                                                            Kia EV2 (42,2 kWh) Earth
+
+
+
+
+               Verkehrszeichenerkennung                             eingelassenen Griffe können die Rettungsarbeiten im Ver‐
+                                                                    gleich zu konventionellen Bügeltürgriffen erschweren.
+         !
+               Spurhalteassistent
+                                                                     2,7 Kindersicherheit
+               Spurwechselassistent
+ !
+                                                                    Zum Testzeitpunkt lagen für den Kia EV2 noch keine Ergebnis‐
+                                                                    se des Euro NCAP-Crashtest vor. Allgemein eignet sich der Ko‐
+     !         Ausweichassistent                                    reaner gut für den Transport von Kindern. Auf dem Beifahrer‐
+                                                                    sitz kann man Kindersitze verschiedener Ausführungen gut
+!
+               Ausstiegswarnung                                     und lagestabil befestigen – zumindest mit dem Gurt, denn es
+                                                                    gibt dort keine Isofix-Halterungen. Der Beifahrerairbag ist per
+     !
+               Reifendruckkontrollsystem direkt messend             Schlüsselschalter am Armaturenbrett deaktivierbar. Dann kann
+                                                                    dort auch ein nach hinten gerichteter Kindersitz verbaut wer‐
+               Tempolimitübernahme                                  den. Auf den beiden äußeren Rücksitzen der zweiten Reihe
+                                                                    stehen Isofix-Halterungen (inklusive i-Size-Freigabe) und An‐
+             Optional erhältlich                                    kerhaken zur Verfügung. Auch die Befestigung der Kindersitze
+                                                                    über die Gurte ist ohne Einschränkungen möglich, wobei sich
+                                                                    die Vordersitze beim Verbau einer platzeinnehmenden Baby‐
+               Notbremsassistent beim Rückwärtsfahren               schale nicht mehr vollständig zurückschieben lassen. Wie
+                                                                    grundsätzlich immer empfiehlt sich vor dem Kauf eine Probe‐
+               Autobahnassistent                                    montage der gewünschten Kindersitze inklusive Probesitzen
+                                                                    mit der ganzen Familie. Die Kindersicherung der Türen ge‐
+               Spurwechselautomatik                                 schieht dort über einen Schlüsselschalter und ist damit gegen‐
+                                                                    über findigen Kindern manipulationssicher.
+               Notfallassistent
+                                                                        Die Schließkräfte der elektrisch betriebenen Fenster sind
+                                                                    hinten zu hoch. Es muss also bei einem mit Kindern besetzten
+             Nicht erhältlich                                       Fond darauf geachtet werden, dass sich dort niemand die Fin‐
+                                                                    ger eingeklemmt.
+         !     Abstandswarnung
+
+               Tempomat
+
+               Insassenschutzsystem proaktiv
+                                                                                                2,0               1,5
+
+2,6 Passive Sicherheit                                                                                            5,0
+
+                                                                                                                  1,5
+Zum Testzeitpunkt lagen für den Kia EV2 noch keine Ergebnis‐
+se des Euro NCAP-Crashtest vor. Zur Airbag-Ausstattung zäh‐
+len: Front- und Seitenairbags vorn, von vorn bis hinten durch‐
+gehende Kopfairbags sowie ein Center-Airbag zwischen den
+beiden Vordersitzen. Knieairbags vorn sowie Seitenairbags in
+                                                                    Die Grafik zeigt, welcher Sitzplatz sich wie gut für Kindersitze eignet.
+der zweiten Reihe gibt es nicht. Die Kopfstützen reichen vorn
+für 2,0 m große Personen, hinten bieten sie nur bis rund 1,70 m
+                                                                    3,0 Sicherheit ungeschützte Personen
+Körpergröße einen ausreichenden Schutz. Nach einem Unfall
+bremst der Koreaner selbstständig bis zum Stillstand ab, um
+                                                                    Zum Testzeitpunkt lagen für den Kia EV2 noch keine Ergebnis‐
+Folgekollisionen zu vermeiden. Zudem setzt der Kia über die
+                                                                    se des Euro NCAP-Crashtest vor. Näherungsweise lässt sich der
+integrierte SIM-Karte einen Notruf ab und stellt, sofern mög‐
+                                                                    Kia EV3 heranziehen, der ebenfalls auf der E-GMP-Plattform
+lich, eine Sprechverbindung zur Rettungsleitstelle her.
+                                                                    baut und eine ähnlich geformte Front besitzt. Wie bei den
+    Warndreieck und Verbandkasten sind unter dem Koffer‐            meisten Autos dürften die A-Säulen eine erhöhte Verletzungs‐
+raumboden untergebracht und somit gerade bei vollem Lade‐           gefahr bedeuten. Immerhin gibt es ein Notbremssystem mit
+abteil schlecht erreichbar. Zudem fehlt die Möglichkeit, ein fle‐   Personen- und Fahrradfahrer-Erkennung serienmäßig, damit
+xibles Trennnetz zwischen Koffer- und Fahrgastraum zu mon‐          sollten Kollisionen vermieden oder wenigstens deren Schwere
+tieren. Windschnittig, aber mit Nachteilen: Die in die Türen        reduziert werden.
+
+
+
+
+     © ADAC e.V.                                                                                                                           11 von 16
+                                                                                                                  Kia EV2 (42,2 kWh) Earth
+
+
+
+
+2,1 Umwelt
+
+2,2 Verbrauch                                                     gemessenem Fahrstil sollten aber auch 300 km Reichweite
+                                                                  möglich sein. Sparsam ausgelegte elektrische Verbraucher wie
+Bei der Verbrauchsmessung des ADAC Autotest benötigt der          die Klimatisierung (Wärmepumpe optional) und der großflä‐
+EV2 18,8 kWh/100 km (inklusive der Ladeverluste bei 3-            chig verkleidete Unterboden helfen, eine im Rahmen der Mög‐
+phasiger AC-Ladung mit 32 A). Das ist für ein modernes Elek‐      lichkeiten gute Reichweite zu erzielen.
+troauto und auch im Vergleich mit der Konkurrenz ein recht
+guter Wert. Fährt man den Stromer bewusst sparsam, lässt           1,4 Umwelteinfluss
+sich der Verbrauch auch noch um weitere Kilowattstunden
+drücken. Um die 42,2-kWh-Batterie einmal komplett von leer        Wie für einen Kleinwagen zu erwar ten, belegt der EV2 mit
+auf voll zu laden, werden 46,1 kWh benötigt. Legt man den ge‐     7,3 m² eine vergleichsweise geringe Verkehrsfläche. Sein Leer‐
+mischten Betrieb (innerorts, außerorts, Autobahn) des ADAC        gewicht fällt im Vergleich zu Verbrennerkleinwagen recht hoch
+Verbrauchszyklus zugrunde, ergibt sich für den getesteten EV2     aus, doch absolut gesehen sprengen die rund 1,6 t den Rah‐
+eine Reichweite von rund 245 km – das ist für einen elektri‐      men noch nicht, was sowohl die Reifen als auch die Straßenin‐
+schen Kleinwagen ein alltagstauglicher Wert. Allerdings wird      frastruktur nicht über Gebühr belastet. Das Vorbeifahrge‐
+sich die Reichweite auf der Langstrecke für Verbrenner-           räusch liegt mit 63 dB(A) auf einem vergleichsweise niedrigen
+Umsteiger als Einschränkung entpuppen – vor allem bei kalten      Niveau. Da der EV2 in Europa produziert wird, schlägt der
+Außentemperaturen. Bei idealen Außentemperaturen und an‐          Transportweg weniger ins Kontor als bei den in Südkorea ge‐
+                                                                  fertigten Kia-Modellen.
+
+
+2,2 Autokosten
+2,2 Monatliche Gesamtkosten                                       testens alle zwei Jahre. Erfreulich ist die sehr lange Garan‐
+                                                                  tielaufzeit von sieben Jahren/150.000 km auf das Gesamtfahr‐
+Der Kia EV2 star tet in der Basisvariante ab einem Preis von      zeug. Andere Hersteller bieten hier weit weniger. Die Garantie
+26.660 Euro. Mit an Bord sind dann zwar viele Sicherheits- und    für den Hochvoltspeicher beträgt die üblichen acht
+Assistenzfunktionen, doch Standardausstattungen wie ein Re‐       Jahre/160.000 km.
+gensensor oder eine Sitzheizung sind für dieses Modell nicht
+erhältlich. Auch auf das Batterievorheizsystem und eine Wär‐           Kia verfolgt beim EV2 eine kundenunfreundliche Paketpo‐
+mepumpe muss man verzichten. Die getestete Variante Earth         litik. Heißt: Für nützliche und teils sicherheitsrelevante Aus‐
+ist zu einem Preis ab 31.290 Euro deutlich reichhaltiger ausge‐   stattungsmerkmale werden mehrere Pakete benötigt, die
+stattet.                                                          dann hohe Aufpreise zur Folge haben. Möchte man das Navi‐
+                                                                  gationssystem samt Laderoutenplanung, benötigt man das
+Die Unterhaltskosten für den Stromer fallen weitgehend mo‐        Technology-Paket für 1.190 Euro sowie das Winter-Connect-
+derat aus. Von der Kfz-Steuer ist der EV2 als Elektroauto noch    Paket für 1.390 Euro. Für die automatisch ausfahrenden Tür‐
+bis 2035 ausgenommen, danach beträgt die Steuer 62 Euro im        griffe, welche die Bedienung im Alltag erheblich erleichtern
+Jahr. Die Versicherungseinstufung fällt in der Haftpflicht (17)   und Rettungsarbeiten vereinfachen können, sind neben den
+günstig aus, Teilkasko (22) und Vollkasko (25) hingegen sind      erwähnten Zusatzausstattungen noch zwei weitere Pakete für
+erhöht. Zum Service muss der EV2 nach 30.000 km oder spä‐         je knapp 1.000 Euro notwendig.
+
+
+
+
+ © ADAC e.V.                                                                                                                     12 von 16
+                                                                                                                       Kia EV2 (42,2 kWh) Earth
+
+
+Motorvarianten
+In der preisgünstigsten Modellversion
+
+ Typ                                  EV2 (42,2 kWh) Light                                         EV2 (61 kWh) Air
+
+ Aufbau/Türen                         SUV/5                                                        SUV/5
+
+ Leistung [kW (PS)]                   108 (147)                                                    100 (136)
+
+ Dauerleistung lt.
+                                      36                                                           36
+ Fahrzeugschein [kW]
+
+ Max. Drehmoment [Nm]
+                                      250/-                                                        250/-
+ bei 1/min
+
+ Höchstgeschwindigkeit
+                                      161                                                          161
+ [km/h]
+
+ Verbrauch pro 100 km lt.
+                                      15,1 kWh                                                     14,9 kWh
+ Hersteller (WLTP)
+
+ Antriebsbatterie [kWh]
+                                      42,2 (b)                                                     61,0 (b)
+ ((n)etto/(b)rutto)
+
+ CO2 [g/km] lt. Hersteller
+                                      0                                                            0
+ (WLTP)
+
+ Versicherungsklassen
+                                      17/25/22                                                     17/25/22
+ KH/VK/TK
+
+ Steuer pro Jahr [Euro]               62                                                           62
+
+ Preis [Euro]                         26.600                                                       33.490
+
+
+
+Aufbau: ST - Stufenheck / SR - Schrägheck / CP - Coupe / C - Cabriolet / RO - Roadster / KT - Kleintransporter / HKB - Hochdachkombi /
+TR - Transporter / BU - Bus / SUV - Sport Utility Vehicle / KB - Kombi / GR - Van / GE - Geländewagen / PK - Pick-Up
+Versicherung: KH - KFZ-Haftpfl. / VK - Vollkasko / TK - Teilkasko
+Kraftstoffe: N - Normalbenzin / S - Superbenzin / SP - SuperPlus / D - Diesel / FG - Flüssiggas / G - Erdgas / E - Strom
+
+
+
+
+  © ADAC e.V.                                                                                                                               13 von 16
+                                                                                                                            Kia EV2 (42,2 kWh) Earth
+
+
+Eigenschaften des Elektroantriebs
+Elektromotor                                                 Ladekabel / Anschluss                                   Laden
+ Permanentmagnet-Synchronmaschine, vorn                      Schuko / einphasig, 230 V, 10 A            Option       Maximaler Ladestand wählbar                  Ja
+ Maximale Leistung            108 kW (147 PS)                Typ 2 / dreiphasig, 230 V, 32 A             Serie       Begrenzbare Ladeleistung AC/DC         Ja/n.b.
+ Dauerleistung laut                    36 kW                 V2L / Typ2 auf Schuko,                     Option       Position der Ladeklappe          vorne rechts
+ Fahrzeugschein                                                                                                      Ladeklappe verriegelt                        Ja
+ Maximales Drehmoment                250 Nm                  Rekuperation                                            Entriegelung Ladekabel       Aufsperren, Taste
+ Getriebe           1-Gang-Reduktionsgetriebe                Stufen/Einstellung                       6/Paddel       Bidirektionales Laden                        Ja
+                                                             Rekuperation bis zum Stillstand                Ja       Batteriekonditionierung                      Ja
+                                                             möglich (One-Pedal-Drive)                               Statusanzeige                                Ja
+                                                             Adaptive Rekuperation                             Ja    Batteriekonditionierung
+                                                                                                                     Anzeige aktuelle                             Ja
+                                                             Klimatisierung                                          Schnellladefähigkeit
+                                                             Wärmepumpe                                 Option       Anzeige Ladesäulendetails                    Ja
+Batterie                                                     Standklimatisierung                             Ja      Auswahl                                 Ja / Ja
+ Batteriegröße kWh                     n.b. / n.b.           Steuerung Smartphone /                     Ja/n.b.      Ladesäulenanbieter/Plug&Charge
+ gesamt/nutzbar                                              Vorprogrammierung                                       Laderoutenplanung/Ziel-                 Ja / Ja
+ Komplette Vollladung mit               46,1 kWh                                                                     Ladestand bei Routenplanung
+ Ladeverlusten                                               Anzeigen während Ladevorgang                            wählbar
+ Typ/Nennspannung      Lithium-Ionen (LFP) / 400             Ladestand in Prozent /                         Ja/Ja
+                                                 V           Restkilometer
+ Garantie /            8 Jahre, 160.000 km, 70 %             Restdauer / Uhrzeit bis geladen            Ja/Nein
+ garantierte                                                 Momentane Ladeleistung                          Ja
+ Kapazität                                                   Ladeanzeige von außen sichtbar                Nein
+
+Lademöglichkeiten
+ Steckertyp / Anschluss                                        Ausstattung                     Ladestrom              Ladeleistung                    Ladezeit
+ Haushaltssteckdose / einphasig, 230 V                            Serie                          6 - 10 A              1,3 - 2,3 kW                 35,5 h - 20 h
+ Typ 2 / einphasig, 230 V                                         Serie                          6 - 32 A              1,3 - 7,4 kW                  35,5 h - 6 h
+ Typ 2 / dreiphasig, 230 V                                        Serie                          6 - 16 A               4,1 - 11 kW                   11 h - 4 h
+ Typ 2 / dreiphasig, 230 V                                       Option                          6 - 32 A              4,1 - 22 kW                    11 h - 2 h
+ DC schnell / CCS                                                 Serie                              -                    115 kW                       28 min.
+ AC-Laden von 0 bis 100 %, DC-Laden von 10 bis 80 %, Herstellerangabe bei DC-Ladeleistung
+
+
+
+Ladekurve DC & nachgeladene Reichweite
+Ladeleistung in kW
+
+  140                   5 min
+  120                        max. 114 kW
+
+  100                   10 min
+   80
+
+   60                   20 min
+   40
+
+   20                   28 min
+
+        0              10            20                 30             40              50               60           70               80            90                100
+                                                                                                                                           Ladestand Batterie in Prozent
+
+
+                                                                                                                                               Ladevorgang 10-80 %*
+   5 min       49 km                                                                                                Ø Ladeleistung                          64,5 kW
+                                                                                                                    Ladedauer                                 00:28
+                                                                                                                    Nachgeladene Reichweite                  175 km
+ 10 min                     87 km
+                                                                                                                    Nachgeladen in*           kWh / Reichweite / SOC
+                                                                                                                    5 min                       8,5 kWh / 49 km / 30 %
+ 20 min                                        142 km
+                                                                                                                    10 min                     15,0 kWh / 87 km / 45 %
+                                                                                                                    20 min                    24,5 kWh / 142 km / 67 %
+           0            50               100             150                200             250              300                                       *ADAC Messung
+
+      © ADAC e.V.                                                                                                                                                   14 von 16
+                                                                                                                                                 Kia EV2 (42,2 kWh) Earth
+
+
+Herstellerangaben                                           1 Beinfreiheit vorn bis 1,93 m Person   5 Kopffreiheit hinten bis 1,93 m Person 8 Kofferraumvolumen 315 - 1.140 L
+ Permanentmagnet-Synchronmaschine, vorn                     2 Kopffreiheit vorn bis 2,12 m Person   6 Innenbreite hinten 140 cm
+ Leistung                             108 kW/147 PS
+                                                            3 Innenbreite vorn 142 cm               7 Beinfreiheit hinten bis 1,77 m Person
+                                                            4 Sitzhöhe vorn 51 cm                      (Vordersitz auf 1,85 m eingestellt)
+ Maximales Drehmoment                          250 Nm
+ Kraftübertragung                           Vorderrad
+ Getriebeart              1-Gang-Reduktionsgetriebe
+ Höchstgeschwindigkeit                       161 km/h                                                               2                  5
+
+                                                                                                                                                                                        Stehhöhe 1,88 m
+                                                                                                                                                                                                          Fahrzeughöhe 1,58 m
+                                                                                                                                                                                                                m 85,1 ehöhguezrhaF
+ Beschleunigung 0-100 km/h                         8,7 s
+ Verbrauch pro 100 km (WLTP)                  15,1 kWh                                                              3                  6                      8
+ CO₂-Ausstoß                                   0 g/km                                                               4
+ Stirnfläche/cW-Wert                         n.b./0,29                                                     1                   7
+ Klimaanlage Kältemittel                        1234yf
+ Reifengröße (Serie)                    205/65 R16H
+ Länge/Breite/Höhe            4.060/1.800/1.575 mm
+ Leergewicht/Zuladung                   1.620/470 kg
+ Kofferraumvolumen                         362/1.160 l
+                                                                                                                  Radstand: 2,57 m
+ normal/geklappt
+                                                                                                    Länge: 4,06 m / Breite: (inkl. Spiegel) 2,06 m
+ Anhängelast                              750/750 kg
+ ungebremst/gebremst
+ Stützlast/Dachlast                         100/70 kg      Ausstattung                                                                   Testurteil
+ Batteriekapazität (brutto/netto)         42,2/- kWh
+ Garantie                7 Jahre oder 150.000 km/12        Technik (°im Testwagen vorhanden)                                                 Autotest (ohne Autokosten)                                       2,4
+ Allgemein/Rost                                   Jahre     Adaptives Fahrwerk                              -                                Autokosten                                                        2,2
+ Produktionsort                              Slowakei       Scheinwerfer LED                            Serie
+                                                            Abbiege-/Kurvenlicht                            -                                KATEGORIE                                                NOTE
+                                                            Fahrlicht-/Wischerautomatik                 Serie
+                                                                                                                                             Karosserie                                                        2,8
+                                                            Fernlichtassistent                        Serie/-
+                                                                                                                                             Verarbeitung                                                      3,0
+ADAC Messwerte                                              statisch/dynamisch
+                                                                                                                                             Alltagstauglichkeit                                               3,3
+                                                            Tempomat/Limiter/ACC                -/Serie/Serie
+ Überholvorgang 60-100 km/h                  4,8 s                                                                                           Licht und Sicht                                                   2,8
+                                                            Einparkhilfe vorn/hinten                    Serie
+ Überholvorgang 80-120 km/h                  6,4 s                                                                                           Ein-/Ausstieg                                                     2,2
+                                                            Parklenkassistent                      990 Euro°
+ Bremsweg aus 100 km/h                     36,3 m                                                                                            Kofferraum-Volumen                                                3,1
+                                                            Rückfahrkamera/360°-Kamera       Serie/990 Euro°
+ Reifengröße                    205/65 R16 95H                                                                                               Kofferraum-Nutzbarkeit                                            3,2
+                                                            Head-up-Display                                 -
+ Reifen                     Hankook iON GT EV                                                                                                Kofferraum-Variabilität                                           2,2
+                                                            Schlüsselloses Zugangssystem                Serie
+ Wendekreis                                 11,7 m
+                                                            Elektrische Heckklappe                          -                                Innenraum                                                         2,7
+ Autotest-Verbrauch           18,8 kWh/100 km
+ Reichweite                               245 km                                                                                             Bedienung                                                         2,6
+                                                           Sicherheit
+ Innengeräusch 130 km/h               65,4 dB(A)                                                                                             Multimedia                                                        2,0
+                                                            Seitenairbags vorn/hinten                                   Serie/-
+ Fahrzeugbreite                        2.060 mm                                                                                              Raumangebot vorn                                                  2,2
+                                                            Kopfairbags vorn/hinten                                       Serie
+ (inkl. Außenspiegel)                                                                                                                        Raumangebot hinten                                                3,6
+                                                            Zentralairbag                                                 Serie
+ Leergewicht/Zuladung              1.584/506 kg                                                                                              Innenraum-Variabilität                                            3,2
+                                                            Spurwechselwarnung                                            Serie
+ Kofferraum normal                            315 l         Ausstiegswarnung                                              Serie              Komfort                                                           2,5
+ geklappt/dachhoch                    660/1.140 l           Querverkehrwarnung hinten                                     Serie              Federung                                                          2,6
+                                                                                                                                             Sitze                                                             2,7
+                                                           Innen
+                                                                                                                                             Innengeräusch                                                     2,1
+                                                            Navigationssystem                                     1.190 Euro°
+                                                                                                                                             Klimatisierung                                                    2,1
+Kosten                                                      USB vorn/hinten                                             Serie
+(pro Monat, fünfjährige Haltung, 15.000 km/Jahr)
+                                                            Apple CarPlay / Android Auto                                Serie                Antrieb                                                            1,2
+                                                            Induktive Ladeschale                                        Serie                Fahrleistungen                                                     1,9
+ Betriebskosten                                104 Euro     Klimaanlage/-automatik                                    -/Serie                Laufkultur                                                         1,0
+ Fixkosten                                     176 Euro     Standheizung/-klimatisierung                                Serie                Getriebe                                                           0,7
+ Werkstattkosten                                63 Euro     Elektr. Fensterheber vorn/hinten                            Serie
+ Wertverlust                                   367 Euro     Autom. abblend.                                           Serie/-                Fahreigenschaften                                                 2,6
+ Monatliche Gesamtkosten                       710 Euro     Innen-/Außenspiegel                                                              Fahrstabilität                                                    2,6
+ Steuer pro Jahr                                62 Euro     Außenspiegel elektr. anklappbar                               Serie              Lenkung                                                           2,7
+ Versicherungs-Typklassen                      17/25/22     Höheneinstellbarer                                            Serie              Bremse                                                            2,6
+ KH/VK/TK                                                   Fahrer-/Beifahrersitz
+ Basispreis getestete Variante               31.290 Euro                                                                                     Sicherheit                                                       2,4
+                                                            Elektr. Sitze vorn links/rechts                          Serie/-                 Aktive Sicherheit                                                1,8
+                                                            Lordosenstütze links/rechts                              Serie/-                 Passive Sicherheit                                               2,6
+                                                            Sitzheizung vorn/hinten                                  Serie/-                 Kindersicherheit                                                 2,7
+                                                            Lenkradheizung                                             Serie                 Sicherheit ungeschützte Personen                                 3,0
+Informationen zum Testfahrzeug                              Rücksitzlehne geteilt klappbar                             Serie
+ Pressefahrzeug                  EZ 07.04.2026              Ambientebeleuchtung vorn/hinten                       990 Euro/-                 Umwelt                                                             2,1
+ Testwagenpreis inkl.              36.240 Euro                                                                                               Verbrauch                                                          2,2
+ Sonderausstattung                                         Außen                                                                             Umwelteinfluss                                                     1,4
+ Kilometerstand bei Testbeginn        1.640 km              Anhängerkupplung                                         Zubehör
+ Auffälligkeiten/Mängel                   keine             Metalliclackierung                                          Serie            Notenskala
+ Softwarestand 261S.QV1.EUR.ccNC.001.001.26028              Schiebedach/Panoramaglasdach                                    -
+                                                                                                                                               sehr gut 0,6 - 1,5       gut 1,6 - 2,5
+                                                                                                                                               befriedigend 2,6 - 3,5
+
+Stand: 27.08.2026                                                                                                                              ausreichend 3,6 - 4,5        mangelhaft 4,6 - 5,5
+Test und Text: Dipl.-Ing. Andreas Milkutat
+
+
+      © ADAC e.V.                                                                                                                                                                                    15 von 16
+                Kia EV2 (42,2 kWh) Earth
+
+
+Bildergalerie
+
+
+
+
+  © ADAC e.V.                        16 von 16
+

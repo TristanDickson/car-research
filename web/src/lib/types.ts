@@ -259,6 +259,25 @@ export interface SnapshotCar {
   adac_rear_space?: number | null;
   adac_family?: number | null;
   adac_tested?: string | null;
+  /** ADAC's own measurements of the car it tested, from the test's PDF: the tyres it was on ('235/45 R19 99V, Nexen N Fera Sport'),
+   *  boot (seats up; folded to the roof), turning circle, braking from 62 mph, noise at 81 mph, the test cycle's range (miles,
+   *  converted from km) and efficiency, DC 10-80% time and average power, energy for a full charge, 37-62 mph, width with
+   *  mirrors, weight and payload. */
+  adac_tyres_tested?: string | null;
+  adac_boot_measured_l?: number | null;
+  adac_boot_max_measured_l?: number | null;
+  adac_turning_circle_m?: number | null;
+  adac_braking_100_m?: number | null;
+  adac_noise_130_db?: number | null;
+  adac_ecotest_range_mi?: number | null;
+  adac_ecotest_mi_kwh?: number | null;
+  adac_dc_10_80_min?: number | null;
+  adac_dc_avg_kw?: number | null;
+  adac_full_charge_kwh?: number | null;
+  adac_60_100_s?: number | null;
+  adac_width_mirrors_mm?: number | null;
+  adac_weight_kg?: number | null;
+  adac_payload_kg?: number | null;
   /** ADAC's breakdown statistics for the model: callouts per 1,000 cars first registered in that year, and its grade. */
   adac_breakdowns?: number | null;
   adac_breakdown_year?: number | null;
