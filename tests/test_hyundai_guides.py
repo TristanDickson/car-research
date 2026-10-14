@@ -126,6 +126,13 @@ class Technical(unittest.TestCase):
         self.assertEqual((p["RWD"]["frunk_l"], p["AWD"]["frunk_l"], p["RWD"]["power_kw"], p["AWD"]["power_ps"]), (45, 14.5, 168, 325))
         self.assertEqual((p["RWD"]["wltp_range_mi"], p["AWD"]["wltp_range_mi"]), (338, 322))
 
+    def test_ioniq6_head_and_leg_room_by_row_and_trim(self):
+        premium, ultimate = IONIQ6[("Premium", None)]["numbers"], IONIQ6[("Ultimate", None)]["numbers"]
+        self.assertEqual((premium["headroom_front_mm"], premium["headroom_rear_mm"], premium["legroom_front_mm"]), (1022, 937, 1154))
+        self.assertEqual(ultimate["headroom_front_mm"], 974, "the Ultimate columns' own '974'")
+        self.assertNotIn("legroom_rear_mm", premium, "the guide prints no 2nd row leg room")
+        self.assertNotIn("headroom_front_mm", IONIQ5[("Ultimate", None)]["numbers"], "nor the Ioniq 5's any")
+
     def test_ioniq9_seat_headings_and_both_boots(self):
         n = IONIQ9[("Calligraphy", 6)]["numbers"]
         self.assertEqual((n["boot_l"], n["boot_3rd_row_folded_l"], n["boot_max_l"], n["tow_kg"], n["wltp_range_mi"]), (338, 908, 2419, 2500, 372))

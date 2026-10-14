@@ -84,7 +84,9 @@ RECALL_FIELDS = ("recalls_count", "recalls_latest", "recalls")
 # Carwow's review of the model (providers/carwow_model.py parse_review), in its own words.
 REVIEW_FIELDS = ("review_good", "review_not_so_good", "review_rear_seat_notes", "review_rear_seats", "review_ride_town",
                  "review_ride_motorway", "review_interior", "review_reliability")
-NUMBERS = NUMBERS + ADAC_FIELDS + WHATCAR_FIELDS + RECALL_FIELDS + REVIEW_FIELDS
+# Interior space by row of seats, mm, as the makers print it (providers/hyundai_specs.py, kia_specs.py); rear is the 2nd row.
+INTERIOR_FIELDS = ("legroom_front_mm", "legroom_rear_mm", "headroom_front_mm", "headroom_rear_mm", "shoulder_front_mm", "shoulder_rear_mm")
+NUMBERS = NUMBERS + ADAC_FIELDS + WHATCAR_FIELDS + RECALL_FIELDS + REVIEW_FIELDS + INTERIOR_FIELDS
 ENGINE_FIELDS = ("battery_kwh", "wltp_range_mi", "power_hp", "zero_to_62_s", "top_speed_mph", "efficiency_mi_kwh", "ac_kw", "drive", "dc_peak_kw", "dc_10_80_min")
 BODY_FIELDS = ("seats", "doors", "boot_l", "boot_max_l", "turning_circle_m", "wheelbase_m", "length_mm", "width_mm", "height_mm")
 NUMBER_ALIASES = {"zero_to_60_s": "zero_to_62_s", "power_bhp": "power_hp", "kerb_weight_kg": "weight_kg"}
@@ -683,6 +685,8 @@ def _maker_numbers(store: Store, rows: list[dict]) -> None:
             vals = [n.get(f) for n, _, _ in members]
             if any(v in (None, "") for v in vals) or not _all_agree(vals):
                 continue
+            if f in INTERIOR_FIELDS and len(set(vals)) > 1:
+                continue   # the PV5's 5-seat and 7-seat 2nd rows (995, 977 mm) are within 2% and still different seats
             store.add(sub, Claim(f, vals[0], "measured", members[0][1], members[0][2], seen=None))
 
 
