@@ -24,6 +24,14 @@ export interface CarCostRow {
   trim_scale: number;
   /** Where its cheapest PCP and lease overtake its cheapest cash price: the savings rate, and the resale price. */
   breakeven: BreakEven[];
+  /** listing key → every current used listing of this car's trim and battery, costed: the used table's own figure per car. */
+  used_listings: Record<string, UsedListingCost>;
+}
+
+export interface UsedListingCost {
+  true_monthly: number | null;
+  end_value: number | null;
+  evidence_n: number | null;
 }
 
 export interface ComputeInput {
@@ -62,6 +70,13 @@ export function computeAll(input: ComputeInput): ComputeResult {
   const cur = current(now, input.today);
   const residual = residualAt(used), floor = floorGfvAt(all.filter((s) => s.route !== "used"));
   const currentByKey = new Map(all.filter((s) => s.current).map((s) => [s.key, s]));
+  const usedByTrim = new Map<string, Record<string, UsedListingCost>>();
+  for (const c of now) {
+    if (c.s.route !== "used" || !c.s.current || !c.s.used_key) continue;
+    const listings = usedByTrim.get(c.s.used_key) ?? {};
+    listings[c.s.key] = { true_monthly: c.true_monthly, end_value: c.end_value, evidence_n: c.evidence_n };
+    usedByTrim.set(c.s.used_key, listings);
+  }
   const cashSeries = new Map<string, SeriesRow[]>();
   for (const r of rows) {
     if (r.route !== "cash") continue;
@@ -86,7 +101,8 @@ export function computeAll(input: ComputeInput): ComputeResult {
     const sighting = (p: CurrentPoint | undefined) => (p ? currentByKey.get(p.key) : undefined);
     const finance = { pcp: sighting(best.pcp), pch: sighting(best.pch) };
     const breakeven = breakEvens(sighting(best.cash) ?? null, finance, input.basis, residual, floor, input.today, trim);
-    cars.push({ id: c.id, model, routes, best, trend: tr, stock: stock && stock.count ? stock : null, trim_scale: trim(c.id), breakeven });
+    cars.push({ id: c.id, model, routes, best, trend: tr, stock: stock && stock.count ? stock : null, trim_scale: trim(c.id), breakeven,
+                used_listings: (c.used_key && usedByTrim.get(c.used_key)) || {} });
   }
   const offers = offersFrom(input.sightings, input.basis, input.today, input.staleDays, residual, trim);
   return { cars, series: rows, residuals: residualSeries(used, input.today), offers,

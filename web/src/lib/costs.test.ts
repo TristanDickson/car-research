@@ -23,6 +23,7 @@ const row: CarCostRow = {
   stock: null,
   trim_scale: 1,
   breakeven: [],
+  used_listings: {},
 };
 
 describe("carCosts", () => {

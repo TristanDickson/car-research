@@ -22,6 +22,8 @@ import { pchOverHorizon, pcpOverHorizon, type AtHorizon } from "./horizon";
 
 export const ROUTES: Route[] = ["cash", "pcp", "pch", "used"];
 export const MIN_EVIDENCE = 3;
+/** A resale estimate resting on fewer used cars than this is flagged where it is shown. */
+export const THIN_EVIDENCE = 10;
 
 export interface Sighting {
   /** The offer key, or the used listing key. */
@@ -204,6 +206,8 @@ export interface Costed {
   own_horizon_months: number;
   end_value: number | null;
   residual_source: string | null;
+  /** How many used cars the end value rests on, when the used market gave it (the thinner year's count for a used car). */
+  evidence_n: number | null;
   /** The full normalisation of an offer (null for a used listing), for the table. */
   metrics: Metrics | null;
   terms: PrintedTerms;
@@ -247,10 +251,10 @@ function residualsFor(s: Sighting, months: number, asOf: string, residual: Resid
 /** What a used car is worth `months` on: its own price, scaled by what its model's examples that many years older ask
  * against those of its own year. A cheap, high-mileage example ends cheap too, where the older examples' median alone
  * would hand it the value of an average one. Null without enough examples of both years, or when the older ones ask no less. */
-export function usedEndValue(price: number, model: string, year: number, months: number, asOf: string, residual: ResidualAt): number | null {
+export function usedEndValue(price: number, model: string, year: number, months: number, asOf: string, residual: ResidualAt): [value: number, n: number] | null {
   const then = residual(model, year - yearsOf(months), asOf), now = residual(model, year, asOf);
   if (!then || !now || then[0] >= now[0]) return null;
-  return (price * then[0]) / now[0];
+  return [(price * then[0]) / now[0], Math.min(then[1], now[1])];   // as strong as the thinner of the two years
 }
 
 /** One sighting on the common footing, with the used market read as of `asOf`. */
@@ -260,10 +264,12 @@ export function cost(s: Sighting, basis: Basis, residual: ResidualAt, floorGfv: 
   if (s.route === "used") {
     const price = num(s.deal.price), year = num(s.deal.year);
     if (!price) return null;
-    const m = usedRoute(price, year ? yearOf(asOf) - year : null, basis, year ? usedEndValue(price, s.model, year, H, asOf, residual) : null);
+    const ev = year ? usedEndValue(price, s.model, year, H, asOf, residual) : null;
+    const m = usedRoute(price, year ? yearOf(asOf) - year : null, basis, ev ? ev[0] : null);
     return { s, as_of: asOf, headline: price, true_monthly: m.true_monthly, true_monthly_floor: null, pv_cost: m.pv_cost,
              horizon_months: H, at_horizon: "sold", own_true_monthly: m.true_monthly, own_horizon_months: H,
-             end_value: m.expected_value_at_end, residual_source: m.residual_source, metrics: null, terms: printedTerms("used", s.deal, null) };
+             end_value: m.expected_value_at_end, residual_source: m.residual_source, evidence_n: ev ? ev[1] : null, metrics: null,
+             terms: printedTerms("used", s.deal, null) };
   }
   const d: DealFields = { ...s.deal, id: s.key, car_id: s.car_id, finance_type: s.route, status: (s.deal.status as string | undefined) ?? s.status ?? "live" };
   let m: Metrics;
@@ -303,9 +309,10 @@ export function cost(s: Sighting, basis: Basis, residual: ResidualAt, floorGfv: 
     return null;   // a payload the maths cannot cost is dropped, not fatal
   }
   const pick = overHorizon ? hz : { ...own, kind: (s.route === "cash" ? "sold" : "as_agreed") as AtHorizon, end: m.expected_value_at_end ?? null, src: m.residual_source ?? null };
+  const evidence = pick.src === "used-market" ? residual(s.model, yearOf(asOf) - yearsOf(pick.months), asOf) : null;
   return { s, as_of: asOf, headline, true_monthly: pick.tm, true_monthly_floor: pick.floor, pv_cost: pick.pv, horizon_months: pick.months,
-           at_horizon: pick.kind, own_true_monthly: own.tm, own_horizon_months: own.months, end_value: pick.end, residual_source: pick.src, metrics: m,
-           terms: printedTerms(s.route, d, m) };
+           at_horizon: pick.kind, own_true_monthly: own.tm, own_horizon_months: own.months, end_value: pick.end, residual_source: pick.src,
+           evidence_n: evidence ? evidence[1] : null, metrics: m, terms: printedTerms(s.route, d, m) };
 }
 
 /** Every present sighting costed, each as of its own first day (history) or as of one date (`asOf`, for what things cost today). */
@@ -332,6 +339,8 @@ export interface Point {
   true_monthly_floor: number | null;
   residual_source: string | null;
   end_value: number | null;
+  /** How many used cars the end value rests on (Costed.evidence_n). */
+  evidence_n?: number | null;
   horizon_months: number;
   at_horizon: AtHorizon;
   own_true_monthly: number | null;
@@ -344,8 +353,8 @@ export interface Point {
 export function point(c: Costed): Point {
   return { from: c.s.from.slice(0, 10), to: c.s.to.slice(0, 10), key: c.s.key, seller: c.s.seller ?? null, headline: c.headline,
            true_monthly: c.true_monthly, true_monthly_floor: c.true_monthly_floor, residual_source: c.residual_source, end_value: c.end_value,
-           horizon_months: c.horizon_months, at_horizon: c.at_horizon, own_true_monthly: c.own_true_monthly, own_horizon_months: c.own_horizon_months,
-           terms: c.terms };
+           evidence_n: c.evidence_n, horizon_months: c.horizon_months, at_horizon: c.at_horizon, own_true_monthly: c.own_true_monthly,
+           own_horizon_months: c.own_horizon_months, terms: c.terms };
 }
 
 /** For a crowd of overlapping sightings (a model's used stock), the cheapest true monthly on each day the set changes, as flat steps. */

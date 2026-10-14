@@ -48,6 +48,7 @@ describe("costing", () => {
     const today = cost(pcp, BASIS, residual, floor, "2026-10-07")!;
     expect([june.residual_source, today.residual_source]).toEqual(["gfv-grown", "used-market"]);
     expect(today.end_value).toBe(21000);
+    expect([today.evidence_n, june.evidence_n]).toEqual([3, null]);      // three 2023 cars behind it; none in June
     expect(today.true_monthly!).toBeLessThan(june.true_monthly!);      // equity above the GFV makes the PCP cheaper
     expect([june.headline, june.as_of, june.at_horizon, june.horizon_months]).toEqual([500, "2026-06-01", "as_agreed", 37]);
     expect(june.own_true_monthly).toBe(june.true_monthly);
@@ -70,9 +71,11 @@ describe("costing", () => {
     // 2026 examples ask a median £30,000 and 2023 ones £21,000: a 2026 car loses 30% in three years.
     const stock = [...STOCK, ...[29000, 30000, 31000].map((p, i) => used(`n${i}`, p, 2026, "2026-10-01", "2026-10-07", { vrm: `N${i}`, mileage: 10 + i }))];
     const tired = cost(used("x", 24000, 2026, "2026-10-07", "2026-10-07", { vrm: "X", mileage: 90000 }), BASIS, residualAt(stock), floorGfvAt([]), "2026-10-07")!;
-    expect([tired.residual_source, tired.end_value]).toEqual(["used-market", 16800]);   // not the £21,000 an average 2023 car asks
+    expect([tired.residual_source, tired.end_value, tired.evidence_n]).toEqual(["used-market", 16800, 3]);   // not the £21,000 an average 2023 car asks
     const dearer = residualAt([...stock, ...[25000, 26000, 27000].map((p, i) => used(`o${i}`, p, 2023, "2026-10-01", "2026-10-07", { vrm: `O${i}`, mileage: 20 + i }))]);
-    expect(usedEndValue(24000, MODEL, 2026, 37, "2026-10-07", dearer)).toBeCloseTo(24000 * 23500 / 30000, 6);   // 2023's median now £23,500
+    const [value, n] = usedEndValue(24000, MODEL, 2026, 37, "2026-10-07", dearer)!;
+    expect(value).toBeCloseTo(24000 * 23500 / 30000, 6);   // 2023's median now £23,500
+    expect(n).toBe(3);                                     // six 2023 cars, three 2026: as strong as the thinner year
     const old = residualAt([...STOCK, ...[19000, 20000, 21000].map((p, i) => used(`m${i}`, p, 2026, "2026-10-01", "2026-10-07", { vrm: `M${i}`, mileage: 30 + i }))]);
     expect(usedEndValue(24000, MODEL, 2026, 37, "2026-10-07", old)).toBeNull();          // older examples asking no less say nothing about depreciation
   });
@@ -217,6 +220,23 @@ describe("series", () => {
 });
 
 describe("recompute", () => {
+  it("every current used listing of a car's trim is costed for the used table", async () => {
+    const { computeAll } = await import("./recompute");
+    type U = import("../types").SnapshotUsedSpan;
+    const span = (key: string, price: number, year: number, used_key: string | null, i: number): U =>
+      ({ key, source: "cinch", model: MODEL, car_id: null, used_key, year, price, mileage: 1000 + i, vrm: `V${key}`, town: null, from: "2026-10-01", to: "2026-10-07", present: true });
+    const usedSpans: U[] = [
+      ...[20000, 21000, 22000].map((p, i) => span(`old${i}`, p, 2023, null, i)),
+      ...[29000, 30000, 31000].map((p, i) => span(`new${i}`, p, 2026, "m|premium|84", 10 + i)),
+      span("other", 33000, 2026, "m|ultimate|84", 20),
+    ];
+    const r = computeAll({ sightings: [], usedSpans, cars: [{ id: "car-a", model_key: MODEL, used_key: "m|premium|84" }], basis: BASIS, today: "2026-10-08", staleDays: 14 });
+    const listings = r.cars[0].used_listings;
+    expect(Object.keys(listings).sort()).toEqual(["new0", "new1", "new2"]);   // this trim's, not the Ultimate's
+    expect(listings.new0.end_value).toBeCloseTo(29000 * 21000 / 30500, 1);   // the 2026 median counts every trim: 29, 30, 31 and the £33,000 Ultimate
+    expect(listings.new0.evidence_n).toBe(3);
+    expect(listings.new0.true_monthly!).toBeLessThan(listings.new2.true_monthly!);
+  });
   it("a price confirmed last night is still today's: the latest state of a key holds until seen gone or stale", async () => {
     const { computeAll } = await import("./recompute");
     type S = import("../types").SnapshotSighting;
@@ -228,6 +248,7 @@ describe("recompute", () => {
     expect(row.stock?.count).toBe(3);                                   // yesterday's stock is today's stock
     expect(row.routes.cash!.ncd.residual_source).toBe("used-market");   // and the evidence behind the cash route
     expect(row.routes.cash!.ncd.age_days).toBe(2);                      // but the age is real
+    expect(row.used_listings).toEqual({});                              // the car names no trim, so no listing is it
     const stale = computeAll({ sightings: spans, usedSpans, cars: [{ id: "car-a", model_key: MODEL }], basis: BASIS, today: "2026-11-09", staleDays: 14 });
     expect([Object.keys(stale.cars[0].routes), stale.cars[0].stock]).toEqual([[], null]);   // a month on with no sighting, nothing is current (the trend remains)
     const marked = markCurrent([used("a", 1, 2023, "2026-10-01", "2026-10-07"), used("a", 2, 2023, "2026-10-08", "2026-10-08", { present: false })], "2026-10-09", 14);

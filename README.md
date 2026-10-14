@@ -390,6 +390,10 @@ rejected by that rule fails in two seconds with no runner and no logs.
   owner asked to work around it ("This is a personal product not a commercial one"), so Chrome
   downloads the file (`scripts/fetch-with-chrome.mjs`, about 15 s). 141 models have a recall; the
   car page lists them, and one that follows a fix that did not hold says so.
+- **2026-10-14** The owner said yes to two gaps found re-checking the recommendation in the app:
+  every used listing of a car's trim now has its own true monthly on the car page (the app
+  costed only the cheapest), and a figure whose resale estimate rests on fewer than 10 used cars
+  is marked "few cars" (the 2024 Ioniq 5 Ultimate's £206 rested on nine 2021 cars).
 
 - **2026-10-12** App-side changes, no rebuild of the data needed. The Cars table's PCP and lease
   columns sort by what they show, and each route has two: the true cost a month and the

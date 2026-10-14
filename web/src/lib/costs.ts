@@ -4,7 +4,7 @@ import { gbp, num } from "./format";
 // computed from offers at render time; a page needs a car and its cost row.
 import { MAX_RATE, type BreakEven } from "./model/breakeven";
 import type { AtHorizon } from "./model/horizon";
-import type { CarCostRow } from "./model/recompute";
+import type { CarCostRow, UsedListingCost } from "./model/recompute";
 import type { CurrentPoint, PrintedTerms, Trend, UsedStock } from "./model/sightings";
 import type { Route, SnapshotCar } from "./types";
 
@@ -24,6 +24,8 @@ export interface TrueCost {
   /** What the car is expected to be worth at the end under this route. */
   endValue: number | null;
   residualSource: string | null;
+  /** How many used cars the end value rests on, when the used market gave it. */
+  evidenceN: number | null;
   ageDays: number | null;
   /** The months the figure is spread over and what it assumes happens at the end. */
   horizonMonths: number;
@@ -55,18 +57,21 @@ export interface CarCosts {
   breakeven: BreakEven[];
   /** This trim's list price over its model's typical one: what scales the used median to it. */
   trimScale: number;
+  /** listing key → each current used listing of this trim, costed. */
+  usedListings: Record<string, UsedListingCost>;
 }
 
 function toTrueCost(route: Route, p: CurrentPoint, names: Record<string, string>): TrueCost | null {
   if (p.true_monthly == null) return null;
   return { route, offerId: p.key, dealer: p.seller ?? null, source: p.source, sourceName: names[p.source] ?? p.source, monthly: p.true_monthly,
            floor: p.true_monthly_floor ?? null, headline: p.headline, endValue: p.end_value ?? null, residualSource: p.residual_source ?? null,
+           evidenceN: p.evidence_n ?? null,
            ageDays: p.age_days ?? null, horizonMonths: p.horizon_months, atHorizon: p.at_horizon, ownMonthly: p.own_true_monthly,
            ownHorizonMonths: p.own_horizon_months, terms: p.terms };
 }
 
 export const NO_COSTS: CarCosts = { trueCost: null, byRoute: {}, sources: 0, monthly: null, monthlyRoute: null, threeYear: null, cash: null, trend: null, stock: null,
-                                     breakeven: [], trimScale: 1 };
+                                     breakeven: [], trimScale: 1, usedListings: {} };
 
 /** The car's costs from its stored row; `names` maps source ids to display names (data.json). */
 export function carCosts(car: SnapshotCar, row: CarCostRow | null | undefined, names: Record<string, string> = {}): CarCosts {
@@ -100,7 +105,7 @@ export function carCosts(car: SnapshotCar, row: CarCostRow | null | undefined, n
     trueCost, byRoute, sources: sources.size,
     monthly: monthly?.headline ?? null, monthlyRoute: monthly ? (monthly.route as "pcp" | "pch") : null, threeYear: monthly?.terms.paid ?? null,
     cash: cash ? { offerId: cash.offerId, dealer: cash.dealer, price: cash.headline!, ageDays: cash.ageDays } : null,
-    trend: row.trend, stock: row.stock, breakeven: row.breakeven ?? [], trimScale: row.trim_scale ?? 1,
+    trend: row.trend, stock: row.stock, breakeven: row.breakeven ?? [], trimScale: row.trim_scale ?? 1, usedListings: row.used_listings ?? {},
   };
 }
 

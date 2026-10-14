@@ -400,6 +400,10 @@ Where V comes from, in order (`expectedValue`, reported as `residual_source`):
    price scaled by that median against the median of its own registration year
    (`sightings.usedEndValue`), so a cheap, high-mileage example ends cheap too; with too
    few examples of either year, or older ones asking no less, it falls to the assumption.
+   Each costed figure carries how many used cars its V rests on (`evidence_n`, the thinner
+   year's for a used car); the app marks one below `THIN_EVIDENCE` (10 cars) wherever it shows
+   it. Every current used listing of a car's trim and battery is costed too
+   (`CarCostRow.used_listings`), so the car page's used table gives each its own true monthly.
 2. **gfv-grown**: the highest GFV any lender guarantees for the car that day, grown at
    the savings rate over the term. The lender stood behind the floor; the expectation
    sits above it by about the rate they discounted at. No forecasting beyond that.

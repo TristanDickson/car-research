@@ -10,7 +10,8 @@ import { Badge, Card, Empty } from "@/components/ui";
 import { breakEvenText, ROUTE_LABEL, ROUTE_SHORT, ROUTES, type CarCosts } from "@/lib/costs";
 import { gbp, num } from "@/lib/format";
 import { useOffersForCar, useResidualsForModel, useSeriesForCar, useUsedForModel } from "@/lib/hooks";
-import type { UsedStock } from "@/lib/model/sightings";
+import type { UsedListingCost } from "@/lib/model/recompute";
+import { THIN_EVIDENCE, type UsedStock } from "@/lib/model/sightings";
 import { clipChart, latestOf, seriesToChart, type Measure } from "@/lib/trends";
 import type { Route, SnapshotCar, SnapshotUsed } from "@/lib/types";
 
@@ -68,7 +69,10 @@ export function Pricing({ car, costs, horizon, savingsRate, sources, staleDays }
                   <div className="mt-1 text-xl font-semibold tabular-nums text-gray-100">{gbp(t.monthly)}<span className="text-sm font-normal text-gray-400">/mo over {t.horizonMonths} mo</span></div>
                   <div className="text-xs text-gray-300">{printed(t)}</div>
                   <div className="text-xs text-gray-500">{t.sourceName}{t.dealer && t.dealer !== t.sourceName ? ` · ${t.dealer}` : ""}</div>
-                  <div className="text-xs text-gray-500">{t.endValue != null ? `worth ${gbp(t.endValue)} at the end (${t.residualSource ?? "?"})` : "nothing comes back"}</div>
+                  <div className="text-xs text-gray-500">{t.endValue != null ? `worth ${gbp(t.endValue)} at the end (${t.residualSource ?? "?"}${t.evidenceN != null ? `, ${t.evidenceN} cars` : ""})` : "nothing comes back"}</div>
+                  {t.evidenceN != null && t.evidenceN < THIN_EVIDENCE && (
+                    <div className="text-xs text-amber-300">only {t.evidenceN} used cars behind that estimate: treat this figure with care</div>
+                  )}
                 </>
               ) : (
                 <div className="mt-1 text-sm text-gray-500">{available.includes(r) ? "no current figure; history below" : "nothing seen"}</div>
@@ -122,7 +126,9 @@ export function Pricing({ car, costs, horizon, savingsRate, sources, staleDays }
                     <td className="py-1 pr-3">{name(r.source)}{active === "used" && l?.point.n ? <span className="text-xs text-gray-500"> · {l.point.n} on sale</span> : null}</td>
                     <td className="py-1 pr-3 text-right tabular-nums">{l?.point.true_monthly != null ? gbp(l.point.true_monthly) : "—"}<span className="text-xs text-gray-500">{l ? ` / ${l.point.horizon_months} mo` : ""}</span></td>
                     <td className="py-1 pr-3 text-xs text-gray-300">{l ? printed({ route: active, terms: l.point.terms } as Parameters<typeof printed>[0]) : "—"}</td>
-                    <td className="py-1 pr-3 text-xs text-gray-400">{l?.point.residual_source ?? "—"}</td>
+                    <td className={`py-1 pr-3 text-xs ${l?.point.evidence_n != null && l.point.evidence_n < THIN_EVIDENCE ? "text-amber-300" : "text-gray-400"}`}>
+                      {l ? `${l.point.residual_source ?? "—"}${l.point.evidence_n != null ? ` (${l.point.evidence_n} cars)` : ""}` : "—"}
+                    </td>
                     <td className="py-1 pr-3 text-xs text-gray-400">{l?.point.seller ?? "—"}</td>
                     <td className="py-1 text-xs text-gray-400">{l ? day(l.point.to) : "—"}</td>
                   </tr>
@@ -144,7 +150,7 @@ export function Pricing({ car, costs, horizon, savingsRate, sources, staleDays }
           )}
 
           {active === "used" && (
-            <UsedStockView car={car} listings={used.data ?? []} stock={costs.stock} byYear={byYear} trimScale={costs.trimScale} />
+            <UsedStockView car={car} listings={used.data ?? []} stock={costs.stock} byYear={byYear} trimScale={costs.trimScale} costed={costs.usedListings} />
           )}
         </div>
       )}
@@ -152,7 +158,7 @@ export function Pricing({ car, costs, horizon, savingsRate, sources, staleDays }
   );
 }
 
-function UsedStockView({ car, listings, stock, byYear, trimScale }: { car: SnapshotCar; listings: SnapshotUsed[]; stock: UsedStock | null; byYear: { year: number; points: { date: string; median: number; n: number }[] }[]; trimScale: number }) {
+function UsedStockView({ car, listings, stock, byYear, trimScale, costed }: { car: SnapshotCar; listings: SnapshotUsed[]; stock: UsedStock | null; byYear: { year: number; points: { date: string; median: number; n: number }[] }[]; trimScale: number; costed: Record<string, UsedListingCost> }) {
   const [all, setAll] = useState(false);
   // This car's own trim and battery first; the model's other listings stay as evidence of what a used one is worth.
   const mine = (l: SnapshotUsed) => !!car.used_key && l.used_key === car.used_key;
@@ -176,7 +182,7 @@ function UsedStockView({ car, listings, stock, byYear, trimScale }: { car: Snaps
         ) : (
           <table className="w-full text-sm">
             <thead className="text-left text-xs uppercase text-gray-500">
-              <tr><th className="py-1 pr-3 text-right">Price</th><th className="py-1 pr-3 text-right">Finance</th><th className="py-1 pr-3">Year</th><th className="py-1 pr-3 text-right">Miles</th><th className="py-1 pr-3">Derivative</th><th className="py-1 pr-3">Where</th><th className="py-1">Source</th></tr>
+              <tr><th className="py-1 pr-3 text-right">Price</th><th className="py-1 pr-3 text-right" title="This car's true cost per month on the same footing as the other routes: bought now, sold at the end of your term">True £/mo</th><th className="py-1 pr-3 text-right">Finance</th><th className="py-1 pr-3">Year</th><th className="py-1 pr-3 text-right">Miles</th><th className="py-1 pr-3">Derivative</th><th className="py-1 pr-3">Where</th><th className="py-1">Source</th></tr>
             </thead>
             <tbody>
               {shown.map((l) => (
@@ -187,6 +193,7 @@ function UsedStockView({ car, listings, stock, byYear, trimScale }: { car: Snaps
                     {l.coming_soon && <span className="ml-1 text-[10px] text-amber-300">coming soon</span>}
                     {l.vehicle_state === "New" && <span className="ml-1 text-[10px] text-amber-300" title="The site lists it as new: pre-registered stock, left out of what a used one is worth">new</span>}
                   </td>
+                  <UsedCost cost={costed[l.listing_key]} />
                   <td className="py-1 pr-3 text-right text-xs tabular-nums text-gray-300" title={financeTitle(l.finance)}>{financeShort(l.finance)}</td>
                   <td className="py-1 pr-3">{l.year ?? "—"}</td>
                   <td className="py-1 pr-3 text-right tabular-nums">{l.mileage != null ? num(l.mileage) : "—"}</td>
@@ -241,6 +248,20 @@ function UsedStockView({ car, listings, stock, byYear, trimScale }: { car: Snaps
   );
 }
 
+
+/** A used listing of this trim, costed: its true monthly, and a warning where its end value rests on few cars. */
+function UsedCost({ cost }: { cost: UsedListingCost | undefined }) {
+  if (!cost || cost.true_monthly == null) return <td className="py-1 pr-3 text-right text-xs text-gray-500">—</td>;
+  const thin = cost.evidence_n != null && cost.evidence_n < THIN_EVIDENCE;
+  const title = cost.end_value != null
+    ? `Worth ${gbp(cost.end_value)} at the end${cost.evidence_n != null ? `, from ${cost.evidence_n} used cars` : ", by the flat assumption"}${thin ? ": few cars, treat with care" : ""}`
+    : undefined;
+  return (
+    <td className="py-1 pr-3 text-right tabular-nums text-gray-100" title={title}>
+      {gbp(cost.true_monthly)}{thin && <span className="ml-1 text-[10px] text-amber-300">few cars</span>}
+    </td>
+  );
+}
 
 /** A used listing's finance quote in a few words: '£370/mo PCP', 'from £305/mo PCP' for a site's lowest. */
 function financeShort(f: SnapshotUsed["finance"]): string {

@@ -8,9 +8,9 @@ const car = (over: Partial<SnapshotCar>): SnapshotCar =>
   ({ id: "c", make: "Hyundai", model: "Kona Electric", trim: "Ultimate", picks: [], ...over }) as unknown as SnapshotCar;
 
 const costs = (over: Partial<CarCosts> = {}): CarCosts =>
-  ({ trueCost: null, byRoute: {}, sources: 0, monthly: null, monthlyRoute: null, threeYear: null, cash: null, trend: null, stock: null, breakeven: [], trimScale: 1, ...over });
+  ({ trueCost: null, byRoute: {}, sources: 0, monthly: null, monthlyRoute: null, threeYear: null, cash: null, trend: null, stock: null, breakeven: [], trimScale: 1, usedListings: {}, ...over });
 const tc = (over: Partial<TrueCost>): TrueCost =>
-  ({ route: "pcp", offerId: "p", dealer: null, source: "carwow", sourceName: "Carwow", monthly: 350, floor: null, headline: 300, endValue: null, residualSource: null,
+  ({ route: "pcp", offerId: "p", dealer: null, source: "carwow", sourceName: "Carwow", monthly: 350, floor: null, headline: 300, endValue: null, residualSource: null, evidenceN: null,
      ageDays: 0, horizonMonths: 37, atHorizon: "as_agreed", ownMonthly: 350, ownHorizonMonths: 37, terms: { paid: null }, ...over });
 const ctx = (over: Partial<CarContext> = {}): CarContext => ({ costs: costs(), ...over });
 

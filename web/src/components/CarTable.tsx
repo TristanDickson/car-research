@@ -9,6 +9,7 @@ import { printed } from "@/components/CarCard";
 import { ROUTE_SHORT, type CarCosts } from "@/lib/costs";
 import { FIELDS, flagFields, show, triOf, type Field } from "@/lib/fields";
 import { carName, gbp, nameDetail, sortName } from "@/lib/format";
+import { THIN_EVIDENCE } from "@/lib/model/sightings";
 import type { CarContext } from "@/lib/query";
 import type { SnapshotCar } from "@/lib/types";
 
@@ -27,10 +28,12 @@ function costCell(key: string, k: CarCosts): ReactNode | undefined {
   switch (key) {
     case "true": {
       const t = k.trueCost;
+      const thin = t?.evidenceN != null && t.evidenceN < THIN_EVIDENCE;
       return t ? (
-        <span title={`${ROUTE_SHORT[t.route]} · ${t.sourceName} · ${printed(t)}`}>
+        <span title={`${ROUTE_SHORT[t.route]} · ${t.sourceName} · ${printed(t)}${thin ? ` · the end value rests on only ${t.evidenceN} used cars` : ""}`}>
           {gbp(t.monthly)}
           <span className="text-xs text-gray-500"> {ROUTE_SHORT[t.route].toLowerCase()}</span>
+          {thin && <span className="text-xs text-amber-300"> few cars</span>}
         </span>
       ) : "—";
     }
