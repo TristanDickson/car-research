@@ -3,12 +3,12 @@
   "cars": 1978,
   "cars_curated": 19,
   "cars_generated": 1959,
-  "claims": 114234,
+  "claims": 114665,
   "configurations": 71,
   "configured": 33,
   "derivatives": 913,
   "disagreements": 133,
-  "fields_from_claims": 141399,
+  "fields_from_claims": 149418,
   "makes": 50,
   "models": 249,
   "models_with_deals": 178,
@@ -17,7 +17,7 @@
   "offers": 3454,
   "options_pages": 1166,
   "sightings": 26913,
-  "specs": 2844,
+  "specs": 2875,
   "specs_mapped": 919,
   "trim_map_auto": 2695,
   "trim_map_mapped": 56,
@@ -57,7 +57,7 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-14T06:49:02+00:00",
+ "generated_at": "2026-10-14T07:06:27+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
@@ -79,24 +79,24 @@
      "specs": {
       "conflict": 0,
       "matched": 0,
-      "total": 102
+      "total": 133
      }
     },
     "provider": "adac",
     "raw": {
-     "bodies": 125,
+     "bodies": 200,
      "failed": 0,
-     "fetches": 125,
+     "fetches": 200,
      "first_at": "2026-10-13T19:39:41+00:00",
-     "last_at": "2026-10-14T03:12:17+00:00",
+     "last_at": "2026-10-14T07:03:03+00:00",
      "refused": 0,
-     "responses": 125,
+     "responses": 200,
      "wayback": 0
     },
     "records": {
      "spec": {
-      "first_seen_live": 102,
-      "keys": 102
+      "first_seen_live": 133,
+      "keys": 133
      }
     }
    },
@@ -916,7 +916,7 @@
      {
       "commit": "3ccce189b7",
       "fetches": 5914,
-      "finished_at": "2026-10-14T06:49:02+00:00",
+      "finished_at": "2026-10-14T06:49:46+00:00",
       "from_cache": 0,
       "mode": "build",
       "parsed": 5914,
@@ -924,9 +924,36 @@
       "records": 72187,
       "seconds": 409.4,
       "sightings": 83884,
-      "snapshot": {},
+      "snapshot": {
+       "cars": 1978,
+       "cars_generated": 1959,
+       "cash_benchmarks": 2079,
+       "models": 249,
+       "observations": 6764,
+       "offers": 3454,
+       "specs": 2844,
+       "unmapped_trims": 326,
+       "used_listings": 12038,
+       "used_spans": 20149
+      },
       "stage": "build",
       "started_at": "2026-10-14T06:42:08+00:00",
+      "unparsed": 0
+     },
+     {
+      "commit": "76383349bc",
+      "fetches": 5989,
+      "finished_at": "2026-10-14T07:06:26+00:00",
+      "from_cache": 5914,
+      "mode": "build",
+      "parsed": 75,
+      "record_spans": 47597,
+      "records": 72251,
+      "seconds": 170.9,
+      "sightings": 83884,
+      "snapshot": {},
+      "stage": "build",
+      "started_at": "2026-10-14T07:03:32+00:00",
       "this": true,
       "unparsed": 0
      }
@@ -952,6 +979,11 @@
       "at": "2026-10-14T04:38:45+01:00",
       "sha": "66b02d007e",
       "subject": "data: nightly build 2026-10-14"
+     },
+     {
+      "at": "2026-10-14T07:49:53+01:00",
+      "sha": "4e757e0578",
+      "subject": "data: build from the raw store 2026-10-14"
      }
     ],
     "scrapes": [
@@ -959,17 +991,18 @@
       "allowance": null,
       "capabilities": [
        "autotest",
-       "breakdowns"
+       "breakdowns",
+       "pdf"
       ],
       "deferred": 0,
       "errors": 0,
       "failed": 0,
-      "fetches": 125,
-      "finished_at": "2026-10-14T03:12:19+00:00",
-      "records": 102,
+      "fetches": 200,
+      "finished_at": "2026-10-14T07:03:04+00:00",
+      "records": 166,
       "refused": 0,
-      "responses": 125,
-      "runs": 5,
+      "responses": 200,
+      "runs": 8,
       "skipped": 0,
       "source": "adac",
       "started_at": "2026-10-13T19:39:41+00:00",
@@ -3395,6 +3428,45 @@
  },
  "runs": [
   {
+   "artifacts": 25,
+   "capability": "pdf",
+   "errors": 0,
+   "finished_at": "2026-10-14T07:03:04+00:00",
+   "id": 112,
+   "records": 31,
+   "source": "adac",
+   "started_at": "2026-10-14T07:02:21+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
+   "artifacts": 25,
+   "capability": "breakdowns",
+   "errors": 0,
+   "finished_at": "2026-10-14T07:02:21+00:00",
+   "id": 111,
+   "records": 2,
+   "source": "adac",
+   "started_at": "2026-10-14T07:01:32+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
+   "artifacts": 25,
+   "capability": "autotest",
+   "errors": 0,
+   "finished_at": "2026-10-14T07:01:32+00:00",
+   "id": 110,
+   "records": 31,
+   "source": "adac",
+   "started_at": "2026-10-14T07:00:37+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
    "artifacts": 1,
    "capability": "recalls",
    "errors": 0,
@@ -3611,45 +3683,6 @@
    "records": 968,
    "source": "leaseloco",
    "started_at": "2026-10-14T02:47:55+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
-  },
-  {
-   "artifacts": 15,
-   "capability": "pcp",
-   "errors": 0,
-   "finished_at": "2026-10-14T02:47:55+00:00",
-   "id": 92,
-   "records": 213,
-   "source": "ncd",
-   "started_at": "2026-10-14T02:40:56+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
-  },
-  {
-   "artifacts": 15,
-   "capability": "listing",
-   "errors": 0,
-   "finished_at": "2026-10-14T02:40:56+00:00",
-   "id": 91,
-   "records": 109,
-   "source": "ncd",
-   "started_at": "2026-10-14T02:40:34+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
-  },
-  {
-   "artifacts": 4,
-   "capability": "offers",
-   "errors": 0,
-   "finished_at": "2026-10-14T02:40:34+00:00",
-   "id": 90,
-   "records": 8,
-   "source": "hyundai_offers",
-   "started_at": "2026-10-14T02:40:28+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
