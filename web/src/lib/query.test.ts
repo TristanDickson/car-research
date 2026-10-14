@@ -16,7 +16,7 @@ const ctx = (over: Partial<CarContext> = {}): CarContext => ({ costs: costs(), .
 
 describe("query", () => {
   it("round-trips through the URL", () => {
-    const q: Query = { ...EMPTY_QUERY, q: "ultimate", make: "Hyundai", mode: "any",
+    const q: Query = { ...EMPTY_QUERY, q: "ultimate", make: "Hyundai", any: ["flag:glass_roof", "flag:heat_pump"], firm: true,
       ranges: { true: [200, 400], seats: [5, null], turn: [null, 10.5] }, facets: { "flag:heat_pump": "standard", "route:used": "hide", "flag:glass_roof": "listed" } };
     const qs = serializeQuery(q);
     expect(qs).toContain("r.true=200-400");
@@ -66,8 +66,18 @@ describe("query", () => {
     expect(matches(c, ctx(), { ...base, facets: { "flag:glass_roof": "hide" } })).toBe(false);
     expect(matches(c, ctx(), { ...base, facets: { "flag:tow_prep": "hide" } })).toBe(true);
     const two = { "flag:heat_pump": "standard" as const, "flag:tow_prep": "standard" as const };
-    expect(matches(c, ctx(), { ...base, facets: two, mode: "all" })).toBe(false);
-    expect(matches(c, ctx(), { ...base, facets: two, mode: "any" })).toBe(true);
+    expect(matches(c, ctx(), { ...base, facets: two })).toBe(false);
+    expect(matches(c, ctx(), { ...base, facets: two, any: ["flag:heat_pump", "flag:tow_prep"] })).toBe(true);
+    // Required chips and an 'or' group mix: heat pump, and one of a glass roof or a tow bar.
+    const three = { ...two, "flag:glass_roof": "listed" as const };
+    expect(matches(c, ctx(), { ...base, facets: three, any: ["flag:glass_roof", "flag:tow_prep"] })).toBe(true);
+    expect(matches(c, ctx(), { ...base, facets: three, any: ["flag:heat_pump", "flag:glass_roof"] })).toBe(false);   // the tow bar is required, and missing
+    // An older link's mode=any is every wanted chip in the 'or' group; a chip turned off leaves the group.
+    expect(parseQuery(new URLSearchParams("standard=flag:heat_pump,flag:tow_prep&mode=any")).any).toEqual(["flag:heat_pump", "flag:tow_prep"]);
+    let q: Query = { ...base, facets: two, any: ["flag:tow_prep"] };
+    q = { ...q, ...cycleFacet(q, "flag:tow_prep") };
+    q = { ...q, ...cycleFacet(q, "flag:tow_prep") };
+    expect(q.any).toEqual([]);
   });
 
   it("ranges read costs and fields and drop cars that carry no value; an empty search admits every car", () => {
@@ -112,6 +122,9 @@ describe("query", () => {
     expect(describeQuery(parseQuery(new URLSearchParams("r.true=200-400&r.wheels=-18")), {}))
       .toBe("True cost per month £200–£400 · Wheel size ≤ 18 in");
     expect(describeQuery(EMPTY_QUERY, {})).toBe("every car");
+    expect(describeQuery(parseQuery(new URLSearchParams("listed=flag:heat_pump,flag:v2l_internal,flag:v2l_any&any=flag:v2l_internal,flag:v2l_any")),
+                         { heat_pump: "Heat pump", v2l_internal: "Cabin socket", v2l_any: "V2L" }))
+      .toBe("Heat pump: standard, pack or option · one of (Cabin socket: standard, pack or option or V2L: standard, pack or option)");
   });
 
   it("bounds any number a car carries or costs; an unknown key is dropped", () => {

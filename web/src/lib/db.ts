@@ -265,13 +265,13 @@ async function staleDays(db: CarResearchDB): Promise<number> {
   return data?.stale_days ?? DEFAULT_STALE_DAYS;
 }
 
-/** What the stored results were computed from: the snapshot, the basis, the day. */
-/** The release the stored results were computed by: a new release recomputes them once, so a change to the cost
- * model reaches every reader instead of their keeping what the old code worked out for the same snapshot. */
-const RELEASE = process.env.NEXT_PUBLIC_RELEASE ?? "dev";
+/** The cost model the stored results were computed by (a hash of lib/model, set at build): a change to it
+ * recomputes them once, so it reaches every reader; a deploy that leaves the model alone recomputes nothing. */
+const COST_MODEL = process.env.NEXT_PUBLIC_COST_MODEL ?? "dev";
 
+/** What the stored results were computed from: the snapshot, the basis, the day and the model. */
 function costKey(generatedAt: string, basis: Basis, today: string): string {
-  return JSON.stringify({ generatedAt, basis, today, release: RELEASE });
+  return JSON.stringify({ generatedAt, basis, today, model: COST_MODEL });
 }
 
 /** Statistics of the last recompute, for the Data page. */

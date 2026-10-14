@@ -63,7 +63,7 @@ function stateOf(s: SnapshotSpec, item: string): FlagState {
  * (a deals-page stub) is counted but has no column.
  */
 function Specs() {
-  const { query, set, cars, rows, options, flagLabels, unknownHidden, loading, error } = useCarQuery();
+  const { query, set, cars, rows, options, flagLabels, unknownHidden, thinShown, loading, error } = useCarQuery();
   const specs = useSpecs();
   const [onlyDiff, setOnlyDiff] = useState(false);
   const [showAll, setShowAll] = useState(false);
@@ -127,7 +127,7 @@ function Specs() {
         title="Specs"
         subtitle="Every derivative the search admits, side by side, in the search's order: the numbers and every piece of equipment its spec source lists. ✓ is standard, opt is an option, – is not listed. The canonical flags are the same ones the filters use."
       />
-      <QueryBar query={query} set={set} options={options} flagLabels={flagLabels} unknownHidden={unknownHidden}
+      <QueryBar query={query} set={set} options={options} flagLabels={flagLabels} unknownHidden={unknownHidden} thinShown={thinShown}
         count={`${columns.length} columns for ${rows.length} cars${noSpec ? ` (${noSpec} without a spec row)` : ""}`} />
       {cols.length === 0 ? (
         <Empty>No spec rows for this search. Widen it.</Empty>

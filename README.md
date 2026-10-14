@@ -390,6 +390,17 @@ rejected by that rule fails in two seconds with no runner and no logs.
   owner asked to work around it ("This is a personal product not a commercial one"), so Chrome
   downloads the file (`scripts/fetch-with-chrome.mjs`, about 15 s). 141 models have a recall; the
   car page lists them, and one that follows a fix that did not hold says so.
+- **2026-10-14 (night)** The owner, using the app: the filter boxes were too narrow to see what
+  was typed, there was no way to leave out the cars marked "few cars", clearing the filters lagged
+  the table, the data "completely refreshed" when changing search and again on clicking a car,
+  and chips combined only all-and or all-or ("I'm pretty sure bolthole had variable boolean mixing
+  logic"; bolthole's chips all AND together, `FilterBar.tsx`). Fixed: the boxes are wider and
+  apply what is typed after a pause; "leave those figures out" costs each car on its figures on
+  10 or more used cars; the table draws 100 rows at a time (a clear redraws in under 0.2 s) and
+  follows the search's sort, which a default sort by name had overridden; each wanted chip is
+  "and" or "or". The refreshes were deploys: the app downloaded the newer snapshot, and the
+  release key was the commit, so every push to main recomputed every reader's costs; it is the
+  cost model's hash now.
 - **2026-10-14 (evening)** The owner: "rear seat reading and any other features we've talked
   about are a yes if they're buildable". Built, each by an agent on its own branch and merged:
   Carwow's review per model (`carwow_model`), whose back-seat section's sentences about knees,

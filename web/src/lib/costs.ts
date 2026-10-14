@@ -73,12 +73,14 @@ function toTrueCost(route: Route, p: CurrentPoint, names: Record<string, string>
 export const NO_COSTS: CarCosts = { trueCost: null, byRoute: {}, sources: 0, monthly: null, monthlyRoute: null, threeYear: null, cash: null, trend: null, stock: null,
                                      breakeven: [], trimScale: 1, usedListings: {} };
 
-/** The car's costs from its stored row; `names` maps source ids to display names (data.json). */
-export function carCosts(car: SnapshotCar, row: CarCostRow | null | undefined, names: Record<string, string> = {}): CarCosts {
+/** The car's costs from its stored row; `names` maps source ids to display names (data.json). With `firm`, the true
+ * costs leave out the figures marked "few cars", so each route's is its cheapest on enough used cars; the printed
+ * prices (the cheapest monthly and cash price) are what sellers printed either way. */
+export function carCosts(car: SnapshotCar, row: CarCostRow | null | undefined, names: Record<string, string> = {}, firm = false): CarCosts {
   if (!row) return NO_COSTS;
   const byRoute: Partial<Record<Route, TrueCost>> = {};
   const sources = new Set<string>();
-  for (const [route, bySource] of Object.entries(row.routes) as [Route, Record<string, CurrentPoint>][]) {
+  for (const [route, bySource] of Object.entries(firm ? row.firm_routes ?? {} : row.routes) as [Route, Record<string, CurrentPoint>][]) {
     for (const [src, p] of Object.entries(bySource ?? {})) {
       sources.add(src);
       const t = toTrueCost(route, p, names);

@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState, type InputHTMLAttributes } from "react";
 
 import { useSaveSearch, useSearches } from "@/lib/hooks";
 import { GROUPS, RANGE_FIELDS } from "@/lib/fields";
-import { cycleFacet, describeQuery, EMPTY_QUERY, FIXED_FACETS, FLAG_GROUPS, isNarrowed, loaded, serializeQuery, SORTS, withQuery, type FacetState, type Query, type QueryOptions, type Range, type RangeKey } from "@/lib/query";
+import { canonical, cycleFacet, describeQuery, EMPTY_QUERY, FIXED_FACETS, FLAG_GROUPS, isNarrowed, loaded, serializeQuery, SORTS, toggleAny, withQuery, type FacetState, type Query, type QueryOptions, type Range, type RangeKey } from "@/lib/query";
 
 const VIEWS = [
   { href: "/", label: "Cards" },
@@ -22,6 +22,46 @@ interface Props {
   count: string;
   /** Cars left out only for want of a value (useCarQuery); the bar offers to keep them. */
   unknownHidden?: number;
+  /** Cars shown whose true cost rests on few used cars (useCarQuery); the bar offers to leave those figures out. */
+  thinShown?: number;
+}
+
+/** What the reader types is applied once they pause, so a search is not rerun at every key. */
+const TYPING_MS = 350;
+
+/** A text box over one query value that commits after a pause or on leaving it, and follows the query when it
+ * changes from elsewhere (a saved search loaded, 'clear'). */
+function DraftInput({ value, commit, ...rest }: { value: string; commit: (v: string) => void } & Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange">) {
+  const [draft, setDraft] = useState(value);
+  const [held, setHeld] = useState(value);
+  const [sent, setSent] = useState<string | null>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  if (held !== value) {
+    setHeld(value);
+    // Our own commit coming back leaves whatever was typed since; any other change replaces the draft.
+    if (value !== sent) setDraft(value);
+    setSent(null);
+  }
+  useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
+  const flush = (v: string) => {
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = null;
+    if (v !== value) {
+      setSent(v);
+      commit(v);
+    }
+  };
+  return (
+    <input {...rest} value={draft}
+      onChange={(e) => {
+        const v = e.target.value;
+        setDraft(v);
+        if (timer.current) clearTimeout(timer.current);
+        timer.current = setTimeout(() => flush(v), TYPING_MS);
+      }}
+      onBlur={() => flush(draft)}
+      onKeyDown={(e) => { if (e.key === "Enter") flush(draft); }} />
+  );
 }
 
 /** The saved search last loaded in this app load: the name the save prompt offers. */
@@ -50,13 +90,13 @@ const STATE_CLASS: Record<FacetState, string> = {
  * option → hidden, all of them combined with 'all' or 'any') and a min/max for
  * every number a car carries. The whole state is the URL.
  */
-export function QueryBar({ query: f, set, options, flagLabels, count, unknownHidden = 0 }: Props) {
+export function QueryBar({ query: f, set, options, flagLabels, count, unknownHidden = 0, thinShown = 0 }: Props) {
   const pathname = usePathname() ?? "/";
   const searches = useSearches();
   const save = useSaveSearch();
   const list = searches.data?.searches ?? [];
   const here = serializeQuery(f);
-  const match = list.find((x) => x.query === here);
+  const match = list.find((x) => canonical(x.query) === here);
   const load = (id: string) => {
     const hit = list.find((x) => x.id === id);
     if (!hit) return;
@@ -102,7 +142,8 @@ export function QueryBar({ query: f, set, options, flagLabels, count, unknownHid
   const setRange = (key: RangeKey, i: 0 | 1, v: string) => {
     const cur: Range = f.ranges[key] ?? [null, null];
     const next: Range = [cur[0], cur[1]];
-    next[i] = v === "" ? null : Number(v);
+    const n = Number(v.replace(/[£,\s]/g, ""));
+    next[i] = v.trim() === "" || !Number.isFinite(n) ? null : n;
     const ranges = { ...f.ranges };
     if (next[0] == null && next[1] == null) delete ranges[key];
     else ranges[key] = next;
@@ -137,7 +178,7 @@ export function QueryBar({ query: f, set, options, flagLabels, count, unknownHid
           <option value="">All models</option>
           {models.map((m) => <option key={m} value={m}>{m}</option>)}
         </select>
-        <input aria-label="Search text" value={f.q} onChange={(e) => set({ q: e.target.value })} placeholder="Trim, variant, pack…" className={`${sel} w-44`} />
+        <DraftInput aria-label="Search text" value={f.q} commit={(v) => set({ q: v })} placeholder="Trim, variant, pack…" className={`${sel} w-44`} />
         <select aria-label="Model year" value={f.year} onChange={(e) => set({ year: e.target.value })} className={sel}>
           <option value="">Any year</option>
           {years.map((y) => <option key={y} value={y}>{y}</option>)}
@@ -161,22 +202,26 @@ export function QueryBar({ query: f, set, options, flagLabels, count, unknownHid
             +{unknownHidden} with an unknown value · keep them
           </button>
         ) : null}
+        {f.firm ? (
+          <button type="button" onClick={() => set({ firm: false })} className="text-xs text-amber-300 underline"
+            title="Each car is costed on its cheapest figure whose end value rests on at least 10 used cars">
+            figures on few cars left out · show them
+          </button>
+        ) : thinShown > 0 ? (
+          <button type="button" onClick={() => set({ firm: true })} className="text-xs text-amber-300 underline"
+            title="Cost each car on its cheapest figure whose end value rests on at least 10 used cars; a car with none drops out of a search on price">
+            {thinShown} priced on few cars · leave those figures out
+          </button>
+        ) : null}
       </div>
       {!open && isNarrowed(f) && <p className="text-xs text-gray-500">{describeQuery(f, flagLabels)}</p>}
 
       {open && (
         <div className="rounded-lg border border-gray-800 bg-gray-900 p-3">
           <div className="mb-3 flex flex-wrap items-center gap-3 text-xs text-gray-400">
-            <span>Click a chip: <span className="text-emerald-200">standard</span> → <span className="text-sky-200">standard, pack or option</span> → <span className="text-rose-200">hidden</span> → off. A car no source has a value for is left out unless you keep unknown values.</span>
-            <span className="flex items-center gap-1">
-              Wanted chips must
-              <span className="flex overflow-hidden rounded border border-gray-700">
-                <button type="button" className={seg(f.mode === "all")} onClick={() => set({ mode: "all" })}>all hold</button>
-                <button type="button" className={seg(f.mode === "any")} onClick={() => set({ mode: "any" })}>any hold</button>
-              </span>
-            </span>
+            <span>Click a chip: <span className="text-emerald-200">standard</span> → <span className="text-sky-200">standard, pack or option</span> → <span className="text-rose-200">hidden</span> → off. A wanted chip&apos;s <b className="font-medium text-gray-300">and</b> means it must hold; of the chips switched to <b className="font-medium text-amber-200">or</b>, at least one must. A car no source has a value for is left out unless you keep unknown values.</span>
           </div>
-          <div className="grid gap-4 lg:grid-cols-[1fr_minmax(16rem,22rem)]">
+          <div className="grid gap-4 lg:grid-cols-[1fr_minmax(22rem,28rem)]">
             <div className="space-y-3">
               {groups.map(([group, facets]) => (
                 <div key={group}>
@@ -184,12 +229,23 @@ export function QueryBar({ query: f, set, options, flagLabels, count, unknownHid
                   <div className="flex flex-wrap gap-1.5">
                     {facets.map((fx) => {
                       const state = f.facets[fx.token] ?? "off";
+                      const wanted = state === "standard" || state === "listed";
+                      const or = wanted && f.any.includes(fx.token);
                       return (
-                        <button key={fx.token} type="button" onClick={() => set(cycleFacet(f, fx.token, fx.twoState))}
-                          className={`rounded border px-2 py-0.5 text-xs ${STATE_CLASS[state]}`}
-                          title={state === "off" ? "Click to require it" : state === "standard" ? "Standard only; click for standard, pack or option" : state === "listed" ? "Standard, pack or option; click to hide cars that have it" : "Hidden; click to reset"}>
-                          {fx.label}{state !== "off" && !fx.twoState ? <span className="ml-1 opacity-70">· {STATE_LABEL[state]}</span> : state === "hide" ? <span className="ml-1 opacity-70">· hidden</span> : null}
-                        </button>
+                        <span key={fx.token} className="inline-flex">
+                          <button type="button" onClick={() => set(cycleFacet(f, fx.token, fx.twoState))}
+                            className={`border px-2 py-0.5 text-xs ${wanted ? "rounded-l" : "rounded"} ${STATE_CLASS[state]}`}
+                            title={state === "off" ? "Click to require it" : state === "standard" ? "Standard only; click for standard, pack or option" : state === "listed" ? "Standard, pack or option; click to hide cars that have it" : "Hidden; click to reset"}>
+                            {fx.label}{state !== "off" && !fx.twoState ? <span className="ml-1 opacity-70">· {STATE_LABEL[state]}</span> : state === "hide" ? <span className="ml-1 opacity-70">· hidden</span> : null}
+                          </button>
+                          {wanted && (
+                            <button type="button" onClick={() => set(toggleAny(f, fx.token))}
+                              className={`rounded-r border border-l-0 px-1.5 py-0.5 text-[11px] ${or ? "border-amber-500 bg-amber-950/40 text-amber-200" : `${STATE_CLASS[state]} opacity-80`}`}
+                              title={or ? "One of the 'or' chips must hold; click to make this one required" : "Required; click to make it one of the 'or' chips, of which at least one must hold"}>
+                              {or ? "or" : "and"}
+                            </button>
+                          )}
+                        </span>
                       );
                     })}
                   </div>
@@ -198,14 +254,15 @@ export function QueryBar({ query: f, set, options, flagLabels, count, unknownHid
             </div>
             <div>
               <div className="mb-1 text-xs uppercase tracking-wide text-gray-500">Between</div>
-              <div className="grid grid-cols-[auto_1fr_1fr] items-center gap-x-2 gap-y-1 text-xs">
+              <div className="grid grid-cols-[minmax(0,1fr)_6.5rem_6.5rem] items-center gap-x-2 gap-y-1 text-xs">
                 {bounds.map((r) => {
                   const cur = f.ranges[r.key] ?? [null, null];
+                  const box = "w-full rounded border border-gray-800 bg-gray-950 px-1.5 py-0.5 text-right text-sm tabular-nums text-gray-100";
                   return (
                     <div key={r.key} className="contents">
-                      <span className="text-gray-400">{r.label}{r.kind === "money" ? " (£)" : r.unit ? ` (${r.unit})` : ""}</span>
-                      <input type="number" step={r.step} value={cur[0] ?? ""} placeholder="min" aria-label={`${r.label}, at least`} onChange={(e) => setRange(r.key, 0, e.target.value)} className="w-full rounded border border-gray-800 bg-gray-950 px-1.5 py-0.5 text-right text-gray-100" />
-                      <input type="number" step={r.step} value={cur[1] ?? ""} placeholder="max" aria-label={`${r.label}, at most`} onChange={(e) => setRange(r.key, 1, e.target.value)} className="w-full rounded border border-gray-800 bg-gray-950 px-1.5 py-0.5 text-right text-gray-100" />
+                      <span className="leading-tight text-gray-400">{r.label}{r.kind === "money" ? " (£)" : r.unit ? ` (${r.unit})` : ""}</span>
+                      <DraftInput inputMode="decimal" value={cur[0] == null ? "" : String(cur[0])} placeholder="min" aria-label={`${r.label}, at least`} commit={(v) => setRange(r.key, 0, v)} className={box} />
+                      <DraftInput inputMode="decimal" value={cur[1] == null ? "" : String(cur[1])} placeholder="max" aria-label={`${r.label}, at most`} commit={(v) => setRange(r.key, 1, v)} className={box} />
                     </div>
                   );
                 })}

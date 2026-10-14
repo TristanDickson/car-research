@@ -4,9 +4,10 @@
 //   ranges   key → [min, max]               numeric bounds on car fields and costs
 //   facets   token → standard | listed | hide   tri-state chips over every equipment
 //            flag, the routes a car can be had by, and whether a car is hand-curated
-//   mode     all | any                      how the 'standard'/'listed' chips combine
+//   any      the wanted chips marked 'or'   every other wanted chip must hold, and at least one of these
 //   keepUnknown                             a car no source has a value for passes a bound or chip
 //                                           (otherwise it is left out, and the bar counts how many)
+//   firm                                    true costs leave out the figures resting on few used cars
 //   sort
 //
 // It lives in the URL so a view is a link and moving between views keeps it. A
@@ -22,7 +23,6 @@ import { carName, sortName } from "./format";
 import type { SnapshotCar } from "./types";
 
 export type FacetState = "off" | "standard" | "listed" | "hide";
-export type Mode = "all" | "any";
 
 /** A range bound's key is a field key (lib/fields.ts): every number and amount a car carries or costs. */
 export type RangeKey = string;
@@ -36,13 +36,18 @@ export interface Query {
   ranges: Record<RangeKey, Range>;
   /** Equipment that must be standard (`standard`), standard or an option (`listed`), or absent (`hide`). */
   facets: Record<string, FacetState>;
-  mode: Mode;
+  /** Wanted chips marked 'or': at least one must hold, beside every wanted chip not marked, which must all hold. */
+  any: string[];
   /** Keep a car whose value for a bounded field or a required chip no source gives. */
   keepUnknown: boolean;
+  /** Cost each car on its figures that rest on enough used cars, leaving out those marked "few cars". */
+  firm: boolean;
   sort: string;
 }
 
-export const EMPTY_QUERY: Query = { q: "", make: "", model: "", year: "", ranges: {}, facets: {}, mode: "all", keepUnknown: false, sort: "" };
+export const EMPTY_QUERY: Query = { q: "", make: "", model: "", year: "", ranges: {}, facets: {}, any: [], keepUnknown: false, firm: false, sort: "" };
+
+const wantedState = (s: FacetState | undefined) => s === "standard" || s === "listed";
 
 /** The non-equipment facets. Equipment facets are `flag:<key>` for every canonical flag the snapshot names. */
 export const FIXED_FACETS: { token: string; label: string; group: string; twoState?: boolean }[] = [
@@ -63,11 +68,11 @@ export const FLAG_GROUPS: Record<string, string[]> = {
 };
 
 export function parseQuery(params: URLSearchParams | null): Query {
-  const f: Query = { ...EMPTY_QUERY, ranges: {}, facets: {} };
+  const f: Query = { ...EMPTY_QUERY, ranges: {}, facets: {}, any: [] };
   if (!params) return f;
   for (const k of ["q", "make", "model", "year", "sort"] as const) f[k] = params.get(k) ?? "";
-  f.mode = params.get("mode") === "any" ? "any" : "all";
   f.keepUnknown = params.get("unknown") === "keep";
+  f.firm = params.get("figures") === "firm";
   for (const { key } of RANGE_FIELDS) {
     const v = params.get(`r.${key}`);
     if (!v) continue;
@@ -82,14 +87,17 @@ export function parseQuery(params: URLSearchParams | null): Query {
   for (const state of ["standard", "listed", "hide"] as const) {
     for (const tok of (params.get(state) ?? "").split(",").filter(Boolean)) f.facets[tok] = state;
   }
+  // An older link's mode=any put every wanted chip in the 'or' group.
+  const any = params.get("mode") === "any" ? Object.keys(f.facets) : (params.get("any") ?? "").split(",");
+  f.any = [...new Set(any.filter((t) => wantedState(f.facets[t])))].sort();
   return f;
 }
 
 export function serializeQuery(f: Query): string {
   const p = new URLSearchParams();
   for (const k of ["q", "make", "model", "year", "sort"] as const) if (f[k]) p.set(k, f[k]);
-  if (f.mode !== "all") p.set("mode", f.mode);
   if (f.keepUnknown) p.set("unknown", "keep");
+  if (f.firm) p.set("figures", "firm");
   for (const { key } of RANGE_FIELDS) {
     const r = f.ranges[key];
     if (r && (r[0] != null || r[1] != null)) p.set(`r.${key}`, `${r[0] ?? ""}-${r[1] ?? ""}`);
@@ -98,6 +106,8 @@ export function serializeQuery(f: Query): string {
     const toks = Object.entries(f.facets).filter(([, s]) => s === state).map(([t]) => t).sort();
     if (toks.length) p.set(state, toks.join(","));
   }
+  const any = [...new Set(f.any.filter((t) => wantedState(f.facets[t])))].sort();
+  if (any.length) p.set("any", any.join(","));
   return p.toString();
 }
 
@@ -159,7 +169,12 @@ export function cycleFacet(f: Query, token: string, twoState = false): Partial<Q
   const facets = { ...f.facets };
   if (next === "off") delete facets[token];
   else facets[token] = next;
-  return { facets };
+  return { facets, any: wantedState(next) ? f.any : f.any.filter((t) => t !== token) };
+}
+
+/** Mark a wanted chip 'or' (one of the group must hold) or back to 'and' (it must hold). */
+export function toggleAny(f: Query, token: string): Partial<Query> {
+  return { any: f.any.includes(token) ? f.any.filter((t) => t !== token) : [...f.any, token].sort() };
 }
 
 const norm = (s: string | null | undefined) => (s ?? "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
@@ -228,15 +243,14 @@ export function matches(c: SnapshotCar, ctx: CarContext, f: Query): boolean {
     if (r[0] != null && v < r[0]) return false;
     if (r[1] != null && v > r[1]) return false;
   }
-  const wanted = Object.entries(f.facets).filter(([, s]) => s === "standard" || s === "listed");
   for (const [tok, s] of Object.entries(f.facets)) {
     if (s === "hide" && facetValue(tok, c, ctx) !== null) return false;
   }
-  if (wanted.length) {
-    const holds = wanted.map(([tok, s]) => facetHolds(s, facetValue(tok, c, ctx)) || (f.keepUnknown && !facetKnown(tok, c, s)));
-    if (f.mode === "all" ? !holds.every(Boolean) : !holds.some(Boolean)) return false;
-  }
-  return true;
+  const holds = ([tok, s]: [string, FacetState]) => facetHolds(s, facetValue(tok, c, ctx)) || (f.keepUnknown && !facetKnown(tok, c, s));
+  const wanted = Object.entries(f.facets).filter(([, s]) => wantedState(s));
+  if (!wanted.filter(([t]) => !f.any.includes(t)).every(holds)) return false;
+  const anyOf = wanted.filter(([t]) => f.any.includes(t));
+  return !anyOf.length || anyOf.some(holds);
 }
 
 export interface QueryOptions {
@@ -348,14 +362,19 @@ export function describeQuery(f: Query, flagLabels: Record<string, string>): str
   if (f.year) parts.push(`model year ${f.year}`);
   if (f.q) parts.push(`“${f.q}”`);
   const fixed = Object.fromEntries(FIXED_FACETS.map((x) => [x.token, x.label]));
-  const wanted: string[] = [];
+  const all: string[] = [], anyOf: string[] = [];
   for (const [tok, state] of Object.entries(f.facets)) {
     const label = tok.startsWith("flag:") ? flagLabels[tok.slice(5)] ?? tok.slice(5).replaceAll("_", " ") : fixed[tok] ?? tok;
-    if (state === "hide") parts.push(`not ${label.toLowerCase()}`);
-    else if (FIXED_FACETS.some((x) => x.token === tok && x.twoState)) wanted.push(label);
-    else wanted.push(`${label}: ${STATE_WORDS[state]}`);
+    if (state === "hide") {
+      parts.push(`not ${label.toLowerCase()}`);
+      continue;
+    }
+    const words = FIXED_FACETS.some((x) => x.token === tok && x.twoState) ? label : `${label}: ${STATE_WORDS[state]}`;
+    (f.any.includes(tok) ? anyOf : all).push(words);
   }
-  if (wanted.length) parts.push(wanted.join(f.mode === "any" ? " or " : " · "));
+  if (all.length) parts.push(all.join(" · "));
+  if (anyOf.length) parts.push(anyOf.length === 1 ? anyOf[0] : `one of (${anyOf.join(" or ")})`);
+  if (f.firm) parts.push("figures on few cars left out");
   for (const r of RANGE_FIELDS) {
     const b = f.ranges[r.key];
     if (!b) continue;

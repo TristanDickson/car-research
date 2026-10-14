@@ -455,10 +455,17 @@ alias table of same-car spellings.
 (`/cars`) and the specs grid (`/specs`): make, model, text, year; a min/max for every
 number a car carries or costs (turning circle included); a tri-state chip for every
 canonical equipment flag, for the routes a car can be had by and for hand-curated
-(standard → standard, pack or option → hidden), combined with 'all' or 'any'; the sort.
-It lives in the URL, so a view is a link and switching view keeps it. `useCarQuery`
-applies it once per page over the car records plus the costs they do not carry. A car
-no source has a value for is left out by a chip or a bound that asks about it.
+(standard → standard, pack or option → hidden); each wanted chip is "and" (it must hold)
+or "or" (at least one of the "or" chips must), so a search can ask for a heat pump and one
+of a cabin socket or any V2L; the sort. It lives in the URL, so a view is a link and
+switching view keeps it (an older link's `mode=any` reads as every wanted chip "or").
+`useCarQuery` applies it once per page over the car records plus the costs they do not
+carry. A car no source has a value for is left out by a chip or a bound that asks about
+it, unless the search keeps unknown values. "Leave those figures out" (`figures=firm`)
+costs each car on its cheapest figures whose end value rests on at least 10 used cars
+(`firm_routes`, the same as `routes` without the ones marked "few cars"); a car with none
+drops out of a search on price. Text and number boxes apply what is typed after a pause,
+and the table draws 100 rows at a time.
 
 A saved search is that query string with a name, kept in the IndexedDB settings
 (`lib/db.ts` `getSearches`, `saveSearch`, …). `data/seed/requirements.json` `searches`
@@ -585,8 +592,9 @@ stored results. `web/src/lib/model/recompute.ts` (`computeAll`) is pure: spans, 
 basis and today in; per car the current best per route and source (`costs`), every
 series, the residual evidence, and every offer's latest state with its freshness and
 normalisation (`offers`) out. `lib/db.ts` runs it after seeding and whenever the stored
-key (snapshot `generated_at`, the basis, the day) differs from the one the results were
-computed under, writes the results to IndexedDB in one transaction, and `saveRequirements`
+key (snapshot `generated_at`, the basis, the day, and a hash of `lib/model` set at build as
+`NEXT_PUBLIC_COST_MODEL`, so a deploy that leaves the model alone recomputes nothing)
+differs from the one the results were computed under, writes the results to IndexedDB in one transaction, and `saveRequirements`
 runs it again before resolving, so a change to the term or the rate in Settings
 recomputes everything once and every page re-reads. ~8,000 sightings cost twice
 (history and today) in well under a second; the Data page shows the last run.

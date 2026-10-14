@@ -49,7 +49,8 @@ jobs:
         env:
           # Project Pages sites live under /<repo>.
           NEXT_PUBLIC_BASE_PATH: /car-research
-          NEXT_PUBLIC_RELEASE: ${{ github.sha }}
+          # The cost model's code: a reader's stored costs are recomputed when it changes, not on every deploy.
+          NEXT_PUBLIC_COST_MODEL: ${{ hashFiles('web/src/lib/model/**') }}
         run: npm run build
 
       - name: SPA fallback + Pages hygiene

@@ -197,6 +197,14 @@ describe("series", () => {
     const best = bestByRoute({ ...cur.get("car-a")!, ...cur.get("model:hyundai/ioniq-5")! });
     expect([best.cash!.key, best.used!.key]).toEqual(["k", "u2"]);
   });
+  it("firm leaves out a figure whose end value rests on few used cars, so the cheapest on enough cars stands", () => {
+    const today = "2026-10-07";
+    const rows = costAll(markCurrent([
+      used("u1", 20000, 2023, "2026-10-01", "2026-10-07", { vrm: "A" }), used("u2", 18000, 2023, "2026-10-04", "2026-10-07", { vrm: "B" }),
+    ], today, 14), BASIS, today).map((c) => ({ ...c, evidence_n: c.s.key === "u2" ? 4 : 30 }));
+    expect(current(rows, today).get("model:hyundai/ioniq-5")!.used!.cinch.key).toBe("u2");
+    expect(current(rows, today, true).get("model:hyundai/ioniq-5")!.used!.cinch.key).toBe("u1");
+  });
   it("trend reads the cheapest headline now, a window ago and how long it has held", () => {
     const rows = series(costAll([
       offer("k", "cash", "ncd", { ...CASH, vehicle_price: 35000 }, "2026-07-01", "2026-08-31"),

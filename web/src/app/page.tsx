@@ -23,7 +23,7 @@ export default function PickPage() {
 }
 
 function Pick() {
-  const { query, set, cars, rows, ctxOf, options, flagLabels, budgetCeiling, compareWith, unknownHidden, loading, error } = useCarQuery();
+  const { query, set, cars, rows, ctxOf, options, flagLabels, budgetCeiling, compareWith, unknownHidden, thinShown, loading, error } = useCarQuery();
   const basis = useBasis();
   const [compare, setCompare] = useState<string[]>([]);
   const [shown, setShown] = useState(PAGE);
@@ -48,7 +48,7 @@ function Pick() {
         }
       />
 
-      <QueryBar query={query} set={set} options={options} flagLabels={flagLabels} unknownHidden={unknownHidden} count={`${rows.length} of ${cars.length} cars`} />
+      <QueryBar query={query} set={set} options={options} flagLabels={flagLabels} unknownHidden={unknownHidden} thinShown={thinShown} count={`${rows.length} of ${cars.length} cars`} />
 
       {rows.length === 0 ? (
         <Empty>Nothing matches. Loosen a filter.</Empty>

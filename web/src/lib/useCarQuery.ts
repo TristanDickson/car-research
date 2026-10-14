@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 import { carCosts, type CarCosts } from "./costs";
 import { useCars, useCosts, useDataPage, useRequirements, useSearches } from "./hooks";
+import { THIN_EVIDENCE } from "./model/sightings";
 import { compareBy, matches, queryOptions, useQuery, type CarContext, type Query, type QueryOptions } from "./query";
 import type { SnapshotCar } from "./types";
 
@@ -22,6 +23,8 @@ export interface CarQueryResult {
   compareWith: SnapshotCar | null;
   /** Cars left out only because no source gives a value the search bounds or requires. */
   unknownHidden: number;
+  /** Cars the search admits whose true cost rests on few used cars (shown unless the search leaves those figures out). */
+  thinShown: number;
   loading: boolean;
   error: unknown;
 }
@@ -42,12 +45,12 @@ export function useCarQuery(): CarQueryResult {
   const ctxById = useMemo(() => {
     const out = new Map<string, CarContext>();
     for (const c of cars.data ?? []) {
-      const costs: CarCosts = carCosts(c, costRows.data?.get(c.id), names);
+      const costs: CarCosts = carCosts(c, costRows.data?.get(c.id), names, query.firm);
       out.set(c.id, { costs });
     }
     return out;
-  }, [cars.data, costRows.data, names]);
-  const ctxOf = (c: SnapshotCar) => ctxById.get(c.id)!;
+  }, [cars.data, costRows.data, names, query.firm]);
+  const ctxOf = useCallback((c: SnapshotCar) => ctxById.get(c.id)!, [ctxById]);
 
   const rows = useMemo(() => {
     const list = (cars.data ?? []).filter((c) => matches(c, ctxById.get(c.id)!, query));
@@ -59,6 +62,10 @@ export function useCarQuery(): CarQueryResult {
     const keep = { ...query, keepUnknown: true };
     return (cars.data ?? []).filter((c) => !matches(c, ctxById.get(c.id)!, query) && matches(c, ctxById.get(c.id)!, keep)).length;
   }, [cars.data, ctxById, query]);
+  const thinShown = useMemo(() => rows.filter((c) => {
+    const n = ctxById.get(c.id)!.costs.trueCost?.evidenceN;
+    return n != null && n < THIN_EVIDENCE;
+  }).length, [rows, ctxById]);
   const options = useMemo(() => queryOptions(cars.data ?? [], query), [cars.data, query]);
   const budget = reqs.data?.budget as { monthly_ceiling_gbp?: number } | undefined;
 
@@ -68,6 +75,7 @@ export function useCarQuery(): CarQueryResult {
     budgetCeiling: budget?.monthly_ceiling_gbp ?? null,
     compareWith: (cars.data ?? []).find((c) => c.id === reqs.data?.compare_with) ?? null,
     unknownHidden,
+    thinShown,
     loading: !ready || !cars.data || reqs.data === undefined || costRows.data === undefined,
     error: cars.error ?? reqs.error ?? costRows.error ?? null,
   };

@@ -44,11 +44,20 @@ function cmp(a: number | string | null | undefined, b: number | string | null | 
 
 const nameOf = <T,>(c: Column<T>): string => c.label ?? (typeof c.header === "string" ? c.header : c.key);
 
+/** Rows drawn at a time: two thousand rows of a dozen columns take seconds to draw, and a new search draws them again. */
+const PAGE = 100;
+
 export function DataTable<T>({ rows, columns, rowKey, defaultSort, dense, prefsKey }: Props<T>) {
   const [sort, setSort] = useState<{ key: string; dir: "asc" | "desc" } | null>(defaultSort ?? null);
   const [prefs, setPrefsState] = useState<ColumnPrefs>(() => (prefsKey ? readPrefs(prefsKey) : { order: [], visible: {} }));
   const [choosing, setChoosing] = useState(false);
   const [filter, setFilter] = useState("");
+  const [limit, setLimit] = useState(PAGE);
+  const [drawn, setDrawn] = useState(rows);
+  if (drawn !== rows) {   // a new result set starts again at the first page
+    setDrawn(rows);
+    setLimit(PAGE);
+  }
   const setPrefs = (p: ColumnPrefs) => {
     setPrefsState(p);
     if (prefsKey) writePrefs(prefsKey, p);
@@ -158,7 +167,7 @@ export function DataTable<T>({ rows, columns, rowKey, defaultSort, dense, prefsK
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-800">
-            {sorted.map((row) => (
+            {sorted.slice(0, limit).map((row) => (
               <tr key={rowKey(row)} className="group hover:bg-gray-900/60">
                 {shown.map((c) => (
                   <td key={c.key} className={`${pad} align-top ${c.align === "right" ? "text-right tabular-nums" : ""} ${stick(c, false)}`}>
@@ -177,6 +186,15 @@ export function DataTable<T>({ rows, columns, rowKey, defaultSort, dense, prefsK
           </tbody>
         </table>
       </div>
+      {sorted.length > limit && (
+        <div className="flex items-center justify-center gap-3 text-sm text-gray-400">
+          <span>Showing {limit.toLocaleString("en-GB")} of {sorted.length.toLocaleString("en-GB")}</span>
+          <button type="button" onClick={() => setLimit((n) => n + PAGE)} className="rounded border border-gray-700 px-3 py-1 text-gray-300 hover:bg-gray-800">
+            Show {Math.min(PAGE, sorted.length - limit)} more
+          </button>
+          <button type="button" onClick={() => setLimit(sorted.length)} className="text-gray-400 underline hover:text-gray-100">show all</button>
+        </div>
+      )}
     </div>
   );
 }

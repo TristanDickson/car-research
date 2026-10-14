@@ -479,12 +479,14 @@ export interface CurrentPoint extends Point {
 export type Current = Map<string, Partial<Record<Route, Record<string, CurrentPoint>>>>;
 
 /** The cheapest current sighting (its key's latest state, marked by markCurrent) per subject, route and source, costed as of today.
- * An offer's earlier states are history: a price that has since risen is not still on offer. */
-export function current(costedToday: Costed[], today: string): Current {
+ * An offer's earlier states are history: a price that has since risen is not still on offer. With `firm`, a figure whose
+ * end value rests on fewer than THIN_EVIDENCE used cars is left out (the app's "few cars"). */
+export function current(costedToday: Costed[], today: string, firm = false): Current {
   const out: Current = new Map();
   for (const c of costedToday) {
     const s = c.s;
     if (!s.current || c.true_monthly == null) continue;
+    if (firm && c.evidence_n != null && c.evidence_n < THIN_EVIDENCE) continue;
     let routes = out.get(subject(s));
     if (!routes) { routes = {}; out.set(subject(s), routes); }
     const slot = (routes[s.route] ??= {});

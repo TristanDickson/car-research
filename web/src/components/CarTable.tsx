@@ -109,5 +109,6 @@ export function CarTable({ cars, ctxOf, horizon, flagLabels }: {
     return [car, ...[...first, ...rest].map(toColumn)];
   }, [ctxOf, flagLabels, horizon]);
 
-  return <DataTable rows={cars} columns={columns} rowKey={(c) => c.id} defaultSort={{ key: "car", dir: "asc" }} dense prefsKey="cars" />;
+  // Rows come in the search's order (its sort menu); a click on a header reorders them by that column.
+  return <DataTable rows={cars} columns={columns} rowKey={(c) => c.id} dense prefsKey="cars" />;
 }

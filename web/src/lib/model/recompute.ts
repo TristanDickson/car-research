@@ -16,6 +16,8 @@ export interface CarCostRow {
   model: string;
   /** route → source → the cheapest current sighting; the used route is the same trim and battery's. */
   routes: Partial<Record<Route, Record<string, CurrentPoint>>>;
+  /** The same as `routes`, leaving out the figures whose end value rests on few used cars (current, firm). */
+  firm_routes?: Partial<Record<Route, Record<string, CurrentPoint>>>;
   /** route → the cheapest source's figure. */
   best: Partial<Record<Route, CurrentPoint>>;
   trend: Trend | null;
@@ -68,6 +70,7 @@ export function computeAll(input: ComputeInput): ComputeResult {
   const now = costAll(all, input.basis, input.today, trim);
   const rows = series(history, goneDates(all));
   const cur = current(now, input.today);
+  const firm = current(now, input.today, true);
   const residual = residualAt(used), floor = floorGfvAt(all.filter((s) => s.route !== "used"));
   const currentByKey = new Map(all.filter((s) => s.current).map((s) => [s.key, s]));
   const usedByTrim = new Map<string, Record<string, UsedListingCost>>();
@@ -90,6 +93,7 @@ export function computeAll(input: ComputeInput): ComputeResult {
     const model = c.model_key ?? "";
     // A used car counts as this car only when it is the same trim and battery; the model's whole stock stays the residual evidence.
     const routes = { ...(cur.get(c.id) ?? {}), ...(c.used_key ? cur.get(`used:${c.used_key}`) ?? {} : {}) };
+    const firmRoutes = { ...(firm.get(c.id) ?? {}), ...(c.used_key ? firm.get(`used:${c.used_key}`) ?? {} : {}) };
     let stock = stockByModel.get(model);
     if (stock === undefined && model) {
       stock = usedStock(model, used, input.today, input.basis);
@@ -101,7 +105,7 @@ export function computeAll(input: ComputeInput): ComputeResult {
     const sighting = (p: CurrentPoint | undefined) => (p ? currentByKey.get(p.key) : undefined);
     const finance = { pcp: sighting(best.pcp), pch: sighting(best.pch) };
     const breakeven = breakEvens(sighting(best.cash) ?? null, finance, input.basis, residual, floor, input.today, trim);
-    cars.push({ id: c.id, model, routes, best, trend: tr, stock: stock && stock.count ? stock : null, trim_scale: trim(c.id), breakeven,
+    cars.push({ id: c.id, model, routes, firm_routes: firmRoutes, best, trend: tr, stock: stock && stock.count ? stock : null, trim_scale: trim(c.id), breakeven,
                 used_listings: (c.used_key && usedByTrim.get(c.used_key)) || {} });
   }
   const offers = offersFrom(input.sightings, input.basis, input.today, input.staleDays, residual, trim);
