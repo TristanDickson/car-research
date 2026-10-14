@@ -3,12 +3,12 @@
   "cars": 1978,
   "cars_curated": 19,
   "cars_generated": 1959,
-  "claims": 112296,
+  "claims": 114234,
   "configurations": 71,
   "configured": 33,
   "derivatives": 913,
   "disagreements": 133,
-  "fields_from_claims": 124329,
+  "fields_from_claims": 141399,
   "makes": 50,
   "models": 249,
   "models_with_deals": 178,
@@ -17,7 +17,7 @@
   "offers": 3454,
   "options_pages": 1166,
   "sightings": 26913,
-  "specs": 2594,
+  "specs": 2844,
   "specs_mapped": 919,
   "trim_map_auto": 2695,
   "trim_map_mapped": 56,
@@ -57,7 +57,7 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-14T03:38:18+00:00",
+ "generated_at": "2026-10-14T06:49:02+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
@@ -154,6 +154,13 @@
    {
     "describes_models": true,
     "in_snapshot": {},
+    "matched": {
+     "specs": {
+      "conflict": 0,
+      "matched": 0,
+      "total": 249
+     }
+    },
     "provider": "carwow_model",
     "raw": {
      "bodies": 1245,
@@ -169,6 +176,10 @@
      "derivative": {
       "first_seen_live": 910,
       "keys": 1821
+     },
+     "spec": {
+      "first_seen_live": 249,
+      "keys": 249
      }
     }
    },
@@ -705,6 +716,34 @@
     }
    },
    {
+    "describes_models": true,
+    "in_snapshot": {},
+    "matched": {
+     "specs": {
+      "conflict": 0,
+      "matched": 0,
+      "total": 1
+     }
+    },
+    "provider": "nhtsa_recalls",
+    "raw": {
+     "bodies": 1,
+     "failed": 0,
+     "fetches": 1,
+     "first_at": "2026-10-14T06:40:02+00:00",
+     "last_at": "2026-10-14T06:40:02+00:00",
+     "refused": 0,
+     "responses": 1,
+     "wayback": 0
+    },
+    "records": {
+     "spec": {
+      "first_seen_live": 1,
+      "keys": 1
+     }
+    }
+   },
+   {
     "describes_models": false,
     "in_snapshot": {
      "offers": 9
@@ -850,7 +889,7 @@
      {
       "commit": "dde57dc319",
       "fetches": 5913,
-      "finished_at": "2026-10-14T03:38:18+00:00",
+      "finished_at": "2026-10-14T03:38:40+00:00",
       "from_cache": 4674,
       "mode": "nightly",
       "parsed": 1239,
@@ -858,9 +897,36 @@
       "records": 70941,
       "seconds": 104.2,
       "sightings": 83884,
-      "snapshot": {},
+      "snapshot": {
+       "cars": 1978,
+       "cars_generated": 1959,
+       "cash_benchmarks": 2079,
+       "models": 249,
+       "observations": 6764,
+       "offers": 3454,
+       "specs": 2594,
+       "unmapped_trims": 326,
+       "used_listings": 12038,
+       "used_spans": 20149
+      },
       "stage": "build",
       "started_at": "2026-10-14T03:36:32+00:00",
+      "unparsed": 0
+     },
+     {
+      "commit": "3ccce189b7",
+      "fetches": 5914,
+      "finished_at": "2026-10-14T06:49:02+00:00",
+      "from_cache": 0,
+      "mode": "build",
+      "parsed": 5914,
+      "record_spans": 47566,
+      "records": 72187,
+      "seconds": 409.4,
+      "sightings": 83884,
+      "snapshot": {},
+      "stage": "build",
+      "started_at": "2026-10-14T06:42:08+00:00",
       "this": true,
       "unparsed": 0
      }
@@ -881,6 +947,11 @@
       "at": "2026-10-13T23:06:42+01:00",
       "sha": "8c6356b6cc",
       "subject": "data: build from the raw store 2026-10-13"
+     },
+     {
+      "at": "2026-10-14T04:38:45+01:00",
+      "sha": "66b02d007e",
+      "subject": "data: nightly build 2026-10-14"
      }
     ],
     "scrapes": [
@@ -1274,6 +1345,25 @@
       "skipped": 0,
       "source": "ncd",
       "started_at": "2026-10-14T02:40:34+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": null,
+      "capabilities": [
+       "recalls"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 1,
+      "finished_at": "2026-10-14T06:40:10+00:00",
+      "records": 1,
+      "refused": 0,
+      "responses": 1,
+      "runs": 1,
+      "skipped": 0,
+      "source": "nhtsa_recalls",
+      "started_at": "2026-10-14T06:40:02+00:00",
       "status": "ok"
      },
      {
@@ -2915,10 +3005,11 @@
    "capabilities": [
     {
      "kinds": [
-      "derivative"
+      "derivative",
+      "spec"
      ],
      "name": "derivatives",
-     "parser_version": "1"
+     "parser_version": "2"
     }
    ],
    "description": "Carwow public model pages: https://www.carwow.co.uk/<make>/<model>",
@@ -3186,6 +3277,13 @@
      ],
      "name": "breakdowns",
      "parser_version": "2"
+    },
+    {
+     "kinds": [
+      "spec"
+     ],
+     "name": "pdf",
+     "parser_version": "1"
     }
    ],
    "description": "ADAC Autotest (adac.de, Germany's motoring club): its test of one car of a model, and the model's",
@@ -3222,6 +3320,21 @@
    "live": true,
    "name": "dvsa_recalls",
    "source": "dvsa_recalls"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "spec"
+     ],
+     "name": "recalls",
+     "parser_version": "1"
+    }
+   ],
+   "description": "NHTSA's vehicle safety recalls (the US register): every recall filed in the US since 2010, in the file",
+   "live": true,
+   "name": "nhtsa_recalls",
+   "source": "nhtsa_recalls"
   },
   {
    "capabilities": [
@@ -3281,6 +3394,19 @@
   "version": 2
  },
  "runs": [
+  {
+   "artifacts": 1,
+   "capability": "recalls",
+   "errors": 0,
+   "finished_at": "2026-10-14T06:40:10+00:00",
+   "id": 109,
+   "records": 1,
+   "source": "nhtsa_recalls",
+   "started_at": "2026-10-14T06:40:02+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
   {
    "artifacts": 1,
    "capability": "used-stock",
@@ -3524,19 +3650,6 @@
    "records": 8,
    "source": "hyundai_offers",
    "started_at": "2026-10-14T02:40:28+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
-  },
-  {
-   "artifacts": 178,
-   "capability": "deals",
-   "errors": 0,
-   "finished_at": "2026-10-14T02:40:28+00:00",
-   "id": 89,
-   "records": 1539,
-   "source": "carwow_deals",
-   "started_at": "2026-10-14T02:35:22+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0

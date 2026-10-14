@@ -6,13 +6,26 @@
   "models": 249,
   "observations": 6764,
   "offers": 3454,
-  "specs": 2594,
+  "specs": 2844,
   "unmapped_trims": 326,
   "used_listings": 12038,
   "used_spans": 20149
  },
- "generated_at": "2026-10-14T03:38:18+00:00",
+ "generated_at": "2026-10-14T06:49:02+00:00",
  "runs": [
+  {
+   "artifacts": 1,
+   "capability": "recalls",
+   "errors": 0,
+   "finished_at": "2026-10-14T06:40:10+00:00",
+   "id": 109,
+   "records": 1,
+   "source": "nhtsa_recalls",
+   "started_at": "2026-10-14T06:40:02+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
   {
    "artifacts": 1,
    "capability": "used-stock",
@@ -126,19 +139,6 @@
    "records": 1109,
    "source": "evdb",
    "started_at": "2026-10-14T02:54:14+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
-  },
-  {
-   "artifacts": 6,
-   "capability": "configurations",
-   "errors": 0,
-   "finished_at": "2026-10-14T02:54:14+00:00",
-   "id": 99,
-   "records": 71,
-   "source": "hyundai_configurator",
-   "started_at": "2026-10-14T02:54:04+00:00",
    "status": "ok",
    "target": "all",
    "unmapped": 0
