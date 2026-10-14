@@ -178,6 +178,19 @@ class ThroughTheBuild(unittest.TestCase):
         self.assertEqual(m["kia-spec:pv5-passenger:elite:71-2-kwh-fwd:7seat"], "kia-pv5-passenger-71-elite-7seat")
         self.assertIsNone(m["kia-spec:ev3:air:58-3-kwh-fwd"])
 
+    def test_the_makers_room_by_row_reaches_the_car(self):
+        import tempfile
+        from pipeline.services.snapshot import export_snapshot
+        self.raws.add("kia_specs", "pv5-passenger", "kia_pv5-passenger_specification.html", at=T)
+        conn = self.raws.build()
+        with tempfile.TemporaryDirectory() as tmp:
+            export_snapshot(conn, tmp, generated_at="2026-10-06T00:00:00+00:00")
+            cars = {c["id"]: c for c in json.loads((Path(tmp) / "cars.json").read_text(encoding="utf-8"))}
+        elite7 = cars["kia-pv5-passenger-71-elite-7seat"]
+        self.assertEqual((elite7["legroom_front_mm"], elite7["headroom_rear_mm"], elite7["shoulder_rear_mm"]), (1041.0, 1076.0, 1617.0))
+        # The 5-seat's 995 and the 7-seat's 977 share a trim and battery: that level stays silent, not the 5-seat's figure.
+        self.assertIsNone(elite7.get("legroom_rear_mm"))
+
     def test_specs_reach_the_snapshot(self):
         import tempfile
         from pipeline.services.snapshot import export_snapshot

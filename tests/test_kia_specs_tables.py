@@ -123,6 +123,16 @@ class BodyAndPower(unittest.TestCase):
         self.assertEqual((fe["boot_l"], fe["boot_max_l"], fe["gvwr_kg"]), (362.0, 1201.0, 2090.0))
         self.assertEqual(ev2["gt-line-s:61-kwh-fwd"]["numbers"]["length_mm"], 4065.0, "'GT-Line / S'")
 
+    def test_pv5_room_by_row_and_seat_count(self):
+        pv5 = rows("pv5-passenger")
+        five, seven = pv5["elite:71-2-kwh-fwd:5seat"], pv5["elite:71-2-kwh-fwd:7seat"]
+        keys = ("legroom_front_mm", "legroom_rear_mm", "headroom_front_mm", "headroom_rear_mm", "shoulder_front_mm", "shoulder_rear_mm")
+        self.assertEqual([five["numbers"][k] for k in keys], [1041.0, 995.0, 1020.0, 1076.0, 1732.0, 1617.0], "'1,041 / 995'")
+        self.assertEqual([seven["numbers"][k] for k in keys], [1041.0, 977.0, 1020.0, 1076.0, 1732.0, 1617.0], "the 7-seat's own 2nd row")
+        self.assertEqual(seven["notes"]["legroom_rear_mm"], "1,041 / 977 / 970 (1st / 2nd / 3rd row): Leg Room (1st row / 2nd row) (mm)")
+        self.assertNotIn("legroom_rear_mm", five["notes"])
+        self.assertIsNone(rows("ev3")["gt-line:81-4-kwh-fwd"]["numbers"]["legroom_front_mm"], "the EV3 page prints none")
+
     def test_ev6_boot_follows_the_sound_system(self):
         ev6 = rows("ev6")
         self.assertEqual(ev6["gt-line:84-kwh-rwd-225-bhp"]["numbers"]["boot_l"], 490.0)

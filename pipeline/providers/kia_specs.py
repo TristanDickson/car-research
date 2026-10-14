@@ -419,6 +419,8 @@ MEASURES = (
     ("wheelbase_m", r"^wheelbase"),
 )
 SOUND_SYSTEM = re.compile(r"premium sound|meridian|harman", re.I)
+# Interior space, one cell per row of seats: 'Leg Room (1st row / 2nd row) (mm)' | '1,041 / 995' (PV5).
+ROOMS = (("legroom", r"^leg\s*room"), ("headroom", r"^head\s*room"), ("shoulder", r"^shoulder\s*room"))
 
 
 def _numbers(facts: dict[str, str], where: dict[str, str], features: list[str]) -> tuple[dict, list[dict], dict[str, str]]:
@@ -472,6 +474,12 @@ def _numbers(facts: dict[str, str], where: dict[str, str], features: list[str]) 
         if mi is None and wh:
             mi = round(1000 * MILES_PER_KM / wh, 2)   # mi/kWh = 1000 / (Wh/km × 1.609344)
     out["efficiency_mi_kwh"], out["efficiency_wh_km"] = mi, wh
+    for kind, rx in ROOMS:
+        room = next(((m, v) for m, v in facts.items() if re.search(rx, m, re.I)), None)
+        f = figures(room[1]) if room else []
+        out[f"{kind}_front_mm"], out[f"{kind}_rear_mm"] = (f[0] if f else None), (f[1] if len(f) > 1 else None)
+        if len(f) > 2:
+            notes[f"{kind}_rear_mm"] = f"{room[1]} (1st / 2nd / 3rd row): {room[0]}"   # the 7-seat's: the 2nd row's is kept
     charge_times = [c for m, v in facts.items() if (c := _charge(m, v))]
     dc = [c for c in charge_times if c["kind"] == "dc" and (c["from"], c["to"]) == (10, 80) and c["minutes"] is not None]
     fastest = min(dc, key=lambda c: c["minutes"], default=None)

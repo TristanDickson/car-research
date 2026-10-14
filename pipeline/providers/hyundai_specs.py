@@ -502,6 +502,10 @@ def _technical_numbers(label: str, value: str, section: str, section_pct: str | 
     if re.match(r"Wheelbase", lb, re.I):
         n = _first(value)
         return {"wheelbase_m": n / 1000 if n else None}
+    m = re.match(r"(1st|2nd) Row (Head|Leg|Shoulder) Room", lb, re.I)   # the Ioniq 6's '1st Row Head Room (mm)'
+    if m:
+        kind = {"head": "headroom", "leg": "legroom", "shoulder": "shoulder"}[m.group(2).lower()]
+        return {f"{kind}_{'front' if m.group(1) == '1st' else 'rear'}_mm": _first(value)}
     if re.search(r"Overall Height|^Height\s*\(mm\)", lb, re.I):
         return {"height_mm": _first(value)}
     if re.search(r"Kerb Weight", lb, re.I):

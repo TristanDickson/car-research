@@ -243,10 +243,12 @@ Lloyd Motor Group's and Halliwell Jones's Kia offer pages, each a representative
 powertrain or seat count, performance, charging, dimensions, weights and towing.
 
 - **Read:** since 11 Oct also DC and AC charge times per charger, braked towing, the PV5's
-  5-seat and 7-seat tables, the EV6's Wh/km as mi/kWh, cells that span several columns.
+  5-seat and 7-seat tables, the EV6's Wh/km as mi/kWh, cells that span several columns. Since
+  14 Oct the PV5's leg, head and shoulder room for the 1st and 2nd rows, per seat count (the
+  only Kia page that prints them).
 - **Left:** torque, the battery pack table (cells, voltage, weight), CO2, city range, track
-  widths, service interval, the PV5's cabin dimensions; tyre sizes, which NCD's page gives per
-  derivative. Kia prints no prices here.
+  widths, service interval; the PV5 7-seat's 3rd-row room (no other car prints one, so it has no field yet);
+  tyre sizes, which NCD's page gives per derivative. Kia prints no prices here.
 
 ## Hyundai
 
@@ -267,7 +269,8 @@ Hyundai publishes no readable spec page, so this reads the PDF price and specifi
 
 - **Read:** grade equipment, and since 11 Oct the price table per powertrain (OTR, insurance
   group, P11D, BIK), paint and option prices, and the Technical pages (towing, range, charging,
-  boot, weights, warranty).
+  boot, weights, warranty). Since 14 Oct the Ioniq 6's 1st and 2nd row head room and 1st row
+  leg room, per trim; no other guide prints interior space.
 - **Left:** there is no Ioniq 3 guide (its downloads page 404s); tyre sizes, which NCD's page
   gives per derivative.
 

@@ -241,6 +241,13 @@ export interface SnapshotCar {
   roof_load_kg?: number | null;
   roof_rails?: boolean | null;
   tow_unbraked_kg?: number | null;
+  /** Interior space by row, mm, as the maker prints it; rear is the 2nd row. */
+  legroom_front_mm?: number | null;
+  legroom_rear_mm?: number | null;
+  headroom_front_mm?: number | null;
+  headroom_rear_mm?: number | null;
+  shoulder_front_mm?: number | null;
+  shoulder_rear_mm?: number | null;
   /** The wheel size fitted as standard, inches. */
   wheel_in?: number | null;
   /** Other sizes the configurator offers: '19", 20"'. */
