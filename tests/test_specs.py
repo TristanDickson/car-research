@@ -194,6 +194,16 @@ class ThroughTheBuild(unittest.TestCase):
         # The 5-seat's 995 and the 7-seat's 977 share a trim and battery: that level stays silent, not the 5-seat's figure.
         self.assertIsNone(elite7.get("legroom_rear_mm"))
 
+    def test_text_a_models_cars_share_is_written_once_for_the_model(self):
+        from pipeline.services.snapshot import split_model_text
+        cars = [{"id": "a", "model_key": "kia/ev3", "recalls": "R1", "review_interior": "Nice", "us_recalls": "U1"},
+                {"id": "b", "model_key": "kia/ev3", "recalls": "R1", "review_interior": "Nice", "us_recalls": "U2"},
+                {"id": "c", "model_key": "kia/ev9", "recalls": "R9"},
+                {"id": "d", "model_key": "kia/ev9"}]
+        self.assertEqual(split_model_text(cars), {"kia/ev3": {"recalls": "R1", "review_interior": "Nice"}})
+        self.assertEqual(cars[0], {"id": "a", "model_key": "kia/ev3", "us_recalls": "U1"}, "worded differently: stays on the car")
+        self.assertEqual(cars[2]["recalls"], "R9", "one car of the model lacks it: stays on the car")
+
     def test_specs_reach_the_snapshot(self):
         import tempfile
         from pipeline.services.snapshot import export_snapshot

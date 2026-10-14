@@ -1262,10 +1262,12 @@ def resolve_car(car: dict, store: Store) -> dict:
     flags: dict[str, str] = {}
     packs_required: dict[str, str] = {}
     prices: dict[str, float] = dict(car.get("pack_prices_gbp") or {})
+    kinds: dict[str, str] = {}
     for flag in EQUIPMENT:
         r = resolve_equipment(flag, subjects, store)
         if r.claim:
             flags[flag] = str(r.value)
+            kinds[flag] = r.claim.kind
             if not (r.claim.kind == "curated" and not car.get("auto")):
                 sources[flag] = r.claim.label
             if r.value == "pack" and r.claim.pack:
@@ -1276,8 +1278,19 @@ def resolve_car(car: dict, store: Store) -> dict:
                 overruled[flag] = _sides(r.overruled)
         elif r.disagreement:
             disagreements[flag] = _sides(r.disagreement)
-    if "v2l_internal" in flags or "v2l_external" in flags:
-        flags["v2l_any"] = max((flags.get("v2l_internal", "none"), flags.get("v2l_external", "none")), key=lambda t: TRI_RANK.get(t, -1))
+    # A car with V2L has the socket inside or out. Where a source says V2L but not where (Carwow's 'Vehicle-to-load
+    # (V2L) capability'), a list's silence on either place is not a no.
+    places = ("v2l_internal", "v2l_external")
+    if flags.get("v2l_any") not in (None, "none") and not any(flags.get(k) not in (None, "none") for k in places):
+        for k in places:
+            if flags.get(k) == "none" and kinds.get(k) == "absent":
+                del flags[k]
+                sources.pop(k, None)
+    if any(k in flags for k in places):
+        best = max(("v2l_any", *places), key=lambda k: TRI_RANK.get(flags.get(k, "none"), -1))
+        flags["v2l_any"] = flags.get(best, "none")
+        if best != "v2l_any" and best in sources:
+            sources["v2l_any"] = sources[best]
     for f, flag in CAR_TRI.items():
         car[f] = flags.get(flag, "unknown")
         if flag in sources:

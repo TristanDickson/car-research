@@ -400,7 +400,13 @@ rejected by that rule fails in two seconds with no runner and no logs.
   (V2L) capability" alone no longer marks a cabin socket, and EV Database's index card, which
   says only that a heat pump is "available", now shows "std or opt" rather than "option" (188 cars
   on sale showed a heat pump "option" on EV Database's word, Teslas among them, some of them from
-  the car's own EV Database page, which does say which).
+  the car's own EV Database page, which does say which; 123 changed). The first build after these
+  showed two faults, both fixed: a car's "V2L (any)" was rebuilt from the cabin and exterior
+  verdicts alone, so where Carwow lists V2L without saying where (ID. Buzz, Ariya, Born) it read
+  "none"; and the list's silence on where made the cabin socket "none" rather than unknown. And
+  `cars.json` grew from 9.9 to 22 MB, since the review sections and the recall lines were written
+  on every car: they go once per model to `details.json` now. Then US safety recalls (`nhtsa_recalls`,
+  NHTSA's complete recall file once a week): 84 of the 96 models sold in the US have one.
 - **2026-10-14 (later)** The owner: "build a generic app for me to explore car prices and plan
   upgrades regardless of starting vehicle". The app had the current Ioniq 5's width written into
   every card ("width versus the Ioniq 5"), and the pipeline exported a fixed requirement check per

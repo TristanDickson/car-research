@@ -124,6 +124,16 @@ export function useResetRequirements() {
   });
 }
 
+/** The long text a car's model carries (types.ts ModelTextField), shared by its cars: details.json under model:<key>. */
+export function useModelText(modelKey: string | null | undefined) {
+  return useQuery({
+    queryKey: ["model_text", modelKey ?? null],
+    queryFn: async () => (await getCarDetails(`model:${modelKey}`))?.text ?? null,
+    enabled: !!modelKey,
+    staleTime: FOREVER,
+  });
+}
+
 export function useCarDetails(id: string | null | undefined) {
   return useQuery({
     queryKey: ["details", id ?? null],

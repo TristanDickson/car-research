@@ -524,7 +524,8 @@ column speaks weakly and the bracket or the battery level decides. A CAP name re
 three brokers is one `named` claim with three sightings, not three claims. What a stronger
 source sets aside is kept on the car as `overruled`, so the car page can say that Hyundai's
 table ticked the heat pump the configurator does not sell on that trim. Every resolved field names
-its claim (`field_sources`, exported in the per-car detail file, not `cars.json`), `flags` carries all 29 equipment flags with a verdict
+its claim (`field_sources`, exported in the per-car detail file, not `cars.json`; so is the long text a
+model's cars share, Carwow's review sections and the recall lines, once per model under `model:<model_key>`), `flags` carries all 29 equipment flags with a verdict
 (standard, pack, option, listed, none), `packs_required` and `pack_prices_gbp` say which pack a
 "pack" verdict leans on and what it costs, and the app prices the packs a car needs for
 the equipment a search asks for (`lib/query.ts` `searchPacks`). Nothing in the resolver names a feature: the heat

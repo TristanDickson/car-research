@@ -10,9 +10,9 @@ import { Badge, Card, Empty, ErrorNote, Loading, PageHeader, TriBadge } from "@/
 import { carCosts, ROUTE_LABEL } from "@/lib/costs";
 import { FIELDS, GROUPS, show } from "@/lib/fields";
 import { carName, gbp, num } from "@/lib/format";
-import { useBasis, useCar, useCarDetails, useCostsForCar, useDataPage, useSpecsForCar } from "@/lib/hooks";
+import { useBasis, useCar, useCarDetails, useCostsForCar, useDataPage, useModelText, useSpecsForCar } from "@/lib/hooks";
 import { carPacks } from "@/lib/query";
-import type { CarDetails, SnapshotCar } from "@/lib/types";
+import type { CarDetails, ModelTextField, SnapshotCar } from "@/lib/types";
 
 type Sources = CarDetails["field_sources"];
 
@@ -31,6 +31,7 @@ function CarView() {
   const car = useCar(id);
   const specs = useSpecsForCar(id);
   const details = useCarDetails(id);
+  const modelText = useModelText(car.data?.model_key);
   const costRow = useCostsForCar(id);
   const basis = useBasis();
   const data = useDataPage();
@@ -40,6 +41,11 @@ function CarView() {
   if (car.data === undefined || costRow.data === undefined) return <Loading />;
   if (car.data === null) return <Empty>Unknown car id: {id}</Empty>;
   const c = car.data;
+  const text = (k: ModelTextField) => c[k] ?? modelText.data?.[k] ?? null;
+  const review = ([["Back seats", text("review_rear_seats")], ["Ride in town", text("review_ride_town")], ["On the motorway", text("review_ride_motorway")],
+                   ["Interior", text("review_interior")], ["Reliability", text("review_reliability")]] as const).filter(([, v]) => v);
+  const recalls = text("recalls");
+  const usRecalls = text("us_recalls");
   const packs = carPacks(c);
   const flagLabels = data.data?.flag_labels ?? {};
   const costs = carCosts(c, costRow.data, data.data?.sources);
@@ -153,11 +159,10 @@ function CarView() {
         )}
       </Card>
 
-      {(c.review_rear_seats || c.review_ride_town || c.review_ride_motorway || c.review_interior || c.review_reliability) && (
+      {review.length > 0 && (
         <Card title="Carwow's review, in its words">
           <dl className="grid gap-4 text-sm text-gray-300 lg:grid-cols-2">
-            {([["Back seats", c.review_rear_seats], ["Ride in town", c.review_ride_town], ["On the motorway", c.review_ride_motorway],
-               ["Interior", c.review_interior], ["Reliability", c.review_reliability]] as const).filter(([, v]) => v).map(([k, v]) => (
+            {review.map(([k, v]) => (
               <div key={k}>
                 <dt className="mb-1 text-xs uppercase tracking-wide text-gray-500">{k}</dt>
                 <dd>{v}</dd>
@@ -168,10 +173,10 @@ function CarView() {
         </Card>
       )}
 
-      {c.recalls && (
+      {recalls && (
         <Card title={`UK safety recalls · ${c.recalls_count ?? 0}`}>
           <ul className="space-y-2 text-sm text-gray-300">
-            {c.recalls.split("\n").map((line) => <li key={line.slice(0, 40)}>{line}</li>)}
+            {recalls.split("\n").map((line) => <li key={line.slice(0, 40)}>{line}</li>)}
           </ul>
           <p className="mt-3 text-xs text-gray-500">
             Every DVSA recall since 2012 that names the model, earlier generations included, newest first. Whether a
@@ -181,10 +186,10 @@ function CarView() {
         </Card>
       )}
 
-      {c.us_recalls && (
+      {usRecalls && (
         <Card title={c.us_recalls_count != null ? `US safety recalls · ${c.us_recalls_count}` : "US safety recalls"}>
           <ul className="space-y-2 text-sm text-gray-300">
-            {c.us_recalls.split("\n").map((line) => <li key={line.slice(0, 40)}>{line}</li>)}
+            {usRecalls.split("\n").map((line) => <li key={line.slice(0, 40)}>{line}</li>)}
           </ul>
           <p className="mt-3 text-xs text-gray-500">
             The US register (NHTSA), not the UK one: every recall of the US cars since model year 2019 that names the model,

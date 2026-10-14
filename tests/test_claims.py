@@ -125,6 +125,24 @@ class Precedence(unittest.TestCase):
         self.assertNotIn("glass_roof", c["flags"])
         self.assertEqual(sorted(c["disagreements"]), ["glass_roof"])
 
+    def test_v2l_said_without_its_place_leaves_the_place_unknown_not_none(self):
+        store = Store()
+        t = claims.trim_subject("Kia", "EV3", "Air")
+        store.add(t, claims.Claim("v2l_any", "standard", "listed", "Carwow specification", "Carwow specification · Air standard equipment"))
+        for k in ("v2l_internal", "v2l_external"):
+            store.add(t, claims.Claim(k, "none", "absent", "Carwow specification", "not in Carwow's standard equipment for Air"))
+        c = {"id": "carwow-cap:9", "auto": True, "cap_id": "9", "make": "Kia", "model": "EV3", "trim": "Air · 150kW 58kWh Auto", "variant": "150kW 58kWh Auto"}
+        resolve_car(c, store)
+        self.assertEqual((c["flags"]["v2l_any"], c["internal_v2l"], c["external_v2l"]), ("standard", "unknown", "unknown"))
+        placed = Store()
+        placed.add(t, claims.Claim("v2l_any", "none", "absent", "A", "not in A"))
+        placed.add(t, claims.Claim("v2l_external", "standard", "listed", "A", "A · V2L - Outside"))
+        placed.add(t, claims.Claim("v2l_internal", "none", "absent", "A", "not in A"))
+        d = dict(c, id="carwow-cap:10")
+        resolve_car(d, placed)
+        self.assertEqual((d["flags"]["v2l_any"], d["internal_v2l"], d["external_v2l"]), ("standard", "none", "standard"))
+        self.assertEqual(d["field_sources"]["v2l_any"], "A · V2L - Outside")
+
     def test_standard_or_option_stays_so_until_a_source_prices_the_option(self):
         store = Store()
         t = claims.trim_subject("Kia", "EV3", "Air")

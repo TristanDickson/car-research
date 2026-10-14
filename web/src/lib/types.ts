@@ -107,9 +107,16 @@ export interface UsedFinance {
   lowest?: boolean;
 }
 
+/** The long text a model's cars share (Carwow's review sections, the recall registers' lines), which details.json
+ * holds once for the model under `model:<model_key>` (pipeline/services/snapshot.py MODEL_TEXT). A car keeps its own
+ * copy where its model's cars differ. */
+export type ModelTextField = "recalls" | "us_recalls" | "review_rear_seats" | "review_ride_town" | "review_ride_motorway" | "review_interior" | "review_reliability";
+
 /** What only the car page reads, fetched on demand (details.json, keyed by car id). */
 export interface CarDetails {
   id: string;
+  /** Only on a model's entry (`model:<model_key>`), which has nothing else. */
+  text?: Partial<Record<ModelTextField, string>>;
   specs: CarSpecSummary[];
   spec_check: { rows: SpecCheckRow[]; disagreements: number };
   /** The seed requirements' verdict at export (the pipeline's deal table); the app does not read it. */

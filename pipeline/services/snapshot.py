@@ -8,7 +8,8 @@ reader's own basis, recomputing when it changes.
 Layout (schema_version 7):
     manifest.json       {schema_version, generated_at, counts, runs}
     cars.json           hand-curated and generated cars (auto: true) with their facts; what every page loads
-    details.json        {car id: spec rows, the cross-check, the seed's brief check}; on demand
+    details.json        {car id: spec rows, the cross-check, the seed's brief check; 'model:<model_key>': the
+                        long text the model's cars share (MODEL_TEXT)}; on demand
     sightings.json      every offer observation span: a price one source showed for one derivative over
                         the days it stayed the same, with the full price-bearing payload
     used_spans.json     every used listing's asking-price spans, with the listing's year, mileage and plate
@@ -252,6 +253,28 @@ SOURCES = {
 
 # Sources whose rows reach the app only as the fields they give each car (services/claims.py): not spec rows of their own.
 FIELDS_ONLY = ("evdb", "evdb_cars", "ncd", "adac", "whatcar", "dvsa_recalls", "carwow_model", "nhtsa_recalls")
+
+# Long text a model's cars share (Carwow's review sections, the recall registers' lines): written once per model, in
+# details.json under 'model:<model_key>', rather than on each car in cars.json, which every page loads.
+MODEL_TEXT = ("recalls", "us_recalls", "review_rear_seats", "review_ride_town", "review_ride_motorway", "review_interior", "review_reliability")
+
+
+def split_model_text(cars: list[dict]) -> dict[str, dict[str, str]]:
+    """The MODEL_TEXT fields every car of a model carries, word for word: taken off the cars, by model_key. A field
+    some car of the model lacks or words differently stays on each car."""
+    by: dict[str, list[dict]] = {}
+    for c in cars:
+        if c.get("model_key"):
+            by.setdefault(c["model_key"], []).append(c)
+    out: dict[str, dict[str, str]] = {}
+    for key, cs in by.items():
+        for f in MODEL_TEXT:
+            vals = {c.get(f) for c in cs}
+            if len(vals) == 1 and next(iter(vals)):
+                out.setdefault(key, {})[f] = cs[0][f]
+                for c in cs:
+                    del c[f]
+    return out
 
 
 def source_of(provider: str) -> str:
@@ -612,6 +635,8 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         }
         if c.get("auto"):
             c["notes"] = None   # the boilerplate is implied by source_kind
+    for key, text in split_model_text(cars).items():
+        details[f"model:{key}"] = {"text": text}
 
     states: dict[str, int] = {}
     for o in offers:
