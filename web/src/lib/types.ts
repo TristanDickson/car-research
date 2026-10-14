@@ -307,6 +307,10 @@ export interface SnapshotCar {
   review_ride_motorway?: string | null;
   review_interior?: string | null;
   review_reliability?: string | null;
+  /** NHTSA's US safety recalls naming the model since model year 2019: how many, the latest report date, one line each, newest first; for a model not sold in the US, a line that says so. */
+  us_recalls_count?: number | null;
+  us_recalls_latest?: string | null;
+  us_recalls?: string | null;
   segment?: string | null;
   platform?: string | null;
   ncap_stars?: number | null;

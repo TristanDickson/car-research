@@ -38,6 +38,7 @@ a combined fetch included).
 | `adac` | adac.de car catalogue: the tested car's page, the range page; the test PDF | up to 75 (25 of each; a page every 90 days) | ADAC's Autotest grades per model (ride, build quality, space), its breakdown statistics, and its measurements of the car tested (tyres, boot, braking, noise, range, DC charging) |
 | `whatcar` | whatcar.com Reliability Survey articles | 3 | owners' reliability rating per model, its place in its class and the common faults |
 | `dvsa_recalls` | check-vehicle-recalls.service.gov.uk, "All recalls since 1992" | 1 (7.7 MB, downloaded by Chrome) | every UK safety recall: defect, remedy, build dates, cars affected |
+| `nhtsa_recalls` | static.nhtsa.gov, `FLAT_RCL_POST_2010.zip` | 1 a week (15 MB) | every US safety recall: defect, remedy, model years, build dates, US vehicles affected, which recall replaced which |
 
 ## Carwow
 
@@ -455,6 +456,57 @@ nothing faked; a page asking a person to prove themselves is not answered).
   hold" and the earlier "Followed by R/...".
 - **Left:** the VIN ranges; the registration check (per car, for the reader); other equipment;
   older generations are not told apart from the current one (the build dates show which).
+
+## NHTSA
+
+### nhtsa_recalls
+
+The US National Highway Traffic Safety Administration's recall register. Surveyed 14 Oct 2026. The
+UK register rarely says when a recall replaces one whose fix did not hold; NHTSA's usually does
+("This recall expands and replaces previous recall number 24V-204. Vehicles previously repaired
+under recall 24V-204 will need to have the new remedy completed"). api.nhtsa.gov and
+static.nhtsa.gov need no key and refused none of about 520 requests at five a second;
+www.nhtsa.gov (the VIN lookup) answers a script with 403.
+
+- **The open API, surveyed and left.** `products/vehicle/modelYears?issueType=r` (1949 to 2027),
+  `products/vehicle/makes?modelYear=&issueType=r` (247 makes for 2024),
+  `products/vehicle/models?modelYear=&make=&issueType=r` (the models with a recall that year) and
+  `vehicles/models?make=&modelYear=` (every model, paged) list names; `recalls/recallsByVehicle?make=&model=&modelYear=`
+  gives one row per recall: campaign number, report date (dd/mm/yyyy), component, summary,
+  consequence, remedy, notes, park-it and park-outside advice, over-the-air flag, no vehicle count
+  (400 and `Count: 0` for a name it does not know); `recalls/campaignNumber?campaignNumber=` gives
+  the same with `PotentialNumberofUnitsAffected` and every make, model and year in the campaign.
+  It cannot list a model's recalls: the model lists use product names the recalls do not
+  ('MUSTANG MACH-E', where the recalls say 'MUSTANG MACH E'), and `recallsByVehicle` answers only
+  for a name as one campaign wrote it ('EQS450' in 21V-931, 'EQS 450' in another). Asked by the
+  model lists' names it returned nothing for the 2021 Mach-E and the 2022 EQS; asked by the file's
+  names, nothing for the 2021 XC40BEV and 1 of the 13 recalls the file lists for the 2022 EQS 450.
+  Reading it by name and model year would take about 535 requests and still miss these.
+- **The file:** `FLAT_RCL_POST_2010.zip` (15 MB zipped, 311 MB of text, 245,855 lines, rebuilt
+  daily; field guide `RCL.txt`): one tab-separated line per campaign, make, model, model year and
+  component, with the maker's reference, build dates, US vehicles affected (the campaign's total),
+  report and owner-letter dates, who started it, defect, consequence, remedy, notes, and the
+  do-not-drive and park-outside advice. `FLAT_RCL_PRE_2010.zip` and the quarterly and annual
+  completion reports sit beside it.
+- **Read:** every vehicle recall of model year 2019 or later whose make and model name match a
+  catalogue model sold in the US (`nhtsa_recalls.MODELS`: the make and the pattern its recall
+  records follow, written from the API's model lists of 2019 to 2027 and the file's own names).
+  366 campaigns. 96 of the 249 catalogue models are sold in the US; 84 of them have a recall; the
+  other 12 (A6 and S6 Avant e-tron, iX3, Ioniq 6 N, EV3, Eletre, MX-30, GLC electric, Polestar 4
+  and 4 SUV, Cayenne Electric, EX60) have patterns written from the product names, unconfirmed
+  until a recall uses one. The Ioniq 5 N's recalls are filed under IONIQ 5, so the N reads IONIQ 5
+  from model year 2025 (the Ioniq 6 N IONIQ 6 from 2026). The Lexus ES Electric and Range Rover
+  Electric are filed under names their petrol and hybrid cars share, so they are not read and
+  their card says so. The fetch is weekly (`FRESH_DAYS`); the build reads the file in about 10 s.
+- **Links:** a sentence naming another recall says how: replaced by it, cars fixed under it need
+  the fix again ("a fix that did not hold"), it replaces or supersedes it, or it expands it to
+  more cars. 55 of the recalls read name another, 23 as a fix that did not hold. The app shows
+  the count, the latest report date and each recall in a line on the car page; models not sold in
+  the US say so. The lines add about 3 MB to `cars.json` (the UK lines are 5 MB).
+- **Left:** equipment, tyre and child-seat recalls; model years before 2019; component part
+  numbers; owners' complaints (`complaints/complaintsByVehicle`, 350 for the 2021 Mach-E) and the
+  investigations a recall cites, each worth a survey of its own; the completion reports (the share
+  of recalled cars fixed); the VIN lookup (per car, for the reader).
 
 ## Reliability sources surveyed and left
 
