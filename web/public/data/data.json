@@ -3,12 +3,12 @@
   "cars": 1978,
   "cars_curated": 19,
   "cars_generated": 1959,
-  "claims": 114665,
+  "claims": 114704,
   "configurations": 71,
   "configured": 33,
   "derivatives": 913,
   "disagreements": 133,
-  "fields_from_claims": 149418,
+  "fields_from_claims": 149570,
   "makes": 50,
   "models": 249,
   "models_with_deals": 178,
@@ -57,7 +57,7 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-14T07:06:27+00:00",
+ "generated_at": "2026-10-14T20:36:48+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
@@ -806,6 +806,30 @@
    {
     "builds": [
      {
+      "commit": "69891c3584",
+      "fetches": 5989,
+      "finished_at": "2026-10-14T20:36:47+00:00",
+      "from_cache": 0,
+      "mode": "build",
+      "parsed": 5989,
+      "record_spans": 47597,
+      "records": 72251,
+      "seconds": 261.5,
+      "sightings": 83884,
+      "snapshot": {},
+      "stage": "build",
+      "started_at": "2026-10-14T20:32:23+00:00",
+      "this": true,
+      "unparsed": 0
+     }
+    ],
+    "night": "2026-10-14",
+    "publishes": [],
+    "scrapes": []
+   },
+   {
+    "builds": [
+     {
       "commit": "7a3adbc5bc",
       "fetches": 4673,
       "finished_at": "2026-10-13T20:00:26+00:00",
@@ -943,7 +967,7 @@
      {
       "commit": "76383349bc",
       "fetches": 5989,
-      "finished_at": "2026-10-14T07:06:26+00:00",
+      "finished_at": "2026-10-14T07:07:11+00:00",
       "from_cache": 5914,
       "mode": "build",
       "parsed": 75,
@@ -951,10 +975,20 @@
       "records": 72251,
       "seconds": 170.9,
       "sightings": 83884,
-      "snapshot": {},
+      "snapshot": {
+       "cars": 1978,
+       "cars_generated": 1959,
+       "cash_benchmarks": 2079,
+       "models": 249,
+       "observations": 6764,
+       "offers": 3454,
+       "specs": 2875,
+       "unmapped_trims": 326,
+       "used_listings": 12038,
+       "used_spans": 20149
+      },
       "stage": "build",
       "started_at": "2026-10-14T07:03:32+00:00",
-      "this": true,
       "unparsed": 0
      }
     ],
@@ -983,6 +1017,11 @@
      {
       "at": "2026-10-14T07:49:53+01:00",
       "sha": "4e757e0578",
+      "subject": "data: build from the raw store 2026-10-14"
+     },
+     {
+      "at": "2026-10-14T08:07:19+01:00",
+      "sha": "2359e0ad0d",
       "subject": "data: build from the raw store 2026-10-14"
      }
     ],
