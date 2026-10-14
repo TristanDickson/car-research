@@ -1,5 +1,9 @@
 # Requirements
 
+This household's notes: one example of what a reader might look for, not the app's spec. The app
+expresses requirements as the reader's saved searches and compares against a car the reader
+chooses (`CLAUDE.md`, "A generic app").
+
 Distilled from the ChatGPT conversation of 4-6 October 2026 (see
 `transcripts/2026-10-06-chatgpt-ev-replacement.txt`). Machine-readable version in
 `data/seed/requirements.json`. Update both when something changes.

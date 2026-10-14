@@ -55,35 +55,6 @@ def _write(path: Path, obj, pretty: bool = False) -> None:
     path.write_text(text + "\n", encoding="utf-8")
 
 
-def evaluate_hard(requirements: dict, car: dict) -> dict:
-    """Check a car against the hard rules. Rules with applies_to == 'deal' are
-    skipped; a rule whose field the car does not carry is 'unknown', not a fail."""
-    failures: list[str] = []
-    unknown: list[str] = []
-    for rule in requirements.get("hard", []):
-        if rule.get("applies_to") == "deal":
-            continue
-        value = car.get(rule.get("field"))
-        if value is None or value == "unknown":
-            unknown.append(rule["id"])
-            continue
-        op, want = rule.get("op"), rule.get("value")
-        if op == "==":
-            ok = value == want
-        elif op == "in":
-            ok = value in want
-        elif op == ">=":
-            ok = value >= want
-        elif op == "<=":
-            ok = value <= want
-        else:
-            unknown.append(rule["id"])
-            continue
-        if not ok:
-            failures.append(rule["id"])
-    return {"passes": not failures, "failures": failures, "unknown": unknown}
-
-
 def _is_current(o: dict) -> bool:
     f = o["freshness"]
     return f["state"] in ACTIVE_STATUSES and not f["stale"]
@@ -629,7 +600,6 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         c["spec_count"] = len(mine)
         c["image"] = car_image(root, c, next((sp for sp in mine if sp.get("image_url")), None)) or fallback_image(c, renders)
         details[c["id"]] = {
-            "requirement_check": evaluate_hard(requirements, c),   # the seed's view; the app evaluates its own copy
             # Where each field came from, and what the sources disagreed on: only the car page reads these.
             "field_sources": c.pop("field_sources", None),
             "disagreements": c.pop("disagreements", None),

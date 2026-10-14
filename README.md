@@ -390,6 +390,12 @@ rejected by that rule fails in two seconds with no runner and no logs.
   owner asked to work around it ("This is a personal product not a commercial one"), so Chrome
   downloads the file (`scripts/fetch-with-chrome.mjs`, about 15 s). 141 models have a recall; the
   car page lists them, and one that follows a fix that did not hold says so.
+- **2026-10-14 (later)** The owner: "build a generic app for me to explore car prices and plan
+  upgrades regardless of starting vehicle". The app had the current Ioniq 5's width written into
+  every card ("width versus the Ioniq 5"), and the pipeline exported a fixed requirement check per
+  car that nothing showed. Both gone: Settings has "Compare every car with" (any car, or none),
+  and a search can keep or leave out cars no source has a value for, saying how many it leaves
+  out. `CLAUDE.md` records the direction.
 - **2026-10-14** The owner said yes to two gaps found re-checking the recommendation in the app:
   every used listing of a car's trim now has its own true monthly on the car page (the app
   costed only the cheapest), and a figure whose resale estimate rests on fewer than 10 used cars

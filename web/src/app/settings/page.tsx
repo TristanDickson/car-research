@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { Badge, Card, ErrorNote, Loading, PageHeader } from "@/components/ui";
-import { useDataPage, useDeleteSearch, useRenameSearch, useRequirements, useResetRequirements, useResetSearches, useSaveRequirements, useSearches, useSeedRequirements, useSetDefaultSearch } from "@/lib/hooks";
+import { carName } from "@/lib/format";
+import { useCars, useDataPage, useDeleteSearch, useRenameSearch, useRequirements, useResetRequirements, useResetSearches, useSaveRequirements, useSearches, useSeedRequirements, useSetDefaultSearch } from "@/lib/hooks";
 import { basisOf } from "@/lib/model/dealMath";
 import { describeQuery, parseQuery } from "@/lib/query";
 import type { Requirements } from "@/lib/types";
@@ -12,7 +13,8 @@ import type { Requirements } from "@/lib/types";
 /**
  * What the reader keeps in this browser: the saved searches (made from the search
  * bar; the default is what Pick, Cars and Specs open on), the budget line drawn on
- * every card, and the quoting basis every figure is computed under. Seeded once from
+ * every card, the car every card is compared with (none unless chosen), and the
+ * quoting basis every figure is computed under. Seeded once from
  * data/seed/requirements.json and only ever overwritten by a reset.
  */
 export default function SettingsPage() {
@@ -54,12 +56,15 @@ export default function SettingsPage() {
       <SavedSearches />
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <Card title="Budget line">
-          <div className="space-y-2 text-sm">
-            <NumberField label="Monthly ceiling (£)" value={budget.monthly_ceiling_gbp as number | undefined} onChange={(v) => update({ budget: { ...budget, monthly_ceiling_gbp: v } })} />
-            <p className="text-xs text-gray-500">Drawn on every card: within budget, or how far over.</p>
-          </div>
-        </Card>
+        <div className="space-y-4">
+          <Card title="Budget line">
+            <div className="space-y-2 text-sm">
+              <NumberField label="Monthly ceiling (£)" value={budget.monthly_ceiling_gbp as number | undefined} onChange={(v) => update({ budget: { ...budget, monthly_ceiling_gbp: v } })} />
+              <p className="text-xs text-gray-500">Drawn on every card: within budget, or how far over.</p>
+            </div>
+          </Card>
+          <CompareWith value={(doc.compare_with as string | undefined) ?? null} onChange={(id) => update({ compare_with: id ?? undefined })} />
+        </div>
 
         <div className="lg:col-span-2">
           <Card title="Quoting basis · how every figure is computed">
@@ -93,6 +98,32 @@ export default function SettingsPage() {
         </p>
       )}
     </div>
+  );
+}
+
+/** The car every card is compared with: the one you drive now, or any other. None unless chosen. */
+function CompareWith({ value, onChange }: { value: string | null; onChange: (id: string | null) => void }) {
+  const cars = useCars();
+  const list = cars.data ?? [];
+  const byName = new Map(list.map((c) => [`${carName(c)}${c.name_note ? ` ${c.name_note}` : ""}`, c.id]));
+  const current = list.find((c) => c.id === value);
+  const [text, setText] = useState<string | null>(null);
+  const shown = text ?? (current ? `${carName(current)}${current.name_note ? ` ${current.name_note}` : ""}` : "");
+  return (
+    <Card title="Compare every car with">
+      <div className="space-y-2 text-sm">
+        <input list="compare-cars" value={shown} placeholder="no car: type to choose one"
+          onChange={(e) => {
+            setText(e.target.value);
+            const id = byName.get(e.target.value);
+            if (id) { onChange(id); setText(null); }
+            else if (!e.target.value) { onChange(null); setText(null); }
+          }}
+          className="w-full rounded border border-gray-700 bg-gray-950 px-2 py-1 text-gray-100" />
+        <datalist id="compare-cars">{Array.from(byName.keys()).sort().map((n) => <option key={n} value={n} />)}</datalist>
+        <p className="text-xs text-gray-500">Each card then says how it differs from this car in width, length, boot and range: the car you drive now, or any other you want to measure against.</p>
+      </div>
+    </Card>
   );
 }
 

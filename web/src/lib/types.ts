@@ -12,12 +12,6 @@ export interface SnapshotManifest {
  * named pack or option; none = not available; unknown = not captured. */
 export type Tri = "standard" | "pack" | "option" | "none" | "unknown";
 
-export interface RequirementCheck {
-  passes: boolean;
-  failures: string[];
-  unknown: string[];
-}
-
 /** gone = the latest check did not find the offer; expired = past valid_to or
  * the source said so; otherwise the status the source implied when last seen. */
 export type OfferState = "live" | "lead" | "derived" | "illustrative" | "campaign" | "expired" | "historical" | "gone";
@@ -119,7 +113,6 @@ export interface CarDetails {
   specs: CarSpecSummary[];
   spec_check: { rows: SpecCheckRow[]; disagreements: number };
   /** The seed requirements' verdict at export (the pipeline's deal table); the app does not read it. */
-  requirement_check: RequirementCheck;
   /** Where each resolved field came from (services/claims.py); absent for a hand-curated car's own reading. */
   field_sources?: Record<string, string> | null;
   /** Fields the strongest sources disagree on, with both sides; the field stays unknown. */

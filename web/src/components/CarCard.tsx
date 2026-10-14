@@ -5,7 +5,7 @@ import Link from "next/link";
 import { CarImage } from "@/components/CarImage";
 import { Sparkline } from "@/components/charts/Sparkline";
 import { Badge } from "@/components/ui";
-import { budgetGap, IONIQ5_WIDTH_MM, printed, ROUTE_SHORT, ROUTES, type CarCosts, type TrueCost } from "@/lib/costs";
+import { budgetGap, printed, ROUTE_SHORT, ROUTES, type CarCosts, type TrueCost } from "@/lib/costs";
 export { printed } from "@/lib/costs";
 import { carName, gbp, nameDetail, num } from "@/lib/format";
 import type { Trend } from "@/lib/model/sightings";
@@ -19,6 +19,8 @@ interface Props {
   packs?: SearchPack[];
   flagLabels?: Record<string, string>;
   ceiling: number | null;
+  /** The car the reader compares with (Settings), if any. */
+  against?: SnapshotCar | null;
   /** The reader's term, the months every comparable figure is spread over. */
   horizon: number;
   compared: boolean;
@@ -46,9 +48,24 @@ export function atHorizonNote(t: TrueCost, horizon: number): string | null {
  * expected to be worth at the end), the cheapest marked; then the deal as the
  * source printed it.
  */
-export function CarCard({ car, costs, packs = [], flagLabels = {}, ceiling, horizon, compared, onCompare }: Props) {
+/** How this car differs from another on the numbers people feel: '45 mm narrower', '54 l less boot'. */
+function against(car: SnapshotCar, other: SnapshotCar): string[] {
+  const out: string[] = [];
+  const d = (a: number | null | undefined, b: number | null | undefined) => (a != null && b != null ? Math.round(a - b) : null);
+  const say = (n: number | null, unit: string, more: string, less: string) => {
+    if (n == null) return;
+    out.push(n === 0 ? `same ${more.split(" ").pop()}` : `${num(Math.abs(n))} ${unit} ${n > 0 ? more : less}`);
+  };
+  say(d(car.width_mm, other.width_mm), "mm", "wider", "narrower");
+  say(d(car.length_mm, other.length_mm), "mm", "longer", "shorter");
+  say(d(car.boot_l, other.boot_l), "l", "more boot", "less boot");
+  say(d(car.wltp_range_mi, other.wltp_range_mi), "mi", "more range", "less range");
+  return out;
+}
+
+export function CarCard({ car, costs, packs = [], flagLabels = {}, ceiling, against: other, horizon, compared, onCompare }: Props) {
   const gap = budgetGap(costs.trueCost?.monthly ?? costs.monthly, ceiling);
-  const widthDelta = car.width_mm != null ? car.width_mm - IONIQ5_WIDTH_MM : null;
+  const versus = other ? against(car, other) : [];
   const routes = ROUTES.filter((r) => costs.byRoute[r]);
 
   return (
@@ -87,11 +104,13 @@ export function CarCard({ car, costs, packs = [], flagLabels = {}, ceiling, hori
           <li><span className="text-gray-500">range</span> {car.wltp_range_mi != null ? `${num(car.wltp_range_mi)} mi` : "—"}</li>
           <li><span className="text-gray-500">battery</span> {car.battery_kwh != null ? `${num(car.battery_kwh, 0)} kWh` : "—"}</li>
           <li title={car.dc_peak_kw ? "DC peak" : "DC 10–80% average (EV Database)"}><span className="text-gray-500">charge</span> {car.dc_peak_kw ? `${num(car.dc_peak_kw)} kW` : car.dc_avg_kw ? `${num(car.dc_avg_kw)} kW avg` : "—"}</li>
-          <li title="width versus the Ioniq 5 (1,890 mm)">
-            <span className="text-gray-500">width</span>{" "}
-            {widthDelta == null ? "—" : widthDelta === 0 ? "same as Ioniq 5" : widthDelta < 0 ? `${-widthDelta} mm narrower` : `${widthDelta} mm wider`}
-          </li>
+          <li><span className="text-gray-500">width</span> {car.width_mm != null ? `${num(car.width_mm)} mm` : "—"}</li>
         </ul>
+        {other && versus.length > 0 && (
+          <div className="text-xs text-gray-400" title="Set in Settings: the car every card is compared with">
+            against {carName(other)}: {versus.join(", ")}
+          </div>
+        )}
 
         {packs.length > 0 && (
           <div className="text-xs text-amber-200/80" title="Equipment the search asks for comes on this car only in these packs; the prices are what the configurator asks.">

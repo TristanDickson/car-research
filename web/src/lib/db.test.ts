@@ -39,7 +39,7 @@ function snapshot(generated_at: string, carIds: string[]) {
     "used_spans.json": [2021, 2021, 2021].map((year, i) => ({ key: `u${i}`, source: "cinch", model: "hyundai/ioniq-3", car_id: null, used_key: "hyundai/ioniq-3|advance|61", year, price: 12000 + i * 500, mileage: 10000 + i, vrm: `V${i}`, town: null, from: "2026-09-01", to: today, present: true })),
     "requirements.json": { as_of: "2026-10-06", hard: [], preferences: [], wants: [], quoting_basis: { term_months: 37, savings_rate_apr: 0.04, residual_pct_of_list: 0.45, residual_at_months: 36 },
                            searches: [{ name: "Hand-curated", query: "standard=curated" }, { name: "My brief", query: "r.seats=4-&listed=flag:heat_pump,flag:v2l_internal", default: true }] },
-    "details.json": Object.fromEntries(carIds.map((id) => [id, { specs: [], spec_check: { rows: [], disagreements: 0 }, requirement_check: { passes: true, failures: [], unknown: [] } }])),
+    "details.json": Object.fromEntries(carIds.map((id) => [id, { specs: [], spec_check: { rows: [], disagreements: 0 } }])),
     "used.json": [],
     "data.json": { generated_at, stale_days: 14, providers: [], runs: [], unmapped_trims: [], offer_states: {}, counts: {}, sources: { carwow: "Carwow" } },
   };

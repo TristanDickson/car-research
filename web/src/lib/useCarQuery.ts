@@ -18,6 +18,10 @@ export interface CarQueryResult {
   options: QueryOptions;
   flagLabels: Record<string, string>;
   budgetCeiling: number | null;
+  /** The car the reader compares every card with (Settings), if they chose one. */
+  compareWith: SnapshotCar | null;
+  /** Cars left out only because no source gives a value the search bounds or requires. */
+  unknownHidden: number;
   loading: boolean;
   error: unknown;
 }
@@ -50,6 +54,11 @@ export function useCarQuery(): CarQueryResult {
     return list.sort(compareBy(query.sort || "true", (c) => ctxById.get(c.id)!));
   }, [cars.data, ctxById, query]);
 
+  const unknownHidden = useMemo(() => {
+    if (query.keepUnknown) return 0;
+    const keep = { ...query, keepUnknown: true };
+    return (cars.data ?? []).filter((c) => !matches(c, ctxById.get(c.id)!, query) && matches(c, ctxById.get(c.id)!, keep)).length;
+  }, [cars.data, ctxById, query]);
   const options = useMemo(() => queryOptions(cars.data ?? [], query), [cars.data, query]);
   const budget = reqs.data?.budget as { monthly_ceiling_gbp?: number } | undefined;
 
@@ -57,6 +66,8 @@ export function useCarQuery(): CarQueryResult {
     query, set, cars: cars.data, rows, ctxOf, options,
     flagLabels: data.data?.flag_labels ?? {},
     budgetCeiling: budget?.monthly_ceiling_gbp ?? null,
+    compareWith: (cars.data ?? []).find((c) => c.id === reqs.data?.compare_with) ?? null,
+    unknownHidden,
     loading: !ready || !cars.data || reqs.data === undefined || costRows.data === undefined,
     error: cars.error ?? reqs.error ?? costRows.error ?? null,
   };

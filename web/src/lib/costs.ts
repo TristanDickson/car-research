@@ -137,7 +137,6 @@ export function budgetGap(monthly: number | null, ceiling: number | null | undef
   return monthly - ceiling;
 }
 
-export const IONIQ5_WIDTH_MM = 1890;
 
 export const ROUTE_LABEL: Record<Route, string> = { pcp: "PCP", pch: "lease", cash: "buy outright", used: "buy used" };
 export const ROUTE_SHORT: Record<Route, string> = { pcp: "PCP", pch: "Lease", cash: "Cash", used: "Used" };

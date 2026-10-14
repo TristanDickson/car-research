@@ -1,9 +1,11 @@
 # car-research: notes for an agent
 
-A household's EV decision tool: a Python pipeline scrapes UK car prices and specs, keeps every
-response it fetches in a raw store on the owner's laptop, builds from scratch everything the app
-reads, and commits a JSON snapshot that a static Next.js app (GitHub Pages) loads into
-IndexedDB. The decision is due before the current car's PCP ends on 10 Dec 2026.
+A generic app for exploring UK EV prices and planning an upgrade from any starting car: a Python
+pipeline scrapes prices, specs, tests and reliability, keeps every response it fetches in a raw
+store on the owner's laptop, builds from scratch everything the app reads, and commits a JSON
+snapshot that a static Next.js app (GitHub Pages) loads into IndexedDB. The household using it
+now has a decision due before their current car's PCP ends on 10 Dec 2026, but nothing in the
+app is built around that car or their requirements (see "A generic app" below).
 
 Read first: `README.md` (why, sources, how to work on it, next steps, context log, newest
 first), then `docs/ARCHITECTURE.md` (the raw store, the build, matching, the snapshot contract,
@@ -80,6 +82,16 @@ under `%USERPROFILE%\tools`); xpdf's and pypdf read the guides' tables wrongly.
   `web-ci` and the Pages deploy are green on the pushed commit.
 
 ## The owner's preferences
+
+- **A generic app.** The owner, 14 Oct 2026: "the point of the app is to be flexible and able to
+  trial out different requirements and preferences", and "build a generic app for me to explore
+  car prices and plan upgrades regardless of starting vehicle". Nothing in code or copy names a
+  particular car, requirement or threshold: comparisons are against the car the reader chooses in
+  Settings ("Compare every car with"), requirements are the reader's saved searches, and a search
+  must be able to express each alternative (any-of chips, unknown values kept or left out and
+  counted). `docs/requirements.md` is this household's notes, one input among others, not the
+  spec. When answering a question, show the results under the alternatives being weighed rather
+  than asking the owner to settle them.
 
 - Talk in plain words. They do not know the code's internal terms ("stub car", "trim map",
   "claims", "derivative" without explanation); never use one with them without saying what it

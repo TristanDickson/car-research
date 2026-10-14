@@ -13,7 +13,7 @@ from pipeline.build import Build
 from pipeline.db import ROOT
 from pipeline.providers.types import Target
 from pipeline.raw import RawStore
-from pipeline.services.snapshot import SCHEMA_VERSION, evaluate_hard, export_snapshot, latest_offers
+from pipeline.services.snapshot import SCHEMA_VERSION, export_snapshot, latest_offers
 from tests.helpers import dump, fresh_conn, run_all
 
 
@@ -77,8 +77,7 @@ class OwnerFiles(unittest.TestCase):
             self.assertFalse((out / "deals.json").exists())
             cars = json.loads((out / "cars.json").read_text(encoding="utf-8"))
             details = json.loads((out / "details.json").read_text(encoding="utf-8"))
-            for c in cars:
-                c["requirement_check"] = details[c["id"]]["requirement_check"]
+            self.assertNotIn("requirement_check", next(iter(details.values())), "requirements are the reader's searches")
             spans = json.loads((out / "sightings.json").read_text(encoding="utf-8"))
             data = json.loads((out / "data.json").read_text(encoding="utf-8"))
             self.assertEqual(len(cars), manifest["counts"]["cars"])
@@ -98,29 +97,15 @@ class OwnerFiles(unittest.TestCase):
                 self.assertIn("image", c)
             self.assertEqual(by_id["kia-pv5-passenger-71-elite-7seat"]["picks"][0]["verdict"], "want")
             kona = by_id["hyundai-kona-65-ultimate"]
-            self.assertTrue(kona["requirement_check"]["passes"])
             self.assertNotIn("deal_summary", kona, "the pipeline exports facts; the browser costs them")
             kona_pcp = [s for s in spans if s["car_id"] == kona["id"] and s["route"] == "pcp" and s["key"] == "carwow:deal:aea9f090b32568c0f0326d4ef6cf6299"]
             self.assertEqual(len(kona_pcp), 1)
             self.assertAlmostEqual(kona_pcp[0]["deal"]["monthly_payment"], 546.64)
             self.assertEqual((kona_pcp[0]["source"], kona_pcp[0]["to"]), ("carwow", "2026-10-05"))
-            self.assertFalse(by_id["hyundai-kona-65-advance"]["requirement_check"]["passes"])
-            ev6 = by_id["kia-ev6-77-gtlines-2024-used"]["requirement_check"]
-            self.assertTrue(ev6["passes"])
-            self.assertIn("heat_pump", ev6["unknown"])
             # Richmond offers carry valid_to 2026-09-30 -> expired at export time.
             richmond = next(o for o in offers if o["id"] == "2026-09_richmond_kona-65-advance_pch")
             self.assertEqual(richmond["freshness"]["state"], "expired")
 
-    def test_evaluate_hard_skips_deal_rules(self):
-        reqs = {"hard": [
-            {"id": "a", "field": "seats", "op": ">=", "value": 4},
-            {"id": "b", "field": "customer_deposit", "op": "==", "value": 0, "applies_to": "deal"},
-            {"id": "c", "field": "heat_pump", "op": "in", "value": ["standard", "pack"]},
-        ]}
-        self.assertEqual(evaluate_hard(reqs, {"seats": 4, "heat_pump": "none"}),
-                         {"passes": False, "failures": ["c"], "unknown": []})
-        self.assertEqual(evaluate_hard(reqs, {"seats": 5}), {"passes": True, "failures": [], "unknown": ["c"]})
 
 
 class Spans(unittest.TestCase):

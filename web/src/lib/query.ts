@@ -5,6 +5,8 @@
 //   facets   token → standard | listed | hide   tri-state chips over every equipment
 //            flag, the routes a car can be had by, and whether a car is hand-curated
 //   mode     all | any                      how the 'standard'/'listed' chips combine
+//   keepUnknown                             a car no source has a value for passes a bound or chip
+//                                           (otherwise it is left out, and the bar counts how many)
 //   sort
 //
 // It lives in the URL so a view is a link and moving between views keeps it. A
@@ -35,10 +37,12 @@ export interface Query {
   /** Equipment that must be standard (`standard`), standard or an option (`listed`), or absent (`hide`). */
   facets: Record<string, FacetState>;
   mode: Mode;
+  /** Keep a car whose value for a bounded field or a required chip no source gives. */
+  keepUnknown: boolean;
   sort: string;
 }
 
-export const EMPTY_QUERY: Query = { q: "", make: "", model: "", year: "", ranges: {}, facets: {}, mode: "all", sort: "" };
+export const EMPTY_QUERY: Query = { q: "", make: "", model: "", year: "", ranges: {}, facets: {}, mode: "all", keepUnknown: false, sort: "" };
 
 /** The non-equipment facets. Equipment facets are `flag:<key>` for every canonical flag the snapshot names. */
 export const FIXED_FACETS: { token: string; label: string; group: string; twoState?: boolean }[] = [
@@ -63,6 +67,7 @@ export function parseQuery(params: URLSearchParams | null): Query {
   if (!params) return f;
   for (const k of ["q", "make", "model", "year", "sort"] as const) f[k] = params.get(k) ?? "";
   f.mode = params.get("mode") === "any" ? "any" : "all";
+  f.keepUnknown = params.get("unknown") === "keep";
   for (const { key } of RANGE_FIELDS) {
     const v = params.get(`r.${key}`);
     if (!v) continue;
@@ -84,6 +89,7 @@ export function serializeQuery(f: Query): string {
   const p = new URLSearchParams();
   for (const k of ["q", "make", "model", "year", "sort"] as const) if (f[k]) p.set(k, f[k]);
   if (f.mode !== "all") p.set("mode", f.mode);
+  if (f.keepUnknown) p.set("unknown", "keep");
   for (const { key } of RANGE_FIELDS) {
     const r = f.ranges[key];
     if (r && (r[0] != null || r[1] != null)) p.set(`r.${key}`, `${r[0] ?? ""}-${r[1] ?? ""}`);
@@ -190,6 +196,11 @@ export function facetValue(token: string, c: SnapshotCar, ctx: CarContext): "sta
   return null;
 }
 
+/** Does any source say whether the car has it ('none' is an answer; no value is not)? */
+function facetKnown(token: string, c: SnapshotCar): boolean {
+  return token.startsWith("flag:") ? c.flags?.[token.slice(5)] != null : true;
+}
+
 function facetHolds(state: FacetState, value: "standard" | "option" | null): boolean {
   if (state === "standard") return value === "standard";
   if (state === "listed") return value !== null;
@@ -206,7 +217,10 @@ export function matches(c: SnapshotCar, ctx: CarContext, f: Query): boolean {
   }
   for (const [key, r] of Object.entries(f.ranges)) {
     const v = rangeValue(key, c, ctx);
-    if (v == null) return false;
+    if (v == null) {
+      if (f.keepUnknown) continue;
+      return false;
+    }
     if (r[0] != null && v < r[0]) return false;
     if (r[1] != null && v > r[1]) return false;
   }
@@ -215,7 +229,7 @@ export function matches(c: SnapshotCar, ctx: CarContext, f: Query): boolean {
     if (s === "hide" && facetValue(tok, c, ctx) !== null) return false;
   }
   if (wanted.length) {
-    const holds = wanted.map(([tok, s]) => facetHolds(s, facetValue(tok, c, ctx)));
+    const holds = wanted.map(([tok, s]) => facetHolds(s, facetValue(tok, c, ctx)) || (f.keepUnknown && !facetKnown(tok, c)));
     if (f.mode === "all" ? !holds.every(Boolean) : !holds.some(Boolean)) return false;
   }
   return true;

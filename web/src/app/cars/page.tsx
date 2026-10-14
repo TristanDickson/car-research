@@ -17,7 +17,7 @@ export default function CarsPage() {
 }
 
 function Cars() {
-  const { query, set, cars, rows, ctxOf, options, flagLabels, loading, error } = useCarQuery();
+  const { query, set, cars, rows, ctxOf, options, flagLabels, unknownHidden, loading, error } = useCarQuery();
   const basis = useBasis();
 
   if (error) return <ErrorNote error={error} />;
@@ -29,7 +29,7 @@ function Cars() {
         title="Cars"
         subtitle="The same search as the cards, one row per derivative. Pick the columns and their order with Columns; the car stays in view when the table scrolls sideways."
       />
-      <QueryBar query={query} set={set} options={options} flagLabels={flagLabels} count={`${rows.length} of ${cars.length}`} />
+      <QueryBar query={query} set={set} options={options} flagLabels={flagLabels} unknownHidden={unknownHidden} count={`${rows.length} of ${cars.length}`} />
       <CarTable cars={rows} ctxOf={ctxOf} horizon={basis.data?.term_months ?? 37} flagLabels={flagLabels} />
     </div>
   );

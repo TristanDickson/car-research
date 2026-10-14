@@ -20,6 +20,8 @@ interface Props {
   options: QueryOptions;
   flagLabels: Record<string, string>;
   count: string;
+  /** Cars left out only for want of a value (useCarQuery); the bar offers to keep them. */
+  unknownHidden?: number;
 }
 
 /** The saved search last loaded in this app load: the name the save prompt offers. */
@@ -48,7 +50,7 @@ const STATE_CLASS: Record<FacetState, string> = {
  * option → hidden, all of them combined with 'all' or 'any') and a min/max for
  * every number a car carries. The whole state is the URL.
  */
-export function QueryBar({ query: f, set, options, flagLabels, count }: Props) {
+export function QueryBar({ query: f, set, options, flagLabels, count, unknownHidden = 0 }: Props) {
   const pathname = usePathname() ?? "/";
   const searches = useSearches();
   const save = useSaveSearch();
@@ -150,13 +152,22 @@ export function QueryBar({ query: f, set, options, flagLabels, count }: Props) {
           <button type="button" onClick={() => set({ ...EMPTY_QUERY, sort: f.sort })} className="text-gray-400 hover:text-gray-100" title="Every car">clear</button>
         )}
         <span className="text-gray-500">{count}</span>
+        {f.keepUnknown ? (
+          <button type="button" onClick={() => set({ keepUnknown: false })} className="text-xs text-amber-300 underline" title="Cars no source gives a value for are kept">
+            unknown values kept · leave them out
+          </button>
+        ) : unknownHidden > 0 ? (
+          <button type="button" onClick={() => set({ keepUnknown: true })} className="text-xs text-amber-300 underline" title="Left out only because no source gives the value this search bounds or requires">
+            +{unknownHidden} with an unknown value · keep them
+          </button>
+        ) : null}
       </div>
       {!open && isNarrowed(f) && <p className="text-xs text-gray-500">{describeQuery(f, flagLabels)}</p>}
 
       {open && (
         <div className="rounded-lg border border-gray-800 bg-gray-900 p-3">
           <div className="mb-3 flex flex-wrap items-center gap-3 text-xs text-gray-400">
-            <span>Click a chip: <span className="text-emerald-200">standard</span> → <span className="text-sky-200">standard, pack or option</span> → <span className="text-rose-200">hidden</span> → off. A car no source has a value for is left out.</span>
+            <span>Click a chip: <span className="text-emerald-200">standard</span> → <span className="text-sky-200">standard, pack or option</span> → <span className="text-rose-200">hidden</span> → off. A car no source has a value for is left out unless you keep unknown values.</span>
             <span className="flex items-center gap-1">
               Wanted chips must
               <span className="flex overflow-hidden rounded border border-gray-700">

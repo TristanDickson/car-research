@@ -26,6 +26,18 @@ describe("query", () => {
     expect(serializeQuery(EMPTY_QUERY)).toBe("");
   });
 
+  it("keeps a car no source has a value for only when asked, for a bound or a chip", () => {
+    const narrow: Query = { ...EMPTY_QUERY, ranges: { width: [null, 1890] }, facets: { "flag:v2l_internal": "standard" } };
+    const unknown = car({ width_mm: undefined, flags: {} } as never);
+    const known = car({ width_mm: 1900, flags: { v2l_internal: "none" } } as never);
+    expect(matches(unknown, ctx(), narrow)).toBe(false);
+    expect(matches(unknown, ctx(), { ...narrow, keepUnknown: true })).toBe(true);
+    expect(matches(known, ctx(), { ...narrow, keepUnknown: true })).toBe(false);   // too wide, and 'none' is an answer
+    const qs = serializeQuery({ ...narrow, keepUnknown: true });
+    expect(qs).toContain("unknown=keep");
+    expect(parseQuery(new URLSearchParams(qs)).keepUnknown).toBe(true);
+  });
+
   it("cycles a facet off → standard → listed → hide → off, two-state facets skipping listed", () => {
     let q: Query = { ...EMPTY_QUERY };
     q = { ...q, ...cycleFacet(q, "flag:heat_pump") };
