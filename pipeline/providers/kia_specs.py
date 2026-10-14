@@ -221,6 +221,10 @@ def parse_page(page: str, model: str, url: str, observed_at: str) -> list[dict]:
             if len(cells) < 2:
                 continue
             label = cells[0]
+            # Kia's tables call the cabin socket 'Vehicle-to-Load (V2L) Capability' (the adapter at the charge port is
+            # its own '... with Adapter' row where offered); said here, since the words alone do not place the socket.
+            if re.fullmatch(r"\s*vehicle-to-load \(v2l\) capability\s*", label, re.I):
+                label = f"{label.strip()} (interior socket)"
             for c, v in zip(cols, cells[1:]):
                 v = v.strip()
                 for s in (sorted(c["seats"]) if c["seats"] else [None]):

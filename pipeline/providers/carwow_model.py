@@ -90,11 +90,53 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str, mak
     return rows
 
 
+REVIEW_RE = re.compile(r"<(h2|h3)(?:\s[^>]*)?>(.*?)</\1>|<p(?:\s[^>]*)?>(.*?)</p>|<li(?:\s[^>]*)?>(.*?)</li>", re.S)   # not <picture>, not <link>
+
+
+def parse_review(page: str) -> dict | None:
+    """Carwow's review of the model, as printed on the model page: its verdict lists ('What's good', 'What's not
+    so good') and every section of the review by heading ('Space in the back seats', 'On the motorway', 'Reliability
+    and problems'), each its paragraphs' text. The FAQs and what follows them are left."""
+    sections: dict[str, str] = {}
+    lists: dict[str, list[str]] = {}
+    heading, inside = None, False
+    for m in REVIEW_RE.finditer(page):
+        if m.group(1):
+            title = text(m.group(2))
+            if inside and re.search(r"\bFAQs?\b", title):
+                break
+            if re.match(r"(Is the .+ a good car\?|What's good|What&#39;s good)", title) or title.startswith("What's good"):
+                inside = True
+            heading = title if inside else None
+            continue
+        if not inside or not heading:
+            continue
+        if m.group(4) is not None and heading.lower().startswith("what"):
+            item = text(m.group(4))
+            if item:
+                lists.setdefault(heading, []).append(item)
+        elif m.group(3) is not None:
+            para = text(m.group(3))
+            if para:
+                sections[heading] = f"{sections[heading]} {para}" if heading in sections else para
+    if not sections and not lists:
+        return None
+    good = next((v for k, v in lists.items() if k.startswith("What's good")), [])
+    bad = next((v for k, v in lists.items() if k.startswith("What's not")), [])
+    return {"good": good, "not_so_good": bad, "sections": sections}
+
+
 def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
-    for row in parse_page(body.decode("utf-8", "replace"), target.metadata["make"], target.metadata["model"], original_url(target),
+    page = body.decode("utf-8", "replace")
+    for row in parse_page(page, target.metadata["make"], target.metadata["model"], original_url(target),
                           observed_at_for(target), target.metadata.get("make_name"), target.metadata.get("model_name")):
         yield ParsedRecord(kind="derivative", key=f"{SITE}:{row['cap_id']}", row=row)
+    review = parse_review(page)
+    if review:
+        slug = f"{target.metadata['make']}/{target.metadata['model']}"
+        yield ParsedRecord(kind="spec", key=f"carwow-review:{slug}", row={
+            "spec_key": f"carwow-review:{slug}", "model_slug": slug, "source_url": original_url(target), "observed_at": observed_at_for(target), **review})
 
 
-derivatives = Capability(name="derivatives", parser_version="1", discover=discover, fetch=fetch, parse=parse, kinds=("derivative",))
+derivatives = Capability(name="derivatives", parser_version="2", discover=discover, fetch=fetch, parse=parse, kinds=("derivative", "spec"))
 provider = Provider(name="carwow_model", default_capability="derivatives", capabilities={"derivatives": derivatives}, live=True)

@@ -164,6 +164,10 @@ export const FIELDS: Field[] = [
   { ...n("recalls", "recalls_count", "UK safety recalls naming the model", "Tests and reliability", "", 0, 1, "Recalls"),
     title: "Every DVSA safety recall since 2012 that names the model, earlier generations included; the car page lists them" },
   t("recalls_latest", "recalls_latest", "Latest UK safety recall", "Tests and reliability", "Latest recall"),
+  { ...t("rear_seat_notes", "review_rear_seat_notes", "Back seat: knees, thighs, floor and room (Carwow's words)", "Tests and reliability", "Back seat"),
+    title: "The sentences of Carwow's review about how a back-seat passenger sits: knees up or not, thigh support, a high floor, the room" },
+  t("review_good", "review_good", "What's good (Carwow)", "Tests and reliability", "Good"),
+  t("review_not_so_good", "review_not_so_good", "What's not so good (Carwow)", "Tests and reliability", "Not so good"),
 
   // Safety and warranty
   n("ncap", "ncap_stars", "Euro NCAP stars", "Safety and warranty", "", 0, 1, "NCAP ★"),

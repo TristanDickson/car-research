@@ -271,6 +271,16 @@ export interface SnapshotCar {
   recalls_count?: number | null;
   recalls_latest?: string | null;
   recalls?: string | null;
+  /** Carwow's review of the model, in its words: the verdict lists, the back seats (and what they say of knees,
+   * thighs, the floor and the room), the ride in town and on the motorway, the interior, reliability. */
+  review_good?: string | null;
+  review_not_so_good?: string | null;
+  review_rear_seat_notes?: string | null;
+  review_rear_seats?: string | null;
+  review_ride_town?: string | null;
+  review_ride_motorway?: string | null;
+  review_interior?: string | null;
+  review_reliability?: string | null;
   segment?: string | null;
   platform?: string | null;
   ncap_stars?: number | null;

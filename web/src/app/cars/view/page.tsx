@@ -153,6 +153,21 @@ function CarView() {
         )}
       </Card>
 
+      {(c.review_rear_seats || c.review_ride_town || c.review_ride_motorway || c.review_interior || c.review_reliability) && (
+        <Card title="Carwow's review, in its words">
+          <dl className="grid gap-4 text-sm text-gray-300 lg:grid-cols-2">
+            {([["Back seats", c.review_rear_seats], ["Ride in town", c.review_ride_town], ["On the motorway", c.review_ride_motorway],
+               ["Interior", c.review_interior], ["Reliability", c.review_reliability]] as const).filter(([, v]) => v).map(([k, v]) => (
+              <div key={k}>
+                <dt className="mb-1 text-xs uppercase tracking-wide text-gray-500">{k}</dt>
+                <dd>{v}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="mt-3 text-xs text-gray-500">Carwow reviews the model, not this trim; read it with the trim&apos;s wheels and seats in mind.</p>
+        </Card>
+      )}
+
       {c.recalls && (
         <Card title={`UK safety recalls · ${c.recalls_count ?? 0}`}>
           <ul className="space-y-2 text-sm text-gray-300">

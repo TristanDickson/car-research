@@ -70,7 +70,18 @@ PCP example for the model (deposit, monthly, final payment, APR, mileage, RRP).
 
 The model page lists every derivative with its CAP id, name, RRP and price-list version date.
 It is the registry the build matches broker names against. It also prints the model's lease
-headline, which `carwow_specs` reads. Nothing else is left.
+headline, which `carwow_specs` reads, and Carwow's review of the model, which the survey of 11 Oct
+missed.
+
+- **Read since 14 Oct:** the review: its "What's good" and "What's not so good" lists, and every
+  section by heading ("Space in the back seats", "In town", "On the motorway", "Interior style,
+  infotainment and accessories", "Reliability and problems", ...), as text. All 249 model pages
+  have one; 169 have a back-seat section, about 176 the ride sections, 183 a reliability one. The
+  app shows the back seats, the ride, the interior and reliability on the car page, and the
+  back-seat section's sentences about knees, thighs, the floor and the room as a field (162
+  models): "the floor is relatively high up, so taller passengers have their legs angled
+  awkwardly" (Ioniq 5). They are Carwow's words and are not scored, since they read both ways.
+- **Left:** the review's FAQs, which repeat the numbers.
 
 ### carwow_specs
 
@@ -247,6 +258,9 @@ powertrain or seat count, performance, charging, dimensions, weights and towing.
 - **Left:** torque, the battery pack table (cells, voltage, weight), CO2, city range, track
   widths, service interval, the PV5's cabin dimensions; tyre sizes, which NCD's page gives per
   derivative. Kia prints no prices here.
+- **V2L:** Kia's tables call the cabin socket "Vehicle-to-Load (V2L) Capability" and give the
+  charge-port adapter its own "... with Adapter" row; the parser says so. Elsewhere those words
+  alone do not place the socket (Carwow's line for a Cupra Born VZ), so they count only as V2L.
 
 ## Hyundai
 

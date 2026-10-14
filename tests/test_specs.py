@@ -33,6 +33,9 @@ class Flags(unittest.TestCase):
         self.assertIsNone(cable["v2l_internal"])
         ext = flags_for(["V2L external adaptor"])
         self.assertEqual((ext["v2l_external"], ext["v2l_internal"]), ("standard", None))
+        # 'V2L capability' alone (Carwow's line for a Cupra Born VZ) does not say the socket is in the cabin.
+        alone = flags_for(["Vehicle-to-load (V2L) capability"])
+        self.assertEqual((alone["v2l_any"], alone["v2l_internal"], alone["v2l_external"]), ("standard", None, None))
 
 
 class CarwowSpecs(unittest.TestCase):

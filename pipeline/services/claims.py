@@ -81,7 +81,10 @@ ADAC_FIELDS = ("adac_total", "adac_suspension", "adac_comfort", "adac_build", "a
                "adac_breakdowns", "adac_breakdown_year", "adac_breakdown_rating", "adac_breakdown_causes")
 WHATCAR_FIELDS = ("whatcar_reliability_pct", "whatcar_reliability", "whatcar_faulty_pct", "whatcar_repairs_free_pct", "whatcar_off_road_week_pct")
 RECALL_FIELDS = ("recalls_count", "recalls_latest", "recalls")
-NUMBERS = NUMBERS + ADAC_FIELDS + WHATCAR_FIELDS + RECALL_FIELDS
+# Carwow's review of the model (providers/carwow_model.py parse_review), in its own words.
+REVIEW_FIELDS = ("review_good", "review_not_so_good", "review_rear_seat_notes", "review_rear_seats", "review_ride_town",
+                 "review_ride_motorway", "review_interior", "review_reliability")
+NUMBERS = NUMBERS + ADAC_FIELDS + WHATCAR_FIELDS + RECALL_FIELDS + REVIEW_FIELDS
 ENGINE_FIELDS = ("battery_kwh", "wltp_range_mi", "power_hp", "zero_to_62_s", "top_speed_mph", "efficiency_mi_kwh", "ac_kw", "drive", "dc_peak_kw", "dc_10_80_min")
 BODY_FIELDS = ("seats", "doors", "boot_l", "boot_max_l", "turning_circle_m", "wheelbase_m", "length_mm", "width_mm", "height_mm")
 NUMBER_ALIASES = {"zero_to_60_s": "zero_to_62_s", "power_bhp": "power_hp", "kerb_weight_kg": "weight_kg"}
@@ -536,6 +539,40 @@ def from_recalls(store: Store, rows: list[dict], catalogue: list[dict]) -> None:
         store.add(sub, Claim("recalls", "\n".join(recall_text(x) for x in recalls), "measured", src, label))
 
 
+# What a back-seat section says about how a seated passenger's legs sit: knees, thighs, the floor, the room.
+REAR_SEAT_RE = re.compile(r"\b(knees?|thighs?|under-?thigh|floor|leg ?room|head ?room|foot ?space|toes?)\b", re.I)
+REVIEW_SECTIONS = {"review_rear_seats": ("Space in the back seats",), "review_ride_town": ("In town",),
+                   "review_ride_motorway": ("On the motorway",), "review_interior": ("Interior style",),
+                   "review_reliability": ("Reliability and problems", "Reliability")}
+
+
+def from_carwow_review(store: Store, rows: list[dict], catalogue: list[dict]) -> None:
+    """Carwow's review of a model: its verdict lists, the sections a buyer reads (the back seats, the ride in town and on
+    the motorway, the interior, reliability), and the back-seat section's sentences about knees, thighs, the floor and
+    the room, in Carwow's words: they read both ways ('knees won't be brushing their ears'), so they are not scored."""
+    for r in rows:
+        m = _catalogue(catalogue, r.get("model_slug"))
+        if not m:
+            continue
+        sub, src = _model_sub(m), "Carwow review"
+        label = f"Carwow's review of the {m.get('model_name') or r.get('model_slug')}"
+        seen = (r.get("last_seen_at") or r.get("observed_at") or "")[:10] or None
+        sections = r.get("sections") or {}
+
+        def section(heads: tuple[str, ...]) -> str | None:
+            return next((v for k, v in sections.items() for h in heads if k.startswith(h)), None)
+
+        values = {"review_good": "; ".join(r.get("good") or []) or None, "review_not_so_good": "; ".join(r.get("not_so_good") or []) or None}
+        for f, heads in REVIEW_SECTIONS.items():
+            values[f] = section(heads)
+        rear = values["review_rear_seats"] or ""
+        notes = [s.strip() for s in re.split(r"(?<=[.!?])\s+", rear) if REAR_SEAT_RE.search(s)]
+        values["review_rear_seat_notes"] = " ".join(notes) or None
+        for f, v in values.items():
+            if v:
+                store.add(sub, Claim(f, v, "measured", src, label, seen=seen))
+
+
 def _maker_verdicts(row: dict) -> dict[str, str]:
     """Every flag a maker's row speaks to: standard (●), option (○, an extra), none (a printed -),
     or unlisted (a complete list that prints no blanks of its own does not name it: not fitted,
@@ -919,6 +956,7 @@ def build_store(cars: list[dict], specs: list[dict], catalogue: list[dict], deri
     from_adac(store, [sp for sp in specs if sp.get("provider") == "adac"], catalogue)
     from_whatcar(store, [sp for sp in specs if sp.get("provider") == "whatcar"], catalogue)
     from_recalls(store, [sp for sp in specs if sp.get("provider") == "dvsa_recalls"], catalogue)
+    from_carwow_review(store, [sp for sp in specs if sp.get("provider") == "carwow_model" and (sp.get("spec_key") or "").startswith("carwow-review:")], catalogue)
     from_maker_specs(store, [sp for sp in specs if sp.get("provider") in MAKER_PROVIDERS])
     from_evdb(store, [sp for sp in specs if sp.get("provider") == "evdb"], catalogue, [sp for sp in specs if sp.get("provider") == "evdb_cars"])
     from_registry(store, derivatives)

@@ -14,7 +14,9 @@ FLAGS: dict[str, tuple[str, str]] = {
     "heat_pump": ("Heat pump", r"\bheat pump\b"),
     # Kia lists the cabin socket as plain "Vehicle-to-Load (V2L) Capability" and the
     # exterior one as "... with Adapter"; Carwow says "- Inside" / "- Outside".
-    "v2l_internal": ("Internal V2L socket", r"(v2l|vehicle.to.load)(?!.*(outside|exterior|outdoor|external|adapt[eo]r|charge port)).*(inside|interior|internal|indoor|cabin|in-car|socket|plug|capability$|capability\)?$)|(interior|internal|indoor|cabin).*(v2l|vehicle.to.load)"),
+    # 'Vehicle-to-load (V2L) capability' alone says nothing of where the socket is (Carwow's line for a Cupra Born):
+    # V2L (any). Kia's tables pair it with '... Capability with Adapter', and there it is the cabin socket (flags_for).
+    "v2l_internal": ("Internal V2L socket", r"(v2l|vehicle.to.load)(?!.*(outside|exterior|outdoor|external|adapt[eo]r|charge port)).*(inside|interior|internal|indoor|cabin|in-car|socket|plug)|(interior|internal|indoor|cabin).*(v2l|vehicle.to.load)"),
     "v2l_external": ("External V2L", r"(v2l|vehicle.to.load).*(outside|exterior|external|outdoor|adapt[eo]r|charge port)|(exterior|external|outdoor).*(v2l|vehicle.to.load)"),
     "v2l_any": ("V2L (any)", r"v2l|vehicle.to.load"),
     "heated_front_seats": ("Heated front seats", r"heated (and ventilated )?(front )?seats?|front (and rear )?seats?[\s-]*heat"),
@@ -48,11 +50,18 @@ FLAGS: dict[str, tuple[str, str]] = {
 _COMPILED = {k: re.compile(p, re.I) for k, (_, p) in FLAGS.items()}
 
 
+ADAPTER_V2L_RE = re.compile(r"(v2l|vehicle.to.load).*capability with adapt[eo]r", re.I)
+PLAIN_V2L_RE = re.compile(r"(v2l|vehicle.to.load).*capability\)?$", re.I)
+
+
 def flags_for(standard: list[str], options: list[str] | None = None) -> dict[str, str | None]:
     """Canonical flag → 'standard' | 'option' | None. None means 'not listed', not
     'absent': sources list what a car has, rarely what it lacks."""
     std = [i.lower() for i in standard]
     opt = [i.lower() for i in options or []]
+    if any(ADAPTER_V2L_RE.search(t) for t in std + opt):   # Kia's pair: the plain capability row is the cabin socket
+        std = [f"{t} (interior)" if PLAIN_V2L_RE.search(t) else t for t in std]
+        opt = [f"{t} (interior)" if PLAIN_V2L_RE.search(t) else t for t in opt]
     out: dict[str, str | None] = {}
     for k, rx in _COMPILED.items():
         if any(rx.search(t) for t in std):
