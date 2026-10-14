@@ -36,6 +36,12 @@ class Flags(unittest.TestCase):
         # 'V2L capability' alone (Carwow's line for a Cupra Born VZ) does not say the socket is in the cabin.
         alone = flags_for(["Vehicle-to-load (V2L) capability"])
         self.assertEqual((alone["v2l_any"], alone["v2l_internal"], alone["v2l_external"]), ("standard", None, None))
+        # An adapter named before the words is still the charge-port one, not a cabin socket; the boot is inside.
+        for item in ("Adapter for V2L Charging (camping socket)", "Bi-directional charge adapter [V2L]"):
+            f = flags_for([item])
+            self.assertEqual((f["v2l_internal"], f["v2l_external"]), (None, "standard"), item)
+        for item in ("230V inverter and outlet in boot to support V2L bi-directional charging capabilities", "Vehicle to load system in boot"):
+            self.assertEqual(flags_for([item])["v2l_internal"], "standard", item)
 
 
 class CarwowSpecs(unittest.TestCase):

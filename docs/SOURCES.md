@@ -264,6 +264,10 @@ powertrain or seat count, performance, charging, dimensions, weights and towing.
 - **V2L:** Kia's tables call the cabin socket "Vehicle-to-Load (V2L) Capability" and give the
   charge-port adapter its own "... with Adapter" row; the parser says so. Elsewhere those words
   alone do not place the socket (Carwow's line for a Cupra Born VZ), so they count only as V2L.
+  A line that names an adapter or the charge port anywhere is the outside socket, whatever the
+  word order: Carwow's configurator sells the VW group's "Adapter for V2L Charging (camping
+  socket)", which until 14 Oct read as a cabin socket on 38 cars on sale. An outlet in the boot
+  is inside the car.
 
 ## Hyundai
 

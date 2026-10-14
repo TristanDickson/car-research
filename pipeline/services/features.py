@@ -16,8 +16,13 @@ FLAGS: dict[str, tuple[str, str]] = {
     # exterior one as "... with Adapter"; Carwow says "- Inside" / "- Outside".
     # 'Vehicle-to-load (V2L) capability' alone says nothing of where the socket is (Carwow's line for a Cupra Born):
     # V2L (any). Kia's tables pair it with '... Capability with Adapter', and there it is the cabin socket (flags_for).
-    "v2l_internal": ("Internal V2L socket", r"(v2l|vehicle.to.load)(?!.*(outside|exterior|outdoor|external|adapt[eo]r|charge port)).*(inside|interior|internal|indoor|cabin|in-car|socket|plug)|(interior|internal|indoor|cabin).*(v2l|vehicle.to.load)"),
-    "v2l_external": ("External V2L", r"(v2l|vehicle.to.load).*(outside|exterior|external|outdoor|adapt[eo]r|charge port)|(exterior|external|outdoor).*(v2l|vehicle.to.load)"),
+    # An adapter or the charge port, before or after the words, is the outside one ('Adapter for V2L Charging (camping
+    # socket)', Carwow's configurator); an outlet in the boot is inside the car.
+    "v2l_internal": ("Internal V2L socket", r"^(?!.*(outside|exterior|outdoor|external|adapt[eo]r|charge port))"
+                                             r".*((v2l|vehicle.to.load).*(inside|interior|internal|indoor|cabin|in-car|socket|plug|boot)"
+                                             r"|(interior|internal|indoor|cabin|boot).*(v2l|vehicle.to.load))"),
+    "v2l_external": ("External V2L", r"(v2l|vehicle.to.load).*(outside|exterior|external|outdoor|adapt[eo]r|charge port)"
+                                     r"|(exterior|external|outdoor|adapt[eo]r|charge port).*(v2l|vehicle.to.load)"),
     "v2l_any": ("V2L (any)", r"v2l|vehicle.to.load"),
     "heated_front_seats": ("Heated front seats", r"heated (and ventilated )?(front )?seats?|front (and rear )?seats?[\s-]*heat"),
     "heated_rear_seats": ("Heated rear seats", r"heated (rear|outer rear) seats?|rear seats?( \(outer\))?[\s-]*heat"),

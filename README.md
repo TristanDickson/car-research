@@ -403,7 +403,9 @@ rejected by that rule fails in two seconds with no runner and no logs.
   the car's own EV Database page, which does say which; 123 changed). The first build after these
   showed two faults, both fixed: a car's "V2L (any)" was rebuilt from the cabin and exterior
   verdicts alone, so where Carwow lists V2L without saying where (ID. Buzz, Ariya, Born) it read
-  "none"; and the list's silence on where made the cabin socket "none" rather than unknown. And
+  "none"; and the list's silence on where made the cabin socket "none" rather than unknown. A third, found answering "what am I buying":
+  the VW group's "Adapter for V2L Charging (camping socket)" option read as a cabin socket (38 cars
+  on sale, the Audi Q4 among them), since an adapter named before the words was not seen. And
   `cars.json` grew from 9.9 to 22 MB, since the review sections and the recall lines were written
   on every car: they go once per model to `details.json` now. Then US safety recalls (`nhtsa_recalls`,
   NHTSA's complete recall file once a week): 84 of the 96 models sold in the US have one.
