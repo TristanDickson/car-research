@@ -77,6 +77,10 @@ class Overlays(unittest.TestCase):
         self.assertIs(pick_variant({"battery_kwh": 65.0, "model_year": 2025}, [old, new]), new)
         self.assertIs(pick_variant({"battery_kwh": 65.0, "model_year": 2021}, [old, new]), old, "a used 2021 car is the old one")
         self.assertIs(pick_variant({"battery_kwh": 65.0}, [old, new]), new, "no year: the one on sale")
+        # Hyundai's 65.4 kWh is EV Database's useable figure for the 2023-on Kona: the same pack, not the 64 kWh one.
+        new_page = {**new, "numbers": {**new["numbers"], "battery_usable_kwh": 65.4}}
+        self.assertIs(pick_variant({"battery_kwh": 65.4, "model_year": 2025}, [old, new_page]), new_page)
+        self.assertIs(pick_variant({"battery_kwh": 65.4, "model_year": 2021}, [old, new_page]), old)
 
 
 if __name__ == "__main__":

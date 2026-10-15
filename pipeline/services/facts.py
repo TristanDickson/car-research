@@ -44,13 +44,15 @@ def model_of(make: str, variant_model: str, catalogue: list[dict]) -> dict | Non
 
 
 def _battery_fit(car_kwh: float | None, usable: float | None) -> float | None:
-    """How far a variant's useable battery sits from a car's gross one (0 = ideal); None when it cannot be the same pack."""
+    """How far a variant's useable battery sits from a car's (0 = the same pack); None when it cannot be the same pack.
+    Makers quote either figure: the car's may be the gross pack, the useable one about 0.93 of it, or the useable one
+    itself (Hyundai's 65.4 kWh Kona is EV Database's 65.4 kWh useable), so the nearer reading counts."""
     if car_kwh is None or usable is None:
         return None
     ratio = usable / car_kwh
     if not (USABLE_RATIO[0] <= ratio <= USABLE_RATIO[1] + 0.03):
         return None
-    return abs(ratio - 0.93)
+    return min(abs(ratio - 0.93), abs(ratio - 1.0))
 
 
 def pick_variant(car: dict, variants: list[dict]) -> dict | None:
@@ -66,7 +68,7 @@ def pick_variant(car: dict, variants: list[dict]) -> dict | None:
     if not scored:
         return None
     best = min(fit for fit, _ in scored)
-    close = [(fit, v) for fit, v in scored if fit <= best + 0.02]   # the same pack within rounding: pick by year
+    close = [(fit, v) for fit, v in scored if fit <= best + 0.03]   # the same pack within rounding: pick by year
     year = car.get("model_year")
 
     def rank(fv: tuple[float, dict]) -> tuple:
