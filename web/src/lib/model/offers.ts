@@ -39,7 +39,8 @@ export function toSighting(s: SnapshotSighting): Sighting {
 /** One row per offer key: the latest span's payload, its freshness, metrics and the
  * comparable figure, as of today. `residual` is the used market (read over spans
  * already marked current). */
-export function offersFrom(spans: SnapshotSighting[], basis: Basis, today: string, staleDays: number, residual?: ResidualAt, trim: TrimScale = NO_SCALE): SnapshotOffer[] {
+export function offersFrom(spans: SnapshotSighting[], basis: Basis, today: string, staleDays: number, residual?: ResidualAt, trim: TrimScale = NO_SCALE,
+                           asUsed: (s: Sighting) => Sighting = (s) => s): SnapshotOffer[] {
   const byKey = new Map<string, SnapshotSighting[]>();
   for (const s of spans) {
     const list = byKey.get(s.key);
@@ -68,7 +69,7 @@ export function offersFrom(spans: SnapshotSighting[], basis: Basis, today: strin
   return latest.map(({ key, s, f }, i) => {
     const m = { ...metrics[i] } as Record<string, unknown>;
     for (const k of ["id", "car_id", "finance_type", "status"]) delete m[k];
-    const costed = s.present && s.route !== "campaign" ? cost({ ...toSighting(s), current: !f.stale }, basis, res, floor, today, trim) : null;
+    const costed = s.present && s.route !== "campaign" ? cost(asUsed({ ...toSighting(s), current: !f.stale }), basis, res, floor, today, trim) : null;
     return {
       ...(s.deal as Record<string, unknown>), id: key, car_id: s.car_id, provider: s.provider, finance_type: s.route as FinanceType, status: s.status,
       captured_at: (s.deal.captured_at as string | undefined) ?? s.from, freshness: f, metrics: m,

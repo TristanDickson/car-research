@@ -22,7 +22,7 @@ from collections.abc import Iterator
 from pipeline.providers.carwow_catalog import electric_models, pretty_make
 from pipeline.providers.carwow_deals import MODELS
 from pipeline.providers.http import fetch_url
-from pipeline.providers.parse import money, number, text
+from pipeline.providers.parse import combustion, money, number, text
 from pipeline.providers.wayback import observed_at_for, original_url
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 from pipeline.services.features import flags_for
@@ -162,7 +162,7 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str, mak
         items = [x for x in dict.fromkeys(items) if x]
         img = re.search(r"trim-article__image'>\s*<img[^>]*src=\"([^\"]+)\"", block, re.S)
         for engine, cap, version in LINK_RE.findall(block):
-            if cap in seen:
+            if cap in seen or combustion(f"{trim} {engine}"):   # a petrol version the model's page lists too
                 continue
             seen.add(cap)
             e = dict(slides.get(cap) or engines.get(engine, {}))

@@ -35,6 +35,7 @@ from pathlib import Path
 from pipeline import gold, history, stages
 from pipeline.db import ROOT, connect, init_schema
 from pipeline.providers import PROVIDERS
+from pipeline.providers.parse import combustion
 from pipeline.providers.types import Context, ParsedRecord, Target
 from pipeline.raw import RawStore
 from pipeline.services import autocars, resolve
@@ -179,6 +180,7 @@ class Build:
         self.decisions: dict[tuple[str, str], dict] = {}
         self.gen: dict[str, dict] = {}               # CAP id -> the derivative as the matcher reads it
         self.gen_from: dict[str, str] = {}           # CAP id -> what described it: spec | registry | deals
+        self.combustion: set[str] = set()            # CAP ids a record names whose engine burns fuel: not cars of this app
         self.alias: dict[str, str] = {}              # CAP id -> the owner's car for that derivative
         self.by_make: dict[str, list[dict]] = {}
         self.pins: dict[str, set[str]] = {}
@@ -333,17 +335,24 @@ class Build:
                 rank = (ref["stub"].get("version_date") or "", s.at, json.dumps(ref["stub"], sort_keys=True))
                 if ref["key"] not in stubs or rank > stubs[ref["key"]][0]:
                     stubs[ref["key"]] = (rank, ref["stub"])
+        def burns(cap: str, trim: str | None, engine: str | None) -> bool:
+            if combustion(f"{trim or ''} {engine or ''}"):
+                self.combustion.add(cap)
+                return True
+            return False
         for cap, (_, stub) in stubs.items():
-            self.gen[cap], self.gen_from[cap] = autocars.from_stub(stub), "deals"
+            if not burns(cap, stub.get("trim"), stub.get("engine")):
+                self.gen[cap], self.gen_from[cap] = autocars.from_stub(stub), "deals"
         for r in self.conn.execute("SELECT cap_id, make_slug, model_slug, trim, engine, rrp, version_date, payload FROM derivatives"):
             p = json.loads(r["payload"])
             stub = {"cap_id": r["cap_id"], "make": p.get("make") or r["make_slug"], "make_slug": r["make_slug"],
                     "model": p.get("model") or r["model_slug"], "model_slug": r["model_slug"], "trim": r["trim"], "engine": r["engine"],
                     "rrp": r["rrp"], "version_date": r["version_date"]}
-            self.gen[r["cap_id"]], self.gen_from[r["cap_id"]] = autocars.from_stub(stub), "registry"
+            if not burns(r["cap_id"], r["trim"], r["engine"]):
+                self.gen[r["cap_id"]], self.gen_from[r["cap_id"]] = autocars.from_stub(stub), "registry"
         for r in self.conn.execute("SELECT spec_key, cap_id, payload FROM specs WHERE spec_key LIKE 'carwow-cap:%' AND cap_id IS NOT NULL"):
             p = json.loads(r["payload"])
-            if p.get("make") and p.get("model"):
+            if p.get("make") and p.get("model") and not burns(r["cap_id"], p.get("trim"), p.get("engine")):
                 self.gen[r["cap_id"]], self.gen_from[r["cap_id"]] = autocars.from_spec(p), "spec"
         owner_ids = {c["id"] for c in self.owner_cars}
         for (site, key), d in self.decisions.items():
@@ -375,6 +384,8 @@ class Build:
         d = self.decisions.get((site, key))
         if d and d.get("car_id"):
             return {"car_id": d["car_id"], "status": "mapped", "method": "manual"}
+        if (site == "carwow-cap" and key in self.combustion) or combustion(ref.get("derivative") or ref.get("label")):
+            return {"car_id": None, "status": "ignored", "method": "combustion"}
         if site == "carwow-cap":
             if key in self.gen:
                 return {"car_id": self.car_for(key), "status": "auto", "method": "stub" if self.gen_from[key] == "deals" else "cap-id"}

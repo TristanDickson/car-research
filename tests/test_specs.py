@@ -44,6 +44,17 @@ class Flags(unittest.TestCase):
             self.assertEqual(flags_for([item])["v2l_internal"], "standard", item)
 
 
+class Combustion(unittest.TestCase):
+    def test_a_petrol_or_range_extender_version_is_not_an_electric_car(self):
+        from pipeline.providers.parse import combustion
+        for name in ("ST-Line 1.0 EcoBoost Hybrid mHEV 155 Auto", "Icon 1.0 Mild Hybrid", "GS 1.2 Turbo 130", "Standard 160kW Hybrid EV 19kWh Auto",
+                     "Elite 1.6 T-GDi HEV", "SE 2.0 TDI 150"):
+            self.assertTrue(combustion(name), name)
+        for name in ("Turbo S 700kW 105kWh Auto", "GT-Line S 77.4kWh + Heat Pump", "SE L 150kW 60 63kWh Auto", "Air 0.9% APR 58kWh",
+                     "Ultimate 168kW 84 kWh Auto", "Performance 82kWh Auto", None):
+            self.assertFalse(combustion(name), name)
+
+
 class CarwowSpecs(unittest.TestCase):
     def test_kona_trims(self):
         rows = carwow_specs.parse_page(fixture("carwow_hyundai_kona-electric_specifications.html"), "hyundai", "kona-electric", "u", T)

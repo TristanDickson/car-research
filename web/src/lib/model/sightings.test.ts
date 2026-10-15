@@ -245,6 +245,24 @@ describe("recompute", () => {
     expect(listings.new0.evidence_n).toBe(3);
     expect(listings.new0.true_monthly!).toBeLessThan(listings.new2.true_monthly!);
   });
+  it("a cash price on a car the owner entered as used is costed as a used car of its year", async () => {
+    const { computeAll } = await import("./recompute");
+    type S = import("../types").SnapshotSighting;
+    type U = import("../types").SnapshotUsedSpan;
+    const spans: S[] = [{ key: "k", car_id: "car-u", model: MODEL, route: "cash", source: "manual", provider: "manual_seed", status: "live", seller: "A dealer", from: "2026-10-01", to: "2026-10-07", present: true, deal: { vehicle_price: 27000 } }];
+    const listing = (key: string, year: number, price: number): U =>
+      ({ key, source: "cinch", model: MODEL, car_id: null, year, price, mileage: 30000, vrm: `V${key}`, town: null, from: "2026-10-01", to: "2026-10-07", present: true });
+    const usedSpans = [listing("a", 2021, 18000), listing("b", 2021, 18100), listing("c", 2021, 18200),
+                       listing("d", 2024, 27000), listing("e", 2024, 27100), listing("f", 2024, 27200)];
+    const r = computeAll({ sightings: spans, usedSpans, cars: [{ id: "car-u", model_key: MODEL, used_key: "m|own|77", used: true, model_year: 2024 }], basis: BASIS, today: "2026-10-08", staleDays: 14 });
+    const row = r.cars.find((c) => c.id === "car-u")!;
+    expect(row.routes.cash).toBeUndefined();
+    const u = Object.values(row.routes.used!)[0];
+    // Its own price, scaled by 2021's cars against 2024's; the entry itself is not counted among them.
+    expect(u.end_value).toBeCloseTo(27000 * 18100 / 27100, 0);
+    expect(row.stock!.count).toBe(6);
+    expect(r.offers[0].comparable!.true_monthly).toBeCloseTo(u.true_monthly!, 6);   // the offer list costs it the same way
+  });
   it("a price confirmed last night is still today's: the latest state of a key holds until seen gone or stale", async () => {
     const { computeAll } = await import("./recompute");
     type S = import("../types").SnapshotSighting;

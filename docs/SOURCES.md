@@ -82,7 +82,11 @@ missed.
   back-seat section's sentences about knees, thighs, the floor and the room as a field (162
   models): "the floor is relatively high up, so taller passengers have their legs angled
   awkwardly" (Ioniq 5). They are Carwow's words and are not scored, since they read both ways.
-- **Left:** the review's FAQs, which repeat the numbers.
+- **Left:** the review's FAQs, which repeat the numbers; and since 15 Oct the petrol versions
+  some electric models' pages list beside the electric ones (the Ford Focus's "1.0 EcoBoost
+  Hybrid mHEV", the Fiat 500 Convertible's "1.0 Mild Hybrid") and range extenders (Leapmotor's
+  "Hybrid EV"), which had become cars in the app: `parse.combustion` names them, and
+  `carwow_specs` leaves them too (the Astra Sports Tourer Electric page's "1.2 Turbo 130").
 
 ### carwow_specs
 

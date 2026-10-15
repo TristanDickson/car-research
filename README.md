@@ -390,6 +390,14 @@ rejected by that rule fails in two seconds with no runner and no logs.
   owner asked to work around it ("This is a personal product not a commercial one"), so Chrome
   downloads the file (`scripts/fetch-with-chrome.mjs`, about 15 s). 141 models have a recall; the
   car page lists them, and one that follows a fix that did not hold says so.
+- **2026-10-15** The owner: "yeah, fix them", of two faults found answering "what am I buying".
+  20 petrol and range-extender versions that Carwow's pages for electric models list (the Ford
+  Focus, the Fiat 500 Convertible, the Astra Sports Tourer Electric's "1.2 Turbo 130", Leapmotor's
+  "Hybrid EV") had become cars; the readers now leave them, and the build sets aside any record
+  that names one (`parse.combustion`). And a used car the owner entered with a cash price (the
+  EMG Cambridge EV6) was costed as a new car, ending worth a three-year-old car where it would be
+  five: it is costed on the used route by its own year now, and it is not counted among the used
+  market's examples.
 - **2026-10-14 (night)** The owner, using the app: the filter boxes were too narrow to see what
   was typed, there was no way to leave out the cars marked "few cars", clearing the filters lagged
   the table, the data "completely refreshed" when changing search and again on clicking a car,

@@ -22,7 +22,7 @@ from urllib.parse import parse_qs, urlparse
 
 from pipeline.providers.carwow_catalog import electric_models, pretty_make
 from pipeline.providers.http import fetch_url
-from pipeline.providers.parse import money, text
+from pipeline.providers.parse import combustion, money, text
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 from pipeline.providers.wayback import observed_at_for, original_url
 
@@ -78,6 +78,8 @@ def parse_page(page: str, make: str, model: str, url: str, observed_at: str, mak
         name, _, price = label.partition(" - Price from ")
         name = name.strip()
         engine = (q.get("engine_name") or [""])[0].strip()
+        if combustion(f"{name} {engine}"):   # a petrol version the model's page lists too
+            continue
         version = (q.get("derivative_version_id") or [""])[0].rsplit("_", 1)[-1]
         brackets = [b.strip() for b in BRACKET_RE.findall(name) if b.strip()]
         rows.append({

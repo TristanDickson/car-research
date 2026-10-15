@@ -33,6 +33,7 @@ from pathlib import Path
 
 from pipeline.db import ROOT
 from pipeline.services import claims, match
+from pipeline.providers.parse import combustion
 from pipeline.services.features import flags_for
 
 IMAGE_EXTS = ("jpg", "jpeg", "png", "webp")
@@ -96,6 +97,8 @@ def load_specs(conn: sqlite3.Connection) -> list[dict]:
     out = []
     for r in conn.execute("SELECT * FROM specs ORDER BY make, model, trim, spec_key"):
         p = json.loads(r["payload"])
+        if r["source"] == "carwow_specs" and combustion(f"{p.get('trim') or ''} {p.get('engine') or ''}"):
+            continue   # a petrol version the committed history kept (the parser now leaves them)
         if p.get("features") is not None and r["source"] != "evdb":
             p["flags"] = flags_for(p.get("features") or [], p.get("options") or [])   # the patterns move; the stored list is the fact
         p.update({

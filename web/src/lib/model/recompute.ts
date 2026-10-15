@@ -39,7 +39,7 @@ export interface UsedListingCost {
 export interface ComputeInput {
   sightings: SnapshotSighting[];
   usedSpans: SnapshotUsedSpan[];
-  cars: Pick<SnapshotCar, "id" | "model_key" | "used_key" | "list_price_gbp" | "on_sale">[];
+  cars: Pick<SnapshotCar, "id" | "model_key" | "used_key" | "list_price_gbp" | "on_sale" | "used" | "model_year">[];
   basis: Basis;
   /** ISO date: the wall clock, for ages and staleness. */
   today: string;
@@ -59,12 +59,26 @@ export function usedToSighting(u: SnapshotUsedSpan): Sighting {
            deal: { price: u.price, year: u.year, mileage: u.mileage, vrm: u.vrm }, seller: u.town, ...(u.vehicle_state === "New" ? { new_car: true } : {}) };
 }
 
+/** A cash price on a car the owner entered as used (`used`, with its model year) is a used car's price: it is costed
+ * on the used route by its own year, so it ends worth its own price scaled by its model's older examples rather than a
+ * new car's value after the term. */
+export function asUsedEntry(cars: ComputeInput["cars"]): (s: Sighting) => Sighting {
+  const used = new Map(cars.filter((c) => c.used && c.model_year).map((c) => [c.id, c]));
+  return (s) => {
+    const c = s.route === "cash" && s.car_id ? used.get(s.car_id) : undefined;
+    if (!c) return s;
+    return { ...s, route: "used", entered: true, model: c.model_key ?? s.model, used_key: c.used_key ?? null,
+             deal: { ...s.deal, price: (s.deal as { vehicle_price?: number | null }).vehicle_price, year: c.model_year } };
+  };
+}
+
 export function computeAll(input: ComputeInput): ComputeResult {
   const t0 = Date.now();
   // A key's latest state holds until seen gone or stale, so a price confirmed last night is today's.
-  const all = markCurrent([...input.sightings.filter((s) => s.route === "cash" || s.route === "pcp" || s.route === "pch").map(toSighting),
+  const asUsed = asUsedEntry(input.cars);
+  const all = markCurrent([...input.sightings.filter((s) => s.route === "cash" || s.route === "pcp" || s.route === "pch").map((s) => asUsed(toSighting(s))),
                            ...input.usedSpans.map(usedToSighting)], input.today, input.staleDays);
-  const used = all.filter((s) => s.route === "used");
+  const used = all.filter((s) => s.route === "used" && !s.entered);
   const trim = trimScale(input.cars);
   const history = costAll(all, input.basis, undefined, trim);
   const now = costAll(all, input.basis, input.today, trim);
@@ -108,7 +122,7 @@ export function computeAll(input: ComputeInput): ComputeResult {
     cars.push({ id: c.id, model, routes, firm_routes: firmRoutes, best, trend: tr, stock: stock && stock.count ? stock : null, trim_scale: trim(c.id), breakeven,
                 used_listings: (c.used_key && usedByTrim.get(c.used_key)) || {} });
   }
-  const offers = offersFrom(input.sightings, input.basis, input.today, input.staleDays, residual, trim);
+  const offers = offersFrom(input.sightings, input.basis, input.today, input.staleDays, residual, trim, asUsed);
   return { cars, series: rows, residuals: residualSeries(used, input.today), offers,
            stats: { sightings: all.length, costed: history.length, ms: Date.now() - t0 } };
 }
