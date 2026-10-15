@@ -3,12 +3,12 @@
   "cars": 1971,
   "cars_curated": 19,
   "cars_generated": 1952,
-  "claims": 117257,
+  "claims": 118122,
   "configurations": 71,
   "configured": 34,
   "derivatives": 916,
   "disagreements": 133,
-  "fields_from_claims": 159456,
+  "fields_from_claims": 160512,
   "makes": 50,
   "models": 250,
   "models_with_deals": 179,
@@ -57,7 +57,7 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-15T04:40:13+00:00",
+ "generated_at": "2026-10-15T04:52:06+00:00",
  "offer_states": {
   "campaign": 7,
   "derived": 2,
@@ -835,7 +835,7 @@
      {
       "commit": "808065c245",
       "fetches": 7269,
-      "finished_at": "2026-10-15T04:40:13+00:00",
+      "finished_at": "2026-10-15T04:40:59+00:00",
       "from_cache": 0,
       "mode": "build",
       "parsed": 7269,
@@ -843,9 +843,36 @@
       "records": 89452,
       "seconds": 450.3,
       "sightings": 86697,
-      "snapshot": {},
+      "snapshot": {
+       "cars": 1971,
+       "cars_generated": 1952,
+       "cash_benchmarks": 2072,
+       "models": 250,
+       "observations": 7043,
+       "offers": 3502,
+       "specs": 2982,
+       "unmapped_trims": 327,
+       "used_listings": 12605,
+       "used_spans": 23013
+      },
       "stage": "build",
       "started_at": "2026-10-15T04:32:35+00:00",
+      "unparsed": 0
+     },
+     {
+      "commit": "dc0bb4a359",
+      "fetches": 7269,
+      "finished_at": "2026-10-15T04:52:05+00:00",
+      "from_cache": 7269,
+      "mode": "build",
+      "parsed": 0,
+      "record_spans": 52337,
+      "records": 89452,
+      "seconds": 140.1,
+      "sightings": 86697,
+      "snapshot": {},
+      "stage": "build",
+      "started_at": "2026-10-15T04:49:43+00:00",
       "this": true,
       "unparsed": 0
      }
@@ -856,6 +883,11 @@
       "at": "2026-10-14T21:37:22+01:00",
       "sha": "ab3b12d657",
       "subject": "data: build from the raw store 2026-10-14"
+     },
+     {
+      "at": "2026-10-15T05:41:05+01:00",
+      "sha": "ab31eefd25",
+      "subject": "data: build from the raw store 2026-10-15"
      }
     ],
     "scrapes": [
