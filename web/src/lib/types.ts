@@ -202,6 +202,8 @@ export interface SnapshotCar {
   version_date?: string | null;
   packs?: string[];
   model_year?: number | null;
+  /** 'YYYY-MM' this version went on sale (EV Database's variant); a used car registered before it is an earlier one. */
+  on_sale_since?: string | null;
   used?: boolean;
   fuel?: string;
   body?: string;

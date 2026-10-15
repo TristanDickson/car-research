@@ -76,7 +76,8 @@ NUMBERS = ("battery_kwh", "battery_usable_kwh", "wltp_range_mi", "real_range_mi"
            "width_mm", "width_mirrors_mm", "height_mm", "weight_kg", "gvwr_kg", "payload_kg", "roof_load_kg", "tow_kg", "tow_unbraked_kg",
            "wheel_in", "wheel_options", "tyre_front", "tyre_rear", "sidewall_mm", "roof_rails", "body", "segment", "platform", "ncap_stars", "ncap_adult_pct", "ncap_child_pct",
            "ncap_vru_pct", "ncap_assist_pct", "ncap_year", "warranty_years", "warranty_miles", "insurance_group",
-           "list_price_gbp", "used_from_gbp", "drive")
+           "list_price_gbp", "used_from_gbp", "drive",
+           "on_sale_since")   # 'YYYY-MM' this version went on sale (EV Database's variant): a used car registered before it is an earlier one
 # What independent testers say of a model (providers/adac.py, providers/whatcar.py): said at model level.
 ADAC_FIELDS = ("adac_total", "adac_suspension", "adac_comfort", "adac_build", "adac_boot", "adac_rear_space", "adac_family", "adac_tested",
                "adac_breakdowns", "adac_breakdown_year", "adac_breakdown_rating", "adac_breakdown_causes")

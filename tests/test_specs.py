@@ -259,6 +259,9 @@ class ReadyForAVisitor(unittest.TestCase):
         self.assertEqual(used_key_for_text("160kW N Line S 65kWh 5dr Auto", kona), "hyundai/kona-electric|n line s|65", "the most specific trim")
         self.assertIsNone(used_key_for_text("150kW 64kWh Auto Premium", kona), "a trim no longer sold counts for none")
         self.assertIsNone(used_key_for_text("100kW 39kWh Auto Ultimate", kona), "nor a different battery")
+        launched = [dict(c, on_sale_since="2023-10") for c in kona]
+        self.assertIsNone(used_key_for_text("150kW 64kWh Auto Ultimate", launched, 2021), "a 2021 car is the earlier Kona")
+        self.assertEqual(used_key_for_text("150kW 64kWh Auto Ultimate", launched, 2023), "hyundai/kona-electric|ultimate|65")
         self.assertEqual(used_key({"trim": "GT Line S", "variant": "168kW 84kWh RWD Auto"}, "kia/ev6"),
                          used_key({"trim": "GT-Line S", "battery_kwh": 84.0}, "kia/ev6"), "hyphens and where the battery is printed do not matter")
 

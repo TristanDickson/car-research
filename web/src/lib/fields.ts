@@ -208,6 +208,8 @@ export const FIELDS: Field[] = [
 
   // About
   { ...n("year", "model_year", "Model year", "About", "", 0, 1, "Year"), plain: true },
+  { ...t("on_sale_since", "on_sale_since", "On sale since (this version)", "About", "On sale since"),
+    title: "When EV Database says this version went on sale; a used car registered before it is an earlier one and is not counted as it" },
   t("version", "version_date", "Derivative version", "About", "Version"),
   t("body", "body", "Body", "About"),
   t("segment", "segment", "Segment", "About"),

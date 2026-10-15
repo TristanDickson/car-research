@@ -401,10 +401,12 @@ def used_key(car: dict, model_key: str) -> str | None:
     return f"{model_key}|{trim}|{kwh}"
 
 
-def used_key_for_text(text: str, cars: list[dict]) -> str | None:
+def used_key_for_text(text: str, cars: list[dict], year: int | None = None) -> str | None:
     """The one trim and battery of this model a used listing's text names: every word of the trim in the text,
     the battery within 3 kWh (makers restate a pack's size: the Kona's 64 kWh is its 65), the most specific
-    trim winning ('N Line S' over 'N Line'). None when no trim fits or two different ones do."""
+    trim winning ('N Line S' over 'N Line'). A listing registered before every car of a trim went on sale is an
+    earlier generation of the name (a 2021 Kona 'Ultimate 64kWh' is not the 2023-on Ultimate). None when no trim
+    fits or two different ones do."""
     have, text_kwh = set(_words(text)), match.tokens(text)["kwh"]
     fits: list[tuple[int, str]] = []
     for c in cars:
@@ -413,6 +415,9 @@ def used_key_for_text(text: str, cars: list[dict]) -> str | None:
         if not words or not words <= have:
             continue
         if text_kwh is not None and abs(text_kwh - int(kwh)) > 3:
+            continue
+        since = str(c.get("on_sale_since") or "")[:4]
+        if year and since.isdigit() and year < int(since):
             continue
         fits.append((len(words), c["used_key"]))
     if not fits:
@@ -731,7 +736,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         k = key_of.get(l.get("car_id"))
         if not k and l.get("derivative"):
             model = f"{(l.get('make_slug') or '').lower()}/{l.get('model_slug') or ''}"
-            k = used_key_for_text(l["derivative"], by_model.get(model, []))
+            k = used_key_for_text(l["derivative"], by_model.get(model, []), l.get("year"))
         listing_key_of[l["listing_key"]] = k
         l["used_key"] = k
     for u in used_spans:
