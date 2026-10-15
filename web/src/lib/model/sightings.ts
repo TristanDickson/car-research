@@ -25,6 +25,19 @@ export const MIN_EVIDENCE = 3;
 /** A resale estimate resting on fewer used cars than this is flagged where it is shown. */
 export const THIN_EVIDENCE = 10;
 
+/** How a figure's end value is flagged: "few cars" below THIN_EVIDENCE used cars, "assumed" on none (a used car whose
+ * model has too few examples that many years older, so the flat assumption); null when it is firm or not a used-market figure. */
+export function thinLabel(n: number | null | undefined): "few cars" | "assumed" | null {
+  if (n == null || n >= THIN_EVIDENCE) return null;
+  return n === 0 ? "assumed" : "few cars";
+}
+
+/** What a flagged end value rests on, in words. */
+export function evidenceWords(n: number | null | undefined): string {
+  return n === 0 ? "no used cars that much older on sale, so the end value is the flat assumption: treat this figure with care"
+    : `the end value rests on only ${n} used cars: treat this figure with care`;
+}
+
 export interface Sighting {
   /** The offer key, or the used listing key. */
   key: string;
@@ -270,7 +283,8 @@ export function cost(s: Sighting, basis: Basis, residual: ResidualAt, floorGfv: 
     const m = usedRoute(price, year ? yearOf(asOf) - year : null, basis, ev ? ev[0] : null);
     return { s, as_of: asOf, headline: price, true_monthly: m.true_monthly, true_monthly_floor: null, pv_cost: m.pv_cost,
              horizon_months: H, at_horizon: "sold", own_true_monthly: m.true_monthly, own_horizon_months: H,
-             end_value: m.expected_value_at_end, residual_source: m.residual_source, evidence_n: ev ? ev[1] : null, metrics: null,
+             // No end value from the market: the flat assumption, on no used cars (0, so it is flagged and the few-cars switch leaves it out).
+             end_value: m.expected_value_at_end, residual_source: m.residual_source, evidence_n: ev ? ev[1] : 0, metrics: null,
              terms: printedTerms("used", s.deal, null) };
   }
   const d: DealFields = { ...s.deal, id: s.key, car_id: s.car_id, finance_type: s.route, status: (s.deal.status as string | undefined) ?? s.status ?? "live" };

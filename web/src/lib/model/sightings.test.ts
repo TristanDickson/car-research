@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { DEFAULT_BASIS, usedRoute, type Basis, type DealFields } from "./dealMath";
 import { pcpOverHorizon } from "./horizon";
-import { bestByRoute, cost, costAll, current, floorGfvAt, goneDates, markCurrent, residualAt, residualSeries, series, subject, trend, usedEndValue, usedStock, type Sighting } from "./sightings";
+import { bestByRoute, cost, costAll, current, thinLabel, floorGfvAt, goneDates, markCurrent, residualAt, residualSeries, series, subject, trend, usedEndValue, usedStock, type Sighting } from "./sightings";
 
 const BASIS: Basis = { ...DEFAULT_BASIS, term_months: 37, savings_rate_apr: 0.04, residual_pct_of_list: 0.45, residual_at_months: 36 };
 const MODEL = "hyundai/ioniq-5";
@@ -66,6 +66,12 @@ describe("costing", () => {
     const c = cost(used("x", 19000, 2024, "2026-10-07", "2026-10-07"), BASIS, residualAt(STOCK), floorGfvAt([]), "2026-10-07")!;
     expect([c.headline, c.residual_source]).toEqual([19000, "assumption"]);   // nothing from 2021 says what a 2024 car is worth in 2029
     expect(c.true_monthly).toBeCloseTo(usedRoute(19000, 2, BASIS).true_monthly!, 2);
+    // On no used cars: marked "assumed", and the few-cars switch leaves it out.
+    expect([c.evidence_n, thinLabel(c.evidence_n), thinLabel(4), thinLabel(30), thinLabel(null)]).toEqual([0, "assumed", "few cars", null, null]);
+    const today = "2026-10-07";
+    const rows = costAll(markCurrent([used("x", 19000, 2024, "2026-10-01", today)], today, 14), BASIS, today);
+    expect(current(rows, today).get("model:hyundai/ioniq-5")!.used!.cinch.key).toBe("x");
+    expect(current(rows, today, true).get("model:hyundai/ioniq-5")).toBeUndefined();
   });
   it("a used car ends worth its own price scaled by how much its model's older examples ask less", () => {
     // 2026 examples ask a median £30,000 and 2023 ones £21,000: a 2026 car loses 30% in three years.

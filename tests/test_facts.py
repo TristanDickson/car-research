@@ -77,6 +77,15 @@ class Overlays(unittest.TestCase):
         self.assertIs(pick_variant({"battery_kwh": 65.0, "model_year": 2025}, [old, new]), new)
         self.assertIs(pick_variant({"battery_kwh": 65.0, "model_year": 2021}, [old, new]), old, "a used 2021 car is the old one")
         self.assertIs(pick_variant({"battery_kwh": 65.0}, [old, new]), new, "no year: the one on sale")
+        # EV Database lists the 2023-on Kona at its full 65.4 kWh (its index of 11 Oct 2026), which fits a 65 kWh car a
+        # shade worse than the old 64.0: still the same size of pack, so the year decides, not the rounding.
+        listed = {**new, "numbers": {**new["numbers"], "battery_usable_kwh": 65.4}}
+        for kwh in (65.0, 65.4):
+            self.assertIs(pick_variant({"battery_kwh": kwh}, [old, listed]), listed, kwh)
+            self.assertIs(pick_variant({"battery_kwh": kwh, "model_year": 2021}, [old, listed]), old, kwh)
+        lr = {"model": "Ioniq 5 63 kWh", "numbers": {"battery_usable_kwh": 60.0, "year_from": 2024, "on_sale": True}}
+        sr = {"model": "Ioniq 5 58 kWh", "numbers": {"battery_usable_kwh": 54.0, "year_from": 2021, "on_sale_until": "2024-03"}}
+        self.assertIs(pick_variant({"battery_kwh": 58.0}, [lr, sr]), sr, "a different size of pack is not merged by year")
 
 
 if __name__ == "__main__":

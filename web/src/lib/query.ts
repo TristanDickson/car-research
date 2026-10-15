@@ -374,7 +374,7 @@ export function describeQuery(f: Query, flagLabels: Record<string, string>): str
   }
   if (all.length) parts.push(all.join(" · "));
   if (anyOf.length) parts.push(anyOf.length === 1 ? anyOf[0] : `one of (${anyOf.join(" or ")})`);
-  if (f.firm) parts.push("figures on few cars left out");
+  if (f.firm) parts.push("figures on few or no used cars left out");
   for (const r of RANGE_FIELDS) {
     const b = f.ranges[r.key];
     if (!b) continue;

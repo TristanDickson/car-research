@@ -65,8 +65,12 @@ def pick_variant(car: dict, variants: list[dict]) -> dict | None:
     scored = [(fit, v) for v in variants if (fit := _battery_fit(car.get("battery_kwh"), (v.get("numbers") or {}).get("battery_usable_kwh"))) is not None]
     if not scored:
         return None
-    best = min(fit for fit, _ in scored)
-    close = [(fit, v) for fit, v in scored if fit <= best + 0.02]   # the same pack within rounding: pick by year
+    best, best_v = min(scored, key=lambda fv: fv[0])
+    ref = (best_v.get("numbers") or {})["battery_usable_kwh"]
+    # The same size of pack, restated or a later generation's (the Kona's 64.0 kWh of 2018-23, its 65.4 kWh since 2023,
+    # which EV Database lists at its full size and so fits a shade worse): within 3% of the best fit's, picked by year.
+    close = [(fit, v) for fit, v in scored
+             if fit <= best + 0.02 or abs((v.get("numbers") or {})["battery_usable_kwh"] - ref) <= 0.03 * ref]
     year = car.get("model_year")
 
     def rank(fv: tuple[float, dict]) -> tuple:

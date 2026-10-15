@@ -205,12 +205,12 @@ export function QueryBar({ query: f, set, options, flagLabels, count, unknownHid
         {f.firm ? (
           <button type="button" onClick={() => set({ firm: false })} className="text-xs text-amber-300 underline"
             title="Each car is costed on its cheapest figure whose end value rests on at least 10 used cars">
-            figures on few cars left out · show them
+            figures on few or no used cars left out · show them
           </button>
         ) : thinShown > 0 ? (
           <button type="button" onClick={() => set({ firm: true })} className="text-xs text-amber-300 underline"
             title="Cost each car on its cheapest figure whose end value rests on at least 10 used cars; a car with none drops out of a search on price">
-            {thinShown} priced on few cars · leave those figures out
+            {thinShown} priced on few or no used cars · leave those figures out
           </button>
         ) : null}
       </div>

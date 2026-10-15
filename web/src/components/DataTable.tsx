@@ -30,6 +30,8 @@ interface Props<T> {
   dense?: boolean;
   /** Keep the reader's choice of columns and their order in this browser under this name, and offer the chooser. */
   prefsKey?: string;
+  /** Extra classes for a row (a highlight, a muted row). */
+  rowClass?: (row: T) => string | undefined;
 }
 
 function cmp(a: number | string | null | undefined, b: number | string | null | undefined): number {
@@ -47,7 +49,7 @@ const nameOf = <T,>(c: Column<T>): string => c.label ?? (typeof c.header === "st
 /** Rows drawn at a time: two thousand rows of a dozen columns take seconds to draw, and a new search draws them again. */
 const PAGE = 100;
 
-export function DataTable<T>({ rows, columns, rowKey, defaultSort, dense, prefsKey }: Props<T>) {
+export function DataTable<T>({ rows, columns, rowKey, defaultSort, dense, prefsKey, rowClass }: Props<T>) {
   const [sort, setSort] = useState<{ key: string; dir: "asc" | "desc" } | null>(defaultSort ?? null);
   const [prefs, setPrefsState] = useState<ColumnPrefs>(() => (prefsKey ? readPrefs(prefsKey) : { order: [], visible: {} }));
   const [choosing, setChoosing] = useState(false);
@@ -168,7 +170,7 @@ export function DataTable<T>({ rows, columns, rowKey, defaultSort, dense, prefsK
           </thead>
           <tbody className="divide-y divide-gray-800">
             {sorted.slice(0, limit).map((row) => (
-              <tr key={rowKey(row)} className="group hover:bg-gray-900/60">
+              <tr key={rowKey(row)} className={`group hover:bg-gray-900/60 ${rowClass?.(row) ?? ""}`}>
                 {shown.map((c) => (
                   <td key={c.key} className={`${pad} align-top ${c.align === "right" ? "text-right tabular-nums" : ""} ${stick(c, false)}`}>
                     {c.render(row)}
