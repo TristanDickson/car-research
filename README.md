@@ -390,6 +390,13 @@ rejected by that rule fails in two seconds with no runner and no logs.
   owner asked to work around it ("This is a personal product not a commercial one"), so Chrome
   downloads the file (`scripts/fetch-with-chrome.mjs`, about 15 s). 141 models have a recall; the
   car page lists them, and one that follows a fix that did not hold says so.
+- **2026-10-15 (later)** Checking those fixes found every current Kona tied to EV Database's
+  2021-23 page, and the owner asked why matching was "one comparison" rather than "an algorithm
+  that builds compounds of features from each raw and compares recursively to reduce to the
+  smallest possible set of entites that satisfies those constraints". It was four separate
+  lookups. Two design passes (`docs/resolver/`) are merged in `docs/REBUILD.md`, "Next: one
+  resolver over every record", for the owner to correct before it is built; a patch to the
+  battery comparison is held on `hold/evdb-battery-fit-two-readings`.
 - **2026-10-15** The owner: "yeah, fix them", of two faults found answering "what am I buying".
   20 petrol and range-extender versions that Carwow's pages for electric models list (the Ford
   Focus, the Fiat 500 Convertible, the Astra Sports Tourer Electric's "1.2 Turbo 130", Leapmotor's
