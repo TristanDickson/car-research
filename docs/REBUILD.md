@@ -99,173 +99,109 @@ Known limits of what is built:
   matching is re-derived. Re-running the Wayback backfill on the laptop would fetch the archived
   pages as raws.
 
-## Next: one resolver over every record (designed 15 Oct 2026, not built)
+## Next: one resolver over every record (designed 15-16 Oct 2026, not built)
 
-The owner, 15 Oct 2026, on finding the current Kona tied to EV Database's 2021-23 page: "From
-memory, i said i didnt know if we needed to go as complex as bolthole, because properties are
-inherently harder to match and i thought car variants could be done with a few explicit
-comparisons, but that appears nto to be the case." What they want instead: "an algorithm that
-builds compounds of features from each raw and compares recursively to reduce to the smallest
-possible set of entites that satisfies those constraints".
+Matching today is four separate lookups, one comparison each: a record printing a CAP id attaches
+to it; a broker's text is matched to Carwow's derivatives by rules (`services/resolve.py`,
+`match.py`); an EV Database page attaches to a car by a battery ratio (`facts.pick_variant`),
+which tied every current Kona to the 2021-23 Kona's page; a used listing attaches to a trim by its
+words and a battery within 3 kWh (`snapshot.used_key_for_text`), which counts 2021 Konas as the
+2023-on car. A survey of the 15 Oct build (`docs/resolver/`) also found 169 of the 353 cars
+linked to an EV Database page that gives the motor on a variant with a different motor, 1,306
+used listings on a version that went on sale after they were registered, and 452 "Long Range"
+listings on "Standard" derivatives.
 
-Matching today is four separate lookups, each one comparison per record: a record printing a CAP
-id attaches to it; a broker's text is matched to Carwow's derivative list by rules
-(`services/resolve.py`, `match.py`); an EV Database page attaches to a car by a battery ratio
-(`facts.pick_variant`); a used listing attaches to a trim by its words and a battery within 3 kWh
-(`snapshot.used_key_for_text`). A survey of the 15 Oct build counted what that gets wrong: every
-current Kona on the 2021-23 Kona's EV Database page; 169 of the 353 cars linked to an EV Database
-page that gives the motor sit on a variant with a different motor; 1,306 used listings sit on a
-current version although registered before it went on sale (Tesla 796, BMW 202); 452 "Long Range"
-listings sit on "Standard" derivatives, because those words are dropped before the trim
-comparison; 430 used listings carry a drive word their car contradicts. Two design passes, one
-from the data and one from the algorithm, are kept with their evidence in `docs/resolver/`; this
-section is the merge of them, for the owner to correct before anything is built.
+### What the owner said (15-16 Oct 2026)
 
-**Words used here.** A *record* is one thing one source said (a lease, a used car, a Carwow line,
-an EV Database row, an owner's entry). Its *compound* is the features read off it. An *entity* is
-a real thing several records describe. A *constraint* says two records must be one entity (a
-hard join) or can never be (a hard separation); everything else is evidence, weighed.
+- On the matching: "From memory, i said i didnt know if we needed to go as complex as bolthole,
+  because properties are inherently harder to match and i thought car variants could be done
+  with a few explicit comparisons, but that appears nto to be the case." What they want: "an
+  algorithm that builds compounds of features from each raw and compares recursively to reduce to
+  the smallest possible set of entites that satisfies those constraints".
+- On a golden record: "we have presumably a master record of every derivative and only need to
+  match against it. Its our golden record." CAP's list is licensed (quote only), so it cannot be
+  that record; Parkers' is the nearest free one (`docs/SOURCES.md`, "Parkers").
+- On the CAP id: "i dont think CAP id becomes anything special beyond a very high priority match
+  field".
+- On text: "We should use a standard parser for car listings, e.g. to remove accents".
+- On the two Konas: "we definitely need to differentiate between the kona v1 and v2"; on old
+  versions with only used cars: "its fine to make them cars".
+- On a price that fits several near-identical versions: "list that lease against the worst spec
+  or best spec it applies to. Maybe best because investigating a price thats worse than it looks
+  is preferable to missing a price that's better than it looks".
+- On resale: "We take resale at say 3 years, the price of a 2023 Kona now", and on mileage: "My
+  idea was a very wide band so we dont discard most of the evidence".
+- On decisions the matching cannot make: "Isnt it easier to have a flow in the app to resolve them
+  if they come up? (I don't think they will even come up for the same reason in 1.)"
+- On the first Parkers read: "i dont even want to wait 4 nights if we dont have to" (all 4,083
+  pages were read on 16 Oct).
 
-### The features
+### The design (Claude's, from the above, for the owner to correct)
 
-Make and model; CAP id where printed; trim words; motor kW (bhp converted; EV Database's card has
-none, and its 0-62 time stands in); battery; drive; seats; years (when a version was on sale, a
-price list's date, a registration year); price; CAP's brackets ("[Heat Pump]", "[7 seat]"); fuel.
+**The master list is Parkers' derivatives.** Every electric derivative Parkers lists, old
+generations included, with what its address and its page say: make, model, generation (body and
+start year), trim (from the generation's own trim list), motor kW, battery kWh, packs (CAP's
+brackets), doors, on-sale dates, price when new. These are the cars the app shows. A car's id is
+built from those details, normalised (make, model, generation, trim, kW, kWh, packs), not from
+whichever source listed it, so a derivative Carwow lists before Parkers does keeps its id when
+Parkers adds it, and the owner's saved references keep working.
 
-Two findings about batteries decide much of the design. A battery figure printed by Carwow, CAP,
-a maker, a broker or a used listing is a label, and exact: a broker's kWh equals Carwow's in 621
-of 621 resolved rows, and when a maker changes the label (Kona 64 to 65, EV6 77.4 to 84, Born 58
-to 59) EV Database lists a new variant with new years. So two such labels more than 0.6 kWh apart
-are two versions. Against EV Database, which prints usable and (on its car pages) gross, the
-comparison is by kind: Carwow's label equals EV Database's gross in 432 of 644 linked cars and its
-usable in 141. A label matches a usable figure between 0.84 and 1.03 of it, and a gross figure
-within 0.6 kWh; there is no "ideal ratio", which is what tied the Kona to the old page.
+**Every other record is matched to it**, Carwow's included, after one shared normaliser has read
+its text: accents out and case folded ("Škoda" is "skoda"); hyphens, dots and spaces alike ("GT-Line
+S" is "GT Line S"); units to numbers (kWh, kW, bhp and PS); one alias list for makes and models;
+and one table expanding CAP's short descriptions into its long ones ("eDr40" to "eDrive40",
+"Qtro" to "quattro", "Black Ed" to "Black Edition", "Comf+" to "Comfort Plus"), which is how
+Carwow abbreviates and Parkers does not. Words that separate versions ("Long Range", "AWD",
+"Performance") are features, never dropped.
 
-Years come from EV Database's on-sale dates (its page, else its card, else the "(MY22-23)" in its
-name), from the year in Carwow's configurator address for a model (`kona-electric-2023`, which
-names the generation), from a price list's date (when the list was issued, not when the car went
-on sale) and from a used car's registration.
+Within the record's model, each detail it gives rules out the entries it contradicts: a fuel that
+burns; motors more than 5 kW apart; battery labels more than 0.6 kWh apart (makers' labels are
+exact; against EV Database's usable figure by kind, 0.84 to 1.03 of the label, against its gross
+within 0.6); a different drive or seat count; a registration or price-list date outside the
+entry's on-sale dates; a trim word the entry lacks; a price no entry could have. A detail the
+record does not give rules nothing out. Then:
 
-### The entities
+- one entry left: the record is that car;
+- several: the record's list price, then its pack names, narrow them; any still left, the record
+  goes on the best spec of them, with the others named on it (the owner's rule);
+- none: a record with its own trim and details (a Carwow derivative newer than Parkers' list)
+  becomes a car under the same id formula; a text record stays at the most specific level its
+  details reach (the version: model, battery, motor and years; else the model) and is listed on
+  the Data page.
 
-1. **Model**: a catalogue model. Body styles are separate models on Carwow and share CAP names (94
-   names appear under two models: Q4 e-tron and its Sportback, ID.7 and Tourer, Elroq and
-   Enyaq), so the model is a constraint of its own.
-2. **Version**: one model's battery label, motor, drive and seats over the years it was sold.
-   EV Database's variant is one where it files one (865 variants); the build makes one where it
-   does not (50 models with cars have none filed; 70 cards are unfiled only because the name
-   match drops the accent in Škoda and Citroën), and where only used cars exist (the Kona 64 kWh:
-   980 used listings name a battery no current derivative of their model carries).
-3. **Trim-version**: one trim of one version. What a used listing and a maker's grade row
-   describe.
-4. **Derivative**: a CAP id, one trim of one version on one price list, with its packs and RRP.
-5. **Single car**: one used car, the same car on two sites joined by its registration mark.
+A CAP id is the strongest match field: once one record with that id is matched, every record
+printing it goes to the same car, unless one of its details contradicts the car, which is then
+listed for a look rather than forced. EV Database describes a version, not a trim, so its record
+matches every Parkers derivative of that version and its figures go to all of them, below any
+source that speaks for the derivative itself. The same used car on two sites is one car by its
+registration mark.
 
-A derivative belongs to one version; a version has many derivatives over its years. The cars the
-app shows stay exactly as now: every CAP derivative of an electric version, and the owner's
-entries.
+That is the whole procedure: one filter for every source, against one list, with no record
+creating a car except a structured derivative the list lacks. It needs no graph: the master list
+is the set of entities, and the filter only decides which entry each record belongs to.
 
-### The constraints
+**Resale** is the median asking price, now, of used cars of the same version that are as old as
+the term, with between half and double the miles the reader's own mileage gives (9,000 to 36,000
+at 6,000 a year over three years); fewer than 10 such cars, and all of that age count and the app
+says so. The app shows how many cars and which mileage band a figure rests on.
 
-Hard joins: the same CAP id; the same EV Database variant id (card and page); the same
-registration mark; the owner's decisions ("this is that car", and two new kinds after bolthole,
-"these are the same" and "these are different").
+**Decisions.** The owner's 19 cars and 56 trim-map decisions name CAP ids today; each is mapped
+once through its CAP id to the new car, and any that does not map is listed for them to check.
+Anything the resolver cannot place goes on the Data page; the owner says what it is and Claude
+records it (a fix-it flow in the app would need the static site to write back to the repo).
 
-Hard separations, each where both records say: a different model; a fuel that burns (the
-`parse.combustion` words, so the petrol Astra makes no entity for the electric Astra's battery to
-land on); motors more than 5 kW apart (or 0-62 times more than 1.0 s apart when only that is
-printed); battery labels more than 0.6 kWh apart, or outside the bands above against EV Database;
-a different drive; a different seat count; years that do not meet; a trim word of the candidate
-missing from the text, with "Long Range", "Standard", "AWD", "RWD" and "Performance" no longer
-dropped; a price below every candidate's RRP by more than £250 or above by more than £1,500
-(RRG's EV6 "Air" at the GT-Line's price).
+### Order of work
 
-Soft evidence, only among candidates no separation rules out, strongest first: the record's own
-RRP equals one twin's (twins: several derivatives of one trim and version, 119 groups); its bracket
-set equals one twin's (settles 56 of today's 229 conflicts); a CAP name another source's RRP pinned
-to a twin; a pack bracket against two prices goes to the dearer, none to the cheapest. The current
-final tiebreak, "then the id", is a guess and goes: a tie is recorded as ambiguous.
-
-### The reduction
-
-1. Every record becomes its compound. Records sharing a hard join merge first; a hard join that
-   also breaks a separation is a data fault, logged, both readings kept.
-2. Records are blocked by model; a record whose text fits two models goes into both blocks and
-   the price or a body word settles it. Nothing outside a block is compared.
-3. Top down, level by level: each record finds its version, then its trim-version, then its
-   derivative, then (stock) its single car. At each level it is compared with every group there,
-   and a group is a candidate only if no separation holds against any of its members.
-4. Evidence is applied tier by tier, strongest first. Each tier's candidates are worked out
-   against the groups as they stood when the tier began and its joins applied together; a group
-   that then holds two members that contradict each other loses every member that joined it in
-   that tier. So the result is a function of the records and the decisions, whatever order the
-   pages were read in.
-5. One legal candidate: the record joins it. Several that nothing separates: the record stays one
-   level up, with the candidates recorded (a lease priced for the trim, its derivative not
-   pinned). None: it forms a group of its own, which others may join.
-6. No record makes a new group while an existing one can take it, and no record is placed by a
-   guess. That is the smallest set of entities the constraints allow: no two groups could merge
-   without breaking one, and nothing the evidence places sits alone.
-7. Every placement records the level reached, the tier, and per feature its verdict (agrees,
-   compatible, unknown, contradicts), plus each rejected candidate's first contradiction. The
-   Data page and `python -m pipeline records <key>` show why a price sits on a car.
-
-The survey's largest block is a few hundred records against a few dozen groups; the whole is
-about 20,000 records (offer keys, used listings, spec rows, registry lines), estimated at 5 to 20
-seconds a build, not yet measured.
-
-### What changes, and what the app sees
-
-One new `pipeline/services/resolver.py` runs in the build after parsing, every night, from
-scratch. It replaces `resolve.choose`, the pin pass, `facts.pick_variant`, `used_key_for_text`
-and the three model-name normalisers (one normaliser, accents handled). The claim levels become
-own, derivative, trim-version, trim, version, model: the Carwow engine's figures and EV
-Database's sit at one level, so where they disagree the car page says so. Two readers leave data
-the resolver needs, which by the rule above are bugs: cinch prints each listing's trim, seats,
-drive and range (only the drive is read), and NCD's derivative page prints Carwow's CAP id (not
-read); both are fixed with the resolver.
-
-The snapshot keeps schema 7; every change is an added field. Cars gain `version` and
-`version_name`; `on_sale_since` and the EV Database link come from the version; a used
-listing's `used_key` keeps its shape with the version's battery, so a 2021 "Ultimate 64kWh" is
-`hyundai/kona-electric|ultimate|64`, which no car on sale carries.
-
-### Today's faults under it
-
-- Kona: the 64 kWh variants are separated by motor (150 against 160 kW) and by years (1423 ended
-  2023-06); 1830 (on sale since 2023-07) is the one left.
-- The 2021 Kona "Ultimate 64kWh": a different label from 65, so no current derivative is a
-  candidate; it is a single car of the Kona 64 kWh version.
-- The petrol Focus, Fiat 500 and Astra versions: separated by fuel, no entity.
-- EV6 77.4 and 84: two versions with their own variants and years; the Ioniq 5's 63 and 84 are
-  two versions on sale together.
-- Twins and broker captions: as the soft evidence and the price separation above.
-
-### Before it replaces the current matching
-
-A `python -m pipeline resolver-diff` runs the current lookups and the resolver over the same
-records and lists every record whose car changes, by cause, with coverage counts before and after
-(offers on a car, used listings on a car, cars with an EV Database page, with width, with DC
-peak). The survey expects about 140 cars to change EV Database page, about 1,300 used listings to
-leave a current version, 452 Tesla listings to leave "Standard", 430 to move on drive, 56 lease
-conflicts to settle and 70 cards to file under Škoda and Citroën; anything else is a finding to
-read. Fixture tests through `tests.helpers.Raws` cover each fault above, and one builds twice with
-the raw store read in reverse and asserts the same result. The diff is reviewed with the owner,
-then the switch is made on `main`.
-
-### For the owner to decide (recommendations are Claude's)
-
-1. A price that fits several twins and nothing settles (153 lease rows today) shows on no car.
-   Recommendation: show it on the trim-version, marked "derivative not pinned", rather than on the
-   cheapest twin.
-2. Versions with no current derivative (the Kona 64 kWh; 980 used listings): only the evidence
-   behind current cars' resale, or cars of their own in the app's used route? Recommendation: cars
-   of their own, since the app is for exploring from any starting car and these are real buys.
-3. Resale evidence by version: the app reads a model's used cars by registration year, so a 2023
-   Kona 64 kWh prices a 2023-on Kona 65's resale. Recommendation: read the car's own version first,
-   then the model.
-4. The new decisions ("same", "different"): typed into `trim_map.json`, or written by a command
-   (`python -m pipeline decide same <a> <b>`)? Recommendation: the command.
+1. The Parkers reader: done 16 Oct (`providers/parkers.py`), its records kept out of the snapshot
+   until the resolver reads them.
+2. The shared normaliser, with the CAP token table, each rule tested on strings from captured
+   pages.
+3. The model mapping between Carwow's catalogue and Parkers' models and generations (Parkers files
+   body styles as generations: the Q4 e-tron Sportback is `q4-e-tron/sportback-2021`).
+4. The resolver, the id formula, and `python -m pipeline resolver-diff`, which lists every record
+   whose car changes against today's lookups; reviewed with the owner before the switch.
+5. In the app: resale by version within the mileage band; a price that fits several cars on the
+   best spec, with the others named; old versions as cars.
 
 ## The principle
 

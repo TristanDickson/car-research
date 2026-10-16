@@ -390,6 +390,12 @@ rejected by that rule fails in two seconds with no runner and no logs.
   owner asked to work around it ("This is a personal product not a commercial one"), so Chrome
   downloads the file (`scripts/fetch-with-chrome.mjs`, about 15 s). 141 models have a recall; the
   car page lists them, and one that follows a fix that did not hold says so.
+- **2026-10-16** The resolver's design changed with the owner's answers: a master list of every
+  derivative to match against ("Its our golden record"), the CAP id only "a very high priority
+  match field", one standard text parser. CAP's list is licensed, so Parkers' is the master: a new
+  reader (`providers/parkers.py`, surveyed in `docs/SOURCES.md`) read all 4,083 electric derivative
+  pages the same day ("i dont even want to wait 4 nights if we dont have to"). The design in
+  `docs/REBUILD.md`, "Next: one resolver over every record", is rewritten around it.
 - **2026-10-15 (later)** Checking those fixes found every current Kona tied to EV Database's
   2021-23 page, and the owner asked why matching was "one comparison" rather than "an algorithm
   that builds compounds of features from each raw and compares recursively to reduce to the
