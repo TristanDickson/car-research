@@ -1,24 +1,24 @@
 {
  "counts": {
   "cars": 1983,
-  "claims": 119268,
+  "claims": 120201,
   "configurations": 71,
   "configured": 34,
   "derivatives": 930,
-  "disagreements": 133,
-  "fields_from_claims": 166161,
+  "disagreements": 142,
+  "fields_from_claims": 167672,
   "makes": 50,
   "models": 250,
   "models_with_deals": 179,
   "models_with_specs": 220,
-  "observations": 7154,
-  "offers": 3502,
+  "observations": 7379,
+  "offers": 3664,
   "options_pages": 1183,
-  "sightings": 32993,
+  "sightings": 33218,
   "specs": 3024,
   "specs_mapped": 915,
-  "trim_map_auto": 2761,
-  "trim_map_unmapped": 331,
+  "trim_map_auto": 2839,
+  "trim_map_unmapped": 253,
   "used_listings": 13187,
   "used_models": 217,
   "used_spans": 25839
@@ -54,14 +54,14 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-16T18:05:00+00:00",
+ "generated_at": "2026-10-16T18:28:35+00:00",
  "offer_states": {
   "expired": 1,
   "illustrative": 169,
   "illustrative (stale)": 42,
-  "lead": 2747,
-  "lead (stale)": 476,
-  "live": 67
+  "lead": 2905,
+  "lead (stale)": 479,
+  "live": 68
  },
  "pipeline": {
   "levels": [
@@ -295,7 +295,7 @@
     "matched": {
      "used": {
       "conflict": 0,
-      "matched": 831,
+      "matched": 842,
       "total": 1806
      }
     },
@@ -500,12 +500,12 @@
    {
     "describes_models": false,
     "in_snapshot": {
-     "offers": 11
+     "offers": 12
     },
     "matched": {
      "offers": {
       "conflict": 0,
-      "matched": 11,
+      "matched": 12,
       "total": 15
      }
     },
@@ -560,12 +560,12 @@
    {
     "describes_models": false,
     "in_snapshot": {
-     "offers": 1174
+     "offers": 1331
     },
     "matched": {
      "offers": {
-      "conflict": 384,
-      "matched": 1174,
+      "conflict": 259,
+      "matched": 1331,
       "total": 1672
      }
     },
@@ -606,7 +606,7 @@
     "matched": {
      "used": {
       "conflict": 0,
-      "matched": 461,
+      "matched": 465,
       "total": 854
      }
     },
@@ -631,12 +631,12 @@
    {
     "describes_models": false,
     "in_snapshot": {
-     "offers": 213
+     "offers": 217
     },
     "matched": {
      "offers": {
       "conflict": 2,
-      "matched": 213,
+      "matched": 217,
       "total": 219
      },
      "specs": {
@@ -840,7 +840,7 @@
      {
       "commit": "1891936a59",
       "fetches": 12751,
-      "finished_at": "2026-10-16T18:05:00+00:00",
+      "finished_at": "2026-10-16T18:06:31+00:00",
       "from_cache": 0,
       "mode": "build",
       "parsed": 12751,
@@ -848,9 +848,35 @@
       "records": 117096,
       "seconds": 510.1,
       "sightings": 89464,
-      "snapshot": {},
+      "snapshot": {
+       "cars": 1983,
+       "cash_benchmarks": 2069,
+       "models": 250,
+       "observations": 7154,
+       "offers": 3502,
+       "specs": 3024,
+       "unmapped_trims": 331,
+       "used_listings": 13187,
+       "used_spans": 25839
+      },
       "stage": "build",
       "started_at": "2026-10-16T17:56:22+00:00",
+      "unparsed": 0
+     },
+     {
+      "commit": "1f1286a882",
+      "fetches": 12751,
+      "finished_at": "2026-10-16T18:28:35+00:00",
+      "from_cache": 0,
+      "mode": "build",
+      "parsed": 12751,
+      "record_spans": 66992,
+      "records": 117096,
+      "seconds": 523.7,
+      "sightings": 89464,
+      "snapshot": {},
+      "stage": "build",
+      "started_at": "2026-10-16T18:19:40+00:00",
       "this": true,
       "unparsed": 0
      }
@@ -865,6 +891,11 @@
      {
       "at": "2026-10-16T18:31:46+01:00",
       "sha": "c011d16581",
+      "subject": "data: build from the raw store 2026-10-16"
+     },
+     {
+      "at": "2026-10-16T19:06:33+01:00",
+      "sha": "d0423d0b73",
       "subject": "data: build from the raw store 2026-10-16"
      }
     ],
@@ -4573,14 +4604,14 @@
   }
  ],
  "resolution_methods": {
-  "base": 234,
-  "bracket": 74,
+  "base": 115,
+  "bracket": 42,
   "cap-id": 1143,
-  "name": 42,
-  "rrp": 72,
+  "name": 10,
+  "rrp": 30,
   "stub": 830,
-  "trim-powertrain": 363,
-  "version": 3
+  "trim-powertrain": 668,
+  "version": 1
  },
  "runs": [
   {
@@ -4866,51 +4897,6 @@
      "Tech Pack"
     ],
     "prices": [
-     51460.0,
-     52210.0,
-     52955.0,
-     52960.0,
-     54110.0,
-     54455.0,
-     54705.0,
-     55955.0,
-     56605.0,
-     57455.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:107401",
-     "carwow-cap:107402",
-     "carwow-cap:107403",
-     "carwow-cap:107410",
-     "carwow-cap:107411",
-     "carwow-cap:107412",
-     "carwow-cap:110382",
-     "carwow-cap:110383",
-     "carwow-cap:110405",
-     "carwow-cap:110406"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/audi/q4-e-tron-sportback",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Audi Q4 e-tron Sportback 150kW 63kWh Black Edition 5dr Auto [Tech Pack]",
-   "last_seen_at": "2026-10-16T02:57:23+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "audi|q4 e-tron sportback|150kw 63kwh black edition 5dr auto [tech pack]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Tech Pack",
-     "5 seat"
-    ],
-    "packs": [
-     "Tech Pack"
-    ],
-    "prices": [
      49210.0,
      49300.0,
      50705.0,
@@ -5075,71 +5061,34 @@
   {
    "evidence": {
     "brackets": [
-     "Tech",
+     "Tech Pack",
      "5 seat"
     ],
     "packs": [
-     "Tech"
+     "Tech Pack"
     ],
     "prices": [
-     58340.0,
-     59405.0,
-     59840.0,
-     61305.0,
-     62085.0,
-     63585.0
+     59000.0,
+     60900.0,
+     61495.0,
+     63395.0
     ],
     "reason": "a pack against three or more prices and no RRP",
-    "score": 5,
+    "score": 8,
     "twins": [
-     "carwow-cap:103845",
-     "carwow-cap:103846",
-     "carwow-cap:103872",
-     "carwow-cap:103873",
-     "carwow-cap:110385",
-     "carwow-cap:110408"
+     "carwow-cap:110380",
+     "carwow-cap:110381",
+     "carwow-cap:110403",
+     "carwow-cap:110404"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q4-e-tron-sportback",
    "first_seen_at": "2026-10-06T23:39:25+00:00",
-   "label": "Audi Q4 e-tron Sportback 210kW Perf 82kWh Black Edition 5dr Auto [Tech]",
+   "label": "Audi Q4 e-tron Sportback 250kW Qtro Perf 82kWh S Line 5dr Auto [Tech Pack]",
    "last_seen_at": "2026-10-16T02:57:23+00:00",
    "method": "conflict",
    "source": "leaseloco",
-   "source_key": "audi|q4 e-tron sportback|210kw perf 82kwh black edition 5dr auto [tech]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Tech",
-     "5 seat"
-    ],
-    "packs": [
-     "Tech"
-    ],
-    "prices": [
-     54000.0,
-     55900.0,
-     56495.0,
-     58395.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
-    "twins": [
-     "carwow-cap:110378",
-     "carwow-cap:110379",
-     "carwow-cap:110401",
-     "carwow-cap:110402"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/audi/q4-e-tron-sportback",
-   "first_seen_at": "2026-10-06T23:39:25+00:00",
-   "label": "Audi Q4 e-tron Sportback 210kW Performance 82kWh S Line 5dr Auto [Tech]",
-   "last_seen_at": "2026-10-16T02:57:23+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "audi|q4 e-tron sportback|210kw performance 82kwh s line 5dr auto [tech]",
+   "source_key": "audi|q4 e-tron sportback|250kw qtro perf 82kwh s line 5dr auto [tech pack]",
    "status": "conflict"
   },
   {
@@ -5152,27 +5101,27 @@
      "Tech Pack"
     ],
     "prices": [
-     50960.0,
-     52860.0,
-     53455.0,
-     55355.0
+     55960.0,
+     57860.0,
+     58455.0,
+     60355.0
     ],
     "reason": "a pack against three or more prices and no RRP",
-    "score": 5,
+    "score": 6,
     "twins": [
-     "carwow-cap:110372",
-     "carwow-cap:110373",
-     "carwow-cap:110396",
-     "carwow-cap:110397"
+     "carwow-cap:110374",
+     "carwow-cap:110375",
+     "carwow-cap:110393",
+     "carwow-cap:110394"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q4-e-tron-sportback",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Audi Q4 e-tron Sportback 210kW Performance 82kWh Sport 5dr Auto [Tech Pack]",
+   "label": "Audi Q4 e-tron Sportback 250kW Qtro Perf 82kWh Sport 5dr Auto [Tech Pack]",
    "last_seen_at": "2026-10-16T02:57:23+00:00",
    "method": "conflict",
    "source": "leaseloco",
-   "source_key": "audi|q4 e-tron sportback|210kw performance 82kwh sport 5dr auto [tech pack]",
+   "source_key": "audi|q4 e-tron sportback|250kw qtro perf 82kwh sport 5dr auto [tech pack]",
    "status": "conflict"
   },
   {
@@ -5185,7 +5134,9 @@
      "Tech"
     ],
     "prices": [
+     56910.0,
      58340.0,
+     58810.0,
      59405.0,
      59840.0,
      61305.0,
@@ -5199,7 +5150,9 @@
      "carwow-cap:103846",
      "carwow-cap:103872",
      "carwow-cap:103873",
+     "carwow-cap:110384",
      "carwow-cap:110385",
+     "carwow-cap:110407",
      "carwow-cap:110408"
     ]
    },
@@ -5215,67 +5168,34 @@
   {
    "evidence": {
     "brackets": [
-     "Tech",
+     "Tech Pack",
      "5 seat"
     ],
     "packs": [
-     "Tech"
+     "Tech Pack"
     ],
     "prices": [
-     54000.0,
-     55900.0,
-     56495.0,
-     58395.0
+     59000.0,
+     60900.0,
+     61495.0,
+     63395.0
     ],
     "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
+    "score": 8,
     "twins": [
-     "carwow-cap:110378",
-     "carwow-cap:110379",
-     "carwow-cap:110401",
-     "carwow-cap:110402"
+     "carwow-cap:110380",
+     "carwow-cap:110381",
+     "carwow-cap:110403",
+     "carwow-cap:110404"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q4-e-tron",
    "first_seen_at": "2026-10-06T23:39:25+00:00",
-   "label": "Audi Q4 e-tron 210kW Performance 82kWh S Line 5dr Auto [Tech]",
+   "label": "Audi Q4 e-tron 250kW Qtro Perf 82kWh S Line 5dr Auto [Tech Pack]",
    "last_seen_at": "2026-10-16T02:57:20+00:00",
    "method": "conflict",
    "source": "leaseloco",
-   "source_key": "audi|q4 e-tron|210kw performance 82kwh s line 5dr auto [tech]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Tech",
-     "5 seat"
-    ],
-    "packs": [
-     "Tech"
-    ],
-    "prices": [
-     75165.0,
-     75315.0,
-     77665.0,
-     77815.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 5,
-    "twins": [
-     "carwow-cap:109399",
-     "carwow-cap:109400",
-     "carwow-cap:109433",
-     "carwow-cap:109434"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/audi/q6-e-tron",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Audi Q6 e-tron Sportback 315kW Quattro 100kWh Black Edition 5dr Auto [Tech]",
-   "last_seen_at": "2026-10-16T02:57:26+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "audi|q6 e-tron sportback|315kw quattro 100kwh black edition 5dr auto [tech]",
+   "source_key": "audi|q4 e-tron|250kw qtro perf 82kwh s line 5dr auto [tech pack]",
    "status": "conflict"
   },
   {
@@ -5380,69 +5300,33 @@
   {
    "evidence": {
     "brackets": [
-     "Tech",
+     "Sound+Vision",
      "5 seat"
     ],
     "packs": [
-     "Tech"
+     "Sound+Vision"
     ],
     "prices": [
-     67065.0,
-     69565.0,
-     70260.0,
-     72760.0
+     72515.0,
+     75015.0,
+     75710.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
     "twins": [
-     "carwow-cap:105795",
-     "carwow-cap:105797",
-     "carwow-cap:106911",
-     "carwow-cap:106912",
-     "carwow-cap:109391",
-     "carwow-cap:109425"
+     "carwow-cap:105216",
+     "carwow-cap:105249",
+     "carwow-cap:106915",
+     "carwow-cap:106916"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/audi/q6-e-tron",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Audi Q6 e-tron 225kW Performance 100kWh S Line 5dr Auto [Tech]",
+   "first_seen_at": "2026-10-07T08:18:59+00:00",
+   "label": "Audi Q6 e-tron 285kW Qtro 100kWh S Line 5dr Auto [Sound+Vision]",
    "last_seen_at": "2026-10-16T02:57:26+00:00",
    "method": "conflict",
    "source": "leaseloco",
-   "source_key": "audi|q6 e-tron|225kw performance 100kwh s line 5dr auto [tech]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Tech",
-     "5 seat"
-    ],
-    "packs": [
-     "Tech"
-    ],
-    "prices": [
-     75165.0,
-     75315.0,
-     77665.0,
-     77815.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 5,
-    "twins": [
-     "carwow-cap:109399",
-     "carwow-cap:109400",
-     "carwow-cap:109433",
-     "carwow-cap:109434"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/audi/q6-e-tron",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Audi Q6 e-tron 315kW Quattro 100kWh Black Edition 5dr Auto [Tech]",
-   "last_seen_at": "2026-10-16T02:57:26+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "audi|q6 e-tron|315kw quattro 100kwh black edition 5dr auto [tech]",
+   "source_key": "audi|q6 e-tron|285kw qtro 100kwh s line 5dr auto [sound+vision]",
    "status": "conflict"
   },
   {
@@ -5811,243 +5695,6 @@
   {
    "evidence": {
     "brackets": [
-     "Comfort+/22kW",
-     "5 seat"
-    ],
-    "packs": [
-     "Comfort+/22kW"
-    ],
-    "prices": [
-     80405.0,
-     82255.0,
-     83705.0,
-     85555.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
-    "twins": [
-     "carwow-cap:103555",
-     "carwow-cap:103557",
-     "carwow-cap:105005",
-     "carwow-cap:105007"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW i5 Touring 250kW eDr40 M Sport 84kWh 5dr Auto [Comfort+/22kW]",
-   "last_seen_at": "2026-10-16T02:57:40+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|i5 touring|250kw edr40 m sport 84kwh 5dr auto [comfort+/22kw]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "22kWCh",
-     "5 seat"
-    ],
-    "packs": [
-     "22kWCh"
-    ],
-    "prices": [
-     74205.0,
-     75405.0,
-     76455.0,
-     77655.0,
-     78525.0,
-     79205.0,
-     79725.0,
-     80775.0,
-     81055.0,
-     81975.0,
-     82505.0,
-     84355.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
-    "twins": [
-     "carwow-cap:103363",
-     "carwow-cap:103364",
-     "carwow-cap:103365",
-     "carwow-cap:103366",
-     "carwow-cap:103554",
-     "carwow-cap:103556",
-     "carwow-cap:105000",
-     "carwow-cap:105001",
-     "carwow-cap:105002",
-     "carwow-cap:105003",
-     "carwow-cap:105004",
-     "carwow-cap:105006"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW i5 Touring 250kW eDrive40 M Sport 84kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-16T02:57:40+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|i5 touring|250kw edrive40 m sport 84kwh 5dr auto [22kwch]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Comfort+",
-     "5 seat"
-    ],
-    "packs": [
-     "Comfort+"
-    ],
-    "prices": [
-     74205.0,
-     75405.0,
-     76455.0,
-     77655.0,
-     78525.0,
-     79205.0,
-     79725.0,
-     80775.0,
-     81055.0,
-     81975.0,
-     82505.0,
-     84355.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
-    "twins": [
-     "carwow-cap:103363",
-     "carwow-cap:103364",
-     "carwow-cap:103365",
-     "carwow-cap:103366",
-     "carwow-cap:103554",
-     "carwow-cap:103556",
-     "carwow-cap:105000",
-     "carwow-cap:105001",
-     "carwow-cap:105002",
-     "carwow-cap:105003",
-     "carwow-cap:105004",
-     "carwow-cap:105006"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW i5 Touring 250kW eDrive40 M Sport 84kWh 5dr Auto [Comfort+]",
-   "last_seen_at": "2026-10-16T02:57:40+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|i5 touring|250kw edrive40 m sport 84kwh 5dr auto [comfort+]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Tech+/22kW",
-     "5 seat"
-    ],
-    "packs": [
-     "Tech+/22kW"
-    ],
-    "prices": [
-     74205.0,
-     75405.0,
-     76455.0,
-     77655.0,
-     78525.0,
-     79205.0,
-     79725.0,
-     80775.0,
-     81055.0,
-     81975.0,
-     82505.0,
-     83705.0,
-     84355.0,
-     85555.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
-    "twins": [
-     "carwow-cap:103363",
-     "carwow-cap:103364",
-     "carwow-cap:103365",
-     "carwow-cap:103366",
-     "carwow-cap:103554",
-     "carwow-cap:103556",
-     "carwow-cap:103557",
-     "carwow-cap:105000",
-     "carwow-cap:105001",
-     "carwow-cap:105002",
-     "carwow-cap:105003",
-     "carwow-cap:105004",
-     "carwow-cap:105006",
-     "carwow-cap:105007"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW i5 Touring 250kW eDrive40 M Sport 84kWh 5dr Auto [Tech+/22kW]",
-   "last_seen_at": "2026-10-16T02:57:40+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|i5 touring|250kw edrive40 m sport 84kwh 5dr auto [tech+/22kw]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Tech+",
-     "5 seat"
-    ],
-    "packs": [
-     "Tech+"
-    ],
-    "prices": [
-     74205.0,
-     75405.0,
-     76455.0,
-     77655.0,
-     78525.0,
-     79205.0,
-     79725.0,
-     80775.0,
-     81055.0,
-     81975.0,
-     82505.0,
-     83705.0,
-     84355.0,
-     85555.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
-    "twins": [
-     "carwow-cap:103363",
-     "carwow-cap:103364",
-     "carwow-cap:103365",
-     "carwow-cap:103366",
-     "carwow-cap:103554",
-     "carwow-cap:103556",
-     "carwow-cap:103557",
-     "carwow-cap:105000",
-     "carwow-cap:105001",
-     "carwow-cap:105002",
-     "carwow-cap:105003",
-     "carwow-cap:105004",
-     "carwow-cap:105006",
-     "carwow-cap:105007"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW i5 Touring 250kW eDrive40 M Sport 84kWh 5dr Auto [Tech+]",
-   "last_seen_at": "2026-10-16T02:57:40+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|i5 touring|250kw edrive40 m sport 84kwh 5dr auto [tech+]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
      "22kWCh",
      "5 seat"
     ],
@@ -6061,8 +5708,16 @@
      80655.0,
      81525.0,
      82205.0,
+     82725.0,
+     83405.0,
      83775.0,
-     84055.0
+     84055.0,
+     84975.0,
+     85255.0,
+     85505.0,
+     86705.0,
+     87355.0,
+     88555.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 9,
@@ -6070,11 +5725,19 @@
      "carwow-cap:103367",
      "carwow-cap:103368",
      "carwow-cap:103369",
+     "carwow-cap:103370",
      "carwow-cap:103558",
+     "carwow-cap:103559",
+     "carwow-cap:103560",
+     "carwow-cap:103561",
      "carwow-cap:105008",
      "carwow-cap:105009",
      "carwow-cap:105010",
-     "carwow-cap:105012"
+     "carwow-cap:105011",
+     "carwow-cap:105012",
+     "carwow-cap:105013",
+     "carwow-cap:105014",
+     "carwow-cap:105015"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
@@ -6096,34 +5759,22 @@
      "Comf+"
     ],
     "prices": [
-     77205.0,
-     78405.0,
-     79455.0,
-     80655.0,
-     81525.0,
-     82205.0,
      83405.0,
-     83775.0,
-     84055.0,
      85255.0,
      85505.0,
-     87355.0
+     86705.0,
+     87355.0,
+     88555.0
     ],
     "reason": "a pack against three or more prices and no RRP",
-    "score": 9,
+    "score": 10,
     "twins": [
-     "carwow-cap:103367",
-     "carwow-cap:103368",
-     "carwow-cap:103369",
      "carwow-cap:103370",
-     "carwow-cap:103558",
      "carwow-cap:103559",
-     "carwow-cap:105008",
-     "carwow-cap:105009",
-     "carwow-cap:105010",
+     "carwow-cap:103561",
      "carwow-cap:105011",
-     "carwow-cap:105012",
-     "carwow-cap:105013"
+     "carwow-cap:105013",
+     "carwow-cap:105015"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
@@ -6145,34 +5796,22 @@
      "Tech+"
     ],
     "prices": [
-     77205.0,
-     78405.0,
-     79455.0,
-     80655.0,
-     81525.0,
-     82205.0,
      82725.0,
-     83775.0,
-     84055.0,
      84975.0,
      85505.0,
-     87355.0
+     86705.0,
+     87355.0,
+     88555.0
     ],
     "reason": "a pack against three or more prices and no RRP",
-    "score": 9,
+    "score": 10,
     "twins": [
-     "carwow-cap:103367",
-     "carwow-cap:103368",
-     "carwow-cap:103369",
      "carwow-cap:103370",
-     "carwow-cap:103558",
      "carwow-cap:103560",
-     "carwow-cap:105008",
-     "carwow-cap:105009",
-     "carwow-cap:105010",
+     "carwow-cap:103561",
      "carwow-cap:105011",
-     "carwow-cap:105012",
-     "carwow-cap:105014"
+     "carwow-cap:105014",
+     "carwow-cap:105015"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
@@ -6182,121 +5821,6 @@
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i5 touring|250kw edrive40 m sport pro 84kwh 5dr auto [tech+]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Cmf+",
-     "5 seat"
-    ],
-    "packs": [
-     "Cmf+"
-    ],
-    "prices": [
-     67795.0,
-     70045.0,
-     72115.0,
-     72795.0,
-     74365.0,
-     74645.0,
-     76095.0,
-     77945.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 5,
-    "twins": [
-     "carwow-cap:104992",
-     "carwow-cap:104993",
-     "carwow-cap:104994",
-     "carwow-cap:104995",
-     "carwow-cap:104996",
-     "carwow-cap:104997",
-     "carwow-cap:104998",
-     "carwow-cap:104999"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW i5 Touring 250kW eDrive40 Sport Edition 84kWh 5dr Auto [Cmf+]",
-   "last_seen_at": "2026-10-16T02:57:40+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|i5 touring|250kw edrive40 sport edition 84kwh 5dr auto [cmf+]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Tec+",
-     "5 seat"
-    ],
-    "packs": [
-     "Tec+"
-    ],
-    "prices": [
-     67795.0,
-     70045.0,
-     72115.0,
-     72795.0,
-     74365.0,
-     74645.0,
-     76095.0,
-     77945.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 5,
-    "twins": [
-     "carwow-cap:104992",
-     "carwow-cap:104993",
-     "carwow-cap:104994",
-     "carwow-cap:104995",
-     "carwow-cap:104996",
-     "carwow-cap:104997",
-     "carwow-cap:104998",
-     "carwow-cap:104999"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW i5 Touring 250kW eDrive40 Sport Edition 84kWh 5dr Auto [Tec+]",
-   "last_seen_at": "2026-10-16T02:57:40+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|i5 touring|250kw edrive40 sport edition 84kwh 5dr auto [tec+]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Ultimate Pack",
-     "5 seat"
-    ],
-    "packs": [
-     "Ultimate Pack"
-    ],
-    "prices": [
-     97845.0,
-     100095.0,
-     110045.0,
-     111895.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 5,
-    "twins": [
-     "carwow-cap:103371",
-     "carwow-cap:103372",
-     "carwow-cap:105016",
-     "carwow-cap:105017"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5-touring",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW i5 Touring 442kW M60 xDrive 84kWh 5dr Auto [Ultimate Pack]",
-   "last_seen_at": "2026-10-16T02:57:40+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|i5 touring|442kw m60 xdrive 84kwh 5dr auto [ultimate pack]",
    "status": "conflict"
   },
   {
@@ -6315,8 +5839,16 @@
      80655.0,
      81525.0,
      82205.0,
+     82725.0,
+     83405.0,
      83775.0,
-     84055.0
+     84055.0,
+     84975.0,
+     85255.0,
+     85505.0,
+     86705.0,
+     87355.0,
+     88555.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 9,
@@ -6324,11 +5856,19 @@
      "carwow-cap:103367",
      "carwow-cap:103368",
      "carwow-cap:103369",
+     "carwow-cap:103370",
      "carwow-cap:103558",
+     "carwow-cap:103559",
+     "carwow-cap:103560",
+     "carwow-cap:103561",
      "carwow-cap:105008",
      "carwow-cap:105009",
      "carwow-cap:105010",
-     "carwow-cap:105012"
+     "carwow-cap:105011",
+     "carwow-cap:105012",
+     "carwow-cap:105013",
+     "carwow-cap:105014",
+     "carwow-cap:105015"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5",
@@ -6350,34 +5890,22 @@
      "Comf+"
     ],
     "prices": [
-     77205.0,
-     78405.0,
-     79455.0,
-     80655.0,
-     81525.0,
-     82205.0,
      83405.0,
-     83775.0,
-     84055.0,
      85255.0,
      85505.0,
-     87355.0
+     86705.0,
+     87355.0,
+     88555.0
     ],
     "reason": "a pack against three or more prices and no RRP",
-    "score": 9,
+    "score": 10,
     "twins": [
-     "carwow-cap:103367",
-     "carwow-cap:103368",
-     "carwow-cap:103369",
      "carwow-cap:103370",
-     "carwow-cap:103558",
      "carwow-cap:103559",
-     "carwow-cap:105008",
-     "carwow-cap:105009",
-     "carwow-cap:105010",
+     "carwow-cap:103561",
      "carwow-cap:105011",
-     "carwow-cap:105012",
-     "carwow-cap:105013"
+     "carwow-cap:105013",
+     "carwow-cap:105015"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5",
@@ -6399,34 +5927,22 @@
      "Tech+"
     ],
     "prices": [
-     77205.0,
-     78405.0,
-     79455.0,
-     80655.0,
-     81525.0,
-     82205.0,
      82725.0,
-     83775.0,
-     84055.0,
      84975.0,
      85505.0,
-     87355.0
+     86705.0,
+     87355.0,
+     88555.0
     ],
     "reason": "a pack against three or more prices and no RRP",
-    "score": 9,
+    "score": 10,
     "twins": [
-     "carwow-cap:103367",
-     "carwow-cap:103368",
-     "carwow-cap:103369",
      "carwow-cap:103370",
-     "carwow-cap:103558",
      "carwow-cap:103560",
-     "carwow-cap:105008",
-     "carwow-cap:105009",
-     "carwow-cap:105010",
+     "carwow-cap:103561",
      "carwow-cap:105011",
-     "carwow-cap:105012",
-     "carwow-cap:105014"
+     "carwow-cap:105014",
+     "carwow-cap:105015"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5",
@@ -6436,39 +5952,6 @@
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i5|250kw edrive40 m sport pro 84kwh 4dr auto [tech+]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Ultimate Pack",
-     "5 seat"
-    ],
-    "packs": [
-     "Ultimate Pack"
-    ],
-    "prices": [
-     97845.0,
-     100095.0,
-     110045.0,
-     111895.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 5,
-    "twins": [
-     "carwow-cap:103371",
-     "carwow-cap:103372",
-     "carwow-cap:105016",
-     "carwow-cap:105017"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i5",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW i5 442kW M60 xDrive 84kWh 4dr Auto [Ultimate Pack]",
-   "last_seen_at": "2026-10-16T02:57:37+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|i5|442kw m60 xdrive 84kwh 4dr auto [ultimate pack]",
    "status": "conflict"
   },
   {
@@ -6531,43 +6014,6 @@
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|i7|400kw xdrive60 m sport 105.7kwh 4dr auto [ulti pk]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "22kWCh",
-     "5 seat"
-    ],
-    "packs": [
-     "22kWCh"
-    ],
-    "prices": [
-     41815.0,
-     42695.0,
-     45255.0,
-     45895.0,
-     46135.0,
-     46775.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
-    "twins": [
-     "carwow-cap:104045",
-     "carwow-cap:104046",
-     "carwow-cap:104047",
-     "carwow-cap:104048",
-     "carwow-cap:104049",
-     "carwow-cap:104050"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW iX1 150kW eDrive20 M Sport 65kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-16T02:57:50+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|ix1|150kw edrive20 m sport 65kwh 5dr auto [22kwch]",
    "status": "conflict"
   },
   {
@@ -6696,7 +6142,7 @@
      48555.0
     ],
     "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
+    "score": 6,
     "twins": [
      "carwow-cap:107295",
      "carwow-cap:107296",
@@ -6710,72 +6156,6 @@
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix1|150kw edrive20 shadow ed 65kwh 5dr auto [22kwch]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "22kWCh",
-     "5 seat"
-    ],
-    "packs": [
-     "22kWCh"
-    ],
-    "prices": [
-     37065.0,
-     37945.0,
-     40505.0,
-     41385.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 5,
-    "twins": [
-     "carwow-cap:104038",
-     "carwow-cap:104039",
-     "carwow-cap:110801",
-     "carwow-cap:110802"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW iX1 150kW eDrive20 Sport 65kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-16T02:57:50+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|ix1|150kw edrive20 sport 65kwh 5dr auto [22kwch]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "22kWCh",
-     "5 seat"
-    ],
-    "packs": [
-     "22kWCh"
-    ],
-    "prices": [
-     39065.0,
-     39945.0,
-     42505.0,
-     43385.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 5,
-    "twins": [
-     "carwow-cap:104040",
-     "carwow-cap:104041",
-     "carwow-cap:104253",
-     "carwow-cap:104254"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW iX1 150kW eDrive20 xLine 65kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-16T02:57:50+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|ix1|150kw edrive20 xline 65kwh 5dr auto [22kwch]",
    "status": "conflict"
   },
   {
@@ -6809,39 +6189,6 @@
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix1|150kw edrive20 xline 65kwh 5dr auto [tech+/22kwch]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Tech+",
-     "5 seat"
-    ],
-    "packs": [
-     "Tech+"
-    ],
-    "prices": [
-     39065.0,
-     39945.0,
-     42505.0,
-     43385.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 5,
-    "twins": [
-     "carwow-cap:104040",
-     "carwow-cap:104041",
-     "carwow-cap:104253",
-     "carwow-cap:104254"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix1",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW iX1 150kW eDrive20 xLine 65kWh 5dr Auto [Tech+]",
-   "last_seen_at": "2026-10-16T02:57:50+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|ix1|150kw edrive20 xline 65kwh 5dr auto [tech+]",
    "status": "conflict"
   },
   {
@@ -6933,7 +6280,7 @@
      52495.0
     ],
     "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
+    "score": 6,
     "twins": [
      "carwow-cap:107299",
      "carwow-cap:107300",
@@ -7051,43 +6398,6 @@
   {
    "evidence": {
     "brackets": [
-     "22kWCh",
-     "5 seat"
-    ],
-    "packs": [
-     "22kWCh"
-    ],
-    "prices": [
-     41815.0,
-     42695.0,
-     45205.0,
-     45255.0,
-     46085.0,
-     46135.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
-    "twins": [
-     "carwow-cap:104342",
-     "carwow-cap:104343",
-     "carwow-cap:104344",
-     "carwow-cap:104345",
-     "carwow-cap:104346",
-     "carwow-cap:104347"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW iX2 150kW eDrive20 M Sport 65kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-16T02:57:53+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|ix2|150kw edrive20 m sport 65kwh 5dr auto [22kwch]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
      "Tech+/22kW",
      "5 seat"
     ],
@@ -7125,80 +6435,6 @@
   {
    "evidence": {
     "brackets": [
-     "Tech+",
-     "5 seat"
-    ],
-    "packs": [
-     "Tech+"
-    ],
-    "prices": [
-     41815.0,
-     42695.0,
-     45205.0,
-     45255.0,
-     46085.0,
-     46135.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
-    "twins": [
-     "carwow-cap:104342",
-     "carwow-cap:104343",
-     "carwow-cap:104344",
-     "carwow-cap:104345",
-     "carwow-cap:104346",
-     "carwow-cap:104347"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW iX2 150kW eDrive20 M Sport 65kWh 5dr Auto [Tech+]",
-   "last_seen_at": "2026-10-16T02:57:53+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|ix2|150kw edrive20 m sport 65kwh 5dr auto [tech+]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Tech/Pro",
-     "5 seat"
-    ],
-    "packs": [
-     "Tech/Pro"
-    ],
-    "prices": [
-     41815.0,
-     42695.0,
-     45205.0,
-     45255.0,
-     46085.0,
-     46135.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
-    "twins": [
-     "carwow-cap:104342",
-     "carwow-cap:104343",
-     "carwow-cap:104344",
-     "carwow-cap:104345",
-     "carwow-cap:104346",
-     "carwow-cap:104347"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW iX2 150kW eDrive20 M Sport 65kWh 5dr Auto [Tech/Pro]",
-   "last_seen_at": "2026-10-16T02:57:53+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|ix2|150kw edrive20 m sport 65kwh 5dr auto [tech/pro]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
      "22kWCh",
      "5 seat"
     ],
@@ -7211,7 +6447,7 @@
      48555.0
     ],
     "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
+    "score": 6,
     "twins": [
      "carwow-cap:107309",
      "carwow-cap:107310",
@@ -7242,7 +6478,7 @@
      48555.0
     ],
     "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
+    "score": 6,
     "twins": [
      "carwow-cap:107309",
      "carwow-cap:107310",
@@ -7256,39 +6492,6 @@
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix2|150kw edrive20 shadow ed 65kwh 5dr auto [tech+]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "22kWCh",
-     "5 seat"
-    ],
-    "packs": [
-     "22kWCh"
-    ],
-    "prices": [
-     37065.0,
-     37945.0,
-     40505.0,
-     41385.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 5,
-    "twins": [
-     "carwow-cap:111006",
-     "carwow-cap:111007",
-     "carwow-cap:111010",
-     "carwow-cap:111011"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW iX2 150kW eDrive20 Sport 65kWh 5dr Auto [22kWCh]",
-   "last_seen_at": "2026-10-16T02:57:53+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|ix2|150kw edrive20 sport 65kwh 5dr auto [22kwch]",
    "status": "conflict"
   },
   {
@@ -7322,39 +6525,6 @@
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix2|150kw edrive20 sport 65kwh 5dr auto [tech+/22kw]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Tech+",
-     "5 seat"
-    ],
-    "packs": [
-     "Tech+"
-    ],
-    "prices": [
-     37065.0,
-     37945.0,
-     40505.0,
-     41385.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 5,
-    "twins": [
-     "carwow-cap:111006",
-     "carwow-cap:111007",
-     "carwow-cap:111010",
-     "carwow-cap:111011"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix2",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW iX2 150kW eDrive20 Sport 65kWh 5dr Auto [Tech+]",
-   "last_seen_at": "2026-10-16T02:57:53+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|ix2|150kw edrive20 sport 65kwh 5dr auto [tech+]",
    "status": "conflict"
   },
   {
@@ -7640,39 +6810,6 @@
   {
    "evidence": {
     "brackets": [
-     "Tech plus",
-     "5 seat"
-    ],
-    "packs": [
-     "Tech plus"
-    ],
-    "prices": [
-     55750.0,
-     56425.0,
-     57450.0,
-     58125.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
-    "twins": [
-     "carwow-cap:110354",
-     "carwow-cap:110355",
-     "carwow-cap:110356",
-     "carwow-cap:110357"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW iX3 238kW eDrive40 M Sport 87kWh 5dr Auto [Tech plus]",
-   "last_seen_at": "2026-10-16T02:57:55+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|ix3|238kw edrive40 m sport 87kwh 5dr auto [tech plus]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
      "Tech+/22kW",
      "5 seat"
     ],
@@ -7715,37 +6852,6 @@
     "prices": [
      57250.0,
      57925.0,
-     58950.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 9,
-    "twins": [
-     "carwow-cap:110358",
-     "carwow-cap:110359",
-     "carwow-cap:110360"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW iX3 238kW eDrive40 M Sport Pro 87kWh 5dr Auto [22kW]",
-   "last_seen_at": "2026-10-16T02:57:55+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|ix3|238kw edrive40 m sport pro 87kwh 5dr auto [22kw]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Tech+",
-     "5 seat"
-    ],
-    "packs": [
-     "Tech+"
-    ],
-    "prices": [
-     57250.0,
-     57925.0,
      58950.0,
      59625.0
     ],
@@ -7760,11 +6866,11 @@
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW iX3 238kW eDrive40 M Sport Pro 87kWh 5dr Auto [Tech+]",
+   "label": "BMW iX3 238kW eDrive40 M Sport Pro 87kWh 5dr Auto [22kW]",
    "last_seen_at": "2026-10-16T02:57:55+00:00",
    "method": "conflict",
    "source": "leaseloco",
-   "source_key": "bmw|ix3|238kw edrive40 m sport pro 87kwh 5dr auto [tech+]",
+   "source_key": "bmw|ix3|238kw edrive40 m sport pro 87kwh 5dr auto [22kw]",
    "status": "conflict"
   },
   {
@@ -7803,75 +6909,11 @@
   {
    "evidence": {
     "brackets": [
-     "Tech plus",
-     "5 seat"
-    ],
-    "packs": [
-     "Tech plus"
-    ],
-    "prices": [
-     63155.0,
-     63830.0,
-     64855.0,
-     65530.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
-    "twins": [
-     "carwow-cap:108912",
-     "carwow-cap:108915",
-     "carwow-cap:109807",
-     "carwow-cap:109812"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
-   "first_seen_at": "2026-10-06T23:25:47+00:00",
-   "label": "BMW iX3 345kW xDrive50 M Sport 113kWh 5dr Auto [Tech plus]",
-   "last_seen_at": "2026-10-16T02:57:55+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|ix3|345kw xdrive50 m sport 113kwh 5dr auto [tech plus]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
      "22kW",
      "5 seat"
     ],
     "packs": [
      "22kW"
-    ],
-    "prices": [
-     64655.0,
-     65330.0,
-     66355.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 9,
-    "twins": [
-     "carwow-cap:108913",
-     "carwow-cap:108916",
-     "carwow-cap:109809"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW iX3 345kW xDrive50 M Sport Pro 113kWh 5dr Auto [22kW]",
-   "last_seen_at": "2026-10-16T02:57:55+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|ix3|345kw xdrive50 m sport pro 113kwh 5dr auto [22kw]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Tech+",
-     "5 seat"
-    ],
-    "packs": [
-     "Tech+"
     ],
     "prices": [
      64655.0,
@@ -7890,50 +6932,11 @@
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix3",
    "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW iX3 345kW xDrive50 M Sport Pro 113kWh 5dr Auto [Tech+]",
+   "label": "BMW iX3 345kW xDrive50 M Sport Pro 113kWh 5dr Auto [22kW]",
    "last_seen_at": "2026-10-16T02:57:55+00:00",
    "method": "conflict",
    "source": "leaseloco",
-   "source_key": "bmw|ix3|345kw xdrive50 m sport pro 113kwh 5dr auto [tech+]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Pro Pack",
-     "5 seat"
-    ],
-    "packs": [
-     "Pro Pack"
-    ],
-    "prices": [
-     78405.0,
-     79755.0,
-     81605.0,
-     81655.0,
-     82955.0,
-     83005.0,
-     84855.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
-    "twins": [
-     "carwow-cap:107332",
-     "carwow-cap:107333",
-     "carwow-cap:107334",
-     "carwow-cap:107335",
-     "carwow-cap:107787",
-     "carwow-cap:107788",
-     "carwow-cap:107789"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
-   "first_seen_at": "2026-10-12T02:48:53+00:00",
-   "label": "BMW iX 300kW xDrive45 M Sport 101kWh 5dr Auto [Pro Pack]",
-   "last_seen_at": "2026-10-13T02:47:43+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|ix|300kw xdrive45 m sport 101kwh 5dr auto [pro pack]",
+   "source_key": "bmw|ix3|345kw xdrive50 m sport pro 113kwh 5dr auto [22kw]",
    "status": "conflict"
   },
   {
@@ -7952,7 +6955,8 @@
      81655.0,
      82955.0,
      83005.0,
-     84855.0
+     84855.0,
+     86205.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
@@ -7963,7 +6967,8 @@
      "carwow-cap:107335",
      "carwow-cap:107787",
      "carwow-cap:107788",
-     "carwow-cap:107789"
+     "carwow-cap:107789",
+     "carwow-cap:107790"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
@@ -7991,7 +6996,8 @@
      81655.0,
      82955.0,
      83005.0,
-     84855.0
+     84855.0,
+     86205.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
@@ -8002,7 +7008,8 @@
      "carwow-cap:107335",
      "carwow-cap:107787",
      "carwow-cap:107788",
-     "carwow-cap:107789"
+     "carwow-cap:107789",
+     "carwow-cap:107790"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
@@ -8030,7 +7037,8 @@
      81655.0,
      82955.0,
      83005.0,
-     84855.0
+     84855.0,
+     86205.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
@@ -8041,7 +7049,8 @@
      "carwow-cap:107335",
      "carwow-cap:107787",
      "carwow-cap:107788",
-     "carwow-cap:107789"
+     "carwow-cap:107789",
+     "carwow-cap:107790"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
@@ -8069,7 +7078,8 @@
      81655.0,
      82955.0,
      83005.0,
-     84855.0
+     84855.0,
+     86205.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
@@ -8080,7 +7090,8 @@
      "carwow-cap:107335",
      "carwow-cap:107787",
      "carwow-cap:107788",
-     "carwow-cap:107789"
+     "carwow-cap:107789",
+     "carwow-cap:107790"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
@@ -8108,7 +7119,8 @@
      81655.0,
      82955.0,
      83005.0,
-     84855.0
+     84855.0,
+     86205.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
@@ -8119,7 +7131,8 @@
      "carwow-cap:107335",
      "carwow-cap:107787",
      "carwow-cap:107788",
-     "carwow-cap:107789"
+     "carwow-cap:107789",
+     "carwow-cap:107790"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
@@ -8129,39 +7142,6 @@
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix|300kw xdrive45 m sport 101kwh 5dr auto [tech]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Skylounge",
-     "5 seat"
-    ],
-    "packs": [
-     "Skylounge"
-    ],
-    "prices": [
-     75405.0,
-     78655.0,
-     78755.0,
-     82005.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 5,
-    "twins": [
-     "carwow-cap:107328",
-     "carwow-cap:107329",
-     "carwow-cap:107330",
-     "carwow-cap:107331"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
-   "first_seen_at": "2026-10-12T02:48:53+00:00",
-   "label": "BMW iX 300kW xDrive45 Sport 101kWh 5dr Auto [Skylounge]",
-   "last_seen_at": "2026-10-13T02:47:43+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|ix|300kw xdrive45 sport 101kwh 5dr auto [skylounge]",
    "status": "conflict"
   },
   {
@@ -8200,39 +7180,6 @@
   {
    "evidence": {
     "brackets": [
-     "Technology",
-     "5 seat"
-    ],
-    "packs": [
-     "Technology"
-    ],
-    "prices": [
-     75405.0,
-     78655.0,
-     78755.0,
-     82005.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 5,
-    "twins": [
-     "carwow-cap:107328",
-     "carwow-cap:107329",
-     "carwow-cap:107330",
-     "carwow-cap:107331"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
-   "first_seen_at": "2026-10-12T02:48:53+00:00",
-   "label": "BMW iX 300kW xDrive45 Sport 101kWh 5dr Auto [Technology]",
-   "last_seen_at": "2026-10-13T02:47:43+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|ix|300kw xdrive45 sport 101kwh 5dr auto [technology]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
      "Pro Pack",
      "5 seat"
     ],
@@ -8246,7 +7193,8 @@
      96455.0,
      97755.0,
      97805.0,
-     99655.0
+     99655.0,
+     101005.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
@@ -8257,7 +7205,8 @@
      "carwow-cap:107339",
      "carwow-cap:107791",
      "carwow-cap:107792",
-     "carwow-cap:107793"
+     "carwow-cap:107793",
+     "carwow-cap:107794"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
@@ -8285,7 +7234,8 @@
      96455.0,
      97755.0,
      97805.0,
-     99655.0
+     99655.0,
+     101005.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
@@ -8296,7 +7246,8 @@
      "carwow-cap:107339",
      "carwow-cap:107791",
      "carwow-cap:107792",
-     "carwow-cap:107793"
+     "carwow-cap:107793",
+     "carwow-cap:107794"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
@@ -8324,7 +7275,8 @@
      96455.0,
      97755.0,
      97805.0,
-     99655.0
+     99655.0,
+     101005.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
@@ -8335,7 +7287,8 @@
      "carwow-cap:107339",
      "carwow-cap:107791",
      "carwow-cap:107792",
-     "carwow-cap:107793"
+     "carwow-cap:107793",
+     "carwow-cap:107794"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
@@ -8363,7 +7316,8 @@
      96455.0,
      97755.0,
      97805.0,
-     99655.0
+     99655.0,
+     101005.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
@@ -8374,7 +7328,8 @@
      "carwow-cap:107339",
      "carwow-cap:107791",
      "carwow-cap:107792",
-     "carwow-cap:107793"
+     "carwow-cap:107793",
+     "carwow-cap:107794"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
@@ -8402,7 +7357,8 @@
      96455.0,
      97755.0,
      97805.0,
-     99655.0
+     99655.0,
+     101005.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
@@ -8413,7 +7369,8 @@
      "carwow-cap:107339",
      "carwow-cap:107791",
      "carwow-cap:107792",
-     "carwow-cap:107793"
+     "carwow-cap:107793",
+     "carwow-cap:107794"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
@@ -8441,7 +7398,8 @@
      96455.0,
      97755.0,
      97805.0,
-     99655.0
+     99655.0,
+     101005.0
     ],
     "reason": "a pack against three or more prices and no RRP",
     "score": 7,
@@ -8452,7 +7410,8 @@
      "carwow-cap:107339",
      "carwow-cap:107791",
      "carwow-cap:107792",
-     "carwow-cap:107793"
+     "carwow-cap:107793",
+     "carwow-cap:107794"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
@@ -8495,39 +7454,6 @@
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "bmw|ix|485kw m70 xdrive 112kwh 5dr auto [skylounge]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Tech/Skylounge",
-     "5 seat"
-    ],
-    "packs": [
-     "Tech/Skylounge"
-    ],
-    "prices": [
-     114305.0,
-     116605.0,
-     117505.0,
-     119805.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 5,
-    "twins": [
-     "carwow-cap:107340",
-     "carwow-cap:107341",
-     "carwow-cap:107342",
-     "carwow-cap:107343"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/ix",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "BMW iX 485kW M70 xDrive 112kWh 5dr Auto [Tech/Skylounge]",
-   "last_seen_at": "2026-10-16T02:57:47+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "bmw|ix|485kw m70 xdrive 112kwh 5dr auto [tech/skylounge]",
    "status": "conflict"
   },
   {
@@ -8599,171 +7525,6 @@
   {
    "evidence": {
     "brackets": [
-     "IDP",
-     "5 seat"
-    ],
-    "packs": [
-     "IDP"
-    ],
-    "prices": [
-     45750.0,
-     47085.0,
-     47350.0,
-     48685.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:106486",
-     "carwow-cap:106487",
-     "carwow-cap:110601",
-     "carwow-cap:110602"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "CUPRA Tavascan 210kW V1 77kWh 5dr Auto [IDP]",
-   "last_seen_at": "2026-10-16T02:58:20+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "cupra|tavascan|210kw v1 77kwh 5dr auto [idp]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Winter Pack",
-     "5 seat"
-    ],
-    "packs": [
-     "Winter Pack"
-    ],
-    "prices": [
-     45750.0,
-     47085.0,
-     47350.0,
-     48685.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:106486",
-     "carwow-cap:106487",
-     "carwow-cap:110601",
-     "carwow-cap:110602"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "CUPRA Tavascan 210kW V1 77kWh 5dr Auto [Winter Pack]",
-   "last_seen_at": "2026-10-16T02:58:20+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "cupra|tavascan|210kw v1 77kwh 5dr auto [winter pack]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "IDP+Winter Pack",
-     "5 seat"
-    ],
-    "packs": [
-     "IDP+Winter Pack"
-    ],
-    "prices": [
-     48900.0,
-     50235.0,
-     53845.0,
-     55180.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:106488",
-     "carwow-cap:106489",
-     "carwow-cap:110600",
-     "carwow-cap:110604"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "CUPRA Tavascan 210kW V2 77kWh 5dr Auto [IDP+Winter Pack]",
-   "last_seen_at": "2026-10-16T02:58:20+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "cupra|tavascan|210kw v2 77kwh 5dr auto [idp+winter pack]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "IDP",
-     "5 seat"
-    ],
-    "packs": [
-     "IDP"
-    ],
-    "prices": [
-     48900.0,
-     50235.0,
-     53845.0,
-     55180.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:106488",
-     "carwow-cap:106489",
-     "carwow-cap:110600",
-     "carwow-cap:110604"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "CUPRA Tavascan 210kW V2 77kWh 5dr Auto [IDP]",
-   "last_seen_at": "2026-10-16T02:58:20+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "cupra|tavascan|210kw v2 77kwh 5dr auto [idp]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Winter Pack",
-     "5 seat"
-    ],
-    "packs": [
-     "Winter Pack"
-    ],
-    "prices": [
-     48900.0,
-     50235.0,
-     53845.0,
-     55180.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:106488",
-     "carwow-cap:106489",
-     "carwow-cap:110600",
-     "carwow-cap:110604"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "CUPRA Tavascan 210kW V2 77kWh 5dr Auto [Winter Pack]",
-   "last_seen_at": "2026-10-16T02:58:20+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "cupra|tavascan|210kw v2 77kwh 5dr auto [winter pack]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
      "IDP+Winter Pack",
      "5 seat"
     ],
@@ -8825,39 +7586,6 @@
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "cupra|tavascan|250kw vz1 77kwh awd 5dr auto [idp]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Winter Pack",
-     "5 seat"
-    ],
-    "packs": [
-     "Winter Pack"
-    ],
-    "prices": [
-     54930.0,
-     55945.0,
-     56265.0,
-     57280.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:106490",
-     "carwow-cap:106491",
-     "carwow-cap:110603",
-     "carwow-cap:110605"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "CUPRA Tavascan 250kW VZ1 77kWh AWD 5dr Auto [Winter Pack]",
-   "last_seen_at": "2026-10-16T02:58:20+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "cupra|tavascan|250kw vz1 77kwh awd 5dr auto [winter pack]",
    "status": "conflict"
   },
   {
@@ -8929,39 +7657,6 @@
   {
    "evidence": {
     "brackets": [
-     "Winter Pack",
-     "5 seat"
-    ],
-    "packs": [
-     "Winter Pack"
-    ],
-    "prices": [
-     59830.0,
-     60845.0,
-     61165.0,
-     62180.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:106492",
-     "carwow-cap:106493",
-     "carwow-cap:110606",
-     "carwow-cap:110607"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "CUPRA Tavascan 250kW VZ2 77kWh AWD 5dr Auto [Winter Pack]",
-   "last_seen_at": "2026-10-16T02:58:20+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "cupra|tavascan|250kw vz2 77kwh awd 5dr auto [winter pack]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
      "Comfort Pack",
      "5 seat"
     ],
@@ -9023,105 +7718,6 @@
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "ford|capri|125kw style 52kwh 5dr auto [comfort/driver assist]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Comfort Pack",
-     "5 seat"
-    ],
-    "packs": [
-     "Comfort Pack"
-    ],
-    "prices": [
-     36985.0,
-     38635.0,
-     38785.0,
-     40435.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:109625",
-     "carwow-cap:109626",
-     "carwow-cap:109627",
-     "carwow-cap:109630"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/ford/capri",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Ford Capri 140kW Style 58kWh 5dr Auto [Comfort Pack]",
-   "last_seen_at": "2026-10-16T02:58:27+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "ford|capri|140kw style 58kwh 5dr auto [comfort pack]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Comfort/Driver Assist",
-     "5 seat"
-    ],
-    "packs": [
-     "Comfort/Driver Assist"
-    ],
-    "prices": [
-     36985.0,
-     38635.0,
-     38785.0,
-     40435.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:109625",
-     "carwow-cap:109626",
-     "carwow-cap:109627",
-     "carwow-cap:109630"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/ford/capri",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Ford Capri 140kW Style 58kWh 5dr Auto [Comfort/Driver Assist]",
-   "last_seen_at": "2026-10-16T02:58:27+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "ford|capri|140kw style 58kwh 5dr auto [comfort/driver assist]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Driver Assist Pack",
-     "5 seat"
-    ],
-    "packs": [
-     "Driver Assist Pack"
-    ],
-    "prices": [
-     36985.0,
-     38635.0,
-     38785.0,
-     40435.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:109625",
-     "carwow-cap:109626",
-     "carwow-cap:109627",
-     "carwow-cap:109630"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/ford/capri",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Ford Capri 140kW Style 58kWh 5dr Auto [Driver Assist Pack]",
-   "last_seen_at": "2026-10-16T02:58:27+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "ford|capri|140kw style 58kwh 5dr auto [driver assist pack]",
    "status": "conflict"
   },
   {
@@ -9226,72 +7822,6 @@
   {
    "evidence": {
     "brackets": [
-     "Comfort Pack",
-     "5 seat"
-    ],
-    "packs": [
-     "Comfort Pack"
-    ],
-    "prices": [
-     36985.0,
-     38635.0,
-     38785.0,
-     40435.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:109652",
-     "carwow-cap:109653",
-     "carwow-cap:109654",
-     "carwow-cap:109655"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/ford/explorer",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Ford Explorer 210kW Style 79kWh 5dr Auto [Comfort Pack]",
-   "last_seen_at": "2026-10-16T02:58:29+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "ford|explorer|210kw style 79kwh 5dr auto [comfort pack]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Comfort/Driver Assist",
-     "5 seat"
-    ],
-    "packs": [
-     "Comfort/Driver Assist"
-    ],
-    "prices": [
-     36985.0,
-     38635.0,
-     38785.0,
-     40435.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:109652",
-     "carwow-cap:109653",
-     "carwow-cap:109654",
-     "carwow-cap:109655"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/ford/explorer",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Ford Explorer 210kW Style 79kWh 5dr Auto [Comfort/Driver Assist]",
-   "last_seen_at": "2026-10-16T02:58:29+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "ford|explorer|210kw style 79kwh 5dr auto [comfort/driver assist]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
      "Driver Assist Pack",
      "5 seat"
     ],
@@ -9320,303 +7850,6 @@
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "ford|explorer|210kw style 79kwh 5dr auto [driver assist pack]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Adv Driver Assist",
-     "5 seat"
-    ],
-    "packs": [
-     "Adv Driver Assist"
-    ],
-    "prices": [
-     29995.0,
-     30745.0,
-     31195.0,
-     31945.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:109262",
-     "carwow-cap:109263",
-     "carwow-cap:109264",
-     "carwow-cap:109265"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/ford/puma-gen-e",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Ford Puma Gen-E 124kW Select 47kWh 5dr Auto [Adv Driver Assist]",
-   "last_seen_at": "2026-10-16T02:58:38+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "ford|puma gen-e|124kw select 47kwh 5dr auto [adv driver assist]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Comfort Pack",
-     "5 seat"
-    ],
-    "packs": [
-     "Comfort Pack"
-    ],
-    "prices": [
-     29995.0,
-     30745.0,
-     31195.0,
-     31945.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:109262",
-     "carwow-cap:109263",
-     "carwow-cap:109264",
-     "carwow-cap:109265"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/ford/puma-gen-e",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Ford Puma Gen-E 124kW Select 47kWh 5dr Auto [Comfort Pack]",
-   "last_seen_at": "2026-10-16T02:58:38+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "ford|puma gen-e|124kw select 47kwh 5dr auto [comfort pack]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Comfort/Adv Drv Asst",
-     "5 seat"
-    ],
-    "packs": [
-     "Comfort/Adv Drv Asst"
-    ],
-    "prices": [
-     29995.0,
-     30745.0,
-     31195.0,
-     31945.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:109262",
-     "carwow-cap:109263",
-     "carwow-cap:109264",
-     "carwow-cap:109265"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/ford/puma-gen-e",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Ford Puma Gen-E 124kW Select 47kWh 5dr Auto [Comfort/Adv Drv Asst]",
-   "last_seen_at": "2026-10-16T02:58:38+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "ford|puma gen-e|124kw select 47kwh 5dr auto [comfort/adv drv asst]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Comfort/Innovation",
-     "5 seat"
-    ],
-    "packs": [
-     "Comfort/Innovation"
-    ],
-    "prices": [
-     54115.0,
-     57005.0,
-     57045.0,
-     59935.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:108297",
-     "carwow-cap:108298",
-     "carwow-cap:108299",
-     "carwow-cap:108304"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/genesis/gv60",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Genesis GV60 168kW Pure 84kWh 5dr Auto [Comfort/Innovation]",
-   "last_seen_at": "2026-10-16T02:58:43+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "genesis|gv60|168kw pure 84kwh 5dr auto [comfort/innovation]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Comfort",
-     "5 seat"
-    ],
-    "packs": [
-     "Comfort"
-    ],
-    "prices": [
-     54115.0,
-     57005.0,
-     57045.0,
-     59935.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:108297",
-     "carwow-cap:108298",
-     "carwow-cap:108299",
-     "carwow-cap:108304"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/genesis/gv60",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Genesis GV60 168kW Pure 84kWh 5dr Auto [Comfort]",
-   "last_seen_at": "2026-10-16T02:58:43+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "genesis|gv60|168kw pure 84kwh 5dr auto [comfort]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Innovation",
-     "5 seat"
-    ],
-    "packs": [
-     "Innovation"
-    ],
-    "prices": [
-     54115.0,
-     57005.0,
-     57045.0,
-     59935.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:108297",
-     "carwow-cap:108298",
-     "carwow-cap:108299",
-     "carwow-cap:108304"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/genesis/gv60",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Genesis GV60 168kW Pure 84kWh 5dr Auto [Innovation]",
-   "last_seen_at": "2026-10-16T02:58:43+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "genesis|gv60|168kw pure 84kwh 5dr auto [innovation]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Comf/Innovation",
-     "5 seat"
-    ],
-    "packs": [
-     "Comf/Innovation"
-    ],
-    "prices": [
-     58515.0,
-     61405.0,
-     61445.0,
-     64335.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:108300",
-     "carwow-cap:108301",
-     "carwow-cap:108302",
-     "carwow-cap:108305"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/genesis/gv60",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Genesis GV60 234kW Sport 84kWh 5dr AWD Auto [Comf/Innovation]",
-   "last_seen_at": "2026-10-16T02:58:43+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "genesis|gv60|234kw sport 84kwh 5dr awd auto [comf/innovation]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Comfort",
-     "5 seat"
-    ],
-    "packs": [
-     "Comfort"
-    ],
-    "prices": [
-     58515.0,
-     61405.0,
-     61445.0,
-     64335.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:108300",
-     "carwow-cap:108301",
-     "carwow-cap:108302",
-     "carwow-cap:108305"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/genesis/gv60",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Genesis GV60 234kW Sport 84kWh 5dr AWD Auto [Comfort]",
-   "last_seen_at": "2026-10-16T02:58:43+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "genesis|gv60|234kw sport 84kwh 5dr awd auto [comfort]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Innovation",
-     "5 seat"
-    ],
-    "packs": [
-     "Innovation"
-    ],
-    "prices": [
-     58515.0,
-     61405.0,
-     61445.0,
-     64335.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 4,
-    "twins": [
-     "carwow-cap:108300",
-     "carwow-cap:108301",
-     "carwow-cap:108302",
-     "carwow-cap:108305"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/genesis/gv60",
-   "first_seen_at": "2026-10-06T23:39:26+00:00",
-   "label": "Genesis GV60 234kW Sport 84kWh 5dr AWD Auto [Innovation]",
-   "last_seen_at": "2026-10-16T02:58:43+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "genesis|gv60|234kw sport 84kwh 5dr awd auto [innovation]",
    "status": "conflict"
   },
   {
@@ -9683,99 +7916,6 @@
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "lexus|rz|300e 150kw premium + 71kwh 5dr auto [18\" wheels]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "20\" Wheels",
-     "5 seat"
-    ],
-    "packs": [
-     "20\" Wheels"
-    ],
-    "prices": [
-     49565.0,
-     49615.0,
-     49815.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 8,
-    "twins": [
-     "carwow-cap:108630",
-     "carwow-cap:108631",
-     "carwow-cap:108632"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/lexus/rz",
-   "first_seen_at": "2026-07-12T02:15:54+00:00",
-   "label": "Lexus RZ 350e 165kW Premium+ 77 kWh 5dr Auto [20\" Wheels]",
-   "last_seen_at": "2026-10-16T02:59:15+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "lexus|rz|350e 165kw premium+ 77kwh 5dr auto [20\" wheels]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "20\"/BiTone",
-     "5 seat"
-    ],
-    "packs": [
-     "20\"/BiTone"
-    ],
-    "prices": [
-     49565.0,
-     49615.0,
-     49815.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 8,
-    "twins": [
-     "carwow-cap:108630",
-     "carwow-cap:108631",
-     "carwow-cap:108632"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/lexus/rz",
-   "first_seen_at": "2026-07-12T02:15:54+00:00",
-   "label": "Lexus RZ 350e 165kW Premium+ 77 kWh 5dr Auto [20\"/BiTone]",
-   "last_seen_at": "2026-10-16T02:59:15+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "lexus|rz|350e 165kw premium+ 77kwh 5dr auto [20\"/bitone]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "BiTone",
-     "5 seat"
-    ],
-    "packs": [
-     "BiTone"
-    ],
-    "prices": [
-     49565.0,
-     49615.0,
-     49815.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 8,
-    "twins": [
-     "carwow-cap:108630",
-     "carwow-cap:108631",
-     "carwow-cap:108632"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/lexus/rz",
-   "first_seen_at": "2026-07-12T02:15:54+00:00",
-   "label": "Lexus RZ 350e 165kW Premium+ 77 kWh 5dr Auto [BiTone]",
-   "last_seen_at": "2026-10-16T02:59:15+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "lexus|rz|350e 165kw premium+ 77kwh 5dr auto [bitone]",
    "status": "conflict"
   },
   {
@@ -10372,20 +8512,24 @@
     "prices": [
      57050.0,
      57550.0,
+     58850.0,
      61750.0,
      62050.0,
      62550.0,
-     63550.0
+     63550.0,
+     63850.0
     ],
     "reason": "a pack against three or more prices and no RRP",
-    "score": 9,
+    "score": 8,
     "twins": [
      "carwow-cap:104361",
      "carwow-cap:104362",
+     "carwow-cap:104363",
      "carwow-cap:107582",
      "carwow-cap:107585",
      "carwow-cap:109023",
-     "carwow-cap:109024"
+     "carwow-cap:109024",
+     "carwow-cap:109025"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
@@ -10409,20 +8553,24 @@
     "prices": [
      57050.0,
      57550.0,
+     58850.0,
      61750.0,
      62050.0,
      62550.0,
-     63550.0
+     63550.0,
+     63850.0
     ],
     "reason": "a pack against three or more prices and no RRP",
-    "score": 9,
+    "score": 8,
     "twins": [
      "carwow-cap:104361",
      "carwow-cap:104362",
+     "carwow-cap:104363",
      "carwow-cap:107582",
      "carwow-cap:107585",
      "carwow-cap:109023",
-     "carwow-cap:109024"
+     "carwow-cap:109024",
+     "carwow-cap:109025"
     ]
    },
    "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
@@ -10432,6 +8580,315 @@
    "method": "conflict",
    "source": "leaseloco",
    "source_key": "polestar|4|200kw 100kwh lr single motor [pro] 5dr auto",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Pilot",
+     "5 seat"
+    ],
+    "packs": [
+     "Pilot"
+    ],
+    "prices": [
+     62050.0,
+     62550.0,
+     63850.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 9,
+    "twins": [
+     "carwow-cap:104361",
+     "carwow-cap:104362",
+     "carwow-cap:104363"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
+   "first_seen_at": "2026-10-07T08:19:01+00:00",
+   "label": "Polestar 4 200kW 100kWh LR Single Motor Plus [Pilot] 5dr Auto",
+   "last_seen_at": "2026-10-16T03:00:05+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "polestar|4|200kw 100kwh lr single motor plus [pilot] 5dr auto",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Pro",
+     "5 seat"
+    ],
+    "packs": [
+     "Pro"
+    ],
+    "prices": [
+     62050.0,
+     62550.0,
+     63850.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 9,
+    "twins": [
+     "carwow-cap:104361",
+     "carwow-cap:104362",
+     "carwow-cap:104363"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
+   "first_seen_at": "2026-10-07T08:19:01+00:00",
+   "label": "Polestar 4 200kW 100kWh LR Single Motor Plus [Pro] 5dr Auto",
+   "last_seen_at": "2026-10-16T03:00:05+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "polestar|4|200kw 100kwh lr single motor plus [pro] 5dr auto",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Pilot/Pro",
+     "5 seat"
+    ],
+    "packs": [
+     "Pilot/Pro"
+    ],
+    "prices": [
+     57050.0,
+     57550.0,
+     58850.0,
+     61750.0,
+     62050.0,
+     62550.0,
+     63550.0,
+     63850.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 8,
+    "twins": [
+     "carwow-cap:104361",
+     "carwow-cap:104362",
+     "carwow-cap:104363",
+     "carwow-cap:107582",
+     "carwow-cap:107585",
+     "carwow-cap:109023",
+     "carwow-cap:109024",
+     "carwow-cap:109025"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
+   "first_seen_at": "2026-10-10T17:41:21+00:00",
+   "label": "Polestar 4 200kW 100kWh LR SM [Pilot/Pro] 5dr Auto",
+   "last_seen_at": "2026-10-16T03:00:05+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "polestar|4|200kw 100kwh lr sm [pilot/pro] 5dr auto",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Pilot/Pro",
+     "5 seat"
+    ],
+    "packs": [
+     "Pilot/Pro"
+    ],
+    "prices": [
+     62050.0,
+     62550.0,
+     63850.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 9,
+    "twins": [
+     "carwow-cap:104361",
+     "carwow-cap:104362",
+     "carwow-cap:104363"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
+   "first_seen_at": "2026-10-10T17:41:21+00:00",
+   "label": "Polestar 4 200kW 100kWh LR SM Plus [Pilot/Pro] 5dr Auto",
+   "last_seen_at": "2026-10-16T03:00:05+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "polestar|4|200kw 100kwh lr sm plus [pilot/pro] 5dr auto",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Performance",
+     "5 seat"
+    ],
+    "packs": [
+     "Performance"
+    ],
+    "prices": [
+     69050.0,
+     69550.0,
+     70850.0,
+     71750.0,
+     73050.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 9,
+    "twins": [
+     "carwow-cap:104364",
+     "carwow-cap:104365",
+     "carwow-cap:104366",
+     "carwow-cap:104367",
+     "carwow-cap:104368"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
+   "first_seen_at": "2026-10-10T17:41:21+00:00",
+   "label": "Polestar 4 400kW 100kWh LR DM Plus [Performance] 5dr Auto",
+   "last_seen_at": "2026-10-16T03:00:05+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "polestar|4|400kw 100kwh lr dm plus [performance] 5dr auto",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Pilot/Perform",
+     "5 seat"
+    ],
+    "packs": [
+     "Pilot/Perform"
+    ],
+    "prices": [
+     69050.0,
+     69550.0,
+     70850.0,
+     71750.0,
+     73050.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 9,
+    "twins": [
+     "carwow-cap:104364",
+     "carwow-cap:104365",
+     "carwow-cap:104366",
+     "carwow-cap:104367",
+     "carwow-cap:104368"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
+   "first_seen_at": "2026-10-10T17:41:21+00:00",
+   "label": "Polestar 4 400kW 100kWh LR DM Plus [Pilot/Perform] 5dr Auto",
+   "last_seen_at": "2026-10-16T03:00:05+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "polestar|4|400kw 100kwh lr dm plus [pilot/perform] 5dr auto",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Pilot/Pro",
+     "5 seat"
+    ],
+    "packs": [
+     "Pilot/Pro"
+    ],
+    "prices": [
+     69050.0,
+     69550.0,
+     70850.0,
+     71750.0,
+     73050.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 9,
+    "twins": [
+     "carwow-cap:104364",
+     "carwow-cap:104365",
+     "carwow-cap:104366",
+     "carwow-cap:104367",
+     "carwow-cap:104368"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
+   "first_seen_at": "2026-10-10T17:41:21+00:00",
+   "label": "Polestar 4 400kW 100kWh LR DM Plus [Pilot/Pro] 5dr Auto",
+   "last_seen_at": "2026-10-16T03:00:05+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "polestar|4|400kw 100kwh lr dm plus [pilot/pro] 5dr auto",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Pilot",
+     "5 seat"
+    ],
+    "packs": [
+     "Pilot"
+    ],
+    "prices": [
+     69050.0,
+     69550.0,
+     70850.0,
+     71750.0,
+     73050.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 9,
+    "twins": [
+     "carwow-cap:104364",
+     "carwow-cap:104365",
+     "carwow-cap:104366",
+     "carwow-cap:104367",
+     "carwow-cap:104368"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
+   "first_seen_at": "2026-10-07T08:19:01+00:00",
+   "label": "Polestar 4 400kW 100kWh LR Dual Motor Plus [Pilot] 5dr Auto",
+   "last_seen_at": "2026-10-16T03:00:05+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "polestar|4|400kw 100kwh lr dual motor plus [pilot] 5dr auto",
+   "status": "conflict"
+  },
+  {
+   "evidence": {
+    "brackets": [
+     "Pro",
+     "5 seat"
+    ],
+    "packs": [
+     "Pro"
+    ],
+    "prices": [
+     69050.0,
+     69550.0,
+     70850.0,
+     71750.0,
+     73050.0
+    ],
+    "reason": "a pack against three or more prices and no RRP",
+    "score": 9,
+    "twins": [
+     "carwow-cap:104364",
+     "carwow-cap:104365",
+     "carwow-cap:104366",
+     "carwow-cap:104367",
+     "carwow-cap:104368"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
+   "first_seen_at": "2026-10-07T08:19:01+00:00",
+   "label": "Polestar 4 400kW 100kWh LR Dual Motor Plus [Pro] 5dr Auto",
+   "last_seen_at": "2026-10-16T03:00:05+00:00",
+   "method": "conflict",
+   "source": "leaseloco",
+   "source_key": "polestar|4|400kw 100kwh lr dual motor plus [pro] 5dr auto",
    "status": "conflict"
   },
   {
@@ -11897,103 +10354,6 @@
   {
    "evidence": {
     "brackets": [
-     "Maxx",
-     "5 seat"
-    ],
-    "packs": [
-     "Maxx"
-    ],
-    "prices": [
-     42060.0,
-     44325.0,
-     45285.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 5,
-    "twins": [
-     "carwow-cap:110341",
-     "carwow-cap:110342",
-     "carwow-cap:110345"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/skoda/elroq",
-   "first_seen_at": "2026-10-10T17:41:54+00:00",
-   "label": "SKODA Elroq 210kW 85 SportLine 84kWh 5dr Auto [Maxx]",
-   "last_seen_at": "2026-10-16T03:00:19+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "skoda|elroq|210kw 85 sportline 84kwh 5dr auto [maxx]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Maxx",
-     "5 seat"
-    ],
-    "packs": [
-     "Maxx"
-    ],
-    "prices": [
-     49270.0,
-     51170.0,
-     51220.0,
-     53120.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 6,
-    "twins": [
-     "carwow-cap:107247",
-     "carwow-cap:107248",
-     "carwow-cap:107261",
-     "carwow-cap:107262"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/skoda/enyaq",
-   "first_seen_at": "2026-10-10T17:41:57+00:00",
-   "label": "SKODA Enyaq Coupe 210kW 85x Sportline 82kWh 4x4 5dr Auto [Maxx]",
-   "last_seen_at": "2026-10-16T03:00:23+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "skoda|enyaq coupe|210kw 85x sportline 82kwh 4x4 5dr auto [maxx]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Maxx",
-     "5 seat"
-    ],
-    "packs": [
-     "Maxx"
-    ],
-    "prices": [
-     49720.0,
-     51520.0,
-     51770.0,
-     53570.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 6,
-    "twins": [
-     "carwow-cap:110288",
-     "carwow-cap:110289",
-     "carwow-cap:110291",
-     "carwow-cap:110292"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/skoda/enyaq",
-   "first_seen_at": "2026-10-10T17:41:57+00:00",
-   "label": "SKODA Enyaq Coupe 220kW 85x Sportline 82kWh 4x4 5dr Auto [Maxx]",
-   "last_seen_at": "2026-10-16T03:00:23+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "skoda|enyaq coupe|220kw 85x sportline 82kwh 4x4 5dr auto [maxx]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
      "Advanced",
      "5 seat"
     ],
@@ -12870,400 +11230,6 @@
   {
    "evidence": {
     "brackets": [
-     "Ext+ Pan",
-     "5 seat"
-    ],
-    "packs": [
-     "Ext+ Pan"
-    ],
-    "prices": [
-     51530.0,
-     52325.0,
-     53550.0,
-     54345.0,
-     54410.0,
-     55205.0,
-     56430.0,
-     57225.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 8,
-    "twins": [
-     "carwow-cap:107477",
-     "carwow-cap:107478",
-     "carwow-cap:107479",
-     "carwow-cap:107480",
-     "carwow-cap:107487",
-     "carwow-cap:107488",
-     "carwow-cap:107489",
-     "carwow-cap:107490"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7-tourer",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "Volkswagen ID.7 Tourer 210kW Match Pro Plus 77kWh 5dr Auto [Ext+ Pan]",
-   "last_seen_at": "2026-10-16T03:01:07+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "volkswagen|id.7 tourer|210kw match pro plus 77kwh 5dr auto [ext+ pan]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Int+ Pack",
-     "5 seat"
-    ],
-    "packs": [
-     "Int+ Pack"
-    ],
-    "prices": [
-     51530.0,
-     52325.0,
-     53550.0,
-     54345.0,
-     54410.0,
-     55205.0,
-     56430.0,
-     57225.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 8,
-    "twins": [
-     "carwow-cap:107477",
-     "carwow-cap:107478",
-     "carwow-cap:107479",
-     "carwow-cap:107480",
-     "carwow-cap:107487",
-     "carwow-cap:107488",
-     "carwow-cap:107489",
-     "carwow-cap:107490"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7-tourer",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "Volkswagen ID.7 Tourer 210kW Match Pro Plus 77kWh 5dr Auto [Int+ Pack]",
-   "last_seen_at": "2026-10-16T03:01:07+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "volkswagen|id.7 tourer|210kw match pro plus 77kwh 5dr auto [int+ pack]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Int+Ext+ Pan",
-     "5 seat"
-    ],
-    "packs": [
-     "Int+Ext+ Pan"
-    ],
-    "prices": [
-     51530.0,
-     52325.0,
-     53550.0,
-     54345.0,
-     54410.0,
-     55205.0,
-     56430.0,
-     57225.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 8,
-    "twins": [
-     "carwow-cap:107477",
-     "carwow-cap:107478",
-     "carwow-cap:107479",
-     "carwow-cap:107480",
-     "carwow-cap:107487",
-     "carwow-cap:107488",
-     "carwow-cap:107489",
-     "carwow-cap:107490"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7-tourer",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "Volkswagen ID.7 Tourer 210kW Match Pro Plus 77kWh 5dr Auto [Int+Ext+ Pan]",
-   "last_seen_at": "2026-10-16T03:01:07+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "volkswagen|id.7 tourer|210kw match pro plus 77kwh 5dr auto [int+ext+ pan]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Int+ Pack",
-     "5 seat"
-    ],
-    "packs": [
-     "Int+ Pack"
-    ],
-    "prices": [
-     55015.0,
-     55810.0,
-     57035.0,
-     57830.0,
-     57895.0,
-     58690.0,
-     59915.0,
-     60710.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 10,
-    "twins": [
-     "carwow-cap:107481",
-     "carwow-cap:107482",
-     "carwow-cap:107483",
-     "carwow-cap:107484",
-     "carwow-cap:107491",
-     "carwow-cap:107492",
-     "carwow-cap:107493",
-     "carwow-cap:107494"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7-tourer",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "Volkswagen ID.7 Tourer 210kW Match Pro S Plus 86kWh 5dr Auto [Int+ Pack]",
-   "last_seen_at": "2026-10-16T03:01:07+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "volkswagen|id.7 tourer|210kw match pro s plus 86kwh 5dr auto [int+ pack]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Ext+ Pan",
-     "5 seat"
-    ],
-    "packs": [
-     "Ext+ Pan"
-    ],
-    "prices": [
-     59725.0,
-     60500.0,
-     60835.0,
-     61610.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
-    "twins": [
-     "carwow-cap:107485",
-     "carwow-cap:107486",
-     "carwow-cap:107495",
-     "carwow-cap:107496"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7-tourer",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "Volkswagen ID.7 Tourer 250kW 4MOTION GTX Plus 86kWh 5dr Auto [Ext+ Pan]",
-   "last_seen_at": "2026-10-16T03:01:07+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "volkswagen|id.7 tourer|250kw 4motion gtx plus 86kwh 5dr auto [ext+ pan]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Ext+ Pan",
-     "5 seat"
-    ],
-    "packs": [
-     "Ext+ Pan"
-    ],
-    "prices": [
-     51530.0,
-     52325.0,
-     53550.0,
-     54345.0,
-     54410.0,
-     55205.0,
-     56430.0,
-     57225.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 8,
-    "twins": [
-     "carwow-cap:107477",
-     "carwow-cap:107478",
-     "carwow-cap:107479",
-     "carwow-cap:107480",
-     "carwow-cap:107487",
-     "carwow-cap:107488",
-     "carwow-cap:107489",
-     "carwow-cap:107490"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "Volkswagen ID.7 210kW Match Pro Plus 77kWh 5dr Auto [Ext+ Pan]",
-   "last_seen_at": "2026-10-16T03:01:04+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "volkswagen|id.7|210kw match pro plus 77kwh 5dr auto [ext+ pan]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Int+ Pack",
-     "5 seat"
-    ],
-    "packs": [
-     "Int+ Pack"
-    ],
-    "prices": [
-     51530.0,
-     52325.0,
-     53550.0,
-     54345.0,
-     54410.0,
-     55205.0,
-     56430.0,
-     57225.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 8,
-    "twins": [
-     "carwow-cap:107477",
-     "carwow-cap:107478",
-     "carwow-cap:107479",
-     "carwow-cap:107480",
-     "carwow-cap:107487",
-     "carwow-cap:107488",
-     "carwow-cap:107489",
-     "carwow-cap:107490"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "Volkswagen ID.7 210kW Match Pro Plus 77kWh 5dr Auto [Int+ Pack]",
-   "last_seen_at": "2026-10-16T03:01:04+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "volkswagen|id.7|210kw match pro plus 77kwh 5dr auto [int+ pack]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Int+Ext+ Pan",
-     "5 seat"
-    ],
-    "packs": [
-     "Int+Ext+ Pan"
-    ],
-    "prices": [
-     51530.0,
-     52325.0,
-     53550.0,
-     54345.0,
-     54410.0,
-     55205.0,
-     56430.0,
-     57225.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 8,
-    "twins": [
-     "carwow-cap:107477",
-     "carwow-cap:107478",
-     "carwow-cap:107479",
-     "carwow-cap:107480",
-     "carwow-cap:107487",
-     "carwow-cap:107488",
-     "carwow-cap:107489",
-     "carwow-cap:107490"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "Volkswagen ID.7 210kW Match Pro Plus 77kWh 5dr Auto [Int+Ext+ Pan]",
-   "last_seen_at": "2026-10-16T03:01:04+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "volkswagen|id.7|210kw match pro plus 77kwh 5dr auto [int+ext+ pan]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Int+ Pack",
-     "5 seat"
-    ],
-    "packs": [
-     "Int+ Pack"
-    ],
-    "prices": [
-     55015.0,
-     55810.0,
-     57035.0,
-     57830.0,
-     57895.0,
-     58690.0,
-     59915.0,
-     60710.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 10,
-    "twins": [
-     "carwow-cap:107481",
-     "carwow-cap:107482",
-     "carwow-cap:107483",
-     "carwow-cap:107484",
-     "carwow-cap:107491",
-     "carwow-cap:107492",
-     "carwow-cap:107493",
-     "carwow-cap:107494"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "Volkswagen ID.7 210kW Match Pro S Plus 86kWh 5dr Auto [Int+ Pack]",
-   "last_seen_at": "2026-10-16T03:01:04+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "volkswagen|id.7|210kw match pro s plus 86kwh 5dr auto [int+ pack]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
-     "Ext+ Pan",
-     "5 seat"
-    ],
-    "packs": [
-     "Ext+ Pan"
-    ],
-    "prices": [
-     59725.0,
-     60500.0,
-     60835.0,
-     61610.0
-    ],
-    "reason": "a pack against three or more prices and no RRP",
-    "score": 7,
-    "twins": [
-     "carwow-cap:107485",
-     "carwow-cap:107486",
-     "carwow-cap:107495",
-     "carwow-cap:107496"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/volkswagen/id7",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "Volkswagen ID.7 250kW 4MOTION GTX Plus 86kWh 5dr Auto [Ext+ Pan]",
-   "last_seen_at": "2026-10-16T03:01:04+00:00",
-   "method": "conflict",
-   "source": "leaseloco",
-   "source_key": "volkswagen|id.7|250kw 4motion gtx plus 86kwh 5dr auto [ext+ pan]",
-   "status": "conflict"
-  },
-  {
-   "evidence": {
-    "brackets": [
      "Tech Pack Max"
     ],
     "list_prices": [
@@ -13328,7 +11294,7 @@
     ],
     "reason": "the record's price fits no derivative its text names",
     "rrp": 37955.0,
-    "score": 5,
+    "score": 7,
     "twins": [
      "carwow-cap:106394",
      "carwow-cap:110993"
@@ -13442,7 +11408,11 @@
   },
   {
    "evidence": {
-    "candidates": 7
+    "reason": "tie between different trims or powertrains",
+    "tied": [
+     "carwow-cap:106638",
+     "carwow-cap:106639"
+    ]
    },
    "example_url": "https://www.halliwelljones.co.uk/kia/offers",
    "first_seen_at": "2026-10-11T11:53:14+00:00",
@@ -13451,19 +11421,6 @@
    "method": "none",
    "source": "kia-dealer",
    "source_key": "hj|kia ev6 gt-line",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "candidates": 7
-   },
-   "example_url": "https://www.lloydmotorgroup.com/Kia/Current-Offers",
-   "first_seen_at": "2026-10-11T11:52:25+00:00",
-   "label": "Kia EV6 GT-Line S 168kW 84kWh 5 Door Auto including Metallic Paint",
-   "last_seen_at": "2026-10-16T03:02:04+00:00",
-   "method": "none",
-   "source": "kia-dealer",
-   "source_key": "lloyd|kia ev6 gt-line s 168kw 84kwh 5 door auto including metallic paint",
    "status": "unmapped"
   },
   {
@@ -13534,24 +11491,6 @@
    "method": "none",
    "source": "leaseloco",
    "source_key": "audi|q6 e-tron|360kw sq6 quattro 100kwh vorsprung 5dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "reason": "tie between different trims or powertrains",
-    "tied": [
-     "carwow-cap:110774",
-     "carwow-cap:110775",
-     "carwow-cap:110780"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/bmw/i7",
-   "first_seen_at": "2026-10-06T23:25:17+00:00",
-   "label": "BMW i7 335kW xDrive50 Ultimate Edition 118kWh 4dr Auto",
-   "last_seen_at": "2026-10-16T02:57:43+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "bmw|i7|335kw xdrive50 ultimate edition 118kwh 4dr auto",
    "status": "unmapped"
   },
   {
@@ -13647,19 +11586,6 @@
   },
   {
    "evidence": {
-    "candidates": 22
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/cupra/tavascan",
-   "first_seen_at": "2026-10-10T17:37:12+00:00",
-   "label": "CUPRA Tavascan 140kW Origin 58kWh 5dr Auto [IDP]",
-   "last_seen_at": "2026-10-16T02:58:20+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "cupra|tavascan|140kw origin 58kwh 5dr auto [idp]",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
     "candidates": 30
    },
    "example_url": "https://www.leaseloco.com/car-leasing/ford/explorer",
@@ -13734,40 +11660,6 @@
    "method": "none",
    "source": "leaseloco",
    "source_key": "ford|tourneo courier|100kw titanium 46kwh 5dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "reason": "tie between different trims or powertrains",
-    "tied": [
-     "carwow-cap:104139",
-     "carwow-cap:104140"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/hyundai/ioniq-5-n",
-   "first_seen_at": "2026-10-06T23:39:25+00:00",
-   "label": "Hyundai IONIQ 5 N 478kW 84 kWh 5dr Auto",
-   "last_seen_at": "2026-10-16T02:58:51+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "hyundai|ioniq 5 n|478kw 84kwh 5dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "reason": "tie between different trims or powertrains",
-    "tied": [
-     "carwow-cap:104139",
-     "carwow-cap:104140"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/hyundai/ioniq-5-n",
-   "first_seen_at": "2026-10-06T23:39:25+00:00",
-   "label": "Hyundai IONIQ 5 N 478kW 84 kWh 5dr Auto [Vision Roof]",
-   "last_seen_at": "2026-10-16T02:58:51+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "hyundai|ioniq 5 n|478kw 84kwh 5dr auto [vision roof]",
    "status": "unmapped"
   },
   {
@@ -13941,114 +11833,6 @@
   },
   {
    "evidence": {
-    "reason": "tie between different trims or powertrains",
-    "tied": [
-     "carwow-cap:105710",
-     "carwow-cap:105711",
-     "carwow-cap:105712"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "MINI Aceman 135kW E Classic 43kWh 5dr Auto",
-   "last_seen_at": "2026-10-16T02:59:30+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "mini|aceman|135kw e classic 43kwh 5dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "reason": "tie between different trims or powertrains",
-    "tied": [
-     "carwow-cap:105710",
-     "carwow-cap:105711",
-     "carwow-cap:105712"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "MINI Aceman 135kW E Classic [Level 1] 43kWh 5dr Auto",
-   "last_seen_at": "2026-10-16T02:59:30+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "mini|aceman|135kw e classic [level 1] 43kwh 5dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "reason": "tie between different trims or powertrains",
-    "tied": [
-     "carwow-cap:105710",
-     "carwow-cap:105711",
-     "carwow-cap:105712"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "MINI Aceman 135kW E Classic [Level 2] 43kWh 5dr Auto",
-   "last_seen_at": "2026-10-16T02:59:30+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "mini|aceman|135kw e classic [level 2] 43kwh 5dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "reason": "tie between different trims or powertrains",
-    "tied": [
-     "carwow-cap:105722",
-     "carwow-cap:105723",
-     "carwow-cap:105724"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "MINI Aceman 160kW SE Exclusive 54kWh 5dr Auto",
-   "last_seen_at": "2026-10-16T02:59:30+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "mini|aceman|160kw se exclusive 54kwh 5dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "reason": "tie between different trims or powertrains",
-    "tied": [
-     "carwow-cap:105722",
-     "carwow-cap:105723",
-     "carwow-cap:105724"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "MINI Aceman 160kW SE Exclusive [Level 2] 54kWh 5dr Auto",
-   "last_seen_at": "2026-10-16T02:59:30+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "mini|aceman|160kw se exclusive [level 2] 54kwh 5dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "reason": "tie between different trims or powertrains",
-    "tied": [
-     "carwow-cap:105722",
-     "carwow-cap:105723",
-     "carwow-cap:105724"
-    ]
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/mini/aceman",
-   "first_seen_at": "2026-10-06T23:39:27+00:00",
-   "label": "MINI Aceman 160kW SE Exclusive [Level 3] 54kWh 5dr Auto",
-   "last_seen_at": "2026-10-16T02:59:30+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "mini|aceman|160kw se exclusive [level 3] 54kwh 5dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
     "candidates": 28
    },
    "example_url": "https://www.leaseloco.com/car-leasing/nissan/ariya",
@@ -14084,71 +11868,6 @@
    "method": "none",
    "source": "leaseloco",
    "source_key": "polestar|3|400kw 106kwh dual motor plus 5dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "candidates": 29
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
-   "first_seen_at": "2026-10-10T17:41:21+00:00",
-   "label": "Polestar 4 200kW 100kWh LR SM [Pilot/Pro] 5dr Auto",
-   "last_seen_at": "2026-10-16T03:00:05+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "polestar|4|200kw 100kwh lr sm [pilot/pro] 5dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "candidates": 29
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
-   "first_seen_at": "2026-10-10T17:41:21+00:00",
-   "label": "Polestar 4 200kW 100kWh LR SM Plus [Pilot/Pro] 5dr Auto",
-   "last_seen_at": "2026-10-16T03:00:05+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "polestar|4|200kw 100kwh lr sm plus [pilot/pro] 5dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "candidates": 29
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
-   "first_seen_at": "2026-10-10T17:41:21+00:00",
-   "label": "Polestar 4 400kW 100kWh LR DM Plus [Performance] 5dr Auto",
-   "last_seen_at": "2026-10-16T03:00:05+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "polestar|4|400kw 100kwh lr dm plus [performance] 5dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "candidates": 29
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
-   "first_seen_at": "2026-10-10T17:41:21+00:00",
-   "label": "Polestar 4 400kW 100kWh LR DM Plus [Pilot/Perform] 5dr Auto",
-   "last_seen_at": "2026-10-16T03:00:05+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "polestar|4|400kw 100kwh lr dm plus [pilot/perform] 5dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "candidates": 29
-   },
-   "example_url": "https://www.leaseloco.com/car-leasing/polestar/4",
-   "first_seen_at": "2026-10-10T17:41:21+00:00",
-   "label": "Polestar 4 400kW 100kWh LR DM Plus [Pilot/Pro] 5dr Auto",
-   "last_seen_at": "2026-10-16T03:00:05+00:00",
-   "method": "none",
-   "source": "leaseloco",
-   "source_key": "polestar|4|400kw 100kwh lr dm plus [pilot/pro] 5dr auto",
    "status": "unmapped"
   },
   {
@@ -14695,74 +12414,6 @@
    "method": "none",
    "source": "leaseloco",
    "source_key": "volvo|xc40 electric|175kw recharge core 69kwh 5dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "reason": "tie between different trims or powertrains",
-    "tied": [
-     "carwow-cap:104139",
-     "carwow-cap:104140"
-    ]
-   },
-   "example_url": "https://www.new-car-discount.com/car/hyundai/ioniq-5-n/hatchback/all/all",
-   "first_seen_at": "2026-10-12T02:40:53+00:00",
-   "label": "IONIQ 5 N ELECTRIC HATCHBACK 478kW 84 kWh 5dr Auto",
-   "last_seen_at": "2026-10-16T02:49:33+00:00",
-   "method": "none",
-   "source": "ncd",
-   "source_key": "hyundai|ioniq 5 n electric hatchback|478kw 84kwh 5dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "reason": "tie between different trims or powertrains",
-    "tied": [
-     "carwow-cap:104139",
-     "carwow-cap:104140"
-    ]
-   },
-   "example_url": "https://www.new-car-discount.com/car/hyundai/ioniq-5-n/hatchback/all/all",
-   "first_seen_at": "2026-10-12T02:40:53+00:00",
-   "label": "IONIQ 5 N ELECTRIC HATCHBACK 478kW 84 kWh 5dr Auto [Vision Roof]",
-   "last_seen_at": "2026-10-16T02:49:33+00:00",
-   "method": "none",
-   "source": "ncd",
-   "source_key": "hyundai|ioniq 5 n electric hatchback|478kw 84kwh 5dr auto [vision roof]",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "reason": "tie between different trims or powertrains",
-    "tied": [
-     "carwow-cap:109561",
-     "carwow-cap:109562"
-    ]
-   },
-   "example_url": "https://www.new-car-discount.com/car/hyundai/ioniq-6-n/saloon/all/all",
-   "first_seen_at": "2026-10-12T02:40:54+00:00",
-   "label": "IONIQ 6 N ELECTRIC SALOON 478kW 84 kWh 4dr Auto",
-   "last_seen_at": "2026-10-16T02:49:34+00:00",
-   "method": "none",
-   "source": "ncd",
-   "source_key": "hyundai|ioniq 6 n electric saloon|478kw 84kwh 4dr auto",
-   "status": "unmapped"
-  },
-  {
-   "evidence": {
-    "reason": "tie between different trims or powertrains",
-    "tied": [
-     "carwow-cap:109561",
-     "carwow-cap:109562"
-    ]
-   },
-   "example_url": "https://www.new-car-discount.com/car/hyundai/ioniq-6-n/saloon/all/all",
-   "first_seen_at": "2026-10-12T02:40:54+00:00",
-   "label": "IONIQ 6 N ELECTRIC SALOON 478kW 84 kWh 4dr Auto [Vision Roof]",
-   "last_seen_at": "2026-10-16T02:49:34+00:00",
-   "method": "none",
-   "source": "ncd",
-   "source_key": "hyundai|ioniq 6 n electric saloon|478kw 84kwh 4dr auto [vision roof]",
    "status": "unmapped"
   },
   {

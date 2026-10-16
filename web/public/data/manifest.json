@@ -1,16 +1,16 @@
 {
  "counts": {
   "cars": 1983,
-  "cash_benchmarks": 2069,
+  "cash_benchmarks": 2073,
   "models": 250,
-  "observations": 7154,
-  "offers": 3502,
+  "observations": 7379,
+  "offers": 3664,
   "specs": 3024,
-  "unmapped_trims": 331,
+  "unmapped_trims": 253,
   "used_listings": 13187,
   "used_spans": 25839
  },
- "generated_at": "2026-10-16T18:05:00+00:00",
+ "generated_at": "2026-10-16T18:28:35+00:00",
  "runs": [
   {
    "artifacts": 4027,
