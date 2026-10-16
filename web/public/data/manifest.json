@@ -1,18 +1,43 @@
 {
  "counts": {
-  "cars": 1985,
-  "cars_generated": 1966,
-  "cash_benchmarks": 2075,
+  "cars": 1983,
+  "cash_benchmarks": 2069,
   "models": 250,
-  "observations": 7185,
-  "offers": 3533,
+  "observations": 7149,
+  "offers": 3497,
   "specs": 3024,
-  "unmapped_trims": 324,
+  "unmapped_trims": 331,
   "used_listings": 13187,
   "used_spans": 25839
  },
- "generated_at": "2026-10-16T03:35:53+00:00",
+ "generated_at": "2026-10-16T15:41:38+00:00",
  "runs": [
+  {
+   "artifacts": 4027,
+   "capability": "pages",
+   "errors": 0,
+   "finished_at": "2026-10-16T10:58:41+00:00",
+   "id": 166,
+   "records": 4027,
+   "source": "parkers",
+   "started_at": "2026-10-16T09:40:40+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
+   "artifacts": 3,
+   "capability": "sitemap",
+   "errors": 0,
+   "finished_at": "2026-10-16T09:40:40+00:00",
+   "id": 165,
+   "records": 6291,
+   "source": "parkers",
+   "started_at": "2026-10-16T09:40:36+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
   {
    "artifacts": 1,
    "capability": "used-stock",
@@ -116,33 +141,7 @@
    "status": "ok",
    "target": "all",
    "unmapped": 0
-  },
-  {
-   "artifacts": 1,
-   "capability": "autotest",
-   "errors": 0,
-   "finished_at": "2026-10-16T03:08:17+00:00",
-   "id": 156,
-   "records": 1,
-   "source": "adac",
-   "started_at": "2026-10-16T03:08:15+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
-  },
-  {
-   "artifacts": 1,
-   "capability": "cars",
-   "errors": 1,
-   "finished_at": "2026-10-16T03:08:15+00:00",
-   "id": 155,
-   "records": 0,
-   "source": "evdb_cars",
-   "started_at": "2026-10-16T03:03:34+00:00",
-   "status": "error",
-   "target": "all",
-   "unmapped": 0
   }
  ],
- "schema_version": "7"
+ "schema_version": "8"
 }

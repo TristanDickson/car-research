@@ -1,27 +1,24 @@
 {
  "counts": {
-  "cars": 1985,
-  "cars_curated": 19,
-  "cars_generated": 1966,
-  "claims": 119652,
+  "cars": 1983,
+  "claims": 119268,
   "configurations": 71,
   "configured": 34,
   "derivatives": 930,
   "disagreements": 133,
-  "fields_from_claims": 166006,
+  "fields_from_claims": 166161,
   "makes": 50,
   "models": 250,
   "models_with_deals": 179,
   "models_with_specs": 220,
-  "observations": 7185,
-  "offers": 3533,
+  "observations": 7149,
+  "offers": 3497,
   "options_pages": 1183,
-  "sightings": 33024,
+  "sightings": 32988,
   "specs": 3024,
-  "specs_mapped": 921,
-  "trim_map_auto": 2714,
-  "trim_map_mapped": 56,
-  "trim_map_unmapped": 324,
+  "specs_mapped": 915,
+  "trim_map_auto": 2761,
+  "trim_map_unmapped": 331,
   "used_listings": 13187,
   "used_models": 217,
   "used_spans": 25839
@@ -57,18 +54,14 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-16T03:35:53+00:00",
+ "generated_at": "2026-10-16T15:41:38+00:00",
  "offer_states": {
-  "campaign": 7,
-  "derived": 2,
-  "expired": 4,
-  "historical": 1,
-  "illustrative": 165,
+  "expired": 1,
+  "illustrative": 164,
   "illustrative (stale)": 42,
-  "lead": 2763,
+  "lead": 2747,
   "lead (stale)": 476,
-  "live": 72,
-  "live (stale)": 1
+  "live": 67
  },
  "pipeline": {
   "levels": [
@@ -201,26 +194,6 @@
      "options": {
       "first_seen_live": 241,
       "keys": 1281
-     }
-    }
-   },
-   {
-    "describes_models": false,
-    "in_snapshot": {
-     "offers": 4
-    },
-    "matched": {
-     "offers": {
-      "conflict": 0,
-      "matched": 4,
-      "total": 4
-     }
-    },
-    "provider": "carwow_paste",
-    "records": {
-     "offer": {
-      "first_seen_live": 0,
-      "keys": 4
      }
     }
    },
@@ -467,12 +440,12 @@
    {
     "describes_models": false,
     "in_snapshot": {
-     "offers": 7
+     "offers": 8
     },
     "matched": {
      "offers": {
       "conflict": 0,
-      "matched": 7,
+      "matched": 8,
       "total": 9
      }
     },
@@ -562,7 +535,7 @@
     "matched": {
      "specs": {
       "conflict": 0,
-      "matched": 6,
+      "matched": 0,
       "total": 23
      }
     },
@@ -587,12 +560,12 @@
    {
     "describes_models": false,
     "in_snapshot": {
-     "offers": 1178
+     "offers": 1174
     },
     "matched": {
      "offers": {
       "conflict": 384,
-      "matched": 1178,
+      "matched": 1174,
       "total": 1672
      }
     },
@@ -616,33 +589,12 @@
    },
    {
     "describes_models": false,
-    "in_snapshot": {
-     "offers": 29
-    },
-    "matched": {
-     "offers": {
-      "conflict": 0,
-      "matched": 29,
-      "total": 29
-     }
-    },
+    "in_snapshot": {},
     "provider": "manual_seed",
     "records": {
-     "car": {
-      "first_seen_live": 0,
-      "keys": 19
-     },
-     "offer": {
-      "first_seen_live": 0,
-      "keys": 29
-     },
      "requirements": {
       "first_seen_live": 0,
       "keys": 1
-     },
-     "trim_map": {
-      "first_seen_live": 0,
-      "keys": 219
      }
     }
    },
@@ -744,6 +696,34 @@
     }
    },
    {
+    "describes_models": true,
+    "in_snapshot": {},
+    "matched": {
+     "specs": {
+      "conflict": 0,
+      "matched": 0,
+      "total": 10243
+     }
+    },
+    "provider": "parkers",
+    "raw": {
+     "bodies": 4030,
+     "failed": 0,
+     "fetches": 4030,
+     "first_at": "2026-10-16T09:40:37+00:00",
+     "last_at": "2026-10-16T10:58:40+00:00",
+     "refused": 0,
+     "responses": 4030,
+     "wayback": 0
+    },
+    "records": {
+     "spec": {
+      "first_seen_live": 10243,
+      "keys": 10243
+     }
+    }
+   },
+   {
     "describes_models": false,
     "in_snapshot": {
      "offers": 9
@@ -806,9 +786,33 @@
    {
     "builds": [
      {
+      "commit": "bfc3f96530",
+      "fetches": 12751,
+      "finished_at": "2026-10-16T15:41:37+00:00",
+      "from_cache": 0,
+      "mode": "build",
+      "parsed": 12751,
+      "record_spans": 66992,
+      "records": 117096,
+      "seconds": 587.1,
+      "sightings": 89464,
+      "snapshot": {},
+      "stage": "build",
+      "started_at": "2026-10-16T15:31:40+00:00",
+      "this": true,
+      "unparsed": 0
+     }
+    ],
+    "night": "2026-10-16",
+    "publishes": [],
+    "scrapes": []
+   },
+   {
+    "builds": [
+     {
       "commit": "254c7dc1a2",
       "fetches": 8721,
-      "finished_at": "2026-10-16T03:35:53+00:00",
+      "finished_at": "2026-10-16T03:36:19+00:00",
       "from_cache": 7269,
       "mode": "nightly",
       "parsed": 1452,
@@ -816,15 +820,31 @@
       "records": 107049,
       "seconds": 147.5,
       "sightings": 89497,
-      "snapshot": {},
+      "snapshot": {
+       "cars": 1985,
+       "cars_generated": 1966,
+       "cash_benchmarks": 2075,
+       "models": 250,
+       "observations": 7185,
+       "offers": 3533,
+       "specs": 3024,
+       "unmapped_trims": 324,
+       "used_listings": 13187,
+       "used_spans": 25839
+      },
       "stage": "build",
       "started_at": "2026-10-16T03:33:24+00:00",
-      "this": true,
       "unparsed": 0
      }
     ],
     "night": "2026-10-15",
-    "publishes": [],
+    "publishes": [
+     {
+      "at": "2026-10-16T04:36:25+01:00",
+      "sha": "ba458c6838",
+      "subject": "data: nightly build 2026-10-16"
+     }
+    ],
     "scrapes": [
      {
       "allowance": null,
@@ -1236,6 +1256,31 @@
       "skipped": 0,
       "source": "nhtsa_recalls",
       "started_at": "2026-10-16T03:09:56+00:00",
+      "status": "ok"
+     },
+     {
+      "allowance": {
+       "www.parkers.co.uk": [
+        5000,
+        5000
+       ]
+      },
+      "capabilities": [
+       "sitemap",
+       "pages"
+      ],
+      "deferred": 0,
+      "errors": 0,
+      "failed": 0,
+      "fetches": 4030,
+      "finished_at": "2026-10-16T10:58:41+00:00",
+      "records": 10318,
+      "refused": 0,
+      "responses": 4030,
+      "runs": 2,
+      "skipped": 0,
+      "source": "parkers",
+      "started_at": "2026-10-16T09:40:36+00:00",
       "status": "ok"
      },
      {
@@ -4020,34 +4065,16 @@
    "capabilities": [
     {
      "kinds": [
-      "car",
-      "offer",
-      "requirements",
-      "trim_map"
+      "requirements"
      ],
      "name": "seed",
-     "parser_version": "2"
+     "parser_version": "3"
     }
    ],
-   "description": "The hand-curated seed data (data/seed/*.json) as a provider.",
+   "description": "The default settings (data/seed/requirements.json): the quoting basis and the starting saved searches.",
    "live": false,
    "name": "manual_seed",
-   "source": "manual"
-  },
-  {
-   "capabilities": [
-    {
-     "kinds": [
-      "offer"
-     ],
-     "name": "offers",
-     "parser_version": "1"
-    }
-   ],
-   "description": "Carwow dealer-offer pages pasted as text (data/pastes/carwow/*.txt).",
-   "live": false,
-   "name": "carwow_paste",
-   "source": "carwow"
+   "source": "manual_seed"
   },
   {
    "capabilities": [
@@ -4346,6 +4373,28 @@
      "kinds": [
       "spec"
      ],
+     "name": "sitemap",
+     "parser_version": "1"
+    },
+    {
+     "kinds": [
+      "spec"
+     ],
+     "name": "pages",
+     "parser_version": "1"
+    }
+   ],
+   "description": "Parkers (www.parkers.co.uk), Bauer's used-car valuation site: every generation of a model, its trims and",
+   "live": true,
+   "name": "parkers",
+   "source": "parkers"
+  },
+  {
+   "capabilities": [
+    {
+     "kinds": [
+      "spec"
+     ],
      "name": "autotest",
      "parser_version": "2"
     },
@@ -4463,15 +4512,40 @@
  "resolution_methods": {
   "base": 234,
   "bracket": 74,
-  "cap-id": 1126,
-  "manual": 56,
-  "name": 35,
-  "rrp": 59,
+  "cap-id": 1143,
+  "name": 42,
+  "rrp": 72,
   "stub": 830,
-  "trim-powertrain": 354,
-  "version": 2
+  "trim-powertrain": 363,
+  "version": 3
  },
  "runs": [
+  {
+   "artifacts": 4027,
+   "capability": "pages",
+   "errors": 0,
+   "finished_at": "2026-10-16T10:58:41+00:00",
+   "id": 166,
+   "records": 4027,
+   "source": "parkers",
+   "started_at": "2026-10-16T09:40:40+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
+  {
+   "artifacts": 3,
+   "capability": "sitemap",
+   "errors": 0,
+   "finished_at": "2026-10-16T09:40:40+00:00",
+   "id": 165,
+   "records": 6291,
+   "source": "parkers",
+   "started_at": "2026-10-16T09:40:36+00:00",
+   "status": "ok",
+   "target": "all",
+   "unmapped": 0
+  },
   {
    "artifacts": 1,
    "capability": "used-stock",
@@ -4705,32 +4779,6 @@
    "status": "ok",
    "target": "all",
    "unmapped": 0
-  },
-  {
-   "artifacts": 15,
-   "capability": "pcp",
-   "errors": 0,
-   "finished_at": "2026-10-16T02:56:59+00:00",
-   "id": 146,
-   "records": 213,
-   "source": "ncd",
-   "started_at": "2026-10-16T02:49:44+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
-  },
-  {
-   "artifacts": 15,
-   "capability": "listing",
-   "errors": 0,
-   "finished_at": "2026-10-16T02:49:44+00:00",
-   "id": 145,
-   "records": 109,
-   "source": "ncd",
-   "started_at": "2026-10-16T02:49:21+00:00",
-   "status": "ok",
-   "target": "all",
-   "unmapped": 0
   }
  ],
  "sources": {
@@ -4739,7 +4787,6 @@
   "hyundai": "Hyundai UK",
   "kia-dealers": "Kia dealers",
   "leaseloco": "LeaseLoco",
-  "manual": "Hand-entered",
   "motorpoint": "Motorpoint",
   "ncd": "New Car Discount",
   "rrg": "RRG"
@@ -13628,6 +13675,40 @@
   },
   {
    "evidence": {
+    "reason": "tie between different trims or powertrains",
+    "tied": [
+     "carwow-cap:104139",
+     "carwow-cap:104140"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/hyundai/ioniq-5-n",
+   "first_seen_at": "2026-10-06T23:39:25+00:00",
+   "label": "Hyundai IONIQ 5 N 478kW 84 kWh 5dr Auto",
+   "last_seen_at": "2026-10-16T02:58:51+00:00",
+   "method": "none",
+   "source": "leaseloco",
+   "source_key": "hyundai|ioniq 5 n|478kw 84kwh 5dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "reason": "tie between different trims or powertrains",
+    "tied": [
+     "carwow-cap:104139",
+     "carwow-cap:104140"
+    ]
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/hyundai/ioniq-5-n",
+   "first_seen_at": "2026-10-06T23:39:25+00:00",
+   "label": "Hyundai IONIQ 5 N 478kW 84 kWh 5dr Auto [Vision Roof]",
+   "last_seen_at": "2026-10-16T02:58:51+00:00",
+   "method": "none",
+   "source": "leaseloco",
+   "source_key": "hyundai|ioniq 5 n|478kw 84kwh 5dr auto [vision roof]",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
     "candidates": 6
    },
    "example_url": "https://www.leaseloco.com/car-leasing/hyundai/ioniq-6",
@@ -13702,6 +13783,71 @@
    "method": "none",
    "source": "leaseloco",
    "source_key": "hyundai|ioniq 9|160kw ultimate 110kwh 5dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 7
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/kia/ev6",
+   "first_seen_at": "2026-10-10T17:35:10+00:00",
+   "label": "KIA EV6 166kW Air 77.4kWh 5dr Auto",
+   "last_seen_at": "2026-10-16T02:57:10+00:00",
+   "method": "none",
+   "source": "leaseloco",
+   "source_key": "kia|ev6|166kw air 77.4kwh 5dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 7
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/kia/ev6",
+   "first_seen_at": "2026-10-10T17:35:10+00:00",
+   "label": "KIA EV6 166kW GT Line 77.4kWh 5dr Auto",
+   "last_seen_at": "2026-10-16T02:57:10+00:00",
+   "method": "none",
+   "source": "leaseloco",
+   "source_key": "kia|ev6|166kw gt line 77.4kwh 5dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 7
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/kia/ev6",
+   "first_seen_at": "2026-10-10T17:35:10+00:00",
+   "label": "KIA EV6 166kW GT Line S 77.4kWh 5dr Auto",
+   "last_seen_at": "2026-10-16T02:57:10+00:00",
+   "method": "none",
+   "source": "leaseloco",
+   "source_key": "kia|ev6|166kw gt line s 77.4kwh 5dr auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 7
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/kia/ev6",
+   "first_seen_at": "2026-10-10T17:35:10+00:00",
+   "label": "KIA EV6 236kW GT Line 77.4kWh 5dr AWD Auto",
+   "last_seen_at": "2026-10-16T02:57:10+00:00",
+   "method": "none",
+   "source": "leaseloco",
+   "source_key": "kia|ev6|236kw gt line 77.4kwh 5dr awd auto",
+   "status": "unmapped"
+  },
+  {
+   "evidence": {
+    "candidates": 7
+   },
+   "example_url": "https://www.leaseloco.com/car-leasing/kia/ev6",
+   "first_seen_at": "2026-10-10T17:35:10+00:00",
+   "label": "KIA EV6 236kW GT Line S 77.4kWh 5dr AWD Auto",
+   "last_seen_at": "2026-10-16T02:57:10+00:00",
+   "method": "none",
+   "source": "leaseloco",
+   "source_key": "kia|ev6|236kw gt line s 77.4kwh 5dr awd auto",
    "status": "unmapped"
   },
   {
