@@ -88,6 +88,18 @@ export interface SnapshotUsed {
   card_seen_at?: string | null;
   /** Carwow's own state for the car: 'New' for a pre-registered car in its used results. */
   vehicle_state?: string | null;
+  /** What cinch says of the car in fields of its own. */
+  trim?: string | null;
+  seats?: number | null;
+  doors?: number | null;
+  body?: string | null;
+  /** 'Electric', or 'Electric range extender'. */
+  fuel?: string | null;
+  range_mi?: number | null;
+  /** The test the range comes from: 'WLTP', or 'NEDC' (older cars, reads higher). */
+  range_test?: string | null;
+  /** Whose stock it is on cinch: 'cinch', 'marketplace', 'partner_sourced'. */
+  stock_type?: string | null;
 }
 
 export interface UsedFinance {

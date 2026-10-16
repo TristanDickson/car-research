@@ -1,0 +1,396 @@
+{
+ "pageNumber": 1,
+ "pageSize": 32,
+ "searchResultsCount": 92,
+ "vehicleListings": [
+  {
+   "updatedAt": "2026-10-15T22:00:39.774Z",
+   "updatedBy": "Inventory.vehicleUpdated",
+   "firstPublishedDate": "2026-10-15T14:15:54.267Z",
+   "vehicleId": "25a1981c-be58-4df2-a983-6983ff5ce5bf",
+   "modelYear": 2020,
+   "vehicleYear": 2020,
+   "bodyType": "Hatchback",
+   "colour": "WHITE",
+   "doors": 5,
+   "engineCapacityCc": 0,
+   "fuelType": "Electric",
+   "vrm": "EO70EPD",
+   "published": true,
+   "isReserved": false,
+   "mileage": 24390,
+   "seats": 4,
+   "stockType": "cinch",
+   "trim": null,
+   "variant": "125kW 42kWh 5dr Auto",
+   "transmissionType": "Automatic",
+   "milesPerGallon": null,
+   "driveType": "Rear-wheel drive",
+   "tags": [],
+   "discountInPence": 0,
+   "depositContributionInPence": 0,
+   "promotionId": null,
+   "priceIncludingAdminFee": 13099,
+   "rangeInMiles": 188.9,
+   "rangeType": "WLTP",
+   "condition": "used",
+   "inventoryType": "physical",
+   "make": "BMW",
+   "price": 13000,
+   "model": "i3",
+   "thumbnailUrl": "https://eu.cdn.autosonshow.tv/4994/projectcambridge/EO70EPD/06_md.jpg",
+   "site": "Grimsby",
+   "engineSize": 0,
+   "fullRegistration": "EO70EPD",
+   "isAvailable": true,
+   "selectedModel": "i3",
+   "quoteType": "pcp",
+   "quoteAnnualMiles": 8000,
+   "quoteBalanceInPence": 1100000,
+   "quoteApr": 12.4,
+   "quoteRegularPaymentInPence": 22427,
+   "quoteTermMonths": 48,
+   "quoteDepositInPence": 200000,
+   "quoteChargesInPence": 370246,
+   "quoteResidualValueInPence": 393750,
+   "quoteExcessMileage": "12p",
+   "categories": [
+    {
+     "name": "heated seats",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "one previous owner",
+     "score": 100,
+     "threshold": 90
+    },
+    {
+     "name": "safe",
+     "score": 57,
+     "threshold": 50
+    },
+    {
+     "name": "tech connected",
+     "score": 60,
+     "threshold": 35
+    },
+    {
+     "name": "compact cars",
+     "score": 95,
+     "threshold": 72
+    },
+    {
+     "name": "good for long drives",
+     "score": 85,
+     "threshold": 70
+    }
+   ]
+  },
+  {
+   "updatedAt": "2026-10-15T15:06:32.657Z",
+   "updatedBy": "Inventory.specDataRetrieved",
+   "firstPublishedDate": "2026-10-14T07:47:31.065Z",
+   "vehicleId": "15ea5273-733b-4f2e-b5be-b20646111a1c",
+   "modelYear": 2023,
+   "vehicleYear": 2023,
+   "bodyType": "Hatchback",
+   "colour": "GREY",
+   "doors": 5,
+   "engineCapacityCc": 0,
+   "fuelType": "Electric",
+   "vrm": "BL23FGX",
+   "published": true,
+   "isReserved": false,
+   "mileage": 45322,
+   "seats": 5,
+   "stockType": "marketplace",
+   "trim": "M50",
+   "variant": "400kW M50 83.9kWh 5dr Auto",
+   "transmissionType": "Automatic",
+   "milesPerGallon": null,
+   "driveType": "Four-wheel drive",
+   "tags": [],
+   "discountInPence": 0,
+   "depositContributionInPence": 0,
+   "promotionId": null,
+   "priceIncludingAdminFee": 30599,
+   "rangeInMiles": 315,
+   "rangeType": "WLTP",
+   "condition": "used",
+   "inventoryType": "physical",
+   "make": "BMW",
+   "price": 30500,
+   "model": "i4 Gran Coupe",
+   "thumbnailUrl": "https://eu.cdn.autosonshow.tv/6414/15670/BL23FGX/e01_md.jpg",
+   "site": "Marshall Nissan Lincoln",
+   "engineSize": 0,
+   "fullRegistration": "BL23FGX",
+   "isAvailable": true,
+   "selectedModel": "i4 Gran Coupe",
+   "quoteType": "pcp",
+   "quoteAnnualMiles": 8000,
+   "quoteBalanceInPence": 2745000,
+   "quoteApr": 12.41,
+   "quoteRegularPaymentInPence": 48963,
+   "quoteTermMonths": 48,
+   "quoteDepositInPence": 305000,
+   "quoteChargesInPence": 1019524,
+   "quoteResidualValueInPence": 1413300,
+   "quoteExcessMileage": "8p",
+   "categories": [
+    {
+     "name": "great for towing",
+     "score": 70,
+     "threshold": 60
+    },
+    {
+     "name": "heated seats",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "parking assistance",
+     "score": 53,
+     "threshold": 40
+    },
+    {
+     "name": "family cars",
+     "score": 80,
+     "threshold": 70
+    },
+    {
+     "name": "one previous owner",
+     "score": 100,
+     "threshold": 90
+    },
+    {
+     "name": "safe",
+     "score": 64,
+     "threshold": 50
+    },
+    {
+     "name": "fast and sporty",
+     "score": 100,
+     "threshold": 60
+    },
+    {
+     "name": "safe for kids",
+     "score": 96,
+     "threshold": 80
+    },
+    {
+     "name": "big boots",
+     "score": 85,
+     "threshold": 80
+    },
+    {
+     "name": "good for long drives",
+     "score": 100,
+     "threshold": 70
+    },
+    {
+     "name": "spacious rear seats",
+     "score": 90,
+     "threshold": 80
+    }
+   ]
+  },
+  {
+   "updatedAt": "2026-10-10T01:20:39.383Z",
+   "updatedBy": "Inventory.vehicleUpdated",
+   "firstPublishedDate": "2026-10-09T15:23:25.577Z",
+   "vehicleId": "677e18b1-9565-4d07-8c2d-4fc1945a38d3",
+   "modelYear": 2026,
+   "vehicleYear": 2026,
+   "bodyType": "SUV",
+   "colour": "SILVER",
+   "doors": 5,
+   "engineCapacityCc": 0,
+   "fuelType": "Electric",
+   "vrm": "YG26VBJ",
+   "published": true,
+   "isReserved": false,
+   "mileage": 6470,
+   "seats": 5,
+   "stockType": "marketplace",
+   "trim": "M Sport Pro",
+   "variant": "345kW xDrive50 M Sport Pro 113kWh 5dr Auto [Tech+]",
+   "transmissionType": "Automatic",
+   "milesPerGallon": null,
+   "driveType": "Four-wheel drive",
+   "tags": [],
+   "discountInPence": 0,
+   "depositContributionInPence": 0,
+   "promotionId": null,
+   "priceIncludingAdminFee": 70799,
+   "rangeInMiles": 490.3,
+   "rangeType": "WLTP",
+   "condition": "used",
+   "inventoryType": "physical",
+   "make": "BMW",
+   "price": 70700,
+   "model": "iX3",
+   "thumbnailUrl": "https://eu.cdn.autosonshow.tv/3866/15413/YG26VBJ/e01_md.jpg",
+   "site": "Marshall Bmw Grimsby",
+   "engineSize": 0,
+   "fullRegistration": "YG26VBJ",
+   "isAvailable": true,
+   "selectedModel": "iX3",
+   "quoteType": "pcp",
+   "quoteAnnualMiles": 8000,
+   "quoteBalanceInPence": 6363000,
+   "quoteApr": 12.39,
+   "quoteRegularPaymentInPence": 126972,
+   "quoteTermMonths": 48,
+   "quoteDepositInPence": 707000,
+   "quoteChargesInPence": 2177531,
+   "quoteResidualValueInPence": 2445875,
+   "quoteExcessMileage": "14.9p",
+   "categories": [
+    {
+     "name": "great for towing",
+     "score": 94,
+     "threshold": 60
+    },
+    {
+     "name": "high spec features",
+     "score": 52,
+     "threshold": 50
+    },
+    {
+     "name": "high seating",
+     "score": 95,
+     "threshold": 60
+    },
+    {
+     "name": "family cars",
+     "score": 83,
+     "threshold": 70
+    },
+    {
+     "name": "one previous owner",
+     "score": 100,
+     "threshold": 90
+    },
+    {
+     "name": "premium audio",
+     "score": 100,
+     "threshold": 50
+    },
+    {
+     "name": "fast and sporty",
+     "score": 100,
+     "threshold": 60
+    },
+    {
+     "name": "safe for kids",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "big boots",
+     "score": 85,
+     "threshold": 80
+    },
+    {
+     "name": "good for long drives",
+     "score": 100,
+     "threshold": 70
+    },
+    {
+     "name": "spacious rear seats",
+     "score": 90,
+     "threshold": 80
+    }
+   ]
+  },
+  {
+   "updatedAt": "2026-10-06T18:12:38.000Z",
+   "updatedBy": "VehicleReservations.VehicleUnreserved",
+   "firstPublishedDate": "2026-09-29T08:59:29.968Z",
+   "vehicleId": "fc89ee2c-3e3f-4d5d-bfac-731dc49fabb6",
+   "modelYear": 2019,
+   "vehicleYear": 2019,
+   "bodyType": "Hatchback",
+   "colour": "BLUE",
+   "doors": 5,
+   "engineCapacityCc": 0,
+   "fuelType": "Electric",
+   "vrm": "CF68DHD",
+   "published": true,
+   "isReserved": false,
+   "mileage": 27940,
+   "seats": 4,
+   "stockType": "cinch",
+   "trim": "S",
+   "variant": "135kW S 42kWh 5dr Auto",
+   "transmissionType": "Automatic",
+   "milesPerGallon": null,
+   "driveType": "Rear-wheel drive",
+   "tags": [],
+   "discountInPence": 0,
+   "depositContributionInPence": 0,
+   "promotionId": null,
+   "priceIncludingAdminFee": 12599,
+   "rangeInMiles": 214,
+   "rangeType": "NEDC",
+   "condition": "used",
+   "inventoryType": "physical",
+   "make": "BMW",
+   "price": 12500,
+   "model": "i3",
+   "thumbnailUrl": "https://eu.cdn.autosonshow.tv/2657/cinch/CF68DHD/06_md.jpg",
+   "site": "Corby",
+   "engineSize": 0,
+   "fullRegistration": "CF68DHD",
+   "isAvailable": true,
+   "selectedModel": "i3",
+   "quoteType": "pcp",
+   "quoteAnnualMiles": 8000,
+   "quoteBalanceInPence": 1050000,
+   "quoteApr": 12.4,
+   "quoteRegularPaymentInPence": 20385,
+   "quoteTermMonths": 48,
+   "quoteDepositInPence": 200000,
+   "quoteChargesInPence": 367230,
+   "quoteResidualValueInPence": 438750,
+   "quoteExcessMileage": "12p",
+   "categories": [
+    {
+     "name": "parking assistance",
+     "score": 53,
+     "threshold": 40
+    },
+    {
+     "name": "high spec features",
+     "score": 50,
+     "threshold": 50
+    },
+    {
+     "name": "safe",
+     "score": 57,
+     "threshold": 50
+    },
+    {
+     "name": "compact cars",
+     "score": 95,
+     "threshold": 72
+    },
+    {
+     "name": "good for long drives",
+     "score": 95,
+     "threshold": 70
+    }
+   ]
+  }
+ ],
+ "hasMatchingVehicleRecentlyBeenInStock": true,
+ "parsedParamsFromUrl": {
+  "make": "bmw",
+  "fuelType": "electric"
+ },
+ "pathSegmentsFromUrl": {
+  "make": "bmw"
+ }
+}

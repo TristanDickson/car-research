@@ -197,7 +197,7 @@ function UsedStockView({ car, listings, stock, byYear, trimScale, costed }: { ca
                   <td className="py-1 pr-3 text-right text-xs tabular-nums text-gray-300" title={financeTitle(l.finance)}>{financeShort(l.finance)}</td>
                   <td className="py-1 pr-3">{l.year ?? "—"}</td>
                   <td className="py-1 pr-3 text-right tabular-nums">{l.mileage != null ? num(l.mileage) : "—"}</td>
-                  <td className="py-1 pr-3 text-xs text-gray-300">{l.derivative ?? "—"}</td>
+                  <td className="py-1 pr-3 text-xs text-gray-300">{l.derivative ?? "—"}{usedFacts(l) && <div className="text-[10px] text-gray-500">{usedFacts(l)}</div>}</td>
                   <td className="py-1 pr-3 text-xs text-gray-400">{l.town ?? "—"}</td>
                   <td className="py-1 text-xs">{l.url ? <a href={l.url} target="_blank" rel="noreferrer" className="text-gray-300 underline">{l.source ?? l.provider}</a> : (l.source ?? l.provider)}</td>
                 </tr>
@@ -261,6 +261,13 @@ function UsedCost({ cost }: { cost: UsedListingCost | undefined }) {
       {gbp(cost.true_monthly)}{thin && <span className="ml-1 text-[10px] text-amber-300">few cars</span>}
     </td>
   );
+}
+
+/** What the site says of the car in fields of its own: '319 mi WLTP · 5 seats', a range extender marked. */
+function usedFacts(l: SnapshotUsed): string {
+  return [l.range_mi != null ? `${num(l.range_mi)} mi${l.range_test ? ` ${l.range_test}` : ""}` : null,
+    l.seats ? `${l.seats} seats` : null,
+    l.fuel && l.fuel.toLowerCase() !== "electric" ? l.fuel.toLowerCase() : null].filter(Boolean).join(" · ");
 }
 
 /** A used listing's finance quote in a few words: '£370/mo PCP', 'from £305/mo PCP' for a site's lowest. */

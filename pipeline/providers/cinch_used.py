@@ -23,6 +23,13 @@ the excess charge. It is kept under `finance` with whether it reconciles, beside
 the colour, drive, discount, cinch's tags ('cars-on-offer', 'nearly-new') and
 its feature categories. The quote's deposit plus credit is the price before
 cinch's admin fee.
+
+Each listing also names the car in fields of its own (`details`): the trim, the
+seats and doors, the body, the fuel (cinch files the range-extender MX-30 and i3
+as 'Electric range extender') and the range with the test it comes from (WLTP,
+or NEDC on some older cars, which reads higher). They go on the row
+and its car_ref; the stock type (cinch's own, a marketplace dealer's or a
+partner's) goes on the row.
 """
 from __future__ import annotations
 
@@ -132,6 +139,17 @@ def finance(v: dict) -> dict | None:
     return f
 
 
+def details(v: dict) -> dict:
+    """What the listing says of the car in fields of its own; a field it leaves empty is left out."""
+    rng = v.get("rangeInMiles")
+    d = {"trim": (v.get("trim") or "").strip() or None, "seats": v.get("seats") or None, "doors": v.get("doors") or None,
+         "body": v.get("bodyType") or None, "fuel": v.get("fuelType") or None,
+         "range_mi": rng if isinstance(rng, (int, float)) and rng > 0 else None}
+    if d["range_mi"] is not None:
+        d["range_test"] = v.get("rangeType") or None
+    return {k: x for k, x in d.items() if x is not None}
+
+
 def parse_body(body: dict, target: Target, observed_at: str) -> list[dict]:
     pages = body.get("pages") if "pages" in body else [body]
     models = target.metadata.get("models") or []
@@ -155,6 +173,7 @@ def parse_body(body: dict, target: Target, observed_at: str) -> list[dict]:
             make_name = m.get("make_name") or pretty_make(m["make"])
             model_name = m.get("model_name") or v.get("model") or m["model"]
             variant = (v.get("variant") or v.get("trim") or "").strip()
+            car = details(v)
             rows.append({
                 "listing_key": f"{SITE}:{vid}", "source": "cinch", "listing_url": target.metadata.get("url"),
                 "source_url": f"https://www.cinch.co.uk/used-cars/{_model_slug(v.get('make'))}/{_model_slug(v.get('model'))}/details/{vid}",
@@ -167,9 +186,9 @@ def parse_body(body: dict, target: Target, observed_at: str) -> list[dict]:
                 "image_url": v.get("thumbnailUrl"), "first_listed_at": v.get("firstPublishedDate"),
                 "finance": finance(v), "colour": v["colour"].title() if v.get("colour") else None, "drive": v.get("driveType"),
                 "discount_gbp": _pounds(v.get("discountInPence")) or None, "tags": list(v.get("tags") or []),
-                "categories": list(v.get("categories") or []),
+                "categories": list(v.get("categories") or []), "stock_type": v.get("stockType"), **car,
                 "car_ref": {"source": SITE, "key": vid, "make": make_name, "model": model_name, "derivative": variant,
-                            "label": f"{make_name} {model_name} {variant}".strip()},
+                            "label": f"{make_name} {model_name} {variant}".strip(), **car},
             })
     if unmatched:
         print(f"  cinch {target.identifier}: not in the catalogue, skipped: "
@@ -182,5 +201,5 @@ def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
         yield ParsedRecord(kind="used", key=row["listing_key"], row=row)
 
 
-stock = Capability(name="used-stock", parser_version="2", discover=discover, fetch=fetch, parse=parse, kinds=("used",))
+stock = Capability(name="used-stock", parser_version="3", discover=discover, fetch=fetch, parse=parse, kinds=("used",))
 provider = Provider(name="cinch_used", default_capability="used-stock", capabilities={"used-stock": stock}, live=True)

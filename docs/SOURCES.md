@@ -60,9 +60,14 @@ order each time, so a car counts as gone only after a week unseen. Left: each ca
 ## cinch
 
 **Used.** Every listing for each make: price, year, mileage, the derivative text, registration,
-drive, colour, and the full finance quote each carries (all reconcile). Left, and a bug: each
-listing's own trim, seats and range fields (`BOARD.md`, T4). Also left: the detail page (keepers,
-service history, equipment, battery warranty), one per car.
+drive, colour, and the full finance quote each carries (all reconcile). Also each listing's own
+trim, seats, doors, body type and fuel (which marks the range-extender MX-30 and i3), its range in
+miles with the test it comes from (WLTP, or NEDC on some older cars, which reads higher), and
+whose stock it is (cinch's own, a marketplace dealer's or a partner's). Left: cinch's own update
+stamps; the engine size and miles per gallon, which are blank or meaningless on an electric car;
+the fields that are the same on every listing (automatic, used, published, available, no deposit
+contribution); the second copies of the year, model and registration. Also left: the detail page
+(keepers, service history, equipment, battery warranty), one per car.
 
 **New.** A PCP quote from cinch's retail partner and the cash price per new car.
 

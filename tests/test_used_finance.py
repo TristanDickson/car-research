@@ -1,8 +1,9 @@
 """Used stock keeps what the cinch and Motorpoint listings print beyond the price: cinch's finance
 quote for each car (and whether it adds up), Motorpoint's lowest monthly payment, and the colour,
-drive, reduction, tags, warranty and plate each prints. Fixtures are pages stored on 11 Oct 2026,
-trimmed to a few listings: cinch's Hyundai and Tesla page 1 API responses (facets dropped) and
-Motorpoint's page 8 search result."""
+drive, reduction, tags, warranty and plate each prints, and what cinch says of the car in fields of
+its own (trim, seats, range). Fixtures are pages stored on 11 Oct 2026, trimmed to a few listings:
+cinch's Hyundai and Tesla page 1 API responses (facets dropped) and Motorpoint's page 8 search
+result; and cinch's BMW and Mazda page 1 responses of 16 Oct, trimmed the same way."""
 import copy
 import json
 import unittest
@@ -10,6 +11,7 @@ from pathlib import Path
 
 from pipeline.providers import cinch_used, motorpoint_used
 from pipeline.providers.types import Target
+from pipeline.services.snapshot import load_used
 from tests.helpers import Raws
 
 FIX = Path(__file__).parent / "fixtures"
@@ -27,6 +29,8 @@ def models(*rows: tuple[str, str, str, str]) -> list[dict]:
 HYUNDAI = models(("hyundai", "ioniq-5", "Hyundai", "Ioniq 5"), ("hyundai", "ioniq-9", "Hyundai", "Ioniq 9"),
                  ("hyundai", "kona-electric", "Hyundai", "Kona Electric"), ("hyundai", "ioniq-electric", "Hyundai", "Ioniq electric"))
 TESLA = models(("tesla", "model-3", "Tesla", "Model 3"), ("tesla", "model-y", "Tesla", "Model Y"))
+BMW = models(("bmw", "i3", "BMW", "i3"), ("bmw", "i4", "BMW", "i4"), ("bmw", "ix3", "BMW", "iX3"))
+MAZDA = models(("mazda", "mx-30", "Mazda", "MX-30"))
 SUPERMARKET = models(("vauxhall", "mokka-electric", "Vauxhall", "Mokka Electric"), ("tesla", "model-y", "Tesla", "Model Y"),
                      ("ford", "explorer", "Ford", "Explorer"), ("skywell", "be11", "Skywell", "BE11"),
                      ("volkswagen", "id-7", "Volkswagen", "ID.7"))
@@ -82,6 +86,51 @@ class CinchQuotes(unittest.TestCase):
         self.assertEqual((r["make"], r["model"], r["model_slug"], r["derivative"], r["price_before_fees"], r["year"], r["mileage"], r["vrm"]),
                          ("Hyundai", "Kona Electric", "kona-electric", "160kW Advance 65kWh 5dr Auto [Comfort Pack]", 20100.0, 2024, 9434, "BJ24ECC"))
         self.assertTrue(r["listing_key"].startswith("cinch:679b3263"))
+
+
+class CinchCarFields(unittest.TestCase):
+    CAR = ("trim", "seats", "doors", "body", "fuel", "range_mi", "range_test")
+
+    def test_trim_seats_doors_body_and_range_reach_the_row_and_its_car_ref(self):
+        rows = cinch_rows("cinch_used_hyundai_2026-10-11_p1.json", "hyundai", HYUNDAI)
+        r = rows["679b3263"]
+        self.assertEqual({k: r[k] for k in self.CAR},
+                         {"trim": "Advance", "seats": 5, "doors": 5, "body": "SUV", "fuel": "Electric", "range_mi": 319, "range_test": "WLTP"})
+        self.assertEqual({k: r["car_ref"][k] for k in self.CAR}, {k: r[k] for k in self.CAR})
+        self.assertEqual(r["car_ref"]["derivative"], "160kW Advance 65kWh 5dr Auto [Comfort Pack]", "the text the matching reads is unchanged")
+        self.assertEqual((rows["1ada8c2f"]["seats"], rows["1ada8c2f"]["trim"]), (7, "Ultimate"))
+        self.assertEqual((r["stock_type"], rows["1ada8c2f"]["stock_type"]), ("cinch", "marketplace"))
+        self.assertNotIn("stock_type", r["car_ref"], "whose stock it is says nothing of the car")
+        tesla = cinch_rows("cinch_used_tesla_2026-10-11_p1.json", "tesla", TESLA)
+        self.assertEqual(tesla["c0fbf96f"]["stock_type"], "partner_sourced")
+
+    def test_an_nedc_range_keeps_its_test_a_fractional_one_its_decimals_and_a_missing_trim_is_left_out(self):
+        rows = cinch_rows("cinch_used_bmw_2026-10-16_p1.json", "bmw", BMW)
+        self.assertEqual((rows["fc89ee2c"]["trim"], rows["fc89ee2c"]["range_mi"], rows["fc89ee2c"]["range_test"]), ("S", 214, "NEDC"))
+        self.assertEqual((rows["677e18b1"]["range_mi"], rows["677e18b1"]["range_test"]), (490.3, "WLTP"))
+        i3 = rows["25a1981c"]
+        self.assertNotIn("trim", i3)
+        self.assertNotIn("trim", i3["car_ref"])
+        self.assertEqual((i3["derivative"], i3["seats"], i3["range_mi"]), ("125kW 42kWh 5dr Auto", 4, 188.9))
+
+    def test_a_range_extender_is_marked_by_its_fuel_and_has_no_range(self):
+        rows = cinch_rows("cinch_used_mazda_2026-10-16_p1.json", "mazda", MAZDA)
+        rex, bev = rows["64a3153c"], rows["b28f9aa9"]
+        self.assertEqual((rex["fuel"], rex["trim"], rex["derivative"]), ("Electric range extender", "Prime Line", "125kW R-EV Prime Line 5dr Auto"))
+        self.assertNotIn("range_mi", rex)
+        self.assertNotIn("range_test", rex)
+        self.assertEqual((bev["fuel"], bev["range_mi"], bev["range_test"]), ("Electric", 124, "WLTP"))
+
+    def test_the_fields_reach_used_json(self):
+        with Raws() as raws:
+            raws.add(cinch_used.provider, "bmw", body=json.dumps({"make": "bmw", "pages": [load("cinch_used_bmw_2026-10-16_p1.json")]}).encode("utf-8"),
+                     metadata={"make": "bmw", "url": "u", "models": BMW}, at=T)
+            conn = raws.build()
+            used = {u["listing_key"][6:14]: u for u in load_used(conn)}
+        self.assertEqual({k: used["fc89ee2c"].get(k) for k in self.CAR + ("stock_type",)},
+                         {"trim": "S", "seats": 4, "doors": 5, "body": "Hatchback", "fuel": "Electric", "range_mi": 214, "range_test": "NEDC",
+                          "stock_type": "cinch"})
+        self.assertNotIn("trim", used["25a1981c"])
 
 
 class MotorpointLowestFinance(unittest.TestCase):

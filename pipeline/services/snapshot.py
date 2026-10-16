@@ -141,9 +141,12 @@ def load_used(conn: sqlite3.Connection) -> list[dict]:
 # fees, when the site first listed it, Motorpoint's list price when new, whether it is still to arrive
 # (Motorpoint's 'coming soon'), and for Carwow how much of the car its card gave ('card', 'stored-card',
 # 'price-year') and Carwow's own state for it ('Used', or 'New' for a pre-registered car in its used results).
+# cinch also names the car in fields of its own: trim, seats, doors, body, fuel, and the range with its test
+# (WLTP or NEDC), and whose stock it is (cinch's own, a marketplace dealer's, a partner's).
 USED_FIELDS = ("finance", "colour", "drive", "discount_gbp", "previous_price_gbp", "tags", "badges", "warranty_months_left",
                "plate_age_id", "price_before_fees", "first_listed_at", "list_price_when_new", "coming_soon",
-               "detail", "card_seen_at", "vehicle_state")
+               "detail", "card_seen_at", "vehicle_state", "trim", "seats", "doors", "body", "fuel", "range_mi", "range_test",
+               "stock_type")
 
 
 def car_slugs(car: dict, specs_by_car: dict[str, list[dict]]) -> tuple[str, str]:

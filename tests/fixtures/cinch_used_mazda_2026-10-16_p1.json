@@ -1,0 +1,462 @@
+{
+ "pageNumber": 1,
+ "pageSize": 32,
+ "searchResultsCount": 19,
+ "vehicleListings": [
+  {
+   "updatedAt": "2026-10-15T22:00:30.730Z",
+   "updatedBy": "Inventory.vehicleUpdated",
+   "firstPublishedDate": "2026-10-15T15:22:36.441Z",
+   "vehicleId": "b28f9aa9-4be7-45f2-a49b-b85e4f1183ee",
+   "modelYear": 2022,
+   "vehicleYear": 2022,
+   "bodyType": "SUV",
+   "colour": "BLACK",
+   "doors": 5,
+   "engineCapacityCc": 0,
+   "fuelType": "Electric",
+   "vrm": "BX22WVN",
+   "published": true,
+   "isReserved": false,
+   "mileage": 41831,
+   "seats": 5,
+   "stockType": "cinch",
+   "trim": "GT Sport",
+   "variant": "107kW GT Sport Tech 35.5kWh 5dr Auto",
+   "transmissionType": "Automatic",
+   "milesPerGallon": null,
+   "driveType": "Front-wheel drive",
+   "tags": [],
+   "discountInPence": 0,
+   "depositContributionInPence": 0,
+   "promotionId": null,
+   "priceIncludingAdminFee": 10599,
+   "rangeInMiles": 124,
+   "rangeType": "WLTP",
+   "condition": "used",
+   "inventoryType": "physical",
+   "make": "Mazda",
+   "price": 10500,
+   "model": "MX-30",
+   "thumbnailUrl": "https://eu.cdn.autosonshow.tv/7059/21623/BX22WVN/06_md.jpg",
+   "site": "Derby",
+   "engineSize": 0,
+   "fullRegistration": "BX22WVN",
+   "isAvailable": true,
+   "selectedModel": "MX-30",
+   "quoteType": "pcp",
+   "quoteAnnualMiles": 8000,
+   "quoteBalanceInPence": 850000,
+   "quoteApr": 12.4,
+   "quoteRegularPaymentInPence": 15326,
+   "quoteTermMonths": 48,
+   "quoteDepositInPence": 200000,
+   "quoteChargesInPence": 313148,
+   "quoteResidualValueInPence": 427500,
+   "quoteExcessMileage": "8p",
+   "categories": [
+    {
+     "name": "panoramic roof",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "first cars",
+     "score": 78,
+     "threshold": 72
+    },
+    {
+     "name": "heated seats",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "parking assistance",
+     "score": 87,
+     "threshold": 40
+    },
+    {
+     "name": "high spec features",
+     "score": 50,
+     "threshold": 50
+    },
+    {
+     "name": "high seating",
+     "score": 77,
+     "threshold": 60
+    },
+    {
+     "name": "family cars",
+     "score": 79,
+     "threshold": 70
+    },
+    {
+     "name": "premium audio",
+     "score": 100,
+     "threshold": 50
+    },
+    {
+     "name": "cheaper insurance",
+     "score": 75,
+     "threshold": 75
+    },
+    {
+     "name": "safe",
+     "score": 70,
+     "threshold": 50
+    },
+    {
+     "name": "safe for kids",
+     "score": 99,
+     "threshold": 80
+    },
+    {
+     "name": "tech connected",
+     "score": 90,
+     "threshold": 35
+    },
+    {
+     "name": "compact cars",
+     "score": 82,
+     "threshold": 72
+    }
+   ]
+  },
+  {
+   "updatedAt": "2026-10-13T01:06:49.322Z",
+   "updatedBy": "Inventory.vehicleUpdated",
+   "firstPublishedDate": "2026-10-09T08:58:00.114Z",
+   "vehicleId": "c0c58e5b-e3c5-4321-9769-0016ae5ac43d",
+   "modelYear": 2023,
+   "vehicleYear": 2023,
+   "bodyType": "SUV",
+   "colour": "WHITE",
+   "doors": 5,
+   "engineCapacityCc": 0,
+   "fuelType": "Electric",
+   "vrm": "LS73HVP",
+   "published": true,
+   "isReserved": false,
+   "mileage": 14192,
+   "seats": 5,
+   "stockType": "cinch",
+   "trim": "Prime Line",
+   "variant": "107kW Prime Line 35.5kWh 5dr Auto",
+   "transmissionType": "Automatic",
+   "milesPerGallon": null,
+   "driveType": "Front-wheel drive",
+   "tags": [],
+   "discountInPence": 0,
+   "depositContributionInPence": 0,
+   "promotionId": null,
+   "priceIncludingAdminFee": 11399,
+   "rangeInMiles": 124,
+   "rangeType": "WLTP",
+   "condition": "used",
+   "inventoryType": "physical",
+   "make": "Mazda",
+   "price": 11300,
+   "model": "MX-30",
+   "thumbnailUrl": "https://eu.cdn.autosonshow.tv/2657/cinch/LS73HVP/06_md.jpg",
+   "site": "Corby",
+   "engineSize": 0,
+   "fullRegistration": "LS73HVP",
+   "isAvailable": true,
+   "selectedModel": "MX-30",
+   "quoteType": "pcp",
+   "quoteAnnualMiles": 8000,
+   "quoteBalanceInPence": 930000,
+   "quoteApr": 12.4,
+   "quoteRegularPaymentInPence": 17392,
+   "quoteTermMonths": 48,
+   "quoteDepositInPence": 200000,
+   "quoteChargesInPence": 334216,
+   "quoteResidualValueInPence": 428400,
+   "quoteExcessMileage": "8p",
+   "categories": [
+    {
+     "name": "first cars",
+     "score": 78,
+     "threshold": 72
+    },
+    {
+     "name": "parking assistance",
+     "score": 87,
+     "threshold": 40
+    },
+    {
+     "name": "high spec features",
+     "score": 50,
+     "threshold": 50
+    },
+    {
+     "name": "high seating",
+     "score": 77,
+     "threshold": 60
+    },
+    {
+     "name": "family cars",
+     "score": 79,
+     "threshold": 70
+    },
+    {
+     "name": "one previous owner",
+     "score": 100,
+     "threshold": 90
+    },
+    {
+     "name": "cheaper insurance",
+     "score": 75,
+     "threshold": 75
+    },
+    {
+     "name": "safe",
+     "score": 70,
+     "threshold": 50
+    },
+    {
+     "name": "safe for kids",
+     "score": 99,
+     "threshold": 80
+    },
+    {
+     "name": "tech connected",
+     "score": 90,
+     "threshold": 35
+    },
+    {
+     "name": "compact cars",
+     "score": 82,
+     "threshold": 72
+    }
+   ]
+  },
+  {
+   "updatedAt": "2026-10-13T10:27:38.000Z",
+   "updatedBy": "FinanceQuoteComponent.PCPQuoteUpdated",
+   "firstPublishedDate": "2026-09-25T14:16:36.754Z",
+   "vehicleId": "64a3153c-188e-4fb4-aa5a-44dd32e2a9b8",
+   "modelYear": 2025,
+   "vehicleYear": 2025,
+   "bodyType": "SUV",
+   "colour": "BLACK",
+   "doors": 5,
+   "engineCapacityCc": 0,
+   "fuelType": "Electric range extender",
+   "vrm": "YN25NPP",
+   "published": true,
+   "isReserved": false,
+   "mileage": 13064,
+   "seats": 5,
+   "stockType": "cinch",
+   "trim": "Prime Line",
+   "variant": "125kW R-EV Prime Line 5dr Auto",
+   "transmissionType": "Automatic",
+   "milesPerGallon": 282,
+   "driveType": "Front-wheel drive",
+   "tags": [],
+   "discountInPence": 0,
+   "depositContributionInPence": 0,
+   "promotionId": null,
+   "priceIncludingAdminFee": 15499,
+   "condition": "used",
+   "inventoryType": "physical",
+   "make": "Mazda",
+   "price": 15400,
+   "model": "MX-30",
+   "thumbnailUrl": "https://eu.cdn.autosonshow.tv/2657/cinch/YN25NPP/06_md.jpg",
+   "site": "Corby",
+   "engineSize": 0,
+   "fullRegistration": "YN25NPP",
+   "isAvailable": true,
+   "selectedModel": "MX-30",
+   "quoteType": "pcp",
+   "quoteAnnualMiles": 8000,
+   "quoteBalanceInPence": 1340000,
+   "quoteApr": 12.41,
+   "quoteRegularPaymentInPence": 23548,
+   "quoteTermMonths": 48,
+   "quoteDepositInPence": 200000,
+   "quoteChargesInPence": 502354,
+   "quoteResidualValueInPence": 712050,
+   "quoteExcessMileage": "14.9p",
+   "categories": [
+    {
+     "name": "parking assistance",
+     "score": 87,
+     "threshold": 40
+    },
+    {
+     "name": "high spec features",
+     "score": 50,
+     "threshold": 50
+    },
+    {
+     "name": "high seating",
+     "score": 77,
+     "threshold": 60
+    },
+    {
+     "name": "family cars",
+     "score": 79,
+     "threshold": 70
+    },
+    {
+     "name": "one previous owner",
+     "score": 100,
+     "threshold": 90
+    },
+    {
+     "name": "safe",
+     "score": 70,
+     "threshold": 50
+    },
+    {
+     "name": "safe for kids",
+     "score": 99,
+     "threshold": 80
+    },
+    {
+     "name": "tech connected",
+     "score": 90,
+     "threshold": 35
+    },
+    {
+     "name": "compact cars",
+     "score": 82,
+     "threshold": 72
+    },
+    {
+     "name": "good for long drives",
+     "score": 100,
+     "threshold": 70
+    }
+   ]
+  },
+  {
+   "updatedAt": "2026-10-05T13:07:49.000Z",
+   "updatedBy": "FinanceQuoteComponent.PCPQuoteUpdated",
+   "firstPublishedDate": "2026-09-15T14:20:23.342Z",
+   "vehicleId": "73599e99-a350-4c4f-b8a2-c1701f5282b3",
+   "modelYear": 2024,
+   "vehicleYear": 2024,
+   "bodyType": "SUV",
+   "colour": "SILVER",
+   "doors": 5,
+   "engineCapacityCc": 0,
+   "fuelType": "Electric range extender",
+   "vrm": "LD74DMX",
+   "published": true,
+   "isReserved": false,
+   "mileage": 10241,
+   "seats": 5,
+   "stockType": "cinch",
+   "trim": "Makoto",
+   "variant": "125kW R-EV Makoto 5dr Auto",
+   "transmissionType": "Automatic",
+   "milesPerGallon": 282,
+   "driveType": "Front-wheel drive",
+   "tags": [],
+   "discountInPence": 0,
+   "depositContributionInPence": 0,
+   "promotionId": null,
+   "priceIncludingAdminFee": 17999,
+   "condition": "used",
+   "inventoryType": "physical",
+   "make": "Mazda",
+   "price": 17900,
+   "model": "MX-30",
+   "thumbnailUrl": "https://eu.cdn.autosonshow.tv/7059/21623/LD74DMX/06_md.jpg",
+   "site": "Derby",
+   "engineSize": 0,
+   "fullRegistration": "LD74DMX",
+   "isAvailable": true,
+   "selectedModel": "MX-30",
+   "quoteType": "pcp",
+   "quoteAnnualMiles": 8000,
+   "quoteBalanceInPence": 1590000,
+   "quoteApr": 12.4,
+   "quoteRegularPaymentInPence": 28757,
+   "quoteTermMonths": 48,
+   "quoteDepositInPence": 200000,
+   "quoteChargesInPence": 584636,
+   "quoteResidualValueInPence": 794300,
+   "quoteExcessMileage": "14.9p",
+   "categories": [
+    {
+     "name": "panoramic roof",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "heated seats",
+     "score": 100,
+     "threshold": 80
+    },
+    {
+     "name": "parking assistance",
+     "score": 53,
+     "threshold": 40
+    },
+    {
+     "name": "high spec features",
+     "score": 50,
+     "threshold": 50
+    },
+    {
+     "name": "high seating",
+     "score": 77,
+     "threshold": 60
+    },
+    {
+     "name": "family cars",
+     "score": 79,
+     "threshold": 70
+    },
+    {
+     "name": "one previous owner",
+     "score": 100,
+     "threshold": 90
+    },
+    {
+     "name": "premium audio",
+     "score": 100,
+     "threshold": 50
+    },
+    {
+     "name": "safe",
+     "score": 70,
+     "threshold": 50
+    },
+    {
+     "name": "safe for kids",
+     "score": 99,
+     "threshold": 80
+    },
+    {
+     "name": "tech connected",
+     "score": 90,
+     "threshold": 35
+    },
+    {
+     "name": "compact cars",
+     "score": 82,
+     "threshold": 72
+    },
+    {
+     "name": "good for long drives",
+     "score": 100,
+     "threshold": 70
+    }
+   ]
+  }
+ ],
+ "hasMatchingVehicleRecentlyBeenInStock": true,
+ "parsedParamsFromUrl": {
+  "make": "mazda",
+  "fuelType": "electric"
+ },
+ "pathSegmentsFromUrl": {
+  "make": "mazda"
+ }
+}
