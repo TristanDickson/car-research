@@ -40,12 +40,14 @@ for car listings, e.g. to remove accents"; "be careful not to let the parser fuc
 on CAP dervied strings".
 
 Landed 16 Oct. Every reader and matcher reads names through one module; an exact CAP name match is
-taken first. Against the same pages: 3,663 offers on a car (3,497 before), 253 records the rules
+taken first. Against the same pages, with T5: 3,664 offers on a car (3,502 before), 253 records the rules
 could not place (331), 1,312 cars with an EV Database variant (1,068), and every Škoda and 24 of 28
 Citroën EV Database records on a car. Most of the 160 lease records that gained or changed a car
 were on the other body style (Sportback, Touring, Coupé, Tourer). Among 4,539 Carwow and Parkers
 names the only collisions are five Enyaq names that differ only in "KW" and "kW". What got worse
-is for T3, below.
+is for T3, below. Left: EV Database's DS records (10) still reach no car. Its make is now read as
+DS, but it prints "N°8" and "DS 3 E-Tense" where the catalogue has "No 8" and "3 E-Tense", so "N°"
+wants reading as "No" and a model name its make's name at the start, both for every source.
 
 ## T2. Carwow's models mapped to Parkers'
 
