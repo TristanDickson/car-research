@@ -126,9 +126,10 @@ def name_compact(s: str | None, make: str | None = None) -> str:
 
 # Make names some sources print for a catalogue make (the catalogue's make slug), by compact().
 # Gathered from the code: the used readers (cinch, Motorpoint: 'Mercedes-Benz', 'SsangYong', 'KGM', 'ORA',
-# 'GWM ORA', 'MG MOTOR UK') and EV Database's 'Mercedes-Benz' (services/facts.py).
+# 'GWM ORA', 'MG MOTOR UK') and EV Database's 'Mercedes-Benz' (services/facts.py) and 'DS Automobiles', the
+# maker's own name for the catalogue's DS.
 MAKE_ALIASES = {"mercedesbenz": "mercedes", "ssangyong": "kgm-motors", "kgm": "kgm-motors", "ora": "gwm", "gwmora": "gwm",
-                "mgmotoruk": "mg"}
+                "mgmotoruk": "mg", "dsautomobiles": "ds"}
 # (catalogue make slug, a retailer's model name by compact()) → the catalogue model slug: the used readers'
 # names the catalogue files differently. Only the same car: cinch's 'e-Niro' is the previous generation, not
 # the Niro EV, and stays unmatched.
