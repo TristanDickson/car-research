@@ -3,8 +3,12 @@
 Server-rendered list of derivatives with the broker's all-in price (first
 registration, road tax, warranty included; grant applied where it applies).
 Only electric derivatives (a 'kW' in the name) are kept. Offer key is the
-derivative's own URL path; trim resolution by the derivative text (trim_map
-source 'ncd').
+derivative's own URL path. The listing does not print the CAP id; the derivative page it links
+to does (below). Discover hands the parser, in the target's metadata (`cap_ids`), the id each
+derivative page printed when the `pcp` capability last read it, by path; a row whose page is
+known carries that id (car_ref source 'carwow-cap', with NCD's text kept beside it), and the
+rest are matched by their text (trim_map source 'ncd'). The `pcp` capability runs first, so a
+night's listing has that night's pages.
 
 The `pcp` capability reads the same listings, then each electric derivative's own page and
 the PCP quote that page asks for. The quote is not in the page: NCD's /js/detail-page.js
@@ -14,7 +18,8 @@ deposit and term (10,000 miles, £1,000, 36 months on all nine pages read on 11 
 echoes those inputs with the payment, APR, final value and total repayable. NCD prints it as
 "Based on 35 monthly payments ... APR for illustration is 7.9%", so the row is `illustrative`.
 The combined body holds the listing and every request and answer; the derivative pages and
-answers are kept as parts. Offer key `ncd:pcp:<derivative path>`, with the cash row's car_ref.
+answers are kept as parts. Offer key `ncd:pcp:<derivative path>`, with the cash row's car_ref
+and the CAP id of the page the quote was asked from.
 
 Each derivative page also prints CAP's technical data for the derivative (`tech-name` /
 `tech-value` pairs) under its CAP id (hidden `derivative-code`, the id Carwow's registry uses).
@@ -26,7 +31,9 @@ from __future__ import annotations
 
 import json
 import re
+import sqlite3
 from collections.abc import Iterator
+from dataclasses import replace
 
 from pipeline.providers.http import Blocked, FetchError, fetch_url
 from pipeline.providers.parse import money, norm_key, text
@@ -70,11 +77,42 @@ def discover(target: Target, ctx: Context) -> Iterator[Target]:
             yield Target(identifier=ident, metadata={"make": ident.split("/")[0], "url": BASE + path})
 
 
+def page_cap_ids(conn: sqlite3.Connection | None, listing_url: str) -> dict[str, str]:
+    """Derivative path -> the CAP id its page printed when last read (NCD's spec rows), for the
+    paths of one listing's make, model and body. A path read under two ids takes the later."""
+    if conn is None:
+        return {}
+    _, make, model, body = (listing_url[len(BASE):].strip("/").split("/") + ["", "", "", ""])[:4]
+    try:
+        rows = conn.execute("SELECT cap_id, payload, last_seen_at FROM specs WHERE source=? AND cap_id IS NOT NULL "
+                            "ORDER BY last_seen_at, cap_id", (SITE,)).fetchall()
+    except sqlite3.OperationalError:
+        return {}
+    out: dict[str, str] = {}
+    for cap, payload, _ in rows:
+        url = json.loads(payload).get("source_url") or ""
+        seg = url[len(BASE):].strip("/").split("/")
+        if url.startswith(BASE) and len(seg) > 3 and seg[1] == make and seg[2].startswith(model) and seg[3] == body:
+            out[url[len(BASE):]] = cap
+    return dict(sorted(out.items()))
+
+
+def discover_listing(target: Target, ctx: Context) -> Iterator[Target]:
+    for t in discover(target, ctx):
+        yield Target(t.identifier, {**t.metadata, "cap_ids": page_cap_ids(ctx.extras.get("db"), t.metadata["url"])})
+
+
 def fetch(target: Target, ctx: Context) -> Fetched:
     return fetch_url(target.metadata["url"], ctx)
 
 
-def parse_page(page: str, make: str, url: str, observed_at: str) -> list[dict]:
+def page_cap_id(page: str) -> str | None:
+    """The CAP id a derivative page prints (hidden `derivative-code`)."""
+    m = re.search(r'<input[^>]*\bid="derivative-code"[^>]*\bvalue="(\d+)"', page) or re.search(r'<input[^>]*\bvalue="(\d+)"[^>]*\bid="derivative-code"', page)
+    return m.group(1) if m else None
+
+
+def parse_page(page: str, make: str, url: str, observed_at: str, cap_ids: dict[str, str] | None = None) -> list[dict]:
     rows = []
     for m in ITEM_RE.finditer(page):
         b = m.group(1)
@@ -94,15 +132,18 @@ def parse_page(page: str, make: str, url: str, observed_at: str) -> list[dict]:
         fuel = href.group(1).split("/")[5:6]
         if fuel and fuel[0] != "electric":
             continue
+        ref = {"source": SITE, "key": norm_key(make, group_t, name_t), "label": f"{group_t} {name_t}".strip(),
+               "make": make, "model": group_t, "derivative": name_t,
+               # price + stated saving - OTR extras = the RRP, which pins the derivative among same-trim twins
+               "rrp": round(money(price.group(1)) + money(save.group(1)) - OTR_EXTRAS_GBP, 2) if save and money(save.group(1)) else None}
+        if cap := (cap_ids or {}).get(href.group(1)):
+            ref.update(source="carwow-cap", key=cap)
         rows.append({
             "id": f"ncd:{href.group(1)}", "offer_key": f"ncd:{href.group(1)}",
             "observed_at": observed_at, "captured_at": observed_at[:10], "present": 1,
             "status": "lead", "verification": "scraped", "source": "New Car Discount",
             "source_url": BASE + href.group(1), "listing_url": url,
-            "car_ref": {"source": SITE, "key": norm_key(make, group_t, name_t), "label": f"{group_t} {name_t}".strip(),
-                        "make": make, "model": group_t, "derivative": name_t,
-                        # price + stated saving - OTR extras = the RRP, which pins the derivative among same-trim twins
-                        "rrp": round(money(price.group(1)) + money(save.group(1)) - OTR_EXTRAS_GBP, 2) if save and money(save.group(1)) else None},
+            "car_ref": ref,
             "finance_type": "cash", "vehicle_price": money(price.group(1)),
             "saving_stated": money(save.group(1)) if save else None,
             "notes": "Broker all-in price including first registration, road tax and warranty. Availability for a December delivery not confirmed.",
@@ -111,7 +152,8 @@ def parse_page(page: str, make: str, url: str, observed_at: str) -> list[dict]:
 
 
 def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
-    for row in parse_page(body.decode("utf-8", "replace"), target.metadata["make"], original_url(target), observed_at_for(target)):
+    for row in parse_page(body.decode("utf-8", "replace"), target.metadata["make"], original_url(target), observed_at_for(target),
+                          target.metadata.get("cap_ids")):
         yield ParsedRecord(kind="offer", key=row["offer_key"], row=row)
 
 
@@ -293,7 +335,7 @@ def tyre(size: str | None) -> dict | None:
 
 def spec_row(page: str, url: str, make: str, observed_at: str) -> dict | None:
     """The tyres and wheels a derivative's page prints, under its CAP id."""
-    cap = re.search(r'<input[^>]*\bid="derivative-code"[^>]*\bvalue="(\d+)"', page) or re.search(r'<input[^>]*\bvalue="(\d+)"[^>]*\bid="derivative-code"', page)
+    cap = page_cap_id(page)
     tech = tech_table(page)
     if not cap or not tech:
         return None
@@ -311,12 +353,14 @@ def spec_row(page: str, url: str, make: str, observed_at: str) -> dict | None:
     if not numbers:
         return None
     path = url[len(BASE):] if url.startswith(BASE) else url
-    return {"spec_key": f"ncd:{cap.group(1)}", "cap_id": cap.group(1), "make": make, "variant": path.strip("/").split("/")[-1] or None,
+    return {"spec_key": f"ncd:{cap}", "cap_id": cap, "make": make, "variant": path.strip("/").split("/")[-1] or None,
             "source_url": url, "observed_at": observed_at, "numbers": numbers, "wheel_type": tech.get("Wheel Type")}
 
 
-def parse_quotes(doc: dict, make: str, observed_at: str) -> list[dict]:
-    cash = {r["source_url"][len(BASE):]: r for r in parse_page(doc.get("listing") or "", make, doc.get("listing_url") or "", observed_at)}
+def parse_quotes(doc: dict, make: str, observed_at: str, cap_ids: dict[str, str] | None = None) -> list[dict]:
+    """The PCP rows, each on its listing row's car; `cap_ids`: derivative path -> the CAP id its page printed."""
+    cash = {r["source_url"][len(BASE):]: r
+            for r in parse_page(doc.get("listing") or "", make, doc.get("listing_url") or "", observed_at, cap_ids)}
     rows = []
     for q in doc.get("quotes") or []:
         if q.get("href") in cash and (row := quote_row(q, cash[q["href"]], observed_at)):
@@ -327,18 +371,23 @@ def parse_quotes(doc: dict, make: str, observed_at: str) -> list[dict]:
 def parse_pcp(body: bytes, target: Target) -> Iterator[ParsedRecord]:
     doc = json.loads(body.decode("utf-8", "replace"))
     at = observed_at_for(target)
-    for row in parse_quotes(doc, target.metadata["make"], at):
+    parts = {p["url"]: p["body"].decode("utf-8", "replace") for p in target.metadata.get("parts") or []
+             if p.get("status") == 200 and p.get("body")}
+    quotes = [q for q in doc.get("quotes") or [] if q.get("href") and q.get("page_url") in parts]
+    cap_ids = {q["href"]: cap for q in quotes if (cap := page_cap_id(parts[q["page_url"]]))}
+    for row in parse_quotes(doc, target.metadata["make"], at, cap_ids):
         yield ParsedRecord(kind="offer", key=row["offer_key"], row=row)
-    pages = {p["url"]: p["body"] for p in target.metadata.get("parts") or [] if p.get("status") == 200 and p.get("body")}
-    for q in doc.get("quotes") or []:
-        page = pages.get(q.get("page_url"))
-        if page and (row := spec_row(page.decode("utf-8", "replace"), q["page_url"], target.metadata["make"], at)):
+    for q in quotes:
+        if row := spec_row(parts[q["page_url"]], q["page_url"], target.metadata["make"], at):
             yield ParsedRecord(kind="spec", key=row["spec_key"], row=row)
 
 
-listing = Capability(name="listing", parser_version="1", discover=discover, fetch=fetch, parse=parse, kinds=("offer",))
+listing = Capability(name="listing", parser_version="2", discover=discover_listing, fetch=fetch, parse=parse, kinds=("offer",))
 # No backfill: the Wayback Machine keeps pages, not the quote calls they make.
-pcp = Capability(name="pcp", parser_version="2", discover=discover, fetch=fetch_quotes, parse=parse_pcp, kinds=("offer", "spec"),
+pcp = Capability(name="pcp", parser_version="3", discover=discover, fetch=fetch_quotes, parse=parse_pcp, kinds=("offer", "spec"),
                  reads_parts=True)
+# pcp before listing: a night's listing takes the CAP ids from that night's derivative pages. An archived
+# listing is not given today's ids.
 provider = Provider(name="ncd", default_capability="listing",
-                    capabilities={"listing": listing, "pcp": pcp, "backfill": backfill_capability(listing)}, live=True)
+                    capabilities={"pcp": pcp, "listing": listing, "backfill": backfill_capability(replace(listing, discover=discover))},
+                    live=True)

@@ -84,9 +84,10 @@ Each derivative's broker cash price and saving, and its PCP quote at the page's 
 sizes, from which the build works out the sidewall height (106 cars on sale, all Hyundai and Kia);
 ride is graded by ADAC instead, since the survey found sidewall does not decide it across models.
 NCD prints the make before the model on Kia listings, and files one copy of the EV6 GT as a
-diesel, which is skipped. Left, and a bug: NCD's prices are matched by their text, not by the CAP
-id its pages print (`BOARD.md`, T5). Also left: the HP quote, and the rest of the technical table,
-which other sources give.
+diesel, which is skipped. Both prices are placed by the CAP id each derivative's page prints. The
+listing does not print it, so a cash price takes the id of the page its row links to, as that
+page read the same night or last; a row whose page has never been read is matched by its text.
+Left: the HP quote, and the rest of the technical table, which other sources give.
 
 ## LeaseLoco
 

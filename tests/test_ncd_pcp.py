@@ -217,6 +217,67 @@ class Listings(unittest.TestCase):
     def test_capabilities(self):
         self.assertEqual(sorted(ncd.provider.capabilities), ["backfill", "listing", "pcp"])
         self.assertEqual(ncd.provider.default_capability, "listing")
+        # the scrape runs them in this order: the listing takes the ids from that night's pages
+        self.assertEqual(list(ncd.provider.capabilities)[:2], ["pcp", "listing"])
+
+
+class CapIds(unittest.TestCase):
+    """The listing does not print the CAP id; the derivative page it links to does, and both NCD prices carry it."""
+
+    PREMIUM, URL = ThroughTheBuild.PREMIUM, ThroughTheBuild.URL
+
+    def test_the_listing_prints_no_cap_id(self):
+        page = fixture("ncd_hyundai_ioniq-3_listing_2026-10-11.html")
+        self.assertNotIn("derivative-code", page)
+        self.assertNotIn("111014", page)
+        self.assertEqual(ncd.page_cap_id(fixture("ncd_hyundai_ioniq-3_premium-ev-pack_derivative.html")), "111014")
+
+    def test_a_listing_row_carries_its_pages_id(self):
+        rows = ncd.parse_page(fixture("ncd_hyundai_ioniq-3_listing_2026-10-11.html"), "hyundai", self.URL, T, {self.PREMIUM: "111014"})
+        premium = next(r for r in rows if r["source_url"] == ncd.BASE + self.PREMIUM)
+        self.assertEqual((premium["car_ref"]["source"], premium["car_ref"]["key"]), ("carwow-cap", "111014"))
+        plain = ncd.parse_page(fixture("ncd_hyundai_ioniq-3_listing_2026-10-11.html"), "hyundai", self.URL, T)
+        text = next(r for r in plain if r["source_url"] == ncd.BASE + self.PREMIUM)["car_ref"]
+        # NCD's text is kept beside the id
+        self.assertEqual({k: v for k, v in premium["car_ref"].items() if k not in ("source", "key")},
+                         {k: v for k, v in text.items() if k not in ("source", "key")})
+        self.assertEqual(text["source"], "ncd")
+        self.assertTrue(all(r["car_ref"]["source"] == "ncd" for r in rows if r is not premium))
+
+    def test_a_quote_carries_the_id_of_the_page_it_was_asked_from(self):
+        body = (FIX / "ncd_kia_ev6_4x4_pcp.json").read_bytes()
+        parts = [{"url": ncd.BASE + GT, "status": 200, "body": (FIX / "ncd_kia_ev6_gt_4x4_derivative.html").read_bytes()}]
+        rows = [r.row for r in ncd.parse_pcp(body, ev6_target(observed_at=T, parts=parts)) if r.kind == "offer"]
+        gt = next(r for r in rows if r["offer_key"] == f"ncd:pcp:{GT}")
+        self.assertEqual((gt["car_ref"]["source"], gt["car_ref"]["key"], gt["car_ref"]["derivative"]),
+                         ("carwow-cap", "108315", "478kW GT 84kWh 5dr AWD Auto"))
+        # the six whose pages were not kept are matched by their text, as before
+        self.assertEqual(sorted(r["car_ref"]["source"] for r in rows), ["carwow-cap"] + ["ncd"] * 6)
+
+    def test_through_the_build(self):
+        """The pcp capability reads the Premium EV Pack's page; the next listing is handed its id and is placed by it."""
+        from tests.helpers import Raws, target_for
+        with mock.patch.object(ncd, "fetch_url", ThroughTheBuild().fetch_url):
+            fetched = ncd.pcp.fetch(Target("hyundai/ioniq-3", {"make": "hyundai", "url": self.URL}), Context(root=FIX))
+        with Raws() as raws:
+            raws.add("ncd", "hyundai/ioniq-3", body=fetched.body, capability="pcp", at=T, parts=fetched.parts)
+            raws.add("carwow_deals", "hyundai/ioniq-3", "carwow_hyundai_ioniq-3_deals.html", at=T)
+            first = raws.build()
+            self.assertEqual(ncd.page_cap_ids(first, self.URL), {self.PREMIUM: "111014"})
+            self.assertEqual(ncd.page_cap_ids(first, LISTING_URL), {})   # another model's listing
+            meta = target_for(ncd.provider, "listing", "hyundai/ioniq-3", first).metadata
+            self.assertEqual(meta["cap_ids"], {self.PREMIUM: "111014"})
+            raws.add("ncd", "hyundai/ioniq-3", "ncd_hyundai_ioniq-3_listing_2026-10-11.html", at="2026-10-11T19:00:00+00:00", metadata=meta)
+            conn = raws.build()
+        q = "SELECT car_id FROM offer_observations WHERE offer_key=?"
+        self.assertEqual(conn.execute(q, (f"ncd:{self.PREMIUM}",)).fetchone()[0], "carwow-cap:111014")
+        self.assertEqual(conn.execute(q, (f"ncd:pcp:{self.PREMIUM}",)).fetchone()[0], "carwow-cap:111014")
+        # Neither went through the text match: the Premium EV Pack's name is not among NCD's resolved names.
+        rows = ncd.parse_page(fixture("ncd_hyundai_ioniq-3_listing_2026-10-11.html"), "hyundai", self.URL, T)
+        label = next(r["car_ref"]["label"] for r in rows if r["source_url"] == ncd.BASE + self.PREMIUM)
+        names = {r["label"] for r in conn.execute("SELECT label FROM trim_map WHERE source='ncd'")}
+        self.assertEqual(len(names), len(rows) - 1)
+        self.assertNotIn(label, names)
 
 
 if __name__ == "__main__":
