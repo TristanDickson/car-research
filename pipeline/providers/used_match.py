@@ -2,45 +2,23 @@
 
 Retailers name the model (cinch: 'Kona', 'ID.4'; Motorpoint: 'IONIQ 5'), the
 catalogue names it as Carwow does ('Kona Electric', 'ID.4', 'Ioniq 5'). The
-match is on letters and digits only, exact first, then with the catalogue's
-electric suffix dropped ('Kona Electric' → 'kona'), then an alias table for
-the handful the retailers file differently (BMW 'i4 Gran Coupe' is the i4).
-Only aliases that are the same car: cinch's 'e-Niro' is the previous
-generation, not the Niro EV, and stays unmatched.
+match is on letters and digits only, accents folded (pipeline/normalise.py),
+exact first, then with the catalogue's electric suffix dropped ('Kona Electric'
+→ 'kona'), then the alias table for the handful the retailers file differently
+(BMW 'i4 Gran Coupe' is the i4; normalise.MODEL_ALIASES).
 """
 from __future__ import annotations
 
 import re
 
-# Retailer make names, normalised, whose catalogue make slug is spelt differently.
-MAKE_ALIASES = {"mercedesbenz": "mercedes", "ssangyong": "kgm-motors", "kgm": "kgm-motors", "ora": "gwm", "gwmora": "gwm",
-                "mgmotoruk": "mg"}
-# (catalogue make slug, retailer model name normalised) → catalogue model slug.
-MODEL_ALIASES = {
-    ("audi", "a6"): "a6-sportback-e-tron", ("audi", "a6avant"): "a6-avant-e-tron", ("audi", "q6"): "q6-e-tron",
-    ("audi", "q4etronsportback"): "q4-e-tron-sportback", ("audi", "q4"): "q4-e-tron", ("audi", "q8"): "q8-e-tron",
-    ("bmw", "i4grancoupe"): "i4",
-    ("ds", "ds3crossback"): "3-crossback-e-tense",
-    ("gwm", "funkycat"): "ora-03", ("gwm", "ora03"): "ora-03",
-    ("honda", "hondae"): "e",
-    ("ds", "ds3"): "3-e-tense",
-    ("kgm-motors", "korandoemotion"): "korando-e-motion", ("kgm-motors", "torres"): "torres-evx",
-    ("lexus", "ux"): "ux-300e",
-    ("mg", "mgs5"): "s5-ev",
-    ("mini", "hatchback"): "electric", ("mini", "cooper"): "electric",   # under the electric filter, the Cooper Electric
-    ("omoda", "5"): "omoda-e5",
-    ("polestar", "4coupe"): "4",
-    ("skoda", "enyaqiv"): "enyaq", ("skoda", "citigo"): "citigo-e-iv",
-    ("smart", "forfour"): "eq-forfour", ("smart", "hashtag1"): "1", ("smart", "hashtag3"): "3", ("smart", "hashtag5"): "smart-5",
-    ("volkswagen", "golf"): "e-golf",
-    ("volvo", "c40"): "c40-recharge",   # the EC40 is the same car renamed, so 'C40' alone is ambiguous without this
-}
+from pipeline.normalise import MAKE_ALIASES, MODEL_ALIASES, compact
+
 # What a catalogue model name carries that a retailer's leaves out.
 ELECTRIC_SUFFIXES = ("electric", "recharge", "etense", "etech", "ev", "e")
 
 
 def norm(s: str | None) -> str:
-    return re.sub(r"[^a-z0-9]", "", (s or "").lower())
+    return compact(s)
 
 
 def bare(s: str | None) -> str:

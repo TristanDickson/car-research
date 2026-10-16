@@ -12,6 +12,7 @@ import json
 import sqlite3
 from datetime import datetime, timedelta, timezone
 
+from pipeline import normalise
 from pipeline.providers.types import ParsedRecord
 
 # Sources whose pages show a sample of the stock, not all of it: Carwow's used cards come back in a
@@ -49,7 +50,7 @@ _MODEL_NOISE = {"electric", "electrified", "hatchback", "estate", "saloon", "suv
 
 def _model_norm(s: str | None) -> str:
     words = [w.lstrip("0") or "0" if w.isdigit() else w   # 'Ora 03' is 'Ora 3'
-             for w in (s or "").lower().replace("-", " ").split() if w not in _MODEL_NOISE]
+             for w in normalise.words(s) if w not in _MODEL_NOISE]
     return " ".join(words)
 
 
@@ -63,6 +64,28 @@ def model_agrees(wanted: str | None, car: dict) -> bool:
         if b and (a == b or a.startswith(b + " ") or b.startswith(a + " ")):
             return True
     return False
+
+
+# Body words that name a model of their own ('Q4 Sportback e-tron' is not the Q4 e-tron), kept by model_is.
+_BODY = {"sportback", "fastback", "tourer", "touring", "shooting", "brake", "gran", "cabrio", "convertible", "coupe"}
+
+
+def _model_words(s: str | None, make: str | None = None) -> set[str]:
+    ws = [w.lstrip("0") or "0" if w.isdigit() else w for w in normalise.words(s)]
+    mk = normalise.words(make)
+    if mk and ws[:len(mk)] == mk:   # NCD prints the make before the model ('KIA EV6 ELECTRIC ESTATE')
+        ws = ws[len(mk):]
+    return {w for w in ws if w in _BODY or w not in _MODEL_NOISE}
+
+
+def model_is(wanted: str | None, car: dict, make: str | None = None) -> bool:
+    """Whether a record's model is the car's model itself, not only one model_agrees with: the same words,
+    body words counted ('Q4 e-tron' is not the 'Q4 Sportback e-tron'), the descriptors model_agrees drops not
+    ('IONIQ 5 ELECTRIC HATCHBACK' is the 'Ioniq 5'). No model printed is no objection."""
+    a = _model_words(wanted, make)
+    if not a:
+        return True
+    return a in (_model_words(car.get("model")), _model_words((car.get("model_slug") or "").replace("-", " ")))
 
 
 def _latest(table: str, col: str) -> str:

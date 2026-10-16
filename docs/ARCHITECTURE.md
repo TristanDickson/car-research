@@ -64,6 +64,10 @@ The next step, a new way of deciding which car a record is, is in `ARCHITECTURE-
    - an EV Database variant is tied to a car by battery size and year;
    - a used car is tied to a trim by its trim words and a battery within 3 kWh.
 
+   Every lookup reads names the same way first: accents and case folded ("Škoda" is "Skoda"),
+   punctuation alike ("GT-Line S" is "GT Line S"), CAP's short forms read as the long ones
+   ("Qtro" is "quattro"), one list of the makes sources spell differently. A record whose CAP
+   name is exactly a registry name, as printed, is matched on that before anything is read alike.
    A record none of them places is listed, never guessed. Petrol versions that electric models'
    pages also list are not cars.
 3. **Facts.** Every source's statements become claims; each car's facts are resolved from them

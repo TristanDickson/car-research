@@ -7,8 +7,11 @@ on Carwow that differ by RRP alone (option packs, a heat pump, a seat layout:
 see docs/ARCHITECTURE.md, "Transform"). Resolution is linkage to that
 registry, not clustering: every broker row names one CAP derivative.
 
+  exact       a candidate whose registry CAP name is the text exactly as printed
+              is the only one weighed: no gate or score reads it first
   gates       make + model agree, kW and kWh agree where both print them, every
-              trim word of the candidate appears in the text (services/match.py)
+              trim word of the candidate appears in the text (services/match.py),
+              both read alike by pipeline/normalise.py
   one match   a single candidate after the gates: 'trim-powertrain'
   twins       several derivatives of one trim and powertrain, told apart by:
     rrp         the broker's own RRP (NCD prints price + saving) equals one twin's
@@ -38,6 +41,7 @@ import json
 import re
 from dataclasses import dataclass, field
 
+from pipeline import gold, normalise
 from pipeline.services import match
 
 BRACKET_RE = re.compile(r"\[([^\]]+)\]")
@@ -47,6 +51,8 @@ RRP_TOLERANCE = 10.0
 # paint and options (a dealer's on-the-road example includes its metallic paint), below it by rounding.
 PRICE_ABOVE_LIST = 1500.0
 PRICE_BELOW_LIST = 250.0
+EXACT = "="   # a pin filed under the name exactly as printed (pin_keys)
+APPENDED_SEATS_RE = re.compile(r" \[\d seat\]$")
 
 
 @dataclass
@@ -67,10 +73,21 @@ def pack_brackets(text: str | None) -> list[str]:
 
 
 def name_key(text: str | None) -> str:
-    """CAP's derivative name as printed, lower-cased, minus the seat count a
+    """CAP's derivative name read as pipeline/normalise.py reads every name, minus the seat count a
     provider may append ('[4 seat]'), so two brokers' copies of one name agree."""
-    t = re.sub(r"\[\s*\d\s*seats?\s*\]", " ", (text or "").lower())
-    return re.sub(r"\s+", " ", t).strip()
+    t = re.sub(r"\[\s*\d\s*seats?\s*\]", " ", normalise.fold(text))
+    return " ".join(normalise.name_words(t))
+
+
+def printed(text: str | None) -> str:
+    """The name as its source printed it: without the seat count LeaseLoco's reader appends ('[4 seat]',
+    providers/leaseloco.py), which is ours, not CAP's."""
+    return APPENDED_SEATS_RE.sub("", text or "")
+
+
+def pin_keys(text: str | None) -> tuple[str, str]:
+    """Where a pin for this name is filed and looked up: the name exactly as printed first, then its name_key."""
+    return (EXACT + printed(text), name_key(text))
 
 
 def _price(c: dict) -> float | None:
@@ -92,30 +109,41 @@ def _off_price(rrp, top: list[dict]) -> dict | None:
     return {"reason": "the record's price fits no derivative its text names", "rrp": rrp, "list_prices": sorted(set(prices))}
 
 
-def _pinned_elsewhere(pins: dict[str, set[str]] | None, key: str, twin_ids: set[str]) -> str | None:
-    """The twin another source's copy of the same CAP name was pinned to by its RRP."""
-    if not pins or not key:
+def _pinned_elsewhere(pins: dict[str, set[str]] | None, text: str, twin_ids: set[str]) -> str | None:
+    """The twin another source's copy of the same CAP name was pinned to by its RRP: the name as printed
+    first, then as read alike."""
+    if not pins or not text:
         return None
-    hit = sorted((pins.get(key) or set()) & twin_ids)
-    return hit[0] if len(hit) == 1 else None
+    for key in pin_keys(text):
+        hit = sorted((pins.get(key) or set()) & twin_ids)
+        if len(hit) == 1:
+            return hit[0]
+    return None
 
 
 def choose(ref: dict, candidates: list[dict], pins: dict[str, set[str]] | None = None) -> Resolution:
     """The one derivative `ref` names, with how we know. `ref` is the record's
     car_ref: derivative (the broker's text), optional rrp; `candidates` the
     derivatives of that make + model; `pins` the CAP names other records were
-    pinned to by their RRP (name key -> derivative ids), from a first pass."""
+    pinned to by their RRP (pin_keys -> derivative ids), from a first pass.
+    A candidate of the record's own model whose registry name is the text exactly
+    as printed is taken before any is scored, so reading names alike can never lose
+    an exact match (the Q4 and Q4 Sportback share CAP names: the model decides)."""
     text = ref.get("derivative") or ref.get("label") or ""
-    scored = [(s, c) for s, c in ((match.score(text, c), c) for c in candidates) if s is not None]
-    if not scored:
-        return Resolution(None, "none", {"candidates": len(candidates)})
-    scored.sort(key=lambda sc: -sc[0])
-    top = [c for s, c in scored if s == scored[0][0]]
+    named = [c for c in candidates if text and c.get("cap_name") == printed(text) and gold.model_is(ref.get("model"), c, ref.get("make"))]
+    if named:
+        top, best = named, "exact name"
+    else:
+        scored = [(s, c) for s, c in ((match.score(text, c), c) for c in candidates) if s is not None]
+        if not scored:
+            return Resolution(None, "none", {"candidates": len(candidates)})
+        scored.sort(key=lambda sc: -sc[0])
+        top, best = [c for s, c in scored if s == scored[0][0]], scored[0][0]
     if len({match._powertrain(c) for c in top}) > 1:
         return Resolution(None, "none", {"reason": "tie between different trims or powertrains",
                                          "tied": sorted(c["id"] for c in top)})
     br = brackets(text)
-    ev = {"score": scored[0][0], "twins": sorted(c["id"] for c in top), "prices": sorted({_price(c) for c in top if _price(c)}),
+    ev = {"score": best, "twins": sorted(c["id"] for c in top), "prices": sorted({_price(c) for c in top if _price(c)}),
           "brackets": br}
     off = _off_price(ref.get("rrp"), top)
     if off:
@@ -131,7 +159,7 @@ def choose(ref: dict, candidates: list[dict], pins: dict[str, set[str]] | None =
             pick = max(exact, key=_current_first)
             return Resolution(pick["id"], "rrp", {**ev, "rrp": rrp}, br)
         ev["rrp_unmatched"] = rrp
-    pinned = _pinned_elsewhere(pins, name_key(text), {c["id"] for c in top})
+    pinned = _pinned_elsewhere(pins, text, {c["id"] for c in top})
     if pinned:
         return Resolution(pinned, "name", {**ev, "name_key": name_key(text)}, br)
     packs = pack_brackets(text)

@@ -12,9 +12,9 @@ import json
 import re
 from collections.abc import Iterator
 
+from pipeline import normalise
 from pipeline.providers.carwow_catalog import electric_models
 from pipeline.providers.http import fetch_url
-from pipeline.providers.parse import norm_key
 from pipeline.providers.wayback import backfill_capability, observed_at_for, original_url
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 
@@ -82,7 +82,7 @@ def parse_page(page: str, url: str, observed_at: str) -> list[dict]:
         fuel = (v.get("fuelTypeName") or "").lower()
         if fuel and fuel != "electric":
             continue
-        if not fuel and not re.search(r"\d\s*kw(?!h)", (v.get("derivativeName") or "").lower()):
+        if not fuel and normalise.kw(v.get("derivativeName")) is None:
             continue
         monthly = round(float(p["monthlyPayment"]) * VAT, 2)
         init_months = int(p.get("initialPaymentInMonths") or 1)
@@ -97,7 +97,7 @@ def parse_page(page: str, url: str, observed_at: str) -> list[dict]:
             "source": "LeaseLoco in-stock personal lease" if d["_list"] == "originalInStockDealList" else "LeaseLoco best personal lease",
             "source_url": url, "source_ref": f"deal {p.get('id')} vehicle {v.get('id')}",
             "car_ref": {"source": SITE,
-                        "key": norm_key(v.get("manufacturerName", ""), v.get("modelName", ""), v.get("derivativeName", "")),
+                        "key": normalise.key(v.get("manufacturerName", ""), v.get("modelName", ""), v.get("derivativeName", "")),
                         "label": f"{v.get('manufacturerName')} {v.get('modelName')} {v.get('derivativeName')}",
                         # for the derivative-text matcher against generated cars
                         "make": v.get("manufacturerName"), "model": v.get("modelName"),

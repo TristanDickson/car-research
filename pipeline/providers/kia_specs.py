@@ -20,8 +20,9 @@ from __future__ import annotations
 import re
 from collections.abc import Iterator
 
+from pipeline import normalise
 from pipeline.providers.http import fetch_url
-from pipeline.providers.parse import norm_key, number, slug, text
+from pipeline.providers.parse import number, text
 from pipeline.providers.wayback import backfill_capability, observed_at_for, original_url
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 from pipeline.services.features import flags_for
@@ -89,8 +90,10 @@ def _meta(label: str) -> dict:
     raw = label.strip().strip("'\"")
     either_hp = bool(re.search(r"incl\.?\s*heat pump", raw, re.I))
     raw = re.sub(r"\(?\s*incl\.?\s*heat pump versions?\s*\)?", " ", raw, flags=re.I).strip()
-    kwh = re.search(r"(\d+(?:\.\d+)?)\s*kwh", raw, re.I) or re.search(r"range\W{0,4}(\d{2,3}\.\d)\b", raw, re.I)   # '5-seat Long Range - 71.2'
-    bhp = re.search(r"(\d+)\s*bhp", raw, re.I)
+    kwh = normalise.kwh(raw)
+    if kwh is None:   # '5-seat Long Range - 71.2'
+        bare = re.search(r"range\W{0,4}(\d{2,3}\.\d)\b", raw, re.I)
+        kwh = float(bare.group(1)) if bare else None
     seats = {int(n) for n in re.findall(r"(\d)\s*-?\s*seat", raw, re.I)}
     if re.search(r"\b5\s*(?:and|&|/)\s*7\b", raw):
         seats |= {5, 7}
@@ -100,7 +103,7 @@ def _meta(label: str) -> dict:
     heat_pump = None if either_hp else "heat pump" in trim
     trim = trim.replace("heat pump", "").strip()
     return {
-        "kwh": float(kwh.group(1)) if kwh else None, "bhp": int(bhp.group(1)) if bhp else None,
+        "kwh": kwh, "bhp": normalise.bhp(raw),
         "drive": "awd" if re.search(r"\bawd\b|all.wheel|dual motor", raw, re.I) else ("rwd" if re.search(r"\brwd\b", raw, re.I) else "fwd"),
         "seats": seats or None, "trim": trim, "heat_pump": heat_pump, "label": raw,
     }
@@ -121,7 +124,6 @@ def _is_opt(v: str) -> bool:
 
 
 SEAT_ONLY = re.compile(r"\d\s*-?\s*seat(?:er)?s?", re.I)
-MILES_PER_KM = 1 / 1.609344
 
 
 def _is_pt_header(header: list[str]) -> bool:
@@ -376,7 +378,7 @@ def parse_page(page: str, model: str, url: str, observed_at: str) -> list[dict]:
                     trim_label = " ".join(w.upper() if w in ("gt",) else w.capitalize() if w.islower() else w for w in g.replace("gt-line", "GT-Line").split()) + (" Heat Pump" if hp else "")
                     pt_label = " ".join(x for x in (f"{kwh:g} kWh" if kwh else "", pt["drive"].upper(), f"{pt['bhp']} bhp" if pt["bhp"] else "") if x)
                     seat_label = f"{seats}-seat" if seats else ""
-                    key = f"{SITE}:{model}:{slug(trim_label)}:{slug(pt_label) or 'all'}" + (f":{seats}seat" if seats else "")
+                    key = f"{SITE}:{model}:{normalise.slug(trim_label)}:{normalise.slug(pt_label) or 'all'}" + (f":{seats}seat" if seats else "")
                     if key in seen:
                         continue
                     seen.add(key)
@@ -384,7 +386,7 @@ def parse_page(page: str, model: str, url: str, observed_at: str) -> list[dict]:
                         "spec_key": key, "source": "Kia UK specification", "source_url": url, "observed_at": observed_at,
                         "make": "Kia", "model": model_name, "model_slug": model, "trim": trim_label, "powertrain": pt_label,
                         "seats": seats, "variant": " ".join(x for x in (model_name, trim_label, pt_label, seat_label) if x),
-                        "car_ref": {"source": SITE, "key": norm_key("kia", model, trim_label, pt_label, seat_label),
+                        "car_ref": {"source": SITE, "key": normalise.key("kia", model, trim_label, pt_label, seat_label),
                                     "label": f"Kia {model_name} {trim_label} {pt_label} {seat_label}".strip()},
                         "features": standard, "options": options, "flags": flags_for(standard, options),
                         "numbers": {
@@ -476,7 +478,7 @@ def _numbers(facts: dict[str, str], where: dict[str, str], features: list[str]) 
         mi = next((x for x in f if 1 <= x < 20), None)
         wh = next((x for x in f if 50 <= x < 1000), None)
         if mi is None and wh:
-            mi = round(1000 * MILES_PER_KM / wh, 2)   # mi/kWh = 1000 / (Wh/km × 1.609344)
+            mi = round(normalise.km_to_miles(1000 / wh), 2)   # mi/kWh = 1000 / (Wh/km × 1.609344)
     out["efficiency_mi_kwh"], out["efficiency_wh_km"] = mi, wh
     for kind, rx in ROOMS:
         room = next(((m, v) for m, v in facts.items() if re.search(rx, m, re.I)), None)

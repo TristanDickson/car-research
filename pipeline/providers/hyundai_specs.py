@@ -29,8 +29,9 @@ import shutil
 import subprocess
 from collections.abc import Iterator
 
+from pipeline import normalise
 from pipeline.providers.http import fetch_url
-from pipeline.providers.parse import money, norm_key, slug, text
+from pipeline.providers.parse import money, text
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 from pipeline.providers.wayback import observed_at_for
 from pipeline.services.features import flags_for
@@ -44,7 +45,6 @@ MODELS = {
 GUIDE_RE = re.compile(r"https://dmassets\.hyundai\.com/is/content/hyundaiautoever/[A-Za-z0-9_+%-]*Tech[A-Za-z0-9_+%-]*", re.I)
 CELL_RE = re.compile(r"●|(?<!\w)[-–](?!\w)")
 MY_RE = re.compile(r"MY\s?(\d\d)")
-KWH_RE = re.compile(r"(\d+(?:\.\d+)?)\s*kwh", re.I)
 MONEY_RE = re.compile(r"£\s?[\d,]+(?:\.\d+)?")
 FOOT_RE = re.compile(r"(?:^|\s)(\*{1,4}|[‡†])\s*([A-Z][^*‡†]+?)\s*$")
 MARK_RE = re.compile(r"\*{1,4}|[‡†]")
@@ -125,7 +125,7 @@ def pdf_text(body: bytes) -> str:
 
 
 def _same(a: str, b: str) -> bool:
-    return re.sub(r"[^a-z0-9]", "", a.lower()) == re.sub(r"[^a-z0-9]", "", b.lower())
+    return normalise.compact(a) == normalise.compact(b)
 
 
 # ---------------------------------------------------------------- the specification table
@@ -289,7 +289,6 @@ def _trim_only(s: str) -> bool:
 
 
 INSURANCE_RE = re.compile(r"^(?:\d{1,2}[A-Z]|TBC)$")
-PS_RE = re.compile(r"(\d+)\s*PS\b", re.I)
 DRIVE_RE = re.compile(r"\b(AWD|RWD|FWD)\b", re.I)
 SEATS_RE = re.compile(r"(\d)\s*SEATS?\b", re.I)
 
@@ -373,10 +372,10 @@ def parse_price_rows(txt: str) -> list[dict]:
                 trim = run[min(near)[1]] if near else ""
             if not trim or re.search(r"^trim$|fuel type", trim, re.I):
                 continue
-            my, kwh, ps, drive, seats = MY_RE.search(head), KWH_RE.search(head), PS_RE.search(head), DRIVE_RE.search(head), SEATS_RE.search(head)
+            my, drive, seats = MY_RE.search(head), DRIVE_RE.search(head), SEATS_RE.search(head)
             label = re.sub(r"\s+", " ", re.sub(r"battery electric|\bbattery\b|\belectric\b|\bBEV\b|single speed reduction", " ", head, flags=re.I)).strip()
             out.append({"trim": trim, "label": label, "model_year": 2000 + int(my.group(1)) if my else table_my,
-                        "battery_kwh": float(kwh.group(1)) if kwh else None, "power_ps": int(ps.group(1)) if ps else None,
+                        "battery_kwh": normalise.kwh(head), "power_ps": normalise.ps(head),
                         "drive": drive.group(1).upper() if drive else None, "seats": int(seats.group(1)) if seats else None, "cells": cells})
         run.clear()
 
@@ -570,10 +569,10 @@ def _scope(s: str, trims: list[str], model_name: str) -> tuple[str, int | None] 
 def _column(name: str, trims: list[str], model_name: str) -> dict:
     """A Technical column's header ('63 kWh 170 PS RWD', 'Advance 65kWh', '160kW (218PS) RWD Long Range', 'Ultimate')."""
     body = _strip_model(name, model_name)
-    trim = max((t for t in trims if re.sub(r"[^a-z0-9]", "", body.lower()).startswith(re.sub(r"[^a-z0-9]", "", t.lower()))), key=len, default=None)
-    kwh, ps, drive = KWH_RE.search(body), PS_RE.search(body), DRIVE_RE.search(body)
-    return {"name": name, "trim": trim, "battery_kwh": float(kwh.group(1)) if kwh else None,
-            "power_ps": int(ps.group(1)) if ps else None, "drive": drive.group(1).upper() if drive else None}
+    trim = max((t for t in trims if normalise.compact(body).startswith(normalise.compact(t))), key=len, default=None)
+    drive = DRIVE_RE.search(body)
+    return {"name": name, "trim": trim, "battery_kwh": normalise.kwh(body),
+            "power_ps": normalise.ps(body), "drive": drive.group(1).upper() if drive else None}
 
 
 def _split(line: str, cols: list[dict]) -> tuple[str, list[tuple[int, str]]]:
@@ -832,8 +831,8 @@ def _apply_trims(cur: dict, s: str, trims: list[str]) -> None:
 def _qualify(label: str, note: str, batteries: list[float]) -> tuple[str, dict | None]:
     """A ● with a battery condition ('49kWh only', 'only standard on the 84kWh battery (N/A on 63kWh)')
     against the trim's batteries: ('standard' | 'none' | 'qualified', {standard_kwh, none_kwh})."""
-    na = [float(k) for k in KWH_RE.findall(note.split("N/A")[-1])] if "N/A" in note.upper() else []
-    std = [float(k) for k in KWH_RE.findall(note) if float(k) not in na]
+    na = normalise.kwhs(note.split("N/A")[-1]) if "N/A" in note.upper() else []
+    std = [k for k in normalise.kwhs(note) if k not in na]
     if batteries:
         std_b = [b for b in batteries if b in std]
         none_b = [b for b in batteries if b not in std]
@@ -848,8 +847,8 @@ def _qualify(label: str, note: str, batteries: list[float]) -> tuple[str, dict |
 def _via_pack(label: str, pack_items: list[str], pack_flags: set[str]) -> bool:
     """'Surround View Monitor (SVM)' when the Tech Pack lists 'Surround View Monitor'; 'Front Seats - Memory
     Driver Side' when the Zen Pack lists 'Driver Memory Seats' (the same flag)."""
-    nl = re.sub(r"[^a-z0-9]", "", label.lower())
-    if any(re.sub(r"[^a-z0-9]", "", it.lower()) in nl for it in pack_items if it.strip()):
+    nl = normalise.compact(label)
+    if any(normalise.compact(it) in nl for it in pack_items if it.strip()):
         return True
     return bool(pack_flags & {k for k, v in flags_for([label]).items() if v == "standard"})
 
@@ -917,7 +916,7 @@ def parse_text(txt: str, model: str, model_name: str, url: str, observed_at: str
                 continue   # 'Comfort Pack: Heated Front Seats, ...' is the pack's row; the extras table prices it
             mark = MARK_RE.search(qual)
             note = text(f"{footnotes.get(mark.group(0), '')} {MARK_RE.sub('', qual)}") if mark else qual
-            if value == "standard" and KWH_RE.search(note):
+            if value == "standard" and normalise.kwhs(note):
                 value, q = _qualify(label, note, batteries)
                 if q:
                     qualified.append(q)
@@ -935,10 +934,10 @@ def parse_text(txt: str, model: str, model_name: str, url: str, observed_at: str
         seat_label = f"{seats}-seat" if seats else ""
         variant = " ".join(x for x in (model_name, trim, seat_label) if x)
         rows.append({
-            "spec_key": f"{SITE}:{model}:{slug(trim)}" + (f":{seats}seat" if seats else ""), "source": "Hyundai UK specification", "source_url": url,
+            "spec_key": f"{SITE}:{model}:{normalise.slug(trim)}" + (f":{seats}seat" if seats else ""), "source": "Hyundai UK specification", "source_url": url,
             "observed_at": observed_at, "make": "Hyundai", "model": model_name, "model_slug": model, "trim": trim, "seats": seats,
             "model_year": 2000 + col["my"] if col["my"] else None, "variant": variant, "batteries": batteries,
-            "car_ref": {"source": SITE, "key": norm_key("hyundai", model, trim, seat_label), "label": f"Hyundai {variant}"},
+            "car_ref": {"source": SITE, "key": normalise.key("hyundai", model, trim, seat_label), "label": f"Hyundai {variant}"},
             "features": features, "absent": absent, "qualified": qualified, "options": options, "option_prices": option_prices,
             "packs": [{"name": p["name"], "price": p["price"], "items": p["items"]} for p in packs],
             "flags": flags_for(features, options),

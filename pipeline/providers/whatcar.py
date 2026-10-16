@@ -34,8 +34,9 @@ from __future__ import annotations
 import re
 from collections.abc import Iterator
 
+from pipeline import normalise
 from pipeline.providers.http import fetch_url
-from pipeline.providers.parse import norm_key, text
+from pipeline.providers.parse import text
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 from pipeline.providers.wayback import observed_at_for
 
@@ -104,7 +105,7 @@ def ranking(page: str) -> list[dict]:
 
 
 def _words(s: str) -> list[str]:
-    return re.findall(r"[a-z0-9]+(?:-[a-z0-9]+)*", s.lower())
+    return re.findall(r"[a-z0-9]+(?:-[a-z0-9]+)*", normalise.fold(s))
 
 
 def _model_words(name: str) -> list[str]:
@@ -213,7 +214,7 @@ def parse_page(page: str, article: str, url: str, observed_at: str) -> list[dict
 
     def row(name: str, start: int, end: str, pct: float) -> dict:
         # One row per model and generation: a table and a write-up may differ on the first year (Model Y 2021, 2022).
-        key = f"whatcar:{article}:{norm_key(name)}:{end}"
+        key = f"whatcar:{article}:{normalise.key(name)}:{end}"
         return rows.setdefault(key, {
             "spec_key": key, "name": name, "years": f"{start}-{end}", "from_year": start, "to_year": None if end == "present" else int(end),
             "current": end == "present", "list": None, "rank": None, "of": len(table) or None, "numbers": {"reliability_pct": pct},

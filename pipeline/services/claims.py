@@ -52,6 +52,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
+from pipeline import normalise
 from pipeline.services.facts import model_of, pick_variant
 from pipeline.services.features import FLAGS, flags_for, wheel_size, wheel_sizes
 
@@ -119,13 +120,12 @@ MAKER_PROVIDERS = ("kia_specs", "hyundai_specs")
 # Who reprinted a CAP name: the registry and the brokers, by the name the Data page uses.
 SIGHTING_NAMES = {"carwow": "Carwow", "carwow_deals": "Carwow", "leaseloco": "LeaseLoco", "ncd": "New Car Discount",
                   "rrg": "RRG", "hyundai_offers": "Hyundai UK"}
-KWH_RE = re.compile(r"(\d+(?:\.\d+)?)\s*kwh", re.I)
 SEATS_RE = re.compile(r"^\s*(\d)\s*-?\s*(?:seat|seats|seater|st)\b", re.I)
 TYRE_RE = re.compile(r"^(\d{3})/(\d{2}) R(\d{2})$")
 
 
 def norm(s: str | None) -> str:
-    return re.sub(r"[^a-z0-9]", "", (s or "").lower())
+    return normalise.compact(s)
 
 
 def trim_head(trim: str | None) -> str:
@@ -139,19 +139,19 @@ def trim_head(trim: str | None) -> str:
 
 
 def model_key(make: str | None, model: str | None) -> str:
-    return f"{norm(make)}|{norm(model)}"
+    return f"{normalise.make_key(make)}|{norm(model)}"
 
 
 def trim_subject(make, model, trim) -> str:
-    return f"trim:{model_key(make, model)}|{norm(trim_head(trim))}"
+    return f"trim:{model_key(make, model)}|{normalise.name_compact(trim_head(trim), make)}"
 
 
 def trim_battery_subject(make, model, trim, kwh) -> str:
-    return f"trimbattery:{model_key(make, model)}|{norm(trim_head(trim))}|{float(kwh):g}"
+    return f"trimbattery:{model_key(make, model)}|{normalise.name_compact(trim_head(trim), make)}|{float(kwh):g}"
 
 
 def engine_subject(make, model, engine) -> str:
-    return f"engine:{model_key(make, model)}|{norm(engine)}"
+    return f"engine:{model_key(make, model)}|{normalise.name_compact(engine, make)}"
 
 
 def model_subject(make, model) -> str:
@@ -159,7 +159,7 @@ def model_subject(make, model) -> str:
 
 
 def pack_subject(make, model, pack) -> str:
-    return f"pack:{model_key(make, model)}|{norm(pack)}"
+    return f"pack:{model_key(make, model)}|{normalise.name_compact(pack, make)}"
 
 
 @dataclass(frozen=True)
@@ -380,8 +380,7 @@ def _rated_models(name: str, catalogue: list[dict], exact: bool = False) -> list
     article of every fuel is read `exact`, so the petrol Macan's rating does not land on the Macan Electric."""
     words = name.split()
     for i in (1, 2, 3):
-        mk = norm(" ".join(words[:i]))
-        same = [c for c in catalogue if mk in (norm(c.get("make_name")), norm(c["make"])) or (mk == "mercedes" and c["make"] == "mercedes")]
+        same = [c for c in catalogue if normalise.same_make(" ".join(words[:i]), c)]
         if not same or i >= len(words):
             continue
         out = []
@@ -443,7 +442,7 @@ RECALL_AGAIN_RE = re.compile(r"previous(?:ly)? recall|incorrectly completed|not 
 
 
 def _recall_words(s: str) -> list[str]:
-    return [w for w in re.findall(r"[a-z]+|[0-9]+", (s or "").lower().replace("-", " ")) if w not in RECALL_FUEL]
+    return [w for w in re.findall(r"[a-z]+|[0-9]+", normalise.fold(s).replace("-", " ")) if w not in RECALL_FUEL]
 
 
 def _day(iso: str | None) -> str:
@@ -463,7 +462,7 @@ def recalls_by_model(lines: list[dict], catalogue: list[dict]) -> dict[str, list
         by_make.setdefault(m["make"], []).append((_recall_words(m.get("model_name") or m["slug"].split("/")[-1]), m))
     hits: dict[str, dict[str, list[dict]]] = {}
     for r in lines:
-        first = (re.findall(r"[a-z]+", r["make"].lower()) or [""])[0]
+        first = (re.findall(r"[a-z]+", normalise.fold(r["make"])) or [""])[0]
         makes = RECALL_MAKES.get(first) or [k for k in by_make if k.split("-")[0] == first]
         text = f"{r['model']} {r.get('model_info') or ''}"
         if ICE_LINE_RE.search(text) or (not re.search(r"\b(ev|electric|e-tron|bev|elektro)\b", text, re.I) and ICE_PART_RE.search(r["defect"])):
@@ -909,8 +908,7 @@ def _pack_flags(p: dict) -> set[str]:
 
 
 def _engine_kwh(d: dict) -> float | None:
-    m = KWH_RE.search(d.get("engine") or "")
-    return float(m.group(1)) if m else None
+    return normalise.kwh(d.get("engine"))
 
 
 def _brackets_fit(d: dict, r: dict) -> bool:
@@ -919,7 +917,7 @@ def _brackets_fit(d: dict, r: dict) -> bool:
     pflags: set[str] = set()
     for p in r.get("packages") or []:
         pflags |= _pack_flags(p)
-    names = {norm(p.get("name")) for p in r.get("packages") or []}
+    names = {normalise.name_compact(p.get("name"), r.get("make")) for p in r.get("packages") or []}
     for b in d.get("brackets") or []:
         b = b.strip()
         if SEATS_RE.match(b):
@@ -928,7 +926,7 @@ def _brackets_fit(d: dict, r: dict) -> bool:
         hit = {k for k, v in flags_for([b[3:] if negative else b]).items() if v == "standard"}
         if negative and hit & pflags:
             return False
-        if not negative and norm(b) not in names and not (hit and hit <= pflags):
+        if not negative and normalise.name_compact(b, r.get("make")) not in names and not (hit and hit <= pflags):
             return False
     return True
 

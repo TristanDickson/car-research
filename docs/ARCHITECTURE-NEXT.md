@@ -42,7 +42,7 @@ generation's derivatives in CAP's wording, with their on-sale dates.
 
 ## Transform
 
-1. **Normalise.** One function reads every source's text: accents removed and case folded,
+1. **Normalise** (built, and today's lookups read through it). One function reads every source's text: accents removed and case folded,
    punctuation treated alike ("GT-Line S" is "GT Line S"), units read into numbers, one list of
    make and model names, and one table expanding CAP's short descriptions into its long ones
    ("eDr40" is "eDrive40", "Qtro" is "quattro"). Words that separate versions ("Long Range",

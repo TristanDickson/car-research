@@ -29,8 +29,9 @@ import json
 import re
 from collections.abc import Iterator
 
+from pipeline import normalise
 from pipeline.providers.http import FetchError, fetch_url
-from pipeline.providers.parse import norm_key, number, slug, text
+from pipeline.providers.parse import number, text
 from pipeline.providers.wayback import backfill_capability, observed_at_for, original_url
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 
@@ -206,7 +207,7 @@ def parse_page(page: str, url: str, observed_at: str) -> list[dict]:
         ftype = "pch" if pch else "pcp"
         pg = _page(url)
         if pg is None or pg in KEYED_BY_DERIVATIVE:
-            key = f"rrg:{slug(printed or name)}:{ftype}"
+            key = f"rrg:{normalise.slug(printed or name)}:{ftype}"
         else:
             key = f"rrg:{pg}:{ftype}" + (f"-{i + 1}" if i else "")
         valid_from, valid_to = _dates(text(page[end:end + 20000]) if end > 0 else "")
@@ -216,7 +217,7 @@ def parse_page(page: str, url: str, observed_at: str) -> list[dict]:
             "status": "live", "verification": "scraped", "source": "RRG Kia offers page",
             "dealer": "RRG Kia (GWR Kia PBV Centre)" if pv5 else "RRG Kia",
             "source_url": url,
-            "car_ref": {"source": SITE, "key": norm_key("kia", name), "label": f"Kia {name}", "make": "Kia", "model": model,
+            "car_ref": {"source": SITE, "key": normalise.key("kia", name), "label": f"Kia {name}", "make": "Kia", "model": model,
                         "derivative": derivative},
             "finance_type": ftype, "offer_title": offer, "valid_from": valid_from, "valid_to": valid_to,
         }

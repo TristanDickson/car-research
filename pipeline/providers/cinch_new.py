@@ -21,8 +21,8 @@ import json
 import re
 from collections.abc import Iterator
 
+from pipeline import normalise
 from pipeline.providers.http import FetchError, fetch_url
-from pipeline.providers.parse import norm_key
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 from pipeline.providers.wayback import observed_at_for
 
@@ -73,7 +73,7 @@ def parse_listing(v: dict, url: str, observed_at: str) -> list[dict]:
         return []
     vid = v["vehicleId"]
     make, model, variant = v["make"], v.get("model") or "", v["variant"]
-    ref = {"source": SITE, "key": norm_key(make, model, variant), "label": f"{make} {model} {variant}",
+    ref = {"source": SITE, "key": normalise.key(make, model, variant), "label": f"{make} {model} {variant}",
            "make": make, "model": model, "derivative": variant}
     price, with_fee = v.get("price"), v.get("priceIncludingAdminFee")
     site = v.get("site")

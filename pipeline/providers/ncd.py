@@ -35,8 +35,9 @@ import sqlite3
 from collections.abc import Iterator
 from dataclasses import replace
 
+from pipeline import normalise
 from pipeline.providers.http import Blocked, FetchError, fetch_url
-from pipeline.providers.parse import money, norm_key, text
+from pipeline.providers.parse import money, text
 from pipeline.providers.wayback import backfill_capability, observed_at_for, original_url
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 
@@ -132,7 +133,7 @@ def parse_page(page: str, make: str, url: str, observed_at: str, cap_ids: dict[s
         fuel = href.group(1).split("/")[5:6]
         if fuel and fuel[0] != "electric":
             continue
-        ref = {"source": SITE, "key": norm_key(make, group_t, name_t), "label": f"{group_t} {name_t}".strip(),
+        ref = {"source": SITE, "key": normalise.key(make, group_t, name_t), "label": f"{group_t} {name_t}".strip(),
                "make": make, "model": group_t, "derivative": name_t,
                # price + stated saving - OTR extras = the RRP, which pins the derivative among same-trim twins
                "rrp": round(money(price.group(1)) + money(save.group(1)) - OTR_EXTRAS_GBP, 2) if save and money(save.group(1)) else None}

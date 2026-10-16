@@ -16,22 +16,24 @@ from __future__ import annotations
 
 import re
 
+from pipeline import normalise
+
 STOP = {"5dr", "4dr", "3dr", "2dr", "auto", "automatic", "electric", "estate", "hatchback", "saloon", "suv", "coupe",
         "mpv", "van", "dr", "ev", "e", "bev", "the", "and", "with", "pack", "edition", "awd", "rwd", "fwd", "4wd",
         "2wd", "long", "range", "standard", "extended", "comfort", "urban", "seat", "seats"}
 
 
-def tokens(s: str) -> dict:
-    s = (s or "").lower()
-    kw = re.search(r"(\d+)\s*kw(?!h)", s)
-    kwh = re.search(r"(\d+(?:\.\d+)?)\s*kwh", s)
-    seats = re.search(r"\[?(\d)\s*seat", s)
-    # 'GT+' and 'Techno +' are trims of their own: the plus stays on its word.
-    body = re.sub(r"\s+\+", "+", re.sub(r"\d+(?:\.\d+)?\s*kwh?", " ", s))
-    # Numbers stay: Hyundai's trims are '01' and '02', Skoda's engines '60' and '85'.
-    words = {w for w in re.findall(r"[a-z0-9+]+(?:-[a-z0-9+]+)*", body)}
-    words = {w for w in words if w not in STOP and w != "+"}
-    return {"kw": int(kw.group(1)) if kw else None, "kwh": round(float(kwh.group(1))) if kwh else None,
+def tokens(s: str, make: str | None = None) -> dict:
+    """The kW, kWh and seat count a text prints, and its words read as pipeline/normalise.py reads every
+    name ('GT-Line S' is 'GT Line S', 'Qtro' is 'quattro'), less the STOP words this rule ignores."""
+    f = normalise.fold(s)
+    kw, kwh = normalise.kw(f), normalise.kwh(f)
+    seats = re.search(r"\[?(\d)\s*seat", f)
+    # Numbers stay: Hyundai's trims are '01' and '02', Skoda's engines '60' and '85'. 'GT+' and 'Techno +'
+    # are trims of their own: the plus stays on its word.
+    body = re.sub(r"\d+(?:\.\d+)?\s*kwh?", " ", f)
+    words = {w for w in normalise.name_words(body, make) if w not in STOP and w != "+"}
+    return {"kw": kw, "kwh": round(kwh) if kwh is not None else None,
             "seats": int(seats.group(1)) if seats else None, "words": words}
 
 
@@ -48,27 +50,28 @@ def score(derivative: str, car: dict) -> int | None:
     """None = contradiction (kW, kWh or seats disagree, or a trim word is missing
     from the text); else a score: trim words count double, engine words
     ('Quattro', 'Performance', 'Extended Range') are a bonus the broker may omit."""
-    d = tokens(derivative)
+    make = car.get("make")
+    d = tokens(derivative, make)
     trim, engine = _parts(car)
-    c = tokens(f"{trim} {engine}")
+    c = tokens(f"{trim} {engine}", make)
     if car.get("battery_kwh") and c["kwh"] is None:
         c["kwh"] = round(float(car["battery_kwh"]))
     for k in ("kw", "kwh"):
         if d[k] is not None and c[k] is not None and d[k] != c[k]:
             return None
-    trim_words = tokens(trim)["words"]
+    trim_words = tokens(trim, make)["words"]
     if trim_words and not trim_words <= d["words"]:
         return None
-    engine_words = tokens(engine)["words"]
+    engine_words = tokens(engine, make)["words"]
     return 2 * len(trim_words & d["words"]) + len(engine_words & d["words"]) \
         + (1 if d["kw"] is not None and c["kw"] == d["kw"] else 0) + (1 if d["kwh"] is not None and c["kwh"] == d["kwh"] else 0)
 
 
 def _powertrain(car: dict) -> tuple[str, int | None, int | None]:
     trim, engine = _parts(car)
-    c = tokens(engine)
+    c = tokens(engine, car.get("make"))
     kwh = c["kwh"] if c["kwh"] is not None else (round(float(car["battery_kwh"])) if car.get("battery_kwh") else None)
-    return trim.lower(), c["kw"], kwh
+    return " ".join(normalise.name_words(trim, car.get("make"))), c["kw"], kwh
 
 
 def best(derivative: str, candidates: list[dict]) -> dict | None:

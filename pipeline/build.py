@@ -30,7 +30,7 @@ import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from pipeline import gold, history, stages
+from pipeline import gold, history, normalise, stages
 from pipeline.db import ROOT, connect, init_schema
 from pipeline.providers import PROVIDERS
 from pipeline.providers.parse import combustion
@@ -87,7 +87,8 @@ def code_version(root: Path = ROOT) -> str:
     """Every file a parser can run: a change to any of them re-parses everything."""
     h = hashlib.sha256()
     files = sorted((root / "pipeline" / "providers").glob("*.py")) + [root / "pipeline" / "services" / f
-                                                                      for f in ("features.py", "facts.py")]
+                                                                      for f in ("features.py", "facts.py")] \
+        + [root / "pipeline" / "normalise.py"]
     for p in files:
         h.update(p.name.encode())
         h.update(p.read_bytes().replace(b"\r\n", b"\n"))
@@ -338,16 +339,20 @@ class Build:
             p = json.loads(r["payload"])
             if p.get("make") and p.get("model") and not burns(r["cap_id"], p.get("trim"), p.get("engine")):
                 self.gen[r["cap_id"]], self.gen_from[r["cap_id"]] = autocars.from_spec(p), "spec"
-        for car in self.gen.values():
-            self.by_make.setdefault((car.get("make") or "").lower(), []).append(car)
+        # The registry's CAP name, so a record printing exactly that name is matched before any is read alike.
+        names = {r["cap_id"]: json.loads(r["payload"]).get("name") for r in self.conn.execute("SELECT cap_id, payload FROM derivatives")}
+        for cap, car in self.gen.items():
+            if names.get(cap):
+                car["cap_name"] = names[cap]
+            self.by_make.setdefault(normalise.make_key(car.get("make")), []).append(car)
 
     # -- 3. matching
 
     def _candidates(self, ref: dict) -> list[dict]:
-        make = (ref.get("make") or "").lower()
+        make = ref.get("make") or ""
         # NCD's Kia listings print the make before the model ('KIA EV6 ELECTRIC ESTATE').
         model = re.sub(rf"^{re.escape(make)}\s+", "", ref.get("model") or "", flags=re.I) if make else ref.get("model")
-        return [c for c in self.by_make.get(make, []) if gold.model_agrees(model, c)]
+        return [c for c in self.by_make.get(normalise.make_key(make), []) if gold.model_agrees(model, c)]
 
     def match(self, ref: dict, provider: str, text_match: bool = True) -> dict:
         """What one record names: {car_id, status, method, evidence, name_key}."""
@@ -367,13 +372,16 @@ class Build:
         return {"car_id": None, "status": "unmapped", "method": None}
 
     def _pin_pass(self, refs: list[dict]) -> None:
-        """The 'name' rule's pins: CAP names that some record's own RRP tied to one twin."""
+        """The 'name' rule's pins: CAP names that some record's own RRP, or its registry name exactly as printed,
+        tied to one twin."""
         self.pins = {}
         for ref in refs:
             if ref.get("make") and ref.get("source") != "carwow-cap":
                 res = resolve.choose(ref, self._candidates(ref), None)
-                if res.method == "rrp" and res.car_id:
-                    self.pins.setdefault(resolve.name_key(ref.get("derivative") or ref.get("label")), set()).add(res.car_id)
+                exact = res.evidence.get("score") == "exact name" and len(res.evidence.get("twins") or []) == 1
+                if res.car_id and (res.method == "rrp" or exact):
+                    for k in resolve.pin_keys(ref.get("derivative") or ref.get("label")):
+                        self.pins.setdefault(k, set()).add(res.car_id)
 
     def _note(self, ref: dict, provider: str, m: dict, at: str, url: str | None) -> None:
         """How one source's name resolved, for the Data page: from its latest sighting (ties by content)."""

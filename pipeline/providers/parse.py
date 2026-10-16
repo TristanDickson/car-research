@@ -39,16 +39,3 @@ COMBUSTION_RE = re.compile(r"\b(?:m?hev|phev|hybrid|petrol|diesel|ecoboost|t-?gd
 
 def combustion(name: str | None) -> bool:
     return bool(COMBUSTION_RE.search(name or ""))
-
-
-def norm_key(*parts: str) -> str:
-    """Trim-map key: lower-case, 'kwh' glued to its number, single spaces, parts joined by |."""
-    out = []
-    for p in parts:
-        p = re.sub(r"\s*kwh", "kwh", (p or "").lower())
-        out.append(re.sub(r"\s+", " ", p).strip())
-    return "|".join(out)
-
-
-def slug(s: str) -> str:
-    return re.sub(r"[^a-z0-9]+", "-", (s or "").lower()).strip("-")

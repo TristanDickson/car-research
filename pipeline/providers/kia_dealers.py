@@ -21,8 +21,8 @@ import json
 import re
 from collections.abc import Iterator
 
+from pipeline import normalise
 from pipeline.providers.http import FetchError, fetch_url
-from pipeline.providers.parse import norm_key
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
 from pipeline.providers.wayback import observed_at_for
 
@@ -167,12 +167,12 @@ def parse_page(page: str, url: str, site: str, observed_at: str) -> list[dict]:
         price = otr - grant if otr else None
         contribution = kia + loyalty + dealer
         reconciles = abs(price - deposit - contribution - credit) <= 2 if price and credit else None
-        key = f"{site}:{norm_key(name).replace(' ', '-')}:pcp"
+        key = f"{site}:{normalise.key(name).replace(' ', '-')}:pcp"
         n = int(payments.group(1)) if payments else (int(term.group(1)) - 1 if term else None)
         rows.append({
             "id": key, "offer_key": key, "observed_at": observed_at, "captured_at": observed_at[:10], "present": 1,
             "status": "live", "verification": "scraped", "source": SITES[site]["name"], "dealer": SITES[site]["name"],
-            "source_url": url, "car_ref": {"source": SITE, "key": norm_key(site, name), "label": name, "make": "Kia", "model": model,
+            "source_url": url, "car_ref": {"source": SITE, "key": normalise.key(site, name), "label": name, "make": "Kia", "model": model,
                                            "derivative": derivative or name},
             "finance_type": "pcp", "list_price": otr, "grant_gbp": grant, "vehicle_price": price,
             "customer_deposit": deposit, "manufacturer_contribution": contribution,

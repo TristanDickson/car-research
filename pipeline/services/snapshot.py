@@ -32,6 +32,7 @@ from collections import Counter
 from datetime import date, datetime, timezone
 from pathlib import Path
 
+from pipeline import normalise
 from pipeline.db import ROOT
 from pipeline.services import claims, match
 from pipeline.providers.parse import combustion
@@ -339,8 +340,8 @@ def load_requirements(conn: sqlite3.Connection) -> dict:
     return json.loads(row["payload"]) if row else {}
 
 
-def _words(text: str | None) -> list[str]:
-    return [w for w in re.split(r"[^a-z0-9+]+", (text or "").lower()) if w]
+def _words(text: str | None, make: str | None = None) -> list[str]:
+    return normalise.name_words(text, make)
 
 
 def _kwh(car: dict) -> int | None:
@@ -353,7 +354,7 @@ def _kwh(car: dict) -> int | None:
 def used_key(car: dict, model_key: str) -> str | None:
     """What a used car must share with a car to count as one: model, trim and battery. None without either."""
     kwh = _kwh(car)
-    trim = " ".join(_words(claims.trim_head(car.get("trim"))))   # 'GT-Line S' and 'GT Line S' are one trim
+    trim = " ".join(_words(claims.trim_head(car.get("trim")), car.get("make")))   # 'GT-Line S' and 'GT Line S' are one trim
     if not kwh or not trim or not model_key:
         return None
     return f"{model_key}|{trim}|{kwh}"
@@ -365,7 +366,7 @@ def used_key_for_text(text: str, cars: list[dict], year: int | None = None) -> s
     trim winning ('N Line S' over 'N Line'). A listing registered before every car of a trim went on sale is an
     earlier generation of the name (a 2021 Kona 'Ultimate 64kWh' is not the 2023-on Ultimate). None when no trim
     fits or two different ones do."""
-    have, text_kwh = set(_words(text)), match.tokens(text)["kwh"]
+    have, text_kwh = set(_words(text, cars[0].get("make") if cars else None)), match.tokens(text)["kwh"]
     fits: list[tuple[int, str]] = []
     for c in cars:
         _, trim, kwh = c["used_key"].rsplit("|", 2)

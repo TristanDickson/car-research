@@ -49,6 +49,7 @@ import sqlite3
 from collections.abc import Iterator
 from datetime import datetime, timedelta, timezone
 
+from pipeline import normalise
 from pipeline.providers.http import fetch_url
 from pipeline.providers.hyundai_specs import pdf_text
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
@@ -404,7 +405,6 @@ MEASURES = (
     ("boot_folded_l", r"geklappt/dachhoch"),   # the 2026 layout wraps 'Kofferraum normal' onto a second line
 )
 DE_NUM_RE = re.compile(r"\d{1,3}(?:\.\d{3})+(?:,\d+)?|\d+(?:,\d+)?")   # '1.320' is 1320, '35,7' is 35.7
-KM_PER_MILE = 1.609344
 
 
 def _de(text: str) -> list[float]:
@@ -479,9 +479,9 @@ def parse_pdf_text(text: str, model: str, url: str, observed_at: str, test: dict
     if printed.get("turning_circle_m"):
         numbers["adac_turning_circle_m"] = max(printed["turning_circle_m"])
     if printed.get("range_km"):
-        numbers["adac_ecotest_range_mi"] = round(printed["range_km"] / KM_PER_MILE)
+        numbers["adac_ecotest_range_mi"] = round(normalise.km_to_miles(printed["range_km"]))
     if printed.get("consumption_kwh_100km"):
-        numbers["adac_ecotest_mi_kwh"] = round(100 / printed["consumption_kwh_100km"] / KM_PER_MILE, 2)
+        numbers["adac_ecotest_mi_kwh"] = round(normalise.km_to_miles(100 / printed["consumption_kwh_100km"]), 2)
     if not numbers:
         return None
     return {"spec_key": f"adac:pdf:{model}", "model_slug": model, "source_url": url, "observed_at": observed_at,

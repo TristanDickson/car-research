@@ -19,6 +19,7 @@ import json
 import re
 from collections.abc import Iterator
 
+from pipeline import normalise
 from pipeline.providers.http import fetch_url
 from pipeline.providers.parse import text
 from pipeline.providers.types import Capability, Context, Fetched, ParsedRecord, Provider, Target
@@ -32,8 +33,6 @@ MODELS = {
     "ioniq-9": ("ioniq9", "Ioniq 9"), "kona-electric": ("kona-electric", "Kona Electric"),
 }
 MODEL_ID_RE = re.compile(r'"modelId"\s*:\s*"([^"]+)"')
-KWH_RE = re.compile(r"(\d+(?:\.\d+)?)\s*kwh", re.I)
-PS_RE = re.compile(r"(\d+)\s*PS\b", re.I)
 SEATS_RE = re.compile(r"(\d)\s*Seat", re.I)
 QUERY = """query Trims($country: TrimmedString!, $language: TrimmedString!, $modelId: TrimmedString!, $service: TrimmedString!) {
   hppTrimEquipments(country: $country, language: $language, modelId: $modelId, service: $service) {
@@ -136,14 +135,12 @@ def parse_payload(d: dict, model: str, model_name: str, observed_at: str) -> lis
     rows: list[dict] = []
     for f in fscs:
         pt = f.get("powertrainNm") or ""
-        kwh = KWH_RE.search(pt)
-        ps = PS_RE.search(pt)
         seats = SEATS_RE.search(f.get("bodytypeNm") or "")
         drive = re.search(r"\b(AWD|RWD|FWD)\b", pt)
         rows.append({
             "fsc": f["fsc"], "make": "Hyundai", "make_slug": "hyundai", "model": model_name, "model_slug": model,
             "trim": trim_name(f.get("trimNm")), "trim_id": f.get("trimId"), "powertrain": pt, "powertrain_id": f.get("powertrainId"),
-            "battery_kwh": float(kwh.group(1)) if kwh else None, "power_ps": int(ps.group(1)) if ps else None,
+            "battery_kwh": normalise.kwh(pt), "power_ps": normalise.ps(pt),
             "drive": drive.group(1) if drive else None, "seats": int(seats.group(1)) if seats else None,
             "body_type": f.get("bodyTypeNo"), "product_year": f.get("productYear"),
             "price": float(f["fscPrice"]) if f.get("fscPrice") is not None else None, "price_ex_vat": f.get("fscPrice2"),
