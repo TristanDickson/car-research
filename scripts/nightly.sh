@@ -65,7 +65,7 @@ git checkout -q --detach --force "origin/$branch"
 export CAR_RESEARCH_DB="$worktree/data/car-research.sqlite"
 
 if [ "$build_only" = 1 ]; then
-  "${py[@]}" -m pipeline build --deal-table docs/deal-comparison.md
+  "${py[@]}" -m pipeline build
 else
   "${py[@]}" -m pipeline nightly
   "${py[@]}" -m pipeline raw-status
@@ -81,7 +81,7 @@ fi
 message="data: nightly build $day"
 [ "$build_only" = 1 ] && message="data: build from the raw store $day"
 for attempt in 1 2 3; do
-  git add -- web/public/data docs/deal-comparison.md
+  git add -- web/public/data
   if git diff --cached --quiet; then echo "nothing changed"; break; fi
   git -c user.name="car-research nightly" -c user.email="nightly@car-research.local" commit -q -m "$message"
   if git push -q origin HEAD:main; then echo "pushed"; break; fi
@@ -90,6 +90,6 @@ for attempt in 1 2 3; do
   echo "main moved; building again on it (attempt $attempt)"
   git fetch -q origin
   git checkout -q --detach --force origin/main
-  "${py[@]}" -m pipeline build --deal-table docs/deal-comparison.md
+  "${py[@]}" -m pipeline build
 done
 echo "nightly: done $(date -u +%FT%TZ)"
