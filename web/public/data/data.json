@@ -11,10 +11,10 @@
   "models": 250,
   "models_with_deals": 179,
   "models_with_specs": 220,
-  "observations": 7149,
-  "offers": 3497,
+  "observations": 7154,
+  "offers": 3502,
   "options_pages": 1183,
-  "sightings": 32988,
+  "sightings": 32993,
   "specs": 3024,
   "specs_mapped": 915,
   "trim_map_auto": 2761,
@@ -54,10 +54,10 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-16T17:30:16+00:00",
+ "generated_at": "2026-10-16T18:05:00+00:00",
  "offer_states": {
   "expired": 1,
-  "illustrative": 164,
+  "illustrative": 169,
   "illustrative (stale)": 42,
   "lead": 2747,
   "lead (stale)": 476,
@@ -631,12 +631,12 @@
    {
     "describes_models": false,
     "in_snapshot": {
-     "offers": 208
+     "offers": 213
     },
     "matched": {
      "offers": {
-      "conflict": 3,
-      "matched": 208,
+      "conflict": 2,
+      "matched": 213,
       "total": 219
      },
      "specs": {
@@ -814,7 +814,7 @@
      {
       "commit": "28e930531e",
       "fetches": 12751,
-      "finished_at": "2026-10-16T17:30:16+00:00",
+      "finished_at": "2026-10-16T17:31:44+00:00",
       "from_cache": 0,
       "mode": "build",
       "parsed": 12751,
@@ -822,9 +822,35 @@
       "records": 117096,
       "seconds": 534.4,
       "sightings": 89464,
-      "snapshot": {},
+      "snapshot": {
+       "cars": 1983,
+       "cash_benchmarks": 2069,
+       "models": 250,
+       "observations": 7149,
+       "offers": 3497,
+       "specs": 3024,
+       "unmapped_trims": 331,
+       "used_listings": 13187,
+       "used_spans": 25839
+      },
       "stage": "build",
       "started_at": "2026-10-16T17:21:14+00:00",
+      "unparsed": 0
+     },
+     {
+      "commit": "1891936a59",
+      "fetches": 12751,
+      "finished_at": "2026-10-16T18:05:00+00:00",
+      "from_cache": 0,
+      "mode": "build",
+      "parsed": 12751,
+      "record_spans": 66992,
+      "records": 117096,
+      "seconds": 510.1,
+      "sightings": 89464,
+      "snapshot": {},
+      "stage": "build",
+      "started_at": "2026-10-16T17:56:22+00:00",
       "this": true,
       "unparsed": 0
      }
@@ -834,6 +860,11 @@
      {
       "at": "2026-10-16T16:43:12+01:00",
       "sha": "b11f2a16f2",
+      "subject": "data: build from the raw store 2026-10-16"
+     },
+     {
+      "at": "2026-10-16T18:31:46+01:00",
+      "sha": "c011d16581",
       "subject": "data: build from the raw store 2026-10-16"
      }
     ],
@@ -4217,17 +4248,17 @@
    "capabilities": [
     {
      "kinds": [
-      "offer"
-     ],
-     "name": "listing",
-     "parser_version": "1"
-    },
-    {
-     "kinds": [
       "offer",
       "spec"
      ],
      "name": "pcp",
+     "parser_version": "3"
+    },
+    {
+     "kinds": [
+      "offer"
+     ],
+     "name": "listing",
      "parser_version": "2"
     },
     {
@@ -4235,7 +4266,7 @@
       "offer"
      ],
      "name": "backfill",
-     "parser_version": "1"
+     "parser_version": "2"
     }
    ],
    "description": "New Car Discount model listings: https://www.new-car-discount.com/car/<make>/<model>/<body>/all/all",
@@ -4517,7 +4548,7 @@
       "used"
      ],
      "name": "used-stock",
-     "parser_version": "2"
+     "parser_version": "3"
     }
    ],
    "description": "cinch's used stock: every electric car it lists, per make.",
@@ -13278,7 +13309,7 @@
    "example_url": "https://www.new-car-discount.com/car/hyundai/ioniq-5/hatchback/all/all",
    "first_seen_at": "2025-02-15T01:03:50+00:00",
    "label": "IONIQ 5 ELECTRIC HATCHBACK 239kW Ultimate 84 kWh 5dr AWD Auto [Tech Pack]",
-   "last_seen_at": "2026-10-16T02:52:02+00:00",
+   "last_seen_at": "2026-10-16T02:49:25+00:00",
    "method": "conflict",
    "source": "ncd",
    "source_key": "hyundai|ioniq 5 electric hatchback|239kw ultimate 84kwh 5dr awd auto [tech pack]",
@@ -14677,7 +14708,7 @@
    "example_url": "https://www.new-car-discount.com/car/hyundai/ioniq-5-n/hatchback/all/all",
    "first_seen_at": "2026-10-12T02:40:53+00:00",
    "label": "IONIQ 5 N ELECTRIC HATCHBACK 478kW 84 kWh 5dr Auto",
-   "last_seen_at": "2026-10-16T02:54:40+00:00",
+   "last_seen_at": "2026-10-16T02:49:33+00:00",
    "method": "none",
    "source": "ncd",
    "source_key": "hyundai|ioniq 5 n electric hatchback|478kw 84kwh 5dr auto",
@@ -14694,7 +14725,7 @@
    "example_url": "https://www.new-car-discount.com/car/hyundai/ioniq-5-n/hatchback/all/all",
    "first_seen_at": "2026-10-12T02:40:53+00:00",
    "label": "IONIQ 5 N ELECTRIC HATCHBACK 478kW 84 kWh 5dr Auto [Vision Roof]",
-   "last_seen_at": "2026-10-16T02:54:40+00:00",
+   "last_seen_at": "2026-10-16T02:49:33+00:00",
    "method": "none",
    "source": "ncd",
    "source_key": "hyundai|ioniq 5 n electric hatchback|478kw 84kwh 5dr auto [vision roof]",
@@ -14711,7 +14742,7 @@
    "example_url": "https://www.new-car-discount.com/car/hyundai/ioniq-6-n/saloon/all/all",
    "first_seen_at": "2026-10-12T02:40:54+00:00",
    "label": "IONIQ 6 N ELECTRIC SALOON 478kW 84 kWh 4dr Auto",
-   "last_seen_at": "2026-10-16T02:54:48+00:00",
+   "last_seen_at": "2026-10-16T02:49:34+00:00",
    "method": "none",
    "source": "ncd",
    "source_key": "hyundai|ioniq 6 n electric saloon|478kw 84kwh 4dr auto",
@@ -14728,7 +14759,7 @@
    "example_url": "https://www.new-car-discount.com/car/hyundai/ioniq-6-n/saloon/all/all",
    "first_seen_at": "2026-10-12T02:40:54+00:00",
    "label": "IONIQ 6 N ELECTRIC SALOON 478kW 84 kWh 4dr Auto [Vision Roof]",
-   "last_seen_at": "2026-10-16T02:54:48+00:00",
+   "last_seen_at": "2026-10-16T02:49:34+00:00",
    "method": "none",
    "source": "ncd",
    "source_key": "hyundai|ioniq 6 n electric saloon|478kw 84kwh 4dr auto [vision roof]",
