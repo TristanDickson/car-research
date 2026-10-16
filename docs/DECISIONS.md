@@ -35,6 +35,10 @@ app's seed settings (`data/seed/requirements.json`), not decisions about the app
 
 ## Sources and scraping
 
+- 16 Oct 2026, on a parser for two hand-copied dealer pages: "Havent i already said this pipeline
+  should be automated?"; 13 Oct 2026, on downloading DVSA's recall file by hand: "i just think
+  thats really stupid, making me download it every time we want to get fresh data". So nothing in
+  the pipeline depends on the owner fetching, copying or pasting a page.
 - 16 Oct 2026, on Parkers' first read: "i dont even want to wait 4 nights if we dont have to".
 - 13 Oct 2026, on DVSA's recall service blocking scripts: "I think we should work around the
   block. This is a personal product not a commercial one", then "its just a government check

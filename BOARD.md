@@ -22,7 +22,7 @@ convention as the owner's other boards (SpaceTS, parasitic-feudalism), kept shor
 | T6 | End value by version, within a wide mileage band | open |
 | T7 | A price that fits several cars goes on the best spec | open |
 | T8 | Old versions are cars | open |
-| T9 | Clear `data/seed` down to first-hand inputs and default settings | needs ruling |
+| T9 | Clear `data/seed` and `data/pastes` down to a file of default settings | needs ruling |
 | T10 | `docs/SOURCES.md` in the same short form as the architecture docs | needs ruling |
 | T11 | Find out why Carwow's configurator reader recovered on 16 Oct | open |
 
@@ -77,14 +77,16 @@ preferable to missing a price that's better than it looks".
 A 2021 Kona is "Kona Electric 64 kWh, Ultimate", costed on the used route. Owner: "we definitely
 need to differentiate between the kona v1 and v2"; "its fine to make them cars".
 
-## T9. Clear `data/seed`
+## T9. Clear `data/seed` and `data/pastes`
 
-Proposed 16 Oct, not yet ruled: keep the pasted quote pages (`data/pastes`) and a small file of
-default settings (term, savings rate, resale assumption, starting searches); drop the 19 hand-typed
-cars (14 cited from ChatGPT; their specs outrank every scraped source), the 29 offers (20 cited,
-4 derived), the trim map (the first pipeline's lookup table, 163 of its rows encoding that week's
-shortlist) and the picks. Done with T3, since the trim map's 56 links are what stop the hand-typed
-cars appearing twice today.
+Proposed 16 Oct, not yet ruled: keep only a small file of default settings (term, savings rate,
+resale assumption, starting searches). Drop the 19 hand-typed cars (14 cited from ChatGPT; their
+specs outrank every scraped source), the 29 offers (20 cited, 4 derived), the trim map (the first
+pipeline's lookup table, 163 of its rows encoding that week's shortlist), the picks, and the
+hand-copied pages in `data/pastes` (four Carwow dealer quotes of 5 Oct, three expired, and two
+Richmond Hyundai pages of 4 Oct) with the paste reader and README's instructions for adding one,
+since the pipeline is to be automated (`docs/DECISIONS.md`). Done with T3, since the trim map's 56
+links are what stop the hand-typed cars appearing twice today.
 
 ## T10. `docs/SOURCES.md` in the short form
 
