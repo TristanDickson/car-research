@@ -17,8 +17,8 @@ convention as the owner's other boards (SpaceTS, parasitic-feudalism), kept shor
 | T1 | One normaliser for every source's text | in progress |
 | T2 | Carwow's models mapped to Parkers' models and generations | open |
 | T3 | The resolver: every record filtered against the master list | open |
-| T4 | cinch: read each used listing's trim, seats and range fields | in progress |
-| T5 | NCD: match NCD's prices by the CAP id its pages print | in progress |
+| T4 | cinch: read each used listing's trim, seats and range fields | landed `2ac6965` |
+| T5 | NCD: match NCD's prices by the CAP id its pages print | landed `ec160a1` |
 | T6 | End value by version, within a wide mileage band | open |
 | T7 | A price that fits several cars goes on the best spec | open |
 | T8 | Old versions are cars | open |
@@ -64,10 +64,24 @@ Every cinch used listing has separate fields for trim, seats and range. We read 
 variant text, year, mileage, registration and drive; trim and seats are dropped, and range is kept
 only as badge text. These are exactly the details the matching needs, for 1,724 listings.
 
+Landed 16 Oct: trim, seats, doors, body, fuel (which marks the range extenders), range in miles
+with its test (WLTP, or NEDC on 17 older cars), and whose stock it is. 1,612 listings carry them;
+the 194 without are committed history from before 10 Oct. Today's matching reads only the
+derivative text, so no listing moved; the trim field would place 68 listings whose text spells
+the trim differently ("SM" for "Single motor"), which is for T3.
+
 ## T5. NCD: prices matched by the CAP id
 
 Each car's page on New Car Discount prints Carwow's CAP id. We store it on NCD's spec rows, but
 NCD's own prices are still matched by their text rather than by that id. That affects 219 offers.
+
+Landed 16 Oct. All 105 PCP quotes are placed by their page's id; the cash prices take the id of
+the page each listing row links to from the first nightly run of this code. Where the id and the
+text disagree, the id wins: two Ioniq 5 63 kWh twins (Advance and Premium), where the text rule
+had chosen the other twin by price, and the Ioniq 5 Ultimate AWD with the Tech and Zen Pack. The
+Inster 71kW 02's cash price names an id Carwow does not list, so it will be left unplaced rather
+than put on the No Heat Pump version. Five quotes the text could not place now have a car (Ioniq 5
+Ultimate with the Tech Pack, Ioniq 5 N and Ioniq 6 N, each with and without the Vision Roof).
 
 ## T6. End value by version
 
