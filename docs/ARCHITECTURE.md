@@ -1,7 +1,7 @@
 # Architecture
 
-The design is the owner's, as in their other project bolthole (`docs/REBUILD.md`): **only
-the raw responses are permanent.** Every page fetched is kept, exactly as it came, in a raw
+The design is the owner's, as in their other project bolthole (`docs/DECISIONS.md`; its status
+and next step in `docs/REBUILD.md`): **only the raw responses are permanent.** Every page fetched is kept, exactly as it came, in a raw
 store outside git on the owner's laptop. Parsing, matching ("which records are the same
 car") and everything the app reads are derived from those raws by a build that runs from
 scratch every time, so a better parser or a better matcher fixes the past as well as the
@@ -9,28 +9,8 @@ future. The only other durable things are the owner's own files and decisions, i
 
 ```
 providers (discover → fetch → parse)       pipeline/providers/*      Python, stdlib
-   manual_seed     data/seed/*.json          the owner's cars, offers, requirements, decisions (read by every build)
-   carwow_paste    data/pastes/carwow/*.txt  Carwow offer pages copied out of a logged-in browser (read by every build)
-   carwow_catalog  carwow.co.uk (live)       the catalogue: every electric model, from the sitemaps + <make>/electric pages
-   carwow_specs    carwow.co.uk (live)       equipment per trim, numbers per engine, CAP ids + version dates, images
-   carwow_model    carwow.co.uk (live)       the derivative registry: every derivative by CAP name, brackets included
-   carwow_options  quotes.carwow.co.uk       each derivative's configurator: options and packs with prices
-   carwow_deals    carwow.co.uk (live)       best cash price per CAP derivative, Kia PCP-finance price, rep. example
-   hyundai_offers  hyundai.com/uk (live)     Hyundai Finance national PCP example per model, with validity dates
-   ncd             new-car-discount.com      broker all-in cash price per derivative
-   leaseloco       leaseloco.com (live)      best personal lease per derivative/profile (ex-VAT → inc.)
-   rrg             rrg-group.com (live)      dealer PCP and lease examples for every Kia EV offer
-   kia_specs       kia.com/uk (live)         grade × feature ticks, numbers per powertrain, seat variants
-   hyundai_specs   hyundai.com/uk (live)     the Tech & Spec guide PDF per model: ● / - per trim, battery-qualified ticks, packs with prices
-   hyundai_configurator  hyundai.com/uk (live)  the build-and-price GraphQL: every orderable configuration, its price, the packages in it
-   evdb, evdb_cars ev-database.org (live)    measured numbers per variant; each variant's own page
-   adac            adac.de (live)            ADAC's Autotest of each model (ride, build quality, space grades) and its breakdown statistics
-   whatcar         whatcar.com (live)        What Car?'s owner reliability survey: rating, place in class, common faults per model
-   dvsa_recalls    check-vehicle-recalls (live)  every UK safety recall, downloaded by Chrome (scripts/fetch-with-chrome.mjs); laid over the models at export
-   nhtsa_recalls   static.nhtsa.gov (live)   every US safety recall, NHTSA's download (weekly); laid over the models sold in the US at export
-   carwow_used     quotes.carwow.co.uk        used stock per model: derivative, price, year, mileage (the buy-used route; residual evidence)
-   cinch_used      search-api...cinch.co.uk   used stock per make (electric), with registrations; folded with the others per model
-   motorpoint_used motorpoint.co.uk           the supermarket's electric stock, nearly new; list price when new per car
+   manual_seed, carwow_paste                  the owner's files: data/seed/*.json, data/pastes/carwow/*.txt (read by every build)
+   one module per live source                 what each reads and leaves: docs/SOURCES.md
         │  scrape (pipeline/runner.py): fetch and keep, nothing else
         ▼
 RAW STORE  $CAR_RESEARCH_RAW (D:\car-research-raw)   on the owner's laptop, outside git, never rewritten
@@ -111,6 +91,11 @@ The result of every match is written to the build database's `trim_map` table wi
 and evidence, so the Data page can show why a lease sits on a car. That table is derived like
 everything else; the owner's decisions live only in the seed file.
 
+Two more lookups place what is not an offer: an EV Database variant is laid over a car by model
+and battery (`facts.pick_variant`), and a used listing counts for a car of the same trim and
+battery (`snapshot.used_key_for_text`, below). One resolver over every record is designed to
+replace all four (`docs/REBUILD.md`, "Next: one resolver over every record").
+
 ## Derivatives (every EV on sale)
 
 `carwow_catalog` writes a `models` row per `<make>/<model>` Carwow lists, from three index
@@ -143,6 +128,13 @@ names it) appears once, as the owner's entry, carrying its CAP id; it inherits e
 about the derivative, and a match on it, a spec row for it or a used listing of it lands on the
 owner's car. `auto: true` marks a derivative the owner has not entered, which is all the app's
 "Hand-curated" filter reads. Nothing else makes a car: no record creates one as a side effect.
+
+A derivative whose name burns fuel is not a car of this app: Carwow's pages for some electric
+models list petrol, hybrid and range-extender versions too, and `parse.combustion` names them, so
+the readers leave them and the build sets aside any record that names one (method `combustion`).
+A car is "On sale now" (`on_sale`, which the default search uses) when Carwow's registry or
+specification page listed its derivative within the last 14 days or it has a current price on
+some route (`snapshot.on_sale`); the rest are old price-list versions, kept with their history.
 
 ### Resolving broker rows (services/resolve.py)
 
@@ -279,38 +271,16 @@ captured page in `tests/fixtures/`, so a layout change fails `tests/test_provide
 than writing nonsense; the page is kept either way, so the fixed parser reads it again at the
 next build.
 
-What each site gives, and the caveats carried into the offer rows:
+What each site gives, and the sites left, are in `docs/SOURCES.md`.
 
-- **Carwow deals pages** are server-rendered and public. Per derivative: RRP, Carwow's best
-  cash price across its dealers (status `lead`, the named dealer needs the logged-in quotes
-  page), and on Kia pages a separate *PCP Finance* price (the price if you take Kia's PCP, usually
-  below cash: the row carries `pcp_finance_price` and the delta). One representative PCP example
-  per model, matched to its derivative by RRP, status `illustrative`.
-- **Hyundai UK offer pages** embed the complete PCP example as JSON (`data-js-options`): cash
-  price, grant, OTR, deposit and contribution, APR and flat rate, GFV, interest, mileage, excess
-  charge, and the order window in the T&Cs (`valid_from` / `valid_to`). Deposit is Hyundai's
-  example (£3,500), not £0; the maths in the app normalises that.
-- **New Car Discount** prints one all-in price per derivative, including the grant. The listing
-  names the no-heat-pump and pack variants explicitly, which is how the trim map tells them apart.
-- **LeaseLoco** ships deals in `__NEXT_DATA__` (`originalBestDealList`, or the first search
-  page for models without a curated list). Prices are ex-VAT and are multiplied by 1.2; the key
-  includes term, initial-months and mileage because the same car appears on several profiles.
-- **RRG** is a plain-text representative example on a dealer page; the regex is pinned to the
-  current wording.
+## Carwow quotes as pastes
 
-Blocked or unavailable, and why they are not providers: Richmond Hyundai and Kia's used-car site
-(Imperva, blocks headless Chromium too), cars2buy (Cloudflare), Arnold Clark (client-rendered),
-EV Database (rate-limited), and Kia's own quote API (`kiaofferscalculator.co.uk`), which answers
-"No quote available for parameters entered" for every parameter set, in the live widget as well.
-
-## Carwow without an API
-
-Carwow has no public API and blocks datacenter scraping, so Carwow offers come in as pasted
-pages: copy the dealer-offer page text from the logged-in browser into
-`data/pastes/carwow/<date>_<dealid>.txt` with a `# captured_at: <iso>` first line. The file is
-the Bronze artifact; `carwow_paste` parses it (price, contribution, APR, GFV, mileage, the
-car facts, the dealer) and reconciles the payment count against the page's own totals.
-`tests/test_carwow_paste.py` pins the parser to the four real pages captured so far.
+Carwow's public pages are scraped, but the dealer quotes in the owner's logged-in Carwow account
+are behind a login, so they come in as pasted pages: the page text copied into
+`data/pastes/carwow/<date>_<dealid>.txt` with a `# captured_at: <iso>` first line (README,
+"Working on it"). The file is kept like a raw; `carwow_paste` parses it (price, contribution,
+APR, GFV, mileage, the car facts, the dealer) and reconciles the payment count against the page's
+own totals. `tests/test_carwow_paste.py` pins the parser to the four real pages captured so far.
 
 ## Mapping to the reference repos
 
@@ -336,13 +306,13 @@ in the browser").
 | --- | --- |
 | `manifest.json` | `{schema_version, generated_at, counts:{cars,cars_generated,models,offers,observations,used_spans,cash_benchmarks,unmapped_trims,specs,used_listings}, runs:[…]}` |
 | `cars.json` | one record per derivative (`auto: true` when the owner has not entered it; `source_kind`, `cap_id`, `model_slug`) and per car the owner entered, with their facts, `model_key`, `flags`, `spec_count`, `image`, `picks`; no costs |
-| `details.json` | per car id: spec rows, the hand-versus-source check, the seed's requirement check; fetched on demand |
+| `details.json` | per car id: spec rows, the hand-versus-source check (`spec_check`), `field_sources`, `disagreements`, `overruled`; and once per model, under `model:<model_key>`, the long text its cars share (`snapshot.MODEL_TEXT`: Carwow's review sections, the UK and US recall lines); fetched on demand |
 | `sightings.json` | every offer observation span: `{key, car_id, model, route, source, provider, status, seller, from, to, present, deal}` where `deal` is the full price-bearing payload |
 | `used_spans.json` | every used listing's asking-price spans: `{key, source, model, car_id, year, price, mileage, vrm, town, from, to, present}` |
 | `used.json` | used stock per model: every listing ever seen (derivative, site, link, present) |
 | `models.json` | the catalogue: every electric model, printed names, has_deals / has_specs, and per model how many derivatives, cars, cars with a live sighting and used examples we hold |
-| `specs.json` | every scraped variant: features, options, canonical flags, numbers, image, provider, car_id when mapped |
-| `requirements.json` | the requirements document as seeded; the reader edits their own copy in the browser |
+| `specs.json` | every scraped variant: features, options, canonical flags, numbers, image, provider, car_id when mapped; Parkers' rows are left out until the resolver reads them (`snapshot.RESOLVER_ONLY`) |
+| `requirements.json` | `data/seed/requirements.json` as seeded: the saved searches and quoting basis a new reader starts from; the reader's own copy lives in the browser |
 | `data.json` | providers, `sources` (id → name), recent runs, `pipeline` (per source: raw pages, records, those naming a car, rows in the snapshot; night by night: each source's scrape, the builds, the publishes; `pipeline/stages.py`), unmapped trims, offer-state counts, catalogue counts: the SPA's Data page |
 
 `source` on a span is the site, not the provider: `snapshot.SOURCES` folds Carwow's deal,
@@ -441,10 +411,13 @@ cards show the comparable number with the real deal beside it and a one-line not
 the two lengths differ. `compare_over: "own"` in the basis ranks by the own-term figure
 instead.
 
-Buying used is the fourth route: the cheapest example of the model listed now, costed the
-same way (price now, sold after the term at what examples that much older ask today, else
-on the flat curve), competes with the finance routes on the Pick cards; the car page lists
-the stock by registration year and names the sites. Each retailer names the model its own
+Buying used is the fourth route: the cheapest example listed now of the same model, trim and
+battery (`used_key`, `model|trim|kWh`; a listing registered before every car of its trim went on
+sale, by EV Database's `on_sale_since`, is an earlier generation and does not count), costed the
+same way (price now, its end value as above), competes with the finance routes on the Pick
+cards; the car page lists the stock by registration year and names the sites. A car the owner
+entered as used with a cash price is costed on this route by its own model year
+(`recompute.asUsedEntry`), not as a new car, and is not counted among the market's examples. Each retailer names the model its own
 way ('Kona', 'ID.4', 'MG4', '4 Coupe'); `providers/used_match.py` files a listing under
 the catalogue model by letters and digits, then without the electric suffix, then a short
 alias table of same-car spellings.
@@ -465,7 +438,7 @@ it, unless the search keeps unknown values. "Leave those figures out" (`figures=
 costs each car on its cheapest figures whose end value rests on at least 10 used cars
 (`firm_routes`, the same as `routes` without the ones marked "few cars"); a car with none
 drops out of a search on price. Text and number boxes apply what is typed after a pause,
-and the table draws 100 rows at a time.
+and the table draws 100 rows at a time in the search's sort.
 
 A saved search is that query string with a name, kept in the IndexedDB settings
 (`lib/db.ts` `getSearches`, `saveSearch`, …). `data/seed/requirements.json` `searches`
@@ -486,7 +459,11 @@ and how to read it off a car (or its costs). The Cars table makes a column of ea
 tri-state column per equipment flag the snapshot names (`flagFields`); the search's bounds
 are every number and amount in it (`RANGE_FIELDS`, `r.<key>` in the URL); the car page
 lists every field by group with the claim that filled it. A field the pipeline learns is
-one line there.
+one line there. Each finance route has two fields, its true cost a month and its advertised
+monthly payment, and each column sorts by what it shows. The note under a car's name that tells
+look-alike cars apart (pack, seats, price list, RRP) is worked out in the app
+(`lib/names.ts`), and hovering a PCP's rate against cash shows the sum behind it, fees included
+(`lib/explain.ts`).
 
 ## Facts: one claim store, one resolver
 
@@ -538,6 +515,11 @@ model's cars share, Carwow's review sections and the recall lines, once per mode
 the equipment a search asks for (`lib/query.ts` `searchPacks`). Nothing in the resolver names a feature: the heat
 pump, the cabin socket and the powered tailgate are three flags among the 29
 `services/features.py` knows, resolved by the same rules.
+
+Model-level evidence (ADAC's grades and breakdown statistics, What Car?'s ratings, the UK and US
+recalls, Carwow's review) is laid over every car of the model at export. A car whose platform EV
+Database names also carries what owners and ADAC say of the other models on that platform
+(`claims.platform_reliability`).
 
 The configurator page (`providers/carwow_options.py`, Gold `options`) is read for every derivative the registry or a
 specification row names: its JSON block lists every option and pack with prices and
@@ -612,7 +594,13 @@ multi-line chart (2px lines, 8px end markers with a surface ring, hairline grid,
 for two or more series, direct end-labels for up to four, crosshair tooltip reading
 every series at the snapped date, arrow-key focus) and `Sparkline.tsx` the stat-tile
 version. Colours are assigned by sorted offer id so a filter never repaints a line; the
-palette was validated against the app's dark surface. Every chart has a table twin.
+palette was validated against the app's dark surface. Every chart has a table twin. The app
+draws them on the Pick cards (a 90-day sparkline of the best outright price, the change over 30
+days and how long it has sat there), on the car page ("Price over time": outright prices by
+source and advertised monthlies by offer, with the list-after-grant line), and as the sort
+"biggest price fall, 30 days". The nightly scrape adds a point per car per day; older points
+are the owner's dated captures and the Wayback backfill (above), which gives waypoints, not a
+daily line.
 
 Model matching is forgiving ("Kona" matches "Kona Electric"); the year is a car's model
 year or a Carwow derivative version's year. The Pick page shows 48 cards at a time with a
@@ -624,18 +612,18 @@ time.
 `web/src/lib/db.ts` opens `CarResearchDB` (Dexie):
 
 - **facts** `cars`, `sightings`, `used_spans`, `specs`, `models`, `meta` (and `details`,
-  `used`, fetched in the background after each download) — downloaded once and then read
-  with no network: `ensureSeeded` returns the stored snapshot whenever there is one this
+  `used`, fetched in the background after each download), downloaded once and then read
+  with no network. `ensureSeeded` returns the stored snapshot whenever there is one this
   build can read (`meta.manifest`), and only a first visit or a new data format waits on a
   download. `checkForUpdate` asks the site for the manifest afterwards (the banner calls it
   once per load and when the browser comes back online) and, when the site has a newer
   cut, replaces the facts in one transaction and the pages re-read; offline it reports so
   and the stored copy stays.
-- **results** `costs`, `series`, `residuals`, `offers` — what the cost model makes of the
+- **results** `costs`, `series`, `residuals`, `offers`: what the cost model makes of the
   facts under the reader's basis as of today; rewritten by `ensureComputed` when the
   snapshot, the basis or the day changes (`meta.costed` holds the key they were computed
   under, `meta.compute_stats` the last run).
-- **private** `settings` (the saved searches; the budget line and the quoting basis) —
+- **private** `settings` (the saved searches; the budget line and the quoting basis):
   never leave the browser, survive new snapshots.
 
 Pages use react-query hooks (`lib/hooks.ts`) over Dexie queries; saving the settings
@@ -680,27 +668,10 @@ CI cannot rebuild from raws it does not have. `pipeline-ci.yml` runs the unit te
 from a raw store of the captured fixture pages) and a build over the owner's own files with an
 empty raw store.
 
-If the snapshot ever grows past a few MB (per-listing price history, scraped used-car markets),
-move it off `main` onto a squashed orphan `data` branch exactly as `etf-tool/scripts/publish-data.sh`
-does, and add the second checkout step to the deploy workflow.
-
-## Local development
-
-```
-make nightly         # python -m pipeline nightly: migrate new history, scrape into the raw store, build, snapshot
-make build           # python -m pipeline build: from scratch from the raws already held (no network), snapshot, deal table
-make test            # python unittest + web lint/typecheck/vitest
-make web-dev         # next dev on :3001, reads web/public/data
-make web-build       # static export to web/out
-python -m pipeline scrape --only <provider>   # one live source into the raw store
-python -m pipeline raw-status | raw-migrate | status | trims | models | deal-table | backfill
-```
-
-Python ≥ 3.11, stdlib only (on this laptop `uv run --python 3.12`; set `PYTHONUTF8=1` on
-Windows). Hyundai's guides need poppler's `pdftotext` (`CAR_RESEARCH_PDFTOTEXT`, else on the PATH;
-xpdf's is skipped), else pypdf, which wraps the tables differently; the reader is part of the
-parse cache's key. Node 22. `CAR_RESEARCH_RAW` names the raw store; without the owner's laptop, a clone
-can still `raw-migrate` the committed history into an empty store and build from that.
+The snapshot is about 64 MB of JSON (16 Oct 2026), and every nightly commit adds to the repo's
+history. If that becomes a problem, move it off `main` onto a squashed orphan `data` branch
+exactly as `etf-tool/scripts/publish-data.sh` does, and add the second checkout step to the
+deploy workflow.
 
 ## Adding a provider (scraper)
 
@@ -718,11 +689,11 @@ can still `raw-migrate` the committed history into an empty store and build from
    pipeline trims` to see what the rules could not place (decide it in `data/seed/trim_map.json`
    if it is yours to decide). Add a fixture test, through `tests.helpers.Raws` for the build.
 
-## Decisions
+## Design choices
 
-- **Only the raws are permanent** (the owner's design, 10 Oct 2026, `docs/REBUILD.md`). The
-  database and the snapshot are derived from scratch on every build; the owner's own files and
-  decisions are the only other durable thing.
+The owner's own decisions, the raw store's design among them, are in `docs/DECISIONS.md`. These
+are the technical choices made in building it.
+
 - **SQLite, not Postgres.** Single user, tiny data, no concurrent writers. Stdlib only.
 - **The snapshot committed on `main`.** The orphan-branch machinery is documented above for later.
 - **Next.js static export, not Vite.** Mirrors the two most recent reference repos so the layout,

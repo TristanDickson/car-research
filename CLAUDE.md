@@ -3,122 +3,63 @@
 A generic app for exploring UK EV prices and planning an upgrade from any starting car: a Python
 pipeline scrapes prices, specs, tests and reliability, keeps every response it fetches in a raw
 store on the owner's laptop, builds from scratch everything the app reads, and commits a JSON
-snapshot that a static Next.js app (GitHub Pages) loads into IndexedDB. The household using it
-now has a decision due before their current car's PCP ends on 10 Dec 2026, but nothing in the
-app is built around that car or their requirements (see "A generic app" below).
+snapshot that a static Next.js app (GitHub Pages) loads into IndexedDB.
 
-Read first: `README.md` (why, sources, how to work on it, next steps, context log, newest
-first), then `docs/ARCHITECTURE.md` (the raw store, the build, matching, the snapshot contract,
-the claim store, the app), `docs/REBUILD.md` (the owner's design, after their project
-bolthole, and where the rebuild stands) and `docs/SOURCES.md` (what each source prints, what we
-read, what we leave). What the household needs from a car:
-`docs/requirements.md`; deal rules: `docs/research-notes.md`.
+Read first: `README.md` (why, how it fits together, how to work on it, next steps), then
+`docs/DECISIONS.md` (the owner's decisions in force, in their words), `docs/ARCHITECTURE.md`
+(how the system works), `docs/REBUILD.md` (the rebuild's status, the resolver designed next, and
+a glossary of the code's terms) and `docs/SOURCES.md` (what each source prints, what we read,
+what we leave). The household's notes: `docs/requirements.md`; deal rules:
+`docs/research-notes.md`. Git's commit messages are the history.
 
-## Where things stand (10 Oct 2026)
+## Where things stand (16 Oct 2026)
 
-**The rebuild is live on `main`** (switched over on 10 Oct; `docs/REBUILD.md`, "Status"). Only
-the raws are permanent; parsing and matching are re-derived from scratch by every build; only the
-owner's own files and decisions persist. The raw store is `D:\car-research-raw` on the owner's
-laptop (`CAR_RESEARCH_RAW`), and holds the committed history of 6 to 10 Oct (and the Wayback backfill back to Jan 2025) as the source `history`.
-
-The laptop's Task Scheduler job runs `main` at 03:17 local: it scrapes into the raw store, builds,
-and pushes the snapshot and the deal table to `main`, which deploys the site. Each night's log is
-`D:\car-research-raw\logs\nightly\<date>.log`; check it the morning after a change. There is no
-GitHub scrape any more. On 11 Oct every source was surveyed against its pages
-(`docs/SOURCES.md`) and the parsers fixed to read what they print, for the right car.
+The rebuild has been live on `main` since 10 Oct: the laptop's Task Scheduler job runs `main` at
+03:17, scrapes into the raw store (`D:\car-research-raw`, `CAR_RESEARCH_RAW`), builds, and pushes
+the snapshot, which deploys the site. Check `D:\car-research-raw\logs\nightly\<date>.log` the
+morning after a change. Next is the resolver in `docs/REBUILD.md` (designed, not built); Parkers
+is read since 16 Oct for it, its records kept out of the snapshot.
 
 ## Commands
 
-```
-python -m pipeline build        # from scratch: raws + the committed history + the owner's files -> DB -> web/public/data
-python -m pipeline records <key> [--kind spec] [--show]   # what the sources said about a key, and when
-python -m pipeline nightly      # new committed history into the store, scrape, build, snapshot, deal table
-python -m pipeline scrape --only <provider>   # live sources into the raw store
-python -m pipeline raw-status   # what the raw store holds, by source
-python -m pipeline trims        # records the rules could not place
-scripts/nightly.sh --push --build-only   # put a code change on the site now (build from the raws held, publish)
-make test                       # python unittest + web lint, typecheck, vitest
-make web-dev                    # http://localhost:3001
-```
-
-On this laptop: `uv run --python 3.12 python -m pipeline ...` (the system Python is 3.9) with
-`PYTHONUTF8=1` (Windows reads files as cp1252 otherwise). Python ≥ 3.11, standard library only.
-Node 22. `hyundai_specs` needs poppler's `pdftotext` (on this laptop `CAR_RESEARCH_PDFTOTEXT`,
-under `%USERPROFILE%\tools`); xpdf's and pypdf read the guides' tables wrongly.
+The commands are in `README.md`, "Working on it". On this laptop run them as
+`uv run --python 3.12 python -m pipeline ...` with `PYTHONUTF8=1`.
 
 ## Rules
 
-- **The raw store is permanent and append-only.** Never rewrite, move or delete anything in
-  it; never write anything derived into it. Everything else (the database, the parse cache, the
-  snapshot) is disposable and rebuilt from it.
-- **Nothing creates a car as a side effect.** Derivatives are the entities, one per CAP id a
-  record names, made by the build; a derivative the owner entered appears once, as their entry.
-  Matching runs over every record at once, so no answer may depend on the order pages were read.
-- **The owner's decisions are durable and theirs.** `data/seed/trim_map.json` (this source's
-  name is that car, or not one of theirs), their cars, offers, picks and requirements. Record what
-  they said; never write a decision of yours into those files in their name.
-- `web/public/data/*.json` and `docs/deal-comparison.md` are generated by the build. Never edit
-  them by hand.
+- **The raw store is permanent and append-only.** Never rewrite, move or delete anything in it;
+  never write anything derived into it.
+- **Nothing creates a car as a side effect**, and no answer may depend on the order pages were read.
+- **The owner's decisions are durable and theirs** (`data/seed/trim_map.json`, their cars, offers,
+  picks and requirements, `docs/DECISIONS.md`): record what they said; never write a decision of
+  yours in their name.
+- **A generic app**: no particular car, requirement or threshold in code or copy
+  (`docs/DECISIONS.md`, "The app is generic"). Show results under the alternatives being weighed
+  rather than asking the owner to settle them.
+- A figure quoted to the owner is one the app carries.
+- Prices are authoritative: a figure a seller published or quoted, never derived or estimated.
+- `web/public/data/*.json` and `docs/deal-comparison.md` are generated by the build; never edit them.
 - Facts about a car are claims (`pipeline/services/claims.py`), resolved at export.
-- Every scraper has a real captured page in `tests/fixtures/` and a test against it; build tests
-  go through `tests.helpers.Raws`. A layout change is fixed against a fresh fixture, not by
-  guessing. A changed parser re-reads every stored page at the next build (the parse cache keys on
-  the providers' code).
-- A new car field: add it to `NUMBERS` (and the source that says it) in `claims.py`, to
-  `SnapshotCar` in `web/src/lib/types.ts`, and one line in `web/src/lib/fields.ts`, which
-  makes it a Cars-table column, a search bound and a car-page row. A new equipment flag goes
-  in `pipeline/services/features.py` and appears in the app by itself.
-- **No new source without a survey.** Before writing a parser, list every page type the site
-  has, everything each prints that the household could use, and what reading it costs; record in
-  `docs/SOURCES.md` what is read, what is left and why. Re-survey a source when its parser
-  changes. Data printed on a page we already fetch and do not read is a bug.
-- A new provider: a module in `pipeline/providers/`, registered in `providers/__init__.py`
-  (order matters), with a fixture and a test. Whatever its parser needs goes in the target's
-  metadata, which the raw store keeps with each fetch. If it reads many pages, give it a per-run
-  cap or a freshness rotation (see `evdb_cars`, `carwow_options`).
-- Pushing to `main` deploys the site.
-- Scripts are bash (Git Bash on this laptop), never PowerShell: the project is platform agnostic.
+- Every scraper has a real captured page in `tests/fixtures/` and a test; build tests go through
+  `tests.helpers.Raws`. Fix a layout change against a fresh fixture, not by guessing.
+- A new car field: `NUMBERS` in `claims.py`, `SnapshotCar` in `web/src/lib/types.ts`, one line
+  in `web/src/lib/fields.ts`. A new equipment flag: `pipeline/services/features.py`.
+- **No new source without a survey** in `docs/SOURCES.md`; re-survey when a parser changes. Data
+  printed on a page we already fetch and do not read is a bug.
+- A new provider: `docs/ARCHITECTURE.md`, "Adding a provider"; give one that reads many pages a
+  per-run cap or a freshness rotation (see `evdb_cars`, `carwow_options`).
+- Pushing to `main` deploys the site; ship straight to `main` once tests pass.
+- Scripts are bash (Git Bash on this laptop), never PowerShell.
+- Talk to the owner in plain words; explain any code term (the glossary in `docs/REBUILD.md`).
+  Say how many cars have a field, not that coverage is complete. Propose before adding a concept.
 - Done means: Python tests and web lint/typecheck/vitest pass locally, and `pipeline-ci`,
   `web-ci` and the Pages deploy are green on the pushed commit.
 
-## The owner's preferences
-
-- **A generic app.** The owner, 14 Oct 2026: "the point of the app is to be flexible and able to
-  trial out different requirements and preferences", and "build a generic app for me to explore
-  car prices and plan upgrades regardless of starting vehicle". Nothing in code or copy names a
-  particular car, requirement or threshold: comparisons are against the car the reader chooses in
-  Settings ("Compare every car with"), requirements are the reader's saved searches, and a search
-  must be able to express each alternative (any-of chips, unknown values kept or left out and
-  counted). `docs/requirements.md` is this household's notes, one input among others, not the
-  spec. When answering a question, show the results under the alternatives being weighed rather
-  than asking the owner to settle them.
-
-- Talk in plain words. They do not know the code's internal terms ("stub car", "trim map",
-  "claims", "derivative" without explanation); never use one with them without saying what it
-  is (`docs/REBUILD.md` has a glossary), and prefer not to need them.
-- Keep it simple. Saved searches replaced a requirements editor, stars and a shortlist
-  because those were concepts that did little; propose before adding a new concept.
-- Be exact about coverage: say how many cars have a field, not that it is "comprehensive".
-- Prices must be authoritative: a figure a seller actually published or quoted. Never fill a
-  gap with a derived or estimated quote.
-- Audi, BMW, Mercedes and Skoda maker spec tables are deferred until one of their cars is
-  shortlisted.
-
 ## Known limits
 
-- Sites refuse sometimes, and that is normal (`pipeline/providers/politeness.py`): a host that
-  refuses twice in a row is not asked again that run; after a night that ended refused it rests
-  one night, then two, four ...; it comes back at 10 pages and doubles each clean night. A page
-  not fetched loses nothing: the build keeps what earlier pages said. EV Database does this to the
-  laptop (55 pages the first night, refused at once the second). A guessed LeaseLoco page that
-  404'd is not asked again for a week.
-- Hyundai UK has no spec page readable without a browser; `hyundai_specs` reads the PDF
-  guides and `hyundai_configurator` the configurator's GraphQL endpoint.
-- The Kia Finance quote API answers "No quote available"; Kia finance examples are captured
-  by hand.
-- Carwow's used results name every car on one request (`per_page=200`), but only about four
-  cards a page come in full; the rest are fetched one by one within a nightly budget
-  (`carwow_used.CARD_BUDGET`). Until a few nights confirm the stock is complete, a Carwow used
-  car counts as gone only after a week unseen (`gold.SAMPLED_SOURCES`).
+- Sites refuse sometimes, and that is normal (`pipeline/providers/politeness.py`): a refusing host
+  rests and comes back gently, and the build keeps what earlier pages said.
 - The committed history (before 10 Oct 2026) has no pages behind it: only its matching is
   re-derived, not its parsing.
+- Per-source limits (Hyundai's PDFs, Kia's quote API, Carwow's sampled used stock) are in
+  `docs/SOURCES.md`.

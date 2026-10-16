@@ -3,8 +3,10 @@
 One section per source the nightly job reads. Each says which pages it fetches and how many a
 night, what those pages print, what the parser keeps, and what it leaves out and why. The
 surveys behind it were made on 11 Oct 2026 against the pages in the raw store and a few live
-fetches (ADAC, What Car? and the other reliability sources on 13 Oct); the figures quoted are
-from those pages.
+fetches (ADAC, What Car? and the other reliability sources on 13 Oct, NHTSA on 14 Oct, Parkers on
+16 Oct); the figures quoted are from those pages. The owner's own files are read by every build
+as two more providers, `manual_seed` (`data/seed/*.json`) and `carwow_paste` (the dealer quotes
+pasted from their logged-in Carwow account, `docs/ARCHITECTURE.md`, "Carwow quotes as pastes").
 
 The rule this file serves (CLAUDE.md): **no new source without a survey**. Before a parser is
 written, list every page type the site has, everything each one prints that the household could
@@ -20,7 +22,7 @@ a combined fetch included).
 | `carwow_deals` | `/<make>/<model>/deals` | about 178 | best cash price per CAP derivative, the PCP price, the card's contribution and APR, one representative PCP example per model |
 | `carwow_model` | `/<make>/<model>` | about 249 | the derivative registry: every CAP id, its name and RRP |
 | `carwow_specs` | `/<make>/<model>/specifications` | about 219 | per derivative: equipment, range, efficiency, 0-62, prices; model facts |
-| `carwow_options` | `quotes.carwow.co.uk/car_configuration/choose-options` | rotation | options and packs per derivative; broken, see below |
+| `carwow_options` | `quotes.carwow.co.uk/car_configuration/choose-options` | up to 250 (never-read first, then older than 7 days) | options and packs per derivative |
 | `carwow_used` | `quotes.carwow.co.uk/stock_cars/deal-cards`, `deal-card?id=` | about 700 to 1,240 | used stock with price, year, mileage, derivative |
 | `cinch_new` | cinch new-car API | 2 | PCP and cash quotes per new car |
 | `cinch_used` | cinch search API | about 129 | used stock with a full finance quote each |
@@ -34,11 +36,12 @@ a combined fetch included).
 | `hyundai_specs` | Hyundai PDF price and spec guides | about 10 | grade equipment, the price table, the Technical pages |
 | `hyundai_configurator` | Hyundai configurator GraphQL | about 15 | every orderable configuration with its price and packs |
 | `evdb` | ev-database.org UK index | 1 | measured range, efficiency, charging, weight per variant; on-sale dates |
-| `evdb_cars` | ev-database.org car pages | budgeted, resting after refusals | the variant's full page: dimensions, warranty, charging curve |
+| `evdb_cars` | ev-database.org car pages | up to 60 in 25 minutes, resting after refusals | the variant's full page: dimensions, warranty, charging curve |
 | `adac` | adac.de car catalogue: the tested car's page, the range page; the test PDF | up to 75 (25 of each; a page every 90 days) | ADAC's Autotest grades per model (ride, build quality, space), its breakdown statistics, and its measurements of the car tested (tyres, boot, braking, noise, range, DC charging) |
 | `whatcar` | whatcar.com Reliability Survey articles | 3 | owners' reliability rating per model, its place in its class and the common faults |
 | `dvsa_recalls` | check-vehicle-recalls.service.gov.uk, "All recalls since 1992" | 1 (7.7 MB, downloaded by Chrome) | every UK safety recall: defect, remedy, build dates, cars affected |
 | `nhtsa_recalls` | static.nhtsa.gov, `FLAT_RCL_POST_2010.zip` | 1 a week (15 MB) | every US safety recall: defect, remedy, model years, build dates, US vehicles affected, which recall replaced which |
+| `parkers` | parkers.co.uk spec sitemaps and derivative pages | up to 400, the sitemaps weekly | every electric generation's trims and derivatives with on-sale dates and price when new; read for the resolver, not yet in the snapshot |
 
 ## Carwow
 
@@ -54,7 +57,9 @@ Finance" price on some makes, "Monthly from" on others, and footnotes ("With fin
 contribution of £2,000", "Representative APR 3.9%"). Below the cards sits one representative
 PCP example for the model (deposit, monthly, final payment, APR, mileage, RRP).
 
-- **Read:** every card's prices and footnotes, the representative example in full.
+- **Read:** every card's prices and footnotes, the representative example in full. A card's cash
+  price is Carwow's best across its dealers and is kept as a `lead` (the dealer is named only on
+  the logged-in quotes page); the example is `illustrative`.
 - **The example's car:** matched by RRP; where two derivatives share an RRP (the Ioniq 5
   Advance 63 kWh model years, £40,695), by the card whose "Monthly from" is the example's
   payment. A tie that stays a tie is left unmatched.
@@ -111,11 +116,13 @@ headline "Monthly £336*" with its basis in a footnote).
 The configurator's options page carries the derivative's options, packs, colours with prices
 and hex codes, and `option_rules` (which options exclude each other).
 
-- **Broken:** the configurator now redirects to "Choose the type of car" for the pages tried
-  since the raw store began, so the scrape yields nothing and retries nightly. The 1,040 option
-  rows in the committed history predate it. Needs a fresh survey of the new flow.
-- **Left even when it worked:** colour names and prices (only the count was kept), and the
-  option rules.
+- **Read:** every option and pack with its price, whether it is fitted by default, and what each
+  pack bundles, for every derivative the registry or a specification row names: never-read pages
+  first, then any read more than 7 days ago, stalest first, 250 a night.
+- **Redirects:** the 11 Oct survey found the pages tried redirecting to "Choose the type of car",
+  and the nightly logs show 0 records from 12 to 14 Oct. On 16 Oct 250 pages gave 239 records, so
+  the redirect affects some pages or some nights; a fresh survey of the flow is still due.
+- **Left:** colour names and prices (only the count is kept), and the option rules.
 
 ### carwow_used
 
@@ -128,6 +135,9 @@ about four sponsored cards per page come in full; the rest are placeholders fill
 - **Read:** every named car's price and year; its card where fetched (the household's eight
   models: every card new or a week old; the rest share 400 cards a night, never-fetched first).
   A car whose card was fetched on an earlier night keeps it, with tonight's price.
+- **Gone:** the results come back in a different order on every request, so a fetch is a
+  sample. Until a few nights confirm the stock is complete, a Carwow used car counts as gone only
+  after a week unseen (`gold.SAMPLED_SOURCES`).
 - **Until 11 Oct** only the sponsored cards were read: 1,317 of 8,204 stated cars, none for the
   EV3. Petrol and diesel cars were also kept (118, the Ford Focus among them).
 - **Left:** the deal page itself (`/deals/<id>`, about 490 KB): registration, previous owners,
@@ -139,8 +149,12 @@ about four sponsored cards per page come in full; the rest are placeholders fill
 
 ### cinch_new
 
-cinch's new-car API returns PCP and cash offers per vehicle; the parser keeps both and records
-whether the PCP's figures reconcile and whether a contribution had to be implied.
+cinch's new-car API (`search-api.snc-prod.aws.cinch.co.uk/new-cars`, the one the used-stock
+reader calls) returns, per listing, a full PCP quote from cinch's retail partner, Marshall Motor
+Group (monthly, term, APR, deposit, final payment, credit, interest, annual miles, excess
+mileage), the cash price, the CAP-style derivative text and the Marshall branches. The parser
+keeps the quote and the cash price, and records whether the PCP's figures reconcile and whether a
+contribution had to be implied (the quote finances less than the price).
 
 ### cinch_used
 
@@ -197,7 +211,9 @@ stated saving. Each derivative's page shows a PCP panel whose figures come from
   uses: 111014 is the Ioniq 3 Premium EV Pack). The parser reads the pages back from the pcp
   fetch's stored parts and takes the front and rear tyre sizes and the wheel size; the build
   works out the front tyre's sidewall height (width × profile: 215/55 R17 is 118 mm). 106 of
-  the 1,590 cars on sale have them, all Hyundai and Kia, the makes NCD lists.
+  the 1,590 cars on sale have them, all Hyundai and Kia, the makes NCD lists. The 13 Oct survey
+  found sidewall height does not decide ride across models (springs and dampers do); ADAC grades
+  the suspension itself, on a fixed route (`adac` below).
 - **Left:** the HP quote (one more call a car); the rest of the technical table (battery, WLTP
   range, charging, power, torque, 0-62, length, wheelbase, luggage, seats), which Carwow, EV
   Database and the makers already give.
@@ -210,8 +226,9 @@ Each model page's `__NEXT_DATA__` holds the best personal-lease deal per derivat
 (`originalBestDealList`, or the first page of search results), and one in-stock deal
 (`originalInStockDealList`).
 
-- **Read:** the best deals, converted from ex-VAT; since 11 Oct the in-stock deal under a key of
-  its own (the Kona N Line in stock at £267.04 beside its factory-order best at £269.16). 68 of
+- **Read:** the best deals, converted from ex-VAT (× 1.2), each keyed by derivative, term,
+  initial months and mileage, since one car appears on several profiles; since 11 Oct the in-stock
+  deal under a key of its own (the Kona N Line in stock at £267.04 beside its factory-order best at £269.16). 68 of
   the 95 in-stock deals are already in the best lists and are marked there.
 - **Left:** the other few thousand deals per model (the Ioniq 5 page counts 5,602) load from an
   API not traced; the `/config` page's equipment list (one fetch per derivative, about 55 for
@@ -281,7 +298,9 @@ Each model's offer page carries `data-js-options` JSON with a PCP and a Personal
 example (cash price, up to three discounts, OTR, deposit, contribution, APR, monthly, final
 payment), plus a Motability entry with no figures.
 
-- **Read:** both examples since 11 Oct; the grant summed over the three discount slots (the
+- **Read:** both examples since 11 Oct, with the order window from the terms (`valid_from`,
+  `valid_to`); the example's deposit is Hyundai's (£3,500), which the app normalises to £0; the
+  grant summed over the three discount slots (the
   Ioniq 3's £3,750 sits in the second); the example's paint from `extId` ("SAW-370", which is
   why the Inster's OTR is £370 above its cash price); whether the figures reconcile.
 
@@ -322,9 +341,10 @@ towing, boot, price, seats, and hidden availability dates.
 
 ### evdb_cars
 
-Each variant's own page (dimensions, warranty, charge curve, V2L, availability). Read within a
-nightly budget; the site refuses the laptop often, so it rests after refused nights
-(`pipeline/providers/politeness.py`).
+Each variant's own page (dimensions, warranty, charge curve, V2L, availability). Read for the
+variants filed under a catalogue model, 60 a night within 25 minutes, 25 s apart and slower after
+a 429: never-read pages first, one per model in turn, then pages older than 14 days. The site
+refuses the laptop often, so it rests after refused nights (`pipeline/providers/politeness.py`).
 
 - **Left:** "Electric Car Grant applied £1,500", V2H/V2G and Plug & Charge are printed and not
   mapped.
@@ -440,9 +460,8 @@ The Driver and Vehicle Standards Agency's recall service. Surveyed 13 Oct 2026. 
 question (vehicle recalls or equipment), a search by make and model, a check by registration, and
 two downloads, "All recalls since 1992 (CSV)" and a data guide (DOC). The service answers a script
 with a JavaScript check (Imperva) and a browser with the file; it has no robots.txt, and the
-data.gov.uk entry for it has no files. The owner, 13 Oct: "I think we should work around the
-block. This is a personal product not a commercial one", then "its just a government check
-they're not really serious about". So the fetch asks the installed Chrome to download the file
+data.gov.uk entry for it has no files. The owner decided on 13 Oct to work around the block
+(`docs/DECISIONS.md`, "Sources and scraping"), so the fetch asks the installed Chrome to download the file
 (`scripts/fetch-with-chrome.mjs`: Chrome started normally with a profile of its own, about 15 s,
 nothing faked; a page asking a person to prove themselves is not answered).
 
@@ -571,6 +590,19 @@ derivative, old ones included, which a valuation site needs to price used cars.
 - **Not used yet:** the records are for the resolver; until it is built they are kept out of the
   snapshot (`snapshot.RESOLVER_ONLY`).
 
+## Price and finance sources surveyed and left
+
+Checked on 10 Oct 2026 for real PCP figures per derivative.
+
+- **Blocked:** Richmond Hyundai and Kia's used-car site (Imperva, which blocks headless Chromium
+  too) and cars2buy (Cloudflare); Richmond's pages stay as pastes. Arnold Clark is drawn by script.
+- **Kia's own quote API** (`kiaofferscalculator.co.uk`) answers "No quote available for
+  parameters entered" for every parameter set, in the live widget as well, so Kia Finance examples
+  are captured by hand.
+- **Indicative only:** Auto Trader's monthly figures are, by its own description, dealer supplied
+  or a generic example from its broker, Zuto; What Car?'s Target PCP is on a fixed basis.
+- **Quote only after a credit application:** Zuto, MoneySuperMarket (Motiv), Quotezone.
+
 ## Reliability sources surveyed and left
 
 Surveyed 13 Oct 2026 for evidence of how a model holds up in owners' hands.
@@ -588,10 +620,12 @@ Surveyed 13 Oct 2026 for evidence of how a model holds up in owners' hands.
    health (Motorpoint). One page per car; 145 and 43 for Hyundai and Kia at cinch and
    Motorpoint.
 2. Kia's own offer pages: the order window and per-trim contributions. Four pages.
-3. NCD's HP quote.
-4. Carwow's configurator, once its new flow is surveyed.
-5. LeaseLoco's other deals per model, if its price API can be found.
-6. ADAC's test PDFs are read (14 Oct). Still in them: the 2026 layout's interior measurements
-   (rear legroom and headroom by occupant height, interior width), and the charging table at
-   5 to 30 minutes.
-7. A new ADAC test of a generation is seen in `rangeTests` but read only once `TESTS` names it.
+3. Other Kia and Hyundai dealer groups' offer pages (Snows, WJ King, Howards, Gravells), which
+   print worked PCP examples like Lloyd's and Halliwell Jones's; many run on shared dealer-website
+   platforms, so one parser may cover several.
+4. NCD's HP quote.
+5. Carwow's configurator pages that redirect, once the flow is surveyed again.
+6. LeaseLoco's other deals per model, if its price API can be found.
+7. In ADAC's test PDFs: the 2026 layout's interior measurements (rear legroom and headroom by
+   occupant height, interior width), and the charging table at 5 to 30 minutes.
+8. A new ADAC test of a generation is seen in `rangeTests` but read only once `TESTS` names it.
