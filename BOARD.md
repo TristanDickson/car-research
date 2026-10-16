@@ -22,8 +22,8 @@ convention as the owner's other boards (SpaceTS, parasitic-feudalism), kept shor
 | T6 | End value by version, within a wide mileage band | open |
 | T7 | A price that fits several cars goes on the best spec | open |
 | T8 | Old versions are cars | open |
-| T9 | Clear `data/seed` and `data/pastes` down to a file of default settings | open, with T3 |
-| T10 | `docs/SOURCES.md` in the same short form as the architecture docs | needs ruling |
+| T9 | Clear `data/seed` and `data/pastes` down to a file of default settings | in progress |
+| T10 | `docs/SOURCES.md` in the same short form as the architecture docs | landed `de6de05` |
 | T11 | Find out why Carwow's configurator reader recovered on 16 Oct | open |
 
 ## T1. One normaliser for every source's text
@@ -90,13 +90,13 @@ pipeline's lookup table, 163 of its rows encoding that week's shortlist), the pi
 hand-copied pages in `data/pastes` (four Carwow dealer quotes of 5 Oct, three expired, and two
 Richmond Hyundai pages of 4 Oct) with the paste reader and README's instructions for adding one,
 since the pipeline is to be automated (`docs/DECISIONS.md`). The current car's PCP details in the
-seed settings go too: nothing reads them. Done with T3, since the trim map's 56
-links are what stop the hand-typed cars appearing twice today.
+seed settings go too: nothing reads them. It does not wait for T3: with the hand-typed cars gone
+as well, nothing is left for the trim map's links to deduplicate.
 
 ## T10. `docs/SOURCES.md` in the short form
 
-Offered 16 Oct: one short entry per source (what it gives us, what we leave and why, what reading
-it costs), without code references.
+One short entry per source (what it gives us, what we leave and why, what reading it costs),
+without code references. Owner: "I want this concise enough that I A HUMAN can collaborate on it".
 
 ## T11. Carwow's configurator reader recovered
 
