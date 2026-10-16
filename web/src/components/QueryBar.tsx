@@ -136,7 +136,7 @@ export function QueryBar({ query: f, set, options, flagLabels, count, unknownHid
   for (const [k, label] of Object.entries(flagLabels)) {
     if (!placed.has(k)) grouped.set("Other equipment", [...(grouped.get("Other equipment") ?? []), { token: `flag:${k}`, label }]);
   }
-  const order = ["Essentials", "Can be had by", "Comfort", "Driving", "Other equipment", "Provenance"];
+  const order = ["Essentials", "Can be had by", "Comfort", "Driving", "Other equipment"];
   const groups = [...grouped.entries()].sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0]));
 
   const setRange = (key: RangeKey, i: 0 | 1, v: string) => {

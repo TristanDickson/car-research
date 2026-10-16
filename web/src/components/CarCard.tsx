@@ -27,7 +27,6 @@ interface Props {
   onCompare: () => void;
 }
 
-const VERDICT_TONE: Record<string, "good" | "warn" | "bad" | "muted"> = { want: "good", maybe: "warn", no: "bad", control: "muted" };
 
 const seen = (days: number | null | undefined) => (days == null ? "" : days === 0 ? "seen today" : `seen ${days}d ago`);
 
@@ -72,13 +71,6 @@ export function CarCard({ car, costs, packs = [], flagLabels = {}, ceiling, agai
     <article className={`flex flex-col overflow-hidden rounded-xl border bg-gray-900 ${compared ? "border-blue-700" : "border-gray-800"}`}>
       <div className="relative aspect-[16/9] w-full">
         <CarImage car={car} />
-        <div className="absolute left-2 top-2 flex gap-1">
-          {car.picks.map((p, i) => (
-            <Badge key={i} tone={VERDICT_TONE[p.verdict] ?? "muted"} title={p.note ?? undefined}>
-              {p.who}: {p.verdict}
-            </Badge>
-          ))}
-        </div>
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-4">
@@ -94,8 +86,8 @@ export function CarCard({ car, costs, packs = [], flagLabels = {}, ceiling, agai
             )}
           </div>
           <div className="text-xs text-gray-500">
-            {nameDetail(car) || (car.used ? "used" : car.body ?? "")}
-            {car.model_year ? `${car.packs?.length || car.used || car.body ? " · " : ""}${car.model_year}` : ""}
+            {nameDetail(car) || car.body || ""}
+            {car.model_year ? `${car.packs?.length || car.body ? " · " : ""}${car.model_year}` : ""}
           </div>
         </div>
 

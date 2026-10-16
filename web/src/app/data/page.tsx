@@ -177,7 +177,7 @@ export default function DataPage() {
 
       <Card title={`Catalogue · ${models.data?.length ?? 0} electric models on sale`}>
         <p className="mb-2 text-sm text-gray-400">
-          Every model Carwow lists as electric. Derivatives is how many variants the specification page lists; cars how many car records exist (hand-curated plus generated); priced how many of those have a current figure on any route; used how many used examples are on sale.
+          Every model Carwow lists as electric. Derivatives is how many variants the specification page lists; cars how many car records exist (one per derivative); priced how many of those have a current figure on any route; used how many used examples are on sale.
         </p>
         {!models.data?.length ? (
           <Empty>No catalogue in this snapshot yet.</Empty>
@@ -235,7 +235,7 @@ export default function DataPage() {
         </Card>
         <Card title="In this snapshot">
           <p className="text-sm text-gray-400">
-            {counts.cars} cars ({counts.cars_curated} hand-curated, {counts.cars_generated} generated) across {counts.models} models from {counts.makes} makes ·{" "}
+            {counts.cars} cars across {counts.models} models from {counts.makes} makes ·{" "}
             {counts.offers} offers from {counts.observations} sightings · {counts.used_spans ?? 0} used asking-price spans · {counts.specs} spec rows · {counts.derivatives ?? 0} registry derivatives · {counts.used_listings} used listings over {counts.used_models} models.
             {counts.claims != null && <> Every car field is resolved from {counts.claims.toLocaleString("en-GB")} claims: {counts.fields_from_claims?.toLocaleString("en-GB")} fields filled from a source, {counts.disagreements ?? 0} left unknown because the strongest sources disagree.</>}
             {counts.configurations != null && counts.configurations > 0 && <> The makers&apos; own configurators list {counts.configurations.toLocaleString("en-GB")} orderable configurations with prices and packages, {counts.configured ?? 0} of them matched to a CAP derivative.</>}

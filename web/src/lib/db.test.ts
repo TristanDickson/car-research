@@ -21,7 +21,7 @@ function serve(files: Files): string[] {
   return calls;
 }
 
-const car = (id: string) => ({ id, make: "Hyundai", model: "Ioniq 3", trim: id, seats: 5, picks: [], image: null, model_key: "hyundai/ioniq-3" });
+const car = (id: string) => ({ id, make: "Hyundai", model: "Ioniq 3", trim: id, seats: 5, image: null, model_key: "hyundai/ioniq-3" });
 const today = new Date().toISOString().slice(0, 10);
 
 const span = (key: string, car_id: string, route: string, deal: Record<string, unknown>, present = true) =>
@@ -29,7 +29,7 @@ const span = (key: string, car_id: string, route: string, deal: Record<string, u
 
 function snapshot(generated_at: string, carIds: string[]) {
   return {
-    "manifest.json": { schema_version: "7", generated_at, counts: { cars: carIds.length, offers: 2 } },
+    "manifest.json": { schema_version: "8", generated_at, counts: { cars: carIds.length, offers: 2 } },
     // Same trim and battery as the used stock below, so its used cars count as these cars.
     "cars.json": carIds.map((id) => ({ ...car(id), used_key: "hyundai/ioniq-3|advance|61" })),
     "sightings.json": [
@@ -37,9 +37,9 @@ function snapshot(generated_at: string, carIds: string[]) {
       span("p1", carIds[0], "pcp", { list_price: 30000, vehicle_price: 27000, customer_deposit: 0, apr: 0.069, num_payments: 48, term_months: 49, gfv: 11000, monthly_payment: 443.3 }),
     ],
     "used_spans.json": [2021, 2021, 2021].map((year, i) => ({ key: `u${i}`, source: "cinch", model: "hyundai/ioniq-3", car_id: null, used_key: "hyundai/ioniq-3|advance|61", year, price: 12000 + i * 500, mileage: 10000 + i, vrm: `V${i}`, town: null, from: "2026-09-01", to: today, present: true })),
-    "requirements.json": { as_of: "2026-10-06", hard: [], preferences: [], wants: [], quoting_basis: { term_months: 37, savings_rate_apr: 0.04, residual_pct_of_list: 0.45, residual_at_months: 36 },
-                           searches: [{ name: "Hand-curated", query: "standard=curated" }, { name: "My brief", query: "r.seats=4-&listed=flag:heat_pump,flag:v2l_internal", default: true }] },
-    "details.json": Object.fromEntries(carIds.map((id) => [id, { specs: [], spec_check: { rows: [], disagreements: 0 } }])),
+    "requirements.json": { as_of: "2026-10-06", quoting_basis: { term_months: 37, savings_rate_apr: 0.04, residual_pct_of_list: 0.45, residual_at_months: 36 },
+                           searches: [{ name: "Everything on sale", query: "standard=on_sale" }, { name: "My brief", query: "r.seats=4-&listed=flag:heat_pump,flag:v2l_internal", default: true }] },
+    "details.json": Object.fromEntries(carIds.map((id) => [id, { specs: [] }])),
     "used.json": [],
     "data.json": { generated_at, stale_days: 14, providers: [], runs: [], unmapped_trims: [], offer_states: {}, counts: {}, sources: { carwow: "Carwow" } },
   };
@@ -114,7 +114,7 @@ describe("IndexedDB seeding from the snapshot", () => {
     await ensureSeeded();
     vi.unstubAllGlobals();
     const next = snapshot("2026-10-07T09:00:00Z", ["c"]);
-    const calls = serve({ ...next, "manifest.json": { ...next["manifest.json"], schema_version: "8" } });
+    const calls = serve({ ...next, "manifest.json": { ...next["manifest.json"], schema_version: "9" } });
     expect(await checkForUpdate()).toBe("app-outdated");
     expect(count(calls, "cars.json")).toBe(0);
     expect((await getDb().cars.toArray()).map((c) => c.id)).toEqual(["a"]);
@@ -140,7 +140,7 @@ describe("saved searches", () => {
   it("are seeded from the snapshot once, in one spelling, with the seed's default", async () => {
     serve(snapshot("2026-10-06T10:00:00Z", ["a"]));
     const list = await getSearches();
-    expect(list.searches.map((x) => x.name)).toEqual(["Hand-curated", "My brief"]);
+    expect(list.searches.map((x) => x.name)).toEqual(["Everything on sale", "My brief"]);
     expect(list.default_id).toBe(list.searches[1].id);
     expect(list.searches[1].query).toBe("r.seats=4-&listed=flag%3Aheat_pump%2Cflag%3Av2l_internal");
   });
@@ -148,15 +148,15 @@ describe("saved searches", () => {
   it("save under a name, replace by the same name, delete the default and the next one takes over, reset to the seed", async () => {
     serve(snapshot("2026-10-06T10:00:00Z", ["a"]));
     let list = await saveSearch("Seven seats", "r.seats=7-");
-    expect(list.searches.map((x) => x.name)).toEqual(["Hand-curated", "My brief", "Seven seats"]);
+    expect(list.searches.map((x) => x.name)).toEqual(["Everything on sale", "My brief", "Seven seats"]);
     list = await saveSearch("seven seats ", "r.seats=7-&sort=range");
     expect(list.searches).toHaveLength(3);
     expect(list.searches[2].query).toBe("sort=range&r.seats=7-");
     list = await deleteSearch(list.default_id!);
-    expect(list.searches.map((x) => x.name)).toEqual(["Hand-curated", "seven seats"]);   // the name as last typed
+    expect(list.searches.map((x) => x.name)).toEqual(["Everything on sale", "seven seats"]);   // the name as last typed
     expect(list.default_id).toBe(list.searches[0].id);
     list = await resetSearches();
-    expect(list.searches.map((x) => x.name)).toEqual(["Hand-curated", "My brief"]);
+    expect(list.searches.map((x) => x.name)).toEqual(["Everything on sale", "My brief"]);
   });
 
   it("a list begun before the snapshot carried seeded searches gets them once, keeping the reader's own", async () => {
@@ -169,7 +169,7 @@ describe("saved searches", () => {
     serve(snapshot("2026-10-07T09:00:00Z", ["c"]));
     expect(await checkForUpdate()).toBe("updated");
     const list = await getSearches();
-    expect(list.searches.map((x) => x.name)).toEqual(["Mine", "Hand-curated", "My brief"]);
+    expect(list.searches.map((x) => x.name)).toEqual(["Mine", "Everything on sale", "My brief"]);
     expect(list.default_id).toBe(list.searches[0].id);
     await deleteSearch(list.searches[1].id);
     expect((await getSearches()).searches.map((x) => x.name)).toEqual(["Mine", "My brief"]);   // not merged back in

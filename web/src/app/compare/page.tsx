@@ -74,7 +74,6 @@ function Compare() {
     { label: "Heat pump", cell: (c) => tri(c.heat_pump) },
     { label: "Cabin 3-pin socket", cell: (c) => tri(c.internal_v2l) },
     { label: "Powered sliding doors", cell: (c) => (c.powered_sliding_doors ? String(c.powered_sliding_doors) : "no") },
-    { label: "Household verdicts", cell: (c) => (c.picks.length ? c.picks.map((p, i) => <Badge key={i}>{p.who}: {p.verdict}</Badge>) : <span className="text-gray-500">—</span>) },
   ];
 
   return (

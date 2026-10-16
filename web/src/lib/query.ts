@@ -3,7 +3,7 @@
 //   text, make, model, year                 narrowing
 //   ranges   key → [min, max]               numeric bounds on car fields and costs
 //   facets   token → standard | listed | hide   tri-state chips over every equipment
-//            flag, the routes a car can be had by, and whether a car is hand-curated
+//            flag, the routes a car can be had by, and whether it is priced or on sale
 //   any      the wanted chips marked 'or'   every other wanted chip must hold, and at least one of these
 //   keepUnknown                             a car no source has a value for passes a bound or chip
 //                                           (otherwise it is left out, and the bar counts how many)
@@ -57,7 +57,6 @@ export const FIXED_FACETS: { token: string; label: string; group: string; twoSta
   { token: "route:used", label: "Used example", group: "Can be had by", twoState: true },
   { token: "priced", label: "Any current price", group: "Can be had by", twoState: true },
   { token: "on_sale", label: "On sale now", group: "Can be had by", twoState: true },
-  { token: "curated", label: "Hand-curated", group: "Provenance", twoState: true },
 ];
 
 /** Equipment flags grouped for the panel; anything the snapshot names that is not listed lands in 'Other'. */
@@ -206,7 +205,6 @@ export function facetValue(token: string, c: SnapshotCar, ctx: CarContext): "sta
   if (token.startsWith("route:")) return ctx.costs.byRoute[token.slice(6) as keyof CarCosts["byRoute"]] ? "standard" : null;
   switch (token) {
     case "priced": return ctx.costs.trueCost ? "standard" : null;
-    case "curated": return c.auto ? null : "standard";
     case "on_sale": return c.on_sale ? "standard" : null;
   }
   return null;
@@ -231,7 +229,7 @@ export function matches(c: SnapshotCar, ctx: CarContext, f: Query): boolean {
   if (!modelMatches(c.model, f.model)) return false;
   if (f.year && String(c.model_year ?? "") !== f.year) return false;
   if (f.q) {
-    const hay = norm([sortName(c), c.variant, (c.packs ?? []).join(" "), c.notes, c.body, c.drive, c.segment, c.platform, c.battery_chemistry, c.charge_port, c.cap_name].filter(Boolean).join(" "));
+    const hay = norm([sortName(c), c.variant, (c.packs ?? []).join(" "), c.body, c.drive, c.segment, c.platform, c.battery_chemistry, c.charge_port, c.cap_name].filter(Boolean).join(" "));
     if (!hay.includes(norm(f.q))) return false;
   }
   for (const [key, r] of Object.entries(f.ranges)) {

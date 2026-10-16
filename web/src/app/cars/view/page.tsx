@@ -61,22 +61,18 @@ function CarView() {
         subtitle={
           <>
             {c.name_note ? <><span className="text-gray-300">{c.name_note}</span> · </> : null}
-            {c.cap_name ? <><span className="text-gray-300">{c.cap_name}</span> · </> : null}{c.body ?? ""} · {c.model_year ?? ""} {c.used ? "· used" : ""} ·{" "}
+            {c.cap_name ? <><span className="text-gray-300">{c.cap_name}</span> · </> : null}{c.body ?? ""} · {c.model_year ?? ""} ·{" "}
             <Link href="/cars" className="underline">all cars</Link>
-            {c.auto && (
+            {" · "}
+            <Badge tone="muted">
+              {c.source_kind === "stub" ? "generated from a Carwow deals page" : "generated from Carwow's specification page"}
+            </Badge>
+            {c.make_slug && c.model_slug && (
               <>
-                {" · "}
-                <Badge tone="muted" title={c.notes ?? undefined}>
-                  {c.source_kind === "stub" ? "generated from a Carwow deals page" : "generated from Carwow's specification page"}
-                </Badge>
-                {c.make_slug && c.model_slug && (
-                  <>
-                    {" "}
-                    <Link href={`/cars?make=${encodeURIComponent(c.make)}&model=${encodeURIComponent(c.model)}`} className="underline">
-                      every {c.make} {c.model} derivative
-                    </Link>
-                  </>
-                )}
+                {" "}
+                <Link href={`/cars?make=${encodeURIComponent(c.make)}&model=${encodeURIComponent(c.model)}`} className="underline">
+                  every {c.make} {c.model} derivative
+                </Link>
               </>
             )}
           </>
@@ -137,7 +133,7 @@ function CarView() {
             <div key={g}>
               <div className="mb-1 text-xs uppercase tracking-wide text-gray-500">{g}</div>
               <Rows
-                rows={FIELDS.filter((x) => x.group === g && x.key !== "curated").map((x) => {
+                rows={FIELDS.filter((x) => x.group === g).map((x) => {
                   const v = show(x, x.value(c, costs));
                   return [x.label, x.field ? src(from, x.field, v) : v];
                 })}
@@ -200,16 +196,9 @@ function CarView() {
         </Card>
       )}
 
-      {c.notes && (
-        <Card title="Notes">
-          <p className="text-sm text-gray-300">{c.notes}</p>
-          <p className="mt-2 text-xs text-gray-500">verification: {c.verification ?? "—"}</p>
-        </Card>
-      )}
-
       <Pricing car={c} costs={costs} horizon={horizon} savingsRate={basis.data?.savings_rate_apr ?? 0.04} sources={data.data?.sources ?? {}} staleDays={data.data?.stale_days ?? 14} />
 
-      <EquipmentCard car={c} specs={specs.data ?? []} specCheck={details.data?.spec_check} flagLabels={data.data?.flag_labels ?? {}} />
+      <EquipmentCard car={c} specs={specs.data ?? []} flagLabels={data.data?.flag_labels ?? {}} />
 
     </div>
   );

@@ -5,7 +5,7 @@ import { canonical, carPacks, cycleFacet, describeQuery, EMPTY_QUERY, matches, p
 import type { SnapshotCar } from "./types";
 
 const car = (over: Partial<SnapshotCar>): SnapshotCar =>
-  ({ id: "c", make: "Hyundai", model: "Kona Electric", trim: "Ultimate", picks: [], ...over }) as unknown as SnapshotCar;
+  ({ id: "c", make: "Hyundai", model: "Kona Electric", trim: "Ultimate", ...over }) as unknown as SnapshotCar;
 
 const costs = (over: Partial<CarCosts> = {}): CarCosts =>
   ({ trueCost: null, byRoute: {}, sources: 0, monthly: null, monthlyRoute: null, threeYear: null, cash: null, trend: null, stock: null, breakeven: [], trimScale: 1, usedListings: {}, ...over });
@@ -58,7 +58,7 @@ describe("query", () => {
   });
 
   it("standard, listed and hide read the car's flags; all and any combine the wanted ones", () => {
-    const c = car({ auto: true, flags: { heat_pump: "standard", glass_roof: "option" } });
+    const c = car({ flags: { heat_pump: "standard", glass_roof: "option" } });
     const base: Query = { ...EMPTY_QUERY };
     expect(matches(c, ctx(), { ...base, facets: { "flag:heat_pump": "standard" } })).toBe(true);
     expect(matches(c, ctx(), { ...base, facets: { "flag:glass_roof": "standard" } })).toBe(false);
@@ -88,17 +88,15 @@ describe("query", () => {
     expect(matches(c, k, { ...EMPTY_QUERY, ranges: { dc: [100, null] } })).toBe(false);
     expect(matches(c, k, { ...EMPTY_QUERY, ranges: { turn: [null, 10.5] } })).toBe(true);
     expect(matches(c, k, { ...EMPTY_QUERY, ranges: { turn: [null, 10] } })).toBe(false);
-    expect(matches(car({ auto: true }), ctx(), { ...EMPTY_QUERY })).toBe(true);
+    expect(matches(car({}), ctx(), { ...EMPTY_QUERY })).toBe(true);
     expect(matches(car({}), ctx(), { ...EMPTY_QUERY })).toBe(true);
   });
 
-  it("routes and provenance are facets too", () => {
+  it("routes are facets too", () => {
     const c = car({});
     const k = ctx({ costs: costs({ byRoute: { used: tc({ route: "used", offerId: "u", source: "cinch", monthly: 250, headline: 14000 }) } }) });
     expect(matches(c, k, { ...EMPTY_QUERY, facets: { "route:used": "standard" } })).toBe(true);
     expect(matches(c, k, { ...EMPTY_QUERY, facets: { "route:pcp": "standard" } })).toBe(false);
-    expect(matches(c, k, { ...EMPTY_QUERY, facets: { curated: "standard" } })).toBe(true);
-    expect(matches(car({ auto: true }), k, { ...EMPTY_QUERY, facets: { curated: "standard" } })).toBe(false);
   });
 
   it("old links' scope and brief parameters are ignored; a saved search compares in one spelling", () => {

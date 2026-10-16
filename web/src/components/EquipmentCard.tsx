@@ -3,13 +3,9 @@
 import Link from "next/link";
 import { useState } from "react";
 
-import { Badge, Card, Empty } from "@/components/ui";
+import { Card, Empty } from "@/components/ui";
 import { ageLabel } from "@/lib/freshness";
-import type { CarDetails, FlagState, SnapshotCar, SnapshotSpec } from "@/lib/types";
-
-const VERDICT_TONE: Record<string, "good" | "warn" | "bad" | "muted" | "info"> = {
-  agrees: "good", "not listed": "muted", differs: "bad", "source lists it": "warn",
-};
+import type { FlagState, SnapshotCar, SnapshotSpec } from "@/lib/types";
 
 function Mark({ state }: { state: FlagState }) {
   if (state === "standard") return <span className="text-emerald-300">✓ standard</span>;
@@ -17,11 +13,8 @@ function Mark({ state }: { state: FlagState }) {
   return <span className="text-gray-600">not listed</span>;
 }
 
-/**
- * What the spec sources say this exact variant has, next to what was typed in
- * by hand. A disagreement is a question for the dealer, not an automatic edit.
- */
-export function EquipmentCard({ car, specs, specCheck, flagLabels }: { car: SnapshotCar; specs: SnapshotSpec[]; specCheck?: CarDetails["spec_check"] | null; flagLabels: Record<string, string> }) {
+/** What the spec sources say this exact variant has. */
+export function EquipmentCard({ car, specs, flagLabels }: { car: SnapshotCar; specs: SnapshotSpec[]; flagLabels: Record<string, string> }) {
   const [open, setOpen] = useState<string | null>(null);
   const specsHref = `/specs?make=${encodeURIComponent(car.make)}&model=${encodeURIComponent(car.model)}`;
   if (!specs.length) {
@@ -37,27 +30,9 @@ export function EquipmentCard({ car, specs, specCheck, flagLabels }: { car: Snap
   return (
     <Card title="Equipment (scraped)">
       <div className="mb-3 flex flex-wrap items-center gap-2 text-sm text-gray-400">
-        <span>What the sources list for this variant, against the hand-entered fields.</span>
+        <span>What the sources list for this variant.</span>
         <Link href={specsHref} className="underline">Compare every {car.model} variant →</Link>
       </div>
-      {(specCheck?.rows?.length ?? 0) > 0 && (
-        <table className="mb-4 w-full text-sm">
-          <thead className="text-left text-xs uppercase text-gray-500">
-            <tr><th className="py-1 pr-3">Field</th><th className="py-1 pr-3">Entered</th><th className="py-1 pr-3">Source</th><th className="py-1 pr-3">Source says</th><th className="py-1">Verdict</th></tr>
-          </thead>
-          <tbody>
-            {specCheck!.rows.map((r, i) => (
-              <tr key={i} className="border-t border-gray-800">
-                <td className="py-1 pr-3">{r.label}</td>
-                <td className="py-1 pr-3 text-gray-300">{r.hand ?? "—"}</td>
-                <td className="py-1 pr-3 text-gray-400">{r.source === "carwow_specs" ? "Carwow" : r.source === "kia_specs" ? "Kia UK" : r.source}</td>
-                <td className="py-1 pr-3"><Mark state={r.seen} /></td>
-                <td className="py-1"><Badge tone={VERDICT_TONE[r.verdict] ?? "muted"}>{r.verdict}</Badge></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
       <div className="grid gap-4 lg:grid-cols-2">
         {specs.map((s) => (
           <div key={s.spec_key} className="rounded border border-gray-800 bg-gray-950/50 p-3">

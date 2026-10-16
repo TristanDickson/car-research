@@ -7,7 +7,7 @@ const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 export const SNAPSHOT_BASE = `${BASE_PATH}/data`;
 
 // Must match pipeline/services/snapshot.py SCHEMA_VERSION.
-export const SUPPORTED_SCHEMA_VERSION = "7";
+export const SUPPORTED_SCHEMA_VERSION = "8";
 
 async function fetchJson<T>(rel: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${SNAPSHOT_BASE}/${rel}`, init);

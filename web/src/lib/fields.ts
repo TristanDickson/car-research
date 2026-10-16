@@ -216,7 +216,6 @@ export const FIELDS: Field[] = [
   t("platform", "platform", "Platform", "About"),
   t("cap_name", "cap_name", "CAP derivative name", "About", "CAP name"),
   { key: "packs", label: "Packs included", short: "Packs", group: "About", kind: "text", value: (c) => (c.packs?.length ? c.packs.join(" + ") : null) },
-  { key: "curated", label: "Hand-curated", group: "About", kind: "bool", value: (c) => !c.auto },
   { key: "on_sale", label: "On sale now", short: "On sale", group: "About", kind: "bool", value: (c) => !!c.on_sale },
 ];
 

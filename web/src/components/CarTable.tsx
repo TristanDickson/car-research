@@ -97,7 +97,6 @@ export function CarTable({ cars, ctxOf, horizon, flagLabels }: {
           <Link href={`/cars/view?id=${encodeURIComponent(c.id)}`} className="font-medium text-gray-100 hover:underline">
             {carName(c)}
           </Link>
-          {c.used && <Badge tone="muted">used</Badge>}
           {nameDetail(c) && <div className="text-xs text-gray-500">{nameDetail(c)}</div>}
         </div>
       ),

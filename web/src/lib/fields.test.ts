@@ -12,7 +12,7 @@ describe("the field list", () => {
   });
 
   it("reads a value off the car and shows it with its unit", () => {
-    const c = { id: "c", make: "Hyundai", model: "Inster", trim: "02", picks: [], width_mm: 1610, wheel_in: 17, list_price_gbp: 25000, grant_gbp: 1500 } as unknown as SnapshotCar;
+    const c = { id: "c", make: "Hyundai", model: "Inster", trim: "02", width_mm: 1610, wheel_in: 17, list_price_gbp: 25000, grant_gbp: 1500 } as unknown as SnapshotCar;
     const w = FIELD_BY_KEY.get("width")!;
     expect(show(w, w.value(c, null))).toBe("1,610 mm");
     expect(show(FIELD_BY_KEY.get("wheels")!, 17)).toBe("17 in");

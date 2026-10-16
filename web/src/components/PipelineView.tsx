@@ -12,7 +12,7 @@ const REPO = "https://github.com/TristanDickson/car-research";
 const KIND: Record<string, [string, string]> = {
   offer: ["offer", "offers"], used: ["used car", "used cars"], spec: ["spec row", "spec rows"], model: ["model", "models"],
   derivative: ["derivative", "derivatives"], configuration: ["configuration", "configurations"], options: ["option page", "option pages"],
-  car: ["car of yours", "cars of yours"], trim_map: ["decision of yours", "decisions of yours"], requirements: ["requirements file", "requirements files"],
+  requirements: ["settings file", "settings files"],
 };
 const APP: Record<string, [string, string]> = { offers: ["offer", "offers"], used: ["used car on sale", "used cars on sale"], specs: ["spec row", "spec rows"] };
 
