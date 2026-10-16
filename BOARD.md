@@ -14,7 +14,7 @@ convention as the owner's other boards (SpaceTS, parasitic-feudalism), kept shor
 
 | Ticket | What | Status |
 |---|---|---|
-| T1 | One normaliser for every source's text | in progress |
+| T1 | One normaliser for every source's text | landed `d12bbc8` |
 | T2 | Carwow's models mapped to Parkers' models and generations | open |
 | T3 | The resolver: every record filtered against the master list | open |
 | T4 | cinch: read each used listing's trim, seats and range fields | landed `2ac6965` |
@@ -39,6 +39,14 @@ different names of one model normalise to the same key. Owner: "We should use a 
 for car listings, e.g. to remove accents"; "be careful not to let the parser fuck up exact matches
 on CAP dervied strings".
 
+Landed 16 Oct. Every reader and matcher reads names through one module; an exact CAP name match is
+taken first. Against the same pages: 3,663 offers on a car (3,497 before), 253 records the rules
+could not place (331), 1,312 cars with an EV Database variant (1,068), and every Škoda and 24 of 28
+Citroën EV Database records on a car. Most of the 160 lease records that gained or changed a car
+were on the other body style (Sportback, Touring, Coupé, Tourer). Among 4,539 Carwow and Parkers
+names the only collisions are five Enyaq names that differ only in "KW" and "kW". What got worse
+is for T3, below.
+
 ## T2. Carwow's models mapped to Parkers'
 
 Parkers files body styles as generations of one model (the Q4 e-tron Sportback is a generation of
@@ -57,6 +65,13 @@ registry, so three Ioniq 3 Ultimate derivatives that only Carwow's deals page na
 Design Pack, the Comfort and Design Packs, and the EV and Design Packs) get no packs from
 Hyundai's configurator. Since T9 they show no heat pump and no cabin socket, where Hyundai's
 configurator has the EV Pack fitted on one and offered on the other two.
+
+Since T1, where the text no longer splits two price lists' copies of a derivative by their
+spelling ("Qtro Perf" and "Quattro Performance"), the scoring rules cannot choose: 8 LeaseLoco
+leases (Audi Q4 and Q6, Polestar 4) and a used Polestar 4 are left as conflicts, and the Lexus RZ
+450e lease goes on the cheaper copy. Two Volvo EX30 "Twin Motor Performance Black Edition" leases
+went on the plain trim, because "twin motor" now scores as engine words. Six used Enyaqs no longer
+count as the current car, since EV Database now gives the Enyaq an on-sale date of April 2026.
 
 ## T4. cinch: trim, seats and range per listing
 
