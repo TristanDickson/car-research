@@ -30,9 +30,10 @@ The commands are in `README.md`, "Working on it". On this laptop run them as
 - **The raw store is permanent and append-only.** Never rewrite, move or delete anything in it;
   never write anything derived into it.
 - **Nothing creates a car as a side effect**, and no answer may depend on the order pages were read.
-- **The owner's decisions are durable and theirs** (`data/seed/trim_map.json`, their cars, offers,
-  picks and requirements, `docs/DECISIONS.md`): record what they said; never write a decision of
-  yours in their name.
+- **The owner's decisions are durable and theirs** (`docs/DECISIONS.md`): record what they said; never
+  write a decision of yours in their name. `data/seed` and `data/pastes` are not their decisions: they
+  are the first pipeline's hand-typed inputs of 6 Oct, kept only until the resolver replaces them
+  (`BOARD.md`, T9); add nothing to them.
 - **A generic app**: no particular car, requirement or threshold in code or copy
   (`docs/DECISIONS.md`, "The app is generic"). Show results under the alternatives being weighed
   rather than asking the owner to settle them.

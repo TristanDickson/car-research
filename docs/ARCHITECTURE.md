@@ -9,8 +9,9 @@ the reader's own assumptions.
 
 It is an ETL with one rule: only the fetched pages are kept. Everything between them and the
 published files is rebuilt from scratch every night, so a better parser or matcher corrects the
-past as well as the future. The only other things that last are the owner's own files: the cars
-and offers they entered and their matching decisions.
+past as well as the future. The only other thing that lasts is the owner's decisions. Until the
+next step lands, the build also reads a set of cars, offers and a lookup table typed in by hand on
+6 Oct, before any scraper existed; they go with it.
 
 The next step, a new way of deciding which car a record is, is in `ARCHITECTURE-NEXT.md`.
 
@@ -64,7 +65,7 @@ The next step, a new way of deciding which car a record is, is in `ARCHITECTURE-
    - an EV Database variant is tied to a car by battery size and year;
    - a used car is tied to a trim by its trim words and a battery within 3 kWh.
 
-   The owner's decisions override all four. A record none of them places is listed, never
+   The 6 Oct lookup table overrides all four. A record none of them places is listed, never
    guessed. Petrol versions that electric models' pages also list are not cars.
 3. **Facts.** Every source's statements become claims; each car's facts are resolved from them
    when the snapshot is written. A car's own source outranks its trim's, its trim's its model's.

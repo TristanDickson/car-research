@@ -22,7 +22,7 @@ convention as the owner's other boards (SpaceTS, parasitic-feudalism), kept shor
 | T6 | End value by version, within a wide mileage band | open |
 | T7 | A price that fits several cars goes on the best spec | open |
 | T8 | Old versions are cars | open |
-| T9 | Clear `data/seed` and `data/pastes` down to a file of default settings | needs ruling |
+| T9 | Clear `data/seed` and `data/pastes` down to a file of default settings | open, with T3 |
 | T10 | `docs/SOURCES.md` in the same short form as the architecture docs | needs ruling |
 | T11 | Find out why Carwow's configurator reader recovered on 16 Oct | open |
 
@@ -30,7 +30,9 @@ convention as the owner's other boards (SpaceTS, parasitic-feudalism), kept shor
 
 Accents out and case folded, punctuation alike, units read into numbers, one alias list for makes
 and models, and a table expanding CAP's short descriptions ("eDr40", "Qtro", "Black Ed",
-"Comf+"). An exact CAP-name match is taken before any normalising, and a test fails if two
+"Comf+"). It fixes the name matching that drops the accent in "Škoda" and "Citroën", which
+leaves 70 EV Database records attached to no car. An exact CAP-name match is taken before any
+normalising, and a test fails if two
 different names of one model normalise to the same key. Owner: "We should use a standard parser
 for car listings, e.g. to remove accents"; "be careful not to let the parser fuck up exact matches
 on CAP dervied strings".
@@ -79,13 +81,16 @@ need to differentiate between the kona v1 and v2"; "its fine to make them cars".
 
 ## T9. Clear `data/seed` and `data/pastes`
 
-Proposed 16 Oct, not yet ruled: keep only a small file of default settings (term, savings rate,
+Ruled 16 Oct. Of the 19 cars and the trim map's 56 links: "i think these would also need to go,
+yes?"; of the pasted pages: "Havent i already said this pipeline should be automated?"; the cited
+and derived offers fail the rule that prices are authoritative. Keep only a small file of default settings (term, savings rate,
 resale assumption, starting searches). Drop the 19 hand-typed cars (14 cited from ChatGPT; their
 specs outrank every scraped source), the 29 offers (20 cited, 4 derived), the trim map (the first
 pipeline's lookup table, 163 of its rows encoding that week's shortlist), the picks, and the
 hand-copied pages in `data/pastes` (four Carwow dealer quotes of 5 Oct, three expired, and two
 Richmond Hyundai pages of 4 Oct) with the paste reader and README's instructions for adding one,
-since the pipeline is to be automated (`docs/DECISIONS.md`). Done with T3, since the trim map's 56
+since the pipeline is to be automated (`docs/DECISIONS.md`). The current car's PCP details in the
+seed settings go too: nothing reads them. Done with T3, since the trim map's 56
 links are what stop the hand-typed cars appearing twice today.
 
 ## T10. `docs/SOURCES.md` in the short form
