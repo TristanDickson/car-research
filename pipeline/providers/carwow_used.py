@@ -62,14 +62,12 @@ V2 = "<!-- carwow-used v2: results pages, then the deal cards they show only as 
 CARD_RE = re.compile(r"<div class='deal-card'>(.*?)(?=<div class='deal-card'>|</turbo-frame>|$)", re.S)
 SEGMENT_RE = re.compile(r"<!-- carwow-used card ([0-9a-f]+)(?: seen (\S+))? -->")
 
-# The household's models: every card that is new or a week old, every night (a car's price comes from the
-# results page each night; its card adds derivative, mileage and town, which rarely change). The rest share
-# CARD_BUDGET cards a night, cars never fetched first, then the longest since fetched (each model's share
-# from what its last fetch named).
-HOUSEHOLD = frozenset({"hyundai/ioniq-5", "hyundai/kona-electric", "hyundai/inster", "hyundai/ioniq-3",
-                       "kia/ev2", "kia/ev3", "kia/ev6", "kia/pv5-passenger"})
+# Every model shares CARD_BUDGET cards a night (a car's price comes from the results page each night; its
+# card adds derivative, mileage and town, which rarely change): cars never fetched first, then the longest
+# since fetched, each model's share from what its last fetch named. A run for one model fetches every card
+# of it that is new or CARD_REFRESH_DAYS old.
 CARD_REFRESH_DAYS = 7
-CARD_BUDGET = 400
+CARD_BUDGET = 440
 CARD_SECONDS = 60 * 60   # and never more than this of the night on cards, however slow the site is
 UNSEEN_GUESS = 12        # cards to set aside for a model no earlier night fetched
 
@@ -307,42 +305,28 @@ def _due(ids, known: dict, cutoff: str) -> list[str]:
 
 
 def _quotas(ctx: Context, idents: list[str]) -> dict[str, int]:
-    """Tonight's cards per model. The household's models get every card they need (no entry here) unless the
-    site is being rested; the others share CARD_BUDGET: first the cars their last fetch named that have
+    """Tonight's cards per model, sharing CARD_BUDGET: first the cars each model's last fetch named that have
     never had a card, then the ones whose card is oldest. politeness.allowance cuts the whole night's number
     after refusals, from the results pages' answers and the cards' alike."""
     from pipeline.providers.politeness import allowance, note
 
     st = _state(ctx)
-    cutoff = _refresh_cutoff()
-    house, new, old = {}, {}, {}
+    new, old = {}, {}
     for ident in idents:
         last = _last(st, ident)
         listed = last["listed"]
         if listed is None:
-            house_n, new_n, old_n = UNSEEN_GUESS, UNSEEN_GUESS, 0
+            new[ident], old[ident] = UNSEEN_GUESS, 0
         else:
-            house_n = len(_due(listed, last["cards"], cutoff))
-            new_n = len(listed - set(last["cards"]))
-            old_n = len(listed) - new_n
-        if ident in HOUSEHOLD:
-            house[ident] = house_n
-        else:
-            new[ident], old[ident] = new_n, old_n
-    need = sum(house.values())
-    tonight = min(allowance(st["store"], HOST, need + CARD_BUDGET),
-                  allowance(_CardFetches(st["card_fetches"]), HOST, need + CARD_BUDGET))
-    note(ctx, HOST, tonight, need + CARD_BUDGET)
+            new[ident] = len(listed - set(last["cards"]))
+            old[ident] = len(listed) - new[ident]
+    tonight = min(allowance(st["store"], HOST, CARD_BUDGET), allowance(_CardFetches(st["card_fetches"]), HOST, CARD_BUDGET))
+    note(ctx, HOST, tonight, CARD_BUDGET)
     if tonight == 0:
         print("  carwow_used: Carwow refused on recent nights; no deal cards tonight", flush=True)
-    quotas: dict[str, int] = {}
-    if tonight < need:
-        quotas.update(_share(house, tonight))
-    rest = max(0, tonight - need)
-    first = _share(new, rest)
-    then = _share(old, rest - sum(first.values()))
-    quotas.update({k: first[k] + then[k] for k in new})
-    return quotas
+    first = _share(new, tonight)
+    then = _share(old, tonight - sum(first.values()))
+    return {k: first[k] + then[k] for k in new}
 
 
 # -- fetch
@@ -390,7 +374,7 @@ def fetch(target: Target, ctx: Context) -> Fetched:
     known = _last(st, ident)["cards"]
     order = sorted(i for i in want if i not in known) + sorted((i for i in want if i in known), key=lambda i: (known[i][0], i))
     quota = target.metadata.get("card_quota")
-    if quota is None:   # a household model: the cards that are new or a week old
+    if quota is None:   # a run for one model: the cards that are new or a week old
         due = set(_due(order, known, _refresh_cutoff()))
         order = [i for i in order if i in due]
     cards: dict[str, tuple[str | None, str]] = {}

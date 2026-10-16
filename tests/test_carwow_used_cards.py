@@ -221,10 +221,10 @@ class Shares(unittest.TestCase):
         self.assertEqual(cu._share({"a": 1, "b": 2}, 10), {"a": 1, "b": 2})
         self.assertEqual(cu._share({"a": 5, "b": 5}, 0), {"a": 0, "b": 0})
 
-    def test_the_household_s_models_get_every_card_and_the_rest_a_share(self):
+    def test_every_model_gets_a_share_of_one_budget(self):
         q = cu._quotas(Context(root=FIX), ["kia/ev3", "hyundai/ioniq-5", "tesla/model-3", "mg/mg-4"])
-        self.assertEqual(q, {"tesla/model-3": cu.UNSEEN_GUESS, "mg/mg-4": cu.UNSEEN_GUESS},
-                         "no store: a model never fetched sets aside one page's worth; the household's are not capped")
+        self.assertEqual(q, dict.fromkeys(["kia/ev3", "hyundai/ioniq-5", "tesla/model-3", "mg/mg-4"], cu.UNSEEN_GUESS),
+                         "no store: a model never fetched sets aside one page's worth, whichever model it is")
 
     def test_a_card_refused_tonight_rests_the_cards(self):
         with tempfile.TemporaryDirectory() as tmp:
