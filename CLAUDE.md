@@ -8,8 +8,8 @@ snapshot that a static Next.js app (GitHub Pages) loads into IndexedDB.
 Read first: `README.md` (why, how it fits together, how to work on it, next steps), then
 `docs/DECISIONS.md` (the owner's decisions in force, in their words), `docs/ARCHITECTURE.md`
 (the flows and the data model), `docs/ARCHITECTURE-NEXT.md` (the resolver designed next) and
-`docs/SOURCES.md` (what each source prints, what we read, what we leave). Git's commit messages
-are the history. The docs are for the owner to read and work on: keep them short, plain, and
+`docs/SOURCES.md` (what each source prints, what we read, what we leave), and `BOARD.md` (the
+open work and the decisions owed, as tickets). Git's commit messages are the history. The docs are for the owner to read and work on: keep them short, plain, and
 free of code detail, which belongs in the code.
 
 ## Where things stand (16 Oct 2026)
@@ -54,6 +54,9 @@ The commands are in `README.md`, "Working on it". On this laptop run them as
 - Python ≥ 3.11, standard library only; Node 22. Scripts are bash (Git Bash on this laptop), never PowerShell.
 - Talk to the owner in plain words; explain any code term before using it, or avoid it.
   Say how many cars have a field, not that coverage is complete. Propose before adding a concept.
+- **The board.** A new ask from the owner goes on `BOARD.md` with the next ticket number before work
+  starts; a commit implementing one carries a `Ticket: T<n>` trailer and updates its status in the same
+  push. Only the owner strikes or rules on a ticket.
 - Done means: Python tests and web lint/typecheck/vitest pass locally, and `pipeline-ci`,
   `web-ci` and the Pages deploy are green on the pushed commit.
 

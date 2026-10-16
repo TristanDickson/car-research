@@ -1,0 +1,97 @@
+# Board
+
+Every piece of work the owner has asked for that has not landed, and every decision still owed,
+as tickets. The design is in `docs/ARCHITECTURE-NEXT.md` and the owner's words in
+`docs/DECISIONS.md`; this file tracks only what is to be done and where it stands. The same
+convention as the owner's other boards (SpaceTS, parasitic-feudalism), kept short.
+
+- **Status** is one of: open, needs ruling, in progress, landed `<sha>`, held `<branch>`, or
+  struck `<date>`. Only the owner strikes a ticket or rules on one.
+- **A new ask** goes on the board with the next number before work starts. Numbers are never
+  reused.
+- **A commit that implements a ticket** carries a `Ticket: T<n>` trailer, and the ticket's status
+  is updated in the same push, checked against the code.
+
+| Ticket | What | Status |
+|---|---|---|
+| T1 | One normaliser for every source's text | open |
+| T2 | Carwow's models mapped to Parkers' models and generations | open |
+| T3 | The resolver: every record filtered against the master list | open |
+| T4 | cinch: read each used listing's trim, seats and range fields | open |
+| T5 | NCD: match NCD's prices by the CAP id its pages print | open |
+| T6 | End value by version, within a wide mileage band | open |
+| T7 | A price that fits several cars goes on the best spec | open |
+| T8 | Old versions are cars | open |
+| T9 | Clear `data/seed` down to first-hand inputs and default settings | needs ruling |
+| T10 | `docs/SOURCES.md` in the same short form as the architecture docs | needs ruling |
+| T11 | Find out why Carwow's configurator reader recovered on 16 Oct | open |
+
+## T1. One normaliser for every source's text
+
+Accents out and case folded, punctuation alike, units read into numbers, one alias list for makes
+and models, and a table expanding CAP's short descriptions ("eDr40", "Qtro", "Black Ed",
+"Comf+"). An exact CAP-name match is taken before any normalising, and a test fails if two
+different names of one model normalise to the same key. Owner: "We should use a standard parser
+for car listings, e.g. to remove accents"; "be careful not to let the parser fuck up exact matches
+on CAP dervied strings".
+
+## T2. Carwow's models mapped to Parkers'
+
+Parkers files body styles as generations of one model (the Q4 e-tron Sportback is a generation of
+the Q4 e-tron); 534 of the 1,587 cars on sale on 16 Oct found no Parkers model by name.
+
+## T3. The resolver
+
+As `docs/ARCHITECTURE-NEXT.md`, "Transform": Parkers' derivatives as the master list, a car's id
+built from its details, the filter and the decide rules, the CAP id as the strongest detail, EV
+Database's figures to every car of its version. A comparison listing every record whose car
+changes against today's lookups is gone through with the owner before the switch. It supersedes
+the battery patch held on `hold/evdb-battery-fit-two-readings`.
+
+## T4. cinch: trim, seats and range per listing
+
+Every cinch used listing has separate fields for trim, seats and range. We read the combined
+variant text, year, mileage, registration and drive; trim and seats are dropped, and range is kept
+only as badge text. These are exactly the details the matching needs, for 1,724 listings.
+
+## T5. NCD: prices matched by the CAP id
+
+Each car's page on New Car Discount prints Carwow's CAP id. We store it on NCD's spec rows, but
+NCD's own prices are still matched by their text rather than by that id. That affects 219 offers.
+
+## T6. End value by version
+
+The median asking price, now, of used cars of the same version as old as the term, with between
+half and double the reader's mileage over it; under 10 such cars, every car of that age counts and
+the app says so. Owner: "We take resale at say 3 years, the price of a 2023 Kona now"; "My idea
+was a very wide band so we dont discard most of the evidence".
+
+## T7. A price that fits several cars goes on the best spec
+
+With the others it could be named on it. Owner: "list that lease against the worst spec or best
+spec it applies to. Maybe best because investigating a price thats worse than it looks is
+preferable to missing a price that's better than it looks".
+
+## T8. Old versions are cars
+
+A 2021 Kona is "Kona Electric 64 kWh, Ultimate", costed on the used route. Owner: "we definitely
+need to differentiate between the kona v1 and v2"; "its fine to make them cars".
+
+## T9. Clear `data/seed`
+
+Proposed 16 Oct, not yet ruled: keep the pasted quote pages (`data/pastes`) and a small file of
+default settings (term, savings rate, resale assumption, starting searches); drop the 19 hand-typed
+cars (14 cited from ChatGPT; their specs outrank every scraped source), the 29 offers (20 cited,
+4 derived), the trim map (the first pipeline's lookup table, 163 of its rows encoding that week's
+shortlist) and the picks. Done with T3, since the trim map's 56 links are what stop the hand-typed
+cars appearing twice today.
+
+## T10. `docs/SOURCES.md` in the short form
+
+Offered 16 Oct: one short entry per source (what it gives us, what we leave and why, what reading
+it costs), without code references.
+
+## T11. Carwow's configurator reader recovered
+
+It gave no records from 12 to 14 Oct, then 239 records from 250 pages on 16 Oct, with no code
+change; the site's redirect is due a fresh survey.

@@ -167,10 +167,5 @@ guessed car.
 
 ## Next steps
 
-1. The resolver: `docs/ARCHITECTURE-NEXT.md`, "Running it", steps 2 to 5.
-2. What the pages print that is still not read, by value, is at the end of `docs/SOURCES.md`
-   (used cars' detail pages, Kia's own offer pages, other dealer groups, NCD's HP quote).
-3. Richmond paste parser (two pages saved under `data/pastes/richmond/`).
-4. Intrinsic-value model: what a car is worth from its spec, independent of marketing; start
-   with £/kWh, £/mile of range and £/kg against segment, then the residual evidence from the
-   used listings already collected.
+The open work, and the decisions still owed, are tickets on `BOARD.md`. What the pages print and
+we do not read yet is at the end of `docs/SOURCES.md`.

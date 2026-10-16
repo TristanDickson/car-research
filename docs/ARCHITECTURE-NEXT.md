@@ -85,12 +85,6 @@ through their CAP ids, and any that do not map are listed for them.
 
 ## Running it
 
-1. Done: Parkers is read (16 Oct).
-2. The normaliser, with the CAP table and the collision test, each rule tested on names from
-   captured pages.
-3. A mapping between Carwow's models and Parkers' (Parkers files body styles as generations of
-   one model: the Q4 e-tron Sportback is a generation of the Q4 e-tron).
-4. The resolver, and a comparison that lists every record whose car changes against today's
-   lookups, gone through with the owner before the switch.
-5. In the app: end value by version within the mileage band, prices on the best spec, old
-   versions as cars.
+As today, with one step before the switch: a comparison lists every record whose car changes
+against today's lookups, and the owner goes through it. The work is tickets T1 to T8 on
+`BOARD.md`.
