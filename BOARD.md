@@ -25,8 +25,8 @@ convention as the owner's other boards (SpaceTS, parasitic-feudalism), kept shor
 | T9 | Clear `data/seed` and `data/pastes` down to a file of default settings | landed `598e1ac` |
 | T10 | `docs/SOURCES.md` in the same short form as the architecture docs | landed `de6de05` |
 | T11 | Find out why Carwow's configurator reader recovered on 16 Oct | open |
-| T12 | Carwow used: no household models fetched ahead of the rest | in progress |
-| T13 | A code change goes live in one push with the snapshot it needs | in progress |
+| T12 | Carwow used: no household models fetched ahead of the rest | landed `b1df4e8` |
+| T13 | A code change goes live in one push with the snapshot it needs | landed `982525e` |
 
 ## T1. One normaliser for every source's text
 
