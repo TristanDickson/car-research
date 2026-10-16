@@ -50,9 +50,9 @@ class PageIntoClaims(unittest.TestCase):
         page = evdb_cars.parse_page(FIXTURE.read_text(), META, "2026-10-09")
         index = [self._index("3033", "Inster 42 kWh", 2024), self._index("3034", "Inster 49 kWh", 2024, usable=46.0)]
         other = {**page, "spec_key": "evdb-car:3034", "evdb_id": "3034", "numbers": {**page["numbers"], "battery_usable_kwh": 46.0, "dc_peak_kw": 85.0}}
-        c = {"id": "carwow-cap:1", "auto": True, "cap_id": "1", "make": "Hyundai", "model": "Inster", "trim": "01 · 71kW 42kWh Auto", "variant": "71kW 42kWh Auto",
+        c = {"id": "carwow-cap:1", "cap_id": "1", "make": "Hyundai", "model": "Inster", "trim": "01 · 71kW 42kWh Auto", "variant": "71kW 42kWh Auto",
              "battery_kwh": 42.0}
-        stub = {"id": "carwow-cap:2", "auto": True, "source_kind": "stub", "cap_id": "2", "make": "Hyundai", "model": "Inster", "trim": "Cross", "variant": "Cross"}
+        stub = {"id": "carwow-cap:2", "source_kind": "stub", "cap_id": "2", "make": "Hyundai", "model": "Inster", "trim": "Cross", "variant": "Cross"}
         pages = [{**page, "provider": "evdb_cars"}, {**other, "provider": "evdb_cars"}]
         store = build_store([c, stub], index + pages, CATALOGUE, [], [], [])
         resolve_car(c, store)
@@ -83,7 +83,7 @@ if __name__ == "__main__":
 
 
 class Discover(unittest.TestCase):
-    """Which pages a run reads: never-read first, one per model in turn, newest variant first, the curated models first."""
+    """Which pages a run reads: never-read first, one per model in turn, newest variant first."""
 
     def setUp(self):
         from pipeline.providers.types import Context
@@ -99,8 +99,6 @@ class Discover(unittest.TestCase):
             payload = {"make": make, "model": model, "source_url": f"https://ev-database.org/uk/car/{vid}/x", "numbers": {"year_from": year}}
             self.conn.execute("INSERT INTO specs (spec_key, source, make, model, payload, first_seen_at, last_seen_at) VALUES (?,?,?,?,?,?,?)",
                               (f"evdb:{vid}", "evdb", make, model, __import__("json").dumps(payload), now, now))
-        self.conn.execute("INSERT INTO cars (id, make, model, payload, source, updated_at) VALUES (?,?,?,?,?,?)",
-                          ("hyundai-inster-49-02", "Hyundai", "Inster", '{"make": "Hyundai", "model": "Inster"}', "seed", now))
         self.ctx = Context(root=Path("."))
         self.ctx.extras["db"] = self.conn
 
@@ -110,6 +108,6 @@ class Discover(unittest.TestCase):
         return [t.identifier for t in evdb_cars.discover(Target(identifier="all"), self.ctx)]
 
     def test_order_and_batch(self):
-        self.assertEqual(self.ids(), ["4", "2", "3", "1"], "the curated Inster first; each model's newest variant before any model's second; no catalogue model, no page")
+        self.assertEqual(self.ids(), ["4", "2", "3", "1"], "each model's newest variant before any model's second; no catalogue model, no page")
         self.assertEqual(self.ids(evdb_cars_per_run=2), ["4", "2"])
         self.assertEqual(self.ids(evdb_cars_per_run=40, evdb_cars_budget_s=-1), [], "the run's time is spent")

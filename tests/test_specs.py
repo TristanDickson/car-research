@@ -1,5 +1,5 @@
 """Spec providers against saved pages, the feature-flag mapping, and specs flowing
-through the build into gold, matched by CAP id or by the owner's decisions."""
+through the build into gold, matched by CAP id."""
 import json
 import unittest
 from pathlib import Path
@@ -65,7 +65,7 @@ class CarwowSpecs(unittest.TestCase):
         self.assertGreater(len(adv["features"]), 80)
         self.assertIn("Heat pump", adv["features"])
         self.assertEqual(adv["flags"]["heat_pump"], "standard")
-        self.assertEqual(adv["flags"]["v2l_internal"], "standard")  # Carwow says so; the seed disagrees, which spec_check surfaces
+        self.assertEqual(adv["flags"]["v2l_internal"], "standard")
         self.assertEqual((adv["numbers"]["seats"], adv["numbers"]["boot_l"], adv["numbers"]["wltp_range_mi"], adv["numbers"]["zero_to_60_s"], adv["numbers"]["power_bhp"]),
                          (5, 466.0, 319.0, 7.8, 218.0))
         self.assertIn("derivative_id%5D=103322", adv["image_url"])
@@ -158,20 +158,17 @@ class ThroughTheBuild(unittest.TestCase):
     def tearDown(self):
         self.raws.close()
 
-    def test_specs_land_in_gold_on_the_owners_cars_or_their_derivatives(self):
+    def test_specs_land_in_gold_on_their_derivatives(self):
         self.raws.add("carwow_specs", "hyundai/kona-electric", "carwow_hyundai_kona-electric_specifications.html", at=T)
         self.raws.add("carwow_specs", "hyundai/ioniq-3", "carwow_hyundai_ioniq-3_specifications.html", at=T)
         conn = self.raws.build()
         rows = conn.execute("SELECT spec_key, car_id, image_url FROM specs ORDER BY spec_key").fetchall()
         self.assertEqual(len(rows), 9)
         by = {r["spec_key"]: r for r in rows}
-        self.assertEqual(by["carwow-cap:103322"]["car_id"], "hyundai-kona-65-advance")
-        self.assertEqual(by["carwow-cap:110664"]["car_id"], "hyundai-ioniq3-61-advance")
-        # The 42kWh Ioniq 3 is not one of the owner's cars: it is its own derivative.
-        self.assertEqual(by["carwow-cap:110663"]["car_id"], "carwow-cap:110663")
+        self.assertEqual({r["spec_key"] for r in rows}, {r["car_id"] for r in rows}, "each row is its own derivative's")
         auto = json.loads(conn.execute("SELECT payload FROM cars WHERE id='carwow-cap:110663'").fetchone()["payload"])
-        self.assertEqual((auto["auto"], auto["make"], auto["model"], auto["trim"], auto["list_price_gbp"], auto["model_year"]),
-                         (True, "Hyundai", "Ioniq 3", "Advance · 108kW 42kWh Auto", 22245.0, 2026))
+        self.assertEqual((auto["make"], auto["model"], auto["trim"], auto["list_price_gbp"], auto["model_year"]),
+                         ("Hyundai", "Ioniq 3", "Advance · 108kW 42kWh Auto", 22245.0, 2026))
         flags = json.loads(conn.execute("SELECT payload FROM specs WHERE spec_key='carwow-cap:110663'").fetchone()["payload"])["flags"]
         self.assertEqual(auto["heat_pump"], flags["heat_pump"] or "unknown", "tri-state from the equipment list; absence is 'unknown', not 'none'")
         self.assertEqual(auto["internal_v2l"], "unknown")
@@ -189,27 +186,27 @@ class ThroughTheBuild(unittest.TestCase):
         self.assertEqual(first["changed_at"], second["changed_at"])
         self.assertEqual(second["last_seen_at"], "2026-10-07T00:00:00+00:00")
 
-    def test_kia_specs_resolve_through_the_owners_decisions(self):
+    def test_kia_grade_rows_belong_to_no_car_and_reach_cars_through_their_trim(self):
         self.raws.add("kia_specs", "ev3", "kia_ev3_specification.html", at=T)
         self.raws.add("kia_specs", "pv5-passenger", "kia_pv5-passenger_specification.html", at=T)
         conn = self.raws.build()
         m = {r["spec_key"]: r["car_id"] for r in conn.execute("SELECT spec_key, car_id FROM specs")}
-        self.assertEqual(m["kia-spec:ev3:gt-line-s-heat-pump:81-4-kwh-fwd"], "kia-ev3-81-gtlines-hp")
-        self.assertEqual(m["kia-spec:pv5-passenger:elite:71-2-kwh-fwd:7seat"], "kia-pv5-passenger-71-elite-7seat")
-        self.assertIsNone(m["kia-spec:ev3:air:58-3-kwh-fwd"])
+        self.assertIn("kia-spec:ev3:gt-line-s-heat-pump:81-4-kwh-fwd", m)
+        self.assertEqual(set(m.values()), {None}, "a grade is no one derivative: the claim store lays it over the trim's")
 
     def test_the_makers_room_by_row_reaches_the_car(self):
         import tempfile
         from pipeline.services.snapshot import export_snapshot
         self.raws.add("kia_specs", "pv5-passenger", "kia_pv5-passenger_specification.html", at=T)
+        self.raws.add("carwow_specs", "kia/pv5-passenger", "carwow_kia_pv5-passenger_specifications.html", at=T)
         conn = self.raws.build()
         with tempfile.TemporaryDirectory() as tmp:
             export_snapshot(conn, tmp, generated_at="2026-10-06T00:00:00+00:00")
             cars = {c["id"]: c for c in json.loads((Path(tmp) / "cars.json").read_text(encoding="utf-8"))}
-        elite7 = cars["kia-pv5-passenger-71-elite-7seat"]
-        self.assertEqual((elite7["legroom_front_mm"], elite7["headroom_rear_mm"], elite7["shoulder_rear_mm"]), (1041.0, 1076.0, 1617.0))
+        elite = cars["carwow-cap:110972"]   # Elite · 120kW Long Range 71kWh Auto
+        self.assertEqual((elite["legroom_front_mm"], elite["headroom_rear_mm"], elite["shoulder_rear_mm"]), (1041.0, 1076.0, 1617.0))
         # The 5-seat's 995 and the 7-seat's 977 share a trim and battery: that level stays silent, not the 5-seat's figure.
-        self.assertIsNone(elite7.get("legroom_rear_mm"))
+        self.assertIsNone(elite.get("legroom_rear_mm"))
 
     def test_text_a_models_cars_share_is_written_once_for_the_model(self):
         from pipeline.services.snapshot import split_model_text
@@ -233,15 +230,10 @@ class ThroughTheBuild(unittest.TestCase):
             details = json.loads((Path(tmp) / "details.json").read_text(encoding="utf-8"))
             for cid, c in cars.items():
                 c["specs"] = details[cid]["specs"]
-                c["spec_check"] = details[cid]["spec_check"]
-            kona = cars["hyundai-kona-65-advance"]
+            kona = cars["carwow-cap:103322"]
             self.assertEqual(kona["specs"][0]["spec_key"], "carwow-cap:103322")
             self.assertEqual(kona["specs"][0]["flags"]["heat_pump"], "standard")
             self.assertTrue(kona["image"].startswith("https://car-data.carwow.co.uk/"))
-            checks = {r["field"]: r["verdict"] for r in kona["spec_check"]["rows"]}
-            self.assertEqual(checks["heat_pump"], "agrees")
-            self.assertEqual(checks["internal_v2l"], "source lists it")  # seed says none, Carwow lists it
-            self.assertEqual(kona["spec_check"]["disagreements"], 1)
             specs = json.loads((Path(tmp) / "specs.json").read_text(encoding="utf-8"))
             self.assertEqual(len(specs), 4)
             self.assertNotIn("car_ref", specs[0])

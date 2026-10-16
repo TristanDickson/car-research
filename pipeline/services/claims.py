@@ -3,25 +3,22 @@
 Every source says things about a *subject* at some level, and a derivative
 inherits what is said about the levels it belongs to:
 
-    own         a hand-curated car record (its own id)
     derivative  a CAP derivative id: a registry name and its brackets, a
                 configurator page, the maker's own configuration (matched by trim,
                 battery and price), a specification row's numbers, a broker's name
     trim_battery  make, model, trim, battery: what the maker's table says is fitted
                 only with one battery ('● 49kWh only')
     trim        make, model, trim: a standard-equipment list, a description, a
-                manufacturer's grade table, what a curated car says of its trim
+                manufacturer's grade table
     engine      make, model, engine: battery, range, power
     model       make, model: body numbers; what EV Database says of every variant
     variant     an EV Database variant, matched by battery
     pack        make, model, pack name: what the pack bundles
 
-Two edges join them: a derivative *includes* a pack (a CAP name's '[Tech Pack]',
-a curated car's packs) and a subject *offers* a pack at a price (the
-configurator, a curated car's packs_required). A claim is (field, value, kind,
-source, label), and the kind says what sort of evidence it is:
+Two edges join them: a derivative *includes* a pack (a CAP name's '[Tech Pack]')
+and a subject *offers* a pack at a price (the configurator). A claim is (field,
+value, kind, source, label), and the kind says what sort of evidence it is:
 
-    curated       the household's own reading of the car
     configured    the maker's own configurator: a package in the price is fitted, a
                   package offered on the trim but not in the price is not, a package
                   the model sells elsewhere and neither lists nor offers here is not
@@ -32,7 +29,6 @@ source, label), and the kind says what sort of evidence it is:
                   available; ranked with `named`, so the two must agree
     named_twin    a trim with a '[No X]' version has X on its other derivatives
     included      fitted through a pack the derivative includes
-    curated_twin  a curated car's reading of its trim, for the trim's other derivatives
     listed        in a standard-equipment list, or fitted by default on the configurator
     described     the trim's description says it is fitted
     offered       available through a pack the trim or derivative is offered
@@ -109,20 +105,20 @@ EVDB_MODEL_FIELDS = ("length_mm", "width_mm", "width_mirrors_mm", "height_mm", "
                      "warranty_years", "warranty_miles", "charge_port", "architecture_v")
 CARWOW_RAW = {"Top speed": ("top_speed_mph", "mph"), "Consumption": ("efficiency_mi_kwh", "miles/kWh"), "Battery capacity": ("battery_kwh", "kWh")}
 
-EQUIP_TIERS = (("curated",), ("configured",), ("named", "maker"), ("named_twin",), ("included",), ("curated_twin",), ("listed",), ("described",),
+EQUIP_TIERS = (("configured",), ("named", "maker"), ("named_twin",), ("included",), ("listed",), ("described",),
                ("offered",), ("option",), ("available",), ("absent",))
 EQUIP_ORDER = tuple(k for tier in EQUIP_TIERS for k in tier)
 EQUIP_RANK = {k: i for i, tier in enumerate(EQUIP_TIERS) for k in tier}
-OVERRULED_KINDS = ("configured", "named", "maker", "curated_twin")   # worth showing when a stronger source overrides them
-LEVEL_ORDER = ("own", "derivative", "trim_battery", "trim", "engine", "model", "variant")
-NUMBER_KINDS = ("curated", "named", "measured", "listed", "inferred")   # inferred: every current variant of the model agrees
+OVERRULED_KINDS = ("configured", "named", "maker")   # worth showing when a stronger source overrides them
+LEVEL_ORDER = ("derivative", "trim_battery", "trim", "engine", "model", "variant")
+NUMBER_KINDS = ("named", "measured", "listed", "inferred")   # inferred: every current variant of the model agrees
 PRICES = ("list_price_gbp", "used_from_gbp")   # drift with time: the latest sighting wins, never a disagreement
 NUMBER_TOLERANCE = 0.05                         # numbers within 5% of each other are the same number (wheels, rounding)
 COMPLETE_LIST = 40   # a standard-equipment list this long is read as the whole of it
 MAKER_PROVIDERS = ("kia_specs", "hyundai_specs")
 # Who reprinted a CAP name: the registry and the brokers, by the name the Data page uses.
-SIGHTING_NAMES = {"carwow": "Carwow", "carwow_deals": "Carwow", "carwow_paste": "Carwow", "leaseloco": "LeaseLoco", "ncd": "New Car Discount",
-                  "rrg": "RRG", "hyundai_offers": "Hyundai UK", "manual_seed": "hand-entered"}
+SIGHTING_NAMES = {"carwow": "Carwow", "carwow_deals": "Carwow", "leaseloco": "LeaseLoco", "ncd": "New Car Discount",
+                  "rrg": "RRG", "hyundai_offers": "Hyundai UK"}
 KWH_RE = re.compile(r"(\d+(?:\.\d+)?)\s*kwh", re.I)
 SEATS_RE = re.compile(r"^\s*(\d)\s*-?\s*(?:seat|seats|seater|st)\b", re.I)
 TYRE_RE = re.compile(r"^(\d{3})/(\d{2}) R(\d{2})$")
@@ -231,48 +227,6 @@ def _bracket_claims(store: Store, subject: str, make: str, model: str, brackets:
                 store.name_claim(subject, k, "none" if negative else "standard", name, sighting)
         elif not negative:
             store.include(subject, pack_subject(make, model, b), b)
-
-
-PACK_PRICE_RE = re.compile(r"^(.*?)\s*\(\s*£\s*([\d,]+)\s*\)\s*$")
-
-
-def split_pack(name: str | None, prices: dict | None = None) -> tuple[str | None, float | None]:
-    """'Tech Pack (£500)' → ('Tech Pack', 500.0); a bare name takes its price from `prices`."""
-    if not name:
-        return None, None
-    m = PACK_PRICE_RE.match(name)
-    if m:
-        return m.group(1).strip(), float(m.group(2).replace(",", ""))
-    return name.strip(), (prices or {}).get(name.strip())
-
-
-def from_curated(store: Store, car: dict) -> None:
-    """A hand-curated car: its own reading of itself, and of its trim for the trim's other derivatives."""
-    own = f"own:{car['id']}"
-    label = f"hand-curated · {car['id']}"
-    packs_required = car.get("packs_required") or {}
-    prices = car.get("pack_prices_gbp") or {}
-    for f, flag in CAR_TRI.items():
-        v = car.get(f)
-        if v in TRI:
-            pack, price = split_pack(packs_required.get(f), prices)
-            store.add(own, Claim(flag, v, "curated", "hand-curated", label, price, pack))
-            store.add(trim_subject(car.get("make"), car.get("model"), car.get("trim")), Claim(flag, v, "curated_twin", "hand-curated", label, price, pack))
-            if v == "pack" and pack:
-                ps = pack_subject(car.get("make"), car.get("model"), pack)
-                store.add(ps, Claim(flag, "standard", "pack_contents", "hand-curated", f"{label} · {pack}"))
-                store.offer(trim_subject(car.get("make"), car.get("model"), car.get("trim")), ps, pack, price)
-    for f, flag in CAR_BOOL.items():
-        v = car.get(f)
-        if isinstance(v, bool):
-            store.add(own, Claim(flag, "standard" if v else "none", "curated", "hand-curated", label))
-    for f in NUMBERS:
-        if car.get(f) not in (None, ""):
-            store.add(own, Claim(f, car[f], "curated", "hand-curated", label))
-    for p in car.get("packs") or []:
-        name, _ = split_pack(p)
-        if name:
-            store.include(own, pack_subject(car.get("make"), car.get("model"), name), name)
 
 
 def _described(description: str | None) -> dict[str, bool]:
@@ -1095,9 +1049,6 @@ def from_broker_labels(store: Store, rows: list[dict]) -> None:
 def build_store(cars: list[dict], specs: list[dict], catalogue: list[dict], derivatives: list[dict], options: list[dict],
                 broker_rows: list[dict], configurations: list[dict] | None = None) -> Store:
     store = Store()
-    for c in cars:
-        if not c.get("auto"):
-            from_curated(store, c)
     for sp in specs:
         if sp.get("provider") == "carwow_specs":
             from_carwow_spec(store, sp)
@@ -1137,8 +1088,6 @@ class Resolved:
 
 def _subjects(car: dict, variant: dict | None, store: Store | None = None) -> list[tuple[str, str]]:
     out: list[tuple[str, str]] = []
-    if not car.get("auto"):
-        out.append(("own", f"own:{car['id']}"))
     if car.get("cap_id"):
         out.append(("derivative", f"derivative:{car['cap_id']}"))
     make, model = car.get("make"), car.get("model")
@@ -1177,7 +1126,7 @@ def _agree(cands: list[tuple[tuple, Claim]], bucket_of=lambda rank: rank) -> Res
 
 def resolve_equipment(field: str, subjects: list[tuple[str, str]], store: Store) -> Resolved:
     """Is it fitted? The strongest kind of claim across the car's levels must agree (standard, none,
-    or what a curated car or EV Database says). A verdict of none means not fitted as standard:
+    or what EV Database says). A verdict of none means not fitted as standard:
     where a pack or an option offers it, the answer is that pack or option, whoever said none. So does a
     verdict of listed (standard or option, not said which)."""
     cands: list[tuple[tuple, Claim]] = []
@@ -1244,8 +1193,7 @@ def resolve_car(car: dict, store: Store) -> dict:
         r = resolve_number(f, subjects, store)
         if r.claim:
             car[f] = r.value
-            if not (r.claim.kind == "curated" and not car.get("auto")):
-                sources[f] = r.claim.label
+            sources[f] = r.claim.label
         elif r.disagreement:
             disagreements[f] = _sides(r.disagreement)
     variants = store.variants.get(model_key(car.get("make"), car.get("model")), [])
@@ -1262,15 +1210,14 @@ def resolve_car(car: dict, store: Store) -> dict:
                     sources[f] = r.claim.label
     flags: dict[str, str] = {}
     packs_required: dict[str, str] = {}
-    prices: dict[str, float] = dict(car.get("pack_prices_gbp") or {})
+    prices: dict[str, float] = {}
     kinds: dict[str, str] = {}
     for flag in EQUIPMENT:
         r = resolve_equipment(flag, subjects, store)
         if r.claim:
             flags[flag] = str(r.value)
             kinds[flag] = r.claim.kind
-            if not (r.claim.kind == "curated" and not car.get("auto")):
-                sources[flag] = r.claim.label
+            sources[flag] = r.claim.label
             if r.value == "pack" and r.claim.pack:
                 packs_required[flag] = r.claim.pack
                 if r.claim.price:
@@ -1301,7 +1248,7 @@ def resolve_car(car: dict, store: Store) -> dict:
     for f, flag in CAR_BOOL.items():
         if flag in flags:
             car[f] = flags[flag] != "none"
-    included: set[str] = set(car.get("packs") or [])
+    included: set[str] = set()
     for level, key in subjects:
         included.update(store.includes.get(key, {}).values())
     car["flags"] = flags

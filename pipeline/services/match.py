@@ -9,7 +9,6 @@ words, so a derivative resolves to the one generated car whose kW and kWh agree
 candidates scoring the same is a miss, never a guess: the row stays unmapped
 for a human to decide.
 
-Hand-curated cars are never matched this way; the seed's trim map names them.
 Twins (several derivatives of one trim and powertrain) are told apart by
 services/resolve.py, which owns the RRP, bracket and version rules.
 """

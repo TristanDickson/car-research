@@ -272,9 +272,8 @@ def retire_sampled(conn: sqlite3.Connection) -> int:
 
 def write(conn: sqlite3.Connection, source: str, records: dict[str, list[tuple[int | None, ParsedRecord]]],
           run_id: int | None, now: str | None = None) -> int:
-    """Upsert one fetch's records, dated `now` (when the page was fetched). Offers, the
-    owner's cars and decisions are not written here: the build folds offers into spans
-    once every record is matched, and reads the owner's files itself."""
+    """Upsert one fetch's records, dated `now` (when the page was fetched). Offers are not
+    written here: the build folds them into spans once every record is matched."""
     now = now or _now()
     written = 0
     for artifact_id, rec in records.get("model", []):

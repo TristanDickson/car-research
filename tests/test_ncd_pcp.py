@@ -186,14 +186,15 @@ class ThroughTheBuild(unittest.TestCase):
         with Raws() as raws:
             raws.add("ncd", "hyundai/ioniq-3", "ncd_hyundai_ioniq-3_listing_2026-10-11.html", at=T)
             raws.add("ncd", "hyundai/ioniq-3", body=fetched.body, capability="pcp", at=T, parts=fetched.parts)
+            raws.add("carwow_deals", "hyundai/ioniq-3", "carwow_hyundai_ioniq-3_deals.html", at=T)   # the derivatives, EV Pack ones included
             conn = raws.build()
         # The derivative page, kept as a part of the fetch, is read back by the build for its tyres.
         spec = conn.execute("SELECT cap_id, payload FROM specs WHERE spec_key='ncd:111014'").fetchone()
         self.assertEqual((spec["cap_id"], json.loads(spec["payload"])["numbers"]["tyre_front"]), ("111014", "215/55 R17"))
         q = "SELECT car_id, status, vehicle_price, monthly_payment FROM offer_observations WHERE offer_key=?"
         cash, pcp = conn.execute(q, (f"ncd:{self.PREMIUM}",)).fetchone(), conn.execute(q, (f"ncd:pcp:{self.PREMIUM}",)).fetchone()
-        self.assertEqual(tuple(cash), ("hyundai-ioniq3-61-premium-evpack", "lead", 28829.0, None))
-        self.assertEqual(tuple(pcp), ("hyundai-ioniq3-61-premium-evpack", "illustrative", 28829.0, 600.77))
+        self.assertEqual(tuple(cash), ("carwow-cap:111014", "lead", 28829.0, None))
+        self.assertEqual(tuple(pcp), ("carwow-cap:111014", "illustrative", 28829.0, 600.77))
 
 
 class Listings(unittest.TestCase):

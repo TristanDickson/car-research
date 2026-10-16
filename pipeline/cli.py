@@ -66,7 +66,7 @@ def _build(args, store, out: str | None) -> None:
 
 
 def cmd_build(args) -> int:
-    """Raws + the committed history + the owner's files -> a fresh database -> the snapshot."""
+    """Raws + the committed history + the default settings -> a fresh database -> the snapshot."""
     _build(args, _store(args), args.out or None)
     if args.deal_table:
         _deal_table(Path(args.deal_table))
@@ -216,8 +216,6 @@ def cmd_status(args) -> int:
                   "used_listings", "used_observations", "requirements", "runs"):
         n = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
         print(f"{table:19s} {n}")
-    n_auto = conn.execute("SELECT COUNT(*) FROM cars WHERE json_extract(payload, '$.auto') = 1").fetchone()[0]
-    print(f"{'  of which not yours':19s} {n_auto}")
     for r in conn.execute("SELECT * FROM runs ORDER BY started_at DESC LIMIT 12"):
         print(f"run {r['source']}/{r['capability']} {r['status']} {r['finished_at']} "
               f"fetches={r['artifacts']} records={r['records']} errors={r['errors']}")
@@ -250,11 +248,10 @@ def cmd_trims(args) -> int:
     if not rows:
         print("no unmapped trims")
         return 0
-    print("Unmapped trims (add to data/seed/trim_map.json with the right car_id):")
+    print("Records the rules could not place on a car:")
     for r in rows:
         why = f" [{r['status']}: {(r.get('evidence') or {}).get('reason', '')}]" if r["status"] == "conflict" else ""
-        print(f'  {{ "source": "{r["source"]}", "source_key": "{r["source_key"]}", "car_id": "..." }}'
-              f'   # {r["label"] or ""}  first seen {(r["first_seen_at"] or "")[:10]}{why}')
+        print(f'  {r["source"]} {r["source_key"]}   # {r["label"] or ""}  first seen {(r["first_seen_at"] or "")[:10]}{why}')
     return 1
 
 
@@ -290,7 +287,7 @@ def main(argv=None) -> int:
         sp.add_argument("--generated-at", help="Pin the snapshot timestamp.")
         sp.add_argument("--no-cache", action="store_true", help="Parse every page again, ignoring the parse cache.")
 
-    bd = sub.add_parser("build", help="Build the database from scratch (raws, the committed history, the owner's files) and write the snapshot.")
+    bd = sub.add_parser("build", help="Build the database from scratch (raws, the committed history, the default settings) and write the snapshot.")
     build_args(bd)
     bd.add_argument("--deal-table", default="", help="Also write the markdown deal table here.")
     bd.set_defaults(func=cmd_build)

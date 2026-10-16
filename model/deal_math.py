@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Normalise PCP, PCH and cash deals onto one footing.
 
-Reads data/seed/deals.json and data/seed/cars.json. For each deal it computes:
+For each deal (an offer as latest_offers in pipeline/services/snapshot.py gives it) it computes:
 
   PCP  total paid if handed back / if bought, cost of credit, implied APR (as a check on the
        stated APR), monthly at 0% with the same GFV, GFV as % of list and of price, effective
@@ -16,31 +16,18 @@ Reads data/seed/deals.json and data/seed/cars.json. For each deal it computes:
        credited back (owned outright: sold; PCP: the equity above the GFV, never
        below zero; lease: nothing), and the present value spread as an annuity
        over the agreement. The GFV-floor variant takes the expected value as the
-       GFV, i.e. today's pessimistic numbers. Both assumptions live in
-       requirements.json quoting_basis (savings_rate_apr, residual_pct_of_list).
+       GFV, i.e. today's pessimistic numbers. Both assumptions live in the default
+       settings' quoting_basis (data/seed/requirements.json: savings_rate_apr, residual_pct_of_list).
 
 If a PCP's monthly_payment is null it is solved from apr, amount_of_credit and gfv.
 If amount_of_credit is null it is back-solved as the PV of the payments at the stated APR.
 
-Usage:
-  python3 model/deal_math.py            # markdown tables
-  python3 model/deal_math.py --json     # machine-readable, for the export step
+The markdown deal table: `python -m pipeline deal-table` (docs/deal-comparison.md is the nightly's copy).
 
 Conventions: payments at months 1..n, balloon at month n+1 (UK 37-month PCP with 36 payments).
 APR is an effective annual rate, so the monthly rate is (1+APR)^(1/12)-1. This reproduces
 Carwow's figures to within pennies.
 """
-import json
-import sys
-from pathlib import Path
-
-ROOT = Path(__file__).resolve().parents[1]
-SEED = ROOT / "data" / "seed"
-
-
-def load(name):
-    with open(SEED / name) as f:
-        return json.load(f)
 
 
 def monthly_rate(apr):
@@ -400,21 +387,6 @@ def print_markdown(results, cars):
         print("\n## Not computed\n")
         for r in skipped:
             print(f'- {r["id"]}: {r["skipped"]}')
-
-
-def main():
-    deals = load("deals.json")["deals"]
-    cars = load("cars.json")["cars"]
-    results = compute(deals)
-    if "--json" in sys.argv:
-        json.dump(results, sys.stdout, indent=2)
-        print()
-    else:
-        print_markdown(results, cars)
-
-
-if __name__ == "__main__":
-    main()
 
 
 def used_route(price, age_years, basis, value_at_end=None):

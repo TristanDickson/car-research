@@ -118,7 +118,7 @@ def run(store: RawStore, conn: sqlite3.Connection | None, provider: Provider, ca
             if conn is not None:
                 by_kind: dict[str, list] = {}
                 for r in records:
-                    if r.kind not in ("offer", "car", "trim_map"):
+                    if r.kind != "offer":
                         by_kind.setdefault(r.kind, []).append((None, r))
                 gold.write(conn, provider.name, by_kind, None, now=meta["observed_at"])
                 conn.commit()

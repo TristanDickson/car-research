@@ -24,8 +24,9 @@ ORIGINS = ("history", "legacy")   # 'legacy': what the first 60 versions were st
 # The order a commit's files are applied in: a used listing before its price spans.
 ORDER = ("models", "derivatives", "specs", "options", "configurations", "used", "used_observations", "backfill",
          "observations", "resolutions")
-# The owner's own entries are read from data/seed and data/pastes in git, not from their copies here.
-OWNER_PROVIDERS = ("manual_seed", "carwow_paste")
+# Offers typed or pasted in by hand before any scraper existed: the owner ruled them out on 16 Oct 2026,
+# so their copies in the committed history are not read either.
+HAND_ENTERED = ("manual_seed", "carwow_paste")
 
 
 def _git(repo: Path, *args: str) -> bytes:
@@ -95,7 +96,7 @@ def read(capability: str, body: bytes) -> list[dict]:
         if isinstance(d.get("payload"), dict):
             d["payload"].pop("car_id", None)
         if capability == "observations":
-            if d.get("source") in OWNER_PROVIDERS:
+            if d.get("source") in HAND_ENTERED:
                 continue
             upgrade(d["source"], d["payload"])
         rows.append(d)

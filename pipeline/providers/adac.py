@@ -202,47 +202,37 @@ CAUSES = {"Starterbatterie": "12-volt battery", "Fahrzeugelektrik allgemein": "g
           "Schlüssel": "key", "Reifen": "tyres", "Bremsen": "brakes", "Kühlmittelverlust": "coolant loss"}
 
 
-def _household(conn: sqlite3.Connection) -> set[str]:
-    """The catalogue models of the cars the owner entered."""
-    from pipeline.services.facts import norm
-    cars = {(norm(r[0]), norm(r[1])) for r in conn.execute(
-        "SELECT json_extract(payload, '$.make'), json_extract(payload, '$.model') FROM cars WHERE COALESCE(json_extract(payload, '$.auto'), 0) = 0")}
-    return {r[0] for r in conn.execute("SELECT slug, make_name, model_name FROM models") if (norm(r[1]), norm(r[2])) in cars}
-
-
 def range_of(path: str) -> str:
     """'hyundai/ioniq-5/1generation-facelift/336719' → 'hyundai/ioniq-5'."""
     return "/".join(path.split("/")[:2])
 
 
 def _targets(target: Target, ctx: Context, page_of, prefix: str) -> Iterator[Target]:
-    """One target per page: never-read models first (the household's own before the rest), then pages read more
-    than FRESH_DAYS ago, stalest first; PER_RUN of them. `page_of` maps a TESTS path to the page read."""
+    """One target per page: never-read models first, then pages read more than FRESH_DAYS ago, stalest first;
+    PER_RUN of them. `page_of` maps a TESTS path to the page read."""
     conn: sqlite3.Connection | None = ctx.extras.get("db")
     seen: dict[str, str] = {}
-    mine: set[str] = set()
     if conn is not None:
         try:
             seen = {r[0][len(prefix):]: r[1] for r in conn.execute("SELECT spec_key, last_seen_at FROM specs WHERE source='adac'")
                     if r[0].startswith(prefix) and ":" not in r[0][len(prefix):].split("/")[0]}
-            mine = _household(conn)
         except sqlite3.OperationalError:
             pass
     wanted = [s for s in TESTS if target.identifier in ("all", s, page_of(TESTS[s]))]
     pages: dict[str, None] = {}
-    for slug in _order(wanted, seen, mine, target.identifier == "all"):
+    for slug in _order(wanted, seen, target.identifier == "all"):
         pages.setdefault(page_of(TESTS[slug]))
     for path in list(pages)[:PER_RUN]:
         yield Target(identifier=path, metadata={"url": BASE + path + "/", "models": [s for s in TESTS if page_of(TESTS[s]) == path]})
 
 
-def _order(wanted: list[str], seen: dict[str, str], mine: set[str], rotate: bool) -> list[str]:
-    """Never-read models first (the household's own before the rest), then those read more than FRESH_DAYS ago,
-    stalest first; on demand (`rotate` false), every model asked for."""
+def _order(wanted: list[str], seen: dict[str, str], rotate: bool) -> list[str]:
+    """Never-read models first, then those read more than FRESH_DAYS ago, stalest first; on demand (`rotate`
+    false), every model asked for."""
     if not rotate:
         return wanted
     cutoff = (datetime.now(timezone.utc) - timedelta(days=FRESH_DAYS)).isoformat()
-    return (sorted((s for s in wanted if s not in seen), key=lambda s: s not in mine)
+    return ([s for s in wanted if s not in seen]
             + sorted((s for s in wanted if s in seen and seen[s] < cutoff), key=lambda s: seen[s]))
 
 
@@ -275,14 +265,10 @@ def discover_pdfs(target: Target, ctx: Context) -> Iterator[Target]:
                 tests[model] = test   # the test of the page TESTS names now, not one it named before
     except sqlite3.OperationalError:
         return
-    try:
-        mine = _household(conn)
-    except sqlite3.OperationalError:
-        mine = set()
     seen = {m: last for m, (tid, last) in pdfs.items() if m in tests and tid == tests[m].get("id")}
     wanted = [s for s in TESTS if s in tests and target.identifier in ("all", s, tests[s]["document"])]
     docs: dict[str, None] = {}
-    for slug in _order(wanted, seen, mine, target.identifier == "all"):
+    for slug in _order(wanted, seen, target.identifier == "all"):
         docs.setdefault(tests[slug]["document"])
     for doc in list(docs)[:PER_RUN]:
         models = [s for s in TESTS if s in tests and tests[s]["document"] == doc]

@@ -4,8 +4,8 @@ Inputs, and nothing else:
     the raw store         every page ever fetched (pipeline/raw.py), parsed again here
     the committed history the data/history files committed before the raw store existed, copied
                           into it and read with their matches taken out (pipeline/history.py)
-    the owner's own files data/seed (cars, offers, requirements, picks, the trim map's
-                          decisions) and data/pastes, read from the repo
+    the default settings  data/seed/requirements.json (the quoting basis and the starting
+                          saved searches), read from the repo
 
 Steps, each over every record at once, so no answer depends on the order pages were read in:
     0. every record, from every source, into `records`: what it said and over which dates
@@ -14,11 +14,9 @@ Steps, each over every record at once, so no answer depends on the order pages w
     2. derivatives: one per CAP id any record names (a specification row, the registry,
        a deals page's line), each in the form the matcher reads; nothing else makes one
     3. match: a record naming a CAP id is that derivative; a broker's or a used listing's
-       text is matched by services/resolve.py against every derivative of its make and
-       model; the owner's decisions (data/seed/trim_map.json) override both
+       text is matched by services/resolve.py against every derivative of its make and model
     4. fold each offer's sightings, in date order, into spans of an unchanged price
-    5. the cars: every derivative, and every car the owner entered. A derivative the owner
-       entered appears once, as the owner's entry, carrying its CAP id.
+    5. the cars: one per derivative
 
 The database this writes is disposable: delete it and build again.
 """
@@ -40,7 +38,7 @@ from pipeline.providers.types import Context, ParsedRecord, Target
 from pipeline.raw import RawStore
 from pipeline.services import autocars, resolve
 
-OWNER_PROVIDERS = ("manual_seed", "carwow_paste")
+SETTINGS_PROVIDER = "manual_seed"
 # At the same instant a page we hold outranks the committed history's copy of what was read from it.
 PRIORITY = {"history": 1}
 # A sighting's own date is not part of what the record says.
@@ -175,13 +173,9 @@ class Build:
         self.conn, self.store, self.root, self.cache = conn, store, root, cache
         self.report = Report()
         self.sightings: list[Sighting] = []
-        self.owner_cars: list[dict] = []
-        self.owner_offer_cars: dict[str, str] = {}   # offer key -> the car the owner entered it against
-        self.decisions: dict[tuple[str, str], dict] = {}
         self.gen: dict[str, dict] = {}               # CAP id -> the derivative as the matcher reads it
         self.gen_from: dict[str, str] = {}           # CAP id -> what described it: spec | registry | deals
         self.combustion: set[str] = set()            # CAP ids a record names whose engine burns fuel: not cars of this app
-        self.alias: dict[str, str] = {}              # CAP id -> the owner's car for that derivative
         self.by_make: dict[str, list[dict]] = {}
         self.pins: dict[str, set[str]] = {}
         self.resolutions: dict[tuple[str, str], dict] = {}
@@ -192,28 +186,18 @@ class Build:
 
     # -- 1. what each source said
 
-    def owner(self) -> None:
+    def settings(self) -> None:
+        """The default settings, from the repo: dated by the file's own date, so two builds of the same file agree."""
         ctx = Context(root=self.root)
-        for name in OWNER_PROVIDERS:
-            provider = PROVIDERS[name]
-            for cap in provider.capabilities.values():
-                for t in cap.discover(Target(identifier="all"), ctx):
-                    fetched = cap.fetch(t, ctx)
-                    records = list(cap.parse(fetched.body, t))
-                    self.report.records += len(records)
-                    for r in records:
-                        self._said(name, r.kind, r.key, t.identifier, r.row.get("observed_at") or "", 3, "owner", f"{name}:{t.identifier}", r.row)
-                        if r.kind == "car":
-                            self.owner_cars.append(r.row)
-                        elif r.kind == "trim_map":
-                            self.decisions[(r.row["source"], r.row["source_key"])] = r.row
-                        elif r.kind == "offer":
-                            if r.row.get("car_id"):
-                                self.owner_offer_cars[r.row["offer_key"]] = r.row["car_id"]
-                            self._sight(r.row["observed_at"], 3, name, r.row, fetched.url)
-                    reqs = [r for r in records if r.kind == "requirements"]
-                    if reqs:   # dated by the file's own date, so two builds of the same files agree
-                        gold.write(self.conn, name, _by_kind(reqs), None, now=reqs[0].row.get("as_of") or "")
+        name = SETTINGS_PROVIDER
+        for cap in PROVIDERS[name].capabilities.values():
+            for t in cap.discover(Target(identifier="all"), ctx):
+                records = list(cap.parse(cap.fetch(t, ctx).body, t))
+                self.report.records += len(records)
+                for r in records:
+                    self._said(name, r.kind, r.key, t.identifier, "", 3, "settings", f"{name}:{t.identifier}", r.row)
+                if records:
+                    gold.write(self.conn, name, _by_kind(records), None, now=records[0].row.get("as_of") or "")
 
     def _said(self, source: str, kind: str, key: str, page: str, at: str, priority: int, origin: str, fetch: str | None,
               row: dict) -> None:
@@ -316,7 +300,7 @@ class Build:
         batches.sort(key=lambda b: (b[0], b[1]))
         for at, i, e, records in batches:
             self.report.records += len(records)
-            gold.write(self.conn, e["source"], _by_kind([r for r in records if r.kind not in ("offer", "car", "trim_map")]), None, now=at)
+            gold.write(self.conn, e["source"], _by_kind([r for r in records if r.kind != "offer"]), None, now=at)
             for r in records:
                 when = r.row.get("observed_at") or at if r.kind == "offer" else at
                 self._said(e["source"], r.kind, r.key, e["target"], when, 2, e.get("origin", "live"), e["id"], r.row)
@@ -354,21 +338,8 @@ class Build:
             p = json.loads(r["payload"])
             if p.get("make") and p.get("model") and not burns(r["cap_id"], p.get("trim"), p.get("engine")):
                 self.gen[r["cap_id"]], self.gen_from[r["cap_id"]] = autocars.from_spec(p), "spec"
-        owner_ids = {c["id"] for c in self.owner_cars}
-        for (site, key), d in self.decisions.items():
-            if site == "carwow-cap" and d.get("car_id") in owner_ids:
-                self.alias[key] = d["car_id"]
         for car in self.gen.values():
             self.by_make.setdefault((car.get("make") or "").lower(), []).append(car)
-
-    def car_for(self, cap: str) -> str:
-        return self.alias.get(cap) or autocars.auto_id(cap)
-
-    def _named(self, car_id: str | None) -> str | None:
-        """A matcher's answer (a generated id) as the car it is: the owner's entry when there is one."""
-        if car_id and car_id.startswith("carwow-cap:"):
-            return self.car_for(car_id.split(":", 1)[1])
-        return car_id
 
     # -- 3. matching
 
@@ -381,32 +352,24 @@ class Build:
     def match(self, ref: dict, provider: str, text_match: bool = True) -> dict:
         """What one record names: {car_id, status, method, evidence, name_key}."""
         site, key = ref.get("source", provider), ref.get("key", "")
-        d = self.decisions.get((site, key))
-        if d and d.get("car_id"):
-            return {"car_id": d["car_id"], "status": "mapped", "method": "manual"}
         if (site == "carwow-cap" and key in self.combustion) or combustion(ref.get("derivative") or ref.get("label")):
             return {"car_id": None, "status": "ignored", "method": "combustion"}
         if site == "carwow-cap":
             if key in self.gen:
-                return {"car_id": self.car_for(key), "status": "auto", "method": "stub" if self.gen_from[key] == "deals" else "cap-id"}
-            return {"car_id": None, "status": d["status"] if d else "unmapped", "method": None}
+                return {"car_id": autocars.auto_id(key), "status": "auto", "method": "stub" if self.gen_from[key] == "deals" else "cap-id"}
+            return {"car_id": None, "status": "unmapped", "method": None}
         if text_match and ref.get("make"):
             res = resolve.choose(ref, self._candidates(ref), self.pins)
             out = {"method": res.method, "evidence": res.evidence, "name_key": resolve.name_key(ref.get("derivative") or ref.get("label"))}
             if res.car_id:
-                return {**out, "car_id": self._named(res.car_id), "generated_id": res.car_id, "status": "auto"}
-            if res.method == "conflict":
-                return {**out, "car_id": None, "status": "conflict"}
-            return {**out, "car_id": None, "status": d.get("status", "ignored") if d else "unmapped"}
-        return {"car_id": None, "status": d.get("status", "ignored") if d else "unmapped", "method": None}
+                return {**out, "car_id": res.car_id, "status": "auto"}
+            return {**out, "car_id": None, "status": "conflict" if res.method == "conflict" else "unmapped"}
+        return {"car_id": None, "status": "unmapped", "method": None}
 
     def _pin_pass(self, refs: list[dict]) -> None:
         """The 'name' rule's pins: CAP names that some record's own RRP tied to one twin."""
         self.pins = {}
         for ref in refs:
-            d = self.decisions.get((ref.get("source"), ref.get("key", "")))
-            if d and d.get("car_id"):
-                continue   # the owner placed this record; its RRP speaks for their choice, not for a twin
             if ref.get("make") and ref.get("source") != "carwow-cap":
                 res = resolve.choose(ref, self._candidates(ref), None)
                 if res.method == "rrp" and res.car_id:
@@ -444,10 +407,6 @@ class Build:
         car_of: dict[str, str] = {}
         for key, s in latest.items():
             tally = self._matched(s.provider, "offers")
-            if key in self.owner_offer_cars:
-                car_of[key] = self.owner_offer_cars[key]
-                tally["matched"] += 1
-                continue
             ref = s.row.get("car_ref") or {}
             m = self.match(ref, s.provider)
             self._note(ref, s.provider, m, s.at, s.url)
@@ -481,11 +440,7 @@ class Build:
 
         for listing_key, ref in used:
             tally = self._matched(used_source[listing_key], "used")
-            d = self.decisions.get((ref.get("source"), ref.get("key", "")))
-            car = d["car_id"] if d and d.get("car_id") else None
-            if car is None and ref.get("make"):
-                res = resolve.choose(ref, self._candidates(ref), self.pins)
-                car = self._named(res.car_id)
+            car = resolve.choose(ref, self._candidates(ref), self.pins).car_id if ref.get("make") else None
             if car:
                 tally["matched"] += 1
                 self.conn.execute("UPDATE used_listings SET car_id=? WHERE listing_key=?", (car, listing_key))
@@ -572,31 +527,19 @@ class Build:
                 (car["id"], car["make"], car["model"], car.get("trim"), car.get("model_year"), car.get("seats"), car.get("battery_kwh"),
                  car.get("wltp_range_mi"), car.get("width_mm"), car.get("list_price_gbp"), car.get("grant_gbp"), car.get("heat_pump"),
                  car.get("internal_v2l"), gold._dump(car), source, ""))
-        cap_of = {v: k for k, v in self.alias.items()}
-        for c in self.owner_cars:
-            put(dict(c, cap_id=c.get("cap_id") or cap_of.get(c["id"])) if cap_of.get(c["id"]) or c.get("cap_id") else c, "manual_seed")
         src = {"spec": "carwow_specs", "registry": "carwow_model", "deals": "carwow_deals"}
         for cap, car in sorted(self.gen.items()):
-            if cap not in self.alias:
-                put(car, src[self.gen_from[cap]])
+            put(car, src[self.gen_from[cap]])
 
     def trim_map(self) -> None:
-        for (site, key), d in self.decisions.items():
-            if (site, key) not in self.resolutions:
-                self.conn.execute(
-                    "INSERT INTO trim_map (source, source_key, car_id, status, label, example_url, note, first_seen_at, last_seen_at, method) "
-                    "VALUES (?,?,?,?,?,?,?,?,?,?)",
-                    (site, key, d.get("car_id"), d.get("status") or ("mapped" if d.get("car_id") else "ignored"), d.get("label"),
-                     d.get("example_url"), d.get("note"), "", "", "manual" if d.get("car_id") else None))
+        """How every source's name resolved (`trim_map`, which `pipeline trims` and the Data page read)."""
         for (site, key), m in sorted(self.resolutions.items()):
-            m = {k: v for k, v in m.items() if k != "_rank"}
-            d = self.decisions.get((site, key)) or {}
             ev = m.get("evidence")
             self.conn.execute(
-                "INSERT INTO trim_map (source, source_key, car_id, status, label, example_url, note, first_seen_at, last_seen_at, method, "
-                "evidence, name_key) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
-                (site, key, m["car_id"], m["status"], m.get("label") or d.get("label"), m.get("example_url"), d.get("note"),
-                 m["first_seen_at"], m["last_seen_at"], m.get("method"), resolve.dump_evidence(ev) if ev else None, m.get("name_key")))
+                "INSERT INTO trim_map (source, source_key, car_id, status, label, example_url, first_seen_at, last_seen_at, method, "
+                "evidence, name_key) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                (site, key, m["car_id"], m["status"], m.get("label"), m.get("example_url"), m["first_seen_at"], m["last_seen_at"],
+                 m.get("method"), resolve.dump_evidence(ev) if ev else None, m.get("name_key")))
 
     def logs(self) -> None:
         """The scraper's run log and the build log (the Data page shows them), the Wayback backfill's finished
@@ -636,7 +579,7 @@ class Build:
         entries = list(self.store.entries()) if self.store else []
         self.levels = {src: {"raw": lv} for src, lv in stages.raw_levels(entries).items()}
         self.fetch_rows = stages.fetch_nights(entries)
-        self.owner()
+        self.settings()
         if self.store:
             self.history(entries)
             self.raws(entries)

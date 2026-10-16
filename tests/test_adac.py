@@ -82,7 +82,7 @@ class RangePage(unittest.TestCase):
                   "numbers": {"adac_breakdowns": 5.0, "adac_breakdown_year": 2023, "adac_breakdown_rating": "good"}}
         store = claims.Store()
         claims.from_adac(store, [test, ranged], CATALOGUE)
-        car = {"id": "c", "make": "Hyundai", "model": "Kona Electric", "trim": "Ultimate", "auto": True}
+        car = {"id": "c", "make": "Hyundai", "model": "Kona Electric", "trim": "Ultimate"}
         claims.resolve_car(car, store)
         self.assertEqual((car["adac_breakdowns"], car["adac_breakdown_rating"], car["adac_build"]), (5.0, "good", 3.6))
 
@@ -105,16 +105,11 @@ class Discover(unittest.TestCase):
         got = [t.metadata["models"] for t in adac.discover(Target("all"), ctx)]
         self.assertEqual([[s for s in m if s in (slugs[5], slugs[1], slugs[3])] for m in got], [[slugs[5]], [slugs[1]], [slugs[3]]])
 
-    def test_a_first_run_reads_a_batch_the_households_models_first(self):
-        conn = self.specs({})
-        conn.execute("CREATE TABLE cars (payload TEXT)")
-        conn.execute("CREATE TABLE models (slug TEXT, make_name TEXT, model_name TEXT)")
-        conn.execute("""INSERT INTO cars VALUES ('{"make": "Kia", "model": "PV5 Passenger"}'), ('{"make": "Kia", "model": "EV3", "auto": true}')""")
-        conn.executemany("INSERT INTO models VALUES (?, ?, ?)", [("kia/pv5-passenger", "Kia", "PV5 Passenger"), ("kia/ev3", "Kia", "EV3")])
-        got = list(adac.discover(Target("all"), Context(root=FIX, extras={"db": conn})))
+    def test_a_first_run_reads_a_batch_of_pages_never_read(self):
+        got = list(adac.discover(Target("all"), Context(root=FIX, extras={"db": self.specs({})})))
         self.assertEqual(len(got), adac.PER_RUN)
-        self.assertEqual(got[0].metadata["models"], ["kia/pv5-passenger"])   # the owner entered one; the EV3 is only a generated car
-        self.assertEqual((got[0].identifier, got[0].metadata["url"]), (adac.TESTS["kia/pv5-passenger"], adac.BASE + adac.TESTS["kia/pv5-passenger"] + "/"))
+        first = next(iter(adac.TESTS))
+        self.assertEqual((got[0].identifier, got[0].metadata["url"]), (adac.TESTS[first], adac.BASE + adac.TESTS[first] + "/"))
         self.assertEqual(len({t.identifier for t in got}), len(got))
 
     def test_one_model_on_demand(self):
@@ -140,7 +135,7 @@ class Claims(unittest.TestCase):
     def test_said_of_the_model(self):
         store = claims.Store()
         claims.from_adac(store, [kona()], CATALOGUE)
-        car = {"id": "c", "make": "Hyundai", "model": "Kona Electric", "trim": "Ultimate", "auto": True}
+        car = {"id": "c", "make": "Hyundai", "model": "Kona Electric", "trim": "Ultimate"}
         claims.resolve_car(car, store)
         self.assertEqual((car["adac_suspension"], car["adac_build"], car["adac_breakdowns"], car["adac_breakdown_rating"]), (2.5, 3.6, 6.1, "satisfactory"))
         self.assertEqual(car["field_sources"]["adac_suspension"], "ADAC Autotest · Kona Elektro (65 kWh) Prime-Paket, 12/2023")
@@ -247,7 +242,7 @@ class PdfClaims(unittest.TestCase):
     def resolve(self, rows: list[dict]) -> dict:
         store = claims.Store()
         claims.from_adac(store, rows, CATALOGUE)
-        car = {"id": "c", "make": "Hyundai", "model": "Kona Electric", "trim": "Ultimate", "auto": True}
+        car = {"id": "c", "make": "Hyundai", "model": "Kona Electric", "trim": "Ultimate"}
         claims.resolve_car(car, store)
         return car
 

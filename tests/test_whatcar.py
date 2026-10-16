@@ -93,7 +93,7 @@ class Claims(unittest.TestCase):
         store = claims.Store()
         claims.from_whatcar(store, rows("electric-cars") + rows("electric-suvs") + rows("overall"), CATALOGUE)
         make = next(c["make_name"] for c in CATALOGUE if c["model_name"] == model)
-        car = {"id": "c", "make": make, "model": model, "trim": "t", "auto": True}
+        car = {"id": "c", "make": make, "model": model, "trim": "t"}
         claims.resolve_car(car, store)
         return car
 

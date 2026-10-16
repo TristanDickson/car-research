@@ -13,7 +13,6 @@ from pipeline.services.snapshot import load_cars
 from tests.helpers import FIX, Raws, dump, fresh_conn
 
 T = "2026-10-06T00:00:00+00:00"
-KONA_CAPS = ("103322", "103324", "103325", "103326")   # the seed maps these to the owner's Kona cars
 
 
 def fixture(name: str) -> str:
@@ -37,15 +36,13 @@ def add_catalog(raws: Raws) -> None:
         raws.add("carwow_catalog", key, f, metadata=meta, at=T)
 
 
-def build_with(conn, sightings=(), registry=(), drop_decisions=()):
-    """A build over the owner's files plus records handed in directly: registry rows, and price sightings
-    (at, provider, row). `drop_decisions` takes (source, key) decisions out, as if the owner had not made them."""
+def build_with(conn, sightings=(), registry=()):
+    """A build over the default settings plus records handed in directly: registry rows, and price sightings
+    (at, provider, row)."""
     for r in registry:
         gold.upsert_derivative(conn, r, "carwow_model", None, None, T)
     b = Build(conn, None)
-    b.owner()
-    for k in drop_decisions:
-        b.decisions.pop(k, None)
+    b.settings()
     for at, provider, row in sightings:
         b._sight(at, 2, provider, row, None)
     b.finish()
@@ -143,19 +140,19 @@ class CatalogInGold(unittest.TestCase):
 
 
 class Derivatives(unittest.TestCase):
-    """Every CAP id a page names is a derivative; nothing else makes a car, and the owner's entry stands for its own."""
+    """Every CAP id a page names is a derivative, and nothing else makes a car."""
 
     def test_a_deals_page_line_describes_a_derivative_and_the_spec_page_describes_it_better(self):
         with Raws() as raws:
             raws.add("carwow_deals", "hyundai/ioniq-3", "carwow_hyundai_ioniq-3_deals.html", at=T)
             conn = raws.build()
             stub = json.loads(conn.execute("SELECT payload FROM cars WHERE id='carwow-cap:110663'").fetchone()["payload"])
-            self.assertEqual((stub["auto"], stub["source_kind"], stub["trim"], stub["list_price_gbp"], stub["heat_pump"]),
-                             (True, "stub", "Advance · 108kW 42kWh Auto", 22245.0, "unknown"))
+            self.assertEqual((stub["source_kind"], stub["trim"], stub["list_price_gbp"], stub["heat_pump"]),
+                             ("stub", "Advance · 108kW 42kWh Auto", 22245.0, "unknown"))
             self.assertEqual(conn.execute("SELECT car_id FROM offer_observations WHERE offer_key='carwow:cash:110663'").fetchone()[0],
                              "carwow-cap:110663")
             self.assertEqual(conn.execute("SELECT car_id FROM offer_observations WHERE offer_key='carwow:cash:111015'").fetchone()[0],
-                             "hyundai-ioniq3-61-ultimate-evpack", "the derivative the owner entered is the owner's car")
+                             "carwow-cap:111015")
             self.assertEqual(conn.execute("SELECT COUNT(*) FROM trim_map WHERE status='unmapped' AND source='carwow-cap'").fetchone()[0], 0)
 
             raws.add("carwow_specs", "hyundai/ioniq-3", "carwow_hyundai_ioniq-3_specifications.html", at="2026-10-07T00:00:00+00:00")
@@ -169,18 +166,16 @@ class Derivatives(unittest.TestCase):
             span = conn.execute("SELECT observed_at, confirmed_at FROM offer_observations WHERE offer_key='carwow:cash:110663'").fetchall()
             self.assertEqual([tuple(r) for r in span], [(T, "2026-10-09T00:00:00+00:00")], "the same price two days apart is one span")
 
-    def test_the_owners_entry_is_the_one_car_for_its_derivative(self):
+    def test_each_derivative_is_one_car_named_by_its_cap_id(self):
         with Raws() as raws:
             raws.add("carwow_specs", "hyundai/kona-electric", "carwow_hyundai_kona-electric_specifications.html", at=T)
             conn = raws.build()
-            ids = {c["id"] for c in load_cars(conn)}
-            for cap in KONA_CAPS:
-                self.assertNotIn(f"carwow-cap:{cap}", ids, "no second car beside the owner's")
-            owner = {r[0] for r in conn.execute("SELECT car_id FROM specs WHERE cap_id IN (?,?,?,?)", KONA_CAPS)}
-            self.assertTrue(owner <= {"hyundai-kona-65-advance", "hyundai-kona-65-ultimate", "hyundai-kona-65-nline", "hyundai-kona-65-nlines"}, owner)
-            ultimate = json.loads(conn.execute("SELECT payload FROM cars WHERE id='hyundai-kona-65-ultimate'").fetchone()["payload"])
-            self.assertFalse(ultimate.get("auto"))
-            self.assertIn(str(ultimate["cap_id"]), KONA_CAPS, "the owner's entry carries its CAP id")
+            cars = load_cars(conn)
+            rows = conn.execute("SELECT cap_id, car_id FROM specs WHERE cap_id IS NOT NULL").fetchall()
+            self.assertGreater(len(rows), 3)
+            self.assertEqual({r["car_id"] for r in rows}, {f"carwow-cap:{r['cap_id']}" for r in rows})
+            self.assertEqual(sorted(c["id"] for c in cars), sorted({f"carwow-cap:{r['cap_id']}" for r in rows}))
+            self.assertTrue(all(str(c["cap_id"]) == c["id"].split(":", 1)[1] for c in cars))
 
     def test_the_latest_line_describes_a_derivative_only_a_deals_page_prints(self):
         conn = fresh_conn()
@@ -260,26 +255,15 @@ class DerivativeMatcher(unittest.TestCase):
             raws.add("carwow_specs", "hyundai/kona-electric", "carwow_hyundai_kona-electric_specifications.html", at=T)
             raws.add("leaseloco", "hyundai/kona-electric", "leaseloco_hyundai_kona-electric.html", at=T)
             conn = fresh_conn()
-            b = Build(conn, raws.store)
-            b.owner()
-            # Take the owner's LeaseLoco decisions out: every Kona lease is then matched by the rules.
-            for k in [k for k in b.decisions if k[0] == "leaseloco"]:
-                b.decisions.pop(k)
-            entries = list(raws.store.entries())
-            b.raws(entries)
-            b.finish()
+            raws.build(conn)
             rows = conn.execute("SELECT source_key, car_id, method, evidence FROM trim_map WHERE source='leaseloco' AND status='auto'").fetchall()
             self.assertTrue(rows, "Kona leases land on Kona derivatives")
-            cap_of = {r[0]: r[1] for r in conn.execute("SELECT car_id, source_key FROM trim_map WHERE source='carwow-cap' AND status='mapped'")}
             for r in rows:
                 self.assertIn(r["method"], ("trim-powertrain", "rrp", "name", "bracket", "base", "version"))
                 self.assertIsNotNone(json.loads(r["evidence"]).get("score"))
                 car = json.loads(conn.execute("SELECT payload FROM cars WHERE id=?", (r["car_id"],)).fetchone()["payload"])
                 trim = (car.get("trim") or "").split(" · ")[0].split(" (")[0].lower().replace("-", " ")
-                if car.get("auto"):
-                    self.assertIn(trim, r["source_key"].replace("-", " "), f"{r['source_key']} -> {car['trim']}")
-                else:
-                    self.assertIn(r["car_id"], cap_of, "a match on a derivative the owner entered is the owner's car")
+                self.assertIn(trim, r["source_key"].replace("-", " "), f"{r['source_key']} -> {car['trim']}")
 
 
 class ResolutionRules(unittest.TestCase):
@@ -287,9 +271,9 @@ class ResolutionRules(unittest.TestCase):
 
     def twins(self):
         return [
-            {"id": "carwow-cap:1", "auto": True, "trim": "GT-Line S · 150kW 81.4kWh Auto", "variant": "150kW 81.4kWh Auto",
+            {"id": "carwow-cap:1", "trim": "GT-Line S · 150kW 81.4kWh Auto", "variant": "150kW 81.4kWh Auto",
              "list_price_gbp": 43055.0, "version_date": "2025-10-01", "seats": 5},
-            {"id": "carwow-cap:2", "auto": True, "trim": "GT-Line S · 150kW 81.4kWh Auto", "variant": "150kW 81.4kWh Auto",
+            {"id": "carwow-cap:2", "trim": "GT-Line S · 150kW 81.4kWh Auto", "variant": "150kW 81.4kWh Auto",
              "list_price_gbp": 43955.0, "version_date": "2025-10-01", "seats": 5},
         ]
 
@@ -313,7 +297,7 @@ class ResolutionRules(unittest.TestCase):
 
     def test_three_prices_and_a_pack_is_a_conflict_not_a_guess(self):
         from pipeline.services import resolve
-        three = self.twins() + [{"id": "carwow-cap:3", "auto": True, "trim": "GT-Line S · 150kW 81.4kWh Auto",
+        three = self.twins() + [{"id": "carwow-cap:3", "trim": "GT-Line S · 150kW 81.4kWh Auto",
                                  "variant": "150kW 81.4kWh Auto", "list_price_gbp": 45455.0, "version_date": "2025-10-01"}]
         r = resolve.choose({"derivative": "150kW GT-Line S 81.4kWh 5dr Auto [Tech Pack]"}, three)
         self.assertEqual((r.car_id, r.method), (None, "conflict"))
@@ -326,7 +310,7 @@ class ResolutionRules(unittest.TestCase):
         """RRG's EV6 example names the 'Air' (list £45,635) at the GT-Line's £52,835: the text matches one
         derivative, the price fits none, so it is recorded as a conflict rather than put on the Air."""
         from pipeline.services import resolve
-        air = [{"id": "carwow-cap:9", "auto": True, "trim": "Air · 168kW 84kWh Auto", "variant": "168kW 84kWh Auto",
+        air = [{"id": "carwow-cap:9", "trim": "Air · 168kW 84kWh Auto", "variant": "168kW 84kWh Auto",
                 "list_price_gbp": 45635.0, "version_date": "2026-10-01"}]
         r = resolve.choose({"derivative": "Air 168kW 84kWh Auto", "rrp": 52835.0}, air)
         self.assertEqual((r.car_id, r.method, r.evidence["list_prices"]), (None, "conflict", [45635.0]))

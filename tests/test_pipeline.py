@@ -1,7 +1,6 @@
-"""The owner's files through the build, prices folded into spans, the snapshot's shape, and
+"""The default settings through the build, prices folded into spans, the snapshot's shape, and
 the committed history read with its matches taken out."""
 import json
-import shutil
 import subprocess
 import tempfile
 import unittest
@@ -14,63 +13,42 @@ from pipeline.db import ROOT
 from pipeline.providers.types import Target
 from pipeline.raw import RawStore
 from pipeline.services.snapshot import SCHEMA_VERSION, export_snapshot, latest_offers
-from tests.helpers import dump, fresh_conn, run_all
-
-
-def _seed_counts():
-    cars = json.loads((ROOT / "data/seed/cars.json").read_text(encoding="utf-8"))["cars"]
-    deals = json.loads((ROOT / "data/seed/deals.json").read_text(encoding="utf-8"))["deals"]
-    trims = json.loads((ROOT / "data/seed/trim_map.json").read_text(encoding="utf-8"))["trim_map"]
-    return len(cars), len(deals), len(trims)
+from tests.helpers import Raws, dump, fresh_conn, run_all
 
 
 def q(conn, sql, *args):
     return conn.execute(sql, args).fetchone()[0]
 
 
-def sight(b: Build, at: str, row: dict, provider: str = "carwow_paste", priority: int = 2) -> None:
+def sight(b: Build, at: str, row: dict, provider: str = "carwow_deals", priority: int = 2) -> None:
     b._sight(at, priority, provider, dict(row, observed_at=at), None)
 
 
-class OwnerFiles(unittest.TestCase):
-    def setUp(self):
-        self.conn = run_all()
+def offer(key: str, monthly: float, cap: str = "9") -> dict:
+    """A Carwow PCP whose line describes its derivative (a stub), so the build makes the car it sits on."""
+    return {"offer_key": key, "finance_type": "pcp", "status": "live", "vehicle_price": 30000.0, "monthly_payment": monthly,
+            "car_ref": {"source": "carwow-cap", "key": cap, "stub": {
+                "cap_id": cap, "make": "Kia", "model": "EV3", "trim": "Air", "engine": "150kW 58.3kWh Auto", "rrp": 33055.0,
+                "version_date": "2025-04-01"}}}
 
-    def test_the_owners_files_build_the_same_every_time(self):
-        n_cars, n_deals, n_trims = _seed_counts()
-        c = self.conn
-        self.assertEqual(q(c, "SELECT COUNT(*) FROM cars"), n_cars)
-        self.assertEqual(q(c, "SELECT COUNT(DISTINCT offer_key) FROM offer_observations"), n_deals + 4, "the seed's offers and the four pastes")
-        self.assertEqual(q(c, "SELECT COUNT(*) FROM trim_map WHERE status='mapped'"), q(c, "SELECT COUNT(*) FROM trim_map WHERE car_id IS NOT NULL"))
-        self.assertGreaterEqual(q(c, "SELECT COUNT(*) FROM trim_map"), n_trims, "every decision is listed")
-        self.assertEqual(q(c, "SELECT COUNT(*) FROM requirements"), 1)
+
+class DefaultSettings(unittest.TestCase):
+    def test_the_settings_alone_build_no_car_and_the_same_every_time(self):
+        c = run_all()
+        self.assertEqual(q(c, "SELECT COUNT(*) FROM cars"), 0, "nothing but a page makes a car")
+        self.assertEqual(q(c, "SELECT COUNT(*) FROM offer_observations"), 0)
+        self.assertEqual(q(c, "SELECT COUNT(*) FROM trim_map"), 0)
+        reqs = json.loads(q(c, "SELECT payload FROM requirements WHERE id=1"))
+        self.assertEqual(set(reqs) - {"schema_version", "as_of"}, {"quoting_basis", "searches"})
+        self.assertEqual(reqs["quoting_basis"]["term_months"], 37)
+        self.assertTrue(any(s.get("default") for s in reqs["searches"]))
         self.assertEqual(dump(c), dump(run_all()), "a second build is the same database")
 
-    def test_carwow_pastes_resolve_through_the_owners_decisions(self):
-        row = self.conn.execute("SELECT car_id, monthly_payment, source FROM offer_observations WHERE offer_key=?",
-                                ("carwow:deal:aea9f090b32568c0f0326d4ef6cf6299",)).fetchone()
-        self.assertEqual((row["car_id"], row["monthly_payment"], row["source"]), ("hyundai-kona-65-ultimate", 546.64, "carwow_paste"))
-
-    def test_a_paste_nobody_has_decided_on_is_listed_unmapped_and_has_no_car(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            shutil.copytree(ROOT / "data" / "seed", root / "data" / "seed")
-            shutil.copytree(ROOT / "data" / "pastes", root / "data" / "pastes")
-            paste = root / "data/pastes/carwow/2026-10-05_ccbac930e8c40084fe1590a6e91466a1.txt"
-            page = paste.read_text(encoding="utf-8")
-            page = page.replace("99kW 61kWh Auto Ultimate EV Pack Brand new", "99kW 61kWh Auto N Line Evo Brand new")
-            page = page.replace("Deal ID: ccbac930e8c40084fe1590a6e91466a1", "Deal ID: " + "f" * 32)
-            paste.write_text(page, encoding="utf-8")
-            conn = fresh_conn()
-            Build(conn, None, root=root).run()
-        self.assertIsNone(conn.execute("SELECT 1 FROM offer_observations WHERE offer_key=?", ("carwow:deal:" + "f" * 32,)).fetchone())
-        tm = conn.execute("SELECT * FROM trim_map WHERE status='unmapped'").fetchone()
-        self.assertEqual(tm["source_key"], "hyundai|ioniq 3|99kw 61kwh auto n line evo")
-        self.assertEqual(tm["label"], "Hyundai Ioniq 3 99kW 61kWh Auto N Line Evo")
-
     def test_export_snapshot_shape(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            manifest = export_snapshot(self.conn, tmp, generated_at="2026-10-06T00:00:00+00:00")
+        with Raws() as raws, tempfile.TemporaryDirectory() as tmp:
+            raws.add("carwow_deals", "hyundai/ioniq-3", "carwow_hyundai_ioniq-3_deals.html", at="2026-10-05T00:00:00+00:00")
+            conn = raws.build()
+            manifest = export_snapshot(conn, tmp, generated_at="2026-10-06T00:00:00+00:00")
             out = Path(tmp)
             self.assertEqual(manifest["schema_version"], SCHEMA_VERSION)
             self.assertEqual(manifest["counts"]["unmapped_trims"], 0)
@@ -80,46 +58,41 @@ class OwnerFiles(unittest.TestCase):
             self.assertNotIn("requirement_check", next(iter(details.values())), "requirements are the reader's searches")
             spans = json.loads((out / "sightings.json").read_text(encoding="utf-8"))
             data = json.loads((out / "data.json").read_text(encoding="utf-8"))
+            reqs = json.loads((out / "requirements.json").read_text(encoding="utf-8"))
             self.assertEqual(len(cars), manifest["counts"]["cars"])
+            self.assertGreater(len(cars), 10)
             self.assertEqual(len({s["key"] for s in spans}), manifest["counts"]["offers"])
-            self.assertEqual(manifest["counts"]["offers"], 29 + 4)
-            self.assertEqual([p["name"] for p in data["providers"]][:2], ["manual_seed", "carwow_paste"])
+            self.assertGreater(manifest["counts"]["offers"], 10)
+            self.assertEqual([p["name"] for p in data["providers"]][0], "manual_seed")
             self.assertEqual(data["unmapped_trims"], [])
+            self.assertIn("quoting_basis", reqs)
             for s in spans:
                 self.assertTrue(set(s) >= {"key", "car_id", "route", "source", "from", "to", "present", "deal", "status"})
                 self.assertNotIn("metrics", s, "costs are the browser's")
-            offers = latest_offers(self.conn)
-            for o in offers:
+                self.assertEqual(s["source"], "carwow")
+            for o in latest_offers(conn):
                 self.assertIn(o["freshness"]["state"], {"live", "lead", "derived", "illustrative", "campaign", "expired", "historical", "gone"})
-            by_id = {c["id"]: c for c in cars}
             for c in cars:
-                self.assertIn("picks", c)
+                self.assertTrue(c["id"].startswith("carwow-cap:"))
                 self.assertIn("image", c)
-            self.assertEqual(by_id["kia-pv5-passenger-71-elite-7seat"]["picks"][0]["verdict"], "want")
-            kona = by_id["hyundai-kona-65-ultimate"]
-            self.assertNotIn("deal_summary", kona, "the pipeline exports facts; the browser costs them")
-            kona_pcp = [s for s in spans if s["car_id"] == kona["id"] and s["route"] == "pcp" and s["key"] == "carwow:deal:aea9f090b32568c0f0326d4ef6cf6299"]
-            self.assertEqual(len(kona_pcp), 1)
-            self.assertAlmostEqual(kona_pcp[0]["deal"]["monthly_payment"], 546.64)
-            self.assertEqual((kona_pcp[0]["source"], kona_pcp[0]["to"]), ("carwow", "2026-10-05"))
-            # Richmond offers carry valid_to 2026-09-30 -> expired at export time.
-            richmond = next(o for o in offers if o["id"] == "2026-09_richmond_kona-65-advance_pch")
-            self.assertEqual(richmond["freshness"]["state"], "expired")
-
+                self.assertNotIn("deal_summary", c, "the pipeline exports facts; the browser costs them")
 
 
 class Spans(unittest.TestCase):
     """Sightings fold into spans in date order, whichever order they were read in."""
 
     KEY = "carwow:deal:aea9f090b32568c0f0326d4ef6cf6299"
+    OTHER = "carwow:deal:ccbac930e8c40084fe1590a6e91466a1"
+    BASE = offer(KEY, 546.64)
 
     def build(self, points):
         conn = fresh_conn()
         b = Build(conn, None)
-        b.owner()
-        base = next(s.row for s in b.sightings if s.key == self.KEY)
+        b.settings()
+        sight(b, "2026-10-05T00:00:00+00:00", self.BASE)
+        sight(b, "2026-10-05T00:00:00+00:00", offer(self.OTHER, 526.07))
         for at, changes in points:
-            sight(b, at, dict(base, **changes))
+            sight(b, at, dict(self.BASE, **changes))
         b.finish()
         return conn
 
@@ -138,10 +111,10 @@ class Spans(unittest.TestCase):
         self.assertEqual(f["age_days"], 14)
         self.assertEqual([h["monthly_payment"] for h in f["history"] if h["present"]], [546.64, 560.0])
         # A live offer not seen for more than STALE_DAYS is stale.
-        ioniq3 = offers["carwow:deal:ccbac930e8c40084fe1590a6e91466a1"]["freshness"]
-        self.assertEqual(ioniq3["state"], "live")
-        self.assertTrue(ioniq3["stale"])
-        self.assertEqual(ioniq3["age_days"], 29)
+        other = offers[self.OTHER]["freshness"]
+        self.assertEqual(other["state"], "live")
+        self.assertTrue(other["stale"])
+        self.assertEqual(other["age_days"], 29)
 
     def test_older_copies_of_a_page_fold_in_wherever_they_fall(self):
         p = {"monthly_payment": 546.64}
@@ -153,7 +126,7 @@ class Spans(unittest.TestCase):
                   ("2026-10-25T00:00:00+00:00", dict(p, present=0))]                             # gone: never merged
         want = [("2026-09-01", "2026-09-08", 580.0, 1), ("2026-09-15", "2026-10-07", 546.64, 1), ("2026-10-12", "2026-10-12", 520.0, 1),
                 ("2026-10-12", "2026-10-20", 546.64, 1), ("2026-10-25", "2026-10-25", 546.64, 0)]
-        # The paste's own sighting (5 Oct) sits inside the second span.
+        # The first sighting (5 Oct) sits inside the second span.
         got = self.spans(self.build(points))
         self.assertEqual(got, want)
         self.assertEqual(self.spans(self.build(list(reversed(points)))), want, "the order sightings arrive in changes nothing")
@@ -161,10 +134,9 @@ class Spans(unittest.TestCase):
     def test_at_one_instant_a_page_we_hold_outranks_the_committed_historys_copy(self):
         conn = fresh_conn()
         b = Build(conn, None)
-        b.owner()
-        base = next(s.row for s in b.sightings if s.key == self.KEY)
-        sight(b, "2026-10-08T00:00:00+00:00", dict(base, monthly_payment=999.0), priority=2)
-        sight(b, "2026-10-08T00:00:00+00:00", dict(base, monthly_payment=111.0), priority=1)
+        b.settings()
+        sight(b, "2026-10-08T00:00:00+00:00", dict(self.BASE, monthly_payment=999.0), priority=2)
+        sight(b, "2026-10-08T00:00:00+00:00", dict(self.BASE, monthly_payment=111.0), priority=1)
         b.finish()
         self.assertEqual(self.spans(conn)[-1][2], 999.0)
 
@@ -178,7 +150,7 @@ class CommittedHistory(unittest.TestCase):
                                        "car_ref": {"source": "ncd", "key": "k", "make": "kia"}}}) + "\n"
                + json.dumps({"offer_key": "x", "source": "manual_seed", "car_id": "c", "payload": {}}) + "\n").encode()
         rows = history.read("observations", obs)
-        self.assertEqual(len(rows), 1, "the owner's own offers are read from data/seed, not from their copy")
+        self.assertEqual(len(rows), 1, "the hand-entered offers the owner ruled out are not read from their copy either")
         self.assertNotIn("car_id", rows[0])
         self.assertNotIn("car_id", rows[0]["payload"])
         from pipeline.providers.ncd import OTR_EXTRAS_GBP
@@ -315,9 +287,9 @@ class Records(unittest.TestCase):
             spans = conn.execute("SELECT first_seen_at, sightings FROM records WHERE source='carwow_specs' "
                                  "AND record_key='carwow-cap:103322' ORDER BY first_seen_at").fetchall()
             self.assertEqual([tuple(r) for r in spans], [("2026-10-06T00:00:00+00:00", 2), ("2026-10-14T00:00:00+00:00", 1)])
-            # The owner's files are records too, undated.
-            self.assertEqual(conn.execute("SELECT first_seen_at, origin FROM records WHERE kind='car' AND record_key='hyundai-kona-65-ultimate'").fetchone()[:],
-                             ("", "owner"))
+            # The default settings are a record too, undated.
+            self.assertEqual(conn.execute("SELECT first_seen_at, origin FROM records WHERE kind='requirements'").fetchone()[:],
+                             ("", "settings"))
 
 
 if __name__ == "__main__":

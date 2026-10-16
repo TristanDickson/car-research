@@ -1,7 +1,7 @@
 """Provider registry: every source, in the order `scrape` runs the live ones.
 
-manual_seed and carwow_paste read the owner's own files; the build reads them on
-every run. carwow_catalog runs first of the live ones: the Carwow and LeaseLoco
+manual_seed reads the default settings (data/seed/requirements.json); the build reads
+it on every run. carwow_catalog runs first of the live ones: the Carwow and LeaseLoco
 scrapers discover their pages from the models it finds. Live providers
 (live=True) hit the web and keep every response in the raw store.
 """
@@ -10,7 +10,6 @@ from pipeline.providers import (
     carwow_deals,
     carwow_model,
     carwow_options,
-    carwow_paste,
     carwow_specs,
     carwow_used,
     cinch_new,
@@ -46,7 +45,6 @@ PROVIDERS: dict[str, Provider] = {
     p.name: p
     for p in (
         manual_seed.provider,
-        carwow_paste.provider,
         carwow_catalog.provider,   # the model list the Carwow + LeaseLoco scrapers discover from
         carwow_specs.provider,     # before deals: a derivative's generated car comes from its spec
         carwow_model.provider,     # the derivative registry: every CAP name with its brackets; stubs for what the spec page omits

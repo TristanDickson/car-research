@@ -30,7 +30,7 @@ def connect(path: Path | str | None = None) -> sqlite3.Connection:
 # Columns added after a table first shipped: CREATE TABLE IF NOT EXISTS leaves an
 # existing table alone, so they are added here when missing.
 ADDED_COLUMNS = (
-    ("trim_map", "method", "TEXT"),      # how the row resolved: manual | cap-id | stub | trim-powertrain | rrp | name | bracket | base | version
+    ("trim_map", "method", "TEXT"),      # how the row resolved: cap-id | stub | trim-powertrain | rrp | name | bracket | base | version
     ("trim_map", "evidence", "TEXT"),    # JSON: the twins, prices, brackets, RRP behind the choice
     ("trim_map", "name_key", "TEXT"),    # the broker's derivative text, normalised, so another source can reuse the pin
 )

@@ -8,19 +8,11 @@ on every run; nothing writes these as a side effect of reading a page.
   from a registry or deals line     enough to hang a price on: make, model,
   (a stub)                          trim · engine, RRP, version date
 
-Ids are carwow-cap:<cap id>. A derivative the owner entered in data/seed/cars.json
-appears as the owner's entry instead, carrying the CAP id. `auto: true` marks a
-derivative the owner has not entered; tri-state fields are 'unknown' when the source
+Ids are carwow-cap:<cap id>. Tri-state fields are 'unknown' when the source
 does not list the item, never 'none' (an equipment list that omits the heat pump is
 not proof there is none).
 """
 from __future__ import annotations
-
-AUTO_NOTE = ("Generated from Carwow's specification page for this derivative. Equipment is listed per trim, "
-             "so a derivative-only difference (a no-heat-pump version of the same trim) does not show here.")
-STUB_NOTE = ("Generated from a Carwow deals page: only what that page prints (trim, engine, RRP). "
-             "The specification page did not list this derivative when last read.")
-
 
 def _tri(v: str | None) -> str:
     return v if v in ("standard", "option") else "unknown"
@@ -41,7 +33,7 @@ def from_spec(r: dict) -> dict:
     engine = r.get("engine") or ""
     trim = (r.get("trim") or "").strip()
     return {
-        "id": auto_id(r["cap_id"]), "auto": True, "source_kind": "spec", "spec_key": r.get("spec_key"),
+        "id": auto_id(r["cap_id"]), "source_kind": "spec", "spec_key": r.get("spec_key"),
         "make": r["make"], "model": r["model"], "trim": f"{trim} · {engine}".strip(" ·"),
         "variant": engine, "cap_id": r["cap_id"], "model_slug": r.get("model_slug"), "make_slug": r.get("make_slug"),
         "model_year": int(r["version_date"][:4]) if r.get("version_date") else None,
@@ -56,7 +48,7 @@ def from_spec(r: dict) -> dict:
         "heated_seats": _yes(fl.get("heated_front_seats")), "camera_360": _yes(fl.get("camera_360")),
         "glass_roof": _yes(fl.get("panoramic_roof")), "memory_seats": _yes(fl.get("memory_seats")),
         "list_price_gbp": r.get("rrp"), "grant_gbp": None, "used_from_gbp": n.get("used_from_gbp"),
-        "image_url": r.get("image_url"), "notes": AUTO_NOTE, "verification": "scraped",
+        "image_url": r.get("image_url"),
     }
 
 
@@ -66,11 +58,10 @@ def from_stub(stub: dict) -> dict:
     trim = (stub.get("trim") or "").strip()
     version = stub.get("version_date")
     return {
-        "id": auto_id(stub["cap_id"]), "auto": True, "source_kind": "stub",
+        "id": auto_id(stub["cap_id"]), "source_kind": "stub",
         "make": stub["make"], "model": stub["model"], "trim": f"{trim} · {engine}".strip(" ·"),
         "variant": engine, "cap_id": stub["cap_id"], "model_slug": stub.get("model_slug"), "make_slug": stub.get("make_slug"),
         "model_year": int(version[:4]) if version else None, "version_date": version, "fuel": "bev",
         "heat_pump": "unknown", "internal_v2l": "unknown", "external_v2l": "unknown",
         "list_price_gbp": stub.get("rrp"), "grant_gbp": None, "image_url": stub.get("image_url"),
-        "notes": STUB_NOTE, "verification": "scraped",
     }

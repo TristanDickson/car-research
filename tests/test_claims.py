@@ -24,13 +24,13 @@ REGISTRY = [
     {"cap_id": "106644", "make": "Hyundai", "model": "Inster", "make_slug": "hyundai", "model_slug": "inster", "name": "71kW 01 42kWh 5dr Auto", "trim": "01", "brackets": [], "rrp": 23755.0},
     {"cap_id": "109120", "make": "Hyundai", "model": "Inster", "make_slug": "hyundai", "model_slug": "inster", "name": "85kW 02 49kWh 5dr Auto [Tech Pack]", "trim": "02", "brackets": ["Tech Pack"], "rrp": 28115.0},
 ]
-CURATED = {"id": "hyundai-inster-49-02", "make": "Hyundai", "model": "Inster", "trim": "02 49kWh", "cap_id": "106646", "heat_pump": "standard",
-           "internal_v2l": "pack", "external_v2l": "standard", "packs_required": {"internal_v2l": "Tech Pack (£1,000)"},
-           "seats": 4, "battery_kwh": 49.0, "list_price_gbp": 27115.0, "memory_seats": False}
+# The 02's configurator page: the Tech Pack, with the cabin socket in it, offered at £1,000.
+OPTIONS_02 = {"cap_id": "106646", "options": [],
+              "packs": [{"name": "Tech Pack", "price": 1000.0, "default": False, "items": ["Vehicle-to-load (V2L) interior socket"]}]}
 
 
 def car(cap, trim, engine, kind="spec", **kw):
-    return {"id": f"carwow-cap:{cap}", "auto": True, "source_kind": kind, "cap_id": cap, "make": "Hyundai", "model": "Inster",
+    return {"id": f"carwow-cap:{cap}", "source_kind": kind, "cap_id": cap, "make": "Hyundai", "model": "Inster",
             "trim": f"{trim} · {engine}", "variant": engine, "heat_pump": "unknown", "internal_v2l": "unknown", "external_v2l": "unknown", **kw}
 
 
@@ -44,12 +44,12 @@ class Keys(unittest.TestCase):
 
 
 class Inster(unittest.TestCase):
-    """The real case: a trim sold with and without a heat pump, a Tech Pack version, a curated reading of the 02."""
+    """The real case: a trim sold with and without a heat pump, a Tech Pack version, the pack on the configurator."""
 
     def setUp(self):
         self.cars = [car("110532", "02", "85kW 49kWh Auto"), car("106646", "02", "85kW 49kWh Auto", "stub"), car("110533", "01", "71kW 42kWh Auto"),
-                     car("106644", "01", "71kW 42kWh Auto", "stub"), car("109120", "02", "85kW 49kWh Auto", "stub"), dict(CURATED)]
-        self.store = build_store(self.cars, [INSTER_02_SPEC, INSTER_01_SPEC], CATALOGUE, REGISTRY, [], [])
+                     car("106644", "01", "71kW 42kWh Auto", "stub"), car("109120", "02", "85kW 49kWh Auto", "stub")]
+        self.store = build_store(self.cars, [INSTER_02_SPEC, INSTER_01_SPEC], CATALOGUE, REGISTRY, [OPTIONS_02], [])
         for c in self.cars:
             resolve_car(c, self.store)
         self.by = {c["id"]: c for c in self.cars}
@@ -67,16 +67,11 @@ class Inster(unittest.TestCase):
         self.assertEqual((c["seats"], c["battery_kwh"], c["list_price_gbp"]), (4, 42.0, 23755.0), "a stub takes the model's seats, the engine's battery and the registry's RRP")
         self.assertIn("same engine", c["field_sources"]["battery_kwh"])
 
-    def test_a_curated_car_reads_onto_its_trim_and_keeps_its_own_word(self):
+    def test_a_pack_the_configurator_offers_is_how_the_derivative_has_it(self):
         c = self.by["carwow-cap:106646"]
-        self.assertEqual((c["heat_pump"], c["internal_v2l"], c["external_v2l"]), ("standard", "pack", "standard"))
+        self.assertEqual((c["heat_pump"], c["internal_v2l"]), ("standard", "pack"))
         self.assertEqual((c["packs_required"]["internal_v2l"], c["pack_prices_gbp"]["Tech Pack"]), ("Tech Pack", 1000.0))
-        self.assertEqual(c["flags"]["heated_front_seats"], "standard")
-        self.assertEqual(c["flags"]["v2l_any"], "standard")
-        k = self.by["hyundai-inster-49-02"]
-        self.assertEqual((k["heat_pump"], k["internal_v2l"], k["memory_seats"]), ("standard", "pack", False))
-        self.assertNotIn("heat_pump", k.get("field_sources") or {}, "a curated car's own reading is not a filled gap")
-        self.assertEqual(k["flags"]["heated_front_seats"], "standard", "and it still learns its trim's equipment")
+        self.assertEqual(c["flags"]["heated_front_seats"], "standard", "and it still learns its trim's equipment")
 
     def test_an_included_pack_makes_its_contents_standard(self):
         c = self.by["carwow-cap:109120"]
@@ -100,7 +95,7 @@ class Configurator(unittest.TestCase):
                                                 {"name": "Dual zone climate control", "category": "Interior Features", "price": 0.0, "default": True}],
                 "packs": [{"name": "Winter package - Elroq", "price": 600.0, "default": False, "items": ["Heated rear seats", "Heated windscreen"]}]}
         reg = [{"cap_id": "106738", "make": "Skoda", "model": "Elroq", "make_slug": "skoda", "model_slug": "elroq", "name": "150kW 60 SE L 63kWh 5dr Auto", "trim": "SE L", "brackets": [], "rrp": 33970.0}]
-        c = {"id": "carwow-cap:106738", "auto": True, "source_kind": "spec", "cap_id": "106738", "make": "Skoda", "model": "Elroq", "trim": "SE L · 150kW 60 63kWh Auto", "variant": "150kW 60 63kWh Auto"}
+        c = {"id": "carwow-cap:106738", "source_kind": "spec", "cap_id": "106738", "make": "Skoda", "model": "Elroq", "trim": "SE L · 150kW 60 63kWh Auto", "variant": "150kW 60 63kWh Auto"}
         store = build_store([c], [spec], CATALOGUE, reg, [opts], [])
         resolve_car(c, store)
         self.assertEqual((c["heat_pump"], c["field_sources"]["heat_pump"]), ("option", "Carwow configurator · Heat pump"))
@@ -118,7 +113,7 @@ class Precedence(unittest.TestCase):
         store.add(t, claims.Claim("heat_pump", "none", "absent", "B", "B says no"))
         store.add(t, claims.Claim("glass_roof", "standard", "listed", "A", "A says yes"))
         store.add(t, claims.Claim("glass_roof", "none", "listed", "B", "B says no"))
-        c = {"id": "carwow-cap:9", "auto": True, "cap_id": "9", "make": "Kia", "model": "EV3", "trim": "Air · 150kW 58kWh Auto", "variant": "150kW 58kWh Auto"}
+        c = {"id": "carwow-cap:9", "cap_id": "9", "make": "Kia", "model": "EV3", "trim": "Air · 150kW 58kWh Auto", "variant": "150kW 58kWh Auto"}
         resolve_car(c, store)
         self.assertEqual(c["heat_pump"], "standard", "listed outranks absent")
         self.assertIsNone(c.get("glass_roof"))
@@ -131,7 +126,7 @@ class Precedence(unittest.TestCase):
         store.add(t, claims.Claim("v2l_any", "standard", "listed", "Carwow specification", "Carwow specification · Air standard equipment"))
         for k in ("v2l_internal", "v2l_external"):
             store.add(t, claims.Claim(k, "none", "absent", "Carwow specification", "not in Carwow's standard equipment for Air"))
-        c = {"id": "carwow-cap:9", "auto": True, "cap_id": "9", "make": "Kia", "model": "EV3", "trim": "Air · 150kW 58kWh Auto", "variant": "150kW 58kWh Auto"}
+        c = {"id": "carwow-cap:9", "cap_id": "9", "make": "Kia", "model": "EV3", "trim": "Air · 150kW 58kWh Auto", "variant": "150kW 58kWh Auto"}
         resolve_car(c, store)
         self.assertEqual((c["flags"]["v2l_any"], c["internal_v2l"], c["external_v2l"]), ("standard", "unknown", "unknown"))
         placed = Store()
@@ -149,7 +144,7 @@ class Precedence(unittest.TestCase):
         store.add(t, claims.Claim("heat_pump", "listed", "available", "EV Database", "EV Database · EV3 Air"))
         store.add(t, claims.Claim("glass_roof", "listed", "available", "EV Database", "EV Database · EV3 Air"))
         store.add(t, claims.Claim("glass_roof", "option", "option", "Carwow configurator", "Carwow configurator · Glass roof", 900.0))
-        c = {"id": "carwow-cap:9", "auto": True, "cap_id": "9", "make": "Kia", "model": "EV3", "trim": "Air · 150kW 58kWh Auto", "variant": "150kW 58kWh Auto"}
+        c = {"id": "carwow-cap:9", "cap_id": "9", "make": "Kia", "model": "EV3", "trim": "Air · 150kW 58kWh Auto", "variant": "150kW 58kWh Auto"}
         resolve_car(c, store)
         self.assertEqual(c["heat_pump"], "listed")
         self.assertEqual(c["flags"]["glass_roof"], "option")
@@ -159,8 +154,8 @@ class Precedence(unittest.TestCase):
                 {"provider": "evdb", "spec_key": "evdb:2", "make": "Skoda", "model": "Elroq 85", "numbers": {"battery_usable_kwh": 77.0, "dc_avg_kw": 130.0}, "flags": {"heat_pump": "option"}, "source_url": "u2"}]
         spec = {"provider": "carwow_specs", "cap_id": "1", "make": "Skoda", "model": "Elroq", "trim": "SE", "engine": "150kW 60 63kWh Auto", "variant": "Elroq SE",
                 "features": [f"Item {i}" for i in range(50)], "numbers": {"battery_kwh": 63.0}}
-        c = {"id": "carwow-cap:1", "auto": True, "cap_id": "1", "make": "Skoda", "model": "Elroq", "trim": "SE · 150kW 60 63kWh Auto", "variant": "150kW 60 63kWh Auto"}
-        stub = {"id": "carwow-cap:2", "auto": True, "source_kind": "stub", "cap_id": "2", "make": "Skoda", "model": "Elroq", "trim": "SE L · 210kW 85 82kWh Auto", "variant": "210kW 85 82kWh Auto"}
+        c = {"id": "carwow-cap:1", "cap_id": "1", "make": "Skoda", "model": "Elroq", "trim": "SE · 150kW 60 63kWh Auto", "variant": "150kW 60 63kWh Auto"}
+        stub = {"id": "carwow-cap:2", "source_kind": "stub", "cap_id": "2", "make": "Skoda", "model": "Elroq", "trim": "SE L · 210kW 85 82kWh Auto", "variant": "210kW 85 82kWh Auto"}
         store = build_store([c, stub], [spec] + rows, CATALOGUE, [], [], [])
         resolve_car(c, store)
         resolve_car(stub, store)
@@ -184,7 +179,7 @@ class Precedence(unittest.TestCase):
         self.assertNotIn("list_price_gbp", c.get("disagreements") or {})
 
     def test_broker_names_carry_brackets_too(self):
-        c = {"id": "carwow-cap:5", "auto": True, "cap_id": "5", "make": "Hyundai", "model": "IONIQ 5", "trim": "Ultimate · 168kW 84 kWh Auto", "variant": "168kW 84 kWh Auto", "seats": None}
+        c = {"id": "carwow-cap:5", "cap_id": "5", "make": "Hyundai", "model": "IONIQ 5", "trim": "Ultimate · 168kW 84 kWh Auto", "variant": "168kW 84 kWh Auto", "seats": None}
         store = build_store([c], [], CATALOGUE, [], [], [{"source": "leaseloco", "car_id": "carwow-cap:5", "label": "Hyundai IONIQ 5 168kW Ultimate 84 kWh 5dr Auto [Vision Roof] [7 seat]"}])
         resolve_car(c, store)
         self.assertEqual((c["flags"]["glass_roof"], c["seats"]), ("standard", 7))
@@ -279,7 +274,7 @@ class Maker(unittest.TestCase):
                 "features": ["LED Headlights"], "absent": ["Heated Front Seats", "Heated Steering Wheel", "Wireless Phone Charging Pad"], "qualified": [], "options": [],
                 "packs": [{"name": "Comfort Pack", "price": 600.0, "items": ["Heated Front Seats", "Heated Steering Wheel", "Wireless Charger", "Privacy Glass"]}]}
         reg = [{"cap_id": "103322", "make": "Hyundai", "model": "Kona Electric", "make_slug": "hyundai", "model_slug": "kona-electric", "name": "160kW Advance 65kWh 5dr Auto", "trim": "Advance", "brackets": [], "rrp": 35000.0}]
-        c = {"id": "carwow-cap:103322", "auto": True, "cap_id": "103322", "make": "Hyundai", "model": "Kona Electric", "trim": "Advance · 160kW 65kWh Auto", "variant": "160kW 65kWh Auto", "battery_kwh": 65.0}
+        c = {"id": "carwow-cap:103322", "cap_id": "103322", "make": "Hyundai", "model": "Kona Electric", "trim": "Advance · 160kW 65kWh Auto", "variant": "160kW 65kWh Auto", "battery_kwh": 65.0}
         store = build_store([c], [kona], CATALOGUE, reg, [], [])
         resolve_car(c, store)
         self.assertEqual((c["flags"]["heated_front_seats"], c["packs_required"]["heated_front_seats"], c["pack_prices_gbp"]["Comfort Pack"]), ("pack", "Comfort Pack", 600.0))
@@ -294,8 +289,8 @@ class Maker(unittest.TestCase):
                 "features": [f"Item {i}" for i in range(45)] + ["Heated steering wheel", "Heat Pump"], "options": []}]
         reg = [{"cap_id": "9001", "make": "Kia", "model": "EV3", "make_slug": "kia", "model_slug": "ev3", "name": "150kW GT-Line S 81kWh 5dr Auto [Heat Pump]", "trim": "GT-Line S", "brackets": ["Heat Pump"], "rrp": 43000.0},
                {"cap_id": "9002", "make": "Kia", "model": "EV3", "make_slug": "kia", "model_slug": "ev3", "name": "150kW GT-Line S 81kWh 5dr Auto", "trim": "GT-Line S", "brackets": [], "rrp": 42100.0}]
-        cars = [{"id": "carwow-cap:9001", "auto": True, "cap_id": "9001", "make": "Kia", "model": "EV3", "trim": "GT-Line S · 150kW 81kWh Auto", "variant": "150kW 81kWh Auto", "battery_kwh": 81.4},
-                {"id": "carwow-cap:9002", "auto": True, "cap_id": "9002", "make": "Kia", "model": "EV3", "trim": "GT-Line S · 150kW 81kWh Auto", "variant": "150kW 81kWh Auto", "battery_kwh": 81.4}]
+        cars = [{"id": "carwow-cap:9001", "cap_id": "9001", "make": "Kia", "model": "EV3", "trim": "GT-Line S · 150kW 81kWh Auto", "variant": "150kW 81kWh Auto", "battery_kwh": 81.4},
+                {"id": "carwow-cap:9002", "cap_id": "9002", "make": "Kia", "model": "EV3", "trim": "GT-Line S · 150kW 81kWh Auto", "variant": "150kW 81kWh Auto", "battery_kwh": 81.4}]
         store = build_store(cars, kia, CATALOGUE, reg, [], [])
         for c in cars:
             resolve_car(c, store)
@@ -316,7 +311,7 @@ class Maker(unittest.TestCase):
                for t, w in (("GT-Line S", 1885.0), ("GT-Line S Heat Pump", 1990.0))]
         spec = {"provider": "carwow_specs", "cap_id": "9002", "make": "Kia", "model": "EV3", "trim": "GT-Line S", "engine": "150kW 81kWh Auto",
                 "variant": "EV3 GT-Line S 150kW 81kWh Auto", "numbers": {"wltp_range_mi": 360.0}, "features": []}
-        c = {"id": "carwow-cap:9002", "auto": True, "cap_id": "9002", "make": "Kia", "model": "EV3", "trim": "GT-Line S · 150kW 81kWh Auto",
+        c = {"id": "carwow-cap:9002", "cap_id": "9002", "make": "Kia", "model": "EV3", "trim": "GT-Line S · 150kW 81kWh Auto",
              "variant": "150kW 81kWh Auto", "battery_kwh": 81.4}
         store = build_store([c], kia + [spec], CATALOGUE, [], [], [])
         resolve_car(c, store)
@@ -426,7 +421,7 @@ class Wheels(unittest.TestCase):
                 "raw_numbers": {"Top speed": "93 mph", "Consumption": "4.1 miles/kWh"}}
         options = [{"cap_id": "5", "options": [{"name": '17" alloy wheels', "default": True, "price": 0},
                                                {"name": '18" diamond-cut alloy wheels', "default": False, "price": 500}]}]
-        c = {"id": "carwow-cap:5", "auto": True, "cap_id": "5", "make": "Hyundai", "model": "Inster", "trim": "02 · 85kW 49kWh Auto", "variant": "85kW 49kWh Auto"}
+        c = {"id": "carwow-cap:5", "cap_id": "5", "make": "Hyundai", "model": "Inster", "trim": "02 · 85kW 49kWh Auto", "variant": "85kW 49kWh Auto"}
         resolve_car(c, build_store([c], [spec], CATALOGUE, [], options, []))
         self.assertEqual((c["wheel_in"], c["wheel_options"]), (17, '18"'))
         self.assertIn("configurator", c["field_sources"]["wheel_in"])
@@ -435,6 +430,6 @@ class Wheels(unittest.TestCase):
     def test_a_list_naming_two_sizes_says_nothing(self):
         spec = {"provider": "carwow_specs", "cap_id": "6", "make": "Hyundai", "model": "Inster", "trim": "01", "engine": "71kW 42kWh Auto", "variant": "Inster 01",
                 "features": ['15" steel wheels (42kWh)', '17" alloy wheels (49kWh)'], "numbers": {}}
-        c = {"id": "carwow-cap:6", "auto": True, "cap_id": "6", "make": "Hyundai", "model": "Inster", "trim": "01 · 71kW 42kWh Auto", "variant": "71kW 42kWh Auto"}
+        c = {"id": "carwow-cap:6", "cap_id": "6", "make": "Hyundai", "model": "Inster", "trim": "01 · 71kW 42kWh Auto", "variant": "71kW 42kWh Auto"}
         resolve_car(c, build_store([c], [spec], CATALOGUE, [], [], []))
         self.assertIsNone(c.get("wheel_in"))

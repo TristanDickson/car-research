@@ -39,12 +39,9 @@ class Registry(unittest.TestCase):
             conn = raws.build()
             self.assertEqual(conn.execute("SELECT COUNT(*) FROM derivatives").fetchone()[0], 9)
             car = json.loads(conn.execute("SELECT payload FROM cars WHERE id='carwow-cap:106647'").fetchone()["payload"])
-            self.assertEqual((car["auto"], car["source_kind"], car["trim"], car["list_price_gbp"], car["model_year"]),
-                             (True, "stub", "Cross · 85kW 49kWh Auto", 29245.0, 2026))
-            # The 02 49kWh is the owner's own entry: it stands for that derivative, with no second car beside it.
-            self.assertIsNone(conn.execute("SELECT 1 FROM cars WHERE id='carwow-cap:106646'").fetchone())
-            mine = json.loads(conn.execute("SELECT payload FROM cars WHERE id='hyundai-inster-49-02'").fetchone()["payload"])
-            self.assertEqual((mine.get("auto"), str(mine["cap_id"])), (None, "106646"))
+            self.assertEqual((car["source_kind"], car["trim"], car["list_price_gbp"], car["model_year"]),
+                             ("stub", "Cross · 85kW 49kWh Auto", 29245.0, 2026))
+            self.assertEqual(conn.execute("SELECT COUNT(*) FROM cars").fetchone()[0], 9, "one car per derivative")
 
 
 if __name__ == "__main__":

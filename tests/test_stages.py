@@ -25,6 +25,8 @@ class LevelsAndNights(unittest.TestCase):
         self.raws = Raws()
         s = self.raws.store
         self.raws.add("ncd", "hyundai/ioniq-3", "ncd_hyundai_ioniq-3_listing.html", at=NIGHT)
+        # The derivatives NCD's offers are matched against.
+        self.raws.add("carwow_specs", "hyundai/ioniq-3", "carwow_hyundai_ioniq-3_specifications.html", at="2026-10-09T02:20:00+00:00")
         # A refused fetch: kept in the index with its status, no records.
         s.save(source="ncd", capability="listing", target="hyundai/kona", metadata={"make": "hyundai", "url": "u"}, url="u",
                fetched_at="2026-10-11T02:21:00+00:00", status=429, body=b"slow down")
@@ -100,13 +102,14 @@ class TheBuildLog(unittest.TestCase):
 
         with Raws() as raws, tempfile.TemporaryDirectory() as real, tempfile.TemporaryDirectory() as scratch:
             raws.add("ncd", "hyundai/ioniq-3", "ncd_hyundai_ioniq-3_listing.html", at=NIGHT)
+            raws.add("carwow_specs", "hyundai/ioniq-3", "carwow_hyundai_ioniq-3_specifications.html", at=NIGHT)
             args = Namespace(db=str(Path(scratch) / "b.sqlite"), no_cache=True, generated_at=None, cmd="nightly")
             with mock.patch.object(cli, "DEFAULT_OUT", Path(real)):
                 cli._build(args, raws.store, str(Path(scratch) / "out"))
                 self.assertEqual(list(raws.store.read_log("builds")), [], "a scratch folder is not logged")
                 cli._build(args, raws.store, real)
             (b,) = raws.store.read_log("builds")
-            self.assertEqual((b["mode"], b["fetches"], b["snapshot"]["offers"] > 0), ("nightly", 1, True))
+            self.assertEqual((b["mode"], b["fetches"], b["snapshot"]["offers"] > 0), ("nightly", 2, True))
             data = json.loads((Path(real) / "data.json").read_text(encoding="utf-8"))
             built = [x for n in data["pipeline"]["nights"] for x in n["builds"]]
             self.assertEqual([x.get("this") for x in built], [True], "the snapshot names its own build")

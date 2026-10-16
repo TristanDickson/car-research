@@ -87,7 +87,10 @@ def _row(o: dict, kind: str, url: str, observed_at: str) -> dict:
         "observed_at": observed_at, "captured_at": observed_at[:10], "present": 1,
         "status": "live", "verification": "scraped", "source": "Hyundai UK offer page", "dealer": "Hyundai Finance (national offer)",
         "source_url": url, "source_ref": o["offerResourceName"],
-        "car_ref": {"source": SITE, "key": cap.lower(), "label": f"{o.get('model')} {o.get('trimAndPowertrain')} (CAP {cap})"},
+        # Hyundai's own CAP code names no Carwow derivative, so the resolver places the offer by its words.
+        "car_ref": {"source": SITE, "key": cap.lower(), "label": f"{o.get('model')} {o.get('trimAndPowertrain')} (CAP {cap})",
+                    "make": "Hyundai", "model": re.sub(r"^all[- ]new\s+", "", o.get("model") or "", flags=re.I),   # 'All-new IONIQ 3'
+                    "derivative": o.get("trimAndPowertrain")},
         "finance_type": FINANCE[kind], "product": o.get("financeTypeTitle"),
         # The grant and any other discount sit in any of three slots (the Ioniq 3's £3,750 in the second).
         "list_price": n("cashPrice"), "grant_gbp": sum(n(f"discount{j}Value") or 0.0 for j in (1, 2, 3)),

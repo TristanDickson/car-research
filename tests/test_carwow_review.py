@@ -42,7 +42,7 @@ class Claims(unittest.TestCase):
         review = {"spec_key": "carwow-review:hyundai/inster", "model_slug": "hyundai/inster", **carwow_model.parse_review(PAGE)}
         store = claims.Store()
         claims.from_carwow_review(store, [review], CATALOGUE)
-        car = {"id": "c", "make": "Hyundai", "model": "Inster", "trim": "02", "auto": True}
+        car = {"id": "c", "make": "Hyundai", "model": "Inster", "trim": "02"}
         claims.resolve_car(car, store)
         self.assertEqual(car["review_not_so_good"], "Cheap cabin plastics; Base model doesn't get clever seats; Grabby brakes")
         notes = car["review_rear_seat_notes"]

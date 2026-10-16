@@ -59,12 +59,13 @@ class UsedSpans(unittest.TestCase):
 
     def test_the_exporter_writes_spans_with_their_payloads_and_a_source_dimension(self):
         self.raws.add("carwow_used", "hyundai/ioniq-5", P1, at=T1)
+        self.raws.add("carwow_deals", "hyundai/ioniq-3", "carwow_hyundai_ioniq-3_deals.html", at=T1)
         self.conn = self.raws.build()
-        spans = load_sightings(self.conn, {"hyundai-kona-65-ultimate": "hyundai/kona-electric"})
-        kona = [s for s in spans if s["car_id"] == "hyundai-kona-65-ultimate" and s["route"] == "pcp"]
-        self.assertTrue(kona)
-        s = kona[0]
-        self.assertEqual((s["source"], s["model"], s["present"]), ("carwow", "hyundai/kona-electric", True))
+        spans = load_sightings(self.conn, {r[0]: "hyundai/ioniq-3" for r in self.conn.execute("SELECT id FROM cars")})
+        pcp = [s for s in spans if s["route"] == "pcp"]
+        self.assertTrue(pcp)
+        s = pcp[0]
+        self.assertEqual((s["source"], s["model"], s["present"]), ("carwow", "hyundai/ioniq-3", True))
         self.assertEqual(s["from"], s["deal"].get("captured_at", s["from"])[:10])
         for k in ("monthly_payment", "gfv", "num_payments", "vehicle_price"):
             self.assertIn(k, s["deal"], "the payload carries what the browser costs")
@@ -78,12 +79,12 @@ class UsedSpans(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             manifest = export_snapshot(self.conn, tmp, generated_at="2026-10-08T00:00:00+00:00")
             out = Path(tmp)
-            self.assertEqual(manifest["schema_version"], "7")
+            self.assertEqual(manifest["schema_version"], "8")
             self.assertEqual(len(json.loads((out / "sightings.json").read_text())), len(spans))
             self.assertEqual(len(json.loads((out / "used_spans.json").read_text())), 6)
             for gone in ("offers.json", "series.json", "residuals.json"):
                 self.assertFalse((out / gone).exists(), f"{gone} is derived in the browser now")
-            car = next(c for c in json.loads((out / "cars.json").read_text()) if c["id"] == "hyundai-kona-65-ultimate")
+            car = next(c for c in json.loads((out / "cars.json").read_text()) if c["id"] == s["car_id"])
             for derived in ("deal_summary", "used_stock"):
                 self.assertNotIn(derived, car, "the pipeline exports facts, not costs")
             data = json.loads((out / "data.json").read_text())

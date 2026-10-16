@@ -11,7 +11,7 @@ from tests.helpers import Raws
 
 FIX = Path(__file__).parent / "fixtures"
 T = "2026-10-11T03:00:00+00:00"
-PV5_KEY = "kia|pv5 electric estate 120kw elite long range 71kwh 5dr auto [7 seat]"   # mapped by hand in data/seed/trim_map.json
+PV5_KEY = "kia|pv5 electric estate 120kw elite long range 71kwh 5dr auto [7 seat]"
 ELECTRIC = {"ev2-offer", "ev4", "ev5-storm", "ev6", "ev9", "pv5-passenger-7-seater", "pv5-passenger-pcp",
             "pv5-passenger-long-range-plus-7-seater", "pv5-passenger-with-met-long-range-plus", "pv5-passenger-elite-7-seater-pch",
             "pv5-passenger-long-range-elite-5-seater", "pv5-passenger-long-range-160-plus",
@@ -144,15 +144,17 @@ class Examples(unittest.TestCase):
 
 
 class ThroughTheBuild(unittest.TestCase):
-    def test_combined_fetch_builds_and_only_the_agreeing_pv5_rows_take_the_hand_mapping(self):
+    def test_combined_fetch_builds_and_each_pv5_row_lands_on_its_own_trim(self):
         with Raws() as raws:
             raws.add("rrg", "kia/offers", body=combined_body(), at=T)
+            raws.add("carwow_specs", "kia/pv5-passenger", "carwow_kia_pv5-passenger_specifications.html", at=T)   # the derivatives
             conn = raws.build()
             cars = {r["offer_key"]: r["car_id"] for r in
                     conn.execute("SELECT offer_key, car_id FROM offer_observations WHERE source='rrg'")}
-        self.assertEqual(cars.get("rrg:pv5-electric-estate-120kw-elite-long-range-71kwh-5dr-auto-7-seat:pcp"), "kia-pv5-passenger-71-elite-7seat")
-        self.assertEqual(cars.get("rrg:pv5-passenger-elite-7-seater-pch:pch"), "kia-pv5-passenger-71-elite-7seat")
-        self.assertNotEqual(cars.get("rrg:pv5-passenger-long-range-plus-7-seater:pcp"), "kia-pv5-passenger-71-elite-7seat")
+        elite = "carwow-cap:110972"   # Elite · 120kW Long Range 71kWh Auto
+        self.assertEqual(cars.get("rrg:pv5-electric-estate-120kw-elite-long-range-71kwh-5dr-auto-7-seat:pcp"), elite)
+        self.assertEqual(cars.get("rrg:pv5-passenger-elite-7-seater-pch:pch"), elite)
+        self.assertEqual(cars.get("rrg:pv5-passenger-long-range-plus-7-seater:pcp"), "carwow-cap:108179", "the Plus, not the Elite")
 
 
 if __name__ == "__main__":

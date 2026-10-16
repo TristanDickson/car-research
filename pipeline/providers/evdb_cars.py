@@ -250,7 +250,7 @@ def discover(target: Target, ctx: Context) -> Iterator[Target]:
     conn: sqlite3.Connection | None = ctx.extras.get("db")
     if conn is None:
         return
-    from pipeline.services.facts import model_of, norm
+    from pipeline.services.facts import model_of
     try:
         catalogue = [dict(r) for r in conn.execute("SELECT slug, make, model, make_name, model_name FROM models WHERE electric=1")]
         rows = conn.execute("SELECT spec_key, payload FROM specs WHERE source='evdb'").fetchall()
@@ -273,15 +273,7 @@ def discover(target: Target, ctx: Context) -> Iterator[Target]:
             fresh.setdefault(m["slug"], []).append((-(p.get("numbers") or {}).get("year_from", 0), vid, p))
         elif last < cutoff:
             stale.append((last, vid, p))
-    # The models the household has hand-curated cars for go first.
-    try:
-        curated = {(norm(r[0]), norm(r[1])) for r in conn.execute(
-            "SELECT json_extract(payload, '$.make'), json_extract(payload, '$.model') FROM cars WHERE COALESCE(json_extract(payload, '$.auto'), 0) = 0")}
-    except sqlite3.OperationalError:
-        curated = set()
-    by_slug = {m["slug"]: m for m in catalogue}
-    first = lambda slug: 0 if (norm(by_slug[slug].get("make_name") or by_slug[slug]["make"]), norm(by_slug[slug].get("model_name") or by_slug[slug]["model"])) in curated else 1
-    queues = [sorted(v) for _, v in sorted(fresh.items(), key=lambda kv: (first(kv[0]), kv[0]))]
+    queues = [sorted(v) for _, v in sorted(fresh.items())]
     order: list[tuple[str, dict]] = []
     while any(queues):
         for q in queues:

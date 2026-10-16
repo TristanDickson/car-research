@@ -18,7 +18,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS ux_artifacts_key_sha ON artifacts(source, capa
 CREATE INDEX IF NOT EXISTS ix_artifacts_key ON artifacts(source, capability, target, fetched_at);
 
 -- What each source said, and when: every record any parser distilled from a page (and every
--- row of the committed history, and the owner's files), as spans of unchanged content. One row
+-- row of the committed history, and the default settings), as spans of unchanged content. One row
 -- per source, kind, key, page and stretch of time over which the record read the same; the same
 -- record seen again extends its row, a change starts a new one. A key missing from a later
 -- page is not a record, so absence shows only as a row that stops. Built from scratch by
@@ -26,15 +26,15 @@ CREATE INDEX IF NOT EXISTS ix_artifacts_key ON artifacts(source, capability, tar
 CREATE TABLE IF NOT EXISTS records (
   id            INTEGER PRIMARY KEY,
   source        TEXT NOT NULL,        -- the provider (carwow_specs, ncd, manual_seed, ...)
-  kind          TEXT NOT NULL,        -- model | spec | derivative | options | configuration | offer | used | car | trim_map | requirements
+  kind          TEXT NOT NULL,        -- model | spec | derivative | options | configuration | offer | used | requirements
   record_key    TEXT NOT NULL,        -- the record's id within its source
   page          TEXT NOT NULL,        -- the target it was read from (one key can come from several pages, each saying part of it);
                                       -- '' for a committed history row, which merged what every page said
-  first_seen_at TEXT NOT NULL,        -- '' for the owner's undated files
+  first_seen_at TEXT NOT NULL,        -- '' for the default settings, which are undated
   last_seen_at  TEXT NOT NULL,
   sightings     INTEGER NOT NULL,     -- how many fetches said it
-  origin        TEXT NOT NULL,        -- of the first sighting: live | wayback | history | owner
-  first_fetch   TEXT,                 -- raw store fetch id (or the owner's file) of the first and last sightings
+  origin        TEXT NOT NULL,        -- of the first sighting: live | wayback | history | settings
+  first_fetch   TEXT,                 -- raw store fetch id (or the settings file) of the first and last sightings
   last_fetch    TEXT,
   fingerprint   TEXT NOT NULL,        -- of the content, less the sighting's own date
   row           TEXT NOT NULL         -- JSON, as the parser emitted it (the first sighting's)
@@ -109,13 +109,13 @@ CREATE TABLE IF NOT EXISTS cars (
   updated_at     TEXT NOT NULL
 );
 
--- Identity: each source's own trim naming -> our car id. Scrapers add
--- 'unmapped' rows on a miss; a human promotes them to 'mapped' via the seed.
+-- How each source's own naming resolved to a car, derived by every build: 'auto' (a CAP id, or the
+-- resolver's match), 'unmapped' (nothing fits), 'conflict' (twins it will not guess between), 'ignored' (combustion).
 CREATE TABLE IF NOT EXISTS trim_map (
   source        TEXT NOT NULL,        -- the site (carwow, cars2buy, ...), not the provider
   source_key    TEXT NOT NULL,        -- normalised trim text or derivative code
   car_id        TEXT REFERENCES cars(id),
-  status        TEXT NOT NULL,        -- mapped | unmapped | ignored
+  status        TEXT NOT NULL,        -- auto | unmapped | conflict | ignored
   label         TEXT,                 -- the trim as the source prints it
   example_url   TEXT,
   note          TEXT,

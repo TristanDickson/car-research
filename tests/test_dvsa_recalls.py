@@ -80,7 +80,7 @@ class ByModel(unittest.TestCase):
     def test_said_of_the_model(self):
         store = claims.Store()
         claims.from_recalls(store, [{"recalls": lines()}], CATALOGUE)
-        car = {"id": "c", "make": "Hyundai", "model": "Ioniq 5", "trim": "Premium", "auto": True}
+        car = {"id": "c", "make": "Hyundai", "model": "Ioniq 5", "trim": "Premium"}
         claims.resolve_car(car, store)
         self.assertEqual((car["recalls_count"], car["recalls_latest"]), (3, "2026-04-02"))
         self.assertTrue(car["recalls"].startswith("2 Apr 2026, R/2026/146: Some vehicles may face a concern where the instrument cluster panel may reboot"))

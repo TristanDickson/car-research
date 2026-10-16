@@ -144,7 +144,7 @@ class SaidOfTheModel(unittest.TestCase):
     def resolved(self, make, model):
         store = claims.Store()
         claims.from_us_recalls(store, [row()], CATALOGUE)
-        car = {"id": "c", "make": make, "model": model, "trim": "Premium", "auto": True}
+        car = {"id": "c", "make": make, "model": model, "trim": "Premium"}
         claims.resolve_car(car, store)
         return car
 

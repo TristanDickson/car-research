@@ -1,6 +1,6 @@
 # Pipeline gate. The raw store lives on the owner's laptop, so CI cannot rebuild the real
 # snapshot; it checks the code instead: the unit tests (which build from scratch over a raw
-# store of the captured pages in tests/fixtures), and one build over the owner's own files
+# store of the captured pages in tests/fixtures), and one build over the default settings
 # with an empty raw store, end to end through the snapshot export.
 name: pipeline-ci
 
@@ -19,10 +19,10 @@ jobs:
           python-version: "3.12"
       - name: Unit tests
         run: python -m unittest discover -s tests -v
-      - name: Build from the owner's files with an empty raw store
+      - name: Build from the default settings with an empty raw store
         env:
           CAR_RESEARCH_RAW: /tmp/raw
           CAR_RESEARCH_DB: /tmp/ci.sqlite
         run: |
           python -m pipeline build --out /tmp/snapshot
-          python -c "import json; m = json.load(open('/tmp/snapshot/manifest.json')); assert m['counts']['cars'] >= 19, m; print(m['counts'])"
+          python -c "import json; m = json.load(open('/tmp/snapshot/manifest.json')); r = json.load(open('/tmp/snapshot/requirements.json')); assert m['counts']['cars'] == 0 and r['quoting_basis'] and r['searches'], m; print(m['counts'])"

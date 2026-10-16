@@ -1,13 +1,11 @@
-"""Regression tests: the normalisation must reproduce the real Carwow / dealer
-figures (pasted pages + seed) and the ChatGPT-derived estimates."""
+"""Regression tests: the normalisation must reproduce the figures Carwow and the dealers printed
+(the first week's hand-entered offers, tests/fixtures/hand_entered_offers.json)."""
 import json
 import unittest
 from pathlib import Path
 
-from model.cost_fixture import FIXTURE, build
+from model.cost_fixture import FIXTURE, HAND_ENTERED, build
 from model.deal_math import compute
-from pipeline.services.snapshot import latest_offers
-from tests.helpers import fresh_conn, run_all
 
 IONIQ3 = "carwow:deal:ccbac930e8c40084fe1590a6e91466a1"
 KONA = "carwow:deal:aea9f090b32568c0f0326d4ef6cf6299"
@@ -18,9 +16,7 @@ IONIQ5 = "carwow:deal:74386145a70f0465c61e28b78b7afc43"
 class DealMathReproducesQuotes(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        conn = fresh_conn()
-        run_all(conn)
-        cls.r = {m["id"]: m for m in compute(latest_offers(conn))}
+        cls.r = {m["id"]: m for m in compute(json.loads(HAND_ENTERED.read_text(encoding="utf-8")))}
 
     def test_carwow_ioniq3_pcp(self):
         m = self.r[IONIQ3]
@@ -49,14 +45,10 @@ class DealMathReproducesQuotes(unittest.TestCase):
             # Contribution makes financing cheaper than the seller's cash price.
             self.assertAlmostEqual(m["finance_vs_own_cash_price"], -3000, delta=0.5)
 
-    def test_derived_monthlies_match_chatgpt_estimates(self):
+    def test_a_monthly_is_solved_from_apr_credit_and_gfv(self):
         pv5 = self.r["2026-10-05_derived_pv5-elite-7seat_pcp-0dep"]
         self.assertIn("monthly_payment", pv5["derived_fields"])
         self.assertAlmostEqual(pv5["monthly_payment"], 699.5, delta=1.0)
-        ev3 = self.r["2026-10-05_brayleys-derived_ev3-81-gtlines-hp_pcp-0dep"]
-        self.assertAlmostEqual(ev3["monthly_payment"], 681, delta=1.0)
-        self.assertAlmostEqual(ev3["funding_premium_vs_cash"], 7316, delta=40)
-        self.assertAlmostEqual(ev3["effective_rate_vs_cash"], 0.085, delta=0.003)
 
     def test_deposit_only_moves_money(self):
         a = self.r["2026-09_richmond_kona-65-advance_pcp-0pct_3000dep"]

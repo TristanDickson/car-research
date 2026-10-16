@@ -20,6 +20,9 @@ from model.deal_math import DEFAULT_BASIS, compute, used_route
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / "tests" / "fixtures" / "cost_cases.json"
+# The offers typed or pasted in by hand in the first week (removed from the app on 16 Oct 2026), kept only as
+# arithmetic inputs: the dealer and Carwow figures printed among them are what the model must reproduce.
+HAND_ENTERED = ROOT / "tests" / "fixtures" / "hand_entered_offers.json"
 
 PCP = {"id": "p", "car_id": "c", "finance_type": "pcp", "status": "live", "list_price": 40000.0, "vehicle_price": 36000.0,
        "customer_deposit": 0.0, "manufacturer_contribution": 0.0, "apr": 0.0, "num_payments": 36, "term_months": 37,
@@ -59,12 +62,12 @@ def _used_case(name, price, age_years, basis, value_at_end=None):
 
 
 def build() -> dict:
-    seed = json.loads((ROOT / "data" / "seed" / "deals.json").read_text(encoding="utf-8"))["deals"]
+    hand = json.loads(HAND_ENTERED.read_text(encoding="utf-8"))
     return {
         "generated_by": "python3 -m model.cost_fixture",
         "default_basis": DEFAULT_BASIS,
         "deal_cases": [
-            _deal_case("seed deals, default basis", seed),
+            _deal_case("the first week's hand-entered offers, default basis", hand),
             _deal_case("plain arithmetic at a zero rate", [PCP, PCH, CASH], BASIS_ZERO),
             _deal_case("equity and a savings rate", [PCP, PCH, CASH], BASIS_55),
             _deal_case("used-market residual beats the gfv", [PCP, CASH], DEFAULT_BASIS, {"c": {"value": 21000.0, "source": "used-market", "n": 5}}),

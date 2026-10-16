@@ -1,6 +1,6 @@
 """Shared test plumbing: a raw store in a temporary folder filled with the real captured
-pages in tests/fixtures, and a build from scratch over it (and over the real seed and
-pastes, which the build always reads). Nothing here touches the network."""
+pages in tests/fixtures, and a build from scratch over it (and over the default settings,
+which the build always reads). Nothing here touches the network."""
 import sqlite3
 import tempfile
 from pathlib import Path
@@ -22,7 +22,7 @@ def fresh_conn() -> sqlite3.Connection:
 
 
 def run_all(conn: sqlite3.Connection | None = None) -> sqlite3.Connection:
-    """A build over the owner's own files only (the seed and the pastes)."""
+    """A build over the default settings only (no raw store)."""
     conn = conn or fresh_conn()
     Build(conn, None).run()
     return conn

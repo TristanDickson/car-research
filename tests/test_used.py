@@ -245,16 +245,14 @@ class UsedInGold(unittest.TestCase):
         n2 = len(motorpoint_used.parse_body(json.loads(fixture("motorpoint_electric_p2.json")), t, T))
         self.assertEqual(self.present_by_source(conn), {"motorpoint_used": (n2, 12 + n2)})
 
-    def test_a_listing_naming_a_derivative_the_owner_entered_is_on_the_owners_car(self):
+    def test_a_listing_lands_on_a_derivative_of_its_model(self):
         self.raws.add("carwow_specs", "hyundai/kona-electric", "carwow_hyundai_kona-electric_specifications.html", at=self.T1)
         wrap = lambda t, pages: {"make": t.identifier, "pages": pages}
         self.add_json(cinch_used, "hyundai", ["cinch_hyundai_electric_p1.json"], wrap, HYUNDAI, self.T1)
         conn = self.raws.build()
         cars = {r[0] for r in conn.execute("SELECT DISTINCT car_id FROM used_listings WHERE car_id IS NOT NULL")}
-        kona = {"hyundai-kona-65-advance", "hyundai-kona-65-ultimate", "hyundai-kona-65-nline", "hyundai-kona-65-nlines"}
-        self.assertFalse({c for c in cars if c.startswith("carwow-cap:")} & {f"carwow-cap:{c}" for c in ("103322", "103324", "103325", "103326")},
-                         "never the derivative's id beside the owner's entry for it")
-        self.assertTrue(cars <= kona | {c for c in cars if c.startswith("carwow-cap:")})
+        self.assertTrue(cars)
+        self.assertTrue(cars <= {f"carwow-cap:{c}" for c in ("103322", "103324", "103325", "103326")}, cars)
 
 
 class ResidualEvidence(unittest.TestCase):

@@ -144,6 +144,7 @@ class HyundaiOffers(unittest.TestCase):
         self.assertEqual(r["offer_key"], "hyundai:PCP_15_7FW5ZHZ7ZGG0VH")
         self.assertEqual(r["car_ref"]["source"], "hyundai-cap")
         self.assertEqual(r["car_ref"]["key"], "hykn00ade5he a 2")
+        self.assertEqual((r["car_ref"]["make"], r["car_ref"]["model"], r["car_ref"]["derivative"]), ("Hyundai", "KONA Electric", "65kWh 218PS Advance"))
         self.assertEqual((r["list_price"], r["grant_gbp"], r["vehicle_price"]), (35000.0, 3750.0, 31250.0))
         self.assertEqual((r["customer_deposit"], r["manufacturer_contribution"], r["amount_of_credit"]), (3500.0, 1750.0, 26000.0))
         self.assertEqual((r["term_months"], r["num_payments"], r["monthly_payment"], r["gfv"]), (37, 36, 454.46, 11292.98))
@@ -159,6 +160,7 @@ class HyundaiOffers(unittest.TestCase):
         """The Ioniq 3's £3,750 grant is in discount2Value, not discount1Value."""
         r = hyundai_offers.parse_page(fixture("hyundai_offer_all-new_ioniq_3.html"), "u", T)[0]
         self.assertEqual((r["list_price"], r["grant_gbp"], r["vehicle_price"], r["reconciles"]), (25745.0, 3750.0, 21995.0, True))
+        self.assertEqual((r["car_ref"]["model"], r["car_ref"]["derivative"]), ("IONIQ 3", "61kWh 135PS FWD ADVANCE"), "'All-new' is no part of the name")
 
     def test_example_priced_with_paid_paint(self):
         """The Inster's OTR (£27,375) is above its cash price (£27,005) by the £370 paint in extId 'SAW-370'."""
@@ -185,7 +187,7 @@ def _fixture_provider(module, name: str, files: dict[str, str]) -> Provider:
 
 
 class ThroughTheBuild(unittest.TestCase):
-    """Live providers' pages, kept in the raw store, go through the same build as the owner's files."""
+    """Live providers' pages, kept in the raw store, go through the build."""
 
     def setUp(self):
         self.raws = Raws()
@@ -193,27 +195,19 @@ class ThroughTheBuild(unittest.TestCase):
     def tearDown(self):
         self.raws.close()
 
-    def test_carwow_cap_ids_resolve_to_the_owners_cars_and_to_derivatives(self):
+    def test_carwow_cap_ids_resolve_to_their_derivatives(self):
         self.raws.add("carwow_deals", "hyundai/ioniq-3", "carwow_hyundai_ioniq-3_deals.html", at=T)
         conn = self.raws.build()
-        mapped = {r["source_key"] for r in conn.execute("SELECT source_key FROM trim_map WHERE source='carwow-cap' AND status='mapped'")}
-        self.assertTrue({"110664", "111014", "111015", "111021"} <= mapped)
+        auto = {r["source_key"] for r in conn.execute("SELECT source_key FROM trim_map WHERE source='carwow-cap' AND status='auto'")}
+        self.assertTrue({"110664", "111014", "111015", "111021"} <= auto)
         self.assertEqual(conn.execute("SELECT COUNT(*) FROM trim_map WHERE status='unmapped'").fetchone()[0], 0)
         row = conn.execute("SELECT car_id, vehicle_price, status FROM offer_observations WHERE offer_key='carwow:cash:111015'").fetchone()
-        self.assertEqual((row["car_id"], row["vehicle_price"], row["status"]), ("hyundai-ioniq3-61-ultimate-evpack", 25620.0, "lead"))
+        self.assertEqual((row["car_id"], row["vehicle_price"], row["status"]), ("carwow-cap:111015", 25620.0, "lead"))
         self.assertEqual(conn.execute("SELECT COUNT(DISTINCT offer_key) FROM offer_observations WHERE source='carwow_deals'").fetchone()[0], 21)
 
-    def test_a_name_nobody_decided_on_and_nothing_matches_is_listed_unmapped(self):
-        from pipeline.build import Build
-        from tests.helpers import fresh_conn
+    def test_a_name_nothing_matches_is_listed_unmapped(self):
         self.raws.add("rrg", "kia/pv5-passenger-7-seater", "rrg_pv5_offers.html", at=T)
-        conn = fresh_conn()
-        b = Build(conn, self.raws.store)
-        b.owner()
-        for k in [k for k in b.decisions if k[0] == "rrg"]:
-            b.decisions.pop(k)
-        b.raws(list(self.raws.store.entries()))
-        b.finish()
+        conn = self.raws.build()
         tm = conn.execute("SELECT * FROM trim_map WHERE source='rrg'").fetchone()
         self.assertEqual(tm["status"], "unmapped")
         self.assertEqual(tm["source_key"], "kia|pv5 electric estate 120kw elite long range 71kwh 5dr auto [7 seat]")
@@ -222,11 +216,12 @@ class ThroughTheBuild(unittest.TestCase):
     def test_the_same_page_fetched_again_extends_its_span(self):
         self.raws.add("hyundai_offers", "kona_electric", "hyundai_offer_kona_electric.html", at=T)
         self.raws.add("hyundai_offers", "kona_electric", "hyundai_offer_kona_electric.html", at="2026-10-07T12:00:00+00:00")
+        self.raws.add("carwow_specs", "hyundai/kona-electric", "carwow_hyundai_kona-electric_specifications.html", at=T)   # the derivatives
         conn = self.raws.build()
-        rows = conn.execute("SELECT observed_at, confirmed_at FROM offer_observations WHERE offer_key='hyundai:PCP_15_7FW5ZHZ7ZGG0VH'").fetchall()
-        self.assertEqual([tuple(r) for r in rows], [(T, "2026-10-07T12:00:00+00:00")])
-        self.assertEqual(len(list((self.raws.store.root / "bodies").rglob("*.gz"))), 1, "an unchanged page is stored once")
-        self.assertEqual(len(list(self.raws.store.entries())), 2, "and its second fetch is still recorded")
+        rows = conn.execute("SELECT observed_at, confirmed_at, car_id FROM offer_observations WHERE offer_key='hyundai:PCP_15_7FW5ZHZ7ZGG0VH'").fetchall()
+        self.assertEqual([tuple(r) for r in rows], [(T, "2026-10-07T12:00:00+00:00", "carwow-cap:103322")], "on the Advance, by its words")
+        self.assertEqual(len(list((self.raws.store.root / "bodies").rglob("*.gz"))), 2, "an unchanged page is stored once (beside the spec page)")
+        self.assertEqual(len(list(self.raws.store.entries())), 3, "and its second fetch is still recorded")
 
 
 class CinchNewCars(unittest.TestCase):

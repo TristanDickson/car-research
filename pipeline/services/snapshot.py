@@ -5,10 +5,10 @@ rate, no residual assumption. The browser holds the one cost model
 (web/src/lib/model) and computes every figure from these files under the
 reader's own basis, recomputing when it changes.
 
-Layout (schema_version 7):
+Layout (schema_version 8):
     manifest.json       {schema_version, generated_at, counts, runs}
-    cars.json           hand-curated and generated cars (auto: true) with their facts; what every page loads
-    details.json        {car id: spec rows, the cross-check, the seed's brief check; 'model:<model_key>': the
+    cars.json           one car per derivative, with its facts; what every page loads
+    details.json        {car id: spec rows and where each field came from; 'model:<model_key>': the
                         long text the model's cars share (MODEL_TEXT)}; on demand
     sightings.json      every offer observation span: a price one source showed for one derivative over
                         the days it stayed the same, with the full price-bearing payload
@@ -16,7 +16,8 @@ Layout (schema_version 7):
     used.json           used stock per model: every listing ever seen (derivative, site, link, present)
     specs.json          every scraped variant: equipment list, canonical flags, numbers, image
     models.json         the catalogue: every electric model Carwow lists, with what we hold for it
-    requirements.json   the requirements document as seeded (the reader edits their own copy in the browser)
+    requirements.json   the default settings (data/seed/requirements.json): the quoting basis and the starting
+                        saved searches (the reader edits their own copy in the browser)
     data.json           providers, source names, recent runs, unmapped trims, offer states, counts
 
 A span's freshness (gone, expired, stale) and every cost are derived in the
@@ -39,7 +40,7 @@ from pipeline.services.features import flags_for
 IMAGE_EXTS = ("jpg", "jpeg", "png", "webp")
 
 # Bump on any incompatible shape change; the SPA warns loudly on skew.
-SCHEMA_VERSION = "7"
+SCHEMA_VERSION = "8"
 
 # Spec payload fields kept in data/history/specs.jsonl but not shipped in specs.json.
 SPEC_PRIVATE = ("raw_numbers", "description", "observed_at")
@@ -62,18 +63,6 @@ def _is_current(o: dict) -> bool:
     return f["state"] in ACTIVE_STATUSES and not f["stale"]
 
 
-def load_picks(root: Path) -> dict[str, list[dict]]:
-    """Household verdicts (data/seed/picks.json): our own decisions, not sourced
-    data, so they bypass the medallion and ride along at export."""
-    path = root / "data" / "seed" / "picks.json"
-    if not path.exists():
-        return {}
-    out: dict[str, list[dict]] = {}
-    for pick in json.loads(path.read_text(encoding="utf-8")).get("picks", []):
-        out.setdefault(pick["car_id"], []).append({k: pick.get(k) for k in ("who", "verdict", "note")})
-    return out
-
-
 def car_image(root: Path, car: dict, spec: dict | None = None) -> str | None:
     """A committed photo under web/public/images/cars/<id>.<ext> wins; else the
     car record's image_url; else the mapped spec source's image (Carwow renders
@@ -82,14 +71,6 @@ def car_image(root: Path, car: dict, spec: dict | None = None) -> str | None:
         if (root / "web" / "public" / "images" / "cars" / f'{car["id"]}.{ext}').exists():
             return f'/images/cars/{car["id"]}.{ext}'
     return car.get("image_url") or (spec or {}).get("image_url")
-
-
-SPEC_CHECKS = (
-    # (car field, flag, label)
-    ("heat_pump", "heat_pump", "Heat pump"),
-    ("internal_v2l", "v2l_internal", "Internal V2L"),
-    ("external_v2l", "v2l_external", "External V2L"),
-)
 
 
 def load_specs(conn: sqlite3.Connection) -> list[dict]:
@@ -109,34 +90,6 @@ def load_specs(conn: sqlite3.Connection) -> list[dict]:
         p.pop("car_ref", None)
         out.append(p)
     return out
-
-
-def spec_check(car: dict, specs: list[dict]) -> dict:
-    """Hand-entered tri-state fields against what the scraped sources list.
-    'standard'/'pack'/'option' vs flag 'standard'/'option'; None from a source
-    means 'not listed', which is not a contradiction."""
-    rows = []
-    for field, flag, label in SPEC_CHECKS:
-        hand = car.get(field)
-        for sp in specs:
-            seen = (sp.get("flags") or {}).get(flag)
-            if seen is None:
-                verdict = "not listed"
-            elif hand in ("standard",) and seen == "standard":
-                verdict = "agrees"
-            elif hand in ("pack", "option") and seen in ("option", "standard"):
-                verdict = "agrees"  # we specify the car with it fitted; the source lists it as fitted or fittable
-            elif hand in ("standard", "pack", "option") and seen == "listed":
-                verdict = "agrees"  # the source says fitted or fittable, not which
-            elif hand == "none" and seen:
-                verdict = "source lists it"
-            elif hand in (None, "unknown"):
-                verdict = f"source says {seen}"
-            else:
-                verdict = "differs"
-            rows.append({"field": field, "label": label, "hand": hand, "source": sp["provider"], "seen": seen, "verdict": verdict,
-                         "spec_key": sp["spec_key"]})
-    return {"rows": rows, "disagreements": sum(1 for r in rows if r["verdict"] in ("differs", "source lists it"))}
 
 
 def specs_by_make(specs: list[dict]) -> dict[str, list[dict]]:
@@ -194,8 +147,7 @@ USED_FIELDS = ("finance", "colour", "drive", "discount_gbp", "previous_price_gbp
 
 
 def car_slugs(car: dict, specs_by_car: dict[str, list[dict]]) -> tuple[str, str]:
-    """(make_slug, model_slug) for any car: generated cars carry them, a
-    hand-curated car's mapped Carwow spec knows them."""
+    """(make_slug, model_slug) for any car: the car's own, else its mapped Carwow spec's."""
     via = next((sp for sp in specs_by_car.get(car["id"], []) if sp.get("model_slug")), {})
     return ((car.get("make_slug") or via.get("make_slug") or car.get("make") or "").lower(),
             car.get("model_slug") or via.get("model_slug") or "")
@@ -246,9 +198,9 @@ def dedupe_listings(listings: list[dict]) -> list[dict]:
 # source is a dimension of its own: the same derivative and route can be read
 # site by site. A fact about the pipeline, not about the reader.
 SOURCES = {
-    "carwow_deals": ("carwow", "Carwow"), "carwow_paste": ("carwow", "Carwow"), "carwow_used": ("carwow", "Carwow"),
+    "carwow_deals": ("carwow", "Carwow"), "carwow_used": ("carwow", "Carwow"),
     "hyundai_offers": ("hyundai", "Hyundai UK"), "ncd": ("ncd", "New Car Discount"), "leaseloco": ("leaseloco", "LeaseLoco"),
-    "rrg": ("rrg", "RRG"), "manual_seed": ("manual", "Hand-entered"),
+    "rrg": ("rrg", "RRG"),
     "cinch_used": ("cinch", "cinch"), "cinch_new": ("cinch", "cinch"),
     "kia_dealers": ("kia-dealers", "Kia dealers"), "motorpoint_used": ("motorpoint", "Motorpoint"),
 }
@@ -375,7 +327,7 @@ def load_models(conn: sqlite3.Connection) -> list[dict]:
 
 
 def load_cars(conn: sqlite3.Connection) -> list[dict]:
-    """Every car: every derivative, and every car the owner entered (one per derivative; pipeline/build.py)."""
+    """Every car: one per derivative (pipeline/build.py)."""
     return [json.loads(r["payload"]) for r in conn.execute("SELECT payload FROM cars ORDER BY id")]
 
 
@@ -540,8 +492,8 @@ def resolution_methods(conn: sqlite3.Connection) -> dict[str, int]:
     """How the resolved rows were resolved, for the Data page."""
     out: dict[str, int] = {}
     for method, status, n in conn.execute(
-            "SELECT method, status, COUNT(*) FROM trim_map WHERE status IN ('mapped', 'auto') GROUP BY method, status"):
-        key = method or ("manual" if status == "mapped" else "cap-id")
+            "SELECT method, status, COUNT(*) FROM trim_map WHERE status = 'auto' GROUP BY method, status"):
+        key = method or "cap-id"
         out[key] = out.get(key, 0) + n
     return dict(sorted(out.items(), key=lambda kv: -kv[1]))
 
@@ -564,7 +516,6 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     from pipeline.providers import PROVIDERS
 
     out = Path(out_dir)
-    picks = load_picks(root)
     generated_at = generated_at or datetime.now(timezone.utc).isoformat(timespec="seconds")
     today = date.fromisoformat(generated_at[:10])
 
@@ -583,22 +534,6 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     # the level it speaks of (derivative, trim, engine, model, variant, pack),
     # resolved by one precedence order, each field naming its source (services/claims.py).
     derivatives = load_derivatives(conn)
-    # The owner's cars name their model in their own words: their derivative's registry line, else the
-    # catalogue by name, gives the slugs the used stock is filed under.
-    registry = {str(d["cap_id"]): d for d in derivatives}
-    from pipeline.services.facts import model_of as catalogue_model
-    for c in cars:
-        if c.get("auto") or c.get("model_slug"):
-            continue
-        d = registry.get(str(c.get("cap_id") or ""))
-        m = {"make": d["make_slug"], "model": d["model_slug"]} if d else catalogue_model(c.get("make") or "", c.get("model") or "", models)
-        if m:
-            c["make_slug"], c["model_slug"] = m["make"], m["model"]
-    # A hand-curated car is a derivative too: the trim map says which, so it inherits what is said of that derivative.
-    cap_of = {r["car_id"]: r["source_key"] for r in conn.execute("SELECT car_id, source_key FROM trim_map WHERE source='carwow-cap' AND status='mapped' AND car_id IS NOT NULL")}
-    for c in cars:
-        if not c.get("auto") and not c.get("cap_id") and cap_of.get(c["id"]):
-            c["cap_id"] = cap_of[c["id"]]
     configurations = load_configurations(conn)
     store = claims.build_store(cars, specs, models, derivatives, load_options(conn), load_broker_names(conn), configurations)
     resolved = claims.resolve_all(cars, store)
@@ -623,12 +558,8 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     for c in cars:
         slugs = car_slugs(c, specs_by_car)
         c["model_key"] = "/".join(slugs)   # the model's used stock: the residual evidence
-        # The used cars that count as this car: same trim and battery (an owner's car by its derivative's own trim).
-        d = registry.get(str(c.get("cap_id") or "")) if not c.get("auto") else None
-        c["used_key"] = used_key({"trim": d.get("trim"), "variant": d.get("engine"), "battery_kwh": c.get("battery_kwh")} if d else c,
-                                 c["model_key"])
+        c["used_key"] = used_key(c, c["model_key"])   # the used cars that count as this car: same trim and battery
         c["on_sale"] = c["id"] in selling
-        c["picks"] = picks.get(c["id"], [])
         mine = specs_by_car.get(c["id"], [])
         spec_rows = [{"spec_key": sp["spec_key"], "provider": sp["provider"], "variant": sp.get("variant"),
                       "flags": sp.get("flags"), "features": len(sp.get("features") or []), "options": len(sp.get("options") or []),
@@ -641,11 +572,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
             "disagreements": c.pop("disagreements", None),
             "overruled": c.pop("overruled", None),
             "specs": spec_rows,
-            # A generated car's fields come from its spec, so there is nothing to cross-check.
-            "spec_check": {"rows": [], "disagreements": 0} if c.get("auto") else spec_check(c, mine),
         }
-        if c.get("auto"):
-            c["notes"] = None   # the boilerplate is implied by source_kind
     for key, text in split_model_text(cars).items():
         details[f"model:{key}"] = {"text": text}
 
@@ -654,7 +581,6 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         s = o["freshness"]["state"] + (" (stale)" if o["freshness"]["stale"] else "")
         states[s] = states.get(s, 0) + 1
     unmapped = unmapped_trims(conn)
-    n_auto = sum(1 for c in cars if c.get("auto"))
     from pipeline.services.features import FLAGS
 
     # Per-model tallies for the catalogue page: derivatives (spec rows), cars, cars with a live sighting.
@@ -687,10 +613,9 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         "unmapped_trims": unmapped,
         "resolution_methods": resolution_methods(conn),
         "offer_states": states,
-        "counts": {"cars": len(cars), "cars_curated": len(cars) - n_auto, "cars_generated": n_auto,
+        "counts": {"cars": len(cars),
                    "offers": len(offers), "observations": len(sightings), "specs": len(specs),
                    "specs_mapped": sum(1 for sp in specs if sp.get("car_id")),
-                   "trim_map_mapped": conn.execute("SELECT COUNT(*) FROM trim_map WHERE status='mapped'").fetchone()[0],
                    "trim_map_auto": conn.execute("SELECT COUNT(*) FROM trim_map WHERE status='auto'").fetchone()[0],
                    "trim_map_unmapped": len(unmapped),
                    "derivatives": len(derivatives), "options_pages": len(store.names) and sum(1 for k in store.claims if k.startswith("derivative:")),
@@ -708,7 +633,6 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         "generated_at": generated_at,
         "counts": {
             "cars": len(cars),
-            "cars_generated": n_auto,
             "models": len(models),
             "offers": len(offers),
             "observations": len(sightings),
