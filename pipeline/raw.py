@@ -2,7 +2,7 @@
 
 It lives outside git, on the owner's laptop (`CAR_RESEARCH_RAW`, e.g.
 D:\\car-research-raw). Everything else the pipeline holds is derived from it by a
-process that can be re-run from scratch (docs/REBUILD.md).
+process that can be re-run from scratch (docs/ARCHITECTURE.md).
 
     bodies/<sha[:2]>/<sha256>.gz    one gzipped file per distinct body, named by the
                                     sha256 of the uncompressed bytes; written once
@@ -41,7 +41,7 @@ here is ever rewritten or deleted: the pipeline re-derives everything else from 
   index/<YYYY-MM>.jsonl          one line per fetch (what, when, which body)
 
 Back this folder up. It is the only copy of the past.
-Code and docs: https://github.com/TristanDickson/car-research (docs/REBUILD.md).
+Code and docs: https://github.com/TristanDickson/car-research (docs/ARCHITECTURE.md).
 """
 
 

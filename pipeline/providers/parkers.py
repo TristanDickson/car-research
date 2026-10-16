@@ -1,6 +1,6 @@
 """Parkers (www.parkers.co.uk), Bauer's used-car valuation site: every generation of a model, its trims and
 every derivative, old ones included (docs/SOURCES.md, "Parkers"). It is the list of trims and derivatives the
-resolver's car level reads (docs/REBUILD.md, "Next: one resolver over every record").
+resolver's car level reads (docs/ARCHITECTURE-NEXT.md).
 
 Two capabilities:
 

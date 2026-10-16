@@ -5,9 +5,9 @@
 nightly:
 	python3 -m pipeline nightly
 
-# Build from scratch from what the raw store already holds (no network), then the snapshot and deal table.
+# Build from scratch from what the raw store already holds (no network), then the snapshot.
 build:
-	python3 -m pipeline build --deal-table docs/deal-comparison.md
+	python3 -m pipeline build
 
 test: test-pipeline test-web
 

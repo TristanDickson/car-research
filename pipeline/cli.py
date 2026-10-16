@@ -303,7 +303,7 @@ def main(argv=None) -> int:
     ni = sub.add_parser("nightly", help="New committed history into the raw store, scrape, build from scratch, snapshot.")
     build_args(ni)
     ni.add_argument("--only", help="Comma-separated provider names to scrape.")
-    ni.add_argument("--deal-table", default=str(ROOT / "docs" / "deal-comparison.md"), help="Write the markdown deal table here ('' to skip).")
+    ni.add_argument("--deal-table", default="", help="Also write the markdown deal table here.")
     ni.set_defaults(func=cmd_nightly)
 
     b = sub.add_parser("backfill", help="Fetch Wayback Machine copies of the live providers' pages into the raw store.")

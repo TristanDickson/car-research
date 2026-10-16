@@ -4,7 +4,7 @@ A broker row (LeaseLoco, New Car Discount) carries CAP's own derivative name:
 '150kW GT-Line S 81.4kWh 5dr Auto [Heat Pump]'. Carwow's pages carry the CAP id
 and RRP but print only trim and engine, so a trim often has several derivatives
 on Carwow that differ by RRP alone (option packs, a heat pump, a seat layout:
-see docs/ARCHITECTURE.md, "Resolving broker rows"). Resolution is linkage to that
+see docs/ARCHITECTURE.md, "Transform"). Resolution is linkage to that
 registry, not clustering: every broker row names one CAP derivative.
 
   gates       make + model agree, kW and kWh agree where both print them, every

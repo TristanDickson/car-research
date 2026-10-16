@@ -256,7 +256,7 @@ SOURCES = {
 
 # Sources whose rows reach the app only as the fields they give each car (services/claims.py): not spec rows of their own.
 FIELDS_ONLY = ("evdb", "evdb_cars", "ncd", "adac", "whatcar", "dvsa_recalls", "carwow_model", "nhtsa_recalls")
-# Sources read for the resolver (docs/REBUILD.md, "Next: one resolver over every record") and nothing else yet: not
+# Sources read for the resolver (docs/ARCHITECTURE-NEXT.md) and nothing else yet: not
 # spec rows, not counted, not laid over any car.
 RESOLVER_ONLY = ("parkers",)
 

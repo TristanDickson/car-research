@@ -4,17 +4,15 @@ A generic app for exploring UK electric car prices and planning an upgrade from 
 what a car is worth, and what a given deal (PCP, PCH, used, cash) actually costs once the
 headline numbers are unpicked.
 
-**Live site:** https://tristandickson.github.io/car-research/ (after the one-time Pages setting,
-see `docs/ARCHITECTURE.md`, "Deploy").
+**Live site:** https://tristandickson.github.io/car-research/
 
 ## Why this exists
 
 The household using it has a PCP that ends on 10 December 2026, and rather than walk into a
-dealer and react to the monthly figure, wanted every deal on one footing. Their notes are
-`docs/requirements.md` (what they need from a car, one example input, not the app's spec) and
-`docs/research-notes.md` (the deal rules, the market as of 6 Oct 2026, and their shortlist of
-that day). Nothing in the app is built around their car or requirements (`docs/DECISIONS.md`,
-"The app is generic").
+dealer and react to the monthly figure, wanted every deal on one footing. Nothing in the app is
+built around their car or requirements (`docs/DECISIONS.md`, "The app is generic"); their
+budget, quoting basis and saved searches are the app's seed settings
+(`data/seed/requirements.json`).
 
 Three things move independently in a deal, and sellers shuffle value between them: the
 **vehicle price** (list, dealer discount, government grant), the **finance support** (APR,
@@ -22,15 +20,15 @@ manufacturer contribution) and the **GFV** (the guaranteed future value the lend
 underwrites). A low APR is worthless if the car's price under that finance is £3-5k above the
 best cash price elsewhere; a high monthly can be cheap money with a pessimistic balloon. So every
 deal is costed with nothing down, over the reader's own term, against the best confirmed
-like-for-like cash price, with the GFV treated as a floor rather than a forecast. The rules are
-in `docs/research-notes.md`; the generated comparison is `docs/deal-comparison.md`.
+like-for-like cash price, with the GFV treated as a floor rather than a forecast
+(`docs/ARCHITECTURE.md`, "Costing").
 
 ## How it fits together
 
 The design is the owner's (`docs/DECISIONS.md`, after their project bolthole): only the raw
 responses are permanent; everything the app reads is re-derived from them by a build that runs
-from scratch every time; only the owner's own files and decisions persist. Live since 10 Oct 2026
-(`docs/REBUILD.md`).
+from scratch every time; only the owner's own files and decisions persist. Live since 10 Oct 2026;
+how it works is `docs/ARCHITECTURE.md`, and the next step `docs/ARCHITECTURE-NEXT.md`.
 
 ```
 live scrapers ─────────▶ RAW STORE on the owner's laptop (D:\car-research-raw, outside git)
@@ -54,16 +52,16 @@ data/seed/*.json, data/pastes/ ─────────┤  build, from scrat
 - **Cars.** Every CAP derivative a page names is a car (CAP HPI's id for one exact version of a
   car); 1,985 in the 16 Oct snapshot, 1,606 of them on sale. The owner's own 19 entries are among them.
   Every field a car carries comes from one claim store that weighs what each source says
-  (`docs/ARCHITECTURE.md`, "Facts").
+  (`docs/ARCHITECTURE.md`, "Transform").
 - **Costs.** Cash, PCP, lease and used are compared on one footing, the true monthly: every
   payment discounted at the reader's savings rate, the car's expected value at the end credited
   back, and the present cost spread over the reader's term. The term, the rate and the residual
   assumption are the reader's, set in Settings and kept in the browser, which costs every price
-  sighting itself (`docs/ARCHITECTURE.md`, "The true monthly").
+  sighting itself (`docs/ARCHITECTURE.md`, "Costing").
 - **The app.** One search drives the Pick cards, the Cars table and the Specs grid; it lives in
   the URL and can be saved under a name. The app works offline once loaded.
 
-The detail, the snapshot contract and the design choices are in `docs/ARCHITECTURE.md`.
+The flows and the data model are in `docs/ARCHITECTURE.md`.
 
 ## Repo layout
 
@@ -95,7 +93,6 @@ web/                    Next.js static SPA: pick, compare, cars, car page, specs
   src/lib/query.ts      the search (URL state), facets, ranges, saved-search descriptions; src/lib/db.ts the IndexedDB store
   public/data/          the committed snapshot the SPA reads
 docs/                   the owner's decisions, architecture, the rebuild, sources, requirements, research notes, generated deal table
-  transcripts/          raw source conversations (contact details redacted)
 tests/                  Python unit tests; tests/fixtures holds one real page per scraper; tests/helpers.Raws builds over them
 .github/workflows/      pages-deploy, web-ci, pipeline-ci (unit tests and a build from the owner's files)
 ```
@@ -136,7 +133,7 @@ with a few pages, doubling each clean night (`pipeline/providers/politeness.py`)
 what earlier pages said meanwhile.
 
 **Nightly:** the laptop's scheduled job (`scripts/nightly.sh`, 03:17) scrapes, builds, and
-commits `web/public/data` and `docs/deal-comparison.md` to `main`, which redeploys the app. Its
+commits `web/public/data` to `main`, which redeploys the app. Its
 log is `D:\car-research-raw\logs\nightly\<date>.log`. A site that changes its layout shows up as
 a provider with 0 records and its offers going stale a fortnight later; fix the parser against a
 fresh fixture, and the next build reads every stored page again with it.
@@ -170,13 +167,10 @@ guessed car.
 
 ## Next steps
 
-1. The resolver: `docs/REBUILD.md`, "Order of work", steps 2 to 5.
+1. The resolver: `docs/ARCHITECTURE-NEXT.md`, "Running it", steps 2 to 5.
 2. What the pages print that is still not read, by value, is at the end of `docs/SOURCES.md`
    (used cars' detail pages, Kia's own offer pages, other dealer groups, NCD's HP quote).
 3. Richmond paste parser (two pages saved under `data/pastes/richmond/`).
 4. Intrinsic-value model: what a car is worth from its spec, independent of marketing; start
    with £/kWh, £/mile of range and £/kg against segment, then the residual evidence from the
    used listings already collected.
-
-The household's own open questions (whether the cash leads are like-for-like for December, the
-Ioniq 3 Premium EV Pack's GFV) are in `docs/research-notes.md`, "Open questions".

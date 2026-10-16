@@ -568,7 +568,7 @@ derivative, old ones included, which a valuation site needs to price used cars.
   shared normaliser like any source's: the Enyaq's battery sits in its trims (`80x-sportline`),
   the MG4's "-ev" (`se-ev`), and `standard-trim` is a placeholder, not a trim.
 - **What it would be for:** the list of trims and derivatives, with their on-sale dates, that the
-  resolver's car level lacks (`docs/REBUILD.md`, "Next: one resolver over every record"): every
+  resolver's car level lacks (`docs/ARCHITECTURE-NEXT.md`): every
   generation's trims as structured records, so a used 2021 Kona finds "Ultimate" under the
   64 kWh version, and a lease's or a listing's text joins a trim that a structured source names.
   The price when new gives an old derivative the list price the trim scaling needs. The

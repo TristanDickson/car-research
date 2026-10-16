@@ -2,8 +2,8 @@
 
 The owner's decisions in force, by topic, in their own words where the docs recorded them. Where
 no words were recorded, the line says so. A decision a later one replaced
-is not kept; git's history has the rest. The household's own buying notes (budget, timing, what
-they want from a car) are in `docs/requirements.md` and are not decisions about the app.
+is not kept; git's history has the rest. The household's own budget and quoting basis are the
+app's seed settings (`data/seed/requirements.json`), not decisions about the app.
 
 ## The app is generic
 
@@ -49,7 +49,7 @@ they want from a car) are in `docs/requirements.md` and are not decisions about 
 
 ## Matching
 
-The input to the resolver design in `docs/REBUILD.md`, "Next: one resolver over every record".
+The input to the resolver design in `docs/ARCHITECTURE-NEXT.md`.
 
 - On the matching: "From memory, i said i didnt know if we needed to go as complex as bolthole,
   because properties are inherently harder to match and i thought car variants could be done
