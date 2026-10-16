@@ -14,18 +14,19 @@ convention as the owner's other boards (SpaceTS, parasitic-feudalism), kept shor
 
 | Ticket | What | Status |
 |---|---|---|
-| T1 | One normaliser for every source's text | open |
+| T1 | One normaliser for every source's text | in progress |
 | T2 | Carwow's models mapped to Parkers' models and generations | open |
 | T3 | The resolver: every record filtered against the master list | open |
-| T4 | cinch: read each used listing's trim, seats and range fields | open |
-| T5 | NCD: match NCD's prices by the CAP id its pages print | open |
+| T4 | cinch: read each used listing's trim, seats and range fields | in progress |
+| T5 | NCD: match NCD's prices by the CAP id its pages print | in progress |
 | T6 | End value by version, within a wide mileage band | open |
 | T7 | A price that fits several cars goes on the best spec | open |
 | T8 | Old versions are cars | open |
 | T9 | Clear `data/seed` and `data/pastes` down to a file of default settings | landed `598e1ac` |
 | T10 | `docs/SOURCES.md` in the same short form as the architecture docs | landed `de6de05` |
 | T11 | Find out why Carwow's configurator reader recovered on 16 Oct | open |
-| T12 | Carwow used: no household models fetched ahead of the rest | open |
+| T12 | Carwow used: no household models fetched ahead of the rest | in progress |
+| T13 | A code change goes live in one push with the snapshot it needs | in progress |
 
 ## T1. One normaliser for every source's text
 
@@ -123,3 +124,12 @@ change; the site's redirect is due a fresh survey.
 The Carwow used reader fetches every card of eight models (the Ioniq 5, Kona Electric, Inster,
 Ioniq 3, EV2, EV3, EV6 and PV5) each night outside its budget, and the rest within it. The app is
 generic (`docs/DECISIONS.md`, "The app is generic"), so every model goes through the same budget.
+After their first night the eight took 27 to 40 cards a night (12 to 16 Oct), so the budget grows
+from 400 to 440 and Carwow is asked for as many cards as before.
+
+## T13. A code change goes live with its snapshot
+
+A change to the snapshot's layout and the snapshot built with it went up in two pushes on 16 Oct,
+and the site showed its version-mismatch banner for the 12 minutes between them. The nightly
+script takes a local commit, builds it from the pages already held, puts the snapshot on top and
+pushes both at once. Proposed 16 Oct; owner: "yes".
