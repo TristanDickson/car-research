@@ -256,6 +256,9 @@ SOURCES = {
 
 # Sources whose rows reach the app only as the fields they give each car (services/claims.py): not spec rows of their own.
 FIELDS_ONLY = ("evdb", "evdb_cars", "ncd", "adac", "whatcar", "dvsa_recalls", "carwow_model", "nhtsa_recalls")
+# Sources read for the resolver (docs/REBUILD.md, "Next: one resolver over every record") and nothing else yet: not
+# spec rows, not counted, not laid over any car.
+RESOLVER_ONLY = ("parkers",)
 
 # Long text a model's cars share (Carwow's review sections, the recall registers' lines): written once per model, in
 # details.json under 'model:<model_key>', rather than on each car in cars.json, which every page loads.
@@ -568,7 +571,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
     cars = load_cars(conn)
     offers = latest_offers(conn, today)
     requirements = load_requirements(conn)
-    specs = load_specs(conn)
+    specs = [sp for sp in load_specs(conn) if sp["provider"] not in RESOLVER_ONLY]
     models = load_models(conn)
     used = load_used(conn)
     specs_by_car: dict[str, list[dict]] = {}

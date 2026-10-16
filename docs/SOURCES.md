@@ -518,7 +518,7 @@ www.nhtsa.gov (the VIN lookup) answers a script with 403.
 
 ## Parkers
 
-Surveyed 16 Oct 2026; not read yet. Bauer's used-car valuation site. The owner asked for "a
+Surveyed 16 Oct 2026, read since the same day (`pipeline/providers/parkers.py`). Bauer's used-car valuation site. The owner asked for "a
 definitive list of trims"; CAP's is licensed (quote only, a subscriber id from Cap HPI), and
 Parkers is the nearest free one: every generation of a model, each with its trims and every
 derivative, old ones included, which a valuation site needs to price used cars.
@@ -557,9 +557,19 @@ derivative, old ones included, which a valuation site needs to price used cars.
 - **Left, and why:** cars for sale (the sites we already read print them); the used price range,
   which spans a derivative's years and mileages and is Parkers' valuation rather than a seller's
   price; reviews.
-- **Cost of a read:** the sitemap weekly (4 requests). Derivative pages within a nightly budget
-  and a freshness rotation, as `evdb_cars` does: about 4,000 pages, so about 20 nights at 200 a
-  night for the first pass, then the new and changed ones.
+- **Cost of a read:** the sitemap weekly (3 requests: `spec-1` to `spec-3`). The owner did not want
+  to wait nights for the first pass, so all 4,083 electric derivative pages were read on 16 Oct, one
+  a second; after that 400 a night, never-read pages first, then pages older than 30 days.
+- **Read:** from the sitemaps, every electric generation's trims, engines and derivatives (a
+  derivative is electric when its address names a kWh, or every engine of its generation is
+  electric, and never when its name burns fuel); from each derivative page its name, on-sale
+  dates, price when new, power, 0-60, efficiency, range, insurance group, battery, weight, length,
+  width, wheelbase, turning circle, doors, gearbox, fuel, charging times, and the standard and
+  optional equipment without their group headings. Parkers says the equipment is what the version
+  had "at some point during its production lifespan", so it is weaker evidence of one car's kit
+  than a maker's table.
+- **Not used yet:** the records are for the resolver; until it is built they are kept out of the
+  snapshot (`snapshot.RESOLVER_ONLY`).
 
 ## Reliability sources surveyed and left
 

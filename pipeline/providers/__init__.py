@@ -28,6 +28,7 @@ from pipeline.providers import (
     manual_seed,
     motorpoint_used,
     ncd,
+    parkers,
     nhtsa_recalls,
     rrg,
     whatcar,
@@ -62,6 +63,7 @@ PROVIDERS: dict[str, Provider] = {
         hyundai_configurator.provider,   # what the maker will actually build at what price: the strongest word on what is fitted
         evdb.provider,            # measured numbers per variant; laid over the cars by model and battery at export
         evdb_cars.provider,       # each variant's own page: dimensions, weights, charging, V2L outlets, NCAP (a batch a night)
+        parkers.provider,         # every generation's trims and derivatives with their on-sale dates, old ones included (a batch a night)
         adac.provider,            # ADAC's test of each model (ride, build quality, space) and its breakdown statistics (a batch a night)
         whatcar.provider,         # What Car?'s owner reliability survey, per model
         dvsa_recalls.provider,    # every UK safety recall, laid over the models by the build (Chrome downloads the file)

@@ -1,0 +1,2947 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+<script>
+	window.pageStart = Date.now();
+	console.debug('Page Start');
+</script>
+
+
+<script>
+	var parkersUtils = {
+		setCookieValue: function (name, value, maxAgeSeconds) {
+			if (value === undefined) {
+				return;
+			}
+
+			let cookie = name + "=" + encodeURIComponent(value) + "; path=/; samesite=lax";
+			if (typeof maxAgeSeconds === "number") {
+				cookie += "; max-age=" + maxAgeSeconds;
+			}
+
+			document.cookie = cookie;
+		},
+
+		getCookieValue: function (name) {
+			const cookieArr = document.cookie.split(";");
+
+			let value = null;
+			for (let i = 0; i < cookieArr.length; i++) {
+				const cookiePair = cookieArr[i].split("=");
+
+				if (cookiePair[0].trim() == name) {
+					value = decodeURIComponent(cookiePair[1]);
+					break;
+				}
+			}
+
+			return value;
+		}
+	};
+
+	var parkersConfig = {
+		debugMode: false,
+		cookieDomain: '.parkers.co.uk',
+        euPrivacyManagerId: 1326052,
+        usPrivacyManagerId: 1281420,
+		dataLayer: {"page":{"id":"NotSet","templateName":"Templates.CarSpecsDetail","galleryGaLocation":null,"overrideGaLocation":null,"cmsLastUpdatedDate":"NotSet","author":"NotSet","lastUpdatedBy":"NotSet"},"vehicle":{"vehicleType":"cars","vehicleName":"Hyundai Kona Electric SUV 2018","makeId":4537,"makeName":"Hyundai","rangeId":101181,"rangeName":"Kona Electric","modelId":2640,"modelName":"Kona Electric SUV (18-23)","bodyStyle":"4x4","condition":"Used","fuelType":"electric","gearboxType":"Automatic"},"analyticsAccount":"UA-10756961-12","classification":"4x4","wordCount":"NotSet","contentPurpose":"NotSet","pyramidName":"NotSet","pyramidTier":"NotSet","isAffiliate":"false","amazonTrackingId":"NotSet","amazonSubTag":"NotSet","hasTaboola":false},
+		onboardingCandidate: null,
+		galleryMobileAdFrequency: 5,
+		galleryMobileAdDuration: 3,
+		bauerStaticHost: 'https://static.bauercdn.com/',
+		pageViewId: getPageViewId(),
+		ppcTrackingParams: getPpcTrackingParams(),
+		amazonTrackingId: '',
+		amazonSubTag: '',
+		enableCmsAmazonTrackingId: true
+	};
+
+	if (parkersConfig.dataLayer.page) {
+		parkersConfig.dataLayer.page.pageview_id = parkersConfig.pageViewId;
+	}
+
+	if (parkersConfig.ppcTrackingParams) {
+		const params = parkersConfig.ppcTrackingParams;
+		parkersConfig.dataLayer.paidCampaign = `${params.utmMedium}|${params.utmSource}|${params.trackingIdName},${params.trackingId}`;
+	}
+
+
+			parkersConfig.dataLayer.adUnitPath = '/24156345/SMODAUTOMOTIVE/SMOD_Parkers/car-specs/{SlotName}/CarSpecsDetail';
+		
+	setParkersConfigClientSide(parkersConfig);
+
+	var bauerDataLayer = [parkersConfig.dataLayer];
+
+	initialisePerUserDataLayer(bauerDataLayer, parkersConfig);
+
+	function setParkersConfigClientSide(parkersConfig) {
+		parkersConfig.onboardingCandidate = getValueForOnboardingCandidate();
+
+		function getValueForOnboardingCandidate() {
+			const cookieName = "OnboardingCandidate";
+
+			let result = window.parkersUtils.getCookieValue(cookieName);
+			if (result !== "true" && result !== "false") {
+				result = (Math.random() < 0.5) ? "true" : "false";
+				window.parkersUtils.setCookieValue(cookieName, result);
+			}
+
+			return result === "true";
+		}
+	}
+
+	function initialisePerUserDataLayer(dataLayer, config) {
+		if (!dataLayer || !Array.isArray(dataLayer)) {
+			return;
+		}
+
+		let perUserDataLayerObj = {};
+		if (config.onboardingCandidate) {
+			perUserDataLayerObj.onboardingCandidate = 'true';
+		} else {
+			perUserDataLayerObj.onboardingCandidate = 'false';
+		}
+
+		dataLayer.push(perUserDataLayerObj);
+	}
+
+	function getPageViewId() {
+		if (window.crypto?.randomUUID) {
+			return crypto.randomUUID()
+		} else {
+			return 'local-development-pageview-id'
+		}
+	}
+
+	function getPpcTrackingParams() {
+		const sessionStorageKey = "ppcTrackingParams";
+		let result = sessionStorage.getItem(sessionStorageKey);
+
+		if (result) {
+			return JSON.parse(result);
+		}
+
+		const queryStringParams = new URLSearchParams(window.location.search);
+
+		let trackingIdKey = null;
+		let trackingIdValue = null;
+
+		const campaignIdKey = 'campaignid';
+		const adSetIdKey = 'adsetid';
+		const adGroupIdKey = 'adgroupid';
+
+		if (queryStringParams.has(campaignIdKey)) {
+			trackingIdKey = campaignIdKey;
+			trackingIdValue = queryStringParams.get(campaignIdKey);
+		} else if (queryStringParams.has(adSetIdKey)) {
+			trackingIdKey = adSetIdKey;
+			trackingIdValue = queryStringParams.get(adSetIdKey);
+		} else if (queryStringParams.has(adGroupIdKey)) {
+			trackingIdKey = adGroupIdKey;
+			trackingIdValue = queryStringParams.get(adGroupIdKey);
+		}
+
+		if (!trackingIdKey || !trackingIdValue) {
+			return null;
+		}
+
+		const utmMedium = queryStringParams.get('utm_medium');
+		const utmSource = queryStringParams.get('utm_source');
+
+		result = {
+			trackingIdName: trackingIdKey,
+			trackingId: trackingIdValue,
+			utmMedium: utmMedium,
+			utmSource: utmSource
+		}
+
+		sessionStorage.setItem(sessionStorageKey, JSON.stringify(result));
+
+		return result;
+	}
+</script>
+
+<script>
+	var coreJs = {
+		processDomReadyScripts: function() {
+			var chain = {
+				callbacks: coreJs.chainCompleteCallbacks,
+				queue: coreJs.domReadyScriptChain,
+				process: function() {
+					var self = this;
+					if (this.queue.length > 0) {
+						coreJs.injectScript(this.queue.shift(), true, function () {
+							self.process();
+						});
+					} else {
+						while (self.callbacks.length > 0) {
+							(self.callbacks.shift())();
+						}
+					}
+				}
+			}
+
+			chain.process();
+		},
+
+		isReady: false,
+		readyCallbacks: [],
+
+		injectScript: function (src, async, callback) {
+			var script = document.head.appendChild(document.createElement('script'));
+
+			if (typeof async !== 'undefined') {
+				script.async = async;
+			}
+
+			if (typeof callback === 'function') {
+				script.onload = function () {
+					script.onload = null;
+					callback();
+				};
+			}
+
+			script.src = src;
+			console.info('Init: Injected script "' + src + '" async=' + async);
+		},
+
+		domReadyScriptChain: [
+			'/dist/_6-94-1-DO-6488-204/js/specsdetail.min.js'
+		],
+
+		chainCompleteCallbacks: [],
+		windowLoadCallbacks: []
+	};
+
+	coreJs.chainCompleteCallbacks.push(function () {
+		console.info('Init: Chain complete');
+		parkers.init();
+		coreJs.isReady = true;
+	});
+
+	coreJs.injectScript('https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js', true, function() {
+		console.info('Init: Injected jquery');
+		$(window).on('load', function () {
+			console.info('Init: Window loaded');
+			while (coreJs.windowLoadCallbacks.length > 0) {
+				(coreJs.windowLoadCallbacks.shift())();
+			}
+		});
+
+		$(document).ready(function () {
+			console.info('Init: Document ready');
+			coreJs.processDomReadyScripts();
+		});
+	});
+</script>
+
+	<script async src="https://RLYDxKGpCnSJtyQLF.ay.delivery/manager/RLYDxKGpCnSJtyQLF" type="text/javascript" referrerpolicy="no-referrer-when-downgrade"></script>
+
+	<title>Hyundai Kona Electric SUV Premium SE 64 kWh Battery 204PS auto 5d specs &amp; dimensions | Parkers</title>
+	<link rel="shortcut icon" href="/dist/_6-94-1-DO-6488-204/images/favicon.ico" />
+	
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="max-image-preview:large">
+
+	<meta name="description" content="Find all specs on the Hyundai Kona Electric SUV Premium SE 64 kWh Battery 204PS auto 5d, from fuel efficiency and top speed, to dimensions data and more.">
+
+
+<meta name="robots" content="follow,noindex">
+		<link rel="canonical" href="https://www.parkers.co.uk/hyundai/kona-electric/suv-2018/specs/" />
+
+
+	
+	
+
+	<link rel="preconnect" href="https://www.google-analytics.com">
+<link rel="preconnect" href="https://cmp.parkers.co.uk">
+<link rel="preconnect" href="https://uk-script.dotmetrics.net">
+<link rel="preconnect" href="https://ajax.googleapis.com">
+<link rel="preconnect" href="https://www.googletagmanager.com">
+
+	<link rel="prefetch" as="script" href="https://www.google.com/recaptcha/api.js">
+	<link rel="preload" as="script" href="https://cmp.parkers.co.uk/wrapperMessagingWithoutDetection.js">
+
+	<!-- Start VWO Async SmartCode -->
+<link rel="preconnect" href="https://dev.visualwebsiteoptimizer.com" />
+<script >
+	window._vwo_code || (function() {
+	var account_id=896182,
+	version=2.1,
+	settings_tolerance=2000,
+	hide_element='body',
+	hide_element_style = 'opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important',
+	/* DO NOT EDIT BELOW THIS LINE */
+	f=false,w=window,d=document,v=d.querySelector('#vwoCode'),cK='_vwo_'+account_id+'_settings',cc={};try{var c=JSON.parse(localStorage.getItem('_vwo_'+account_id+'_config'));cc=c&&typeof c==='object'?c:{}}catch(e){}var stT=cc.stT==='session'?w.sessionStorage:w.localStorage;code={use_existing_jquery:function(){return typeof use_existing_jquery!=='undefined'?use_existing_jquery:undefined},library_tolerance:function(){return typeof library_tolerance!=='undefined'?library_tolerance:undefined},settings_tolerance:function(){return cc.sT||settings_tolerance},hide_element_style:function(){return'{'+(cc.hES||hide_element_style)+'}'},hide_element:function(){if(performance.getEntriesByName('first-contentful-paint')[0]){return''}return typeof cc.hE==='string'?cc.hE:hide_element},getVersion:function(){return version},finish:function(e){if(!f){f=true;var t=d.getElementById('_vis_opt_path_hides');if(t)t.parentNode.removeChild(t);if(e)(new Image).src='https://dev.visualwebsiteoptimizer.com/ee.gif?a='+account_id+e}},finished:function(){return f},addScript:function(e){var t=d.createElement('script');t.type='text/javascript';if(e.src){t.src=e.src}else{t.text=e.text}d.getElementsByTagName('head')[0].appendChild(t)},load:function(e,t){var i=this.getSettings(),n=d.createElement('script'),r=this;t=t||{};if(i){n.textContent=i;d.getElementsByTagName('head')[0].appendChild(n);if(!w.VWO||VWO.caE){stT.removeItem(cK);r.load(e)}}else{var o=new XMLHttpRequest;o.open('GET',e,true);o.withCredentials=!t.dSC;o.responseType=t.responseType||'text';o.onload=function(){if(t.onloadCb){return t.onloadCb(o,e)}if(o.status===200){w._vwo_code.addScript({text:o.responseText})}else{w._vwo_code.finish('&e=loading_failure:'+e)}};o.onerror=function(){if(t.onerrorCb){return t.onerrorCb(e)}w._vwo_code.finish('&e=loading_failure:'+e)};o.send()}},getSettings:function(){try{var e=stT.getItem(cK);if(!e){return}e=JSON.parse(e);if(Date.now()>e.e){stT.removeItem(cK);return}return e.s}catch(e){return}},init:function(){if(d.URL.indexOf('__vwo_disable__')>-1)return;var e=this.settings_tolerance();w._vwo_settings_timer=setTimeout(function(){w._vwo_code.finish();stT.removeItem(cK)},e);var t;if(this.hide_element()!=='body'){t=d.createElement('style');var i=this.hide_element(),n=i?i+this.hide_element_style():'',r=d.getElementsByTagName('head')[0];t.setAttribute('id','_vis_opt_path_hides');v&&t.setAttribute('nonce',v.nonce);t.setAttribute('type','text/css');if(t.styleSheet)t.styleSheet.cssText=n;else t.appendChild(d.createTextNode(n));r.appendChild(t)}else{t=d.getElementsByTagName('head')[0];var n=d.createElement('div');n.style.cssText='z-index: 2147483647 !important;position: fixed !important;left: 0 !important;top: 0 !important;width: 100% !important;height: 100% !important;background: white !important;';n.setAttribute('id','_vis_opt_path_hides');n.classList.add('_vis_hide_layer');t.parentNode.insertBefore(n,t.nextSibling)}var o='https://dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&vn='+version;if(w.location.search.indexOf('_vwo_xhr')!==-1){this.addScript({src:o})}else{this.load(o+'&x=true')}}};w._vwo_code=code;code.init();})();(function(){var i=window;function t(){if(i._vwo_code){var e=t.hidingStyle=document.getElementById('_vis_opt_path_hides')||t.hidingStyle;if(!i._vwo_code.finished()&&!_vwo_code.libExecuted&&(!i.VWO||!VWO.dNR)){if(!document.getElementById('_vis_opt_path_hides')){document.getElementsByTagName('head')[0].appendChild(e)}requestAnimationFrame(t)}}}t()})();
+</script>
+<!-- End VWO Async SmartCode -->
+
+
+
+	<!-- This is seperate from the Admiral view itself as that is only executed after the CMP action, and can cause a race condition if it hasn't executed when we start queueing Admiral function calls. -->
+<script>
+    // Create queue so that admiral calls are queued if admiral object isn't ready.
+    window.admiral = window.admiral || function() {
+        (window.admiral.q = window.admiral.q || []).push(arguments);
+    };
+
+    // Prevents admiral from making it's 'candidate' call until we can set our targeting in admiral.js
+    window.admiral('targeting', 'pause');
+</script>
+
+
+	
+	<style>
+		/*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}h1{font-size:2em;margin:.67em 0}a{background-color:transparent}b,strong{font-weight:bolder}img{border-style:none}button,input,select{font-family:inherit;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}[type=button],[type=submit],button{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}.foundation-mq{font-family:"small=0em&medium=40em&large=52em&xlarge=64em&xxlarge=75em"}html{box-sizing:border-box;font-size:100%}*,::after,::before{box-sizing:inherit}body{margin:0;padding:0;background:#fafafa;font-family:Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:400;line-height:1.5;color:#0a0a0a;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}img{display:inline-block;vertical-align:middle;max-width:100%;height:auto;-ms-interpolation-mode:bicubic}select{box-sizing:border-box;width:100%;border-radius:0}button{padding:0;appearance:none;border:0;border-radius:0;background:0 0;line-height:1;cursor:auto}button,input,select{font-family:inherit}.is-visible{display:block!important}.grid-x{display:flex;flex-flow:row wrap}.cell{flex:0 0 auto;min-height:0;min-width:0;width:100%}@media print,screen and (min-width:40em){.grid-x>.medium-6{flex-basis:auto}}@media print,screen and (min-width:52em){.grid-x>.large-12{flex-basis:auto}}@media screen and (min-width:64em){.grid-x>.xlarge-6{flex-basis:auto}}@media print,screen and (min-width:40em){.grid-x>.medium-6{flex:0 0 auto;width:50%}}@media print,screen and (min-width:52em){.grid-x>.large-12{flex:0 0 auto;width:100%}}@media screen and (min-width:64em){.grid-x>.xlarge-6{flex:0 0 auto;width:50%}}.grid-margin-x{margin-left:-.625rem;margin-right:-.625rem}@media print,screen and (min-width:40em){.grid-margin-x{margin-left:-.9375rem;margin-right:-.9375rem}}.grid-margin-x>.cell{width:calc(100% - 1.25rem);margin-left:.625rem;margin-right:.625rem}@media print,screen and (min-width:40em){.grid-margin-x>.cell{width:calc(100% - 1.875rem);margin-left:.9375rem;margin-right:.9375rem}}@media screen and (min-width:64em){.grid-margin-x>.xlarge-6{width:calc(50% - 1.875rem)}}.grid-padding-x>.cell{padding-right:.625rem;padding-left:.625rem}@media print,screen and (min-width:40em){.grid-padding-x>.cell{padding-right:.9375rem;padding-left:.9375rem}}div,form,h1,h2,h3,h4,li,ol,p,ul{margin:0;padding:0}p{margin-bottom:1rem;font-size:inherit;line-height:1.75rem;text-rendering:optimizeLegibility}b,strong{font-weight:500;line-height:inherit}h1,h2,h3,h4{font-family:Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;font-style:normal;font-weight:400;color:inherit;text-rendering:optimizeLegibility}h1{font-size:1.875rem;line-height:1.4;margin-top:0;margin-bottom:.5rem}h2{font-size:1.5rem;line-height:1.4;margin-top:0;margin-bottom:.5rem}h3{font-size:1.125rem;line-height:1.4;margin-top:0;margin-bottom:.5rem}h4{font-size:1rem;line-height:1.4;margin-top:0;margin-bottom:.5rem}@media print,screen and (min-width:52em){h1{font-size:2.25rem}h2{font-size:1.625rem}h3{font-size:1.25rem}h4{font-size:1.125rem}}a{line-height:inherit;color:#034ea2;text-decoration:none;cursor:pointer}a:focus,a:hover{color:rgb(7.7568627451%,40.8078431373%,62.7294117647%)}a img{border:0}ol,ul{margin-bottom:1rem;list-style-position:outside;line-height:1.6}li{font-size:inherit}ul{margin-left:1.25rem;list-style-type:disc}ol{margin-left:1.25rem}ul ul{margin-left:1.25rem;margin-bottom:0}@media print{*{background:0 0!important;color:#000!important;print-color-adjust:economy;box-shadow:none!important;text-shadow:none!important}a,a:visited{text-decoration:underline}a[href]:after{content:" (" attr(href) ")"}a[href^="#"]:after{content:""}img{page-break-inside:avoid;max-width:100%!important}@page{margin:.5cm}h2,h3,p{orphans:3;widows:3}h2,h3{page-break-after:avoid}}.hide{display:none!important}@media screen and (max-width:39.99875em){.show-for-medium{display:none!important}}@media print,screen and (min-width:52em){.hide-for-large{display:none!important}}@media screen and (max-width:51.99875em){.show-for-large{display:none!important}}@media screen and (min-width:64em){.hide-for-xlarge{display:none!important}}@media screen and (max-width:63.99875em){.show-for-xlarge{display:none!important}}.show-for-sr{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}.clearfix::after,.clearfix::before{display:table;content:" ";flex-basis:0;order:1}.clearfix::after{clear:both}[type=email],[type=text]{appearance:none;display:block;box-sizing:border-box;width:100%;height:2.4375rem;margin:0 0 1rem;padding:.5rem;border:1px solid #cacaca;border-radius:0;background-color:#fefefe;box-shadow:inset 0 1px 2px rgba(10,10,10,.1);font-family:inherit;font-size:1rem;font-weight:400;line-height:1.5;color:#0a0a0a;transition:box-shadow .5s,border-color .25s ease-in-out}[type=email]:focus,[type=text]:focus{outline:0;border:1px solid #8a8a8a;background-color:#fefefe;box-shadow:0 0 5px #cacaca;transition:box-shadow .5s,border-color .25s ease-in-out}input:disabled{background-color:#e6e6e6;cursor:not-allowed}[type=button],[type=submit]{appearance:none;border-radius:0}label{display:block;margin:0;font-size:.875rem;font-weight:400;line-height:1.8;color:#0a0a0a}select{height:2.4375rem;margin:0 0 1rem;padding:.5rem;appearance:none;border:1px solid #cacaca;border-radius:0;background-color:#fefefe;font-family:inherit;font-size:1rem;font-weight:400;line-height:1.5;color:#0a0a0a;transition:box-shadow .5s,border-color .25s ease-in-out;background-origin:content-box;background-position:right -1rem center;background-repeat:no-repeat;background-size:9px 6px;padding-right:1.5rem;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="24" viewBox="0 0 32 24"><polygon points="0,0 32,0 16,24" style="fill: rgb%28138, 138, 138%29"></polygon></svg>')}@media screen and (min-width:0\0){select{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAYCAYAAACbU/80AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIpJREFUeNrEkckNgDAMBBfRkEt0ObRBBdsGXUDgmQfK4XhH2m8czQAAy27R3tsw4Qfe2x8uOO6oYLb6GlOor3GF+swURAOmUJ+RwtEJs9WvTGEYxBXqI1MQAZhCfUQKRzDMVj+TwrAIV6jvSUEkYAr1LSkcyTBb/V+KYfX7xAeusq3sLDtGH3kEGACPWIflNZfhRQAAAABJRU5ErkJggg==)}}select:focus{outline:0;border:1px solid #8a8a8a;background-color:#fefefe;box-shadow:0 0 5px #cacaca;transition:box-shadow .5s,border-color .25s ease-in-out}select:disabled{background-color:#e6e6e6;cursor:not-allowed}select::-ms-expand{display:none}select:not([multiple]){padding-top:0;padding-bottom:0}.is-invalid-input:not(:focus){border-color:#cc4b37;background-color:rgb(98%,92.9411764706%,92.1568627451%)}.is-off-canvas-open{overflow:hidden}.js-off-canvas-overlay{position:absolute;top:0;left:0;z-index:11;width:100%;height:100%;transition:opacity .5s ease,visibility .5s ease;background:rgba(254,254,254,.25);opacity:0;visibility:hidden;overflow:hidden}.js-off-canvas-overlay.is-visible{opacity:1;visibility:visible}.js-off-canvas-overlay.is-closable{cursor:pointer}.js-off-canvas-overlay.is-overlay-absolute{position:absolute}.js-off-canvas-overlay.is-overlay-fixed{position:fixed}.off-canvas-wrapper{position:relative;overflow:hidden}.off-canvas{z-index:12;transition:transform .5s ease;backface-visibility:hidden;background:#e6e6e6;position:fixed}[data-whatinput=mouse] .off-canvas{outline:0}.off-canvas.is-transition-push{z-index:12}.off-canvas.is-closed{visibility:hidden}.off-canvas.is-transition-overlap{z-index:13}.off-canvas.is-transition-overlap.is-open{box-shadow:0 0 10px rgba(10,10,10,.7)}.off-canvas.is-open{transform:translate(0,0)}.off-canvas-absolute{z-index:12;transition:transform .5s ease;backface-visibility:hidden;background:#e6e6e6;position:absolute}[data-whatinput=mouse] .off-canvas-absolute{outline:0}.off-canvas-absolute.is-transition-push{z-index:12}.off-canvas-absolute.is-closed{visibility:hidden}.off-canvas-absolute.is-transition-overlap{z-index:13}.off-canvas-absolute.is-transition-overlap.is-open{box-shadow:0 0 10px rgba(10,10,10,.7)}.off-canvas-absolute.is-open{transform:translate(0,0)}.position-left{top:0;left:0;height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;width:250px;transform:translateX(-250px)}.off-canvas-content .off-canvas.position-left{transform:translateX(-250px)}.off-canvas-content .off-canvas.position-left.is-transition-overlap.is-open{transform:translate(0,0)}.off-canvas-content.is-open-left.has-transition-push{transform:translateX(250px)}.position-left.is-transition-push{box-shadow:inset -13px 0 20px -13px rgba(10,10,10,.25)}.position-right{top:0;right:0;height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;width:250px;transform:translateX(250px)}.off-canvas-content .off-canvas.position-right{transform:translateX(250px)}.off-canvas-content .off-canvas.position-right.is-transition-overlap.is-open{transform:translate(0,0)}.off-canvas-content.is-open-right.has-transition-push{transform:translateX(-250px)}.position-right.is-transition-push{box-shadow:inset 13px 0 20px -13px rgba(10,10,10,.25)}.position-top{top:0;left:0;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;height:250px;transform:translateY(-250px)}.off-canvas-content .off-canvas.position-top{transform:translateY(-250px)}.off-canvas-content .off-canvas.position-top.is-transition-overlap.is-open{transform:translate(0,0)}.off-canvas-content.is-open-top.has-transition-push{transform:translateY(250px)}.position-top.is-transition-push{box-shadow:inset 0 -13px 20px -13px rgba(10,10,10,.25)}.position-bottom{bottom:0;left:0;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;height:250px;transform:translateY(250px)}.off-canvas-content .off-canvas.position-bottom{transform:translateY(250px)}.off-canvas-content .off-canvas.position-bottom.is-transition-overlap.is-open{transform:translate(0,0)}.off-canvas-content.is-open-bottom.has-transition-push{transform:translateY(-250px)}.position-bottom.is-transition-push{box-shadow:inset 0 13px 20px -13px rgba(10,10,10,.25)}.off-canvas-content{transform:none;backface-visibility:hidden}.off-canvas-content.has-transition-overlap,.off-canvas-content.has-transition-push{transition:transform .5s ease}.off-canvas-content.has-transition-push{transform:translate(0,0)}.off-canvas-content .off-canvas.is-open{transform:translate(0,0)}@media print,screen and (min-width:40em){.position-left.reveal-for-medium{transform:none;z-index:12;transition:none;visibility:visible}.position-left.reveal-for-medium .close-button{display:none}.off-canvas-content .position-left.reveal-for-medium{transform:none}.off-canvas-content.has-reveal-left{margin-left:250px}.position-left.reveal-for-medium~.off-canvas-content{margin-left:250px}.position-right.reveal-for-medium{transform:none;z-index:12;transition:none;visibility:visible}.position-right.reveal-for-medium .close-button{display:none}.off-canvas-content .position-right.reveal-for-medium{transform:none}.off-canvas-content.has-reveal-right{margin-right:250px}.position-right.reveal-for-medium~.off-canvas-content{margin-right:250px}.position-top.reveal-for-medium{transform:none;z-index:12;transition:none;visibility:visible}.position-top.reveal-for-medium .close-button{display:none}.off-canvas-content .position-top.reveal-for-medium{transform:none}.off-canvas-content.has-reveal-top{margin-top:250px}.position-top.reveal-for-medium~.off-canvas-content{margin-top:250px}.position-bottom.reveal-for-medium{transform:none;z-index:12;transition:none;visibility:visible}.position-bottom.reveal-for-medium .close-button{display:none}.off-canvas-content .position-bottom.reveal-for-medium{transform:none}.off-canvas-content.has-reveal-bottom{margin-bottom:250px}.position-bottom.reveal-for-medium~.off-canvas-content{margin-bottom:250px}}@media print,screen and (min-width:52em){.position-left.reveal-for-large{transform:none;z-index:12;transition:none;visibility:visible}.position-left.reveal-for-large .close-button{display:none}.off-canvas-content .position-left.reveal-for-large{transform:none}.off-canvas-content.has-reveal-left{margin-left:250px}.position-left.reveal-for-large~.off-canvas-content{margin-left:250px}.position-right.reveal-for-large{transform:none;z-index:12;transition:none;visibility:visible}.position-right.reveal-for-large .close-button{display:none}.off-canvas-content .position-right.reveal-for-large{transform:none}.off-canvas-content.has-reveal-right{margin-right:250px}.position-right.reveal-for-large~.off-canvas-content{margin-right:250px}.position-top.reveal-for-large{transform:none;z-index:12;transition:none;visibility:visible}.position-top.reveal-for-large .close-button{display:none}.off-canvas-content .position-top.reveal-for-large{transform:none}.off-canvas-content.has-reveal-top{margin-top:250px}.position-top.reveal-for-large~.off-canvas-content{margin-top:250px}.position-bottom.reveal-for-large{transform:none;z-index:12;transition:none;visibility:visible}.position-bottom.reveal-for-large .close-button{display:none}.off-canvas-content .position-bottom.reveal-for-large{transform:none}.off-canvas-content.has-reveal-bottom{margin-bottom:250px}.position-bottom.reveal-for-large~.off-canvas-content{margin-bottom:250px}}@media screen and (min-width:64em){.position-left.reveal-for-xlarge{transform:none;z-index:12;transition:none;visibility:visible}.position-left.reveal-for-xlarge .close-button{display:none}.off-canvas-content .position-left.reveal-for-xlarge{transform:none}.off-canvas-content.has-reveal-left{margin-left:250px}.position-left.reveal-for-xlarge~.off-canvas-content{margin-left:250px}.position-right.reveal-for-xlarge{transform:none;z-index:12;transition:none;visibility:visible}.position-right.reveal-for-xlarge .close-button{display:none}.off-canvas-content .position-right.reveal-for-xlarge{transform:none}.off-canvas-content.has-reveal-right{margin-right:250px}.position-right.reveal-for-xlarge~.off-canvas-content{margin-right:250px}.position-top.reveal-for-xlarge{transform:none;z-index:12;transition:none;visibility:visible}.position-top.reveal-for-xlarge .close-button{display:none}.off-canvas-content .position-top.reveal-for-xlarge{transform:none}.off-canvas-content.has-reveal-top{margin-top:250px}.position-top.reveal-for-xlarge~.off-canvas-content{margin-top:250px}.position-bottom.reveal-for-xlarge{transform:none;z-index:12;transition:none;visibility:visible}.position-bottom.reveal-for-xlarge .close-button{display:none}.off-canvas-content .position-bottom.reveal-for-xlarge{transform:none}.off-canvas-content.has-reveal-bottom{margin-bottom:250px}.position-bottom.reveal-for-xlarge~.off-canvas-content{margin-bottom:250px}}@media screen and (min-width:75em){.position-left.reveal-for-xxlarge{transform:none;z-index:12;transition:none;visibility:visible}.position-left.reveal-for-xxlarge .close-button{display:none}.off-canvas-content .position-left.reveal-for-xxlarge{transform:none}.off-canvas-content.has-reveal-left{margin-left:250px}.position-left.reveal-for-xxlarge~.off-canvas-content{margin-left:250px}.position-right.reveal-for-xxlarge{transform:none;z-index:12;transition:none;visibility:visible}.position-right.reveal-for-xxlarge .close-button{display:none}.off-canvas-content .position-right.reveal-for-xxlarge{transform:none}.off-canvas-content.has-reveal-right{margin-right:250px}.position-right.reveal-for-xxlarge~.off-canvas-content{margin-right:250px}.position-top.reveal-for-xxlarge{transform:none;z-index:12;transition:none;visibility:visible}.position-top.reveal-for-xxlarge .close-button{display:none}.off-canvas-content .position-top.reveal-for-xxlarge{transform:none}.off-canvas-content.has-reveal-top{margin-top:250px}.position-top.reveal-for-xxlarge~.off-canvas-content{margin-top:250px}.position-bottom.reveal-for-xxlarge{transform:none;z-index:12;transition:none;visibility:visible}.position-bottom.reveal-for-xxlarge .close-button{display:none}.off-canvas-content .position-bottom.reveal-for-xxlarge{transform:none}.off-canvas-content.has-reveal-bottom{margin-bottom:250px}.position-bottom.reveal-for-xxlarge~.off-canvas-content{margin-bottom:250px}}@media print,screen and (min-width:40em){.off-canvas.in-canvas-for-medium{visibility:visible;height:auto;position:static;background:0 0;width:auto;overflow:visible;transition:none}.off-canvas.in-canvas-for-medium.position-bottom,.off-canvas.in-canvas-for-medium.position-left,.off-canvas.in-canvas-for-medium.position-right,.off-canvas.in-canvas-for-medium.position-top{box-shadow:none;transform:none}.off-canvas.in-canvas-for-medium .close-button{display:none}}@media print,screen and (min-width:52em){.off-canvas.in-canvas-for-large{visibility:visible;height:auto;position:static;background:0 0;width:auto;overflow:visible;transition:none}.off-canvas.in-canvas-for-large.position-bottom,.off-canvas.in-canvas-for-large.position-left,.off-canvas.in-canvas-for-large.position-right,.off-canvas.in-canvas-for-large.position-top{box-shadow:none;transform:none}.off-canvas.in-canvas-for-large .close-button{display:none}}@media screen and (min-width:64em){.off-canvas.in-canvas-for-xlarge{visibility:visible;height:auto;position:static;background:0 0;width:auto;overflow:visible;transition:none}.off-canvas.in-canvas-for-xlarge.position-bottom,.off-canvas.in-canvas-for-xlarge.position-left,.off-canvas.in-canvas-for-xlarge.position-right,.off-canvas.in-canvas-for-xlarge.position-top{box-shadow:none;transform:none}.off-canvas.in-canvas-for-xlarge .close-button{display:none}}@media screen and (min-width:75em){.off-canvas.in-canvas-for-xxlarge{visibility:visible;height:auto;position:static;background:0 0;width:auto;overflow:visible;transition:none}.off-canvas.in-canvas-for-xxlarge.position-bottom,.off-canvas.in-canvas-for-xxlarge.position-left,.off-canvas.in-canvas-for-xxlarge.position-right,.off-canvas.in-canvas-for-xxlarge.position-top{box-shadow:none;transform:none}.off-canvas.in-canvas-for-xxlarge .close-button{display:none}}.reveal-overlay{position:fixed;top:0;right:0;bottom:0;left:0;z-index:1005;display:none;background-color:rgba(10,10,10,.45);overflow-y:auto;-webkit-overflow-scrolling:touch}.reveal{position:relative;top:100px;margin-right:auto;margin-left:auto;overflow-y:auto;-webkit-overflow-scrolling:touch;z-index:1006;backface-visibility:hidden;display:none;padding:1rem;border:1px solid #cacaca;border-radius:0;background-color:#fefefe}@media print,screen and (min-width:40em){.reveal{min-height:0}}.reveal>:last-child{margin-bottom:0}@media print,screen and (min-width:40em){.reveal{width:600px;max-width:75rem}}@media print,screen and (max-width:39.99875em){.reveal{top:0;right:0;bottom:0;left:0;width:100%;max-width:none;height:100%;min-height:100%;margin-left:0;border:0;border-radius:0}}.splide__list{backface-visibility:hidden;display:flex;height:100%;margin:0!important;padding:0!important}.splide{position:relative;visibility:hidden}.splide.is-initialized{visibility:visible}.splide__slide{backface-visibility:hidden;box-sizing:border-box;flex-shrink:0;list-style-type:none!important;margin:0;position:relative}.splide__track{overflow:hidden;position:relative;z-index:0}.splide__track--draggable{-webkit-touch-callout:none;user-select:none}.splide__arrow{background:#ccc;border:0;cursor:pointer;padding:0;position:absolute;top:50%;transform:translateY(-50%);z-index:1;opacity:.7;align-items:center;border-radius:50%;display:flex;justify-content:center;height:2em;width:2em}.splide__arrow svg{fill:#000;height:1.2em;width:1.2em}.splide__arrow:hover:not(:disabled){opacity:.9}.splide__arrow:disabled{opacity:.3}.splide__arrow:focus-visible{outline:#0bf 3px solid;outline-offset:3px}.splide__arrow--prev{left:1em}.splide__arrow--prev svg{transform:scaleX(-1)}.splide__arrow--next{right:1em}.splide__pagination__page:focus-visible{outline:#0bf 3px solid;outline-offset:3px}.splide__slide{-webkit-tap-highlight-color:transparent}.splide__slide:focus{outline:0}@supports (outline-offset:-3px){.splide__slide:focus-visible{outline:#0bf 3px solid;outline-offset:-3px}}@media screen and (-ms-high-contrast:none){.splide__slide:focus-visible{border:#0bf 3px solid}}.splide__toggle:focus-visible{outline:#0bf 3px solid;outline-offset:3px}@font-face{font-family:Rajdhani;font-style:normal;font-weight:700;src:local("Rajdhani Bold"),local("Rajdhani-Bold"),url(https://static-cdn.bauersecure.com/fonts/rajdhani/bold/latin/rajdhani-latin.woff2) format("woff2")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:300;src:local("Roboto Light"),local("Roboto-Light"),url(https://static-cdn.bauersecure.com/fonts/roboto/light/latin-ext/roboto-latin-ext.woff2) format("woff2")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:300;src:local("Roboto Light"),local("Roboto-Light"),url(https://static-cdn.bauersecure.com/fonts/roboto/light/latin/roboto-latin.woff2) format("woff2")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:400;src:local("Roboto"),local("Roboto-Regular"),url(https://static-cdn.bauersecure.com/fonts/roboto/regular/latin-ext/roboto-latin-ext.woff2) format("woff2")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:400;src:local("Roboto"),local("Roboto-Regular"),url(https://static-cdn.bauersecure.com/fonts/roboto/regular/latin/roboto-latin.woff2) format("woff2")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:500;src:local("Roboto Medium"),local("Roboto-Medium"),url(https://static-cdn.bauersecure.com/fonts/roboto/medium/latin-ext/roboto-latin-ext.woff2) format("woff2")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:500;src:local("Roboto Medium"),local("Roboto-Medium"),url(https://static-cdn.bauersecure.com/fonts/roboto/medium/latin/roboto-latin.woff2) format("woff2")}@font-face{font-display:swap;font-family:"Roboto Condensed";font-style:normal;font-weight:400;src:local("Roboto Condensed"),local("RobotoCondensed-Regular"),url(https://static-cdn.bauersecure.com/fonts/roboto_condensed/regular/latin-ext/roboto-condensed-v25-latin-ext-regular.woff2) format("woff2")}@font-face{font-display:swap;font-family:"Roboto Condensed";font-style:normal;font-weight:400;src:local("Roboto Condensed"),local("RobotoCondensed-Regular"),url(https://static-cdn.bauersecure.com/fonts/roboto_condensed/regular/latin/roboto-condensed-v25-latin-regular.woff2) format("woff2")}*{min-height:0;min-width:0}@font-face{font-family:foundation-icons;src:url(/dist/_6-94-1-DO-6488-204/fonts/foundation-icons/foundation-icons.eot);src:url(/dist/_6-94-1-DO-6488-204/fonts/foundation-icons/foundation-icons.eot?#iefix) format("embedded-opentype"),url(/dist/_6-94-1-DO-6488-204/fonts/foundation-icons/foundation-icons.woff) format("woff"),url(/dist/_6-94-1-DO-6488-204/fonts/foundation-icons/foundation-icons.ttf) format("truetype"),url(/dist/_6-94-1-DO-6488-204/fonts/foundation-icons/foundation-icons.svg#fontcustom) format("svg");font-weight:400;font-style:normal}.fi-home:before,.fi-list:before{font-family:foundation-icons;font-style:normal;font-weight:400;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;display:inline-block;text-decoration:inherit}.fi-list:before{content:"\f169"}.fi-home:before{content:"\f15a"}body{overflow-anchor:none}h1{font-weight:500;line-height:1.1;margin-top:.75rem;padding:0}@media print,screen and (min-width:52em){h1{line-height:1.4;margin:0}}h2,h3,h4{font-weight:500}.horizontal-primary-nav .horizontal-primary-nav__menu,.horizontal-primary-nav .horizontal-primary-nav__sub-nav,.mobile-primary-nav,.mobile-primary-nav .mobile-primary-nav__sub-nav,.off-canvas-site-nav__tabs{list-style:none;margin:0;padding:0}.horizontal-primary-nav .horizontal-primary-nav__menu::after,.horizontal-primary-nav .horizontal-primary-nav__menu::before,.horizontal-primary-nav .horizontal-primary-nav__sub-nav::after,.horizontal-primary-nav .horizontal-primary-nav__sub-nav::before,.off-canvas-site-nav__tabs::after,.off-canvas-site-nav__tabs::before{display:table;content:" ";flex-basis:0;order:1}.horizontal-primary-nav .horizontal-primary-nav__menu::after,.horizontal-primary-nav .horizontal-primary-nav__sub-nav::after,.off-canvas-site-nav__tabs::after{clear:both}.horizontal-primary-nav .horizontal-primary-nav__menu>li,.horizontal-primary-nav .horizontal-primary-nav__sub-nav>li,.off-canvas-site-nav__tabs>li{float:left}.mobile-primary-nav .mobile-primary-nav__sub-nav>li,.mobile-primary-nav>li{display:block}p{font-size:1rem}@media screen and (min-width:64em){p{font-size:1.125rem}}.advert{margin:0 auto;position:relative;text-align:center}.leaderboard-ad-container{height:6.75rem;margin:.25rem 0;overflow:hidden}@media print,screen and (min-width:52em){.leaderboard-ad-container{margin:1rem auto}}@media screen and (min-width:64em){.leaderboard-ad-container{height:16.625rem}}.zero-height-ad{height:0}.button{background-color:#034ea2;border:.125rem solid #034ea2;border-radius:.25rem;color:#fff;margin-bottom:.5rem;outline:0;padding:.5rem 1rem;position:relative;text-align:center;transition:all .2s;width:100%}.button:disabled{color:#999;cursor:not-allowed}.button:not([disabled]):focus,.button:not([disabled]):hover{background-color:rgb(7.6666666667%,40.3333333333%,62%);border:.125rem solid rgb(7.6666666667%,40.3333333333%,62%);color:#fff}.button--right-pad{padding-right:2.5rem}.button .button__arrow{border-bottom:.15rem solid #fff;border-right:.15rem solid #fff;height:0;padding:.5rem;position:absolute;right:1rem;top:50%;transform:translateY(-50%) rotate(-45deg);width:0}.button--hollow-white{background-color:transparent;border:.125rem solid #fff;color:#fff}.button--hollow-white:not([disabled]):focus,.button--hollow-white:not([disabled]):hover{background-color:transparent;border:.125rem solid #fff;color:#fff}.button--hollow-white .button__arrow{border-bottom-color:#fff;border-right-color:#fff}.screen-size-detector{display:none;font-family:S;left:0;position:fixed;top:0}.screen-size-detector:after{background-color:#000;color:#fff;content:"Small";font-family:sans-serif;padding:.5rem 1rem}@media print,screen and (min-width:40em){.screen-size-detector{font-family:M}.screen-size-detector:after{content:"Medium"}}@media print,screen and (min-width:52em){.screen-size-detector{font-family:L}.screen-size-detector:after{content:"Large"}}@media screen and (min-width:64em){.screen-size-detector{font-family:XL}.screen-size-detector:after{content:"X-Large"}}@media screen and (min-width:75em){.screen-size-detector{font-family:XXL}.screen-size-detector:after{content:"XX-Large"}}.info-popup-button{height:1.2rem;width:1.2rem}.info-popup-button--warning{color:#fdc600}.info-popup{font-size:1rem}.info-popup__title{font-weight:500;margin-bottom:1rem}.info-popup__content{font-size:1rem;font-weight:300}.cfs-shortlist-badge{background-color:#01336a;border-radius:.875rem;color:#fff;display:none;font-size:1rem;font-weight:500;line-height:1.75rem;margin:.5rem;text-align:center;width:1.75rem}@media print,screen and (min-width:52em){.cfs-shortlist-badge{display:initial;float:right;margin:.8125rem 0 0 .375rem}}.cfs-shortlist-badge--off-canvas{display:block;margin:0 auto}.cfs-shortlist-badge--added,.cfs-shortlist-badge--deleted{animation:fadeIn .8s alternate infinite;display:block}.cfs-shortlist-badge--added{background-color:#749100}.cfs-shortlist-badge--deleted{background-color:#d52e20}.horizontal-primary-nav{background-image:linear-gradient(#bdd8fd,rgb(64.4117647059%,78.9705882353%,98.9215686275%));margin:0 auto;max-height:2.8125rem;max-width:87.5rem;transition:max-height .2s}.horizontal-primary-nav .horizontal-primary-nav__menu{height:2.8125rem;overflow:hidden;width:calc(100% - 200px)}.horizontal-primary-nav .horizontal-primary-nav__item{border-right:.0625rem solid #fff;position:initial}.horizontal-primary-nav .horizontal-primary-nav__item:hover{background-color:#53b1e7}.horizontal-primary-nav .horizontal-primary-nav__item:hover .horizontal-primary-nav__item__link{color:#fff}.horizontal-primary-nav .horizontal-primary-nav__item.is-dropdown-submenu-parent .horizontal-primary-nav__item__link{padding-right:1rem}.horizontal-primary-nav .horizontal-primary-nav__item.is-dropdown-submenu-parent .horizontal-primary-nav__item__link::after{margin:.1875rem auto 0;position:initial}@media screen and (min-width:64em){.horizontal-primary-nav .horizontal-primary-nav__item.is-dropdown-submenu-parent .horizontal-primary-nav__item__link{padding-right:2rem}.horizontal-primary-nav .horizontal-primary-nav__item.is-dropdown-submenu-parent .horizontal-primary-nav__item__link::after{margin:-.1rem .5rem 0 0;position:absolute}}.horizontal-primary-nav .horizontal-primary-nav__item.is-dropdown-submenu-parent:hover .horizontal-primary-nav__item__link::after{border-top-color:#fff}.horizontal-primary-nav .horizontal-primary-nav__item.is-dropdown-submenu-parent .horizontal-primary-nav__sub-nav{left:auto!important;right:auto!important;top:auto!important}.horizontal-primary-nav .horizontal-primary-nav__item__link{display:block;font-size:.8rem;height:2.8125rem;padding:.5rem 1rem;text-transform:uppercase;transition:background-color .2s}.horizontal-primary-nav .horizontal-primary-nav__sub-nav{border:.0625rem solid #ccc;border-top:0;box-shadow:.125rem .125rem .125rem #444;max-width:18.75rem;position:absolute;white-space:nowrap;z-index:150}.horizontal-primary-nav .horizontal-primary-nav__sub-nav__item:last-child>*{border-bottom:0}.horizontal-primary-nav .horizontal-primary-nav__sub-nav__item__link{border-bottom:.0625rem solid #fff;display:block;font-size:.9rem;height:2rem;line-height:1rem;padding:0 1rem}.horizontal-primary-nav .horizontal-primary-nav__sub-nav__item:hover{background-color:#53b1e7}.horizontal-primary-nav .horizontal-primary-nav__sub-nav__item:hover .horizontal-primary-nav__sub-nav__item__link{color:#fff}.horizontal-primary-nav .horizontal-primary-nav__more-menu{list-style:none;margin-left:0;position:absolute;visibility:hidden}@media print,screen and (min-width:52em) and (max-width:63.99875em){.horizontal-primary-nav .horizontal-primary-nav__more-menu{height:3.4375rem}}.horizontal-primary-nav .horizontal-primary-nav__more-menu__link{display:block;font-size:.8rem;text-transform:uppercase}@media print,screen and (min-width:52em) and (max-width:63.99875em){.horizontal-primary-nav .horizontal-primary-nav__more-menu__link::after{margin:.1875rem auto 0!important;position:initial}}.horizontal-primary-nav .horizontal-primary-nav__more-menu .is-active .horizontal-primary-nav__more-menu__link::after{border-top-color:#fff}.horizontal-primary-nav .horizontal-primary-nav__more-menu__item.is-dropdown-submenu-parent .horizontal-primary-nav__more-menu__link{padding-right:1.5rem}@media print,screen and (min-width:52em) and (max-width:63.99875em){.horizontal-primary-nav .horizontal-primary-nav__more-menu__item.is-dropdown-submenu-parent .horizontal-primary-nav__more-menu__link{padding-right:1rem}}.horizontal-primary-nav .horizontal-primary-nav__more-menu__content .horizontal-primary-nav__sub-nav .horizontal-primary-nav__sub-nav__item__link{color:#034ea2}.horizontal-primary-nav .horizontal-primary-nav__more-menu__content .horizontal-primary-nav__sub-nav .horizontal-primary-nav__sub-nav__item__link:hover{color:#fff}@media screen and (min-width:64em){.horizontal-primary-nav{max-height:2.1875rem!important}.horizontal-primary-nav .horizontal-primary-nav__menu{height:2.1875rem}.horizontal-primary-nav .horizontal-primary-nav__item__link{font-size:.9rem;height:2.1875rem;line-height:1.5}.horizontal-primary-nav .horizontal-primary-nav__more-menu__link{font-size:.9rem;height:2.1875rem;line-height:1.5}}.mobile-primary-nav .mobile-primary-nav__item__link,.mobile-primary-nav .mobile-primary-nav__sub-nav__item__link{border-bottom:.0625rem solid #fff;display:block;transition:background-color .2s,color .2s}.mobile-primary-nav .mobile-primary-nav__item__link:hover,.mobile-primary-nav .mobile-primary-nav__sub-nav__item__link:hover{background-color:#01336a;color:#fff}.mobile-primary-nav{background-color:#e0ecfe;border-top:.2rem solid #01336a;box-shadow:inset .75rem 0 .5rem -.75rem rgba(0,0,0,.5)}.mobile-primary-nav .mobile-primary-nav__item__link{font-size:1rem;padding:.65rem;text-transform:uppercase}.mobile-primary-nav .mobile-primary-nav__item__link--has-sub-menu::after{content:"";display:block;height:0;width:0;border-left:.375rem solid transparent;border-right:.375rem solid transparent;border-top:.375rem solid #034ea2;float:right;margin:.5rem 0 0 .5rem}.mobile-primary-nav .mobile-primary-nav__item__link--has-sub-menu:hover::after{border-top-color:#fff}.mobile-primary-nav .mobile-primary-nav__sub-nav{background-color:#e0ecfe;display:none}.mobile-primary-nav .mobile-primary-nav__sub-nav__item__link{font-size:.9rem;height:2.25rem;line-height:2.25rem;padding:0 .6875rem}.site-nav{box-sizing:border-box;float:right}.site-nav .site-nav__link{background-position:.5rem center;background-repeat:no-repeat;color:#fff;float:left;font-size:.875rem;height:3.4375rem;line-height:3.4375rem;text-align:right;transition:background-color .2s}.site-nav .site-nav__link:hover{background-color:#53b1e7;color:#fff}.site-nav .site-nav__link--active{background-color:#01336a;color:#fff}.site-nav .site-nav__link__icon{display:inline-block;margin:0 .25rem 0 0}.site-nav .site-nav__link__label{vertical-align:top}.site-nav .site-nav__link--cars{padding:0 .75rem;width:7rem}.site-nav .site-nav__link--vans{padding:0 .75rem;width:11.25rem}.site-nav .site-nav__link--saved-cars{padding:0 .75rem;width:11.875rem}.site-header-desktop{background:#fff;cursor:default;width:100%}.site-header-desktop .site-header-desktop__inner{background-image:linear-gradient(rgb(1.3582887701%,35.3155080214%,73.3475935829%),#034ea2);border-bottom:.3125rem solid #01336a;height:3.75rem;margin:0 auto;max-width:87.5rem}.site-header-desktop .site-header-desktop__logo{color:#fff;float:left;height:3.4375rem;width:16.5625rem}.site-header-desktop .site-header-desktop__logo:hover .site-header-desktop__logo__icon{background-color:#01336a;color:#fff}.site-header-desktop .site-header-desktop__logo__icon{display:inline-block;font-size:2rem;height:3.4375rem;line-height:3.4375rem;text-align:center;transition:background-color .2s;width:3.4375rem}.site-header-desktop .site-header-desktop__logo__image{margin:0 0 .8rem .3rem}.site-header-mobile{background-color:#034ea2;color:#fff;display:flex;height:2.8125rem;padding:0}.site-header-mobile .site-header-mobile__left{background-color:#01336a;width:2.8125rem}.site-header-mobile .site-header-mobile__middle{flex-grow:1;font-size:.9rem;line-height:2.8125rem;text-align:center;text-transform:uppercase}.site-header-mobile .site-header-mobile__right{background-color:#01336a;height:2.8125rem;width:2.8125rem}@media print,screen and (min-width:40em){.site-header-mobile .site-header-mobile__right{width:auto}}.site-header-mobile .site-header-mobile__icon{color:#fff;display:block;line-height:2.8125rem;margin:0 auto;outline:0;text-align:center}.site-header-mobile .site-header-mobile__icon--menu{font-size:1.4rem;padding:0 .8rem}.site-header-mobile .site-header-mobile__icon__text{display:none}@media print,screen and (min-width:40em){.site-header-mobile .site-header-mobile__icon__text{display:initial}}.heading-panel{background:#034ea2;border-radius:.25rem;color:#fff;display:flex;flex-direction:column;margin-bottom:1rem;overflow:hidden}@media print,screen and (min-width:52em){.heading-panel{flex-direction:row}}.heading-panel__heading{font-size:2rem;font-weight:500;line-height:2.2rem;padding:.75rem 1rem 0}.heading-panel__sub-heading{display:block;font-size:1.5rem;margin-top:1rem}@media print,screen and (min-width:52em){.heading-panel__sub-heading{margin-top:.5rem}}.heading-panel__change-vehicle{font-weight:500;margin:1rem 1rem 0}.heading-panel__change-vehicle__link{color:#fff;text-decoration:underline}.heading-panel__buttons{column-gap:1rem;display:flex;flex-wrap:wrap;padding:1rem}.heading-panel__buttons__link{cursor:pointer;flex:1 0 auto;width:auto}.heading-panel__text-container{display:flex;flex:1;flex-direction:column}.heading-panel__text-container__main{display:flex;flex:1;flex-direction:column;justify-content:center}.heading-panel__text-container__link-carousel{flex-shrink:0}.heading-panel__image-container{flex-grow:0}@media print,screen and (min-width:52em){.heading-panel__image-container{max-width:27.1875rem}}.site-breadcrumbs{margin-top:.25rem}.site-breadcrumbs .site-breadcrumbs__trail::after,.site-breadcrumbs .site-breadcrumbs__trail::before{display:table;content:" ";flex-basis:0;order:1}.site-breadcrumbs .site-breadcrumbs__trail::after{clear:both}.site-breadcrumbs .site-breadcrumbs__trail{font-family:Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:.9rem;list-style:none;margin:0;padding:0}.site-breadcrumbs .site-breadcrumbs__trail>li{display:inline}.site-breadcrumbs .site-breadcrumbs__trail__item{margin-right:.6rem}.site-breadcrumbs .site-breadcrumbs__trail__item:after{color:#999;content:">"}.site-breadcrumbs .site-breadcrumbs__trail__link{margin-right:.4rem;white-space:nowrap}.quick-links-slider{overflow:hidden;padding-top:.25rem}.quick-links-slider .splide{height:3rem;visibility:visible}.quick-links-slider .splide__track{border-top:.0625rem solid rgba(255,255,255,.25);overflow:visible}.quick-links-slider .splide__arrow{background:#034ea2;border-radius:0;opacity:1}.quick-links-slider .splide__arrow:disabled{visibility:hidden}.quick-links-slider .splide__arrow:hover{opacity:1}.quick-links-slider .splide__arrow--next{right:0}.quick-links-slider .splide__arrow--prev{left:0}.quick-links-slider .splide__arrow svg{fill:#fff}.quick-links-slider .quick-links-slider__item{font-size:.9rem;padding:.75rem 1.5rem}.quick-links-slider .quick-links-slider__item--active{background:#e0ecfe;border-top:.25rem solid #ffd500;color:#01336a;margin-top:-.25rem}.quick-links-slider .quick-links-slider__link{color:#fff;font-weight:500;text-decoration:underline}.quick-links-slider .quick-links-slider__link--active{color:#01336a}.proposition-block{background:#e6edf6;border-radius:.25rem;column-gap:1rem;display:flex;margin-bottom:1rem;padding:1rem}.proposition-block__icon{color:#034ea2;flex-grow:0;flex-shrink:0;height:2.5rem;width:2.5rem}.proposition-block__text{flex-grow:1}.proposition-block__text__heading{font-size:1.2rem}.proposition-block__text__content{margin-bottom:0}.proposition-block__text__content>p{font-size:1rem}.specs-detail-table{border:.0625rem solid #ccc;height:fit-content;margin-bottom:1rem}.specs-detail-table .specs-detail-table__intro{padding:1rem 1rem .5rem}.specs-detail-table .specs-detail-table__intro__section{font-size:.9rem}.specs-detail-table .specs-detail-table__intro__heading{font-size:1.1rem}.specs-detail-table .specs-detail-table__list{list-style:none;margin:0}@media screen and (min-width:64em){.specs-detail-table .specs-detail-table__list--multi-column{column-count:2;column-gap:1rem}}.specs-detail-table .specs-detail-table__footer{padding:1rem;text-align:center}.specs-detail-table .specs-detail-table__footer__link{font-size:.9rem;font-weight:500;text-decoration:underline;text-underline-offset:.1rem}.specs-detail-table .specs-detail-table__text-block{font-size:.9rem;font-weight:300;padding:0 1rem 1rem}.specs-detail-table .specs-detail-table__charge-times{flex-grow:1}@media print,screen and (min-width:40em){.specs-detail-table .specs-detail-table__charge-times{align-items:center;column-gap:.5rem;display:flex}}@media screen and (min-width:64em){.specs-detail-table .specs-detail-table__charge-times{display:block}}.specs-detail-table .specs-detail-table__charge-times__detail{flex-grow:1}.specs-detail-table .specs-detail-table__charge-times__select{font-size:.9rem;margin:.5rem 0}.specs-detail-table .specs-detail-table__charge-times__info{display:none}.specs-detail-table .specs-detail-table__charge-times__info--selected{display:block}.specs-detail-table .specs-detail-table__charge-times__info__heading{float:left;font-weight:300}.specs-detail-table .specs-detail-table__charge-times__info__value{float:right}.specs-detail-table .specs-detail-table__euro-ncap__logo{float:right;margin:0 .5rem}.specs-detail-table .specs-detail-table__euro-ncap__badge{background-color:#fff;border:.1875rem solid #000;border-radius:.625rem;float:right;margin:0 .5rem;max-width:10rem;padding-top:.25rem;text-align:center}.specs-detail-table .specs-detail-table__euro-ncap__badge__year{background-color:#000;color:#fff;font-size:.9rem;font-weight:500;letter-spacing:.05rem;margin-top:.25rem;padding-top:.125rem;text-transform:uppercase}.specs-detail-table .specs-detail-table__euro-ncap__pre-2009-ratings{list-style:none;text-align:center}.specs-detail-table .specs-detail-table__item{align-items:center;column-gap:.5rem;display:flex;min-height:3.4375rem;padding:.25rem .5rem}.specs-detail-table .specs-detail-table__item:nth-child(odd){background:#e6edf6}.specs-detail-table .specs-detail-table__item__icon{color:#01336a;flex-grow:0;flex-shrink:0;height:1.5rem;margin:0 .25rem}.specs-detail-table .specs-detail-table__item__icon__image{height:1.5rem;width:1.5rem}.specs-detail-table .specs-detail-table__item__info-button{color:#034ea2;cursor:pointer;margin-left:.875rem;vertical-align:middle}.specs-detail-table .specs-detail-table__item__label{flex-grow:1;flex-shrink:0;font-size:.875rem;font-weight:300}.specs-detail-table .specs-detail-table__item__value{font-size:.875rem;font-weight:500;text-align:right}.site-root{display:flex;flex-direction:column;margin:0 auto;max-width:87.5rem;min-height:100vh;position:relative}@media screen and (min-width:64em){.site-root{box-shadow:0 0 1px #ccc,0 0 1px #ccc}}.site-main{margin:0 auto;max-width:73rem;padding:.75rem 1rem 1rem}.site-main--full-width-content{max-width:initial}@media screen and (min-width:64em){.site-main{flex-basis:60%;flex-grow:1}}.site-content{background-color:#fff;flex-grow:1;min-height:100%}.site-content__top{border-bottom:.0625rem solid #eee}
+	</style>
+	<link rel="stylesheet" href="/dist/_6-94-1-DO-6488-204/css/specsdetail.min.css" media="print" onload="this.media='all'">
+
+
+	
+<script>
+	"use strict";function _typeof(t){return(_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}!function(){var t=function(){var t,e,o=[],n=window,r=n;for(;r;){try{if(r.frames.__tcfapiLocator){t=r;break}}catch(t){}if(r===n.top)break;r=r.parent}t||(!function t(){var e=n.document,o=!!n.frames.__tcfapiLocator;if(!o)if(e.body){var r=e.createElement("iframe");r.style.cssText="display:none",r.name="__tcfapiLocator",e.body.appendChild(r)}else setTimeout(t,5);return!o}(),n.__tcfapi=function(){for(var t=arguments.length,n=new Array(t),r=0;r<t;r++)n[r]=arguments[r];if(!n.length)return o;"setGdprApplies"===n[0]?n.length>3&&2===parseInt(n[1],10)&&"boolean"==typeof n[3]&&(e=n[3],"function"==typeof n[2]&&n[2]("set",!0)):"ping"===n[0]?"function"==typeof n[2]&&n[2]({gdprApplies:e,cmpLoaded:!1,cmpStatus:"stub"}):o.push(n)},n.addEventListener("message",(function(t){var e="string"==typeof t.data,o={};if(e)try{o=JSON.parse(t.data)}catch(t){}else o=t.data;var n="object"===_typeof(o)&&null!==o?o.__tcfapiCall:null;n&&window.__tcfapi(n.command,n.version,(function(o,r){var a={__tcfapiReturn:{returnValue:o,success:r,callId:n.callId}};t&&t.source&&t.source.postMessage&&t.source.postMessage(e?JSON.stringify(a):a,"*")}),n.parameter)}),!1))};"undefined"!=typeof module?module.exports=t:t()}();
+</script>
+<script>
+	window.__gpp_addFrame=function(e){if(!window.frames[e])if(document.body){var t=document.createElement("iframe");t.style.cssText="display:none",t.name=e,document.body.appendChild(t)}else window.setTimeout(window.__gpp_addFrame,10,e)},window.__gpp_stub=function(){var e=arguments;if(__gpp.queue=__gpp.queue||[],__gpp.events=__gpp.events||[],!e.length||1==e.length&&"queue"==e[0])return __gpp.queue;if(1==e.length&&"events"==e[0])return __gpp.events;var t=e[0],p=e.length>1?e[1]:null,s=e.length>2?e[2]:null;if("ping"===t)p({gppVersion:"1.1",cmpStatus:"stub",cmpDisplayStatus:"hidden",signalStatus:"not ready",supportedAPIs:["2:tcfeuv2","5:tcfcav1","6:uspv1","7:usnat","8:usca","9:usva","10:usco","11:usut","12:usct"],cmpId:0,sectionList:[],applicableSections:[],gppString:"",parsedSections:{}},!0);else if("addEventListener"===t){"lastId"in __gpp||(__gpp.lastId=0),__gpp.lastId++;var n=__gpp.lastId;__gpp.events.push({id:n,callback:p,parameter:s}),p({eventName:"listenerRegistered",listenerId:n,data:!0,pingData:{gppVersion:"1.1",cmpStatus:"stub",cmpDisplayStatus:"hidden",signalStatus:"not ready",supportedAPIs:["2:tcfeuv2","5:tcfcav1","6:uspv1","7:usnat","8:usca","9:usva","10:usco","11:usut","12:usct"],cmpId:0,sectionList:[],applicableSections:[],gppString:"",parsedSections:{}}},!0)}else if("removeEventListener"===t){for(var a=!1,i=0;i<__gpp.events.length;i++)if(__gpp.events[i].id==s){__gpp.events.splice(i,1),a=!0;break}p({eventName:"listenerRemoved",listenerId:s,data:a,pingData:{gppVersion:"1.1",cmpStatus:"stub",cmpDisplayStatus:"hidden",signalStatus:"not ready",supportedAPIs:["2:tcfeuv2","5:tcfcav1","6:uspv1","7:usnat","8:usca","9:usva","10:usco","11:usut","12:usct"],cmpId:0,sectionList:[],applicableSections:[],gppString:"",parsedSections:{}}},!0)}else"hasSection"===t?p(!1,!0):"getSection"===t||"getField"===t?p(null,!0):__gpp.queue.push([].slice.apply(e))},window.__gpp_msghandler=function(e){var t="string"==typeof e.data;try{var p=t?JSON.parse(e.data):e.data}catch(e){p=null}if("object"==typeof p&&null!==p&&"__gppCall"in p){var s=p.__gppCall;window.__gpp(s.command,(function(p,n){var a={__gppReturn:{returnValue:p,success:n,callId:s.callId}};e.source.postMessage(t?JSON.stringify(a):a,"*")}),"parameter"in s?s.parameter:null,"version"in s?s.version:"1.1")}},"__gpp"in window&&"function"==typeof window.__gpp||(window.__gpp=window.__gpp_stub,window.addEventListener("message",window.__gpp_msghandler,!1),window.__gpp_addFrame("__gppLocator"));
+</script>
+
+<script>
+
+	const CONSENT_STORAGE_KEY = 'consentData';
+	const consentTypes = {
+		gdpr: 'gdpr',
+		usnat: 'usnat'
+	};
+
+	// Using ids instead of names as the usnat api does not provide vendor names
+	const vendorIds = {
+		googleAdvertisingProducts: '5f1aada6b8e05c306c0597d7',
+		covatic: '622b1a2a293cdf2be28075f2',
+		permutive: '5f369a02b8e05c2f2d546a40',
+		bauerMediaGroup: '5f8036e6145f6b2baf93e3d6'
+	};
+	
+	const purposeNames = {
+		storeAndAccess: 'Store and/or access information on a device',
+		selectPersonalisedAds: 'Use profiles to select personalised advertising',
+		createPersonalisedAdProfiles: 'Create profiles for personalised advertising'
+	};
+	
+	// Track consent checks and granted status
+	const consentChecks = {
+		gdpr: { checked: false, applies: false, },
+		usnat: { checked: false, applies: false }
+	};
+
+	// Function to initialize GPT with corejs function
+	function initializeGpt() {
+		if (coreJs.isReady) {
+			parkers.initGpt(window.gptData);
+			return;
+		}
+		
+		coreJs.chainCompleteCallbacks.push(function() {
+			parkers.initGpt(window.gptData);
+		});
+	}
+
+	// Store the consent data in a common form (gdpr and usnat use different forms) in local storage for scripts to use after consent status is known
+	function storeConsentData(consentType, consentedVendors) {
+		const consentData = {
+			type: consentType,
+			consentedVendors: consentedVendors,
+			timestamp: new Date().getTime()
+		};
+
+		localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(consentData));
+	}
+	
+	function initialiseWithNoRegion() {
+		// Non-region users have no privacy laws to consider, therefore we treat them as having consented to all required vendors
+		const consentedVendors = [
+			vendorIds.googleAdvertisingProducts,
+			vendorIds.covatic,
+			vendorIds.permutive,
+			vendorIds.bauerMediaGroup
+		];
+
+		console.log('CMP: No region applies');
+		console.log('CMP: Consented vendor ids - ' + consentedVendors);
+		
+		storeConsentData('none', consentedVendors);
+		initializeGpt();
+	}
+
+	function hasVendorConsent(consentedVendorIds, vendorId) {
+		if (!consentedVendorIds) {
+			console.warn('Vendor consent data is not set');
+			return false;
+		}
+
+		return consentedVendorIds.some(function (consentedVendorId) {
+			return consentedVendorId === vendorId;
+		});
+	}
+	
+	function hasConsentedPurpose(consentedPurposeNames, purposeName) {
+		if (!consentedPurposeNames) {
+			console.warn('Consented purposes data is not set');
+			return false;
+		}
+
+		return consentedPurposeNames.some(function (consentedPurposeName) {
+			return consentedPurposeName === purposeName;
+		});
+	}
+	
+	function hasCustomVendorPurposes(consentedPurposeNames) {
+		// The following purposes are the minimum required for Bauer's ad scripts, these must all be consented.
+		return hasConsentedPurpose(consentedPurposeNames, purposeNames.createPersonalisedAdProfiles)
+			&& hasConsentedPurpose(consentedPurposeNames, purposeNames.selectPersonalisedAds)
+			&& hasConsentedPurpose(consentedPurposeNames, purposeNames.storeAndAccess);
+	}
+	
+	// On successfully getting vendor consents, store consent data in local storage and fire consented ad scripts
+	function onGetVendorConsents(consentType, consentedVendorIds, consentedPurposeNames, success) {
+		if (!success) {
+			console.error(`Failed to get ${consentType} vendor consents`);
+			return;
+		}
+
+		let consentedVendors = [];
+		let hasRequiredCustomVendorPurposes = hasCustomVendorPurposes(consentedPurposeNames);
+
+		if (hasVendorConsent(consentedVendorIds, vendorIds.googleAdvertisingProducts)) {
+			consentedVendors.push(vendorIds.googleAdvertisingProducts);
+		}
+
+		if (hasVendorConsent(consentedVendorIds, vendorIds.covatic)) {
+			consentedVendors.push(vendorIds.covatic);
+		}
+
+		if (hasVendorConsent(consentedVendorIds, vendorIds.permutive)) {
+			consentedVendors.push(vendorIds.permutive);
+		}
+
+		// 'Bauer Media Group' is a custom vendor and, as such, requires the custom vendor purposes to be consented to as well
+		if (hasVendorConsent(consentedVendorIds, vendorIds.bauerMediaGroup) && hasRequiredCustomVendorPurposes) {
+			consentedVendors.push(vendorIds.bauerMediaGroup);
+			console.info('Admiral: loading script');
+			// script tags haven't been added here because the partial view is called from inside JavaScript code (see ConsentManagementScript View)
+(function() {
+	var admiralScript = document.createElement('script');
+	admiralScript.async = true;
+	admiralScript.src = 'https://www.parkers.co.uk/polite-msg-js/';
+	document.head.appendChild(admiralScript);
+})();
+		}
+
+		console.log(`CMP: ${consentType} applies`);
+		console.log(`CMP: Consented vendor ids - ${JSON.stringify(consentedVendors)}`);
+		
+		storeConsentData(consentType, consentedVendors);
+		initializeGpt();
+	}
+	
+	window._sp_queue = [];
+	window._sp_ = {
+		config: {
+			accountId: 296,
+			baseEndpoint: 'https://cmp.parkers.co.uk',
+			propertyId: 1021,
+			groupId: '5f2d5df669fbe1001a630921',
+			usnat: {},
+			gdpr: {},
+			events: {
+				onMessageReady: function () {
+					console.log('[event] onMessageReady', arguments);
+				},
+				onMessageReceiveData: function () {
+					console.log('[event] onMessageReceiveData', arguments);
+				},
+				onSPReady: function () {
+					console.log('[event] onSPReady', arguments);
+				},
+				onError: function () {
+					console.log('[event] onError', arguments);
+				},
+				onMessageChoiceSelect: function () {
+					console.log('[event] onMessageChoiceSelect', arguments);
+				},
+				onConsentReady: function (consentType, consentUUID, euconsent, info) {
+					console.log('[event] onConsentReady', arguments);
+					
+					// The sourcepoint onConsentReady event fires once for each consent region on a page load (gdpr and usnat)
+					// Since a user could be one or neither of these, we must wait until both region events have fired, store
+					// their respective consent status, then determine whether to use the given regional consent or treat it as a non-region.
+
+					// onConsentReady fires regions on page load before the user has accepted or rejected, as well as when the user has selected an option.
+					// In this case, the consentUUID for the user's profile will be undefined, so we want to ignore that case.
+					const userHasSelectedConsentOption = !!consentUUID;
+					
+					if (consentType === consentTypes.gdpr) {
+						consentChecks.gdpr.checked = true;
+						consentChecks.gdpr.applies = info.applies;
+						
+						if (info.applies && userHasSelectedConsentOption) {
+							window.__tcfapi('getCustomVendorConsents', 2, function (data, success) {
+								// Can't use 'data.consentedVendors' here as that only includes custom vendors (missing vendors such as Permutive and Covatic)
+								const consentedVendorIds = [];
+								
+								for (const [vendorId, grantData] of Object.entries(data.grants)) {
+									if (grantData.vendorGrant) {
+										consentedVendorIds.push(vendorId);
+									}
+								}
+								
+								const consentedPurposes = data.consentedPurposes.map(function (purpose) {
+									return purpose.name;
+								})
+
+								onGetVendorConsents(consentTypes.gdpr, consentedVendorIds, consentedPurposes, success);
+							});
+						}
+					}
+					
+					if (consentType === consentTypes.usnat) {
+						consentChecks.usnat.checked = true;
+						consentChecks.usnat.applies = info.applies;
+
+						if (info.applies && userHasSelectedConsentOption) {
+							window._sp_.usnat.getUserConsents(function (consents, success) {
+								const consentedVendorIds = consents.vendors
+									.filter(function (vendor) {
+										return vendor.consented;
+									})
+									.map(function(consentedVendor) {
+										return consentedVendor._id;
+									});
+									
+								// TODO Should create a separate array for 'requiredCustomVendorPurposes'
+								// as the purposes defined here may not always be equal to the required purposes
+
+								// US regions are treated as having consented to all purposes
+								const consentedPurposes = Object.values(purposeNames);
+
+								onGetVendorConsents(consentTypes.usnat, consentedVendorIds, consentedPurposes, success);
+							});
+						}
+					}
+					
+					if (consentChecks.gdpr.checked
+						&& consentChecks.usnat.checked
+						&& !consentChecks.gdpr.applies
+						&& !consentChecks.usnat.applies) {
+						
+						initialiseWithNoRegion()
+					}
+				},
+				onPrivacyManagerAction: function () {
+					console.log('[event] onPrivacyManagerAction', arguments);
+				},
+				onPMCancel: function () {
+					console.log('[event] onPMCancel', arguments);
+				}
+			}
+		}
+	}
+</script>
+
+<script src='https://cmp.parkers.co.uk/unified/wrapperMessagingWithoutDetection.js' async></script>
+
+
+		
+
+<script>
+	coreJs.chainCompleteCallbacks.push(function () {
+		coreJs.injectScript("https://cdn.permutive.app/556dcd72-7701-4fcf-99aa-1c623a3718be-web.js", true, function () {
+			console.info('Permutive: Script loaded');
+		});
+	});
+</script>
+
+<script>
+	!function (n, e, i) { if (!n) { n = n || {}, window.permutive = n, n.q = [], n.config = i || {}, n.config.apiKey = e, n.config.environment = n.config.environment || "production"; for (var o = ["addon", "identify", "track", "trigger", "query", "segment", "segments", "ready", "on", "once", "user", "consent"], r = 0; r < o.length; r++) { var t = o[r]; n[t] = function (e) { return function () { var i = Array.prototype.slice.call(arguments, 0); n.q.push({ functionName: e, arguments: i }) } }(t) } } }(window.permutive, "7b3ad054-b05c-4772-9326-da27a964f72c", { "consentRequired": true });
+	window.permutive.readyWithTimeout = function (e, i, t) { var u = !1, n = function () { u || (e(), u = !0) }; (t = t || 1 / 0) !== 1 / 0 && window.setTimeout(n, t), permutive.ready(n, i) };
+
+	const userEmailHashCookieValue = window.parkersUtils.getCookieValue('permutive-user-email-hash');
+	const parkersUserCookieValue = window.parkersUtils.getCookieValue('Parkers.User');
+	const permutiveUserPFIDCookieValue = window.parkersUtils.getCookieValue('permutive-user-pfid');
+
+	let permutiveUserPostcode;
+	let permutiveUserKnown = false;
+	let permutiveUserPFID;
+	
+	if (permutiveUserPFIDCookieValue) {
+		const permutiveUserPFIDData = JSON.parse(permutiveUserPFIDCookieValue);
+				
+		permutiveUserPFID = permutiveUserPFIDData.id;
+	} else {
+		permutiveUserPFID = getUserPFID();
+		
+		const cookieData = {
+			Id: permutiveUserPFID
+		};
+		
+		window.parkersUtils.setCookieValue('permutive-user-pfid', JSON.stringify(cookieData));
+	}
+	
+	const identifyData = [];
+	
+	if (userEmailHashCookieValue) {
+		const permutiveUserData = JSON.parse(userEmailHashCookieValue);
+		permutiveUserKnown = permutiveUserData.userKnown;
+		
+		identifyData.push(
+			{
+				id: permutiveUserData.permutiveUserEmailHashData.userSaltedEmailHash,
+				tag: 'bauer_id',
+				priority: 0
+			},
+			{
+				id: permutiveUserData.permutiveUserEmailHashData.userEmailHash,
+				tag: 'email_sha256',
+				priority: 1
+			}
+		);
+	} 
+	
+	if (permutiveUserPFID) {
+		identifyData.push(
+			{
+				id: permutiveUserPFID,
+				tag: 'pfid',
+				priority: 2
+			}
+		);
+	}
+	
+	if (identifyData.length > 0) {
+		window.permutive.identify(identifyData);
+	}
+	
+	if (parkersUserCookieValue) {
+		const cookieValues = JSON.parse(parkersUserCookieValue);
+
+		if (cookieValues.postcode) {
+			const SPACE_REGEX = /\s+/gi;
+			permutiveUserPostcode = cookieValues.postcode.replace(SPACE_REGEX, '').toUpperCase();
+		}
+	}
+
+	const permutiveDataModel = {"cars":{"make":"hyundai","model":"hyundai_kona-electric","condition":["Used"],"category":["4x4","electric-hybrid"],"fuel":"electric"},"vehicle":{"type":"car"},"temp":"CarSpecsDetail","type":"article"};
+	if (permutiveDataModel) {
+		permutiveDataModel.user = {
+			known: permutiveUserKnown,
+			postcode_district: permutiveUserPostcode
+		};
+		
+		if (window.parkersConfig.ppcTrackingParams) {
+			const params = parkersConfig.ppcTrackingParams;
+			permutiveDataModel.paid_campaign = `${params.utmMedium}|${params.utmSource}|${params.trackingIdName},${params.trackingId}`;
+		}
+
+		permutive.addon("web",
+		{
+			page : permutiveDataModel
+		});
+	} else {
+		permutive.addon("web", {});
+	}
+
+	function getUserPFID() {
+    	if (window.crypto?.randomUUID) {
+    		return crypto.randomUUID();
+    	} else {
+    		return '55ee62b2-313f-4252-b223-54dbda07c3a4';
+    	}
+    }
+</script>
+
+		
+
+<script>
+	(function(apiKey, pageProperties) {
+		var url = 'https://api.permutive.com/ctx/v1/segment?k=' + apiKey
+		var request = new window.XMLHttpRequest()
+	
+		request.open('POST', url, true)
+		request.onreadystatechange = callback
+		request.send(JSON.stringify({
+			pageProperties: enrichClient(pageProperties),
+			url: document.URL
+		}))
+	
+		function callback() {
+			if (request.readyState === 4 && request.status === 200) {
+				var apiResponse
+	
+				try {
+					apiResponse = JSON.parse(request.responseText)
+				} catch (e) {
+					return
+				}
+	
+				// expose API response to main SDK
+				window.permutive.addon('contextual', apiResponse)
+	
+				window.googletag = window.googletag || {}
+				window.googletag.cmd = window.googletag.cmd || []
+				window.googletag.cmd.push(function() {
+					var pubads = window.googletag.pubads()
+					var ctxcohorts = apiResponse.gam || []
+					var targetingKey = 'prmtvctx'
+					var targetingValues = ctxcohorts.concat('rts') // always include "rts"
+	
+					pubads.setTargeting(targetingKey, targetingValues)
+				})
+			}
+		}
+	
+		function getClient() {
+			return {
+				url: document.URL,
+				referrer: document.referrer,
+				type: 'web',
+				user_agent: navigator.userAgent,
+				domain: window.location.hostname,
+				title: document.title
+			}
+		}
+	
+		function enrichClient(pageProps) {
+			try {
+				var clientObject = {
+					client: getClient()
+				}
+	
+				if (typeof pageProps === 'object' && !Array.isArray(pageProps)) {
+					return Object.assign({}, pageProps, clientObject)
+				} else {
+					return clientObject
+				}
+			} catch (e) {
+				return {}
+			}
+		}
+	})('7b3ad054-b05c-4772-9326-da27a964f72c', {"cars":{"make":"hyundai","model":"hyundai_kona-electric","condition":["Used"],"category":["4x4","electric-hybrid"],"fuel":"electric"},"vehicle":{"type":"car"},"temp":"CarSpecsDetail","type":"article","time":"2026-10-16T09:24:10.3149928+00:00"})
+</script>
+
+	
+
+<script src="https://browser.covatic.io/sdk/v1/bauer.js" type="text/javascript"></script>
+<script>
+	// Inject the serialised media consumption data into the global window object
+	window.mediaConsumptionData = {"clientConfig":"U2FsdGVkX1+LGxLK/kstFlSqyRZ11Xe3T8KkP2g/AQz57tR4WFoI+24Xs9knXSMxmPttGr2i2MSyslRr1TbvHLZ52bxyIFCKULlP5+IWt2Q4ZZPiDPiDMB82zyjuGnP8iaqWu6CbNHWgPeHJyONtwgu4+VoHeyAUWEEtkdOonPzJUvNiX4jA6iaftaO+KcIrKdS0iH73vXo2u/ZEIxsnZbWKK1Me4LUOq+T+u4qB2TcTyD9nWAAqyLWyHghWFocawMKd/rXsPNgWJjSiS+5DEg==","mediaSubsection":"car-specs","mediaAssetTitle":"Hyundai Kona Electric SUV","cvcDescription":"Find all specs on the Hyundai Kona Electric SUV Premium SE 64 kWh Battery 204PS auto 5d, from fuel efficiency and top speed, to dimensions data and more.","mediaTags":[]};
+</script>
+
+	
+<script type="text/javascript">
+	(function() {
+		window.dm=window.dm || {AjaxData:[]};
+		window.dm.AjaxEvent = function(et,d,ssid,ad) {
+			dm.AjaxData.push({et:et, d:d, ssid:ssid, ad:ad});
+			window.DotMetricsObj && DotMetricsObj.onAjaxDataUpdate();
+		};
+		var d = document, h = d.getElementsByTagName('head')[0], s = d.createElement('script');
+		s.type = 'text/javascript';
+		s.async = true;
+		s.src = 'https://uk-script.dotmetrics.net/door.js?id=11373';
+		h.appendChild(s);
+	}());
+</script>
+
+
+
+		
+<script>
+	coreJs.chainCompleteCallbacks.push(function () {
+		coreJs.injectScript("https://www.google.com/recaptcha/api.js?render=6Ldzf24qAAAAACKs-7_XKIPzA0PUieP8SVlPNI0q", true, function () {
+			console.info('Recaptcha: Script loaded');
+		});
+	});
+</script>
+</head>
+
+<body>
+	<span class="screen-size-detector"></span>
+	<script>
+		parkersConfig.dataLayer.screenSize =
+			window.getComputedStyle(document.querySelector("span.screen-size-detector")).getPropertyValue('font-family');
+	</script>
+	
+<script>
+	(function (w, d, s, l, i) {
+		w[l] = w[l] || []; w[l].push({
+			'gtm.start':
+				new Date().getTime(), event: 'gtm.js'
+		}); var f = d.getElementsByTagName(s)[0],
+			j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+				'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+	})(window, document, 'script', 'bauerDataLayer', 'GTM-WM34QH');
+</script>
+
+	<div class="off-canvas position-right is-closed" id="offCanvasRight" data-off-canvas>
+		
+<header class="off-canvas-site-nav">
+	<h4 class="show-for-sr">Primary Navigation Mobile</h4>
+	<button class="off-canvas-site-nav__close-link" data-toggle="offCanvasRight">
+		<span class="fi-icon fi-icon--small fi-x"></span>Close menu
+	</button>
+	<ul class="off-canvas-site-nav__tabs" role="tablist" data-tab="">
+		<li class="off-canvas-site-nav__tab off-canvas-site-nav__tab--active">
+			<a href="/" class="off-canvas-site-nav__tab__link off-canvas-site-nav__tab__link--cars" role="tab" aria-controls="carsMenu" aria-selected="true">
+				<span class="off-canvas-site-nav__tab__link__icon icon-50x50-car-white"></span>
+				<span class="off-canvas-site-nav__tab__link__label">Cars</span>
+			</a>
+		</li>
+		<li class="off-canvas-site-nav__tab ">
+			<a href="/vans-pickups/" class="off-canvas-site-nav__tab__link off-canvas-site-nav__tab__link--vans" role="tab" aria-controls="vansMenu" aria-selected="false">
+				<span class="off-canvas-site-nav__tab__link__icon icon-50x50-van-white"></span>
+				<span class="off-canvas-site-nav__tab__link__label">Vans & Pickups</span>
+			</a>
+		</li>
+		<li class="off-canvas-site-nav__tab">
+			<span>
+			<a href="/cars-for-sale/shortlist/" rel="nofollow" class="off-canvas-site-nav__tab__link off-canvas-site-nav__tab__link--saved-cars">
+					<span class="off-canvas-site-nav__tab__link__cfs-shortlist-badge-container">
+						<span class="cfs-shortlist-badge cfs-shortlist-badge--off-canvas"></span>
+					</span>
+					<span class="off-canvas-site-nav__tab__link__label">Saved Cars</span>
+				</a>
+			</span>
+		</li>
+	</ul>
+</header>
+
+		
+
+<ul class="mobile-primary-nav">
+		<li class="mobile-primary-nav__item">
+			<a href="/car-reviews/" class="mobile-primary-nav__item__link mobile-primary-nav__item__link--has-sub-menu" target="" rel=''>Car Reviews</a>
+				<ul class="mobile-primary-nav__sub-nav">
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/car-reviews/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;All reviews</a>
+						</li>
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/car-awards/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;Parkers Car Awards</a>
+						</li>
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/owner-reviews/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;Owner Reviews</a>
+						</li>
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/long-term-tests/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;Long term tests</a>
+						</li>
+				</ul>
+		</li>
+		<li class="mobile-primary-nav__item">
+			<a href="/car-specs/" class="mobile-primary-nav__item__link mobile-primary-nav__item__link--has-sub-menu" target="" rel=''>Car Specs</a>
+				<ul class="mobile-primary-nav__sub-nav">
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/car-specs/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;All specs</a>
+						</li>
+				</ul>
+		</li>
+		<li class="mobile-primary-nav__item">
+			<a href="/car-valuation/" class="mobile-primary-nav__item__link mobile-primary-nav__item__link--has-sub-menu" target="" rel=''>Car Valuations</a>
+				<ul class="mobile-primary-nav__sub-nav">
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/car-valuation/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;Free car valuation</a>
+						</li>
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/sell-my-car/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;Sell my car</a>
+						</li>
+				</ul>
+		</li>
+		<li class="mobile-primary-nav__item">
+			<a href="/cars-for-sale/" class="mobile-primary-nav__item__link mobile-primary-nav__item__link--has-sub-menu" target="" rel=''>Cars for sale</a>
+				<ul class="mobile-primary-nav__sub-nav">
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/cars-for-sale/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;All cars for sale</a>
+						</li>
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/cars-for-sale/used/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;Used cars for sale</a>
+						</li>
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/cars-for-sale/new/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;New cars for sale</a>
+						</li>
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="https://parkers.hpicheck.com/" class="mobile-primary-nav__sub-nav__item__link" target="_blank" rel='sponsored'>&ndash;&nbsp;&nbsp;Car history check</a>
+						</li>
+				</ul>
+		</li>
+		<li class="mobile-primary-nav__item">
+			<a href="/best-cars/" class="mobile-primary-nav__item__link mobile-primary-nav__item__link--has-sub-menu" target="" rel=''>Best Cars</a>
+				<ul class="mobile-primary-nav__sub-nav">
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/best-cars/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;All best cars</a>
+						</li>
+				</ul>
+		</li>
+		<li class="mobile-primary-nav__item">
+			<a class="mobile-primary-nav__item__link mobile-primary-nav__item__link--has-sub-menu" target="" rel=''>Buying A Car</a>
+				<ul class="mobile-primary-nav__sub-nav">
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/car-leasing/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;Leasing</a>
+						</li>
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/car-leasing/special-offers/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;Leasing special offers</a>
+						</li>
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/car-finance/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;Finance</a>
+						</li>
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/company-cars/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;Company cars</a>
+						</li>
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/which-car/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;Car choosing tool</a>
+						</li>
+				</ul>
+		</li>
+		<li class="mobile-primary-nav__item">
+			<a class="mobile-primary-nav__item__link mobile-primary-nav__item__link--has-sub-menu" target="" rel=''>Ownership &amp; Advice</a>
+				<ul class="mobile-primary-nav__sub-nav">
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/car-tax/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;Car tax</a>
+						</li>
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="https://www.mustard.co.uk/car-insurance/?REFID=PRK-LNK-BA&amp;utm_source=parkers.co.uk&amp;utm_medium=link&amp;utm_campaign=brandawareness&amp;utm_content=parkers_subnav_insurance" class="mobile-primary-nav__sub-nav__item__link" target="_blank" rel='sponsored'>&ndash;&nbsp;&nbsp;Compare car insurance</a>
+						</li>
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/car-insurance/insurance-groups/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;Car insurance groups</a>
+						</li>
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/car-advice/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;Advice</a>
+						</li>
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/car-advice/product-reviews/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;Product reviews</a>
+						</li>
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/car-news/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;News</a>
+						</li>
+						<li class="mobile-primary-nav__sub-nav__item">
+							<a href="/electric-cars/" class="mobile-primary-nav__sub-nav__item__link" target="" rel=''>&ndash;&nbsp;&nbsp;Electric car advice</a>
+						</li>
+				</ul>
+		</li>
+</ul>
+	</div>
+
+	<div class="off-canvas-content" data-off-canvas-content>
+		<div class="site-root">
+			<div id="overlay" class="overlay-ad advert"></div>
+			
+			
+
+			
+
+<div>
+	<div class="site-header-mobile top-bar hide-for-large clearfix">
+		<div class="site-header-mobile__left">
+			<a class="site-header-mobile__icon site-header-mobile__icon--home fi-icon fi-icon--xlarge fi-icon--no-margin fi-home" title="Home" href="/"></a>
+		</div>
+		<div class="site-header-mobile__middle">
+			<a href="/" class="site-header-mobile__logo" title="Home">
+				<img
+					class="site-header-desktop__logo__image"
+					src="/dist/_6-94-1-DO-6488-204/images/logos/parkers.150x30.png"
+					srcset="/dist/_6-94-1-DO-6488-204/images/logos/parkers.150x30.png 1x, /dist/_6-94-1-DO-6488-204/images/logos/parkers.300x60.png 2x"
+					alt="Parkers"
+				/>
+			</a>
+		</div>
+		<div class="site-header-mobile__right">
+			<button class="site-header-mobile__icon site-header-mobile__icon--menu fi-icon fi-icon--xlarge fi-icon--no-margin fi-list" data-toggle="offCanvasRight" aria-label="Open Navigation Menu">
+				<span class="site-header-mobile__icon__text">Menu</span>
+			</button>
+			<button class="cfs-shortlist-badge" data-toggle="offCanvasRight"></button>
+		</div>
+	</div>
+</div>
+
+<div>
+	<div class="site-header-desktop show-for-large">
+		<div class="site-header-desktop__inner">
+			<a href="/" class="site-header-desktop__logo" title="Home">
+				<span class="site-header-desktop__logo__icon fi-home"></span>
+				<img class="site-header-desktop__logo__image" src="/dist/_6-94-1-DO-6488-204/images/logos/parkers.200x40.png" alt="Parkers" />
+			</a>
+
+			<div class="site-nav">
+				<a href="/" class="site-nav__link site-nav__link--cars site-nav__link--active">
+					<span class="site-nav__link__icon icon-50x50-car-white"></span>
+					<span class="site-nav__link__label">Cars</span>
+				</a>
+
+				<a href="/vans-pickups/" class="site-nav__link site-nav__link--vans ">
+					<span class="site-nav__link__icon icon-50x50-van-white"></span>
+					<span class="site-nav__link__label">Vans & Pickups</span>
+				</a>
+
+				<a href="/cars-for-sale/shortlist/" rel="nofollow" class="site-nav__link site-nav__link--saved-cars">
+					<span class="site-nav__link__icon icon-50x50-driver-white"></span>
+					<span class="site-nav__link__label">Saved Cars</span>
+					<span class="cfs-shortlist-badge"></span>
+				</a>
+			</div>
+		</div>
+		
+
+<nav class="horizontal-primary-nav" aria-label="Primary Navigation Desktop">
+	<ul class="horizontal-primary-nav__more-menu dropdown menu" data-dropdown-menu data-closing-time="0">
+		<li class="horizontal-primary-nav__more-menu__item is-dropdown-submenu-parent">
+			<a href="#" class="horizontal-primary-nav__more-menu__link">More<span class="show-for-large"> from Parkers</span></a>
+
+			<ul class="horizontal-primary-nav__sub-nav horizontal-primary-nav__more-menu__content menu hide">
+			</ul>
+		</li>
+	</ul>
+
+	<ul class="horizontal-primary-nav__menu dropdown menu" data-dropdown-menu data-closing-time="0">
+			<li class="horizontal-primary-nav__item is-dropdown-submenu-parent">
+				<a class="horizontal-primary-nav__item__link" href="/car-reviews/"
+				   
+				   rel=''>
+					Car Reviews
+				</a>
+					<ul class="horizontal-primary-nav__sub-nav menu hide">
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/car-reviews/"
+								   
+									rel=''>
+									All reviews
+								</a>
+							</li>
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/car-awards/"
+								   
+									rel=''>
+									Parkers Car Awards
+								</a>
+							</li>
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/owner-reviews/"
+								   
+									rel=''>
+									Owner Reviews
+								</a>
+							</li>
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/long-term-tests/"
+								   
+									rel=''>
+									Long term tests
+								</a>
+							</li>
+					</ul>
+			</li>
+			<li class="horizontal-primary-nav__item is-dropdown-submenu-parent">
+				<a class="horizontal-primary-nav__item__link" href="/car-specs/"
+				   
+				   rel=''>
+					Car Specs
+				</a>
+					<ul class="horizontal-primary-nav__sub-nav menu hide">
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/car-specs/"
+								   
+									rel=''>
+									All specs
+								</a>
+							</li>
+					</ul>
+			</li>
+			<li class="horizontal-primary-nav__item is-dropdown-submenu-parent">
+				<a class="horizontal-primary-nav__item__link" href="/car-valuation/"
+				   
+				   rel=''>
+					Car Valuations
+				</a>
+					<ul class="horizontal-primary-nav__sub-nav menu hide">
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/car-valuation/"
+								   
+									rel=''>
+									Free car valuation
+								</a>
+							</li>
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/sell-my-car/"
+								   
+									rel=''>
+									Sell my car
+								</a>
+							</li>
+					</ul>
+			</li>
+			<li class="horizontal-primary-nav__item is-dropdown-submenu-parent">
+				<a class="horizontal-primary-nav__item__link" href="/cars-for-sale/"
+				   
+				   rel=''>
+					Cars for sale
+				</a>
+					<ul class="horizontal-primary-nav__sub-nav menu hide">
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/cars-for-sale/"
+								   
+									rel=''>
+									All cars for sale
+								</a>
+							</li>
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/cars-for-sale/used/"
+								   
+									rel=''>
+									Used cars for sale
+								</a>
+							</li>
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/cars-for-sale/new/"
+								   
+									rel=''>
+									New cars for sale
+								</a>
+							</li>
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="https://parkers.hpicheck.com/"
+								   target='_blank'
+									rel='sponsored'>
+									Car history check
+								</a>
+							</li>
+					</ul>
+			</li>
+			<li class="horizontal-primary-nav__item is-dropdown-submenu-parent">
+				<a class="horizontal-primary-nav__item__link" href="/best-cars/"
+				   
+				   rel=''>
+					Best Cars
+				</a>
+					<ul class="horizontal-primary-nav__sub-nav menu hide">
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/best-cars/"
+								   
+									rel=''>
+									All best cars
+								</a>
+							</li>
+					</ul>
+			</li>
+			<li class="horizontal-primary-nav__item is-dropdown-submenu-parent">
+				<a class="horizontal-primary-nav__item__link"
+				   
+				   rel=''>
+					Buying A Car
+				</a>
+					<ul class="horizontal-primary-nav__sub-nav menu hide">
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/car-leasing/"
+								   
+									rel=''>
+									Leasing
+								</a>
+							</li>
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/car-leasing/special-offers/"
+								   
+									rel=''>
+									Leasing special offers
+								</a>
+							</li>
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/car-finance/"
+								   
+									rel=''>
+									Finance
+								</a>
+							</li>
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/company-cars/"
+								   
+									rel=''>
+									Company cars
+								</a>
+							</li>
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/which-car/"
+								   
+									rel=''>
+									Car choosing tool
+								</a>
+							</li>
+					</ul>
+			</li>
+			<li class="horizontal-primary-nav__item is-dropdown-submenu-parent">
+				<a class="horizontal-primary-nav__item__link"
+				   
+				   rel=''>
+					Ownership &amp; Advice
+				</a>
+					<ul class="horizontal-primary-nav__sub-nav menu hide">
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/car-tax/"
+								   
+									rel=''>
+									Car tax
+								</a>
+							</li>
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="https://www.mustard.co.uk/car-insurance/?REFID=PRK-LNK-BA&amp;utm_source=parkers.co.uk&amp;utm_medium=link&amp;utm_campaign=brandawareness&amp;utm_content=parkers_subnav_insurance"
+								   target='_blank'
+									rel='sponsored'>
+									Compare car insurance
+								</a>
+							</li>
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/car-insurance/insurance-groups/"
+								   
+									rel=''>
+									Car insurance groups
+								</a>
+							</li>
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/car-advice/"
+								   
+									rel=''>
+									Advice
+								</a>
+							</li>
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/car-advice/product-reviews/"
+								   
+									rel=''>
+									Product reviews
+								</a>
+							</li>
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/car-news/"
+								   
+									rel=''>
+									News
+								</a>
+							</li>
+							<li class="horizontal-primary-nav__sub-nav__item">
+								<a class="horizontal-primary-nav__sub-nav__item__link" href="/electric-cars/"
+								   
+									rel=''>
+									Electric car advice
+								</a>
+							</li>
+					</ul>
+			</li>
+	</ul>
+</nav>
+	</div>
+</div>
+			
+			<div id="sticky_ad_bottom" class="zero-height-ad advert"></div>
+
+
+			<div class="leaderboard-ad-container hide-for-large">
+	<div data-sticky-container>
+		<div data-id="leaderboard-1" class="leaderboard-ad advert sticky" data-sticky data-sticky-on="small" data-margin-top="0" ></div>
+	</div>
+</div>
+
+			<div class="site-content">
+				
+				<div class="off-canvas off-canvas-contextual-nav position-left is-closed" id="offCanvasQuickLinks" data-off-canvas data-transition="overlap">
+					
+
+	<nav class="off-canvas-quick-links" aria-label="Quick Links Navigation">
+		<div class="off-canvas-quick-links__heading">
+			<span>More about this car</span>
+			<button class="off-canvas-quick-links__close" data-toggle="offCanvasQuickLinks">
+				<span>Close</span>
+				<svg class="off-canvas-quick-links__close__icon"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#x"></use></svg>
+			</button>
+		</div>
+		<ul class="off-canvas-quick-links__menu">
+					<li class="off-canvas-quick-links__item">
+						<a class="off-canvas-quick-links__item__link"
+							href="/hyundai/kona-electric/suv-2018/used-review/"
+							data-ga-track='{"category":"Quick Link Tabs","action":"Tab Change","label":"Review"}'
+							>
+							<svg class="off-canvas-quick-links__item__icon"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#star-bubbles"></use></svg>
+							<span>Review</span>
+						</a>
+					</li>
+					<li class="off-canvas-quick-links__item">
+						<a class="off-canvas-quick-links__item__link"
+							href="/hyundai/kona-electric/suv-2018/owner-reviews/"
+							data-ga-track='{"category":"Quick Link Tabs","action":"Tab Change","label":"Owner Reviews"}'
+							>
+							<svg class="off-canvas-quick-links__item__icon"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#speech-bubbles"></use></svg>
+							<span>Owner Reviews</span>
+						</a>
+					</li>
+					<li class="off-canvas-quick-links__item off-canvas-quick-links__item--active">
+						<span class="off-canvas-quick-links__item__link">
+							<svg class="off-canvas-quick-links__item__icon"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#checklist"></use></svg>
+							<span>Specs</span>
+							<span class="off-canvas-quick-links__item__link__selected-badge">Selected</span>
+						</span>
+					</li>
+					<li class="off-canvas-quick-links__item">
+						<a class="off-canvas-quick-links__item__link"
+							href="/hyundai/kona-electric/suv-2018/for-sale/"
+							data-ga-track='{"category":"Quick Link Tabs","action":"Tab Change","label":"For Sale"}'
+							>
+							<svg class="off-canvas-quick-links__item__icon"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#for-sale"></use></svg>
+							<span>For Sale</span>
+						</a>
+					</li>
+					<li class="off-canvas-quick-links__item">
+						<a class="off-canvas-quick-links__item__link"
+							href="/hyundai/kona-electric/suv-2018/used-prices/"
+							data-ga-track='{"category":"Quick Link Tabs","action":"Tab Change","label":"Used Prices"}'
+							>
+							<svg class="off-canvas-quick-links__item__icon"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#price-tag"></use></svg>
+							<span>Used Prices</span>
+						</a>
+					</li>
+					<li class="off-canvas-quick-links__item">
+						<a class="off-canvas-quick-links__item__link"
+							href="/hyundai/kona-electric/car-leasing/"
+							data-ga-track='{"category":"Quick Link Tabs","action":"Tab Change","label":"Lease Deals"}'
+							>
+							<svg class="off-canvas-quick-links__item__icon"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#exchange-key"></use></svg>
+							<span>Lease Deals</span>
+						</a>
+					</li>
+		</ul>
+	</nav>
+
+				</div>
+
+				<div class="site-content__top">
+					
+	<div class="grid-x grid-padding-x">
+		<div class="cell">
+			<nav class="site-breadcrumbs" role="navigation" aria-label="Breadcrumbs">
+						<ol vocab="http://schema.org/" typeof="BreadcrumbList" class="site-breadcrumbs__trail">
+									<li property="itemListElement" typeof="ListItem" class="site-breadcrumbs__trail__item">
+										<a href="/" property="item" typeof="WebPage" class="site-breadcrumbs__trail__link">
+											<span property="name">Home</span>
+										</a>
+										<meta property="position" content="1" />
+									</li>
+									<li property="itemListElement" typeof="ListItem" class="site-breadcrumbs__trail__item">
+										<a href="/hyundai/" property="item" typeof="WebPage" class="site-breadcrumbs__trail__link">
+											<span property="name">Hyundai</span>
+										</a>
+										<meta property="position" content="2" />
+									</li>
+									<li property="itemListElement" typeof="ListItem" class="site-breadcrumbs__trail__item">
+										<a href="/hyundai/kona-electric/" property="item" typeof="WebPage" class="site-breadcrumbs__trail__link">
+											<span property="name">Kona Electric</span>
+										</a>
+										<meta property="position" content="3" />
+									</li>
+									<li property="itemListElement" typeof="ListItem" class="site-breadcrumbs__trail__item">
+										<a href="/hyundai/kona-electric/suv-2018/specs/" property="item" typeof="WebPage" class="site-breadcrumbs__trail__link">
+											<span property="name">SUV 2018 specs</span>
+										</a>
+										<meta property="position" content="4" />
+									</li>
+									<li>Premium SE 64 kWh Battery 204PS auto 5d</li>
+						</ol>
+			</nav>
+		</div>
+	</div>
+
+				</div>
+
+
+				<main class="site-main">
+
+					
+
+
+<script>
+	if (window.parkersConfig.debugMode) {
+		coreJs.domReadyScriptChain.push('//cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js');
+		coreJs.domReadyScriptChain.push('//cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js');
+	} else {
+		coreJs.domReadyScriptChain.push('//cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js');
+		coreJs.domReadyScriptChain.push('//cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js');
+	}
+
+	coreJs.domReadyScriptChain.push('//cdnjs.cloudflare.com/ajax/libs/react-redux/8.0.7/react-redux.min.js');
+</script>
+
+<article id="specsDetail" class="specs-detail">
+
+	<div class="leaderboard-ad-container show-for-large">
+	<div id="inline-leaderboard-ad-placeholder" class="inline-ad-placeholder"></div>
+	<div data-sticky-container>
+		<div class="advert leaderboard-ad sticky" data-sticky
+			data-id="leaderboard-1" data-top-anchor="inline-leaderboard-ad-placeholder"
+			data-margin-top="0" data-sticky-on="large"></div>
+	</div>
+</div>
+
+	
+
+<div class="heading-panel">
+	<div class="heading-panel__text-container">
+		<div class="heading-panel__text-container__main">
+			<h1 class="heading-panel__heading">
+				<span>Hyundai Kona Electric SUV</span>
+				<span class="heading-panel__sub-heading">Premium SE 64 kWh Battery 204PS auto 5d Specs &amp; dimensions</span>
+			</h1>
+			<div class="heading-panel__change-vehicle show-for-xlarge">
+				<span>Not the right vehicle?</span>
+				<a class="heading-panel__change-vehicle__link" data-toggle="offCanvasChangeVehicle">Change vehicle</a>
+			</div>
+		</div>
+
+		<div class="heading-panel__buttons hide-for-xlarge">
+			<a class="heading-panel__buttons__link button button--hollow-white button--right-pad hide-for-xlarge" data-toggle="offCanvasChangeVehicle">Change vehicle<span class="button__arrow"></span></a>
+			<button class="heading-panel__buttons__link button button--hollow-white button--right-pad" data-toggle="offCanvasQuickLinks">More about this car<span class="button__arrow"></span></button>
+		</div>
+
+		<div class="heading-panel__text-container__link-carousel show-for-xlarge">
+			
+
+	<nav class="quick-links-slider">
+		<div class="splide" aria-label="Quick links navigation">
+			<div class="splide__track quick-links-slider__track">
+				<ul class="splide__list">
+							<li class="splide__slide quick-links-slider__item">
+								<a class="quick-links-slider__link" href="/hyundai/kona-electric/suv-2018/used-review/">
+									<span>Review</span>
+								</a>
+							</li>
+							<li class="splide__slide quick-links-slider__item">
+								<a class="quick-links-slider__link" href="/hyundai/kona-electric/suv-2018/owner-reviews/">
+									<span>Owner Reviews</span>
+								</a>
+							</li>
+							<li class="splide__slide quick-links-slider__item quick-links-slider__item--active">
+								<span class="quick-links-slider__link quick-links-slider__link--active">Specs</span>
+							</li>
+							<li class="splide__slide quick-links-slider__item">
+								<a class="quick-links-slider__link" href="/hyundai/kona-electric/suv-2018/for-sale/">
+									<span>For Sale</span>
+								</a>
+							</li>
+							<li class="splide__slide quick-links-slider__item">
+								<a class="quick-links-slider__link" href="/hyundai/kona-electric/suv-2018/used-prices/">
+									<span>Used Prices</span>
+								</a>
+							</li>
+							<li class="splide__slide quick-links-slider__item">
+								<a class="quick-links-slider__link" href="/hyundai/kona-electric/car-leasing/">
+									<span>Lease Deals</span>
+								</a>
+							</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+		</div>
+	</div>
+		<div class="heading-panel__image-container">
+			<img alt="Hyundai Kona Electric driving" height="530" sizes="(max-width: 639px) 630px, (max-width: 831px) 795px, 435px" src="https://parkers-images.bauersecure.com/wp-images/22063/cut-out/435x290/hyundai_kona_electric_001.jpg" srcset="https://parkers-images.bauersecure.com/wp-images/22063/cut-out/630x420/hyundai_kona_electric_001.jpg 630w, https://parkers-images.bauersecure.com/wp-images/22063/cut-out/795x530/hyundai_kona_electric_001.jpg 795w, https://parkers-images.bauersecure.com/wp-images/22063/cut-out/435x290/hyundai_kona_electric_001.jpg 435w" width="795" />
+		</div>
+</div>
+
+	<div class="specs-detail__columned-content">
+		<div class="specs-detail__columned-content__text-column">
+			
+
+<div class="proposition-block">
+	<svg class="proposition-block__icon"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#tick-stamp"></use></svg>
+	<div class="proposition-block__text">
+			<h2 class="proposition-block__text__heading">Parkers is the most comprehensive source for Hyundai Kona Electric SUV specs</h2>
+		
+		<div class="proposition-block__text__content">
+			At Parkers, we give you the most complete specs for the Hyundai Kona Electric SUV Premium SE 64 kWh Battery 204PS auto 5d. From fuel economy and performance to dimensions and running costs, you'll find everything you need to decide if it's the right version for you.
+		</div>
+	</div>
+</div>
+
+			
+
+<div class="specs-detail-table" id="overview-specs-table">
+	<div class="specs-detail-table__intro">
+		<div class="specs-detail-table__intro__section">Section 1 of 8</div>
+		<h2 class="specs-detail-table__intro__heading">Specs overview</h2>
+	</div>
+	<ul class="specs-detail-table__list specs-detail-table__list--multi-column">
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#calendar"></use></svg></span>
+			<span class="specs-detail-table__item__label">Available new from</span>
+			<span class="specs-detail-table__item__value">December 2019 - January 2021</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#drivetrain"></use></svg></span>
+			<span class="specs-detail-table__item__label">Drivetrain</span>
+			<span class="specs-detail-table__item__value">Front wheel drive</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#transmission"></use></svg></span>
+			<span class="specs-detail-table__item__label">Transmission</span>
+			<span class="specs-detail-table__item__value">Automatic</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#fuel-can"></use></svg></span>
+			<span class="specs-detail-table__item__label">Fuel type</span>
+			<span class="specs-detail-table__item__value">Electric</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#door"></use></svg></span>
+			<span class="specs-detail-table__item__label">Doors</span>
+			<span class="specs-detail-table__item__value">5</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#horse"></use></svg></span>
+			<span class="specs-detail-table__item__label">Horsepower</span>
+			<span class="specs-detail-table__item__value">201 bhp</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#checkered-flag"></use></svg></span>
+			<span class="specs-detail-table__item__label">Acceleration 0-60mph</span>
+			<span class="specs-detail-table__item__value">7.6 secs</span>
+		</li>
+			<li class="specs-detail-table__item">
+				<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#electric-charge"></use></svg></span>
+				<span class="specs-detail-table__item__label">Energy consumption</span>
+				<span class="specs-detail-table__item__value">4.0 miles/kWh</span>
+			</li>
+			<li class="specs-detail-table__item">
+				<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#range"></use></svg></span>
+				<span class="specs-detail-table__item__label">Electric range</span>
+				<span class="specs-detail-table__item__value">278 miles</span>
+			</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#umbrella"></use></svg></span>
+			<span class="specs-detail-table__item__label">Insurance group</span>
+			<span class="specs-detail-table__item__value">27</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#percent"></use></svg></span>
+			<span class="specs-detail-table__item__label">Road tax
+				<button class="specs-detail-table__item__info-button" data-open="vedInfo">
+					<svg class="info-popup-button"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#info"></use></svg>
+				</button>
+			</span>
+			<span class="specs-detail-table__item__value">&#xA3;200
+			</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#tape-measure"></use></svg></span>
+			<span class="specs-detail-table__item__label">Dimensions</span>
+			<span class="specs-detail-table__item__value">Length 4180mm x width 2070mm</span>
+		</li>
+	</ul>
+		<div class="specs-detail-table__footer">
+			<a class="specs-detail-table__footer__link" href="/hyundai/kona-electric/suv-2018/for-sale/">See 178 used Hyundai Kona Electric SUVs for sale, starting at &#xA3;999</a>
+		</div>
+</div>
+
+			
+
+<div class="specs-detail-table" id="equipment-specs-table">
+	<div class="specs-detail-table__intro">
+		<div class="specs-detail-table__intro__section">Section 2 of 8</div>
+		<h2 class="specs-detail-table__intro__heading">Equipment list</h2>
+	</div>
+	
+	<div class="specs-detail__equipment" data-accordion data-allow-all-closed="true" data-multi-expand="true">
+				<div class="specs-detail__equipment__column" data-accordion-item>
+					<a href="#" class="specs-detail__equipment__heading">Standard Equipment (131)</a>
+					
+
+<div class="specs-detail__equipment__list-container" data-tab-content>
+	<p class="specs-detail__equipment__info">
+		When buying always confirm exact details of the car's specification with the seller. What is shown here is a list of all standard or optional equipment that was listed for the version <strong>at some point</strong> during its production lifespan. Cars built at different points during that lifespan will often not have had exactly identical specs for standard or optional equipment.
+	</p>
+	<div data-accordion data-allow-all-closed="true" data-multi-expand="true">
+			<div class="specs-detail__equipment__group is-active" data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Entertainment</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>DAB Digital radio</li>
+						<li>Krell premium audio system with 8 speakers and subwoofer</li>
+						<li>RDS radio with MP3 player</li>
+						<li>Steering wheel mounted audio / phone controls</li>
+						<li>USB / aux input socket</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Driver Aids</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Remote control for air conditioning and battery charging</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Security</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Alarm / immobiliser</li>
+						<li>Deadlocks</li>
+						<li>Folding key</li>
+						<li>Locking wheel nuts</li>
+						<li>Remote central locking</li>
+						<li>Smart key with keyless entry and engine start / stop button</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Seats</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>60 / 40 split folding rear seat</li>
+						<li>Adjustable head restraints</li>
+						<li>Driver&#x27;s electric adjustable lumbar support</li>
+						<li>Driver&#x27;s seat electric adjustments</li>
+						<li>Driver&#x27;s seat electric height adjustment</li>
+						<li>Electric adjustable front seats</li>
+						<li>Front passenger seat manual adjustments</li>
+						<li>Front passenger&#x27;s seat electric adjustments</li>
+						<li>Front passenger&#x27;s seat electric height adjustment</li>
+						<li>Heated front seats</li>
+						<li>Heated outer rear seats</li>
+						<li>Isofix rear child seat fastenings</li>
+						<li>Ventilated front seats</li>
+						<li>Vertical adjustment rear head restraints</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Exterior Body Features</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Black grille with chrome surround</li>
+						<li>Body colour bumpers</li>
+						<li>Body colour door mirrors and handles</li>
+						<li>Painted anthracite body garnish</li>
+						<li>Rear roof spoiler with integrated LED brake light</li>
+						<li>Roof rails</li>
+						<li>Silver skid plates</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Chassis/Suspension</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Vehicle Stability Control (VSC)</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Interior Features</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>12V Accessory socket in centre console</li>
+						<li>CCS Combo rapid charge port (50kW)</li>
+						<li>Chrome interior door handles</li>
+						<li>Door scuff plate</li>
+						<li>Driver and passenger front seat pockets</li>
+						<li>Front cup holders</li>
+						<li>Heated steering wheel</li>
+						<li>Height / reach adjustable steering column</li>
+						<li>Leather steering wheel and gear knob</li>
+						<li>Leather upholstery</li>
+						<li>Leather wrapped steering wheel</li>
+						<li>Luggage compartment undertray</li>
+						<li>Luggage hooks</li>
+						<li>Luggage net</li>
+						<li>Parcel shelf</li>
+						<li>Rear centre armrest</li>
+						<li>Rear centre console with air vents</li>
+						<li>Sunglasses holder</li>
+						<li>USB charger in centre console</li>
+						<li>USB charging point</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Body Glass</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Automatic defog system</li>
+						<li>Automatic windscreen wipers with rain sensor</li>
+						<li>Electric front / rear windows with drivers one touch / anti-trap</li>
+						<li>Privacy glass - Rear windows and tailgate</li>
+						<li>Solar glass with windscreen shade band</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Brakes</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Anti-lock brake system (ABS)</li>
+						<li>Autonomous emergency braking</li>
+						<li>Downhill brake control</li>
+						<li>EBD &#x2B; Brake Assist</li>
+						<li>Electric parking brake</li>
+						<li>Electronic stability control</li>
+						<li>Hill start assist control (HAC)</li>
+						<li>Intelligent emergency braking with pedestrian recognition</li>
+						<li>Regenerative brake shift paddles</li>
+						<li>Traction control</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Engine</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Battery heater</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Driver Information</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>10.25&quot; touchscreen satellite navigation includes traffic messaging channel, mapcare, live services and bluelink</li>
+						<li>10.25&quot; touchscreen satellite Navigation with Bluelink and Mapcare</li>
+						<li>Battery status check</li>
+						<li>Digital clock</li>
+						<li>Driver&#x27;s supervision instrument cluster with 7&quot; TFT display</li>
+						<li>Head up Display</li>
+						<li>Smartphone integration with Apple CarPlay and Android auto</li>
+						<li>Smartphone wireless charging plate</li>
+						<li>Windscreen washer fluid sensor and warning indicator</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Driver Convenience</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Blind spot monitoring</li>
+						<li>Cruise control - smart adaptive speed control with stop and go function</li>
+						<li>Drive mode selector</li>
+						<li>Driver attention alert system</li>
+						<li>Forward collision warning</li>
+						<li>Front parking sensor</li>
+						<li>Intelligent speed limit warning</li>
+						<li>Lane follow assist</li>
+						<li>Lane keep assist</li>
+						<li>Parking system with rear camera and guidance system</li>
+						<li>PAS</li>
+						<li>Rear cross traffic alert</li>
+						<li>Rear parking sensor</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Communication</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Bluetooth connectivity with voice control</li>
+						<li>Bluetooth connectivity with voice recognition</li>
+						<li>eCall emergency call system</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Driving Mirrors</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Auto dimming rear view mirror</li>
+						<li>Door mirror integrated indicators</li>
+						<li>Electrically adjustable and heated door mirrors</li>
+						<li>Power folding door mirrors</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Interior Lights</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Centre interior light</li>
+						<li>Front interior light</li>
+						<li>Luggage compartment lighting</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Exterior Lights</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Automatic headlights with dusk sensor</li>
+						<li>Cornering light</li>
+						<li>Front fog lights</li>
+						<li>Full LED headlights</li>
+						<li>High beam assist</li>
+						<li>LED brake lights</li>
+						<li>LED daytime running lights</li>
+						<li>LED Headlights</li>
+						<li>LED rear lights</li>
+						<li>Positioning Lights - LED</li>
+						<li>Static cornering light</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Vanity Mirrors</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Driver / passenger sunvisors and illuminated vanity mirrors</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Safety</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>3x3 point rear seatbelts</li>
+						<li>Airbags - front, front side and curtain airbags</li>
+						<li>Autonomous Emergency Braking with pedestrian recognition</li>
+						<li>Childproof rear door locks</li>
+						<li>Fasten seatbelt reminder</li>
+						<li>Front seatbelt pretensioners</li>
+						<li>Height adjustable front seatbelts</li>
+						<li>Passenger airbag deactivate switch</li>
+						<li>Tyre pressure monitoring system</li>
+						<li>Tyre pressure monitoring system with individual tyre pressure display</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Towing</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Towbar preparation</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Heating/Cooling/Ventilation</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Automatic climate control with defog system for front windscreen</li>
+						<li>Climate control air conditioning</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Wheels - Alloy</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>17&quot; Alloy wheels</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Wheels - Spare</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Tyre repair kit</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Vehicle Charging</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>7 pin charging cable</li>
+						<li>Emergency 3 pin connector charging cable (ICCB)</li>
+				</ul>
+			</div>
+	</div>
+</div>
+				</div>
+				<div class="specs-detail__equipment__column" data-accordion-item>
+					<a href="#" class="specs-detail__equipment__heading">Optional Equipment (13)</a>
+					
+
+<div class="specs-detail__equipment__list-container" data-tab-content>
+	<p class="specs-detail__equipment__info">
+		When buying always confirm exact details of the car's specification with the seller. What is shown here is a list of all standard or optional equipment that was listed for the version <strong>at some point</strong> during its production lifespan. Cars built at different points during that lifespan will often not have had exactly identical specs for standard or optional equipment.
+	</p>
+	<div data-accordion data-allow-all-closed="true" data-multi-expand="true">
+			<div class="specs-detail__equipment__group is-active" data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Paint - Metallic</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Metallic - Chalk white</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Exterior Body Features</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Metallic / Pearlescent paint</li>
+						<li>Metallic paint</li>
+						<li>Pearlescent paint</li>
+						<li>Special pearlescent paint</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Engine</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>POD point 7kW home charger</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Paint - Pearlescent</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Pearl - Galactic grey</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Paint - Special</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Metallic / Pearl - Acid Yellow</li>
+						<li>Metallic / Pearl - Pulse Red</li>
+						<li>Special pearl - Ceramic blue</li>
+						<li>Special pearl - Tangerine comet</li>
+				</ul>
+			</div>
+			<div class="specs-detail__equipment__group " data-accordion-item>
+				<a href="#" class="specs-detail__equipment__group__title">Trim - Leather</a>
+				<ul class="specs-detail__equipment__list" data-tab-content>
+						<li>Leather - Black</li>
+						<li>Leather - Grey</li>
+				</ul>
+			</div>
+	</div>
+</div>
+				</div>
+	</div>
+</div>
+
+
+
+			<div class="hide-for-large">
+				
+<div class="advert-container advert-container--full-width advert-container--flexible">
+	<div id="inline-ad-placeholder-9c9aea29-e3ae-4b21-a647-f7b101d632b4" class="inline-ad-placeholder"></div>
+	<div data-sticky-container>
+		<div data-id="mpu-1" data-sticky 
+			data-is-flexible=&quot;true&quot; 
+			class="advert mpu-ad sticky"
+			
+			data-top-anchor="inline-ad-placeholder-9c9aea29-e3ae-4b21-a647-f7b101d632b4" data-sticky-on="small" data-margin-top="0"></div>
+	</div>
+</div>
+			</div>
+		</div>
+
+		<div class="specs-detail__columned-content__ad-column show-for-large">
+			
+<div class="advert-container">
+	<div id="inline-ad-placeholder-4bea4393-cb74-45c8-99ef-c72e2a84f91d" class="inline-ad-placeholder"></div>
+	<div data-sticky-container>
+		<div data-id="mpu-1" data-sticky 
+			 
+			class="advert mpu-ad sticky"
+			
+			data-top-anchor="inline-ad-placeholder-4bea4393-cb74-45c8-99ef-c72e2a84f91d" data-sticky-on="small" data-margin-top="0"></div>
+	</div>
+</div>
+		</div>
+	</div>
+
+	<div class="show-for-large">
+		
+<div class="advert-container advert-container--full-width advert-container--flexible">
+	<div id="inline-ad-placeholder-a5159c57-8132-418c-92cf-9b73a28056a9" class="inline-ad-placeholder"></div>
+	<div data-sticky-container>
+		<div data-id="mpu-2" data-sticky 
+			data-is-flexible=&quot;true&quot; 
+			class="advert mpu-ad sticky"
+			data-size-mapping="[[[1024,0], [[300,250],[728,90],[970,250]]],[[748,0], [[300,250],[728,90]]],[[0,0], [[320,50],[320,100],[300,250]]]]" data-sizes="[[300,250],[728,90],[970,250],[320,50],[320,100]]"
+			data-top-anchor="inline-ad-placeholder-a5159c57-8132-418c-92cf-9b73a28056a9" data-sticky-on="small" data-margin-top="0"></div>
+	</div>
+</div>
+	</div>
+
+	<div class="specs-detail__columned-content">
+		<div class="specs-detail__columned-content__text-column">
+			<div class="specs-detail__adjacent-tables">
+				
+
+<div class="specs-detail-table" id="costs-specs-table">
+	<div class="specs-detail-table__intro">
+		<div class="specs-detail-table__intro__section">Section 3 of 8</div>
+		<h2 class="specs-detail-table__intro__heading">Costs</h2>
+	</div>
+	<ul class="specs-detail-table__list">
+			<li class="specs-detail-table__item">
+				<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#electric-charge"></use></svg></span>
+				<span class="specs-detail-table__item__label">Energy consumption</span>
+				<span class="specs-detail-table__item__value">4.0 miles/kWh</span>
+			</li>
+			<li class="specs-detail-table__item">
+				<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#electric-charge"></use></svg></span>
+				<div class="specs-detail-table__charge-times">
+					<span class="specs-detail-table__item__label">Battery charging times</span>
+					<div class="specs-detail-table__charge-times__detail">
+						<select class="specs-detail-table__charge-times__select">
+								<option selected value="10-5">3-phase charger (fast) 10.5kW</option>
+								<option  value="50">Public charger (rapid) 50kW</option>
+						</select>
+						<div class="specs-detail-table__item__value">
+								<div class="specs-detail-table__charge-times__info specs-detail-table__charge-times__info--10-5 specs-detail-table__charge-times__info--selected">
+									<span class="specs-detail-table__charge-times__info__heading">Charge from 0-100 % full</span>
+									<span class="specs-detail-table__charge-times__info__value summary-table__description">7 hours 30 mins</span>
+								</div>
+								<div class="specs-detail-table__charge-times__info specs-detail-table__charge-times__info--50">
+									<span class="specs-detail-table__charge-times__info__heading">Charge from 0-80 % full</span>
+									<span class="specs-detail-table__charge-times__info__value summary-table__description">1 hour 15 mins</span>
+								</div>
+							</div>
+						</div>
+				</div>
+			</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#umbrella"></use></svg></span>
+			<span class="specs-detail-table__item__label">Insurance group</span>
+			<span class="specs-detail-table__item__value">27</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#percent"></use></svg></span>
+			<span class="specs-detail-table__item__label">
+				Road tax
+				<button class="specs-detail-table__item__info-button" data-open="vedInfo">
+					<svg class="info-popup-button"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#info"></use></svg>
+				</button>
+			</span>
+			<span class="specs-detail-table__item__value">
+				&#xA3;200
+			</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#new"></use></svg></span>
+			<span class="specs-detail-table__item__label">Price when new</span>
+			<span class="specs-detail-table__item__value">&#xA3;41,500</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#for-sale"></use></svg></span>
+			<span class="specs-detail-table__item__label">Used price range</span>
+			<span class="specs-detail-table__item__value">&#xA3;8,920 - &#xA3;14,109</span>
+		</li>
+	</ul>
+		<div class="specs-detail-table__footer">
+			<a class="specs-detail-table__footer__link" href="/hyundai/kona-electric/suv-2018/for-sale/">See 178 used Hyundai Kona Electric SUVs for sale, starting at &#xA3;999</a>
+		</div>
+</div>
+
+				
+
+<div class="specs-detail-table" id="dimensions-specs-table">
+	<div class="specs-detail-table__intro">
+		<div class="specs-detail-table__intro__section">Section 4 of 8</div>
+		<h2 class="specs-detail-table__intro__heading">Dimensions</h2>
+	</div>
+	<ul class="specs-detail-table__list">
+			<li class="specs-detail-table__item">
+				<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#electric-charge"></use></svg></span>
+				<span class="specs-detail-table__item__label">Battery capacity</span>
+				<span class="specs-detail-table__item__value">64 kWh</span>
+			</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#weight"></use></svg></span>
+			<span class="specs-detail-table__item__label">Weight</span>
+			<span class="specs-detail-table__item__value">1685 kg</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#length"></use></svg></span>
+			<span class="specs-detail-table__item__label">Length</span>
+			<span class="specs-detail-table__item__value">4180 mm</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#width"></use></svg></span>
+			<span class="specs-detail-table__item__label">Width</span>
+			<span class="specs-detail-table__item__value">2070 mm</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#wheel"></use></svg></span>
+			<span class="specs-detail-table__item__label">Wheelbase</span>
+			<span class="specs-detail-table__item__value">2600 mm</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#turn"></use></svg></span>
+			<span class="specs-detail-table__item__label">Turning circle</span>
+			<span class="specs-detail-table__item__value">10 metres</span>
+		</li>
+	</ul>
+</div>
+
+				<div class="hide-for-large">
+					
+<div class="advert-container advert-container--full-width advert-container--flexible">
+	<div id="inline-ad-placeholder-377a8f58-c527-4af2-a1b8-9436d1b8cf2c" class="inline-ad-placeholder"></div>
+	<div data-sticky-container>
+		<div data-id="mpu-2" data-sticky 
+			data-is-flexible=&quot;true&quot; 
+			class="advert mpu-ad sticky"
+			
+			data-top-anchor="inline-ad-placeholder-377a8f58-c527-4af2-a1b8-9436d1b8cf2c" data-sticky-on="small" data-margin-top="0"></div>
+	</div>
+</div>
+				</div>
+			</div>
+
+			<div class="specs-detail__carousels">
+					<div class="specs-detail__carousels__cfs cfs-result-carousel">
+						<h2 class="cfs-result-carousel__heading">Featured cars for sale</h2>
+						<ul class="cfs-result-carousel__list">
+								<li class="cfs-result-carousel__item">
+									
+
+<div class="cfs-result-item cfs-result-item--compact clickable-container">
+	<a class="cfs-result-item__title clickable-container__link" href="/hyundai/kona-electric/suv/150kw-ultimate-64kwh-5dr-auto/for-sale/usedcfs-879144580219197/"
+		
+		>
+		<span class="cfs-result-item__title__text">Hyundai Kona Electric SUV (2023/23)</span>
+	</a>
+	
+	<div class="cfs-result-item__image-block">
+			<div class="cfs-result-item__added">Added today</div>
+
+		<img alt="Hyundai Kona Electric SUV (18-23) 150kW Ultimate 64kWh 5dr Auto For Sale - Thurlow Nunn Lowestoft, Lowestoft" class="cfs-result-item__image-block__image" height="170" loading="lazy" src="https://parkers-images.bauersecure.com/external/cfs/usedcfs-879144580219197/167496573/255x170/1.jpg?quality=90" width="255" />
+		
+		<div class="cfs-result-item__image-block__count">
+			<span class="fi-icon fi-icon--no-margin fi-camera"></span>
+			<span class="cfs-result-item__image-block__count__value">42</span>
+		</div>
+	</div>
+	<div class="cfs-result-item__detail-block">
+		<div>
+			<span class="cfs-result-item__detail-block__derivative" href="/hyundai/kona-electric/suv/150kw-ultimate-64kwh-5dr-auto/for-sale/usedcfs-879144580219197/">150kW Ultimate 64kWh 5dr Auto</span>
+		</div>
+		<div class="cfs-result-item__detail-block__details">
+			Automatic | 2023/23 | Electric | 49,208 miles
+		</div>
+	</div>
+
+	<div class="cfs-result-item__price-block">
+
+		<span>&#xA3;15,799</span>
+	</div>
+</div>
+								</li>
+								<li class="cfs-result-carousel__item">
+									
+
+<div class="cfs-result-item cfs-result-item--compact clickable-container">
+	<a class="cfs-result-item__title clickable-container__link" href="/hyundai/kona-electric/suv/150kw-ultimate-64kwh-5dr-auto/for-sale/usedcfs-415254580217345/"
+		
+		>
+		<span class="cfs-result-item__title__text">Hyundai Kona Electric SUV (2021/21)</span>
+	</a>
+	
+	<div class="cfs-result-item__image-block">
+			<div class="cfs-result-item__added">Added today</div>
+
+		<img alt="Hyundai Kona Electric SUV (18-23) 150kW Ultimate 64kWh 5dr Auto For Sale - Stoneacre Sheffield Hyundai, Sheffield" class="cfs-result-item__image-block__image" height="170" loading="lazy" src="https://parkers-images.bauersecure.com/external/cfs/usedcfs-415254580217345/167496573/255x170/1.jpg?quality=90" width="255" />
+		
+		<div class="cfs-result-item__image-block__count">
+			<span class="fi-icon fi-icon--no-margin fi-camera"></span>
+			<span class="cfs-result-item__image-block__count__value">48</span>
+		</div>
+	</div>
+	<div class="cfs-result-item__detail-block">
+		<div>
+			<span class="cfs-result-item__detail-block__derivative" href="/hyundai/kona-electric/suv/150kw-ultimate-64kwh-5dr-auto/for-sale/usedcfs-415254580217345/">150kW Ultimate 64kWh 5dr Auto</span>
+		</div>
+		<div class="cfs-result-item__detail-block__details">
+			Automatic | 2021/21 | Electric | 9,681 miles
+		</div>
+	</div>
+
+	<div class="cfs-result-item__price-block">
+
+		<span>&#xA3;15,990</span>
+	</div>
+</div>
+								</li>
+								<li class="cfs-result-carousel__item">
+									
+
+<div class="cfs-result-item cfs-result-item--compact clickable-container">
+	<a class="cfs-result-item__title clickable-container__link" href="/hyundai/kona-electric/suv/150kw-premium-64kwh-5dr-auto/for-sale/usedcfs-318834580217574/"
+		
+		>
+		<span class="cfs-result-item__title__text">Hyundai Kona Electric SUV (2022/22)</span>
+	</a>
+	
+	<div class="cfs-result-item__image-block">
+			<div class="cfs-result-item__added">Added today</div>
+
+		<img alt="Hyundai Kona Electric SUV (18-23) 150kW Premium 64kWh 5dr Auto For Sale - National Car Sales, Swindon" class="cfs-result-item__image-block__image" height="170" loading="lazy" src="https://parkers-images.bauersecure.com/external/cfs/usedcfs-318834580217574/167496573/255x170/1.jpg?quality=90" width="255" />
+		
+		<div class="cfs-result-item__image-block__count">
+			<span class="fi-icon fi-icon--no-margin fi-camera"></span>
+			<span class="cfs-result-item__image-block__count__value">23</span>
+		</div>
+	</div>
+	<div class="cfs-result-item__detail-block">
+		<div>
+			<span class="cfs-result-item__detail-block__derivative" href="/hyundai/kona-electric/suv/150kw-premium-64kwh-5dr-auto/for-sale/usedcfs-318834580217574/">150kW Premium 64kWh 5dr Auto</span>
+		</div>
+		<div class="cfs-result-item__detail-block__details">
+			Automatic | 2022/22 | Electric | 51,380 miles
+		</div>
+	</div>
+
+	<div class="cfs-result-item__price-block">
+
+		<span>&#xA3;13,990</span>
+	</div>
+</div>
+								</li>
+								<li class="cfs-result-carousel__item">
+									
+
+<div class="cfs-result-item cfs-result-item--compact clickable-container">
+	<a class="cfs-result-item__title clickable-container__link" href="/hyundai/kona-electric/suv/100kw-premium-39kwh-5dr-auto/for-sale/usedcfs-272094580213863/"
+		
+		>
+		<span class="cfs-result-item__title__text">Hyundai Kona Electric SUV (2022/71)</span>
+	</a>
+	
+	<div class="cfs-result-item__image-block">
+			<div class="cfs-result-item__added">Added today</div>
+
+		<img alt="Hyundai Kona Electric SUV (18-23) 100kW Premium 39kWh 5dr Auto For Sale - Bob Davies Car Sales, Ebbwvale" class="cfs-result-item__image-block__image" height="170" loading="lazy" src="https://parkers-images.bauersecure.com/external/cfs/usedcfs-272094580213863/-563869005/255x170/1.jpg?quality=90" width="255" />
+		
+		<div class="cfs-result-item__image-block__count">
+			<span class="fi-icon fi-icon--no-margin fi-camera"></span>
+			<span class="cfs-result-item__image-block__count__value">5</span>
+		</div>
+	</div>
+	<div class="cfs-result-item__detail-block">
+		<div>
+			<span class="cfs-result-item__detail-block__derivative" href="/hyundai/kona-electric/suv/100kw-premium-39kwh-5dr-auto/for-sale/usedcfs-272094580213863/">100kW Premium 39kWh 5dr Auto</span>
+		</div>
+		<div class="cfs-result-item__detail-block__details">
+			Automatic | 2022/71 | Electric | 31,000 miles
+		</div>
+	</div>
+
+	<div class="cfs-result-item__price-block">
+
+		<span>&#xA3;12,400</span>
+	</div>
+</div>
+								</li>
+								<li class="cfs-result-carousel__item">
+									
+
+<div class="cfs-result-item cfs-result-item--compact clickable-container">
+	<a class="cfs-result-item__title clickable-container__link" href="https://www.cazoo.co.uk/cars-for-sale/80215069?utm_source=parkers&amp;utm_medium=referral&amp;utm_campaign=motors_redirect&amp;referringSite=motorscouknetwork_parkers"
+		rel="sponsored" target="_blank"
+		data-ga-track='{"category":"Dealer Direct Click","action":"Click"}'>
+		<span class="cfs-result-item__title__text">Hyundai Kona Electric SUV (2023/73)</span>
+	</a>
+	
+	<div class="cfs-result-item__image-block">
+			<div class="cfs-result-item__added">Added today</div>
+
+		<img alt="Hyundai Kona Electric SUV (18-23) 150kW Ultimate 64kWh 5dr Auto For Sale - Motorfair, Birmingham" class="cfs-result-item__image-block__image" height="170" loading="lazy" src="https://parkers-images.bauersecure.com/external/cfs/usedcfs-550304580215069/-563869005/255x170/1.jpg?quality=90" width="255" />
+		
+		<div class="cfs-result-item__image-block__count">
+			<span class="fi-icon fi-icon--no-margin fi-camera"></span>
+			<span class="cfs-result-item__image-block__count__value">1</span>
+		</div>
+	</div>
+	<div class="cfs-result-item__detail-block">
+		<div>
+			<span class="cfs-result-item__detail-block__derivative" href="https://www.cazoo.co.uk/cars-for-sale/80215069?utm_source=parkers&amp;utm_medium=referral&amp;utm_campaign=motors_redirect&amp;referringSite=motorscouknetwork_parkers">150kW Ultimate 64kWh 5dr Auto</span>
+		</div>
+		<div class="cfs-result-item__detail-block__details">
+			Automatic | 2023/73 | Electric | 11,267 miles
+		</div>
+	</div>
+
+	<div class="cfs-result-item__price-block">
+
+		<span>&#xA3;19,499</span>
+	</div>
+</div>
+								</li>
+								<li class="cfs-result-carousel__item">
+									
+
+<div class="cfs-result-item cfs-result-item--compact clickable-container">
+	<a class="cfs-result-item__title clickable-container__link" href="https://www.cazoo.co.uk/cars-for-sale/80214453?utm_source=parkers&amp;utm_medium=referral&amp;utm_campaign=motors_redirect&amp;referringSite=motorscouknetwork_parkers"
+		rel="sponsored" target="_blank"
+		data-ga-track='{"category":"Dealer Direct Click","action":"Click"}'>
+		<span class="cfs-result-item__title__text">Hyundai Kona Electric SUV (2023/23)</span>
+	</a>
+	
+	<div class="cfs-result-item__image-block">
+			<div class="cfs-result-item__added">Added today</div>
+
+		<img alt="Hyundai Kona Electric SUV (18-23) 150kW Ultimate 64kWh 5dr Auto For Sale - Arnold Clark Workington Motorstore / GWM, Workington" class="cfs-result-item__image-block__image" height="170" loading="lazy" src="https://parkers-images.bauersecure.com/external/cfs/usedcfs-431464580214453/-563869005/255x170/1.jpg?quality=90" width="255" />
+		
+		<div class="cfs-result-item__image-block__count">
+			<span class="fi-icon fi-icon--no-margin fi-camera"></span>
+			<span class="cfs-result-item__image-block__count__value">1</span>
+		</div>
+	</div>
+	<div class="cfs-result-item__detail-block">
+		<div>
+			<span class="cfs-result-item__detail-block__derivative" href="https://www.cazoo.co.uk/cars-for-sale/80214453?utm_source=parkers&amp;utm_medium=referral&amp;utm_campaign=motors_redirect&amp;referringSite=motorscouknetwork_parkers">150kW Ultimate 64kWh 5dr Auto</span>
+		</div>
+		<div class="cfs-result-item__detail-block__details">
+			Automatic | 2023/23 | Electric | 40,737 miles
+		</div>
+	</div>
+
+	<div class="cfs-result-item__price-block">
+
+		<span>&#xA3;16,498</span>
+	</div>
+</div>
+								</li>
+								<li class="cfs-result-carousel__item">
+									
+
+<div class="cfs-result-item cfs-result-item--compact clickable-container">
+	<a class="cfs-result-item__title clickable-container__link" href="https://www.cazoo.co.uk/cars-for-sale/80213384?utm_source=parkers&amp;utm_medium=referral&amp;utm_campaign=motors_redirect&amp;referringSite=motorscouknetwork_parkers"
+		rel="sponsored" target="_blank"
+		data-ga-track='{"category":"Dealer Direct Click","action":"Click"}'>
+		<span class="cfs-result-item__title__text">Hyundai Kona Electric SUV (2023/23)</span>
+	</a>
+	
+	<div class="cfs-result-item__image-block">
+			<div class="cfs-result-item__added">Added today</div>
+
+		<img alt="Hyundai Kona Electric SUV (18-23) 150kW Ultimate 64kWh 5dr Auto For Sale - Arnold Clark Milton Keynes Click &amp; Collect, Milton Keynes" class="cfs-result-item__image-block__image" height="170" loading="lazy" src="https://parkers-images.bauersecure.com/external/cfs/usedcfs-110534580213384/-563869005/255x170/1.jpg?quality=90" width="255" />
+		
+		<div class="cfs-result-item__image-block__count">
+			<span class="fi-icon fi-icon--no-margin fi-camera"></span>
+			<span class="cfs-result-item__image-block__count__value">1</span>
+		</div>
+	</div>
+	<div class="cfs-result-item__detail-block">
+		<div>
+			<span class="cfs-result-item__detail-block__derivative" href="https://www.cazoo.co.uk/cars-for-sale/80213384?utm_source=parkers&amp;utm_medium=referral&amp;utm_campaign=motors_redirect&amp;referringSite=motorscouknetwork_parkers">150kW Ultimate 64kWh 5dr Auto</span>
+		</div>
+		<div class="cfs-result-item__detail-block__details">
+			Automatic | 2023/23 | Electric | 40,737 miles
+		</div>
+	</div>
+
+	<div class="cfs-result-item__price-block">
+
+		<span>&#xA3;16,498</span>
+	</div>
+</div>
+								</li>
+								<li class="cfs-result-carousel__item">
+									
+
+<div class="cfs-result-item cfs-result-item--compact clickable-container">
+	<a class="cfs-result-item__title clickable-container__link" href="/hyundai/kona-electric/suv/100kw-premium-39kwh-5dr-auto/for-sale/usedcfs-478884580211597/"
+		
+		>
+		<span class="cfs-result-item__title__text">Hyundai Kona Electric SUV (2022/22)</span>
+	</a>
+	
+	<div class="cfs-result-item__image-block">
+			<div class="cfs-result-item__added">Added today</div>
+
+		<img alt="Hyundai Kona Electric SUV (18-23) 100kW Premium 39kWh 5dr Auto For Sale - Ponko, Cambridge" class="cfs-result-item__image-block__image" height="170" loading="lazy" src="https://parkers-images.bauersecure.com/external/cfs/usedcfs-478884580211597/-563869005/255x170/1.jpg?quality=90" width="255" />
+		
+		<div class="cfs-result-item__image-block__count">
+			<span class="fi-icon fi-icon--no-margin fi-camera"></span>
+			<span class="cfs-result-item__image-block__count__value">13</span>
+		</div>
+	</div>
+	<div class="cfs-result-item__detail-block">
+		<div>
+			<span class="cfs-result-item__detail-block__derivative" href="/hyundai/kona-electric/suv/100kw-premium-39kwh-5dr-auto/for-sale/usedcfs-478884580211597/">100kW Premium 39kWh 5dr Auto</span>
+		</div>
+		<div class="cfs-result-item__detail-block__details">
+			Automatic | 2022/22 | Electric | 81,645 miles
+		</div>
+	</div>
+
+	<div class="cfs-result-item__price-block">
+
+		<span>&#xA3;10,360</span>
+	</div>
+</div>
+								</li>
+								<li class="cfs-result-carousel__item">
+									
+
+<div class="cfs-result-item cfs-result-item--compact clickable-container">
+	<a class="cfs-result-item__title clickable-container__link" href="https://www.cazoo.co.uk/cars-for-sale/80208824?utm_source=parkers&amp;utm_medium=referral&amp;utm_campaign=motors_redirect&amp;referringSite=motorscouknetwork_parkers"
+		rel="sponsored" target="_blank"
+		data-ga-track='{"category":"Dealer Direct Click","action":"Click"}'>
+		<span class="cfs-result-item__title__text">Hyundai Kona Electric SUV (2023/73)</span>
+	</a>
+	
+	<div class="cfs-result-item__image-block">
+			<div class="cfs-result-item__added">Added today</div>
+
+		<img alt="Hyundai Kona Electric SUV (18-23) 150kW Ultimate 64kWh 5dr Auto For Sale - Arnold Clark Kia (Aberdeen), Aberdeen" class="cfs-result-item__image-block__image" height="170" loading="lazy" src="https://parkers-images.bauersecure.com/external/cfs/usedcfs-602844580208824/-563869005/255x170/1.jpg?quality=90" width="255" />
+		
+		<div class="cfs-result-item__image-block__count">
+			<span class="fi-icon fi-icon--no-margin fi-camera"></span>
+			<span class="cfs-result-item__image-block__count__value">19</span>
+		</div>
+	</div>
+	<div class="cfs-result-item__detail-block">
+		<div>
+			<span class="cfs-result-item__detail-block__derivative" href="https://www.cazoo.co.uk/cars-for-sale/80208824?utm_source=parkers&amp;utm_medium=referral&amp;utm_campaign=motors_redirect&amp;referringSite=motorscouknetwork_parkers">150kW Ultimate 64kWh 5dr Auto</span>
+		</div>
+		<div class="cfs-result-item__detail-block__details">
+			Automatic | 2023/73 | Electric | 42,051 miles
+		</div>
+	</div>
+
+	<div class="cfs-result-item__price-block">
+
+		<span>&#xA3;16,998</span>
+	</div>
+</div>
+								</li>
+								<li class="cfs-result-carousel__item">
+									
+
+<div class="cfs-result-item cfs-result-item--compact clickable-container">
+	<a class="cfs-result-item__title clickable-container__link" href="/hyundai/kona-electric/suv/premium-se-electric-64-kwh-battery-204ps-auto-5d/for-sale/usedcfs-856254580210662/"
+		
+		>
+		<span class="cfs-result-item__title__text">Hyundai Kona Electric SUV (2021/70)</span>
+	</a>
+	
+	<div class="cfs-result-item__image-block">
+			<div class="cfs-result-item__added">Added today</div>
+
+		<img alt="Hyundai Kona Electric SUV (18-23) Premium SE Electric 64 kWh Battery 204PS auto 5d For Sale - CarSupermarket.com Birmingham, Birmingham" class="cfs-result-item__image-block__image" height="170" loading="lazy" src="https://parkers-images.bauersecure.com/external/cfs/usedcfs-856254580210662/-563869005/255x170/1.jpg?quality=90" width="255" />
+		
+		<div class="cfs-result-item__image-block__count">
+			<span class="fi-icon fi-icon--no-margin fi-camera"></span>
+			<span class="cfs-result-item__image-block__count__value">25</span>
+		</div>
+	</div>
+	<div class="cfs-result-item__detail-block">
+		<div>
+			<span class="cfs-result-item__detail-block__derivative" href="/hyundai/kona-electric/suv/premium-se-electric-64-kwh-battery-204ps-auto-5d/for-sale/usedcfs-856254580210662/">Premium SE Electric 64 kWh Battery 204PS auto 5d</span>
+		</div>
+		<div class="cfs-result-item__detail-block__details">
+			Automatic | 2021/70 | Electric | 29,432 miles
+		</div>
+	</div>
+
+	<div class="cfs-result-item__price-block">
+
+		<span>&#xA3;14,197</span>
+	</div>
+</div>
+								</li>
+						</ul>
+					</div>
+				<div class="specs-detail__carousels__leasing leasing-featured-cars">
+					<div id="leasingdotcom-best-deals" data-cid="2d9ddfe9" data-financetype="Personal"
+						 data-vehicletype="Car" data-manufacturerranges="Hyundai:Kona Electric"></div>
+					<script type="text/javascript" src="https://webapps.leasing.com/best-deals/load" defer></script>
+				</div>
+			</div>
+
+			<div class="hide-for-large">
+				
+<div class="advert-container advert-container--full-width advert-container--flexible">
+	<div id="inline-ad-placeholder-8febaba5-3625-4977-a86e-6905aa3fe2a2" class="inline-ad-placeholder"></div>
+	<div data-sticky-container>
+		<div data-id="mpu-3" data-sticky 
+			data-is-flexible=&quot;true&quot; 
+			class="advert mpu-ad sticky"
+			
+			data-top-anchor="inline-ad-placeholder-8febaba5-3625-4977-a86e-6905aa3fe2a2" data-sticky-on="small" data-margin-top="0"></div>
+	</div>
+</div>
+			</div>
+		</div>
+
+		<div class="specs-detail__columned-content__ad-column show-for-large">
+			
+<div class="advert-container">
+	<div id="inline-ad-placeholder-0e9f5db2-37df-4d64-a517-dd8a3edd148e" class="inline-ad-placeholder"></div>
+	<div data-sticky-container>
+		<div data-id="mpu-3" data-sticky 
+			 
+			class="advert mpu-ad sticky"
+			
+			data-top-anchor="inline-ad-placeholder-0e9f5db2-37df-4d64-a517-dd8a3edd148e" data-sticky-on="small" data-margin-top="0"></div>
+	</div>
+</div>
+		</div>
+	</div>
+	
+	<div class="specs-detail__columned-content">
+		<div class="specs-detail__columned-content__text-column">
+			<div class="specs-detail__adjacent-tables">
+				
+
+<div class="specs-detail-table" id="performance-specs-table">
+	<div class="specs-detail-table__intro">
+		<div class="specs-detail-table__intro__section">Section 5 of 8</div>
+		<h2 class="specs-detail-table__intro__heading">Performance</h2>
+	</div>
+	<ul class="specs-detail-table__list">
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#horse"></use></svg></span>
+			<span class="specs-detail-table__item__label">Horsepower</span>
+			<span class="specs-detail-table__item__value">201 bhp</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#speedometer"></use></svg></span>
+			<span class="specs-detail-table__item__label">Top speed</span>
+			<span class="specs-detail-table__item__value">104 mph</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#checkered-flag"></use></svg></span>
+			<span class="specs-detail-table__item__label">Acceleration 0-60mph</span>
+			<span class="specs-detail-table__item__value">7.6 secs</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#engine"></use></svg></span>
+			<span class="specs-detail-table__item__label">Torque</span>
+			<span class="specs-detail-table__item__value">395 Nm (291 ft-lb)</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#co2"></use></svg></span>
+			<span class="specs-detail-table__item__label">CO2</span>
+			<span class="specs-detail-table__item__value">
+				0 g/km
+			</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#euro-emissions"></use></svg></span>
+			<span class="specs-detail-table__item__label">Euro emissions standard</span>
+			<span class="specs-detail-table__item__value">
+				Not applicable
+					<button class="specs-detail-table__item__info-button" data-open="noEuroEmissionsInfo">
+						<svg class="info-popup-button"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#info"></use></svg>
+					</button>
+			</span>
+		</li>
+			<li class="specs-detail-table__item">
+				<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#range"></use></svg></span>
+				<span class="specs-detail-table__item__label">Electric range</span>
+				<span class="specs-detail-table__item__value">278 miles</span>
+			</li>
+	</ul>
+</div>
+				
+
+<div class="specs-detail-table" id="engine-specs-table">
+	<div class="specs-detail-table__intro">
+		<div class="specs-detail-table__intro__section">Section 6 of 8</div>
+		<h2 class="specs-detail-table__intro__heading">Engine</h2>
+	</div>
+	<ul class="specs-detail-table__list">
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#engine"></use></svg></span>
+			<span class="specs-detail-table__item__label">Engine size</span>
+			<span class="specs-detail-table__item__value">Not applicable</span>
+		</li>
+			<li class="specs-detail-table__item">
+				<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#electric-charge"></use></svg></span>
+				<span class="specs-detail-table__item__label">Battery capacity</span>
+				<span class="specs-detail-table__item__value">64 kWh</span>
+			</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#cylinders"></use></svg></span>
+			<span class="specs-detail-table__item__label">Cylinders</span>
+			<span class="specs-detail-table__item__value">Not applicable</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#valves"></use></svg></span>
+			<span class="specs-detail-table__item__label">Valves</span>
+			<span class="specs-detail-table__item__value">Not applicable</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#fuel-can"></use></svg></span>
+			<span class="specs-detail-table__item__label">Fuel type</span>
+			<span class="specs-detail-table__item__value">Electric</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#transmission"></use></svg></span>
+			<span class="specs-detail-table__item__label">Transmission</span>
+			<span class="specs-detail-table__item__value">Automatic</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#transmission"></use></svg></span>
+			<span class="specs-detail-table__item__label">Gears</span>
+			<span class="specs-detail-table__item__value">1 Speed             </span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#drivetrain"></use></svg></span>
+			<span class="specs-detail-table__item__label">Drivetrain</span>
+			<span class="specs-detail-table__item__value">Front wheel drive</span>
+		</li>
+	</ul>
+</div>
+			</div>
+
+			<div class="hide-for-large">
+				
+<div class="advert-container advert-container--full-width advert-container--flexible">
+	<div id="inline-ad-placeholder-c554cc01-10c0-4dc0-aa5a-017790f53238" class="inline-ad-placeholder"></div>
+	<div data-sticky-container>
+		<div data-id="mpu-4" data-sticky 
+			data-is-flexible=&quot;true&quot; 
+			class="advert mpu-ad sticky"
+			
+			data-top-anchor="inline-ad-placeholder-c554cc01-10c0-4dc0-aa5a-017790f53238" data-sticky-on="small" data-margin-top="0"></div>
+	</div>
+</div>
+			</div>
+
+			<div class="specs-detail__adjacent-tables">
+				
+
+<div class="specs-detail-table" id="cabin-specs-table">
+	<div class="specs-detail-table__intro">
+		<div class="specs-detail-table__intro__section">Section 7 of 8</div>
+		<h2 class="specs-detail-table__intro__heading">Cabin and luggage</h2>
+	</div>
+	<ul class="specs-detail-table__list">
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#door"></use></svg></span>
+			<span class="specs-detail-table__item__label">Doors</span>
+			<span class="specs-detail-table__item__value">5</span>
+		</li>
+
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#seat"></use></svg></span>
+			<span class="specs-detail-table__item__label">Seats</span>
+			<span class="specs-detail-table__item__value">5</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#boot-space"></use></svg></span>
+			<span class="specs-detail-table__item__label">Luggage space
+				<button class="specs-detail-table__item__info-button" data-open="luggageInfo">
+					<svg class="info-popup-button"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#info"></use></svg>
+				</button>
+			</span>
+			<span class="specs-detail-table__item__value">332 litres - Below average</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#trailer"></use></svg></span>
+			<span class="specs-detail-table__item__label">Braked towing weight</span>
+			<span class="specs-detail-table__item__value">Not known</span>
+		</li>
+		<li class="specs-detail-table__item">
+			<span class="specs-detail-table__item__icon"><svg class="specs-detail-table__item__icon__image"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#trailer"></use></svg></span>
+			<span class="specs-detail-table__item__label">Unbraked towing weight</span>
+			<span class="specs-detail-table__item__value">Not known</span>
+		</li>
+	</ul>
+</div>
+				
+
+<div class="specs-detail-table" id="safety-specs-table">
+	<div class="specs-detail-table__intro">
+		<div class="specs-detail-table__intro__section">Section 8 of 8</div>
+		<h2 class="specs-detail-table__intro__heading">Safety ratings</h2>
+	</div>
+		<div class="specs-detail-table__text-block">
+			Euro NCAP safety data not found. Alternatively, try searching for the model at <a href="https://www.euroncap.com/" target="_blank" rel="nofollow">Euro NCAP</a>.
+		</div>
+</div>
+			</div>
+		</div>
+
+		<div class="specs-detail__columned-content__ad-column show-for-large">
+			
+<div class="advert-container">
+	<div id="inline-ad-placeholder-d5942bb5-bd04-41fa-8df9-4423d263a4b9" class="inline-ad-placeholder"></div>
+	<div data-sticky-container>
+		<div data-id="mpu-4" data-sticky 
+			 
+			class="advert mpu-ad sticky"
+			
+			data-top-anchor="inline-ad-placeholder-d5942bb5-bd04-41fa-8df9-4423d263a4b9" data-sticky-on="small" data-margin-top="0"></div>
+	</div>
+</div>
+		</div>
+	</div>
+
+	<p class="specs-detail__bottom-proposition">If you&#x27;re considering a Hyundai Kona Electric SUV Premium SE 64 kWh Battery 204PS auto 5d, you&#x27;ll want the facts before you buy. Parkers lists every key spec so you can check fuel economy, dimensions and equipment, then compare with rivals to make the right choice.</p>
+
+	<div class="off-canvas off-canvas-change-vehicle position-left is-closed" id="offCanvasChangeVehicle" data-off-canvas data-transition="overlap">
+		<div class="specs-detail__change-vehicle">
+			<div class="specs-detail__change-vehicle__heading">
+				<span>Change vehicle</span>
+				<button class="specs-detail__change-vehicle__close" data-toggle="offCanvasChangeVehicle">
+					<span>Close</span>
+					<svg class="specs-detail__change-vehicle__close__icon"><use href="/dist/_6-94-1-DO-6488-204/images/svg-icons.svg#x"></use></svg>
+				</button>
+			</div>
+
+			<div id="specs-lookup-filters" data-recaptcha-key="6Ldzf24qAAAAACKs-7_XKIPzA0PUieP8SVlPNI0q"></div>
+		</div>
+	</div>
+
+	<div class="reveal info-popup" id="mpgWltpInfo" data-reveal>
+		<button class="close-button" data-close aria-label="Close modal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<div class="info-popup__title">What does this mean?</div>
+		<div class="info-popup__content">Mpg measured under the WLTP test standard. WLTP is the current standard for measuring car fuel economy, in place since 2017. Note that plug-in hybrid mpgs quoted are for when running <strong>without</strong> electrical assistance.</div>
+	</div>
+
+	<div class="reveal info-popup" id="mpgWltpWarning" data-reveal>
+		<button class="close-button" data-close aria-label="Close modal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<div class="info-popup__title">What does this mean?</div>
+		<div class="info-popup__content">Mpg measured under the test standard in place prior to March 31 2017. Note that the current standard (WLTP) generally provides significantly <strong>lower</strong> figures that are closer to real world experience. Mpg figures generated under the two different standards cannot be meaningfully compared.</div>
+	</div>
+
+	<div class="reveal info-popup" id="mptWltpInfo" data-reveal>
+		<button class="close-button" data-close aria-label="Close modal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<div class="info-popup__title">What does this mean?</div>
+		<div class="info-popup__content">Tank range based on mpg measured under the WLTP test standard. WLTP is the current standard for measuring car fuel economy, in place since 2017. Note that plug-in hybrid ranges assume running <strong>without</strong> electrical assistance.</div>
+	</div>
+
+	<div class="reveal info-popup" id="mptWltpWarning" data-reveal>
+		<button class="close-button" data-close aria-label="Close modal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<div class="info-popup__title">What does this mean?</div>
+		<div class="info-popup__content">Tank range based on mpg measured under the test standard in place prior to March 31 2017. Note that the current standard (WLTP) generally provides significantly <strong>lower</strong> figures that are closer to real world experience. Mpg/tank range figures generated under the two different standards cannot be meaningfully compared.</div>
+	</div>
+
+	<div class="reveal info-popup" id="vedInfo" data-reveal>
+		<button class="close-button" data-close aria-label="Close modal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<div class="info-popup__title">What does this mean?</div>
+        <div class="info-popup__content">Rates shown are for standard cars with no optional extras fitted when new. Note that for cars registered after April 1 2017 (April 1 2025 for electric cars) an additional rate of road tax - currently &pound;440 per year - is applied each time tax is renewed for five years if the price when new, including options, was over &pound;40,000 (&pound;50,000 for electric cars). When buying always check with the seller what road tax rate will apply at renewal.</div>
+	</div>
+
+	<div class="reveal info-popup" id="vedAdditionalRateInfo" data-reveal>
+		<button class="close-button" data-close aria-label="Close modal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<div class="info-popup__title">Additional rate</div>
+        <div class="info-popup__content">An additional rate of &pound;440 per year (or &pound;242 per half year) is levied on cars whose price when new was over &pound;40,000 (&pound;50,000 for electric cars) and that were first registered after April 1 2017 (April 1 2025 for electric cars). The additional rate is only applied for the first five years that road tax is renewed; renewals after that revert to the standard rate of &pound;200 per year (or &pound;110 per half year).</div>
+	</div>
+
+	<div class="reveal info-popup" id="noEuroEmissionsInfo" data-reveal>
+		<button class="close-button" data-close aria-label="Close modal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<div class="info-popup__title">Why doesn't this apply?</div>
+		<div class="info-popup__content">Electric cars built prior to the introduction of the Euro 7 standard will not have been required to undergo Euro emissions testing.</div>
+	</div>
+
+	<div class="reveal info-popup" id="euroEmissionsWarning" data-reveal>
+		<button class="close-button" data-close aria-label="Close modal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<div class="info-popup__title">What does this mean?</div>
+		<p class="info-popup__content">Emissions data can vary over the lifespan of a version, typically due to manufacturer engine improvements.</p>
+		<p class="info-popup__content">What is presented here is based on the latest version.</p>
+		<p class="info-popup__content">When buying always check details with the seller if considerations such as eg ULEZ compliance will apply.</p>
+	</div>
+
+	<div class="reveal info-popup" id="co2Info" data-reveal>
+		<button class="close-button" data-close aria-label="Close modal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<div class="info-popup__title">What is this?</div>
+		<div class="info-popup__content">Emissions measured under the WLTP test standard. WLTP is the current standard for measuring car fuel economy and emissions, in place since 2017. Note however that it only began to be used for determining a car's first year road tax and company car tax bandings from April 1 2020.</div>
+	</div>
+
+	<div class="reveal info-popup" id="co2Warning" data-reveal>
+		<button class="close-button" data-close aria-label="Close modal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<div class="info-popup__title">What is this?</div>
+		<div class="info-popup__content">Emissions measured under the official test standard in place prior to March 31 2017. Note this standard remained in use for determining a car's first year road tax and company car tax bandings up until March 31 2020.</div>
+	</div>
+
+	<div class="reveal info-popup" id="luggageInfo" data-reveal>
+		<button class="close-button" data-close aria-label="Close modal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<div class="info-popup__title">What is this?</div>
+		<div class="info-popup__content">Luggage space with all seats in upright position.</div>
+	</div>
+</article>
+
+
+				</main>
+
+				<div class="back-to-top-container">
+	<span class="back-to-top">
+		<a class="back-to-top__button back-to-top-link"><span class="back-to-top__button__arrow"></span></a>
+		<a class="back-to-top__label back-to-top-link">Back to top</a>
+	</span>
+</div>
+
+<div class="sticky-back-to-top-container">
+	<a class="back-to-top__button back-to-top-link"><span class="back-to-top__button__arrow"></span></a>
+</div>
+
+				<div data-id="inline-footer" class="footer-ad advert"></div>
+			</div>
+
+			
+<footer id="siteFooter" class="site-footer">
+	<ul class="site-footer__social">
+		<li class="site-footer__social__item">
+			<a class="site-footer__social__link site-footer__social__link--facebook" href="https://www.facebook.com/ParkersCarBuying" target="_blank" aria-label="Facebook" rel="noopener noreferrer">
+				<span class="fi-social-facebook"></span>
+			</a>
+		</li>
+		<li class="site-footer__social__item">
+			<a class="site-footer__social__link site-footer__social__link--twitter" href="https://www.twitter.com/ParkersCars" target="_blank" aria-label="Twitter" rel="noopener noreferrer">
+				<span class="fi-social-twitter"></span>
+			</a>
+		</li>
+		<li class="site-footer__social__item">
+			<a class="site-footer__social__link site-footer__social__link--youtube" href="https://www.youtube.com/user/ParkersTV" target="_blank" aria-label="Youtube" rel="noopener noreferrer">
+				<span class="fi-social-youtube"></span>
+			</a>
+		</li>
+		<li class="site-footer__social__item">
+			<a class="site-footer__social__link" href="/contact-us/" aria-label="Contact us">
+				<span class="fi-mail"></span>
+			</a>
+		</li>
+	</ul>
+	<div>
+		<a href="http://www.bauermedia.co.uk" target="_blank" aria-label="Bauer Media site" rel="noopener noreferrer">
+            <img src=https://static-cdn.bauersecure.com/Common/Logos/bauer.117x52.png class="site-footer__logo" alt="Bauer Media logo" />
+		</a>
+		
+		
+<nav class="clearfix">
+    <ul class="site-footer__nav">
+            <li class="site-footer__nav__item">
+                <a class="site-footer__nav__link" href="/about-us/"
+                
+                rel=''>
+                    About us
+                </a>
+            </li>
+            <li class="site-footer__nav__item">
+                <a class="site-footer__nav__link" href="/contact-us/"
+                
+                rel=''>
+                    Contact us
+                </a>
+            </li>
+            <li class="site-footer__nav__item">
+                <a class="site-footer__nav__link" href="/advertise/"
+                
+                rel=''>
+                    Advertise with us
+                </a>
+            </li>
+            <li class="site-footer__nav__item">
+                <a class="site-footer__nav__link" href="https://www.bauerdatapromise.co.uk/"
+                target='_blank'
+                rel='noopener noreferrer'>
+                    Privacy &amp; cookie policy
+                </a>
+            </li>
+            <li class="site-footer__nav__item">
+                <a class="site-footer__nav__link" href="/terms-and-conditions/"
+                
+                rel=''>
+                    Terms of use
+                </a>
+            </li>
+            <li class="site-footer__nav__item">
+                <a class="site-footer__nav__link" href="https://www.bauerlegal.co.uk/speak-up/"
+                target='_blank'
+                rel=''>
+                    Speak up
+                </a>
+            </li>
+            <li class="site-footer__nav__item">
+                <a class="site-footer__nav__link" href="http://www.bauermediacomplaints.co.uk/"
+                target='_blank'
+                rel='noopener noreferrer'>
+                    Complaints policy
+                </a>
+            </li>
+
+        <li class="site-footer__nav__item">
+            <a class="site-footer__nav__link privacy-settings privacy-settings--eu"
+               href="#"> Privacy settings
+            </a>
+        </li>
+
+        <li class="site-footer__nav__item">
+            <a class="site-footer__nav__link privacy-settings privacy-settings--us"
+               href="#"> Do not sell my information
+            </a>
+        </li>
+    </ul>
+</nav>
+
+       
+		<p class="site-footer__copyright">
+			&copy; 1972-2026 Bauer Media Group
+		</p>
+		<p class="site-footer__company-info">
+			Bauer Media Group consists of : Bauer Consumer Media Ltd, Company number 01176085; Bauer Radio Limited, Company number: 1394141; <br />
+			Registered office: Media House, Peterborough Business Park, Lynch Wood, Peterborough PE2 6EA and H Bauer Publishing, Company number: LP003328; <br />
+			Registered office: The Lantern, 75 Hampstead Road, London NW1 2PL <br />
+			All registered in England and Wales. VAT no 918 5617 01 <br />
+			H Bauer Publishing are authorised and regulated for credit broking by the FCA (Ref No. 845898)
+		</p>
+	</div>
+</footer>
+		</div>
+	</div>
+
+	
+<script type="text/javascript">
+
+    const gptData = {"networkId":24156345,"site":"SMODAUTOMOTIVE/SMOD_Parkers","adPathSection":"car-specs","templateName":"Templates.CarSpecsDetail","targetingValues":{"cms_template_name":"CarSpecsDetail","pagetype":"article","make_parkers":"hyundai","condition":"Used","model_parkers":"hyundai_kona-electric","category_parkers":"4x4,electric-hybrid","engine-type":"electric"},"maxMpuCount":20};
+    window.gptData = gptData;
+
+</script>
+	<script src="/clever_ads.js" type="text/javascript"></script>
+<script type="text/javascript">
+    window.addEventListener("load", (event) => {
+        var adBlockEnabled = false;
+
+        if (!document.getElementById('wLPWKVIAaMdz')) {
+            adBlockEnabled = true;
+        }
+
+        console.log(`Adblocker enabled: ${adBlockEnabled}`);
+
+        $.ajax({
+            url: encodeURI(`${parkersConfig.bauerStaticHost}bauer_p.png?brand=parkers&os=${getOS()}&adblock=${adBlockEnabled}`),
+            method: 'GET'
+        });
+    });
+
+    function getOS() {
+        let result = 'Unknown';
+        let userAgent = window.navigator.userAgent;
+
+        if (userAgent.indexOf('Win') !== -1) {
+            result = 'Windows';
+        } else if (userAgent.indexOf('like Mac OS') !== -1) {
+            result = 'iOS';
+        } else if (userAgent.indexOf('Mac OS') !== -1) {
+            result = 'Mac';
+        } else if (userAgent.indexOf('Android') !== -1) {
+            result = 'Android';
+        } else if (userAgent.indexOf('Linux') !== -1) {
+            result = 'Linux';
+        }
+
+        return result;
+    }
+</script>
+
+	
+<div id="newsletterSignup" class="newsletter-signup" data-page-view-threshold="3">
+	<div class="newsletter-signup__container">
+		<span class="newsletter-signup__close icon-24x24-exit-blue"></span>
+		<div class="newsletter-signup__header">
+			<span class="newsletter-signup__header__text">Sign up to receive the <span class="newsletter-signup__header__text__logo">PARKERS</span> newsletters and receive:</span>
+		</div>
+
+		<div class="newsletter-signup__reasons">
+			<ul class="newsletter-signup__reasons__list">
+				<li class="newsletter-signup__reasons__list__item">The latest independent car advice and reviews</li>
+				<li class="newsletter-signup__reasons__list__item">The hottest car finance & leasing deals</li>
+				<li class="newsletter-signup__reasons__list__item">Expert guidance to help you buy or sell at the right price</li>
+			</ul>
+		</div>
+
+		<form class="newsletter-signup__submit" data-abide novalidate>
+			<span class="newsletter-signup__submit__prompt-label">Enter your email here</span>
+			<span class="newsletter-signup__submit__success-label">Your email has been successfully submitted!</span>
+			<input id="emailInput" name="email" class="newsletter-signup__submit__input" placeholder="hello@example.com" type="email" required/>
+			<div data-abide-error class="callout alert newsletter-signup__callout-message" aria-live="assertive" role="alert">
+            	<span class="fi-icon fi-icon--large fi-alert"></span><span>Please enter a valid email address.</span>
+            </div>
+			<button type="submit" class="newsletter-signup__submit__button button">Submit</button>
+			<button type="button" class="newsletter-signup__complete-button button">Close<span class="newsletter-signup__complete-button__icon fi-x"></span></button>
+			<span class="newsletter-signup__submit__disclaimer">
+				You can unsubscribe at any time from any email we send you via the unsubscribe link.
+				For our privacy policy go to <a href="http://www.bauerdatapromise.co.uk/">bauerdatapromise.co.uk</a>
+			</span>
+			<span class="newsletter-signup__submit__error-label">Oops, something went wrong on our end!</span>
+		</form>
+	</div>
+</div>
+
+</body>
+
+</html>
