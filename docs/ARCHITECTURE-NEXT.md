@@ -70,8 +70,7 @@ Facts and prices are worked out as today, for the new cars.
 ## Load
 
 The same files, with fields added: each car's version, and each used car's version. Car ids
-change once, from CAP ids to the new ids. The owner's entered cars and decisions are mapped
-through their CAP ids, and any that do not map are listed for them.
+change once, from CAP ids to the new ids.
 
 ## Costing
 

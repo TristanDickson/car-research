@@ -6,9 +6,6 @@ has, what each prints that a buyer could use, and the cost of reading it; then r
 is read and what is left. Data on a page we already fetch and do not read is a bug, and goes on
 `BOARD.md`.
 
-Until they are removed (`BOARD.md`, T9), the build also reads the hand-typed cars, offers and
-lookup table of 6 Oct and four pasted Carwow quote pages.
-
 | Source | What it gives | Pages a night |
 |---|---|---|
 | Carwow catalogue | every electric model on sale, the list the other Carwow readers work from | about 48 |

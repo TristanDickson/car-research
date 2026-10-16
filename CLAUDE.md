@@ -31,9 +31,11 @@ The commands are in `README.md`, "Working on it". On this laptop run them as
   never write anything derived into it.
 - **Nothing creates a car as a side effect**, and no answer may depend on the order pages were read.
 - **The owner's decisions are durable and theirs** (`docs/DECISIONS.md`): record what they said; never
-  write a decision of yours in their name. `data/seed` and `data/pastes` are not their decisions: they
-  are the first pipeline's hand-typed inputs of 6 Oct, kept only until the resolver replaces them
-  (`BOARD.md`, T9); add nothing to them.
+  write a decision of yours in their name.
+- **Nothing is typed in by hand.** `data/seed/requirements.json` holds the default settings (the
+  quoting basis and the starting saved searches) and nothing else. Every car, offer and link from a
+  name to a car comes from a fetched page; the owner, 16 Oct 2026: "Havent i already said this
+  pipeline should be automated?"
 - **A generic app**: no particular car, requirement or threshold in code or copy
   (`docs/DECISIONS.md`, "The app is generic"). Show results under the alternatives being weighed
   rather than asking the owner to settle them.

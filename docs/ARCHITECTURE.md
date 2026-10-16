@@ -9,9 +9,8 @@ the reader's own assumptions.
 
 It is an ETL with one rule: only the fetched pages are kept. Everything between them and the
 published files is rebuilt from scratch every night, so a better parser or matcher corrects the
-past as well as the future. The only other thing that lasts is the owner's decisions. Until the
-next step lands, the build also reads a set of cars, offers and a lookup table typed in by hand on
-6 Oct, before any scraper existed; they go with it.
+past as well as the future. The only other input is a file of default settings (the quoting
+basis and the starting saved searches); no car, offer or name is typed in by hand.
 
 The next step, a new way of deciding which car a record is, is in `ARCHITECTURE-NEXT.md`.
 
@@ -21,7 +20,7 @@ The next step, a new way of deciding which car a record is, is in `ARCHITECTURE-
                  nightly                each build, from scratch
    sources ───────────────▶ raw store ─────────────────────────────────────────────▶ snapshot ──▶ app
    (sites,                  every page    parse      identify     facts and prices    (JSON files,  (costs every
-    the owner's files)      kept forever ───────▶ records ───────▶ cars ──────────────▶  published)    deal in the
+    the settings file)      kept forever ───────▶ records ───────▶ cars ──────────────▶  published)    deal in the
                                                                                                    browser)
 ```
 
@@ -31,7 +30,7 @@ The next step, a new way of deciding which car a record is, is in `ARCHITECTURE-
 |---|---|---|
 | Fetch | one response from one site: when, from where, its status and body | the body's content hash, plus the time |
 | Record | one thing one source said, read from a fetch: an offer, a spec table, a used car for sale, a test grade, a recall | the source and a key stable at that source |
-| Car | one exact version of a car on one price list (a CAP derivative), or a car the owner entered | the CAP id, or the owner's id |
+| Car | one exact version of a car on one price list (a CAP derivative) | the CAP id |
 | Claim | one source's statement of one fact about a car, at a level: this car, its trim, its trim and battery, its engine, its model, an EV Database variant | the fact, the level, the source |
 | Fact | a car's value for a field: the strongest claim at the nearest level; where equally strong claims disagree, unknown, with both kept | car and field |
 | Offer | one source's price for one car by one route (cash, PCP, lease) over the days it stayed the same, with the whole deal (deposit, term, APR, guaranteed future value) | the source's own key for the offer |
@@ -50,8 +49,8 @@ The next step, a new way of deciding which car a record is, is in `ARCHITECTURE-
   of the night, rests for a growing number of nights, and comes back a few pages at a time. A
   page not fetched loses nothing: what earlier pages said still stands.
 - **Two more sources** are read like the sites: the data committed before the raw store
-  existed (6 to 10 Oct 2026, pages not kept, so only its matching is re-derived), and the owner's
-  own files.
+  existed (6 to 10 Oct 2026, pages not kept, so only its matching is re-derived), and the default
+  settings. The offers typed or pasted in by hand that the committed data holds are not read.
 
 ## Transform
 
@@ -65,8 +64,7 @@ The next step, a new way of deciding which car a record is, is in `ARCHITECTURE-
    - an EV Database variant is tied to a car by battery size and year;
    - a used car is tied to a trim by its trim words and a battery within 3 kWh.
 
-   The 6 Oct lookup table overrides all four. A record none of them places is listed, never
-   guessed. Petrol versions that electric models' pages also list are not cars.
+   A record none of them places is listed, never guessed. Petrol versions that electric models' pages also list are not cars.
 3. **Facts.** Every source's statements become claims; each car's facts are resolved from them
    when the snapshot is written. A car's own source outranks its trim's, its trim's its model's.
    For equipment, a maker's table outranks a seller's list, and "not listed" counts only where

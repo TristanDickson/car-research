@@ -2,8 +2,8 @@
 
 The owner's decisions in force, by topic, in their own words where the docs recorded them. Where
 no words were recorded, the line says so. A decision a later one replaced
-is not kept; git's history has the rest. The household's own budget and quoting basis are the
-app's seed settings (`data/seed/requirements.json`), not decisions about the app.
+is not kept; git's history has the rest. The app's default quoting basis and starting saved
+searches are its settings file (`data/seed/requirements.json`), not decisions about the app.
 
 ## The app is generic
 

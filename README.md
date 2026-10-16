@@ -10,9 +10,9 @@ headline numbers are unpicked.
 
 The household using it has a PCP that ends on 10 December 2026, and rather than walk into a
 dealer and react to the monthly figure, wanted every deal on one footing. Nothing in the app is
-built around their car or requirements (`docs/DECISIONS.md`, "The app is generic"); their
-budget, quoting basis and saved searches are the app's seed settings
-(`data/seed/requirements.json`).
+built around their car or requirements (`docs/DECISIONS.md`, "The app is generic"). The app's
+default settings, the quoting basis and the starting saved searches, are
+`data/seed/requirements.json`; each reader changes their own copy in Settings.
 
 Three things move independently in a deal, and sellers shuffle value between them: the
 **vehicle price** (list, dealer discount, government grant), the **finance support** (APR,
@@ -27,7 +27,7 @@ like-for-like cash price, with the GFV treated as a floor rather than a forecast
 
 The design is the owner's (`docs/DECISIONS.md`, after their project bolthole): only the raw
 responses are permanent; everything the app reads is re-derived from them by a build that runs
-from scratch every time; only the owner's own files and decisions persist. Live since 10 Oct 2026;
+from scratch every time; nothing is typed in by hand but the default settings. Live since 10 Oct 2026;
 how it works is `docs/ARCHITECTURE.md`, and the next step `docs/ARCHITECTURE-NEXT.md`.
 
 ```
@@ -35,10 +35,10 @@ live scrapers ─────────▶ RAW STORE on the owner's laptop (D:
 (pipeline/providers)      every response, gzipped by sha256, an append-only index of every fetch,
                           plus every committed version of the old data/history, as the source `history`
                                         │
-data/seed/*.json, data/pastes/ ─────────┤  build, from scratch every run (pipeline/build.py):
-  (the owner's cars, offers, decisions)  │  parse every page → what each source said → one derivative
-                                        │  per CAP id → match every record at once (the owner's
-                                        ▼  decisions override) → prices folded into spans
+data/seed/requirements.json ────────────┤  build, from scratch every run (pipeline/build.py):
+  (the default settings)                │  parse every page → what each source said → one derivative
+                                        │  per CAP id → match every record at once
+                                        ▼  → prices folded into spans
                               SQLite (disposable) ─▶ web/public/data/*.json (committed) ─▶ Pages ─▶ SPA
                                                      facts only: cars, every price as a span of days,
                                                      used asking prices, specs; the browser costs them
@@ -50,7 +50,7 @@ data/seed/*.json, data/pastes/ ─────────┤  build, from scrat
   guides, configurator and offers), EV Database, ADAC, What Car?, the UK and US recall registers,
   and Parkers. What each prints, what is read and what is left: `docs/SOURCES.md`.
 - **Cars.** Every CAP derivative a page names is a car (CAP HPI's id for one exact version of a
-  car); 1,985 in the 16 Oct snapshot, 1,606 of them on sale. The owner's own 19 entries are among them.
+  car); 1,983 in a build of 16 Oct, 1,604 of them on sale.
   Every field a car carries comes from one claim store that weighs what each source says
   (`docs/ARCHITECTURE.md`, "Transform").
 - **Costs.** Cash, PCP, lease and used are compared on one footing, the true monthly: every
@@ -85,8 +85,7 @@ pipeline/               Python package: raw store, scraper, build, snapshot expo
   services/features.py  equipment wording → canonical flags (heat pump, internal V2L, …) shared by every spec source
 model/deal_math.py      PCP / PCH / cash / used arithmetic in Python: the oracle behind tests/fixtures/cost_cases.json (model/cost_fixture.py) and the markdown deal table
 web/src/lib/model/      the cost model the app runs: dealMath.ts (the port, checked against the fixture), horizon.ts (deals of other lengths over the reader's term), sightings.ts (every route and source over time), breakeven.ts, recompute.ts (one pass, stored in IndexedDB)
-data/seed/              the owner's cars (19), offers (29), requirements and saved searches, picks, and decisions (trim_map.json: 56 "this is that car", 163 "not one of mine")
-data/pastes/            pasted source pages, one file each (carwow: 4, richmond: 2)
+data/seed/              requirements.json: the default settings (the quoting basis and the starting saved searches)
 scripts/                the nightly job (nightly.sh), its scheduler entry (install-nightly.sh: Task Scheduler or cron), Chrome's download for DVSA (fetch-with-chrome.mjs), a snapshot comparison
 web/                    Next.js static SPA: pick, compare, cars, car page, specs, offers, data, settings (saved searches, the car to compare with, budget line, quoting basis)
   src/lib/fields.ts     the one list of car fields: Cars table columns, search bounds, the car page's Spec card
@@ -94,13 +93,13 @@ web/                    Next.js static SPA: pick, compare, cars, car page, specs
   public/data/          the committed snapshot the SPA reads
 docs/                   the owner's decisions, architecture, the rebuild, sources, requirements, research notes, generated deal table
 tests/                  Python unit tests; tests/fixtures holds one real page per scraper; tests/helpers.Raws builds over them
-.github/workflows/      pages-deploy, web-ci, pipeline-ci (unit tests and a build from the owner's files)
+.github/workflows/      pages-deploy, web-ci, pipeline-ci (unit tests and a build from the default settings alone)
 ```
 
 ## Working on it
 
 ```
-python -m pipeline build        # from scratch: raws + the committed history + the owner's files → DB → web/public/data
+python -m pipeline build        # from scratch: raws + the committed history + the default settings → DB → web/public/data
 python -m pipeline nightly      # new committed history into the store, scrape everything, build, snapshot, deal table
 python -m pipeline scrape --only carwow_deals,ncd   # some live sources into the raw store
 python -m pipeline records <key> [--kind spec] [--show]   # what the sources said about a key, and when
@@ -138,19 +137,12 @@ log is `D:\car-research-raw\logs\nightly\<date>.log`. A site that changes its la
 a provider with 0 records and its offers going stale a fortnight later; fix the parser against a
 fresh fixture, and the next build reads every stored page again with it.
 
-**To add a Carwow quote:** copy the dealer-offer page text from your logged-in browser into
-`data/pastes/carwow/<date>_<dealid>.txt`, first line `# captured_at: 2026-10-07T09:00:00Z`,
-then build. If the trim is new, `python -m pipeline trims` says what to add to
-`data/seed/trim_map.json`. Re-pasting the same offer on a later date records a new sighting.
-
-**To add any other offer or a car:** edit `data/seed/deals.json` or `cars.json` following the
-existing entries (every offer has `captured_at`, `status`, `verification`, a `source`, and prices
-net of discount and grant) and build. A photo of a car goes in `web/public/images/cars/`.
+Every car and every offer comes from a page the pipeline fetched. A source worth reading is a new
+reader in `pipeline/providers/`; nothing is pasted or typed in.
 
 **When a scraper meets a name the rules cannot place:** `python -m pipeline trims` prints it
-with the label as the site printed it. If it is the owner's to decide, a row in
-`data/seed/trim_map.json` with the `car_id` it is settles it. Nothing is ever attached to a
-guessed car.
+with the label as the site printed it. Nothing is ever attached to a guessed car; the fix is a
+better rule (`BOARD.md`, T3).
 
 ## Data conventions
 
@@ -158,12 +150,9 @@ guessed car.
   manufacturer finance contribution and before the customer deposit: what you would pay in cash
   from that seller.
 - **`amount_of_credit`** = vehicle price minus deposit minus contribution.
-- Every offer sighting carries `captured_at`, `status` as the source implied it (live / expired /
-  lead / illustrative / derived / campaign / historical) and `verification` (pasted / cited /
-  derived / user). The exported `freshness.state` adds `gone` and auto-expires on `valid_to`.
-  Anything ChatGPT sourced is *cited* until we re-verify it.
-- The owner's cars in `data/seed/cars.json` carry `heat_pump` and `internal_v2l` as standard /
-  pack / option / none / unknown, with `packs_required` naming the pack.
+- Every offer sighting carries `captured_at` and `status` as the source implied it (live /
+  expired / lead / illustrative / derived / campaign / historical). The exported
+  `freshness.state` adds `gone` and auto-expires on `valid_to`.
 
 ## Next steps
 
