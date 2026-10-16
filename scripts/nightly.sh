@@ -10,14 +10,17 @@
 #   --branch B    the code to run (default main)
 #   --push        commit the snapshot and the deal table and push them to main, which deploys the
 #                 site; if main moved meanwhile, build again on it from the raws and retry
-#   --build-only  build from the pages the raw store already holds, no scraping: with --push, the
-#                 way to put a code change on the site at once
+#   --build-only  build from the pages the raw store already holds, no scraping
+#   --code REV    with --push --build-only: build the local commit REV (with the commits under it
+#                 that main lacks, rebased onto main) and push it and its snapshot in one push, so
+#                 the site never has new code without the snapshot it needs; the way to put a code
+#                 change on the site at once
 #   (neither)     push nothing; log how this build's snapshot differs from main's
 #
 # Each run's log: $CAR_RESEARCH_RAW/logs/nightly/<date>.log
 set -euo pipefail
 
-branch=main push=0 build_only=0
+branch=main push=0 build_only=0 code=
 repo="${CAR_RESEARCH_REPO:-$HOME/car-research}"
 worktree="${CAR_RESEARCH_WORKTREE:-$HOME/car-research-nightly}"
 while [ $# -gt 0 ]; do
@@ -25,9 +28,15 @@ while [ $# -gt 0 ]; do
     --branch) branch="$2"; shift 2 ;;
     --push) push=1; shift ;;
     --build-only) build_only=1; shift ;;
+    --code) code="$2"; shift 2 ;;
     *) echo "unknown option: $1" >&2; exit 2 ;;
   esac
 done
+if [ -n "$code" ]; then
+  [ "$push" = 1 ] && [ "$build_only" = 1 ] || { echo "--code goes with --push --build-only" >&2; exit 2; }
+  # REV as the directory it is run from names it (HEAD there is that worktree's HEAD); every worktree shares the commits.
+  code=$(git rev-parse --verify -q "$code^{commit}") || { echo "--code: no such commit here" >&2; exit 2; }
+fi
 
 # Settings for this machine, the same way everywhere: ~/.car-research.env (KEY=value lines), e.g.
 #   CAR_RESEARCH_RAW=/d/car-research-raw
@@ -54,14 +63,22 @@ else py=(python3); fi
 day=$(date -u +%Y-%m-%d)
 log_dir="$CAR_RESEARCH_RAW/logs/nightly"
 mkdir -p "$log_dir"
+echo "log: $log_dir/$day.log" >&2
 exec >> "$log_dir/$day.log" 2>&1
 trap 'echo "nightly: FAILED at line $LINENO ($(date -u +%FT%TZ))"' ERR
 
-echo "nightly: $(date -u +%FT%TZ), branch $branch, push $push, build-only $build_only"
+echo "nightly: $(date -u +%FT%TZ), branch $branch, push $push, build-only $build_only${code:+, code $code}"
 [ -d "$worktree" ] || git -C "$repo" worktree add --detach "$worktree"
 cd "$worktree"
-git fetch -q origin
-git checkout -q --detach --force "origin/$branch"
+
+# The code to build: origin/<branch>, or with --code that commit on top of main as it is now.
+checkout_code() {
+  git fetch -q origin
+  if [ -z "$code" ]; then git checkout -q --detach --force "origin/$1"; return; fi
+  git checkout -q --detach --force "$code"
+  git rebase -q origin/main || { git rebase --abort; echo "nightly: $code does not rebase cleanly onto main; nothing pushed"; exit 1; }
+}
+checkout_code "$branch"
 export CAR_RESEARCH_DB="$worktree/data/car-research.sqlite"
 
 if [ "$build_only" = 1 ]; then
@@ -82,14 +99,17 @@ message="data: nightly build $day"
 [ "$build_only" = 1 ] && message="data: build from the raw store $day"
 for attempt in 1 2 3; do
   git add -- web/public/data
-  if git diff --cached --quiet; then echo "nothing changed"; break; fi
-  git -c user.name="car-research nightly" -c user.email="nightly@car-research.local" commit -q -m "$message"
+  if git diff --cached --quiet; then
+    echo "nothing changed in the snapshot"
+    [ -n "$code" ] || break   # with --code the code still goes up
+  else
+    git -c user.name="car-research nightly" -c user.email="nightly@car-research.local" commit -q -m "$message"
+  fi
   if git push -q origin HEAD:main; then echo "pushed"; break; fi
   [ "$attempt" = 3 ] && { echo "main kept moving; this snapshot was not pushed"; exit 1; }
   # main moved while we worked: take it as it now is and build again from the raws (no new fetching).
   echo "main moved; building again on it (attempt $attempt)"
-  git fetch -q origin
-  git checkout -q --detach --force origin/main
+  checkout_code main
   "${py[@]}" -m pipeline build
 done
 echo "nightly: done $(date -u +%FT%TZ)"

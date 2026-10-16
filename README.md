@@ -108,7 +108,7 @@ python -m pipeline trims        # records the rules could not place
 python -m pipeline models       # the catalogue, with what has been scraped per model (the Data page shows the same)
 python -m pipeline status | deal-table | raw-migrate
 python -m pipeline backfill --since 2025-01-01   # Wayback captures into the raw store; then build
-scripts/nightly.sh --push --build-only            # put a code change on the site now: build from the raws held, publish
+scripts/nightly.sh --push --build-only --code HEAD   # put a code change on the site now: build it from the raws held, push it with its snapshot
 make test                       # python unittest + web lint/typecheck/vitest
 make web-dev                    # http://localhost:3001
 make web-build                  # static export to web/out

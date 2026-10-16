@@ -122,8 +122,8 @@ itself changes.
 
 - **The nightly job** fetches, builds and publishes. Its log is on the laptop, and is the first
   thing to read the morning after a change.
-- **A code change goes live** by building from the pages already held and publishing, with no
-  fetching.
+- **A code change goes live** by building it from the pages already held, with no fetching, and
+  pushing the code and its snapshot together, so the site never has one without the other.
 - **Tests.** Every parser is tested on a real page captured from its site, and builds are
   tested over stored pages. CI runs the tests on every push, and the push publishes the site.
 - **When a site changes its layout,** its source shows 0 records and its prices go stale a
