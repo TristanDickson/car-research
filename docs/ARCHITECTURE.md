@@ -64,7 +64,8 @@ The next step, a new way of deciding which car a record is, is in `ARCHITECTURE-
    - an EV Database variant is tied to a car by battery size and year;
    - a used car is tied to a trim by its trim words and a battery within 3 kWh.
 
-   A record none of them places is listed, never guessed. Petrol versions that electric models' pages also list are not cars.
+   A record none of them places is listed, never guessed. Petrol versions that electric models'
+   pages also list are not cars.
 3. **Facts.** Every source's statements become claims; each car's facts are resolved from them
    when the snapshot is written. A car's own source outranks its trim's, its trim's its model's.
    For equipment, a maker's table outranks a seller's list, and "not listed" counts only where

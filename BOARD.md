@@ -22,9 +22,10 @@ convention as the owner's other boards (SpaceTS, parasitic-feudalism), kept shor
 | T6 | End value by version, within a wide mileage band | open |
 | T7 | A price that fits several cars goes on the best spec | open |
 | T8 | Old versions are cars | open |
-| T9 | Clear `data/seed` and `data/pastes` down to a file of default settings | in progress |
+| T9 | Clear `data/seed` and `data/pastes` down to a file of default settings | landed `598e1ac` |
 | T10 | `docs/SOURCES.md` in the same short form as the architecture docs | landed `de6de05` |
 | T11 | Find out why Carwow's configurator reader recovered on 16 Oct | open |
+| T12 | Carwow used: no household models fetched ahead of the rest | open |
 
 ## T1. One normaliser for every source's text
 
@@ -49,6 +50,12 @@ built from its details, the filter and the decide rules, the CAP id as the stron
 Database's figures to every car of its version. A comparison listing every record whose car
 changes against today's lookups is gone through with the owner before the switch. It supersedes
 the battery patch held on `hold/evdb-battery-fit-two-readings`.
+
+It places the makers' configurator rows as well. Today they are matched only against Carwow's
+registry, so three Ioniq 3 Ultimate derivatives that only Carwow's deals page names (with the
+Design Pack, the Comfort and Design Packs, and the EV and Design Packs) get no packs from
+Hyundai's configurator. Since T9 they show no heat pump and no cabin socket, where Hyundai's
+configurator has the EV Pack fitted on one and offered on the other two.
 
 ## T4. cinch: trim, seats and range per listing
 
@@ -93,6 +100,14 @@ since the pipeline is to be automated (`docs/DECISIONS.md`). The current car's P
 seed settings go too: nothing reads them. It does not wait for T3: with the hand-typed cars gone
 as well, nothing is left for the trim map's links to deduplicate.
 
+Landed 16 Oct. A build from the same pages has 1,983 cars (1,604 on sale), two fewer than before:
+of the 19 hand-typed cars, 17 carry on as the Carwow car of the same CAP id, and the 2022 Ioniq 5
+and a used EV6 have none until T8. 33 hand-typed offers and five that only the lookup table placed
+are gone. 28 equipment values changed on 10 cars that were in both builds. The Inster 02's are
+right by Hyundai's configurator, which offers the Tech Pack only on the heat-pump version, and the
+EV2 GT-Line S's by Kia's table, which lists only the outside adapter. Four Kona Electrics lose the
+outside socket, which only the hand-typed cars gave. The Ioniq 3's are the gap under T3.
+
 ## T10. `docs/SOURCES.md` in the short form
 
 One short entry per source (what it gives us, what we leave and why, what reading it costs),
@@ -102,3 +117,9 @@ without code references. Owner: "I want this concise enough that I A HUMAN can c
 
 It gave no records from 12 to 14 Oct, then 239 records from 250 pages on 16 Oct, with no code
 change; the site's redirect is due a fresh survey.
+
+## T12. Carwow used: no household models first
+
+The Carwow used reader fetches every card of eight models (the Ioniq 5, Kona Electric, Inster,
+Ioniq 3, EV2, EV3, EV6 and PV5) each night outside its budget, and the rest within it. The app is
+generic (`docs/DECISIONS.md`, "The app is generic"), so every model goes through the same budget.
