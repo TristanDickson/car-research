@@ -516,6 +516,51 @@ www.nhtsa.gov (the VIN lookup) answers a script with 403.
   investigations a recall cites, each worth a survey of its own; the completion reports (the share
   of recalled cars fixed); the VIN lookup (per car, for the reader).
 
+## Parkers
+
+Surveyed 16 Oct 2026; not read yet. Bauer's used-car valuation site. The owner asked for "a
+definitive list of trims"; CAP's is licensed (quote only, a subscriber id from Cap HPI), and
+Parkers is the nearest free one: every generation of a model, each with its trims and every
+derivative, old ones included, which a valuation site needs to price used cars.
+
+- **Robots:** ordinary crawlers may read the spec pages (the file disallows only a used-car finance
+  path, `_qs` query strings and `/purchase/`, and bans a list of named scraper programs). No
+  crawl delay is set. The terms page came back as 2,709 characters with no text on automated use
+  (probably drawn by script); not confirmed either way.
+
+| Page | Prints | Cost |
+|---|---|---|
+| Sitemap, `sitemap.xml` and its `spec-1`, `spec-2`, `spec-3` files | every spec page's address: 136,599 across all fuels, of which 100,187 derivatives. The address names the model, the generation with its body and start year (`kona-electric/suv-2018`, `suv-2023`; body styles are generations: `q4-e-tron/sportback-2021`, `ioniq-5/n-2023`), each trim (`trim-ultimate`), each engine (`engine-160kw-65kwh-electric`) and each derivative in CAP's wording with its packs (`160kw-ultimate-65kwh-5dr-auto-[lux-pack]`) | 4 requests, 1.1 MB |
+| Generation page, `<model>/<generation>/specs/` | the generation's years ("2018 - 2023"), its trims and engines | 1 a generation |
+| Trim and engine pages | the derivatives of that trim or engine | 1 each; nothing the sitemap lacks |
+| Derivative page, `<model>/<generation>/<derivative>/specs/` | its on-sale dates ("March 2021 - June 2023"); price when new (£39,900); a used price range (£11,398 - £19,038); battery, power, 0-60, efficiency, range, insurance group, road tax, length, width, weight, wheelbase, turning circle; charging times by charger; the standard equipment list (124 items for that Kona) and the options (23); cars for sale | about 180 KB each; about 4,000 electric derivatives |
+
+- **Coverage:** 285 electric generations under 230 models by the sitemap's addresses (a derivative
+  whose address names a kWh). Our 250 catalogue models are Carwow's, which treats body styles as
+  models: 142 match a Parkers model by slug, and the rest are mostly body styles Parkers files as
+  generations (the Q4 e-tron Sportback is `q4-e-tron/sportback-2021`) or names spelled apart
+  (`junior-electric` against `junior`). Electric versions of mixed models are under their own
+  model where Parkers makes one (`peugeot/e-208`). The first-generation Kona: trims SE, SE
+  Connect, Premium, Premium SE and Ultimate, under two naming styles that are two eras (Premium
+  SE "204PS auto 5d", December 2019 to January 2021; "150kW Ultimate 64kWh 5dr Auto", March 2021
+  to June 2023), not duplicates.
+- **Against Carwow's current trims:** the same for the Kona, EV3 and Ioniq 5, plus the older ones
+  (Ioniq 5 SE Connect, Project 45, Ultimate Plus; EV6 Wave, Horizon). Its trim words need the
+  shared normaliser like any source's: the Enyaq's battery sits in its trims (`80x-sportline`),
+  the MG4's "-ev" (`se-ev`), and `standard-trim` is a placeholder, not a trim.
+- **What it would be for:** the list of trims and derivatives, with their on-sale dates, that the
+  resolver's car level lacks (`docs/REBUILD.md`, "Next: one resolver over every record"): every
+  generation's trims as structured records, so a used 2021 Kona finds "Ultimate" under the
+  64 kWh version, and a lease's or a listing's text joins a trim that a structured source names.
+  The price when new gives an old derivative the list price the trim scaling needs. The
+  equipment lists would give old cars their heat pump and cabin socket.
+- **Left, and why:** cars for sale (the sites we already read print them); the used price range,
+  which spans a derivative's years and mileages and is Parkers' valuation rather than a seller's
+  price; reviews.
+- **Cost of a read:** the sitemap weekly (4 requests). Derivative pages within a nightly budget
+  and a freshness rotation, as `evdb_cars` does: about 4,000 pages, so about 20 nights at 200 a
+  night for the first pass, then the new and changed ones.
+
 ## Reliability sources surveyed and left
 
 Surveyed 13 Oct 2026 for evidence of how a model holds up in owners' hands.
