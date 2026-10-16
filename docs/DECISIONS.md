@@ -8,8 +8,9 @@ they want from a car) are in `docs/requirements.md` and are not decisions about 
 ## The app is generic
 
 - 14 Oct 2026: "build a generic app for me to explore car prices and plan upgrades regardless of
-  starting vehicle", and "the point of the app is to be flexible and able to trial out different
-  requirements and preferences". Of a fixed width rule: "'narrower than the Ioniq 5' this is plain
+  starting vehicle", and, asked whether the cabin socket was a must: "It could be a must or it
+  could not be, the point of the app is to be flexible and able to trial out different
+  requirements and preferences. I thought that was clear". Of a fixed width rule: "'narrower than the Ioniq 5' this is plain
   wrong as a requirment". So comparisons are against a car the reader chooses in Settings
   ("Compare every car with"), and requirements, the cabin socket and the heat pump included, are
   the reader's saved searches rather than rules in code.
@@ -39,6 +40,10 @@ they want from a car) are in `docs/requirements.md` and are not decisions about 
   block. This is a personal product not a commercial one", then "its just a government check
   they're not really serious about".
 - 11 Oct 2026: "we should be tolerant of blocking and come up with strategies around it".
+- 13 Oct 2026, asked whether disguising scripts as a person meant "not explicitly telling it
+  you're a bot or doing something more drastic": "If its the first i think that's excusable for
+  this purpose". So the readers send a browser's user agent and nothing more: no solved CAPTCHAs,
+  no faked fingerprints.
 - No words recorded: Audi, BMW, Mercedes and Skoda maker spec tables wait until one of their cars
   is shortlisted.
 
@@ -64,6 +69,8 @@ The input to the resolver design in `docs/REBUILD.md`, "Next: one resolver over 
   is preferable to missing a price that's better than it looks".
 - On resale: "We take resale at say 3 years, the price of a 2023 Kona now", and on mileage: "My
   idea was a very wide band so we dont discard most of the evidence".
+- On normalising text: "You should be careful not to let the parser fuck up exact matches on CAP
+  dervied strings".
 - On decisions the matching cannot make: "Isnt it easier to have a flow in the app to resolve them
   if they come up? (I don't think they will even come up for the same reason in 1.)"
 
@@ -84,6 +91,9 @@ All of these are from 15 and 16 Oct 2026.
   to be so cautious. Nobody is using this right now and we built it in a couple of days". Changes
   ship straight to `main` once tests and CI pass.
 - 11 Oct 2026: "stop worrying about backup, this is a hobby project".
+- 16 Oct 2026, on the docs: "Do we need this giant historical record of everything that happened,
+  or do we just need the latest overall result of my decisions?" The docs hold the decisions in
+  force and how things work now; git's commit messages are the history.
 - 11 Oct 2026, of PowerShell scripts: "This is meant to be platform agnostic, we have git bash for
   a reason". Scripts are bash.
 - No words recorded: talk to the owner in plain words, and say how many cars have a field rather

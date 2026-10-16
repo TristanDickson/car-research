@@ -24,7 +24,8 @@ to it; a broker's text is matched to Carwow's derivatives by rules (`services/re
 `match.py`); an EV Database page attaches to a car by a battery ratio (`facts.pick_variant`),
 which tied every current Kona to the 2021-23 Kona's page; a used listing attaches to a trim by its
 words and a battery within 3 kWh (`snapshot.used_key_for_text`), which counts 2021 Konas as the
-2023-on car. A survey of the 15 Oct build also found 169 of the 353 cars linked to an EV Database
+2023-on car (the 15 Oct rule that a car registered before its version went on sale is not that
+version does not catch them, since it reads the date from the Kona's wrong EV Database page). A survey of the 15 Oct build also found 169 of the 353 cars linked to an EV Database
 page that gives the motor on a variant with a different motor, 1,306 used listings on a version
 that went on sale after they were registered, and 452 "Long Range" listings on "Standard"
 derivatives. A patch to the battery comparison alone is held on the branch
@@ -49,6 +50,14 @@ and one table expanding CAP's short descriptions into its long ones ("eDr40" to 
 "Qtro" to "quattro", "Black Ed" to "Black Edition", "Comf+" to "Comfort Plus"), which is how
 Carwow abbreviates and Parkers does not. Words that separate versions ("Long Range", "AWD",
 "Performance") are features, never dropped.
+
+A record whose CAP-style name equals an entry's (case and spacing aside) matches it on that, before
+any cleaning, so the normaliser can never break an exact match. The normaliser is one function
+applied alike to both sides; its risk is the other way, two different names cleaned into one key
+(a dropped "[7 seat]" or "Long Range" would join two cars), so a test runs it over every
+derivative name held from Parkers and Carwow and fails when two different names of one model give
+the same key, unless the pair is listed as one car. Every rule added to it, the CAP table
+included, has to pass that test.
 
 Within the record's model, each detail it gives rules out the entries it contradicts: a fuel that
 burns; motors more than 5 kW apart; battery labels more than 0.6 kWh apart (makers' labels are
