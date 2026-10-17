@@ -16,7 +16,7 @@ convention as the owner's other boards (SpaceTS, parasitic-feudalism), kept shor
 |---|---|---|
 | T1 | One normaliser for every source's text | landed `d12bbc8` |
 | T2 | Carwow's models mapped to Parkers' models and generations | landed `3a438fb` |
-| T3 | The resolver: every record filtered against the master list | open |
+| T3 | The resolver: every record filtered against the master list | in progress |
 | T4 | cinch: read each used listing's trim, seats and range fields | landed `2ac6965` |
 | T5 | NCD: match NCD's prices by the CAP id its pages print | landed `ec160a1` |
 | T6 | End value by version, within a wide mileage band | open |
