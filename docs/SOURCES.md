@@ -48,8 +48,9 @@ its dealers, so it is a lead, not a named dealer's offer. Left: named dealer off
 logged-in quote page.
 
 **Configurator.** Every option and pack with its price, whether fitted, and what each pack
-bundles; never-read pages first, then those older than a week. It gave no records from 12 to 14
-Oct and 239 from 250 pages on 16 Oct with no change on our side (`BOARD.md`, T11). Left: colour
+bundles; never-read pages first, then those older than a week (the committed history's copies of
+8 Oct counted as read, so from 10 to 15 Oct few pages were due). A page Carwow answers with its
+first step ("Choose the type of car") gives nothing, and the build log names it. Left: colour
 prices, and which options exclude others.
 
 **Used.** Every car in a model's results, with price and year; about four come in full per page,

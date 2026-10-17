@@ -123,6 +123,8 @@ def parse(body: bytes, target: Target) -> Iterator[ParsedRecord]:
     row = parse_page(body.decode("utf-8", "replace"), target.metadata["cap_id"], original_url(target), observed_at_for(target))
     if row:
         yield ParsedRecord(kind="options", key=f"{SITE}:{row['cap_id']}", row=row)
+    else:   # a 200 that is not the options step (Carwow answers some links with its first step, "Choose the type of car")
+        print(f"  carwow_options {target.metadata['cap_id']}: no options chooser on the page, nothing read", flush=True)
 
 
 options = Capability(name="options", parser_version="1", discover=discover, fetch=fetch, parse=parse, kinds=("options",))
