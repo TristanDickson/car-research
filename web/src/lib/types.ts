@@ -546,6 +546,42 @@ export interface DataPage {
   pipeline?: { levels: PipelineLevel[]; nights: PipelineNight[] };
   /** Each Carwow catalogue model's Parkers model and generations (pipeline/services/model_map.py). */
   model_map?: ModelMapRow[];
+  /** The resolver's comparison with today's lookups (pipeline/services/snapshot.py, resolver_section). */
+  resolver?: ResolverSection | null;
+}
+
+/** What the resolver would change: the counts by outcome, and the changes worth going through. */
+export interface ResolverSection {
+  /** Cars the resolver made, by source and whether on sale. */
+  cars: Record<string, number>;
+  derivatives: Record<string, number>;
+  by_source: Record<string, ResolverCounts>;
+  by_model: ({ source: string; model: string } & ResolverCounts)[];
+  changes: ResolverChange[];
+}
+
+/** Records by outcome (same, to best spec, moved, newly placed, lost, unplaced); an outcome with none is absent. */
+export type ResolverCounts = Partial<Record<"same" | "to best spec" | "moved" | "newly placed" | "lost" | "unplaced" | "listed", number>>;
+
+/** One record, or a group of alike records, whose car the resolver would change or could not settle. */
+export interface ResolverChange {
+  source: string;
+  model: string | null;
+  outcome: "lost" | "moved" | "to best spec" | "newly placed" | "unplaced" | "same";
+  status: string;
+  label: string | null;
+  /** Today's car ids (snapshot cars where they exist). */
+  today: string[];
+  /** The resolver's car id, which may not be in the snapshot yet. */
+  car: string | null;
+  others: string[];
+  others_count: number;
+  version: string | null;
+  why: string | null;
+  decided_by: string[];
+  /** How many records this row stands for. */
+  records: number;
+  key: string;
 }
 
 /** One Carwow catalogue model on Parkers: placed on one Parkers model, ambiguous between several, or unplaced. */

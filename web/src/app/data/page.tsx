@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 
 import { LevelsTable, NightsGrid } from "@/components/PipelineView";
+import { ResolverComparison } from "@/components/ResolverComparison";
 import { Badge, Card, Empty, ErrorNote, Loading, PageHeader } from "@/components/ui";
 import { doesNotAddUp } from "@/lib/explain";
 import { carName, dateLabel, gbp } from "@/lib/format";
@@ -197,6 +198,8 @@ export default function DataPage() {
           </div>
         )}
       </Card>
+
+      {data.resolver && cars.data && <ResolverComparison resolver={data.resolver} cars={cars.data} />}
 
       <Card title={`Quotes that don't add up · ${unsound.length}`}>
         <p className="mb-2 text-sm text-gray-400">
