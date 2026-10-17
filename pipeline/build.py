@@ -65,6 +65,7 @@ class Report:
     fetches: int = 0
     parsed: int = 0
     from_cache: int = 0
+    parsed_by: dict[str, int] = field(default_factory=dict)   # source -> pages parsed (not from the cache)
     records: int = 0
     history_versions: int = 0
     history_rows: int = 0
@@ -77,6 +78,8 @@ class Report:
         out = [f"build: {self.fetches} fetches ({self.parsed} parsed, {self.from_cache} from the parse cache), "
                f"{self.records} records; {self.history_versions} committed history versions, {self.history_rows} rows; "
                f"{self.sightings} price sightings; {self.record_spans} record spans; {self.seconds:.1f} s"]
+        if self.parsed_by:
+            out.append("build: parsed, by source: " + ", ".join(f"{s} {n}" for s, n in sorted(self.parsed_by.items())))
         if self.failures:
             out.append(f"build: {len(self.failures)} fetches could not be parsed:")
             out += [f"  {f}" for f in self.failures[:20]]
@@ -306,6 +309,7 @@ class Build:
                     self.report.failures.append(f"{e['source']}/{e['capability']} {e['target']} {e['fetched_at']}: {ex}")
                     continue
                 self.report.parsed += 1
+                self.report.parsed_by[e["source"]] = self.report.parsed_by.get(e["source"], 0) + 1
                 if self.cache:
                     self.cache.put(e["id"], code, records)
             else:
