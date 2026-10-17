@@ -18,7 +18,8 @@ Layout (schema_version 8):
     models.json         the catalogue: every electric model Carwow lists, with what we hold for it
     requirements.json   the default settings (data/seed/requirements.json): the quoting basis and the starting
                         saved searches (the reader edits their own copy in the browser)
-    data.json           providers, source names, recent runs, unmapped trims, offer states, counts
+    data.json           providers, source names, recent runs, unmapped trims, offer states, counts, and each
+                        catalogue model's Parkers model and generations (model_map) with its cars on sale
 
 A span's freshness (gone, expired, stale) and every cost are derived in the
 browser from the spans; `latest_offers` here serves the markdown deal table.
@@ -34,7 +35,7 @@ from pathlib import Path
 
 from pipeline import normalise
 from pipeline.db import ROOT
-from pipeline.services import claims, match
+from pipeline.services import claims, match, model_map
 from pipeline.providers.parse import combustion
 from pipeline.services.features import flags_for
 
@@ -585,6 +586,8 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         s = o["freshness"]["state"] + (" (stale)" if o["freshness"]["stale"] else "")
         states[s] = states.get(s, 0) + 1
     unmapped = unmapped_trims(conn)
+    selling_by_model = Counter(c["model_key"] for c in cars if c["on_sale"])
+    mapped = [dict(r, cars_on_sale=selling_by_model.get(r["slug"], 0)) for r in model_map.load(conn)]
     from pipeline.services.features import FLAGS
 
     # Per-model tallies for the catalogue page: derivatives (spec rows), cars, cars with a live sighting.
@@ -616,6 +619,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         "pipeline": _pipeline(conn, this_build, sightings, used, specs),
         "unmapped_trims": unmapped,
         "resolution_methods": resolution_methods(conn),
+        "model_map": mapped,
         "offer_states": states,
         "counts": {"cars": len(cars),
                    "offers": len(offers), "observations": len(sightings), "specs": len(specs),

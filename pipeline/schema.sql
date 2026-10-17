@@ -316,3 +316,13 @@ CREATE TABLE IF NOT EXISTS used_observations (
   UNIQUE (listing_key, observed_at, source)
 );
 CREATE INDEX IF NOT EXISTS ix_uobs_key ON used_observations(listing_key, observed_at);
+
+-- Each Carwow catalogue model's Parkers model and generations, derived by every build from the
+-- records (services/model_map.py): 'placed', 'ambiguous' (more than one fits) or 'unplaced'.
+-- The resolver filters a record against the derivatives of the generations listed here.
+CREATE TABLE IF NOT EXISTS model_map (
+  slug          TEXT PRIMARY KEY,     -- the Carwow catalogue model, <make>/<model>
+  status        TEXT NOT NULL,        -- placed | ambiguous | unplaced
+  parkers_model TEXT,                 -- <make>/<model> as in Parkers' addresses
+  payload       TEXT NOT NULL         -- JSON: the generations, the rule that placed it, why not, the candidates
+);

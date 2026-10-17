@@ -544,6 +544,30 @@ export interface DataPage {
   resolution_methods?: Record<string, number>;
   /** What each source holds at each level, and what each stage did night by night (pipeline/stages.py). */
   pipeline?: { levels: PipelineLevel[]; nights: PipelineNight[] };
+  /** Each Carwow catalogue model's Parkers model and generations (pipeline/services/model_map.py). */
+  model_map?: ModelMapRow[];
+}
+
+/** One Carwow catalogue model on Parkers: placed on one Parkers model, ambiguous between several, or unplaced. */
+export interface ModelMapRow {
+  slug: string;
+  make: string;
+  model: string;
+  make_name: string | null;
+  model_name: string | null;
+  status: "placed" | "ambiguous" | "unplaced";
+  /** The rule that placed it: "name and derivatives", "name" or "derivatives". */
+  rule: string | null;
+  /** The Parkers model, make/model as in its addresses. */
+  parkers: string | null;
+  generations: { generation: string; label: string; start: number | null; since: string | null; until: string | null;
+                 derivatives: number; shared: number }[];
+  /** Why it is ambiguous or unplaced, or what else read alike. */
+  why: string | null;
+  /** Derivatives on Carwow's registry of the model. */
+  registry: number;
+  candidates?: { parkers: string; shared: number; shared_alike: number; reads_alike: number; generations: string[] }[];
+  cars_on_sale: number;
 }
 
 /** One source at each level: the raw store, the records read from it, those that name a car, the snapshot. */

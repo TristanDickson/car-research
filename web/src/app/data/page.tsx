@@ -15,6 +15,7 @@ import { useBasis, useCars, useComputeStats, useDataPage, useModels, useOffers, 
  * sources and their latest runs, what each level of the pipeline holds per source
  * and what each stage did night by night, then the issues a reader can act on (broker
  * rows that matched no derivative, twins the rules refused to guess between),
+ * each Carwow model's Parkers model and generations for the owner to review,
  * then the catalogue coverage; the assumptions and the raw counts close the
  * page. Every sighting ever observed is one click away.
  */
@@ -51,6 +52,11 @@ export default function DataPage() {
   const issues = data.unmapped_trims.filter((t) => issueFilter === "all" || (t.status ?? "unmapped") === issueFilter);
   const conflicts = data.unmapped_trims.filter((t) => t.status === "conflict").length;
   const counts = data.counts;
+  // Unplaced and ambiguous models first, most cars on sale first; then the placed ones by name.
+  const order = { unplaced: 0, ambiguous: 1, placed: 2 } as const;
+  const mapRows = [...(data.model_map ?? [])].sort((a, b) => order[a.status] - order[b.status]
+    || (a.status === "placed" ? 0 : b.cars_on_sale - a.cars_on_sale) || a.slug.localeCompare(b.slug));
+  const mapCount = (s: keyof typeof order) => mapRows.filter((r) => r.status === s).length;
 
   return (
     <div className="space-y-6">
@@ -140,6 +146,52 @@ export default function DataPage() {
                     </tr>
                   );
                 })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </Card>
+
+      <Card title={`Carwow's models on Parkers' · ${mapCount("placed")} placed, ${mapCount("ambiguous")} ambiguous, ${mapCount("unplaced")} unplaced`}>
+        <p className="mb-2 text-sm text-gray-400">
+          Parkers lists every derivative of every generation, and files body styles as generations of one model (the Q4 Sportback e-tron is its Q4 e-tron&apos;s Sportback generation).
+          Each Carwow model is placed on the Parkers model of the same make whose name reads alike and whose derivatives share the most names with Carwow&apos;s list of the model;
+          failing a name that reads alike, on the one Parkers model holding most of Carwow&apos;s derivative names. Its generations are those whose body its name prints (Sportback, Touring, N),
+          else those no other Carwow model names. Nothing here matches a price to a car yet: the coming resolver will read it.
+          <span className="text-gray-300"> Ambiguous</span> models fit more than one Parkers model or generation; <span className="text-gray-300">unplaced</span> ones fit none.
+        </p>
+        {mapRows.length === 0 ? (
+          <Empty>No Parkers mapping in this snapshot yet.</Empty>
+        ) : (
+          <div className="max-h-[32rem] overflow-auto">
+            <table className="w-full text-sm">
+              <thead className="sticky top-0 bg-gray-900 text-left text-xs uppercase text-gray-500"><tr><th className="py-1 pr-3">Carwow model</th><th className="py-1 pr-3 text-right">On sale</th><th className="py-1 pr-3">Parkers model</th><th className="py-1 pr-3">Generations</th><th className="py-1">How, or why not</th></tr></thead>
+              <tbody>
+                {mapRows.map((r) => (
+                  <tr key={r.slug} className="border-t border-gray-800 align-top">
+                    <td className="py-1 pr-3">
+                      <div>{r.make_name ?? r.make} {r.model_name ?? r.model}</div>
+                      <div className="font-mono text-xs text-gray-600">{r.slug}</div>
+                    </td>
+                    <td className="py-1 pr-3 text-right tabular-nums">{r.cars_on_sale}</td>
+                    <td className="py-1 pr-3">
+                      {r.parkers ?? (r.candidates?.length ? <span className="text-gray-400">{r.candidates.map((c) => c.parkers).join(" or ")}</span> : "—")}
+                    </td>
+                    <td className="py-1 pr-3 text-xs text-gray-300">
+                      {r.generations.map((g) => (
+                        <div key={g.generation}>
+                          {g.label} {g.start ?? ""}
+                          <span className="text-gray-500"> · {g.since ?? "?"} to {g.until ?? "now"} · {g.derivatives} derivatives{g.shared ? `, ${g.shared} named alike on Carwow` : ""}</span>
+                        </div>
+                      ))}
+                    </td>
+                    <td className="py-1 text-xs text-gray-400">
+                      <Badge tone={r.status === "placed" ? (r.rule === "name and derivatives" ? "good" : "muted") : r.status === "ambiguous" ? "warn" : "bad"}>{r.status === "placed" ? `by ${r.rule}` : r.status}</Badge>
+                      {r.why ? <div className="mt-0.5">{r.why}</div> : null}
+                      <div className="text-gray-600">{r.registry} derivatives on Carwow&apos;s list</div>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

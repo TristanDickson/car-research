@@ -17,6 +17,8 @@ Steps, each over every record at once, so no answer depends on the order pages w
        text is matched by services/resolve.py against every derivative of its make and model
     4. fold each offer's sightings, in date order, into spans of an unchanged price
     5. the cars: one per derivative
+    6. each Carwow catalogue model's Parkers model and generations (services/model_map.py), which the
+       coming resolver reads; nothing is matched by it yet
 
 The database this writes is disposable: delete it and build again.
 """
@@ -36,7 +38,7 @@ from pipeline.providers import PROVIDERS
 from pipeline.providers.parse import combustion
 from pipeline.providers.types import Context, ParsedRecord, Target
 from pipeline.raw import RawStore
-from pipeline.services import autocars, resolve
+from pipeline.services import autocars, model_map, resolve
 
 SETTINGS_PROVIDER = "manual_seed"
 # At the same instant a page we hold outranks the committed history's copy of what was read from it.
@@ -603,6 +605,7 @@ class Build:
         gold.backfill_used_spans(self.conn)
         self.derivatives()
         self.cars()
+        model_map.write(self.conn)   # each Carwow model's Parkers model, for the resolver (T2); it matches nothing yet
         car_of = self.resolve()
         self.trim_map()
         self.report.sightings = len(self.sightings)

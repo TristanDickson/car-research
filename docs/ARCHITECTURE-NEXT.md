@@ -52,7 +52,11 @@ generation's derivatives in CAP's wording, with their on-sale dates.
    contradicts: a fuel that burns, a motor more than 5 kW away, a battery label more than 0.6 kWh
    away (EV Database's usable and gross figures compared by kind), another drive or seat count,
    a date outside the entry's on-sale dates, a trim word the entry lacks, a price no entry could
-   have. A detail the record does not give rules nothing out.
+   have. A detail the record does not give rules nothing out. The record's model is Carwow's, which
+   every other source names; each build maps it to Parkers' model and the generations it covers
+   (built), by the names read alike, the body words in Carwow's name against each generation's body,
+   and the derivative names the two share. One the rules cannot place, or place on two Parkers
+   models, is listed on the Data page.
 3. **Decide.**
    - One entry left: the record is that car.
    - Several: the record's list price, then its pack names, narrow them. Any still left, it goes
