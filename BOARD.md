@@ -15,7 +15,7 @@ convention as the owner's other boards (SpaceTS, parasitic-feudalism), kept shor
 | Ticket | What | Status |
 |---|---|---|
 | T1 | One normaliser for every source's text | landed `d12bbc8` |
-| T2 | Carwow's models mapped to Parkers' models and generations | open |
+| T2 | Carwow's models mapped to Parkers' models and generations | in progress |
 | T3 | The resolver: every record filtered against the master list | open |
 | T4 | cinch: read each used listing's trim, seats and range fields | landed `2ac6965` |
 | T5 | NCD: match NCD's prices by the CAP id its pages print | landed `ec160a1` |
@@ -24,9 +24,10 @@ convention as the owner's other boards (SpaceTS, parasitic-feudalism), kept shor
 | T8 | Old versions are cars | open |
 | T9 | Clear `data/seed` and `data/pastes` down to a file of default settings | landed `598e1ac` |
 | T10 | `docs/SOURCES.md` in the same short form as the architecture docs | landed `de6de05` |
-| T11 | Find out why Carwow's configurator reader recovered on 16 Oct | open |
+| T11 | Find out why Carwow's configurator reader recovered on 16 Oct | in progress |
 | T12 | Carwow used: no household models fetched ahead of the rest | landed `b1df4e8` |
 | T13 | A code change goes live in one push with the snapshot it needs | landed `982525e` |
+| T14 | The parse cache keyed by source, so a change to one reader re-reads only its pages | in progress |
 
 ## T1. One normaliser for every source's text
 
@@ -164,3 +165,10 @@ A change to the snapshot's layout and the snapshot built with it went up in two 
 and the site showed its version-mismatch banner for the 12 minutes between them. The nightly
 script takes a local commit, builds it from the pages already held, puts the snapshot on top and
 pushes both at once. Proposed 16 Oct; owner: "yes".
+
+## T14. The parse cache by source
+
+One hash over every reader's code keys the parse cache, so a change to any reader re-reads all
+12,751 stored pages: 534 seconds of a 12-minute build on 16 Oct. Keyed per source, on that reader's
+code and the shared code it uses, a change to one reader re-reads only its own source's pages.
+Proposed 16 Oct; owner, 17 Oct: "add T14".
