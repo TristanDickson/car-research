@@ -72,6 +72,14 @@ Database's figures to every car of its version. A comparison listing every recor
 changes against today's lookups is gone through with the owner before the switch. It supersedes
 the battery patch held on `hold/evdb-battery-fit-two-readings`.
 
+The resolver and the comparison landed 17 Oct (`b993b4d`); the app's cars still come from today's
+lookups. It makes 4,216 cars: 3,995 of Parkers' derivatives, old generations included, and 221
+Carwow derivatives Parkers lacks (63 of models Parkers does not file, 158 newer than its list).
+Against today's lookups it moves or newly places most used cars that print a version, puts 256 of
+the 259 leases today's rules leave as conflicts on a car, and lists what it cannot place. Next: a
+check of its moves by a second agent, then the comparison on the Data page for the owner, then
+the switch.
+
 It places the makers' configurator rows as well. Today they are matched only against Carwow's
 registry, so three Ioniq 3 Ultimate derivatives that only Carwow's deals page names (with the
 Design Pack, the Comfort and Design Packs, and the EV and Design Packs) get no packs from
