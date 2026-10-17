@@ -24,7 +24,7 @@ convention as the owner's other boards (SpaceTS, parasitic-feudalism), kept shor
 | T8 | Old versions are cars | open |
 | T9 | Clear `data/seed` and `data/pastes` down to a file of default settings | landed `598e1ac` |
 | T10 | `docs/SOURCES.md` in the same short form as the architecture docs | landed `de6de05` |
-| T11 | Find out why Carwow's configurator reader recovered on 16 Oct | in progress |
+| T11 | Find out why Carwow's configurator reader recovered on 16 Oct | landed `8d2dc54` |
 | T12 | Carwow used: no household models fetched ahead of the rest | landed `b1df4e8` |
 | T13 | A code change goes live in one push with the snapshot it needs | landed `982525e` |
 | T14 | The parse cache keyed by source, so a change to one reader re-reads only its pages | in progress |
@@ -150,6 +150,14 @@ without code references. Owner: "I want this concise enough that I A HUMAN can c
 
 It gave no records from 12 to 14 Oct, then 239 records from 250 pages on 16 Oct, with no code
 change; the site's redirect is due a fresh survey.
+
+Found 17 Oct: the reader never failed. It reads pages not read for a week, and counted the
+committed history's copies of 8 Oct as read, so from 10 to 14 Oct only one page was due a night,
+a Peugeot e-208 derivative that Carwow answers with its first step ("Choose the type of car"),
+which has no options. On 16 Oct the 8 Oct copies passed a week and 250 pages were due; on 17 Oct
+249 of 250 gave records. The history's copies are now all past a week, so that cannot recur. Of
+472 derivatives read both before and after, 467 give the same options and packs and five differ
+by a BMW pack Carwow renamed. A page without options is now named in the build log.
 
 ## T12. Carwow used: no household models first
 
