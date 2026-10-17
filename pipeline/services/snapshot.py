@@ -540,13 +540,12 @@ def resolver_section(conn: sqlite3.Connection) -> dict | None:
         if r["outcome"] == "newly placed" and not listed and r["source"] not in PRICE_SOURCES:
             continue
         k = (r["source"], r["model"] or "", r["outcome"], r["status"], p.get("label"), tuple(p.get("today") or ()), r["car_id"], r["version"])
+        others = p.get("others") or []
         g = groups.setdefault(k, {"source": r["source"], "model": r["model"], "outcome": r["outcome"], "status": r["status"],
-                                  "label": p.get("label"), "today": p.get("today") or [], "today_as": p.get("today_as") or [],
-                                  "car": r["car_id"], "others": p.get("others") or [], "version": r["version"], "why": p.get("why"),
-                                  "decided_by": p.get("decided_by") or [], "records": 0, "keys": []})
+                                  "label": p.get("label"), "today": p.get("today") or [], "car": r["car_id"], "others": others[:5],
+                                  "others_count": len(others), "version": r["version"], "why": p.get("why"),
+                                  "decided_by": p.get("decided_by") or [], "records": 0, "key": r["record_key"]})
         g["records"] += 1
-        if len(g["keys"]) < 3:
-            g["keys"].append(r["record_key"])
     return {
         "cars": {f"{src}{'' if on else ' (no longer on sale)'}": n for src, on, n in cars},
         "derivatives": dict(sorted(derivatives.items())),
