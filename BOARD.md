@@ -15,7 +15,7 @@ convention as the owner's other boards (SpaceTS, parasitic-feudalism), kept shor
 | Ticket | What | Status |
 |---|---|---|
 | T1 | One normaliser for every source's text | landed `d12bbc8` |
-| T2 | Carwow's models mapped to Parkers' models and generations | in progress |
+| T2 | Carwow's models mapped to Parkers' models and generations | landed `3a438fb` |
 | T3 | The resolver: every record filtered against the master list | open |
 | T4 | cinch: read each used listing's trim, seats and range fields | landed `2ac6965` |
 | T5 | NCD: match NCD's prices by the CAP id its pages print | landed `ec160a1` |
@@ -27,7 +27,7 @@ convention as the owner's other boards (SpaceTS, parasitic-feudalism), kept shor
 | T11 | Find out why Carwow's configurator reader recovered on 16 Oct | landed `8d2dc54` |
 | T12 | Carwow used: no household models fetched ahead of the rest | landed `b1df4e8` |
 | T13 | A code change goes live in one push with the snapshot it needs | landed `982525e` |
-| T14 | The parse cache keyed by source, so a change to one reader re-reads only its pages | in progress |
+| T14 | The parse cache keyed by source, so a change to one reader re-reads only its pages | landed `5cfdb17` |
 
 ## T1. One normaliser for every source's text
 
@@ -54,6 +54,15 @@ wants reading as "No" and a model name its make's name at the start, both for ev
 
 Parkers files body styles as generations of one model (the Q4 e-tron Sportback is a generation of
 the Q4 e-tron); 534 of the 1,587 cars on sale on 16 Oct found no Parkers model by name.
+
+Landed 17 Oct, derived by every build: a Carwow model goes on the Parkers model whose name reads
+alike and whose derivatives share the most names with Carwow's list, and on the generations its
+name prints (Sportback, Touring, N) or no other Carwow model claims. 229 of 250 Carwow models are
+placed, holding 1,534 of 1,601 cars on sale; 5 are ambiguous and 16 unplaced, most because Parkers
+has no model of that name (the Ioniq 3 because Parkers files 5 of its 11 derivatives under the
+Ioniq 5 N). The Data page lists them first, with why, for the owner. Placed on the name alone, and
+worth a look there: the CLA Shooting Brake, i5 Touring, i3 (both generations), Vivaro-e, DS No 7
+and AMG GT Four-door. No record's car changes until T3 uses the map.
 
 ## T3. The resolver
 
@@ -180,3 +189,8 @@ One hash over every reader's code keys the parse cache, so a change to any reade
 12,751 stored pages: 534 seconds of a 12-minute build on 16 Oct. Keyed per source, on that reader's
 code and the shared code it uses, a change to one reader re-reads only its own source's pages.
 Proposed 16 Oct; owner, 17 Oct: "add T14".
+
+Landed 17 Oct. Each source's key covers its reader, every module it imports and the PDF reader
+where it uses one. On 14,201 stored pages: a build with nothing to re-read takes 162 seconds (720
+before); a change to cinch's reader re-read its 408 pages; a change to the shared parsing code
+re-read the 19 sources that use it. `CAR_RESEARCH_PARSE_CACHE` can put the cache on another drive.
