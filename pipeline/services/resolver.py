@@ -622,11 +622,12 @@ class Resolver:
 
     def place(self, c: Compound, ev: Evidence) -> Link:
         link = self._place(c, ev)
-        if link.status != "listed" or not c.model or c.describes != "car":
+        if link.status != "listed" or not c.model or c.describes == "trim":
             return link
         # Nothing of its own Carwow model fits: the Carwow models Parkers files with it (the Enyaq and the Enyaq vRS, the
         # MG4 and the MG4 XPOWER), if exactly one has a car it can be.
-        fits = [(m, l) for m in self.siblings.get(c.model, []) for l in [self._place(replace(c, model=m), ev)] if l.status in ("placed", "tied")]
+        fits = [(m, l) for m in self.siblings.get(c.model, []) for l in [self._place(replace(c, model=m), ev)]
+                if l.status in ("placed", "tied") and l.level in ("car", "version")]
         if len(fits) != 1:
             return link
         m, l = fits[0]
@@ -1132,7 +1133,7 @@ def follow(res: Resolver, c: Compound, dlink: Link | None, d: Compound | None, e
         return Link(dlink.level, "listed", version=dlink.version, why=f"its CAP id {c.cap} is not placed: {dlink.why}")
     car = res.cars[dlink.car]
     vocab = res.vocab.get(d.model or "", set())
-    r = rule_out(c, car, vocab)
+    r = rule_out(c, car, vocab, dates=c.date_kind != "seen")   # its CAP id names the car outright: an offer seen now may be run-out stock
     if r:
         return Link("none", "contradicts", why=f"its CAP id {c.cap} is {car.id}, but its {r[0]} contradicts it ({r[1]})")
     return Link(dlink.level, dlink.status if dlink.status != "new car" else "placed", dlink.car, dlink.others, version=dlink.version,
@@ -1208,7 +1209,7 @@ def today_facts(conn: sqlite3.Connection) -> dict[tuple[str, str], tuple[str, ..
     return out
 
 
-OUTCOMES = ("same", "merged", "split", "to best spec", "moved", "newly placed", "lost", "unplaced")
+OUTCOMES = ("same", "merged", "to best spec", "moved", "newly placed", "lost", "unplaced")
 
 
 @dataclass
@@ -1253,21 +1254,16 @@ def compare(res: Result) -> dict[tuple[str, str], Compared]:
         else:   # today's car is one the resolver names beside the best spec it chose (BOARD.md, T7), or another
             outcome = "to best spec" if set(today_as) & set(link.others) else "moved"
         out[k] = Compared(outcome, c.today, today_as, mine, link.status in ("listed", "contradicts"))
-    # Reading today's cars through the resolver's own placement hides two of today's cars made one, and one made two: a
-    # record that keeps its car is 'merged' when its resolver car holds records of another of today's cars, and 'split'
-    # when records of its own car of today sit on another resolver car.
+    # Reading today's cars through the resolver's own placement hides two of today's cars made one: a record that keeps
+    # its car is 'merged' when its resolver car holds records of another of today's cars. (One of today's cars made two
+    # shows already, as the records that moved.)
     held: dict[str, set[str]] = {}    # resolver car → today's cars of its records
-    spread: dict[str, set[str]] = {}  # today's car → the resolver cars its records are on
     for k, cm in out.items():
         if len(cm.today) == 1 and len(cm.resolver) == 1 and res.compounds[k].describes == "car":
             held.setdefault(cm.resolver[0], set()).add(cm.today[0])
-            spread.setdefault(cm.today[0], set()).add(cm.resolver[0])
     for k, cm in out.items():
-        if cm.outcome == "same" and len(cm.today) == 1 and len(cm.resolver) == 1:
-            if len(held.get(cm.resolver[0], ())) > 1:
-                cm.outcome = "merged"
-            elif len(spread.get(cm.today[0], ())) > 1:
-                cm.outcome = "split"
+        if cm.outcome == "same" and len(cm.today) == 1 and len(cm.resolver) == 1 and len(held.get(cm.resolver[0], ())) > 1:
+            cm.outcome = "merged"
     return out
 
 
@@ -1311,8 +1307,8 @@ def report_lines(s: dict) -> list[str]:
     out = [f"resolver: {s['cars']} cars ({s['parkers']} from Parkers, {s['carwow']} from Carwow alone; {s['off_sale']} no longer on sale), "
            f"{s['versions']} versions; Carwow's CAP ids: " + ", ".join(f"{n} {k}" for k, n in d.items())
            + f"; {s['rounds']} rounds" + ("" if s["converged"] else " (stopped before it settled)")]
-    out.append("resolver against today's lookups, by source: same / to best spec / moved / newly placed / lost / unplaced by both; "
-               "listed; left at their model")
+    out.append("resolver against today's lookups, by source: " + " / ".join("unplaced by both" if k == "unplaced" else k for k in OUTCOMES)
+               + "; listed; left at their model")
     for src, t in s["by_source"].items():
         out.append(f"  {src}: " + " / ".join(str(t[k]) for k in OUTCOMES) + f"; {t['listed']}; {t['at model']}")
     return out

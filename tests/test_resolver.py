@@ -359,7 +359,7 @@ class Rules(unittest.TestCase):
 
 
 class Comparison(unittest.TestCase):
-    def test_two_of_today_s_cars_made_one_and_one_made_two_are_changes(self):
+    def test_two_of_today_s_cars_made_one_are_a_change(self):
         cars = {}
         car(cars, "alpine/a290/hatchback-2024/a", "160kW GT 52kWh 3dr Auto", ("GT",), "2024-11")
         car(cars, "alpine/a290/hatchback-2024/b", "160kW GTS 52kWh 3dr Auto", ("GTS",), "2024-11")

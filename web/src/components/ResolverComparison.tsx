@@ -10,7 +10,7 @@ import { OUTCOMES, filterChanges, orderChanges, outcomeWords, sourceName, sumCou
 import type { ResolverChange, ResolverSection, SnapshotCar } from "@/lib/types";
 
 const n = (v: number | undefined) => (v ?? 0).toLocaleString("en-GB");
-const TONE = { lost: "bad", moved: "warn", "to best spec": "muted", "newly placed": "good", unplaced: "muted", same: "muted" } as const;
+const TONE = { lost: "bad", moved: "warn", merged: "warn", "to best spec": "muted", "newly placed": "good", unplaced: "muted", same: "muted" } as const;
 
 /**
  * What would change if the app's cars came from the resolver (ticket T3): the totals by source, then the

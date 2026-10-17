@@ -561,13 +561,13 @@ export interface ResolverSection {
 }
 
 /** Records by outcome (same, to best spec, moved, newly placed, lost, unplaced); an outcome with none is absent. */
-export type ResolverCounts = Partial<Record<"same" | "to best spec" | "moved" | "newly placed" | "lost" | "unplaced" | "listed", number>>;
+export type ResolverCounts = Partial<Record<"same" | "merged" | "to best spec" | "moved" | "newly placed" | "lost" | "unplaced" | "listed", number>>;
 
 /** One record, or a group of alike records, whose car the resolver would change or could not settle. */
 export interface ResolverChange {
   source: string;
   model: string | null;
-  outcome: "lost" | "moved" | "to best spec" | "newly placed" | "unplaced" | "same";
+  outcome: "lost" | "moved" | "merged" | "to best spec" | "newly placed" | "unplaced" | "same";
   status: string;
   label: string | null;
   /** Today's car ids (snapshot cars where they exist). */

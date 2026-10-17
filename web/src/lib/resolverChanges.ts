@@ -7,6 +7,7 @@ const USED_SOURCES = new Set(["carwow_used", "cinch_used", "motorpoint_used"]);
 /** The outcomes in the order the owner reads them, with their plain words. */
 export const OUTCOMES = [
   { key: "same", short: "keep", long: "keeps its car" },
+  { key: "merged", short: "merged", long: "keeps its car, which the resolver makes one car with another of today's" },
   { key: "to best spec", short: "best spec", long: "goes to the best spec of the cars it fits, today's included" },
   { key: "moved", short: "moved", long: "moves to another car" },
   { key: "newly placed", short: "newly placed", long: "gets a car it has none of today" },
@@ -18,7 +19,7 @@ export const outcomeWords = (key: string): string => OUTCOMES.find((o) => o.key 
 
 /** Losses and moves of prices first (0), then of used cars (1), then the rest (2). */
 export function changeRank(c: Pick<ResolverChange, "source" | "outcome">): number {
-  if (c.outcome !== "lost" && c.outcome !== "moved") return 2;
+  if (c.outcome !== "lost" && c.outcome !== "moved" && c.outcome !== "merged") return 2;
   if (PRICE_SOURCES.has(c.source)) return 0;
   return USED_SOURCES.has(c.source) ? 1 : 2;
 }
