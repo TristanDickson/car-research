@@ -59,6 +59,7 @@ SPAN_SLACK = 3
 MAX_ROUNDS = 10
 
 PS_KW, BHP_KW = 0.7355, 0.7457
+CLASH = "clash"   # a name and its page printing different figures
 BRACKET_RE = re.compile(r"\[([^\]]*)\]")
 KWH_RE = re.compile(r"(\d+(?:\.\d+)?)\s*-?kwh")
 KW_RE = re.compile(r"(\d+(?:\.\d+)?)\s*-?kw(?![a-z])")
@@ -111,10 +112,11 @@ class Read:
 
 
 def _words(text: str | None, make: str | None = None) -> list[str]:
-    """normalise.name_words, a '+' read as the word 'plus' ('Premium+' is premium plus, as Parkers' trim 'premium-plus' reads)."""
+    """normalise.name_words, a '+' after a word read as the word 'plus' ('Premium+' is premium plus, as Parkers' trim
+    'premium-plus' reads); after a number it stays ('EQS 450+' is the 450+, not a Plus trim)."""
     out = []
     for w in normalise.name_words(text, make):
-        out += [w[:-1], "plus"] if w.endswith("+") and len(w) > 1 else [w]
+        out += [w[:-1], "plus"] if w.endswith("+") and w[:-1].isalpha() else [w]
     return out
 
 
@@ -228,6 +230,7 @@ class Car:
     keys: set[str] = field(default_factory=set)       # the Parkers pages or CAP ids it was made from
     carwow_models: set[str] = field(default_factory=set)
     version: str = ""
+    seen: dict = field(default_factory=dict)          # figure → every value its Parkers pages printed
 
     def row(self) -> dict:
         return {"id": self.id, "make": self.make, "model": self.model, "generation": self.generation, "source": self.source,
@@ -298,19 +301,28 @@ def add_entry(cars: dict[str, Car], path: str, mk: str, md: str, gen: str, name:
     cid = car_key(mk, md, gen, trim, r)
     car = cars.get(cid)
     since, until = _months((page or {}).get("on_sale_since")), _months((page or {}).get("on_sale_until"))
+    bhp = _num(nums.get("power_bhp"))
+    # The page's own figure where the name prints none; where they differ (the i5 Touring's names copy the saloon's
+    # '4dr', its page says 5) neither is taken.
+    page_doors = int(_num(nums.get("doors"))) if _num(nums.get("doors")) else None
+    # Each figure as its name prints it, else as its page does.
+    figures = {"kw": ("name", r.kw) if r.kw else ("page", round(bhp * BHP_KW) if bhp else None),
+               "kwh": ("name", r.kwh) if r.kwh else ("page", _num(nums.get("battery_kwh"))),
+               "doors": ("name", r.doors if page_doors in (None, r.doors) else CLASH) if r.doors else ("page", page_doors)}
     if car is None:
-        bhp = _num(nums.get("power_bhp"))
-        # The page's own figure where the name prints none; where they differ (the i5 Touring's names copy the
-        # saloon's '4dr', its page says 5) neither is taken.
-        page_doors = int(nums["doors"]) if _num(nums.get("doors")) else None
-        doors = r.doors if page_doors in (None, r.doors) else page_doors if r.doors is None else None
-        car = cars[cid] = Car(cid, mk, md, gen, "parkers", trim, r, kw=r.kw or (round(bhp * BHP_KW) if bhp else None),
-                              kwh=r.kwh or _num(nums.get("battery_kwh")), doors=doors,
-                              seats=r.seats, drive=r.drive, since=since, until=until, open=bool(page) and until is None)
+        car = cars[cid] = Car(cid, mk, md, gen, "parkers", trim, r, kw=None, kwh=None, doors=None, seats=r.seats, drive=r.drive,
+                              since=since, until=until, open=bool(page) and until is None)
     else:
         car.since = min((x for x in (car.since, since) if x is not None), default=None)
         car.until = max((x for x in (car.until, until) if x is not None), default=None)
         car.open = car.open or (bool(page) and until is None)
+    # Pages that share a car: the figure their names print, else the one their pages agree on, else none, whichever
+    # page comes first.
+    for f, (where, v) in figures.items():
+        if v is not None:
+            car.seen.setdefault((f, where), set()).add(v)
+        vals = car.seen.get((f, "name")) or car.seen.get((f, "page")) or set()
+        setattr(car, f, next(iter(vals)) if len(vals) == 1 and CLASH not in vals else None)
     car.names.add(name)
     car.words |= set(r.words) | {w for p in r.packs for w in p.split()}
     if page and _num(page.get("price_new")):
@@ -377,7 +389,7 @@ def compound(source: str, kind: str, key: str, text: str | None, *, make: str | 
     c = Compound(source, kind, key, label or text or key, make=mk, model=model, cap=cap, name=name, trim=tw,
                  read=Read(**{**r.__dict__, "words": frozenset(set(r.words) | set(tw))}),
                  kw=int(round(float(kw))) if _num(kw) else r.kw, kwh=_num(kwh) or r.kwh, usable=_num(usable),
-                 drive=drive or r.drive, seats=int(seats) if _num(seats) else r.seats, doors=int(doors) if _num(doors) else r.doors,
+                 drive=drive or r.drive, seats=int(_num(seats)) if _num(seats) else r.seats, doors=int(_num(doors)) if _num(doors) else r.doors,
                  rex=rex if rex is not None else r.rex, date=_months(date), date_kind=date_kind if date or span else None, span=span,
                  price=_num(price), packs=packs if packs is not None else (r.packs if (r.bracketed or r.cap_style) else None),
                  describes=describes, today=tuple(sorted(set(today))), ignored="its name burns fuel" if burns else None)
@@ -432,8 +444,9 @@ def _date_reason(c: Compound, car: Car) -> str | None:
     return None
 
 
-def rule_out(c: Compound, car: Car, vocab: set[str]) -> tuple[str, str] | None:
-    """(rule, why) when a detail the record gives contradicts the car; None when nothing does."""
+def rule_out(c: Compound, car: Car, vocab: set[str], trims: bool = True) -> tuple[str, str] | None:
+    """(rule, why) when a detail the record gives contradicts the car; None when nothing does. `trims` False leaves
+    the trim and packs out (the price rule: the car whose price a dealer's line copied is of another trim)."""
     if c.rex is not None and bool(car.read.rex) != c.rex:
         return "fuel", "a range extender" if c.rex else "not a range extender"
     if c.kw is not None and car.kw is not None and abs(c.kw - car.kw) > KW_TOLERANCE:
@@ -454,6 +467,9 @@ def rule_out(c: Compound, car: Car, vocab: set[str]) -> tuple[str, str] | None:
     why = _date_reason(c, car)
     if why:
         return "date", why
+    # EV Database's words name its versions ('Long', 'Performance', 'Turbo S'), not trims.
+    if not trims or c.describes == "version":
+        return None
     # A Carwow derivative's CAP name is the derivative: one with other packs is another derivative.
     if c.kind == "derivative" and c.packs is not None and car.read.packs != c.packs:
         return "packs", f"its packs ({', '.join(sorted(c.packs)) or 'none'}), the car's ({', '.join(sorted(car.read.packs)) or 'none'})"
@@ -532,14 +548,16 @@ class Resolver:
                 ex.setdefault(r[0], r[1])
             else:
                 left.append(car)
-        # A price no car left could have, which is another car's of the model: a dealer's line copied from another
-        # derivative (RRG's EV6 'Air' at the GT-Line's £52,835). Only a current price list's or offer's: a used car's
-        # price when new is of its registration. A price fitting none and no other car either is a price list's change
-        # (the Polestar 4 Rear Motor Prime from £60,750 to £58,750), which rules nothing out.
+        # A price no car left could have, which is the list price of a car its text rules out by trim alone: a dealer's
+        # line copied from another derivative (RRG's EV6 'Air' at the GT-Line's £52,835). Only a current price list's or
+        # offer's: a used car's price when new is of its registration. A price fitting none and no such car either is a
+        # price list's change (the Polestar 4 Rear Motor Prime from £60,750 to £58,750), which rules nothing out.
         if c.price is not None and left and c.date_kind in ("listed", "seen"):
             priced = [car for car in left if ev.car_prices(car)]
             if len(priced) == len(left) and not any(_band(c.price, ev.car_prices(car)) for car in left):
-                theirs = sorted(car.id for car in (pool or cands) if car not in left and any(abs(p - c.price) <= PRICE_SAME for p in ev.car_prices(car)))
+                vocab = self.vocab.get(c.model or "", set())
+                theirs = sorted(car.id for car in (pool or cands) if car not in left and rule_out(c, car, vocab, trims=False) is None
+                                and any(abs(p - c.price) <= PRICE_SAME for p in ev.car_prices(car)))
                 if theirs:
                     ruled["price"] += len(left)
                     ex["price"] = f"£{c.price:,.0f} is the list price of {theirs[0]}" + (f" and {len(theirs) - 1} more" if len(theirs) > 1 else "")
@@ -670,7 +688,7 @@ def _latest_offers(conn: sqlite3.Connection) -> dict[str, tuple[str, str, dict]]
     """Offer key → (source, last seen, the record as last read): ties at one instant by content."""
     out: dict[str, tuple] = {}
     for src, key, last, fp, row in conn.execute("SELECT source, record_key, last_seen_at, fingerprint, row FROM records WHERE kind='offer'"):
-        rank = (last, fp)
+        rank = (last, fp, src, row)
         if key not in out or rank > out[key][0]:
             out[key] = (rank, src, last, row)
     return {k: (v[1], v[2], json.loads(v[3])) for k, v in out.items()}
@@ -678,8 +696,8 @@ def _latest_offers(conn: sqlite3.Connection) -> dict[str, tuple[str, str, dict]]
 
 def _today_offers(conn: sqlite3.Connection) -> dict[str, str]:
     out: dict[str, tuple] = {}
-    for key, car, at in conn.execute("SELECT offer_key, car_id, observed_at FROM offer_observations"):
-        if key not in out or at > out[key][1]:
+    for key, car, at in conn.execute("SELECT offer_key, car_id, observed_at FROM offer_observations ORDER BY offer_key, observed_at, car_id"):
+        if key not in out or (at, car) > (out[key][1], out[key][0]):
             out[key] = (car, at)
     return {k: v[0] for k, v in out.items()}
 
@@ -948,11 +966,12 @@ def resolve(parkers: dict[str, Car], comps: list[Compound], derivs: dict[str, Co
     pools, vocab = _model_pools(cars, mapping)
     res = Resolver(cars, pools, vocab)
     # Rounds: a CAP id placed on one car gives it Carwow's name and price, which the next round reads.
-    ev, prev, rounds, converged = Evidence(), None, 0, False
+    ev, used, prev, rounds, converged = Evidence(), Evidence(), None, 0, False
     dlinks: dict[str, Link] = {}
     while rounds < MAX_ROUNDS:
         rounds += 1
-        dlinks = {cap: res.place(derivs[cap], ev) for cap in sorted(derivs)}
+        used = ev
+        dlinks = {cap: res.place(derivs[cap], used) for cap in sorted(derivs)}
         sig = {cap: (l.car, l.others, l.status) for cap, l in dlinks.items()}
         nxt = Evidence()
         for cap, l in sorted(dlinks.items()):
@@ -977,7 +996,7 @@ def resolve(parkers: dict[str, Car], comps: list[Compound], derivs: dict[str, Co
     for c in sorted(comps, key=lambda c: (c.source, c.key)):
         k = (c.source, c.key)
         comp[k] = c
-        links[k] = follow(res, c, dlinks.get(c.cap), derivs.get(c.cap), ev) if c.cap else res.place(c, ev)
+        links[k] = follow(res, c, dlinks.get(c.cap), derivs.get(c.cap), used) if c.cap else res.place(c, used)   # the state the CAP ids were placed in
     return Result(cars, links, comp, dlinks, derivs, rounds, converged)
 
 
@@ -1098,7 +1117,8 @@ def compare(res: Result) -> dict[tuple[str, str], Compared]:
     for k, link in res.links.items():
         c = res.compounds[k]
         whole = c.describes != "car"
-        mine = tuple(sorted(set(link.cars(vs)))) if whole else ((link.car,) if link.car else ())
+        listed = link.status in ("listed", "contradicts")   # a version it stays at is not a placement
+        mine = () if listed else tuple(sorted(set(link.cars(vs)))) if whole else ((link.car,) if link.car else ())
         today_as = tuple(sorted({as_car.get(t) or f"({t})" for t in c.today}))
         if not c.today and not mine:
             outcome = "unplaced"
@@ -1142,7 +1162,7 @@ def summary(res: Result, cmp: dict[tuple[str, str], Compared]) -> dict:
         t["at model"] += int(res.links[(src, key)].status == "model")
     cars = list(res.cars.values())
     vs = versions(res)
-    reached = {x for l in res.links.values() for x in l.cars(vs)}
+    reached = {x for l in res.links.values() if l.status not in ("listed", "contradicts") for x in l.cars(vs)}
     return {"cars": len(cars), "parkers": sum(c.source == "parkers" for c in cars), "carwow": sum(c.source == "carwow" for c in cars),
             "off_sale": sum(not c.open for c in cars), "with_records": len(reached & set(res.cars)), "versions": len(vs),
             "rounds": res.rounds, "converged": res.converged,

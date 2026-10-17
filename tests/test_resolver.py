@@ -208,6 +208,30 @@ class Rules(unittest.TestCase):
         link = res.place(c, R.Evidence())
         self.assertEqual((link.status, link.car), ("placed", "polestar/4/suv-2024/200kw-prime-rear-100kwh-5dr"))
 
+    def test_a_price_another_generation_had_rules_nothing_out(self):
+        """Carwow's 48 kWh Kona Advance at £34,995, Parkers' price for the first generation's Premium 39 kWh."""
+        cars = {}
+        car(cars, "hyundai/kona-electric/suv-2018/a", "100kW Premium 39kWh 5dr Auto", ("premium",), "2021-03", "2023-06", 34995.0)
+        car(cars, "hyundai/kona-electric/suv-2023/b", "115kW Advance 48kWh 5dr Auto", ("advance",), "2023-07", None, 32390.0)
+        res = resolver_for(cars, "hyundai/kona-electric")
+        c = R.compound("carwow", "derivative", "103320", "Advance 115kW 48kWh Auto", make="Hyundai", model="hyundai/kona-electric",
+                       trim="Advance", price=34995.0, date="2026-10-16", date_kind="listed")
+        self.assertEqual(res.place(c, R.Evidence()).car, "hyundai/kona-electric/suv-2023/115kw-advance-48kwh-5dr")
+
+    def test_pages_that_share_a_car_agree_whichever_comes_first(self):
+        """Two of Parkers' BMW i3 addresses read as one car; one page prints the battery, the other does not."""
+        pages = [("bmw/i3/hatchback-2013/a", {"name": "Interior Lodge World 5dr", "numbers": {"battery_kwh": 33.2, "power_bhp": 168}}),
+                 ("bmw/i3/hatchback-2013/b", {"name": "Interior Lodge World 5dr Auto", "numbers": {}})]
+        got = []
+        for order in (pages, list(reversed(pages))):
+            cars = {}
+            for path, page in order:
+                R.add_entry(cars, path, "bmw", "i3", "hatchback-2013", page["name"], [], page)
+            (only,) = cars.values()
+            got.append((only.id, only.kw, only.kwh, sorted(only.names)))
+        self.assertEqual(got[0], got[1])
+        self.assertEqual(got[0][1:3], (125, 33.2))
+
     def test_a_price_that_is_another_car_s_contradicts_the_text(self):
         """A dealer's line copied from another derivative: an 'Air' at the GT-Line's list price fits neither."""
         cars = {}
