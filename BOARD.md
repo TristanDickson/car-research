@@ -76,9 +76,29 @@ The resolver and the comparison landed 17 Oct (`b993b4d`); the app's cars still 
 lookups. It makes 4,216 cars: 3,995 of Parkers' derivatives, old generations included, and 221
 Carwow derivatives Parkers lacks (63 of models Parkers does not file, 158 newer than its list).
 Against today's lookups it moves or newly places most used cars that print a version, puts 256 of
-the 259 leases today's rules leave as conflicts on a car, and lists what it cannot place. Next: a
-check of its moves by a second agent, then the comparison on the Data page for the owner, then
-the switch.
+the 259 leases today's rules leave as conflicts on a car, and lists what it cannot place.
+
+A second agent checked it on 17 Oct and found six faults, fixed the same day: a lease of a car
+Parkers has retired was ruled out by its dates (now a car its text or CAP id names outright is
+that car, as run-out stock); a record could not reach a car filed under a neighbouring Carwow
+model (the Enyaq vRS, the MG4 XPOWER); a "+" trim Parkers does not list (GT+, Engage+) and the
+22 kW charger's twin (Q8 e-tron, iX, i5 Touring) were merged into the plain car; and the trim
+words differed between passes, losing five iX3 deals. Against today's lookups, leases lost went
+from 31 to 12 and Carwow deals lost from 6 to 0. The comparison now also counts records whose car
+the resolver merges with another of today's cars; 31 cars hold more than one CAP id, most of them
+one derivative on two price lists.
+
+Mine, not yet the owner's: an EV Database variant that still fits several versions gives its
+figures to none of them, rather than to the best spec (the owner's best-spec rule was about a
+lease's price). 705 of EV Database's variant cards now reach no version; today's lookups place 82
+of those.
+
+Left: 8 Genesis GV70 Electric leases (Carwow's catalogue has no GV70 Electric), 2 Lotus Emeya "S"
+leases, the Taycan Cross Turismo and Sport Turismo variants (Carwow files those bodies as models
+of their own, which the variants do not reach), and about 60 used cars where CAP and Parkers
+print different figures for one car (i4 M50 400 against 350 kW). The comparison is on the Data
+page for the owner to go through; a second check of the fixes is owed once agents can run again
+(the weekly limit, until 19 Oct). Then the switch.
 
 It places the makers' configurator rows as well. Today they are matched only against Carwow's
 registry, so three Ioniq 3 Ultimate derivatives that only Carwow's deals page names (with the
