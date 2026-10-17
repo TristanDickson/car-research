@@ -76,6 +76,7 @@ class Report:
     failures: list[str] = field(default_factory=list)
     seconds: float = 0.0
     resolver: dict | None = None   # the resolver's summary (services/resolver.py)
+    resolver_error: str | None = None
 
     def lines(self) -> list[str]:
         out = [f"build: {self.fetches} fetches ({self.parsed} parsed, {self.from_cache} from the parse cache), "
@@ -90,6 +91,8 @@ class Report:
                 out.append(f"  ... and {len(self.failures) - 20} more")
         if self.resolver:
             out += resolver.report_lines(self.resolver)
+        if self.resolver_error:
+            out.append(f"build: the resolver failed, so this snapshot has no comparison: {self.resolver_error}")
         return out
 
 
@@ -631,7 +634,11 @@ class Build:
         self.report.sightings = len(self.sightings)
         self.fold(car_of)
         self.write_records()
-        self.report.resolver = resolver.run(self.conn)   # reads what the steps above wrote; changes none of it
+        # Reads what the steps above wrote and changes none of it, so until the switch a failure here is reported, not fatal.
+        try:
+            self.report.resolver = resolver.run(self.conn)
+        except Exception as e:   # noqa: BLE001
+            self.report.resolver_error = f"{type(e).__name__}: {e}"
 
 
 def build(db_path: Path | str, store: RawStore | None, root: Path = ROOT, cache_path: Path | str | None = None) -> Report:
