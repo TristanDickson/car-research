@@ -54,7 +54,7599 @@
   "ventilated_seats": "Ventilated front seats",
   "wireless_charging": "Wireless phone charging"
  },
- "generated_at": "2026-10-17T03:37:30+00:00",
+ "generated_at": "2026-10-17T07:33:22+00:00",
+ "model_map": [
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "hatchback-2023",
+     "label": "hatchback",
+     "shared": 2,
+     "since": "2023-03",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "abarth",
+   "make_name": "Abarth",
+   "model": "500e",
+   "model_name": "500e",
+   "parkers": "abarth/500e",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "abarth/500e",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "convertible-2023",
+     "label": "convertible",
+     "shared": 2,
+     "since": "2023-03",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "abarth",
+   "make_name": "Abarth",
+   "model": "500e-cabrio",
+   "model_name": "500e Convertible",
+   "parkers": "abarth/500e",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "abarth/500e-cabrio",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 4,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 2,
+     "since": "2024-11",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "abarth",
+   "make_name": "Abarth",
+   "model": "abarth-600e",
+   "model_name": "600e",
+   "parkers": "abarth/600e",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "abarth/abarth-600e",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "hatchback-2026",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2026-04",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "aion",
+   "make_name": "Aion",
+   "model": "ut",
+   "model_name": "UT",
+   "parkers": "aion/ut",
+   "registry": 0,
+   "rule": "name",
+   "slug": "aion/ut",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "suv-2026",
+     "label": "suv",
+     "shared": 0,
+     "since": "2026-03",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "aion",
+   "make_name": "Aion",
+   "model": "v",
+   "model_name": "V",
+   "parkers": "aion/v",
+   "registry": 0,
+   "rule": "name",
+   "slug": "aion/v",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 10,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 0,
+     "since": "2024-05",
+     "start": 2024,
+     "until": null
+    },
+    {
+     "derivatives": 2,
+     "generation": "veloce-2024",
+     "label": "veloce",
+     "shared": 0,
+     "since": "2024-05",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "alfa-romeo",
+   "make_name": "Alfa Romeo",
+   "model": "junior-electric",
+   "model_name": "Junior Electric",
+   "parkers": "alfa-romeo/junior",
+   "registry": 0,
+   "rule": "name",
+   "slug": "alfa-romeo/junior-electric",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 8,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "hatchback-2025",
+     "label": "hatchback",
+     "shared": 4,
+     "since": "2025-01",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "alpine",
+   "make_name": "Alpine",
+   "model": "a290",
+   "model_name": "A290",
+   "parkers": "alpine/a290",
+   "registry": 7,
+   "rule": "name and derivatives",
+   "slug": "alpine/a290",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 5,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "suv-2026",
+     "label": "suv",
+     "shared": 0,
+     "since": "2026-02",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "alpine",
+   "make_name": "Alpine",
+   "model": "a390",
+   "model_name": "A390",
+   "parkers": "alpine/a390",
+   "registry": 0,
+   "rule": "name",
+   "slug": "alpine/a390",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "sportback-2024",
+      "suv-2024"
+     ],
+     "parkers": "audi/q6-e-tron",
+     "reads_alike": 0.0,
+     "shared": 2,
+     "shared_alike": 2
+    },
+    {
+     "generations": [
+      "avant-2025",
+      "sportback-2025"
+     ],
+     "parkers": "audi/s6-e-tron",
+     "reads_alike": 0.0,
+     "shared": 1,
+     "shared_alike": 1
+    }
+   ],
+   "cars_on_sale": 27,
+   "generations": [
+    {
+     "derivatives": 36,
+     "generation": "avant-2024",
+     "label": "avant",
+     "shared": 9,
+     "since": "2024-09",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "a6-avant-e-tron",
+   "model_name": "A6 Avant e-tron",
+   "parkers": "audi/a6-e-tron",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "audi/a6-avant-e-tron",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-05",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "sportback-2024",
+      "suv-2024"
+     ],
+     "parkers": "audi/q6-e-tron",
+     "reads_alike": 0.0,
+     "shared": 3,
+     "shared_alike": 3
+    },
+    {
+     "generations": [
+      "avant-2025",
+      "sportback-2025"
+     ],
+     "parkers": "audi/s6-e-tron",
+     "reads_alike": 0.0,
+     "shared": 1,
+     "shared_alike": 1
+    }
+   ],
+   "cars_on_sale": 17,
+   "generations": [
+    {
+     "derivatives": 35,
+     "generation": "sportback-2024",
+     "label": "sportback",
+     "shared": 9,
+     "since": "2024-09",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "a6-sportback-e-tron",
+   "model_name": "A6 Sportback e-tron",
+   "parkers": "audi/a6-e-tron",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "audi/a6-sportback-e-tron",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-05",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "saloon-2021"
+     ],
+     "parkers": "audi/e-tron-gt",
+     "reads_alike": 1.333,
+     "shared": 0,
+     "shared_alike": 0
+    }
+   ],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 49,
+     "generation": "suv-2019",
+     "label": "suv",
+     "shared": 0,
+     "since": "2019-01",
+     "start": 2019,
+     "until": "2022-08"
+    }
+   ],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "e-tron",
+   "model_name": "e-tron",
+   "parkers": "audi/e-tron",
+   "registry": 0,
+   "rule": "name",
+   "slug": "audi/e-tron",
+   "status": "placed",
+   "why": "also read alike: audi/e-tron-gt",
+   "years": null
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "sportback-2020",
+      "suv-2019"
+     ],
+     "parkers": "audi/e-tron",
+     "reads_alike": 1.333,
+     "shared": 0,
+     "shared_alike": 0
+    }
+   ],
+   "cars_on_sale": 6,
+   "generations": [
+    {
+     "derivatives": 31,
+     "generation": "saloon-2021",
+     "label": "saloon",
+     "shared": 5,
+     "since": "2021-02",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "e-tron-gt",
+   "model_name": "e-tron GT",
+   "parkers": "audi/e-tron-gt",
+   "registry": 5,
+   "rule": "name and derivatives",
+   "slug": "audi/e-tron-gt",
+   "status": "placed",
+   "why": "also read alike: audi/e-tron",
+   "years": [
+    "2026-06",
+    "2026-06"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 47,
+     "generation": "sportback-2020",
+     "label": "sportback",
+     "shared": 0,
+     "since": "2020-01",
+     "start": 2020,
+     "until": "2022-08"
+    }
+   ],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "e-tron-sportback",
+   "model_name": "e-tron Sportback",
+   "parkers": "audi/e-tron",
+   "registry": 0,
+   "rule": "name",
+   "slug": "audi/e-tron-sportback",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 25,
+   "generations": [
+    {
+     "derivatives": 137,
+     "generation": "suv-2021",
+     "label": "suv",
+     "shared": 5,
+     "since": "2021-04",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "q4-e-tron",
+   "model_name": "Q4 e-tron",
+   "parkers": "audi/q4-e-tron",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "audi/q4-e-tron",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-08",
+    "2026-08"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 21,
+   "generations": [
+    {
+     "derivatives": 136,
+     "generation": "sportback-2021",
+     "label": "sportback",
+     "shared": 3,
+     "since": "2021-06",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "q4-e-tron-sportback",
+   "model_name": "Q4 Sportback e-tron",
+   "parkers": "audi/q4-e-tron",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "audi/q4-e-tron-sportback",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-08",
+    "2026-08"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "avant-2024",
+      "sportback-2024"
+     ],
+     "parkers": "audi/a6-e-tron",
+     "reads_alike": 0.0,
+     "shared": 2,
+     "shared_alike": 2
+    }
+   ],
+   "cars_on_sale": 23,
+   "generations": [
+    {
+     "derivatives": 40,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 10,
+     "since": "2024-04",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "q6-e-tron",
+   "model_name": "Q6 e-tron",
+   "parkers": "audi/q6-e-tron",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "audi/q6-e-tron",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-05",
+    "2026-05"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "avant-2024",
+      "sportback-2024"
+     ],
+     "parkers": "audi/a6-e-tron",
+     "reads_alike": 0.0,
+     "shared": 2,
+     "shared_alike": 2
+    }
+   ],
+   "cars_on_sale": 24,
+   "generations": [
+    {
+     "derivatives": 38,
+     "generation": "sportback-2024",
+     "label": "sportback",
+     "shared": 10,
+     "since": "2024-11",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "q6-e-tron-sportback",
+   "model_name": "Q6 e-tron Sportback",
+   "parkers": "audi/q6-e-tron",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "audi/q6-e-tron-sportback",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-05",
+    "2026-05"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 47,
+     "generation": "suv-2023",
+     "label": "suv",
+     "shared": 0,
+     "since": "2022-11",
+     "start": 2023,
+     "until": "2025-02"
+    }
+   ],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "q8-e-tron",
+   "model_name": "Q8 e-tron",
+   "parkers": "audi/q8-e-tron",
+   "registry": 0,
+   "rule": "name",
+   "slug": "audi/q8-e-tron",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 47,
+     "generation": "sportback-2023",
+     "label": "sportback",
+     "shared": 0,
+     "since": "2022-11",
+     "start": 2023,
+     "until": "2025-02"
+    }
+   ],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "q8-e-tron-sportback",
+   "model_name": "Q8 Sportback e-tron",
+   "parkers": "audi/q8-e-tron",
+   "registry": 0,
+   "rule": "name",
+   "slug": "audi/q8-e-tron-sportback",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 6,
+   "generations": [
+    {
+     "derivatives": 31,
+     "generation": "saloon-2021",
+     "label": "saloon",
+     "shared": 3,
+     "since": "2021-02",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "rs-e-tron-gt",
+   "model_name": "RS e-tron GT",
+   "parkers": "audi/e-tron-gt",
+   "registry": 3,
+   "rule": "derivatives",
+   "slug": "audi/rs-e-tron-gt",
+   "status": "placed",
+   "why": "no Parkers model's name reads alike; this one lists every derivative on Carwow's registry (3)",
+   "years": [
+    "2026-06",
+    "2026-06"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "avant-2025",
+     "label": "avant",
+     "shared": 2,
+     "since": "2024-09",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "s6-avant-e-tron",
+   "model_name": "S6 Avant e-tron",
+   "parkers": "audi/s6-e-tron",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "audi/s6-avant-e-tron",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 4,
+     "generation": "sportback-2025",
+     "label": "sportback",
+     "shared": 0,
+     "since": "2024-09",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "s6-sportback-e-tron",
+   "model_name": "S6 Sportback e-tron",
+   "parkers": "audi/s6-e-tron",
+   "registry": 0,
+   "rule": "name",
+   "slug": "audi/s6-sportback-e-tron",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "sq6-e-tron",
+   "model_name": "SQ6 e-tron",
+   "parkers": null,
+   "registry": 0,
+   "rule": null,
+   "slug": "audi/sq6-e-tron",
+   "status": "unplaced",
+   "why": "no electric Parkers model of this make reads alike",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "sq6-e-tron-sportback",
+   "model_name": "SQ6 e-tron Sportback",
+   "parkers": null,
+   "registry": 0,
+   "rule": null,
+   "slug": "audi/sq6-e-tron-sportback",
+   "status": "unplaced",
+   "why": "no electric Parkers model of this make reads alike",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "sq8-e-tron",
+   "model_name": "SQ8 e-tron",
+   "parkers": null,
+   "registry": 0,
+   "rule": null,
+   "slug": "audi/sq8-e-tron",
+   "status": "unplaced",
+   "why": "no electric Parkers model of this make reads alike",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [],
+   "make": "audi",
+   "make_name": "Audi",
+   "model": "sq8-sportback-e-tron",
+   "model_name": "SQ8 Sportback e-tron",
+   "parkers": null,
+   "registry": 0,
+   "rule": null,
+   "slug": "audi/sq8-sportback-e-tron",
+   "status": "unplaced",
+   "why": "no electric Parkers model of this make reads alike",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 12,
+   "generations": [
+    {
+     "derivatives": 44,
+     "generation": "hatchback-2013",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2013-11",
+     "start": 2013,
+     "until": "2022-02"
+    },
+    {
+     "derivatives": 1,
+     "generation": "saloon-2026",
+     "label": "saloon",
+     "shared": 0,
+     "since": "2026-06",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "bmw",
+   "make_name": "BMW",
+   "model": "i3",
+   "model_name": "i3",
+   "parkers": "bmw/i3",
+   "registry": 12,
+   "rule": "name",
+   "slug": "bmw/i3",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-06",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 15,
+   "generations": [
+    {
+     "derivatives": 18,
+     "generation": "gran-coupe-2021",
+     "label": "gran-coupe",
+     "shared": 9,
+     "since": "2021-06",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "bmw",
+   "make_name": "BMW",
+   "model": "i4",
+   "model_name": "i4",
+   "parkers": "bmw/i4",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "bmw/i4",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-09",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 22,
+   "generations": [
+    {
+     "derivatives": 22,
+     "generation": "saloon-2023",
+     "label": "saloon",
+     "shared": 8,
+     "since": "2023-05",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "bmw",
+   "make_name": "BMW",
+   "model": "i5",
+   "model_name": "i5",
+   "parkers": "bmw/i5",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "bmw/i5",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-05",
+    "2026-05"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 22,
+   "generations": [
+    {
+     "derivatives": 22,
+     "generation": "touring-2024",
+     "label": "touring",
+     "shared": 0,
+     "since": "2024-02",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "bmw",
+   "make_name": "BMW",
+   "model": "i5-touring",
+   "model_name": "i5 Touring",
+   "parkers": "bmw/i5",
+   "registry": 11,
+   "rule": "name",
+   "slug": "bmw/i5-touring",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-05",
+    "2026-05"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 22,
+   "generations": [
+    {
+     "derivatives": 33,
+     "generation": "saloon-2022",
+     "label": "saloon",
+     "shared": 11,
+     "since": "2022-04",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "bmw",
+   "make_name": "BMW",
+   "model": "i7",
+   "model_name": "i7",
+   "parkers": "bmw/i7",
+   "registry": 11,
+   "rule": "name and derivatives",
+   "slug": "bmw/i7",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-05",
+    "2026-05"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 24,
+   "generations": [
+    {
+     "derivatives": 59,
+     "generation": "suv-2021",
+     "label": "suv",
+     "shared": 10,
+     "since": "2021-04",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "bmw",
+   "make_name": "BMW",
+   "model": "ix",
+   "model_name": "iX",
+   "parkers": "bmw/ix",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "bmw/ix",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-09",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2023"
+     ],
+     "parkers": "bmw/ix2",
+     "reads_alike": 0.0,
+     "shared": 6,
+     "shared_alike": 6
+    }
+   ],
+   "cars_on_sale": 32,
+   "generations": [
+    {
+     "derivatives": 36,
+     "generation": "suv-2022",
+     "label": "suv",
+     "shared": 8,
+     "since": "2022-08",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "bmw",
+   "make_name": "BMW",
+   "model": "ix1",
+   "model_name": "iX1",
+   "parkers": "bmw/ix1",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "bmw/ix1",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2022"
+     ],
+     "parkers": "bmw/ix1",
+     "reads_alike": 0.0,
+     "shared": 9,
+     "shared_alike": 9
+    }
+   ],
+   "cars_on_sale": 24,
+   "generations": [
+    {
+     "derivatives": 24,
+     "generation": "suv-2023",
+     "label": "suv",
+     "shared": 10,
+     "since": "2023-10",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "bmw",
+   "make_name": "BMW",
+   "model": "ix2",
+   "model_name": "iX2",
+   "parkers": "bmw/ix2",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "bmw/ix2",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 36,
+   "generations": [
+    {
+     "derivatives": 4,
+     "generation": "suv-2021",
+     "label": "suv",
+     "shared": 0,
+     "since": "2021-01",
+     "start": 2021,
+     "until": "2024-12"
+    },
+    {
+     "derivatives": 24,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 6,
+     "since": "2025-09",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "bmw",
+   "make_name": "BMW",
+   "model": "ix3",
+   "model_name": "iX3",
+   "parkers": "bmw/ix3",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "bmw/ix3",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-09",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 2,
+     "since": "2025-09",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "byd",
+   "make_name": "BYD",
+   "model": "atto-2",
+   "model_name": "Atto 2",
+   "parkers": "byd/atto-2",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "byd/atto-2",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-01",
+    "2026-01"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2026"
+     ],
+     "parkers": "byd/atto-3-evo",
+     "reads_alike": 1.312,
+     "shared": 0,
+     "shared_alike": 0
+    }
+   ],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "suv-2023",
+     "label": "suv",
+     "shared": 0,
+     "since": "2023-03",
+     "start": 2023,
+     "until": "2026-04"
+    }
+   ],
+   "make": "byd",
+   "make_name": "BYD",
+   "model": "atto-3",
+   "model_name": "Atto 3",
+   "parkers": "byd/atto-3",
+   "registry": 0,
+   "rule": "name",
+   "slug": "byd/atto-3",
+   "status": "placed",
+   "why": "also read alike: byd/atto-3-evo",
+   "years": null
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2023"
+     ],
+     "parkers": "byd/atto-3",
+     "reads_alike": 1.312,
+     "shared": 0,
+     "shared_alike": 0
+    }
+   ],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "suv-2026",
+     "label": "suv",
+     "shared": 0,
+     "since": "2026-04",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "byd",
+   "make_name": "BYD",
+   "model": "atto-3-evo",
+   "model_name": "Atto 3 Evo",
+   "parkers": "byd/atto-3-evo",
+   "registry": 0,
+   "rule": "name",
+   "slug": "byd/atto-3-evo",
+   "status": "placed",
+   "why": "also read alike: byd/atto-3",
+   "years": null
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "hatchback-2025"
+     ],
+     "parkers": "byd/dolphin-surf",
+     "reads_alike": 1.318,
+     "shared": 0,
+     "shared_alike": 0
+    }
+   ],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 4,
+     "generation": "hatchback-2023",
+     "label": "hatchback",
+     "shared": 2,
+     "since": "2023-08",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "byd",
+   "make_name": "BYD",
+   "model": "dolphin",
+   "model_name": "Dolphin",
+   "parkers": "byd/dolphin",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "byd/dolphin",
+   "status": "placed",
+   "why": "also read alike: byd/dolphin-surf",
+   "years": [
+    "2026-01",
+    "2026-01"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "hatchback-2023"
+     ],
+     "parkers": "byd/dolphin",
+     "reads_alike": 1.318,
+     "shared": 0,
+     "shared_alike": 0
+    }
+   ],
+   "cars_on_sale": 5,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "hatchback-2025",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2025-06",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "byd",
+   "make_name": "BYD",
+   "model": "dolphin-surf",
+   "model_name": "Dolphin Surf",
+   "parkers": "byd/dolphin-surf",
+   "registry": 0,
+   "rule": "name",
+   "slug": "byd/dolphin-surf",
+   "status": "placed",
+   "why": "also read alike: byd/dolphin",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "saloon-2023",
+     "label": "saloon",
+     "shared": 2,
+     "since": "2023-08",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "byd",
+   "make_name": "BYD",
+   "model": "seal",
+   "model_name": "Seal",
+   "parkers": "byd/seal",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "byd/seal",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-02",
+    "2026-02"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 3,
+     "since": "2024-12",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "byd",
+   "make_name": "BYD",
+   "model": "sealion-7",
+   "model_name": "Sealion 7",
+   "parkers": "byd/sealion-7",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "byd/sealion-7",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-01",
+    "2026-01"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 11,
+     "generation": "coupe-2022",
+     "label": "coupe",
+     "shared": 0,
+     "since": "2022-05",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "citroen",
+   "make_name": "Citroen",
+   "model": "ami",
+   "model_name": "Ami",
+   "parkers": "citroen/ami",
+   "registry": 0,
+   "rule": "name",
+   "slug": "citroen/ami",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 13,
+     "generation": "mpv-2021",
+     "label": "mpv",
+     "shared": 3,
+     "since": "2021-05",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "citroen",
+   "make_name": "Citroen",
+   "model": "e-berlingo",
+   "model_name": "e-Berlingo",
+   "parkers": "citroen/e-berlingo",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "citroen/e-berlingo",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-09",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 7,
+     "generation": "hatchback-2024",
+     "label": "hatchback",
+     "shared": 3,
+     "since": "2024-05",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "citroen",
+   "make_name": "Citroen",
+   "model": "e-c3",
+   "model_name": "e-C3",
+   "parkers": "citroen/e-c3",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "citroen/e-c3",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-04"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 7,
+     "generation": "aircross-2025",
+     "label": "aircross",
+     "shared": 2,
+     "since": "2025-02",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "citroen",
+   "make_name": "Citroen",
+   "model": "e-c3-aircross",
+   "model_name": "e-C3 Aircross",
+   "parkers": "citroen/e-c3",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "citroen/e-c3-aircross",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "hatchback-2021"
+     ],
+     "parkers": "citroen/c4",
+     "reads_alike": 1.9,
+     "shared": 0,
+     "shared_alike": 0
+    },
+    {
+     "generations": [
+      "saloon-2022"
+     ],
+     "parkers": "citroen/e-c4-x",
+     "reads_alike": 1.333,
+     "shared": 0,
+     "shared_alike": 0
+    }
+   ],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 20,
+     "generation": "hatchback-2021",
+     "label": "hatchback",
+     "shared": 1,
+     "since": "2020-10",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "citroen",
+   "make_name": "Citroen",
+   "model": "e-c4",
+   "model_name": "e-C4",
+   "parkers": "citroen/e-c4",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "citroen/e-c4",
+   "status": "placed",
+   "why": "also read alike: citroen/c4, citroen/e-c4-x",
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "hatchback-2021"
+     ],
+     "parkers": "citroen/e-c4",
+     "reads_alike": 1.333,
+     "shared": 0,
+     "shared_alike": 0
+    },
+    {
+     "generations": [
+      "hatchback-2021"
+     ],
+     "parkers": "citroen/c4",
+     "reads_alike": 1.333,
+     "shared": 0,
+     "shared_alike": 0
+    }
+   ],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 12,
+     "generation": "saloon-2022",
+     "label": "saloon",
+     "shared": 0,
+     "since": "2022-11",
+     "start": 2022,
+     "until": "2026-01"
+    }
+   ],
+   "make": "citroen",
+   "make_name": "Citroen",
+   "model": "e-c4-x",
+   "model_name": "e-C4 X",
+   "parkers": "citroen/e-c4-x",
+   "registry": 0,
+   "rule": "name",
+   "slug": "citroen/e-c4-x",
+   "status": "placed",
+   "why": "also read alike: citroen/e-c4, citroen/c4",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 6,
+   "generations": [
+    {
+     "derivatives": 8,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 6,
+     "since": "2025-07",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "citroen",
+   "make_name": "Citroen",
+   "model": "e-c5-aircross",
+   "model_name": "e-C5 Aircross",
+   "parkers": "citroen/e-c5-aircross",
+   "registry": 6,
+   "rule": "name and derivatives",
+   "slug": "citroen/e-c5-aircross",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 14,
+   "generations": [
+    {
+     "derivatives": 71,
+     "generation": "mpv-2020",
+     "label": "mpv",
+     "shared": 10,
+     "since": "2020-10",
+     "start": 2020,
+     "until": null
+    }
+   ],
+   "make": "citroen",
+   "make_name": "Citroen",
+   "model": "e-spacetourer",
+   "model_name": "e-SpaceTourer",
+   "parkers": "citroen/e-spacetourer",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "citroen/e-spacetourer",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2025-12",
+    "2025-12"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 13,
+   "generations": [
+    {
+     "derivatives": 22,
+     "generation": "hatchback-2021",
+     "label": "hatchback",
+     "shared": 6,
+     "since": "2022-01",
+     "start": 2021,
+     "until": null
+    },
+    {
+     "derivatives": 3,
+     "generation": "vz-2024",
+     "label": "vz",
+     "shared": 1,
+     "since": "2024-07",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "cupra",
+   "make_name": "Cupra",
+   "model": "born",
+   "model_name": "Born",
+   "parkers": "cupra/born",
+   "registry": 9,
+   "rule": "name and derivatives",
+   "slug": "cupra/born",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 6,
+   "generations": [
+    {
+     "derivatives": 7,
+     "generation": "hatchback-2026",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2026-05",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "cupra",
+   "make_name": "Cupra",
+   "model": "raval",
+   "model_name": "Raval",
+   "parkers": "cupra/raval",
+   "registry": 0,
+   "rule": "name",
+   "slug": "cupra/raval",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 22,
+   "generations": [
+    {
+     "derivatives": 22,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 12,
+     "since": "2024-09",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "cupra",
+   "make_name": "Cupra",
+   "model": "tavascan",
+   "model_name": "Tavascan",
+   "parkers": "cupra/tavascan",
+   "registry": 12,
+   "rule": "name and derivatives",
+   "slug": "cupra/tavascan",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-08"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 4,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "hatchback-2023",
+     "label": "hatchback",
+     "shared": 2,
+     "since": "2024-06",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "dacia",
+   "make_name": "Dacia",
+   "model": "spring",
+   "model_name": "Spring",
+   "parkers": "dacia/spring",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "dacia/spring",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 9,
+     "generation": "suv-2020",
+     "label": "suv",
+     "shared": 0,
+     "since": "2019-10",
+     "start": 2020,
+     "until": "2023-04"
+    }
+   ],
+   "make": "ds",
+   "make_name": "DS",
+   "model": "3-crossback-e-tense",
+   "model_name": "DS 3 CROSSBACK E-TENSE",
+   "parkers": "ds/3-crossback-e-tense",
+   "registry": 0,
+   "rule": "name",
+   "slug": "ds/3-crossback-e-tense",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 8,
+     "generation": "suv-2022",
+     "label": "suv",
+     "shared": 3,
+     "since": "2022-10",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "ds",
+   "make_name": "DS",
+   "model": "3-e-tense",
+   "model_name": "3 E-Tense",
+   "parkers": "ds/3-e-tense",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "ds/3-e-tense",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-04"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 4,
+   "generations": [
+    {
+     "derivatives": 6,
+     "generation": "hatchback-2025",
+     "label": "hatchback",
+     "shared": 3,
+     "since": "2025-07",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "ds",
+   "make_name": "DS",
+   "model": "no-4-e-tense",
+   "model_name": "No 4 E-Tense",
+   "parkers": "ds/no4-electric",
+   "registry": 4,
+   "rule": "name and derivatives",
+   "slug": "ds/no-4-e-tense",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-04"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 8,
+   "generations": [
+    {
+     "derivatives": 8,
+     "generation": "suv-2026",
+     "label": "suv",
+     "shared": 0,
+     "since": "2026-05",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "ds",
+   "make_name": "DS",
+   "model": "no-7-e-tense",
+   "model_name": "No 7 E-Tense",
+   "parkers": "ds/no7-electric",
+   "registry": 0,
+   "rule": "name",
+   "slug": "ds/no-7-e-tense",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2026"
+     ],
+     "parkers": "ds/no7-electric",
+     "reads_alike": 0.0,
+     "shared": 5,
+     "shared_alike": 5
+    }
+   ],
+   "cars_on_sale": 7,
+   "generations": [
+    {
+     "derivatives": 14,
+     "generation": "coupe-suv-2025",
+     "label": "coupe-suv",
+     "shared": 2,
+     "since": "2025-02",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "ds",
+   "make_name": "DS",
+   "model": "no-8",
+   "model_name": "No 8",
+   "parkers": "ds/no8",
+   "registry": 7,
+   "rule": "name and derivatives",
+   "slug": "ds/no-8",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-03",
+    "2026-03"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 6,
+     "generation": "convertible-2020",
+     "label": "convertible",
+     "shared": 0,
+     "since": "2020-11",
+     "start": 2020,
+     "until": null
+    }
+   ],
+   "make": "fiat",
+   "make_name": "Fiat",
+   "model": "500-convertible",
+   "model_name": "500 Convertible",
+   "parkers": "fiat/500-electric",
+   "registry": 0,
+   "rule": "name",
+   "slug": "fiat/500-convertible",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 11,
+     "generation": "hatchback-2020",
+     "label": "hatchback",
+     "shared": 1,
+     "since": "2020-11",
+     "start": 2020,
+     "until": null
+    }
+   ],
+   "make": "fiat",
+   "make_name": "Fiat",
+   "model": "500-electric",
+   "model_name": "500e",
+   "parkers": "fiat/500-electric",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "fiat/500-electric",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 4,
+   "generations": [
+    {
+     "derivatives": 6,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 4,
+     "since": "2023-09",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "fiat",
+   "make_name": "Fiat",
+   "model": "600e",
+   "model_name": "600e",
+   "parkers": "fiat/600e",
+   "registry": 4,
+   "rule": "name and derivatives",
+   "slug": "fiat/600e",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "electric-2025",
+     "label": "electric",
+     "shared": 0,
+     "since": "2025-10",
+     "start": 2025,
+     "until": null
+    },
+    {
+     "derivatives": 2,
+     "generation": "hatchback-2025",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2025-09",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "fiat",
+   "make_name": "Fiat",
+   "model": "grande-panda-electric",
+   "model_name": "Grande Panda Electric",
+   "parkers": "fiat/grande-panda",
+   "registry": 0,
+   "rule": "name",
+   "slug": "fiat/grande-panda-electric",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 1,
+     "generation": "coupe-2026",
+     "label": "coupe",
+     "shared": 0,
+     "since": "2026-05",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "fiat",
+   "make_name": "Fiat",
+   "model": "topolino",
+   "model_name": "Topolino",
+   "parkers": "fiat/topolino",
+   "registry": 0,
+   "rule": "name",
+   "slug": "fiat/topolino",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2024"
+     ],
+     "parkers": "ford/explorer",
+     "reads_alike": 0.0,
+     "shared": 10,
+     "shared_alike": 10
+    }
+   ],
+   "cars_on_sale": 22,
+   "generations": [
+    {
+     "derivatives": 30,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 10,
+     "since": "2024-07",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "ford",
+   "make_name": "Ford",
+   "model": "capri",
+   "model_name": "Capri",
+   "parkers": "ford/capri",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "ford/capri",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-05",
+    "2026-05"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2024"
+     ],
+     "parkers": "ford/capri",
+     "reads_alike": 0.0,
+     "shared": 7,
+     "shared_alike": 7
+    }
+   ],
+   "cars_on_sale": 19,
+   "generations": [
+    {
+     "derivatives": 34,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 10,
+     "since": "2024-03",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "ford",
+   "make_name": "Ford",
+   "model": "explorer",
+   "model_name": "Explorer",
+   "parkers": "ford/explorer",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "ford/explorer",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-05",
+    "2026-05"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [],
+   "make": "ford",
+   "make_name": "Ford",
+   "model": "focus",
+   "model_name": "Focus",
+   "parkers": null,
+   "registry": 6,
+   "rule": null,
+   "slug": "ford/focus",
+   "status": "unplaced",
+   "why": "no electric Parkers model of this make reads alike, and none shares a derivative name",
+   "years": [
+    "2025-05",
+    "2025-06"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 13,
+   "generations": [
+    {
+     "derivatives": 32,
+     "generation": "suv-2020",
+     "label": "suv",
+     "shared": 10,
+     "since": "2020-09",
+     "start": 2020,
+     "until": null
+    }
+   ],
+   "make": "ford",
+   "make_name": "Ford",
+   "model": "mustang-mach-e",
+   "model_name": "Mustang Mach-E",
+   "parkers": "ford/mustang-mach-e",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "ford/mustang-mach-e",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2024-06",
+    "2026-01"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 11,
+   "generations": [
+    {
+     "derivatives": 14,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 7,
+     "since": "2024-12",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "ford",
+   "make_name": "Ford",
+   "model": "puma-gen-e",
+   "model_name": "Puma Gen-E",
+   "parkers": "ford/puma-gen-e",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "ford/puma-gen-e",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-08",
+    "2026-08"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [],
+   "make": "geely",
+   "make_name": "Geely",
+   "model": "ex2",
+   "model_name": "EX2",
+   "parkers": null,
+   "registry": 3,
+   "rule": null,
+   "slug": "geely/ex2",
+   "status": "unplaced",
+   "why": "no electric Parkers model of this make reads alike, and none shares a derivative name",
+   "years": [
+    "2026-08",
+    "2026-08"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 4,
+   "generations": [
+    {
+     "derivatives": 4,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 4,
+     "since": "2025-09",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "geely",
+   "make_name": "Geely",
+   "model": "ex5",
+   "model_name": "EX5",
+   "parkers": "geely/ex5",
+   "registry": 4,
+   "rule": "name and derivatives",
+   "slug": "geely/ex5",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-05",
+    "2026-05"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 4,
+   "generations": [
+    {
+     "derivatives": 8,
+     "generation": "electrified-2022",
+     "label": "electrified",
+     "shared": 4,
+     "since": "2022-06",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "genesis",
+   "make_name": "Genesis",
+   "model": "electrified-gv70",
+   "model_name": "Electrified GV70",
+   "parkers": "genesis/gv70",
+   "registry": 4,
+   "rule": "name and derivatives",
+   "slug": "genesis/electrified-gv70",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-04"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "electrified-2022",
+     "label": "electrified",
+     "shared": 0,
+     "since": "2022-04",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "genesis",
+   "make_name": "Genesis",
+   "model": "g80-electrified",
+   "model_name": "Electrified G80",
+   "parkers": "genesis/g80",
+   "registry": 3,
+   "rule": "name",
+   "slug": "genesis/g80-electrified",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-02",
+    "2026-05"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2026"
+     ],
+     "parkers": "genesis/gv60-magma",
+     "reads_alike": 1.222,
+     "shared": 0,
+     "shared_alike": 0
+    }
+   ],
+   "cars_on_sale": 9,
+   "generations": [
+    {
+     "derivatives": 21,
+     "generation": "suv-2022",
+     "label": "suv",
+     "shared": 8,
+     "since": "2022-03",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "genesis",
+   "make_name": "Genesis",
+   "model": "gv60",
+   "model_name": "GV60",
+   "parkers": "genesis/gv60",
+   "registry": 9,
+   "rule": "name and derivatives",
+   "slug": "genesis/gv60",
+   "status": "placed",
+   "why": "also read alike: genesis/gv60-magma",
+   "years": [
+    "2026-04",
+    "2026-04"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 8,
+     "generation": "electrified-2022",
+     "label": "electrified",
+     "shared": 0,
+     "since": "2022-06",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "genesis",
+   "make_name": "Genesis",
+   "model": "gv70",
+   "model_name": "GV70",
+   "parkers": "genesis/gv70",
+   "registry": 0,
+   "rule": "name",
+   "slug": "genesis/gv70",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "hatchback-2024"
+     ],
+     "parkers": "gwm-ora/03",
+     "reads_alike": 2.0,
+     "shared": 0,
+     "shared_alike": 0
+    },
+    {
+     "generations": [
+      "hatchback-2025"
+     ],
+     "parkers": "gwm/ora-03",
+     "reads_alike": 2.0,
+     "shared": 0,
+     "shared_alike": 0
+    }
+   ],
+   "cars_on_sale": 0,
+   "generations": [],
+   "make": "gwm",
+   "make_name": "GWM",
+   "model": "ora-03",
+   "model_name": "Ora 03",
+   "parkers": null,
+   "registry": 0,
+   "rule": null,
+   "slug": "gwm/ora-03",
+   "status": "ambiguous",
+   "why": "the names of gwm-ora/03 and gwm/ora-03 read alike and nothing tells them apart",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "hatchback-2020",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2020-01",
+     "start": 2020,
+     "until": "2024-01"
+    }
+   ],
+   "make": "honda",
+   "make_name": "Honda",
+   "model": "e",
+   "model_name": "e",
+   "parkers": "honda/e",
+   "registry": 0,
+   "rule": "name",
+   "slug": "honda/e",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "suv-2023",
+     "label": "suv",
+     "shared": 0,
+     "since": "2023-10",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "honda",
+   "make_name": "Honda",
+   "model": "eny1",
+   "model_name": "e:Ny1",
+   "parkers": "honda/eny1",
+   "registry": 0,
+   "rule": "name",
+   "slug": "honda/eny1",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 1,
+   "generations": [
+    {
+     "derivatives": 1,
+     "generation": "hatchback-2026",
+     "label": "hatchback",
+     "shared": 1,
+     "since": "2026-06",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "honda",
+   "make_name": "Honda",
+   "model": "super-n",
+   "model_name": "Super-N",
+   "parkers": "honda/super-n",
+   "registry": 1,
+   "rule": "name and derivatives",
+   "slug": "honda/super-n",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-06",
+    "2026-06"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 9,
+   "generations": [
+    {
+     "derivatives": 8,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 8,
+     "since": "2024-10",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "hyundai",
+   "make_name": "Hyundai",
+   "model": "inster",
+   "model_name": "Inster",
+   "parkers": "hyundai/inster",
+   "registry": 9,
+   "rule": "name and derivatives",
+   "slug": "hyundai/inster",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "n-2023",
+      "suv-2021"
+     ],
+     "parkers": "hyundai/ioniq-5",
+     "reads_alike": 0.0,
+     "shared": 5,
+     "shared_alike": 5
+    }
+   ],
+   "cars_on_sale": 20,
+   "generations": [],
+   "make": "hyundai",
+   "make_name": "Hyundai",
+   "model": "ioniq-3",
+   "model_name": "Ioniq 3",
+   "parkers": null,
+   "registry": 11,
+   "rule": null,
+   "slug": "hyundai/ioniq-3",
+   "status": "unplaced",
+   "why": "no Parkers model's name reads alike; the most derivative names shared is 5 of 11, in hyundai/ioniq-5",
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 19,
+   "generations": [
+    {
+     "derivatives": 42,
+     "generation": "suv-2021",
+     "label": "suv",
+     "shared": 10,
+     "since": "2021-05",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "hyundai",
+   "make_name": "Hyundai",
+   "model": "ioniq-5",
+   "model_name": "Ioniq 5",
+   "parkers": "hyundai/ioniq-5",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "hyundai/ioniq-5",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 7,
+     "generation": "n-2023",
+     "label": "n",
+     "shared": 2,
+     "since": "2023-10",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "hyundai",
+   "make_name": "Hyundai",
+   "model": "ioniq-5-n",
+   "model_name": "Ioniq 5 N",
+   "parkers": "hyundai/ioniq-5",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "hyundai/ioniq-5-n",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 4,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "saloon-2022",
+     "label": "saloon",
+     "shared": 4,
+     "since": "2022-11",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "hyundai",
+   "make_name": "Hyundai",
+   "model": "ioniq-6",
+   "model_name": "Ioniq 6",
+   "parkers": "hyundai/ioniq-6",
+   "registry": 4,
+   "rule": "name and derivatives",
+   "slug": "hyundai/ioniq-6",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "n-2026",
+     "label": "n",
+     "shared": 2,
+     "since": "2026-01",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "hyundai",
+   "make_name": "Hyundai",
+   "model": "ioniq-6-n",
+   "model_name": "Ioniq 6 N",
+   "parkers": "hyundai/ioniq-6",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "hyundai/ioniq-6-n",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 7,
+   "generations": [
+    {
+     "derivatives": 10,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 0,
+     "since": "2025-07",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "hyundai",
+   "make_name": "Hyundai",
+   "model": "ioniq-9",
+   "model_name": "Ioniq 9",
+   "parkers": "hyundai/ioniq-9",
+   "registry": 0,
+   "rule": "name",
+   "slug": "hyundai/ioniq-9",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 4,
+     "generation": "hatchback-2016",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2016-10",
+     "start": 2016,
+     "until": "2022-08"
+    }
+   ],
+   "make": "hyundai",
+   "make_name": "Hyundai",
+   "model": "ioniq-electric",
+   "model_name": "Ioniq electric",
+   "parkers": "hyundai/ioniq-electric",
+   "registry": 0,
+   "rule": "name",
+   "slug": "hyundai/ioniq-electric",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 7,
+   "generations": [
+    {
+     "derivatives": 12,
+     "generation": "suv-2018",
+     "label": "suv",
+     "shared": 0,
+     "since": "2018-08",
+     "start": 2018,
+     "until": "2023-06"
+    },
+    {
+     "derivatives": 11,
+     "generation": "suv-2023",
+     "label": "suv",
+     "shared": 5,
+     "since": "2023-07",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "hyundai",
+   "make_name": "Hyundai",
+   "model": "kona-electric",
+   "model_name": "Kona Electric",
+   "parkers": "hyundai/kona-electric",
+   "registry": 5,
+   "rule": "name and derivatives",
+   "slug": "hyundai/kona-electric",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 2,
+     "since": "2025-06",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "jaecoo",
+   "make_name": "Jaecoo",
+   "model": "e5",
+   "model_name": "E5",
+   "parkers": "jaecoo/5-ev",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "jaecoo/e5",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 13,
+     "generation": "suv-2018",
+     "label": "suv",
+     "shared": 0,
+     "since": "2018-06",
+     "start": 2018,
+     "until": "2025-04"
+    }
+   ],
+   "make": "jaguar",
+   "make_name": "Jaguar",
+   "model": "i-pace",
+   "model_name": "I-PACE",
+   "parkers": "jaguar/i-pace",
+   "registry": 0,
+   "rule": "name",
+   "slug": "jaguar/i-pace",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 12,
+     "generation": "ev-2023",
+     "label": "ev",
+     "shared": 3,
+     "since": "2023-03",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "jeep",
+   "make_name": "Jeep",
+   "model": "avenger-electric",
+   "model_name": "Avenger Electric",
+   "parkers": "jeep/avenger",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "jeep/avenger-electric",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-08",
+    "2026-08"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 6,
+   "generations": [
+    {
+     "derivatives": 7,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 6,
+     "since": "2025-12",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "jeep",
+   "make_name": "Jeep",
+   "model": "compass-electric",
+   "model_name": "Compass Electric",
+   "parkers": "jeep/compass-electric",
+   "registry": 6,
+   "rule": "name and derivatives",
+   "slug": "jeep/compass-electric",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "e-motion-2024"
+     ],
+     "parkers": "kgm/korando",
+     "reads_alike": 1.9,
+     "shared": 0,
+     "shared_alike": 0
+    },
+    {
+     "generations": [
+      "e-motion-2022",
+      "suv-2019"
+     ],
+     "parkers": "ssangyong/korando",
+     "reads_alike": 1.9,
+     "shared": 0,
+     "shared_alike": 0
+    }
+   ],
+   "cars_on_sale": 0,
+   "generations": [],
+   "make": "kgm-motors",
+   "make_name": "KGM Motors",
+   "model": "korando-e-motion",
+   "model_name": "Korando E-Motion",
+   "parkers": null,
+   "registry": 0,
+   "rule": null,
+   "slug": "kgm-motors/korando-e-motion",
+   "status": "ambiguous",
+   "why": "the names of kgm/korando and ssangyong/korando read alike and nothing tells them apart",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 2,
+     "since": "2024-01",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "kgm-motors",
+   "make_name": "KGM Motors",
+   "model": "torres-evx",
+   "model_name": "Torres EVX",
+   "parkers": "kgm/torres-evx-electric",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "kgm-motors/torres-evx",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2025-04",
+    "2025-04"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 5,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "suv-2026",
+     "label": "suv",
+     "shared": 5,
+     "since": "2026-04",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "kia",
+   "make_name": "Kia",
+   "model": "ev2",
+   "model_name": "EV2",
+   "parkers": "kia/ev2",
+   "registry": 5,
+   "rule": "name and derivatives",
+   "slug": "kia/ev2",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-04"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 6,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 1,
+     "since": "2024-08",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "kia",
+   "make_name": "Kia",
+   "model": "ev3",
+   "model_name": "EV3",
+   "parkers": "kia/ev3",
+   "registry": 6,
+   "rule": "name and derivatives",
+   "slug": "kia/ev3",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-09",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 7,
+   "generations": [
+    {
+     "derivatives": 7,
+     "generation": "hatchback-2025",
+     "label": "hatchback",
+     "shared": 6,
+     "since": "2025-07",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "kia",
+   "make_name": "Kia",
+   "model": "ev4",
+   "model_name": "EV4",
+   "parkers": "kia/ev4",
+   "registry": 7,
+   "rule": "name and derivatives",
+   "slug": "kia/ev4",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 7,
+     "generation": "hatchback-2025",
+     "label": "hatchback",
+     "shared": 1,
+     "since": "2025-07",
+     "start": 2025,
+     "until": null
+    },
+    {
+     "derivatives": 2,
+     "generation": "saloon-2025",
+     "label": "saloon",
+     "shared": 2,
+     "since": "2025-07",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "kia",
+   "make_name": "Kia",
+   "model": "ev4-fastback",
+   "model_name": "EV4 Fastback",
+   "parkers": "kia/ev4",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "kia/ev4-fastback",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-06",
+    "2026-06"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 9,
+   "generations": [
+    {
+     "derivatives": 8,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 8,
+     "since": "2025-07",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "kia",
+   "make_name": "Kia",
+   "model": "ev5",
+   "model_name": "EV5",
+   "parkers": "kia/ev5",
+   "registry": 9,
+   "rule": "name and derivatives",
+   "slug": "kia/ev5",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-09",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 7,
+   "generations": [
+    {
+     "derivatives": 1,
+     "generation": "gt-2021",
+     "label": "gt",
+     "shared": 0,
+     "since": "2021-05",
+     "start": 2021,
+     "until": "2024-11"
+    },
+    {
+     "derivatives": 1,
+     "generation": "gt-2025",
+     "label": "gt",
+     "shared": 1,
+     "since": "2025-06",
+     "start": 2025,
+     "until": null
+    },
+    {
+     "derivatives": 13,
+     "generation": "suv-2021",
+     "label": "suv",
+     "shared": 0,
+     "since": "2021-05",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "kia",
+   "make_name": "Kia",
+   "model": "ev6",
+   "model_name": "EV6",
+   "parkers": "kia/ev6",
+   "registry": 6,
+   "rule": "name and derivatives",
+   "slug": "kia/ev6",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2025-12",
+    "2025-12"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 6,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "gt-2025",
+     "label": "gt",
+     "shared": 2,
+     "since": "2025-06",
+     "start": 2025,
+     "until": null
+    },
+    {
+     "derivatives": 4,
+     "generation": "suv-2023",
+     "label": "suv",
+     "shared": 1,
+     "since": "2023-07",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "kia",
+   "make_name": "Kia",
+   "model": "ev9",
+   "model_name": "EV9",
+   "parkers": "kia/ev9",
+   "registry": 6,
+   "rule": "name and derivatives",
+   "slug": "kia/ev9",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-04"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2019"
+     ],
+     "parkers": "kia/e-niro",
+     "reads_alike": 1.9,
+     "shared": 0,
+     "shared_alike": 0
+    }
+   ],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "suv-2022",
+     "label": "suv",
+     "shared": 0,
+     "since": "2022-04",
+     "start": 2022,
+     "until": "2026-03"
+    }
+   ],
+   "make": "kia",
+   "make_name": "Kia",
+   "model": "niro-ev-estate",
+   "model_name": "Niro EV",
+   "parkers": "kia/niro-ev",
+   "registry": 0,
+   "rule": "name",
+   "slug": "kia/niro-ev-estate",
+   "status": "placed",
+   "why": "also read alike: kia/e-niro",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 7,
+   "generations": [
+    {
+     "derivatives": 7,
+     "generation": "mpv-2025",
+     "label": "mpv",
+     "shared": 7,
+     "since": "2025-05",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "kia",
+   "make_name": "Kia",
+   "model": "pv5-passenger",
+   "model_name": "PV5 Passenger",
+   "parkers": "kia/pv5",
+   "registry": 7,
+   "rule": "name and derivatives",
+   "slug": "kia/pv5-passenger",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-06",
+    "2026-06"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2019"
+     ],
+     "parkers": "kia/soul",
+     "reads_alike": 2.0,
+     "shared": 0,
+     "shared_alike": 0
+    },
+    {
+     "generations": [
+      "suv-2014"
+     ],
+     "parkers": "kia/soul-ev",
+     "reads_alike": 2.0,
+     "shared": 0,
+     "shared_alike": 0
+    }
+   ],
+   "cars_on_sale": 0,
+   "generations": [],
+   "make": "kia",
+   "make_name": "Kia",
+   "model": "soul-ev",
+   "model_name": "Soul EV",
+   "parkers": null,
+   "registry": 0,
+   "rule": null,
+   "slug": "kia/soul-ev",
+   "status": "ambiguous",
+   "why": "the names of kia/soul and kia/soul-ev read alike and nothing tells them apart",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 8,
+   "generations": [],
+   "make": "land-rover",
+   "make_name": "Land Rover",
+   "model": "range-rover-electric",
+   "model_name": "Range Rover Electric",
+   "parkers": null,
+   "registry": 8,
+   "rule": null,
+   "slug": "land-rover/range-rover-electric",
+   "status": "unplaced",
+   "why": "no electric Parkers model of this make reads alike, and none shares a derivative name",
+   "years": [
+    "2026-09",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 1,
+   "generations": [
+    {
+     "derivatives": 1,
+     "generation": "hatchback-2026",
+     "label": "hatchback",
+     "shared": 1,
+     "since": "2026-07",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "leapmotor",
+   "make_name": "Leapmotor",
+   "model": "b05",
+   "model_name": "B05",
+   "parkers": "leapmotor/b05",
+   "registry": 1,
+   "rule": "name and derivatives",
+   "slug": "leapmotor/b05",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-08",
+    "2026-08"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "reev-2025",
+      "suv-2024"
+     ],
+     "parkers": "leapmotor/c10",
+     "reads_alike": 0.0,
+     "shared": 1,
+     "shared_alike": 1
+    }
+   ],
+   "cars_on_sale": 1,
+   "generations": [
+    {
+     "derivatives": 1,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 1,
+     "since": "2025-10",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "leapmotor",
+   "make_name": "Leapmotor",
+   "model": "b10",
+   "model_name": "B10",
+   "parkers": "leapmotor/b10",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "leapmotor/b10",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 1,
+   "generations": [
+    {
+     "derivatives": 1,
+     "generation": "reev-2025",
+     "label": "reev",
+     "shared": 0,
+     "since": "2026-01",
+     "start": 2025,
+     "until": null
+    },
+    {
+     "derivatives": 3,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 1,
+     "since": "2024-10",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "leapmotor",
+   "make_name": "Leapmotor",
+   "model": "c10",
+   "model_name": "C10",
+   "parkers": "leapmotor/c10",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "leapmotor/c10",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-06",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 1,
+   "generations": [
+    {
+     "derivatives": 1,
+     "generation": "hatchback-2024",
+     "label": "hatchback",
+     "shared": 1,
+     "since": "2024-10",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "leapmotor",
+   "make_name": "Leapmotor",
+   "model": "t03",
+   "model_name": "T03",
+   "parkers": "leapmotor/t03",
+   "registry": 1,
+   "rule": "name and derivatives",
+   "slug": "leapmotor/t03",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 5,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "saloon-2019",
+     "label": "saloon",
+     "shared": 0,
+     "since": "2026-05",
+     "start": 2019,
+     "until": null
+    }
+   ],
+   "make": "lexus",
+   "make_name": "Lexus",
+   "model": "es-electric",
+   "model_name": "ES Electric",
+   "parkers": "lexus/es",
+   "registry": 0,
+   "rule": "name",
+   "slug": "lexus/es-electric",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 21,
+   "generations": [
+    {
+     "derivatives": 32,
+     "generation": "suv-2022",
+     "label": "suv",
+     "shared": 6,
+     "since": "2022-07",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "lexus",
+   "make_name": "Lexus",
+   "model": "rz",
+   "model_name": "RZ",
+   "parkers": "lexus/rz",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "lexus/rz",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-08",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [],
+   "make": "lexus",
+   "make_name": "Lexus",
+   "model": "ux-300e",
+   "model_name": "UX 300e",
+   "parkers": null,
+   "registry": 0,
+   "rule": null,
+   "slug": "lexus/ux-300e",
+   "status": "unplaced",
+   "why": "no electric Parkers model of this make reads alike",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 9,
+   "generations": [
+    {
+     "derivatives": 14,
+     "generation": "suv-2022",
+     "label": "suv",
+     "shared": 9,
+     "since": "2022-10",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "lotus",
+   "make_name": "Lotus",
+   "model": "eletre",
+   "model_name": "Eletre",
+   "parkers": "lotus/eletre",
+   "registry": 9,
+   "rule": "name and derivatives",
+   "slug": "lotus/eletre",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-04"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 9,
+   "generations": [
+    {
+     "derivatives": 14,
+     "generation": "saloon-2023",
+     "label": "saloon",
+     "shared": 9,
+     "since": "2023-09",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "lotus",
+   "make_name": "Lotus",
+   "model": "emeya",
+   "model_name": "Emeya",
+   "parkers": "lotus/emeya",
+   "registry": 9,
+   "rule": "name and derivatives",
+   "slug": "lotus/emeya",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-04"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "saloon-2025",
+     "label": "saloon",
+     "shared": 2,
+     "since": "2026-02",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "mazda",
+   "make_name": "Mazda",
+   "model": "6e",
+   "model_name": "6e",
+   "parkers": "mazda/6e",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "mazda/6e",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [],
+   "make": "mazda",
+   "make_name": "Mazda",
+   "model": "cx-6e",
+   "model_name": "CX-6e",
+   "parkers": null,
+   "registry": 0,
+   "rule": null,
+   "slug": "mazda/cx-6e",
+   "status": "unplaced",
+   "why": "no electric Parkers model of this make reads alike",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 8,
+     "generation": "suv-2020",
+     "label": "suv",
+     "shared": 0,
+     "since": "2020-09",
+     "start": 2020,
+     "until": "2025-05"
+    }
+   ],
+   "make": "mazda",
+   "make_name": "Mazda",
+   "model": "mx-30",
+   "model_name": "MX-30",
+   "parkers": "mazda/mx-30",
+   "registry": 0,
+   "rule": "name",
+   "slug": "mazda/mx-30",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 4,
+   "generations": [],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "amg-cla-45-electric",
+   "model_name": "AMG CLA 45 Electric",
+   "parkers": null,
+   "registry": 0,
+   "rule": null,
+   "slug": "mercedes/amg-cla-45-electric",
+   "status": "unplaced",
+   "why": "no electric Parkers model of this make reads alike",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "saloon-2022",
+     "label": "saloon",
+     "shared": 2,
+     "since": "2022-07",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "amg-eqe-53",
+   "model_name": "AMG EQE 53",
+   "parkers": "mercedes-amg/eqe",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "mercedes/amg-eqe-53",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-04"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "suv-2023",
+     "label": "suv",
+     "shared": 1,
+     "since": "2023-05",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "amg-eqe-suv-53",
+   "model_name": "AMG EQE SUV 53",
+   "parkers": "mercedes-amg/eqe",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "mercedes/amg-eqe-suv-53",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-04"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "saloon-2022",
+     "label": "saloon",
+     "shared": 0,
+     "since": "2021-12",
+     "start": 2022,
+     "until": "2025-04"
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "amg-eqs",
+   "model_name": "AMG EQS 53",
+   "parkers": "mercedes-amg/eqs",
+   "registry": 0,
+   "rule": "name",
+   "slug": "mercedes/amg-eqs",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 6,
+   "generations": [
+    {
+     "derivatives": 4,
+     "generation": "coupe-2015",
+     "label": "coupe",
+     "shared": 0,
+     "since": "2026-05",
+     "start": 2015,
+     "until": null
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "amg-gt-four-door-electric",
+   "model_name": "AMG GT Four-door Electric",
+   "parkers": "mercedes-benz/amg-gt",
+   "registry": 0,
+   "rule": "name",
+   "slug": "mercedes/amg-gt-four-door-electric",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 8,
+   "generations": [],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "b-class",
+   "model_name": "B-Class",
+   "parkers": null,
+   "registry": 8,
+   "rule": null,
+   "slug": "mercedes/b-class",
+   "status": "unplaced",
+   "why": "no electric Parkers model of this make reads alike, and none shares a derivative name",
+   "years": [
+    "2025-07",
+    "2025-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 5,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "saloon-2026",
+     "label": "saloon",
+     "shared": 5,
+     "since": "2026-05",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "c-class-electric",
+   "model_name": "C-Class Electric",
+   "parkers": "mercedes-benz/c-class-electric",
+   "registry": 5,
+   "rule": "name and derivatives",
+   "slug": "mercedes/c-class-electric",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-05",
+    "2026-05"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 13,
+   "generations": [
+    {
+     "derivatives": 13,
+     "generation": "coupe-2025",
+     "label": "coupe",
+     "shared": 8,
+     "since": "2025-05",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "cla-electric",
+   "model_name": "CLA Electric",
+   "parkers": "mercedes-benz/cla-electric",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "mercedes/cla-electric",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-08"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 28,
+   "generations": [
+    {
+     "derivatives": 10,
+     "generation": "shooting-brake-2025",
+     "label": "shooting-brake",
+     "shared": 0,
+     "since": "2025-11",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "cla-shooting-brake-electric",
+   "model_name": "CLA Shooting Brake Electric",
+   "parkers": "mercedes-benz/cla-electric",
+   "registry": 0,
+   "rule": "name",
+   "slug": "mercedes/cla-shooting-brake-electric",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 7,
+   "generations": [
+    {
+     "derivatives": 24,
+     "generation": "suv-2021",
+     "label": "suv",
+     "shared": 7,
+     "since": "2021-02",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "eqa",
+   "model_name": "EQA",
+   "parkers": "mercedes-benz/eqa",
+   "registry": 7,
+   "rule": "name and derivatives",
+   "slug": "mercedes/eqa",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-01",
+    "2026-01"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 7,
+   "generations": [
+    {
+     "derivatives": 18,
+     "generation": "suv-2022",
+     "label": "suv",
+     "shared": 7,
+     "since": "2021-11",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "eqb",
+   "model_name": "EQB",
+   "parkers": "mercedes-benz/eqb",
+   "registry": 7,
+   "rule": "name and derivatives",
+   "slug": "mercedes/eqb",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2025-07",
+    "2025-08"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 7,
+     "generation": "suv-2019",
+     "label": "suv",
+     "shared": 0,
+     "since": "2019-06",
+     "start": 2019,
+     "until": "2024-06"
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "eqc",
+   "model_name": "EQC",
+   "parkers": "mercedes-benz/eqc",
+   "registry": 0,
+   "rule": "name",
+   "slug": "mercedes/eqc",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 7,
+   "generations": [
+    {
+     "derivatives": 24,
+     "generation": "saloon-2022",
+     "label": "saloon",
+     "shared": 6,
+     "since": "2022-03",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "eqe",
+   "model_name": "EQE",
+   "parkers": "mercedes-benz/eqe",
+   "registry": 7,
+   "rule": "name and derivatives",
+   "slug": "mercedes/eqe",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-04"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 9,
+   "generations": [
+    {
+     "derivatives": 24,
+     "generation": "suv-2023",
+     "label": "suv",
+     "shared": 8,
+     "since": "2023-02",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "eqe-suv",
+   "model_name": "EQE SUV",
+   "parkers": "mercedes-benz/eqe",
+   "registry": 9,
+   "rule": "name and derivatives",
+   "slug": "mercedes/eqe-suv",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-04"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 9,
+   "generations": [
+    {
+     "derivatives": 24,
+     "generation": "saloon-2021",
+     "label": "saloon",
+     "shared": 9,
+     "since": "2021-09",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "eqs",
+   "model_name": "EQS",
+   "parkers": "mercedes-benz/eqs",
+   "registry": 9,
+   "rule": "name and derivatives",
+   "slug": "mercedes/eqs",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 10,
+     "generation": "suv-2022",
+     "label": "suv",
+     "shared": 0,
+     "since": "2022-11",
+     "start": 2022,
+     "until": "2026-07"
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "eqs-suv",
+   "model_name": "EQS SUV",
+   "parkers": "mercedes-benz/eqs",
+   "registry": 0,
+   "rule": "name",
+   "slug": "mercedes/eqs-suv",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 1,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "mpv-2020",
+     "label": "mpv",
+     "shared": 1,
+     "since": "2020-07",
+     "start": 2020,
+     "until": null
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "eqv",
+   "model_name": "EQV",
+   "parkers": "mercedes-benz/eqv",
+   "registry": 1,
+   "rule": "name and derivatives",
+   "slug": "mercedes/eqv",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-05",
+    "2026-05"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 1,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 1,
+     "since": "2024-04",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "g-class-electric",
+   "model_name": "G-Class Electric",
+   "parkers": "mercedes-benz/g580-eq",
+   "registry": 1,
+   "rule": "derivatives",
+   "slug": "mercedes/g-class-electric",
+   "status": "placed",
+   "why": "no Parkers model's name reads alike; this one lists every derivative on Carwow's registry (1)",
+   "years": [
+    "2026-06",
+    "2026-06"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 8,
+   "generations": [],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "gla-electric",
+   "model_name": "GLA Electric",
+   "parkers": null,
+   "registry": 0,
+   "rule": null,
+   "slug": "mercedes/gla-electric",
+   "status": "unplaced",
+   "why": "no electric Parkers model of this make reads alike",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 7,
+   "generations": [
+    {
+     "derivatives": 6,
+     "generation": "suv-2026",
+     "label": "suv",
+     "shared": 6,
+     "since": "2026-01",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "glb-electric",
+   "model_name": "GLB Electric",
+   "parkers": "mercedes-benz/glb-electric",
+   "registry": 7,
+   "rule": "name and derivatives",
+   "slug": "mercedes/glb-electric",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-08"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 10,
+   "generations": [
+    {
+     "derivatives": 8,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 8,
+     "since": "2025-10",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "mercedes",
+   "make_name": "Mercedes-Benz",
+   "model": "glc-electric",
+   "model_name": "GLC Electric",
+   "parkers": "mercedes-benz/glc-electric",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "mercedes/glc-electric",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-06",
+    "2026-06"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 1,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "xpower-2023",
+     "label": "xpower",
+     "shared": 1,
+     "since": "2023-07",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "mg",
+   "make_name": "MG",
+   "model": "4-xpower",
+   "model_name": "MG4 EV XPOWER",
+   "parkers": "mg/mg4",
+   "registry": 1,
+   "rule": "name and derivatives",
+   "slug": "mg/4-xpower",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 6,
+     "generation": "estate-2020",
+     "label": "estate",
+     "shared": 0,
+     "since": "2020-05",
+     "start": 2020,
+     "until": "2024-12"
+    }
+   ],
+   "make": "mg",
+   "make_name": "MG",
+   "model": "5",
+   "model_name": "MG 5 EV",
+   "parkers": "mg/mg5-ev",
+   "registry": 0,
+   "rule": "name",
+   "slug": "mg/5",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "roadster-2023",
+     "label": "roadster",
+     "shared": 2,
+     "since": "2024-07",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "mg",
+   "make_name": "MG",
+   "model": "cyberster",
+   "model_name": "Cyberster",
+   "parkers": "mg/cyberster",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "mg/cyberster",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2025-08",
+    "2025-08"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2025"
+     ],
+     "parkers": "mg/im6",
+     "reads_alike": 0.0,
+     "shared": 1,
+     "shared_alike": 1
+    }
+   ],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "saloon-2025",
+     "label": "saloon",
+     "shared": 3,
+     "since": "2025-08",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "mg",
+   "make_name": "MG",
+   "model": "im5",
+   "model_name": "IM5",
+   "parkers": "mg/im5",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "mg/im5",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-04"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "saloon-2025"
+     ],
+     "parkers": "mg/im5",
+     "reads_alike": 0.0,
+     "shared": 1,
+     "shared_alike": 1
+    }
+   ],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 2,
+     "since": "2025-08",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "mg",
+   "make_name": "MG",
+   "model": "im6",
+   "model_name": "IM6",
+   "parkers": "mg/im6",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "mg/im6",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-08",
+    "2026-08"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 8,
+     "generation": "hatchback-2022",
+     "label": "hatchback",
+     "shared": 2,
+     "since": "2022-09",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "mg",
+   "make_name": "MG",
+   "model": "mg-4",
+   "model_name": "MG4 EV",
+   "parkers": "mg/mg4",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "mg/mg-4",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "ev-urban-2026",
+     "label": "ev-urban",
+     "shared": 3,
+     "since": "2026-02",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "mg",
+   "make_name": "MG",
+   "model": "mg4-urban",
+   "model_name": "MG4 Urban",
+   "parkers": "mg/mg4",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "mg/mg4-urban",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 3,
+     "since": "2025-04",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "mg",
+   "make_name": "MG",
+   "model": "s5-ev",
+   "model_name": "S5 EV",
+   "parkers": "mg/s5-ev",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "mg/s5-ev",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-04"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "suv-2026",
+     "label": "suv",
+     "shared": 3,
+     "since": "2025-12",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "mg",
+   "make_name": "MG",
+   "model": "s6-ev",
+   "model_name": "S6 EV",
+   "parkers": "mg/s6-ev",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "mg/s6-ev",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2025-12",
+    "2025-12"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 8,
+     "generation": "suv-2019",
+     "label": "suv",
+     "shared": 0,
+     "since": "2019-09",
+     "start": 2019,
+     "until": "2025-08"
+    }
+   ],
+   "make": "mg",
+   "make_name": "MG",
+   "model": "zs-ev",
+   "model_name": "ZS EV",
+   "parkers": "mg/zs-ev",
+   "registry": 0,
+   "rule": "name",
+   "slug": "mg/zs-ev",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 20,
+   "generations": [
+    {
+     "derivatives": 20,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 10,
+     "since": "2024-04",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "mini",
+   "make_name": null,
+   "model": "aceman",
+   "model_name": null,
+   "parkers": "mini/aceman",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "mini/aceman",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-05",
+    "2026-06"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "jcw-2024",
+     "label": "jcw",
+     "shared": 3,
+     "since": "2024-11",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "mini",
+   "make_name": null,
+   "model": "aceman-jcw",
+   "model_name": null,
+   "parkers": "mini/aceman",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "mini/aceman-jcw",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-09",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 23,
+   "generations": [
+    {
+     "derivatives": 20,
+     "generation": "suv-2023",
+     "label": "suv",
+     "shared": 9,
+     "since": "2024-02",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "mini",
+   "make_name": null,
+   "model": "countryman-electric",
+   "model_name": null,
+   "parkers": "mini/electric-countryman",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "mini/countryman-electric",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-05",
+    "2026-06"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 26,
+   "generations": [
+    {
+     "derivatives": 26,
+     "generation": "hatchback-2024",
+     "label": "hatchback",
+     "shared": 11,
+     "since": "2023-09",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "mini",
+   "make_name": null,
+   "model": "electric",
+   "model_name": null,
+   "parkers": "mini/cooper-electric",
+   "registry": 11,
+   "rule": "derivatives",
+   "slug": "mini/electric",
+   "status": "placed",
+   "why": "no Parkers model's name reads alike; this one lists every derivative on Carwow's registry (11)",
+   "years": [
+    "2026-05",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 1,
+     "generation": "convertible-2023",
+     "label": "convertible",
+     "shared": 0,
+     "since": "2023-02",
+     "start": 2023,
+     "until": "2023-12"
+    }
+   ],
+   "make": "mini",
+   "make_name": null,
+   "model": "electric-convertible",
+   "model_name": null,
+   "parkers": "mini/electric-convertible",
+   "registry": 0,
+   "rule": "name",
+   "slug": "mini/electric-convertible",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "jcw-2024",
+     "label": "jcw",
+     "shared": 3,
+     "since": "2024-11",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "mini",
+   "make_name": null,
+   "model": "electric-jcw",
+   "model_name": null,
+   "parkers": "mini/cooper-electric",
+   "registry": 3,
+   "rule": "derivatives",
+   "slug": "mini/electric-jcw",
+   "status": "placed",
+   "why": "no Parkers model's name reads alike; this one lists every derivative on Carwow's registry (3)",
+   "years": [
+    "2026-09",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 14,
+   "generations": [
+    {
+     "derivatives": 43,
+     "generation": "suv-2021",
+     "label": "suv",
+     "shared": 0,
+     "since": "2021-12",
+     "start": 2021,
+     "until": "2026-09"
+    }
+   ],
+   "make": "nissan",
+   "make_name": "Nissan",
+   "model": "ariya",
+   "model_name": "Ariya",
+   "parkers": "nissan/ariya",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "nissan/ariya",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-06",
+    "2026-06"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "nismo-2025",
+     "label": "nismo",
+     "shared": 0,
+     "since": "2024-10",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "nissan",
+   "make_name": "Nissan",
+   "model": "ariya-nismo",
+   "model_name": "Ariya Nismo",
+   "parkers": "nissan/ariya",
+   "registry": 0,
+   "rule": "name",
+   "slug": "nissan/ariya-nismo",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 8,
+     "generation": "estate-2010",
+     "label": "estate",
+     "shared": 0,
+     "since": "2018-06",
+     "start": 2010,
+     "until": "2022-09"
+    }
+   ],
+   "make": "nissan",
+   "make_name": "Nissan",
+   "model": "e-nv200",
+   "model_name": "e-NV200",
+   "parkers": "nissan/nv200-combi",
+   "registry": 0,
+   "rule": "name",
+   "slug": "nissan/e-nv200",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 6,
+   "generations": [
+    {
+     "derivatives": 23,
+     "generation": "hatchback-2011",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2011-03",
+     "start": 2011,
+     "until": "2017-12"
+    },
+    {
+     "derivatives": 21,
+     "generation": "hatchback-2018",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2018-01",
+     "start": 2018,
+     "until": "2025-11"
+    },
+    {
+     "derivatives": 5,
+     "generation": "hatchback-2025",
+     "label": "hatchback",
+     "shared": 5,
+     "since": "2025-11",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "nissan",
+   "make_name": "Nissan",
+   "model": "leaf",
+   "model_name": "Leaf",
+   "parkers": "nissan/leaf",
+   "registry": 6,
+   "rule": "name and derivatives",
+   "slug": "nissan/leaf",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-06",
+    "2026-08"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 4,
+   "generations": [
+    {
+     "derivatives": 4,
+     "generation": "hatchback-2025",
+     "label": "hatchback",
+     "shared": 4,
+     "since": "2025-09",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "nissan",
+   "make_name": "Nissan",
+   "model": "micra",
+   "model_name": "Micra",
+   "parkers": "nissan/micra-electric",
+   "registry": 4,
+   "rule": "name and derivatives",
+   "slug": "nissan/micra",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 4,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 2,
+     "since": "2024-03",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "omoda",
+   "make_name": "OMODA",
+   "model": "omoda-e5",
+   "model_name": "E5",
+   "parkers": "omoda/e5",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "omoda/omoda-e5",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "hatchback-2023",
+      "sw-2023"
+     ],
+     "parkers": "peugeot/e-308",
+     "reads_alike": 0.0,
+     "shared": 2,
+     "shared_alike": 2
+    },
+    {
+     "generations": [
+      "estate-2020"
+     ],
+     "parkers": "peugeot/2008",
+     "reads_alike": 1.9,
+     "shared": 1,
+     "shared_alike": 1
+    }
+   ],
+   "cars_on_sale": 4,
+   "generations": [
+    {
+     "derivatives": 22,
+     "generation": "suv-2020",
+     "label": "suv",
+     "shared": 3,
+     "since": "2019-11",
+     "start": 2020,
+     "until": null
+    }
+   ],
+   "make": "peugeot",
+   "make_name": "Peugeot",
+   "model": "e-2008",
+   "model_name": "E-2008",
+   "parkers": "peugeot/e-2008",
+   "registry": 4,
+   "rule": "name and derivatives",
+   "slug": "peugeot/e-2008",
+   "status": "placed",
+   "why": "also read alike: peugeot/2008",
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "hatchback-2019"
+     ],
+     "parkers": "peugeot/208",
+     "reads_alike": 1.9,
+     "shared": 3,
+     "shared_alike": 3
+    },
+    {
+     "generations": [
+      "suv-2020"
+     ],
+     "parkers": "peugeot/e-2008",
+     "reads_alike": 0.0,
+     "shared": 3,
+     "shared_alike": 3
+    },
+    {
+     "generations": [
+      "mpv-2021"
+     ],
+     "parkers": "peugeot/e-rifter",
+     "reads_alike": 0.0,
+     "shared": 2,
+     "shared_alike": 2
+    }
+   ],
+   "cars_on_sale": 9,
+   "generations": [
+    {
+     "derivatives": 22,
+     "generation": "hatchback-2019",
+     "label": "hatchback",
+     "shared": 6,
+     "since": "2019-08",
+     "start": 2019,
+     "until": null
+    }
+   ],
+   "make": "peugeot",
+   "make_name": "Peugeot",
+   "model": "e-208",
+   "model_name": "E-208",
+   "parkers": "peugeot/e-208",
+   "registry": 9,
+   "rule": "name and derivatives",
+   "slug": "peugeot/e-208",
+   "status": "placed",
+   "why": "also read alike: peugeot/208",
+   "years": [
+    "2026-09",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2024"
+     ],
+     "parkers": "peugeot/e-5008",
+     "reads_alike": 0.0,
+     "shared": 6,
+     "shared_alike": 6
+    }
+   ],
+   "cars_on_sale": 9,
+   "generations": [
+    {
+     "derivatives": 10,
+     "generation": "suv-2023",
+     "label": "suv",
+     "shared": 7,
+     "since": "2023-11",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "peugeot",
+   "make_name": "Peugeot",
+   "model": "e-3008",
+   "model_name": "E-3008",
+   "parkers": "peugeot/e-3008",
+   "registry": 9,
+   "rule": "name and derivatives",
+   "slug": "peugeot/e-3008",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 6,
+     "generation": "hatchback-2023",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2023-06",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "peugeot",
+   "make_name": "Peugeot",
+   "model": "e-308",
+   "model_name": "e-308",
+   "parkers": "peugeot/e-308",
+   "registry": 3,
+   "rule": "name",
+   "slug": "peugeot/e-308",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "sw-2023",
+     "label": "sw",
+     "shared": 0,
+     "since": "2023-06",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "peugeot",
+   "make_name": "Peugeot",
+   "model": "e-308-sw",
+   "model_name": "e-308 SW",
+   "parkers": "peugeot/e-308",
+   "registry": 3,
+   "rule": "name",
+   "slug": "peugeot/e-308-sw",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 6,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 0,
+     "since": "2024-11",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "peugeot",
+   "make_name": "Peugeot",
+   "model": "e-408",
+   "model_name": "E-408",
+   "parkers": "peugeot/e-408",
+   "registry": 3,
+   "rule": "name",
+   "slug": "peugeot/e-408",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2023"
+     ],
+     "parkers": "peugeot/e-3008",
+     "reads_alike": 0.0,
+     "shared": 6,
+     "shared_alike": 6
+    }
+   ],
+   "cars_on_sale": 9,
+   "generations": [
+    {
+     "derivatives": 10,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 7,
+     "since": "2024-07",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "peugeot",
+   "make_name": "Peugeot",
+   "model": "e-5008",
+   "model_name": "E-5008",
+   "parkers": "peugeot/e-5008",
+   "registry": 9,
+   "rule": "name and derivatives",
+   "slug": "peugeot/e-5008",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 4,
+   "generations": [
+    {
+     "derivatives": 10,
+     "generation": "mpv-2021",
+     "label": "mpv",
+     "shared": 0,
+     "since": "2021-05",
+     "start": 2021,
+     "until": "2024-01"
+    }
+   ],
+   "make": "peugeot",
+   "make_name": "Peugeot",
+   "model": "e-rifter",
+   "model_name": "e-Rifter",
+   "parkers": "peugeot/e-rifter",
+   "registry": 4,
+   "rule": "name",
+   "slug": "peugeot/e-rifter",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 10,
+   "generations": [
+    {
+     "derivatives": 50,
+     "generation": "mpv-2020",
+     "label": "mpv",
+     "shared": 10,
+     "since": "2020-09",
+     "start": 2020,
+     "until": null
+    }
+   ],
+   "make": "peugeot",
+   "make_name": "Peugeot",
+   "model": "e-traveller",
+   "model_name": "e-Traveller",
+   "parkers": "peugeot/e-traveller",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "peugeot/e-traveller",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [],
+   "make": "polestar",
+   "make_name": null,
+   "model": "1",
+   "model_name": null,
+   "parkers": null,
+   "registry": 0,
+   "rule": null,
+   "slug": "polestar/1",
+   "status": "unplaced",
+   "why": "no electric Parkers model of this make reads alike",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 7,
+   "generations": [
+    {
+     "derivatives": 47,
+     "generation": "fastback-2020",
+     "label": "fastback",
+     "shared": 4,
+     "since": "2020-06",
+     "start": 2020,
+     "until": null
+    }
+   ],
+   "make": "polestar",
+   "make_name": "Polestar",
+   "model": "2",
+   "model_name": "2",
+   "parkers": "polestar/2",
+   "registry": 4,
+   "rule": "name and derivatives",
+   "slug": "polestar/2",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-08"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 26,
+     "generation": "suv-2023",
+     "label": "suv",
+     "shared": 3,
+     "since": "2022-07",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "polestar",
+   "make_name": "Polestar",
+   "model": "3",
+   "model_name": "3",
+   "parkers": "polestar/3",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "polestar/3",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-03",
+    "2026-03"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 12,
+   "generations": [
+    {
+     "derivatives": 24,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 5,
+     "since": "2024-02",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "polestar",
+   "make_name": "Polestar",
+   "model": "4",
+   "model_name": "4",
+   "parkers": "polestar/4",
+   "registry": 5,
+   "rule": "name and derivatives",
+   "slug": "polestar/4",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-06",
+    "2026-08"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 5,
+   "generations": [
+    {
+     "derivatives": 24,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 5,
+     "since": "2024-02",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "polestar",
+   "make_name": "Polestar",
+   "model": "4-suv",
+   "model_name": "4 SUV",
+   "parkers": "polestar/4",
+   "registry": 5,
+   "rule": "name and derivatives",
+   "slug": "polestar/4-suv",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-09",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "coupe-2025",
+     "label": "coupe",
+     "shared": 2,
+     "since": "2025-09",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "polestar",
+   "make_name": "Polestar",
+   "model": "5",
+   "model_name": "5",
+   "parkers": "polestar/5-gt",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "polestar/5",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2025-09",
+    "2025-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 6,
+     "generation": "coupe-2026",
+     "label": "coupe",
+     "shared": 0,
+     "since": "2026-04",
+     "start": 2026,
+     "until": null
+    },
+    {
+     "derivatives": 3,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 0,
+     "since": "2025-11",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "porsche",
+   "make_name": "Porsche",
+   "model": "cayenne-electric",
+   "model_name": "Cayenne Electric",
+   "parkers": "porsche/cayenne-electric",
+   "registry": 0,
+   "rule": "name",
+   "slug": "porsche/cayenne-electric",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 7,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 0,
+     "since": "2024-01",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "porsche",
+   "make_name": "Porsche",
+   "model": "macan-electric",
+   "model_name": "Macan Electric",
+   "parkers": "porsche/macan",
+   "registry": 0,
+   "rule": "name",
+   "slug": "porsche/macan-electric",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 82,
+     "generation": "saloon-2019",
+     "label": "saloon",
+     "shared": 0,
+     "since": "2019-10",
+     "start": 2019,
+     "until": null
+    }
+   ],
+   "make": "porsche",
+   "make_name": "Porsche",
+   "model": "taycan",
+   "model_name": "Taycan",
+   "parkers": "porsche/taycan",
+   "registry": 0,
+   "rule": "name",
+   "slug": "porsche/taycan",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 40,
+     "generation": "cross-turismo-2021",
+     "label": "cross-turismo",
+     "shared": 0,
+     "since": "2021-03",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "porsche",
+   "make_name": "Porsche",
+   "model": "taycan-cross-turismo",
+   "model_name": "Taycan Cross Turismo",
+   "parkers": "porsche/taycan",
+   "registry": 0,
+   "rule": "name",
+   "slug": "porsche/taycan-cross-turismo",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 78,
+     "generation": "sport-turismo-2021",
+     "label": "sport-turismo",
+     "shared": 0,
+     "since": "2021-11",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "porsche",
+   "make_name": "Porsche",
+   "model": "taycan-gts-sport-turismo",
+   "model_name": "Taycan GTS Sport Turismo",
+   "parkers": "porsche/taycan",
+   "registry": 0,
+   "rule": "name",
+   "slug": "porsche/taycan-gts-sport-turismo",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 5,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 2,
+     "since": "2025-07",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "renault",
+   "make_name": "Renault",
+   "model": "4-e-tech",
+   "model_name": "4 E-Tech",
+   "parkers": "renault/4-e-tech",
+   "registry": 5,
+   "rule": "name and derivatives",
+   "slug": "renault/4-e-tech",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-05",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 4,
+   "generations": [
+    {
+     "derivatives": 9,
+     "generation": "hatchback-2025",
+     "label": "hatchback",
+     "shared": 3,
+     "since": "2025-01",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "renault",
+   "make_name": "Renault",
+   "model": "5-e-tech",
+   "model_name": "5 E-Tech",
+   "parkers": "renault/5-e-tech",
+   "registry": 4,
+   "rule": "name and derivatives",
+   "slug": "renault/5-e-tech",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-09",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 4,
+   "generations": [
+    {
+     "derivatives": 10,
+     "generation": "hatchback-2022",
+     "label": "hatchback",
+     "shared": 2,
+     "since": "2022-04",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "renault",
+   "make_name": "Renault",
+   "model": "megane-etech-electric",
+   "model_name": "Megane E-Tech Electric",
+   "parkers": "renault/megane-e-tech",
+   "registry": 4,
+   "rule": "name and derivatives",
+   "slug": "renault/megane-etech-electric",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2025-11",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 6,
+   "generations": [
+    {
+     "derivatives": 6,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 2,
+     "since": "2023-10",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "renault",
+   "make_name": "Renault",
+   "model": "scenic-e-tech",
+   "model_name": "Scenic E-Tech",
+   "parkers": "renault/scenic-e-tech",
+   "registry": 5,
+   "rule": "name and derivatives",
+   "slug": "renault/scenic-e-tech",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 58,
+     "generation": "hatchback-2012",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2013-04",
+     "start": 2012,
+     "until": "2024-07"
+    }
+   ],
+   "make": "renault",
+   "make_name": "Renault",
+   "model": "zoe",
+   "model_name": "Zoe",
+   "parkers": "renault/zoe",
+   "registry": 0,
+   "rule": "name",
+   "slug": "renault/zoe",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 1,
+     "generation": "hatchback-2019",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2019-10",
+     "start": 2019,
+     "until": "2021-12"
+    }
+   ],
+   "make": "seat",
+   "make_name": "SEAT",
+   "model": "mii-electric",
+   "model_name": "Mii Electric",
+   "parkers": "seat/mii-electric",
+   "registry": 0,
+   "rule": "name",
+   "slug": "seat/mii-electric",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "hatchback-2019",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2020-03",
+     "start": 2019,
+     "until": "2020-09"
+    }
+   ],
+   "make": "skoda",
+   "make_name": "Skoda",
+   "model": "citigo-e-iv",
+   "model_name": "Citigo e iV",
+   "parkers": "skoda/citigo-e",
+   "registry": 0,
+   "rule": "name",
+   "slug": "skoda/citigo-e-iv",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "coupe-2022",
+      "suv-2021"
+     ],
+     "parkers": "skoda/enyaq",
+     "reads_alike": 0.0,
+     "shared": 7,
+     "shared_alike": 10
+    }
+   ],
+   "cars_on_sale": 72,
+   "generations": [
+    {
+     "derivatives": 73,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 10,
+     "since": "2024-10",
+     "start": 2024,
+     "until": null
+    },
+    {
+     "derivatives": 4,
+     "generation": "vrs-2025",
+     "label": "vrs",
+     "shared": 0,
+     "since": "2025-06",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "skoda",
+   "make_name": "Skoda",
+   "model": "elroq",
+   "model_name": "Elroq",
+   "parkers": "skoda/elroq",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "skoda/elroq",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-04",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2024",
+      "vrs-2025"
+     ],
+     "parkers": "skoda/elroq",
+     "reads_alike": 0.0,
+     "shared": 6,
+     "shared_alike": 9
+    }
+   ],
+   "cars_on_sale": 88,
+   "generations": [
+    {
+     "derivatives": 185,
+     "generation": "suv-2021",
+     "label": "suv",
+     "shared": 11,
+     "since": "2021-01",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "skoda",
+   "make_name": "Skoda",
+   "model": "enyaq",
+   "model_name": "Enyaq",
+   "parkers": "skoda/enyaq",
+   "registry": 11,
+   "rule": "name and derivatives",
+   "slug": "skoda/enyaq",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-03",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2024",
+      "vrs-2025"
+     ],
+     "parkers": "skoda/elroq",
+     "reads_alike": 0.0,
+     "shared": 4,
+     "shared_alike": 7
+    }
+   ],
+   "cars_on_sale": 18,
+   "generations": [
+    {
+     "derivatives": 58,
+     "generation": "coupe-2022",
+     "label": "coupe",
+     "shared": 11,
+     "since": "2022-02",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "skoda",
+   "make_name": "Skoda",
+   "model": "enyaq-coupe",
+   "model_name": "Enyaq Coupe",
+   "parkers": "skoda/enyaq",
+   "registry": 11,
+   "rule": "name and derivatives",
+   "slug": "skoda/enyaq-coupe",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-03",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2024",
+      "vrs-2025"
+     ],
+     "parkers": "skoda/elroq",
+     "reads_alike": 0.0,
+     "shared": 2,
+     "shared_alike": 2
+    }
+   ],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 58,
+     "generation": "coupe-2022",
+     "label": "coupe",
+     "shared": 2,
+     "since": "2022-02",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "skoda",
+   "make_name": "Skoda",
+   "model": "enyaq-coupe-vrs",
+   "model_name": "Enyaq Coupe vRS",
+   "parkers": "skoda/enyaq",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "skoda/enyaq-coupe-vrs",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-03",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2024",
+      "vrs-2025"
+     ],
+     "parkers": "skoda/elroq",
+     "reads_alike": 0.0,
+     "shared": 2,
+     "shared_alike": 2
+    }
+   ],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 185,
+     "generation": "suv-2021",
+     "label": "suv",
+     "shared": 2,
+     "since": "2021-01",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "skoda",
+   "make_name": "Skoda",
+   "model": "enyaq-vrs",
+   "model_name": "Enyaq vRS",
+   "parkers": "skoda/enyaq",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "skoda/enyaq-vrs",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-03",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 5,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "suv-2026",
+     "label": "suv",
+     "shared": 0,
+     "since": "2026-07",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "skoda",
+   "make_name": "Skoda",
+   "model": "epiq",
+   "model_name": "Epiq",
+   "parkers": "skoda/epiq",
+   "registry": 0,
+   "rule": "name",
+   "slug": "skoda/epiq",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 13,
+   "generations": [],
+   "make": "skoda",
+   "make_name": "Skoda",
+   "model": "peaq",
+   "model_name": "Peaq",
+   "parkers": null,
+   "registry": 0,
+   "rule": null,
+   "slug": "skoda/peaq",
+   "status": "unplaced",
+   "why": "no electric Parkers model of this make reads alike",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 4,
+   "generations": [
+    {
+     "derivatives": 4,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 4,
+     "since": "2024-08",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "skywell",
+   "make_name": null,
+   "model": "be11",
+   "model_name": null,
+   "parkers": "skywell/be11",
+   "registry": 4,
+   "rule": "name and derivatives",
+   "slug": "skywell/be11",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2025-04",
+    "2026-01"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2024"
+     ],
+     "parkers": "smart/3",
+     "reads_alike": 0.0,
+     "shared": 3,
+     "shared_alike": 3
+    }
+   ],
+   "cars_on_sale": 5,
+   "generations": [
+    {
+     "derivatives": 6,
+     "generation": "suv-2022",
+     "label": "suv",
+     "shared": 3,
+     "since": "2023-04",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "smart",
+   "make_name": "Smart",
+   "model": "1",
+   "model_name": "#1",
+   "parkers": "smart/1",
+   "registry": 5,
+   "rule": "name and derivatives",
+   "slug": "smart/1",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2025-04",
+    "2025-09"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2022"
+     ],
+     "parkers": "smart/1",
+     "reads_alike": 0.0,
+     "shared": 3,
+     "shared_alike": 3
+    }
+   ],
+   "cars_on_sale": 5,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 4,
+     "since": "2024-03",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "smart",
+   "make_name": "Smart",
+   "model": "3",
+   "model_name": "#3",
+   "parkers": "smart/3",
+   "registry": 5,
+   "rule": "name and derivatives",
+   "slug": "smart/3",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2025-01",
+    "2025-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 11,
+     "generation": "hatchback-2018",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2017-07",
+     "start": 2018,
+     "until": "2024-12"
+    }
+   ],
+   "make": "smart",
+   "make_name": "Smart",
+   "model": "eq-forfour",
+   "model_name": "EQ ForFour",
+   "parkers": "smart/eq-forfour",
+   "registry": 0,
+   "rule": "name",
+   "slug": "smart/eq-forfour",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 13,
+     "generation": "cabrio-2018",
+     "label": "cabrio",
+     "shared": 0,
+     "since": "2017-07",
+     "start": 2018,
+     "until": "2024-09"
+    },
+    {
+     "derivatives": 16,
+     "generation": "coupe-2018",
+     "label": "coupe",
+     "shared": 0,
+     "since": "2017-07",
+     "start": 2018,
+     "until": "2024-09"
+    }
+   ],
+   "make": "smart",
+   "make_name": "Smart",
+   "model": "eq-fortwo",
+   "model_name": "EQ ForTwo",
+   "parkers": "smart/eq-fortwo",
+   "registry": 0,
+   "rule": "name",
+   "slug": "smart/eq-fortwo",
+   "status": "ambiguous",
+   "why": "every generation of smart/eq-fortwo is named by another Carwow model (smart/eq-fortwo-cabrio, smart/fortwo-electric-drive) and none shares a derivative name with this one",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 13,
+     "generation": "cabrio-2018",
+     "label": "cabrio",
+     "shared": 0,
+     "since": "2017-07",
+     "start": 2018,
+     "until": "2024-09"
+    }
+   ],
+   "make": "smart",
+   "make_name": "Smart",
+   "model": "eq-fortwo-cabrio",
+   "model_name": "EQ ForTwo Cabrio",
+   "parkers": "smart/eq-fortwo",
+   "registry": 0,
+   "rule": "name",
+   "slug": "smart/eq-fortwo-cabrio",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 11,
+     "generation": "hatchback-2018",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2017-07",
+     "start": 2018,
+     "until": "2024-12"
+    }
+   ],
+   "make": "smart",
+   "make_name": "Smart",
+   "model": "forfour-electric-drive",
+   "model_name": "ForFour EQ (2017-2020)",
+   "parkers": "smart/eq-forfour",
+   "registry": 0,
+   "rule": "name",
+   "slug": "smart/forfour-electric-drive",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2017-01",
+    "2020-12"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [],
+   "make": "smart",
+   "make_name": "Smart",
+   "model": "fortwo",
+   "model_name": "ForTwo Coupe",
+   "parkers": null,
+   "registry": 0,
+   "rule": null,
+   "slug": "smart/fortwo",
+   "status": "unplaced",
+   "why": "no electric Parkers model of this make reads alike",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 16,
+     "generation": "coupe-2018",
+     "label": "coupe",
+     "shared": 0,
+     "since": "2017-07",
+     "start": 2018,
+     "until": "2024-09"
+    }
+   ],
+   "make": "smart",
+   "make_name": "Smart",
+   "model": "fortwo-electric-drive",
+   "model_name": "ForTwo EQ Coupe",
+   "parkers": "smart/eq-fortwo",
+   "registry": 0,
+   "rule": "name",
+   "slug": "smart/fortwo-electric-drive",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 6,
+   "generations": [
+    {
+     "derivatives": 6,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 6,
+     "since": "2025-10",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "smart",
+   "make_name": "Smart",
+   "model": "smart-5",
+   "model_name": "#5",
+   "parkers": "smart/5",
+   "registry": 6,
+   "rule": "name and derivatives",
+   "slug": "smart/smart-5",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2025-10",
+    "2025-10"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "e-motion-2024"
+     ],
+     "parkers": "kgm/korando",
+     "reads_alike": 2.0,
+     "shared": 0,
+     "shared_alike": 0
+    },
+    {
+     "generations": [
+      "e-motion-2022",
+      "suv-2019"
+     ],
+     "parkers": "ssangyong/korando",
+     "reads_alike": 2.0,
+     "shared": 0,
+     "shared_alike": 0
+    }
+   ],
+   "cars_on_sale": 0,
+   "generations": [],
+   "make": "ssangyong",
+   "make_name": "SsangYong",
+   "model": "korando",
+   "model_name": "Korando",
+   "parkers": null,
+   "registry": 0,
+   "rule": null,
+   "slug": "ssangyong/korando",
+   "status": "ambiguous",
+   "why": "the names of kgm/korando and ssangyong/korando read alike and nothing tells them apart",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "suv-2022",
+     "label": "suv",
+     "shared": 0,
+     "since": "2022-04",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "subaru",
+   "make_name": "Subaru",
+   "model": "solterra",
+   "model_name": "Solterra",
+   "parkers": "subaru/solterra",
+   "registry": 0,
+   "rule": "name",
+   "slug": "subaru/solterra",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 5,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 5,
+     "since": "2025-06",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "suzuki",
+   "make_name": "Suzuki",
+   "model": "e-vitara",
+   "model_name": "e Vitara",
+   "parkers": "suzuki/e-vitara",
+   "registry": 5,
+   "rule": "name and derivatives",
+   "slug": "suzuki/e-vitara",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 1,
+   "generations": [
+    {
+     "derivatives": 14,
+     "generation": "saloon-2016",
+     "label": "saloon",
+     "shared": 0,
+     "since": "2019-06",
+     "start": 2016,
+     "until": null
+    }
+   ],
+   "make": "tesla",
+   "make_name": null,
+   "model": "model-3",
+   "model_name": null,
+   "parkers": "tesla/model-3",
+   "registry": 1,
+   "rule": "name",
+   "slug": "tesla/model-3",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 1,
+   "generations": [
+    {
+     "derivatives": 14,
+     "generation": "saloon-2016",
+     "label": "saloon",
+     "shared": 1,
+     "since": "2019-06",
+     "start": 2016,
+     "until": null
+    }
+   ],
+   "make": "tesla",
+   "make_name": null,
+   "model": "model-3-performance",
+   "model_name": null,
+   "parkers": "tesla/model-3",
+   "registry": 1,
+   "rule": "name and derivatives",
+   "slug": "tesla/model-3-performance",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 2,
+   "generations": [
+    {
+     "derivatives": 14,
+     "generation": "saloon-2016",
+     "label": "saloon",
+     "shared": 2,
+     "since": "2019-06",
+     "start": 2016,
+     "until": null
+    }
+   ],
+   "make": "tesla",
+   "make_name": null,
+   "model": "model-3-premium",
+   "model_name": null,
+   "parkers": "tesla/model-3",
+   "registry": 2,
+   "rule": "name and derivatives",
+   "slug": "tesla/model-3-premium",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 48,
+     "generation": "saloon-2014",
+     "label": "saloon",
+     "shared": 0,
+     "since": "2013-11",
+     "start": 2014,
+     "until": "2025-10"
+    }
+   ],
+   "make": "tesla",
+   "make_name": null,
+   "model": "model-s",
+   "model_name": null,
+   "parkers": "tesla/model-s",
+   "registry": 0,
+   "rule": "name",
+   "slug": "tesla/model-s",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 58,
+     "generation": "suv-2016",
+     "label": "suv",
+     "shared": 0,
+     "since": "2016-09",
+     "start": 2016,
+     "until": "2025-10"
+    }
+   ],
+   "make": "tesla",
+   "make_name": null,
+   "model": "model-x",
+   "model_name": null,
+   "parkers": "tesla/model-x",
+   "registry": 0,
+   "rule": "name",
+   "slug": "tesla/model-x",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 1,
+   "generations": [
+    {
+     "derivatives": 13,
+     "generation": "suv-2019",
+     "label": "suv",
+     "shared": 0,
+     "since": "2021-10",
+     "start": 2019,
+     "until": null
+    }
+   ],
+   "make": "tesla",
+   "make_name": null,
+   "model": "model-y",
+   "model_name": null,
+   "parkers": "tesla/model-y",
+   "registry": 1,
+   "rule": "name",
+   "slug": "tesla/model-y",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 1,
+   "generations": [
+    {
+     "derivatives": 13,
+     "generation": "suv-2019",
+     "label": "suv",
+     "shared": 0,
+     "since": "2021-10",
+     "start": 2019,
+     "until": null
+    }
+   ],
+   "make": "tesla",
+   "make_name": null,
+   "model": "model-y-performance",
+   "model_name": null,
+   "parkers": "tesla/model-y",
+   "registry": 0,
+   "rule": "name",
+   "slug": "tesla/model-y-performance",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 13,
+     "generation": "suv-2019",
+     "label": "suv",
+     "shared": 3,
+     "since": "2021-10",
+     "start": 2019,
+     "until": null
+    }
+   ],
+   "make": "tesla",
+   "make_name": null,
+   "model": "model-y-premium",
+   "model_name": null,
+   "parkers": "tesla/model-y",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "tesla/model-y-premium",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2026"
+     ],
+     "parkers": "toyota/c-hr-plus",
+     "reads_alike": 0.0,
+     "shared": 1,
+     "shared_alike": 1
+    }
+   ],
+   "cars_on_sale": 11,
+   "generations": [
+    {
+     "derivatives": 30,
+     "generation": "suv-2021",
+     "label": "suv",
+     "shared": 9,
+     "since": "2021-12",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "toyota",
+   "make_name": "Toyota",
+   "model": "bz4x",
+   "model_name": "bZ4X",
+   "parkers": "toyota/bz4x",
+   "registry": 9,
+   "rule": "name and derivatives",
+   "slug": "toyota/bz4x",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-08",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "touring-2026",
+     "label": "touring",
+     "shared": 0,
+     "since": "2026-06",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "toyota",
+   "make_name": "Toyota",
+   "model": "bz4x-touring",
+   "model_name": "BZ4X Touring",
+   "parkers": "toyota/bz4x",
+   "registry": 0,
+   "rule": "name",
+   "slug": "toyota/bz4x-touring",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2021",
+      "touring-2026"
+     ],
+     "parkers": "toyota/bz4x",
+     "reads_alike": 0.0,
+     "shared": 1,
+     "shared_alike": 1
+    }
+   ],
+   "cars_on_sale": 5,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "suv-2026",
+     "label": "suv",
+     "shared": 5,
+     "since": "2026-01",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "toyota",
+   "make_name": "Toyota",
+   "model": "c-hr-plus",
+   "model_name": "C-HR+",
+   "parkers": "toyota/c-hr-plus",
+   "registry": 5,
+   "rule": "name and derivatives",
+   "slug": "toyota/c-hr-plus",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 7,
+     "generation": "electric-mpv-2024",
+     "label": "electric-mpv",
+     "shared": 3,
+     "since": "2024-02",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "toyota",
+   "make_name": "Toyota",
+   "model": "proace-city-verso-electric",
+   "model_name": "Proace City Verso Electric",
+   "parkers": "toyota/proace-city-verso",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "toyota/proace-city-verso-electric",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 7,
+     "generation": "electric-mpv-2024",
+     "label": "electric-mpv",
+     "shared": 0,
+     "since": "2024-01",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "toyota",
+   "make_name": "Toyota",
+   "model": "proace-verso",
+   "model_name": "Proace Verso",
+   "parkers": "toyota/proace-verso",
+   "registry": 0,
+   "rule": "name",
+   "slug": "toyota/proace-verso",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 5,
+   "generations": [
+    {
+     "derivatives": 7,
+     "generation": "electric-mpv-2024",
+     "label": "electric-mpv",
+     "shared": 5,
+     "since": "2024-01",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "toyota",
+   "make_name": "Toyota",
+   "model": "proace-verso-electric",
+   "model_name": "Proace Verso Electric",
+   "parkers": "toyota/proace-verso",
+   "registry": 5,
+   "rule": "name and derivatives",
+   "slug": "toyota/proace-verso-electric",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 4,
+   "generations": [
+    {
+     "derivatives": 4,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 0,
+     "since": "2025-12",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "toyota",
+   "make_name": "Toyota",
+   "model": "urban-cruiser",
+   "model_name": "Urban Cruiser",
+   "parkers": "toyota/urban-cruiser",
+   "registry": 0,
+   "rule": "name",
+   "slug": "toyota/urban-cruiser",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 8,
+     "generation": "hatchback-2024",
+     "label": "hatchback",
+     "shared": 3,
+     "since": "2023-06",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "vauxhall",
+   "make_name": "Vauxhall",
+   "model": "astra-electric",
+   "model_name": "Astra Electric",
+   "parkers": "vauxhall/astra-electric",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "vauxhall/astra-electric",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-09",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 8,
+     "generation": "sports-tourer-2024",
+     "label": "sports-tourer",
+     "shared": 3,
+     "since": "2023-11",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "vauxhall",
+   "make_name": "Vauxhall",
+   "model": "astra-sports-tourer-electric",
+   "model_name": "Astra Sports Tourer Electric",
+   "parkers": "vauxhall/astra-electric",
+   "registry": 6,
+   "rule": "name and derivatives",
+   "slug": "vauxhall/astra-sports-tourer-electric",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-09",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 4,
+   "generations": [
+    {
+     "derivatives": 15,
+     "generation": "mpv-2021",
+     "label": "mpv",
+     "shared": 0,
+     "since": "2021-05",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "vauxhall",
+   "make_name": "Vauxhall",
+   "model": "combo-e",
+   "model_name": "Combo Life Electric",
+   "parkers": "vauxhall/combo-e-life",
+   "registry": 4,
+   "rule": "name",
+   "slug": "vauxhall/combo-e",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-08",
+    "2026-08"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2020"
+     ],
+     "parkers": "vauxhall/mokka-e",
+     "reads_alike": 0.0,
+     "shared": 1,
+     "shared_alike": 1
+    },
+    {
+     "generations": [
+      "hatchback-2020"
+     ],
+     "parkers": "vauxhall/corsa-e",
+     "reads_alike": 1.9,
+     "shared": 0,
+     "shared_alike": 0
+    }
+   ],
+   "cars_on_sale": 7,
+   "generations": [
+    {
+     "derivatives": 13,
+     "generation": "hatchback-2023",
+     "label": "hatchback",
+     "shared": 6,
+     "since": "2023-07",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "vauxhall",
+   "make_name": "Vauxhall",
+   "model": "corsa-electric",
+   "model_name": "Corsa Electric",
+   "parkers": "vauxhall/corsa-electric",
+   "registry": 7,
+   "rule": "name and derivatives",
+   "slug": "vauxhall/corsa-electric",
+   "status": "placed",
+   "why": "also read alike: vauxhall/corsa-e",
+   "years": [
+    "2026-04",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 6,
+   "generations": [
+    {
+     "derivatives": 18,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 5,
+     "since": "2025-01",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "vauxhall",
+   "make_name": "Vauxhall",
+   "model": "frontera-electric",
+   "model_name": "Frontera Electric",
+   "parkers": "vauxhall/frontera-electric",
+   "registry": 6,
+   "rule": "name and derivatives",
+   "slug": "vauxhall/frontera-electric",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-09",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 5,
+   "generations": [
+    {
+     "derivatives": 19,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 2,
+     "since": "2024-08",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "vauxhall",
+   "make_name": "Vauxhall",
+   "model": "grandland-electric",
+   "model_name": "Grandland Electric",
+   "parkers": "vauxhall/grandland-electric",
+   "registry": 5,
+   "rule": "name and derivatives",
+   "slug": "vauxhall/grandland-electric",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-09",
+    "2026-09"
+   ]
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2020"
+     ],
+     "parkers": "vauxhall/mokka-e",
+     "reads_alike": 1.9,
+     "shared": 2,
+     "shared_alike": 2
+    },
+    {
+     "generations": [
+      "hatchback-2024",
+      "sports-tourer-2024"
+     ],
+     "parkers": "vauxhall/astra-electric",
+     "reads_alike": 0.0,
+     "shared": 2,
+     "shared_alike": 2
+    },
+    {
+     "generations": [
+      "suv-2020"
+     ],
+     "parkers": "vauxhall/mokka",
+     "reads_alike": 2.0,
+     "shared": 1,
+     "shared_alike": 1
+    }
+   ],
+   "cars_on_sale": 4,
+   "generations": [
+    {
+     "derivatives": 1,
+     "generation": "gse-2025",
+     "label": "gse",
+     "shared": 1,
+     "since": "2025-09",
+     "start": 2025,
+     "until": null
+    },
+    {
+     "derivatives": 5,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 2,
+     "since": "2024-12",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "vauxhall",
+   "make_name": "Vauxhall",
+   "model": "mokka-e",
+   "model_name": "Mokka Electric",
+   "parkers": "vauxhall/mokka-electric",
+   "registry": 4,
+   "rule": "name and derivatives",
+   "slug": "vauxhall/mokka-e",
+   "status": "placed",
+   "why": "also read alike: vauxhall/mokka-e, vauxhall/mokka",
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 10,
+   "generations": [
+    {
+     "derivatives": 58,
+     "generation": "mpv-2020",
+     "label": "mpv",
+     "shared": 0,
+     "since": "2020-06",
+     "start": 2020,
+     "until": null
+    }
+   ],
+   "make": "vauxhall",
+   "make_name": "Vauxhall",
+   "model": "vivaro-e",
+   "model_name": "Vivaro Life Electric",
+   "parkers": "vauxhall/vivaro-e-life",
+   "registry": 0,
+   "rule": "name",
+   "slug": "vauxhall/vivaro-e",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 2,
+     "generation": "hatchback-2014",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2014-06",
+     "start": 2014,
+     "until": "2020-01"
+    }
+   ],
+   "make": "volkswagen",
+   "make_name": "Volkswagen",
+   "model": "e-golf",
+   "model_name": "e-Golf",
+   "parkers": "volkswagen/e-golf",
+   "registry": 0,
+   "rule": "name",
+   "slug": "volkswagen/e-golf",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 3,
+     "generation": "hatchback-2014",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2014-01",
+     "start": 2014,
+     "until": "2022-03"
+    }
+   ],
+   "make": "volkswagen",
+   "make_name": "Volkswagen",
+   "model": "e-up",
+   "model_name": "e-Up",
+   "parkers": "volkswagen/e-up",
+   "registry": 0,
+   "rule": "name",
+   "slug": "volkswagen/e-up",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 8,
+   "generations": [
+    {
+     "derivatives": 10,
+     "generation": "hatchback-2026",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2026-07",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "volkswagen",
+   "make_name": "Volkswagen",
+   "model": "id-polo",
+   "model_name": "ID. Polo",
+   "parkers": "volkswagen/id-polo",
+   "registry": 0,
+   "rule": "name",
+   "slug": "volkswagen/id-polo",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "hatchback-2026"
+     ],
+     "parkers": "volkswagen/id3-neo",
+     "reads_alike": 1.25,
+     "shared": 0,
+     "shared_alike": 0
+    }
+   ],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 4,
+     "generation": "gtx-2024",
+     "label": "gtx",
+     "shared": 0,
+     "since": "2024-08",
+     "start": 2024,
+     "until": "2026-03"
+    },
+    {
+     "derivatives": 99,
+     "generation": "hatchback-2020",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2020-07",
+     "start": 2020,
+     "until": "2026-03"
+    }
+   ],
+   "make": "volkswagen",
+   "make_name": "Volkswagen",
+   "model": "id3",
+   "model_name": "ID.3",
+   "parkers": "volkswagen/id3",
+   "registry": 0,
+   "rule": "name",
+   "slug": "volkswagen/id3",
+   "status": "placed",
+   "why": "also read alike: volkswagen/id3-neo",
+   "years": null
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "gtx-2024",
+      "hatchback-2020"
+     ],
+     "parkers": "volkswagen/id3",
+     "reads_alike": 1.25,
+     "shared": 0,
+     "shared_alike": 0
+    }
+   ],
+   "cars_on_sale": 8,
+   "generations": [
+    {
+     "derivatives": 8,
+     "generation": "hatchback-2026",
+     "label": "hatchback",
+     "shared": 0,
+     "since": "2026-08",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "volkswagen",
+   "make_name": "Volkswagen",
+   "model": "id3-neo",
+   "model_name": "ID.3 Neo",
+   "parkers": "volkswagen/id3-neo",
+   "registry": 0,
+   "rule": "name",
+   "slug": "volkswagen/id3-neo",
+   "status": "placed",
+   "why": "also read alike: volkswagen/id3",
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 9,
+     "generation": "gtx-2024",
+     "label": "gtx",
+     "shared": 0,
+     "since": "2021-07",
+     "start": 2024,
+     "until": "2026-09"
+    },
+    {
+     "derivatives": 47,
+     "generation": "suv-2021",
+     "label": "suv",
+     "shared": 0,
+     "since": "2021-01",
+     "start": 2021,
+     "until": "2026-09"
+    }
+   ],
+   "make": "volkswagen",
+   "make_name": "Volkswagen",
+   "model": "id4",
+   "model_name": "ID.4",
+   "parkers": "volkswagen/id4",
+   "registry": 0,
+   "rule": "name",
+   "slug": "volkswagen/id4",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 7,
+     "generation": "gtx-2024",
+     "label": "gtx",
+     "shared": 0,
+     "since": "2022-01",
+     "start": 2024,
+     "until": "2026-09"
+    },
+    {
+     "derivatives": 17,
+     "generation": "suv-2022",
+     "label": "suv",
+     "shared": 0,
+     "since": "2022-01",
+     "start": 2022,
+     "until": "2026-09"
+    }
+   ],
+   "make": "volkswagen",
+   "make_name": "Volkswagen",
+   "model": "id5",
+   "model_name": "ID.5",
+   "parkers": "volkswagen/id5",
+   "registry": 0,
+   "rule": "name",
+   "slug": "volkswagen/id5",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 13,
+   "generations": [
+    {
+     "derivatives": 4,
+     "generation": "gtx-2024",
+     "label": "gtx",
+     "shared": 2,
+     "since": "2024-08",
+     "start": 2024,
+     "until": null
+    },
+    {
+     "derivatives": 20,
+     "generation": "saloon-2023",
+     "label": "saloon",
+     "shared": 8,
+     "since": "2023-11",
+     "start": 2023,
+     "until": null
+    }
+   ],
+   "make": "volkswagen",
+   "make_name": "Volkswagen",
+   "model": "id7",
+   "model_name": "ID.7",
+   "parkers": "volkswagen/id7",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "volkswagen/id7",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 10,
+   "generations": [
+    {
+     "derivatives": 16,
+     "generation": "tourer-2024",
+     "label": "tourer",
+     "shared": 8,
+     "since": "2024-04",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "volkswagen",
+   "make_name": "Volkswagen",
+   "model": "id7-tourer",
+   "model_name": "ID.7 Tourer",
+   "parkers": "volkswagen/id7",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "volkswagen/id7-tourer",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-10",
+    "2026-10"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 28,
+   "generations": [
+    {
+     "derivatives": 32,
+     "generation": "mpv-2022",
+     "label": "mpv",
+     "shared": 6,
+     "since": "2022-07",
+     "start": 2022,
+     "until": null
+    }
+   ],
+   "make": "volkswagen",
+   "make_name": "Volkswagen",
+   "model": "idbuzz",
+   "model_name": "ID. Buzz",
+   "parkers": "volkswagen/id-buzz",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "volkswagen/idbuzz",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 12,
+     "generation": "suv-2021",
+     "label": "suv",
+     "shared": 0,
+     "since": "2021-07",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "volvo",
+   "make_name": "Volvo",
+   "model": "c40-recharge",
+   "model_name": "C40 Recharge",
+   "parkers": "volvo/c40",
+   "registry": 0,
+   "rule": "name",
+   "slug": "volvo/c40-recharge",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2024"
+     ],
+     "parkers": "volvo/ex40",
+     "reads_alike": 0.0,
+     "shared": 5,
+     "shared_alike": 6
+    }
+   ],
+   "cars_on_sale": 14,
+   "generations": [
+    {
+     "derivatives": 18,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 11,
+     "since": "2024-04",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "volvo",
+   "make_name": "Volvo",
+   "model": "ec40",
+   "model_name": "EC40",
+   "parkers": "volvo/ec40",
+   "registry": 11,
+   "rule": "name and derivatives",
+   "slug": "volvo/ec40",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 4,
+   "generations": [
+    {
+     "derivatives": 4,
+     "generation": "saloon-2025",
+     "label": "saloon",
+     "shared": 2,
+     "since": "2025-09",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "volvo",
+   "make_name": "Volvo",
+   "model": "es90",
+   "model_name": "ES90",
+   "parkers": "volvo/es90",
+   "registry": 4,
+   "rule": "name and derivatives",
+   "slug": "volvo/es90",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 23,
+   "generations": [
+    {
+     "derivatives": 21,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 8,
+     "since": "2023-06",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "volvo",
+   "make_name": "Volvo",
+   "model": "ex30",
+   "model_name": "EX30",
+   "parkers": "volvo/ex30",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "volvo/ex30",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-03",
+    "2026-04"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 6,
+     "generation": "cross-country-2025",
+     "label": "cross-country",
+     "shared": 0,
+     "since": "2025-03",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "volvo",
+   "make_name": "Volvo",
+   "model": "ex30-cross-country",
+   "model_name": "EX30 Cross Country",
+   "parkers": "volvo/ex30",
+   "registry": 0,
+   "rule": "name",
+   "slug": "volvo/ex30-cross-country",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [
+    {
+     "generations": [
+      "suv-2024"
+     ],
+     "parkers": "volvo/ec40",
+     "reads_alike": 0.0,
+     "shared": 5,
+     "shared_alike": 6
+    }
+   ],
+   "cars_on_sale": 19,
+   "generations": [
+    {
+     "derivatives": 21,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 10,
+     "since": "2024-04",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "volvo",
+   "make_name": "Volvo",
+   "model": "ex40",
+   "model_name": "EX40",
+   "parkers": "volvo/ex40",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "volvo/ex40",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-07",
+    "2026-07"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 6,
+   "generations": [
+    {
+     "derivatives": 6,
+     "generation": "suv-2026",
+     "label": "suv",
+     "shared": 6,
+     "since": "2026-02",
+     "start": 2026,
+     "until": null
+    }
+   ],
+   "make": "volvo",
+   "make_name": "Volvo",
+   "model": "ex60",
+   "model_name": "EX60",
+   "parkers": "volvo/ex60",
+   "registry": 6,
+   "rule": "name and derivatives",
+   "slug": "volvo/ex60",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-02",
+    "2026-02"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 10,
+   "generations": [
+    {
+     "derivatives": 10,
+     "generation": "suv-2024",
+     "label": "suv",
+     "shared": 8,
+     "since": "2022-11",
+     "start": 2024,
+     "until": null
+    }
+   ],
+   "make": "volvo",
+   "make_name": "Volvo",
+   "model": "ex90",
+   "model_name": "EX90",
+   "parkers": "volvo/ex90",
+   "registry": 10,
+   "rule": "name and derivatives",
+   "slug": "volvo/ex90",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2025-12",
+    "2026-04"
+   ]
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 0,
+   "generations": [
+    {
+     "derivatives": 16,
+     "generation": "suv-2021",
+     "label": "suv",
+     "shared": 0,
+     "since": "2020-04",
+     "start": 2021,
+     "until": null
+    }
+   ],
+   "make": "volvo",
+   "make_name": "Volvo",
+   "model": "xc40-electric",
+   "model_name": "XC40 Recharge",
+   "parkers": "volvo/xc40-electric",
+   "registry": 0,
+   "rule": "name",
+   "slug": "volvo/xc40-electric",
+   "status": "placed",
+   "why": null,
+   "years": null
+  },
+  {
+   "candidates": [],
+   "cars_on_sale": 3,
+   "generations": [
+    {
+     "derivatives": 5,
+     "generation": "suv-2025",
+     "label": "suv",
+     "shared": 3,
+     "since": "2025-02",
+     "start": 2025,
+     "until": null
+    }
+   ],
+   "make": "xpeng",
+   "make_name": null,
+   "model": "g6",
+   "model_name": null,
+   "parkers": "xpeng/g6",
+   "registry": 3,
+   "rule": "name and derivatives",
+   "slug": "xpeng/g6",
+   "status": "placed",
+   "why": null,
+   "years": [
+    "2026-01",
+    "2026-01"
+   ]
+  }
+ ],
  "offer_states": {
   "expired": 1,
   "illustrative": 169,
@@ -892,7 +8484,7 @@
      {
       "commit": "d73cae58e4",
       "fetches": 14201,
-      "finished_at": "2026-10-17T03:37:30+00:00",
+      "finished_at": "2026-10-17T03:38:31+00:00",
       "from_cache": 12751,
       "mode": "nightly",
       "parsed": 1450,
@@ -900,9 +8492,35 @@
       "records": 134848,
       "seconds": 208.8,
       "sightings": 92225,
-      "snapshot": {},
+      "snapshot": {
+       "cars": 1986,
+       "cash_benchmarks": 2089,
+       "models": 250,
+       "observations": 7527,
+       "offers": 3722,
+       "specs": 3075,
+       "unmapped_trims": 254,
+       "used_listings": 13635,
+       "used_spans": 28568
+      },
       "stage": "build",
       "started_at": "2026-10-17T03:33:58+00:00",
+      "unparsed": 0
+     },
+     {
+      "commit": "dba616e774",
+      "fetches": 14201,
+      "finished_at": "2026-10-17T07:33:22+00:00",
+      "from_cache": 0,
+      "mode": "build",
+      "parsed": 14201,
+      "record_spans": 71609,
+      "records": 134848,
+      "seconds": 369.4,
+      "sightings": 92225,
+      "snapshot": {},
+      "stage": "build",
+      "started_at": "2026-10-17T07:27:05+00:00",
       "this": true,
       "unparsed": 0
      }
@@ -928,6 +8546,11 @@
       "at": "2026-10-16T19:30:07+01:00",
       "sha": "fdd933a6e4",
       "subject": "data: build from the raw store 2026-10-16"
+     },
+     {
+      "at": "2026-10-17T04:38:36+01:00",
+      "sha": "6967c946ed",
+      "subject": "data: nightly build 2026-10-17"
      }
     ],
     "scrapes": [
