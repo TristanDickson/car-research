@@ -8,14 +8,19 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
 from pipeline.db import ROOT, connect, db_path, init_schema
 
 DEFAULT_OUT = ROOT / "web" / "public" / "data"
-PARSE_CACHE = ROOT / "data" / "parse-cache.sqlite"
+PARSE_CACHE = ROOT / "data" / "parse-cache.sqlite"   # $CAR_RESEARCH_PARSE_CACHE, if set
 RAW_HELP = "The raw store folder (default: $CAR_RESEARCH_RAW, else ~/car-research-raw)."
+
+
+def parse_cache_path() -> Path:
+    return Path(os.environ.get("CAR_RESEARCH_PARSE_CACHE") or PARSE_CACHE)
 
 
 def _open():
@@ -46,7 +51,7 @@ def _build(args, store, out: str | None) -> None:
     now = lambda: datetime.now(timezone.utc).isoformat(timespec="seconds")  # noqa: E731
     started = now()
     db = getattr(args, "db", None) or db_path()
-    report = build(db, store, cache_path=None if getattr(args, "no_cache", False) else PARSE_CACHE)
+    report = build(db, store, cache_path=None if getattr(args, "no_cache", False) else parse_cache_path())
     for line in report.lines():
         print(line, flush=True)
     if out:

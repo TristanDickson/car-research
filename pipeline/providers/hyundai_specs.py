@@ -80,8 +80,7 @@ def pdf_reader() -> tuple[str, str | None]:
     """(what reads the guides, poppler's pdftotext path if that). The parser was written against
     poppler's layout; xpdf's pdftotext (Git for Windows ships one) and pypdf wrap the tables
     differently, and pypdf loses lines of a pack's contents (the Ioniq 5 Ultimate's Zen Pack).
-    So: $CAR_RESEARCH_PDFTOTEXT, else a poppler pdftotext on PATH, else pypdf. The build's parse
-    cache keys on this, so a change of reader reads every stored guide again."""
+    So: $CAR_RESEARCH_PDFTOTEXT, else a poppler pdftotext on PATH, else pypdf."""
     global _READER
     if _READER is None:
         candidates = [os.environ.get("CAR_RESEARCH_PDFTOTEXT"), shutil.which("pdftotext")]
@@ -102,6 +101,13 @@ def pdf_reader() -> tuple[str, str | None]:
             except ImportError:
                 _READER = ("none", None)
     return _READER
+
+
+def parser_inputs() -> str:
+    """What this parser reads besides its code: the PDF reader. The build's parse cache keys every
+    source importing this module on it (pipeline/code_keys.py), so a change of reader reads every
+    stored guide again."""
+    return pdf_reader()[0]
 
 
 def pdf_text(body: bytes) -> str:

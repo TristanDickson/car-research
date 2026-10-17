@@ -123,7 +123,8 @@ guides with poppler's `pdftotext` (`CAR_RESEARCH_PDFTOTEXT` names it if it is no
 on the laptop it is under `%USERPROFILE%\tools`). xpdf's is skipped, and pypdf, the fallback,
 loses lines of the packs' contents; the reader is part of the parse cache's key, and without
 either the guides are still kept and parse at the next build that has one. The database
-(`data/car-research.sqlite`, `CAR_RESEARCH_DB`) and the parse cache are disposable.
+(`data/car-research.sqlite`, `CAR_RESEARCH_DB`) and the parse cache (`data/parse-cache.sqlite`,
+`CAR_RESEARCH_PARSE_CACHE`) are disposable.
 
 A night's scrape fetches about 2,000 pages at a polite pace (1,282 on 15 Oct; since then Parkers
 adds up to 400, and the configurator read 250 on 16 Oct where it had read 3). Refusals are expected, not failures: a

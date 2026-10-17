@@ -25,14 +25,16 @@ The database this writes is disposable: delete it and build again.
 from __future__ import annotations
 
 import hashlib
+import inspect
 import json
 import re
 import sqlite3
 import time
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from pipeline import gold, history, normalise, stages
+from pipeline import code_keys, gold, history, normalise, stages
 from pipeline.db import ROOT, connect, init_schema
 from pipeline.providers import PROVIDERS
 from pipeline.providers.parse import combustion
@@ -85,26 +87,23 @@ class Report:
 
 # ---------------------------------------------------------------- parsing, with a cache
 
-def code_version(root: Path = ROOT) -> str:
-    """Every file a parser can run: a change to any of them re-parses everything."""
-    h = hashlib.sha256()
-    files = sorted((root / "pipeline" / "providers").glob("*.py")) + [root / "pipeline" / "services" / f
-                                                                      for f in ("features.py", "facts.py")] \
-        + [root / "pipeline" / "normalise.py"]
-    for p in files:
-        h.update(p.name.encode())
-        h.update(p.read_bytes().replace(b"\r\n", b"\n"))
-    from pipeline.providers.hyundai_specs import pdf_reader
-    h.update(pdf_reader()[0].encode())   # the PDF reader is part of the parser
-    return h.hexdigest()[:16]
+def code_versions(root: Path = ROOT) -> dict[str, str]:
+    """Source -> the version of the code its parser can run (pipeline/code_keys.py), and of this
+    file's parse path: a change to one reader re-parses its own source's pages, a change to a
+    module several import re-parses each of theirs."""
+    path = "".join(inspect.getsource(f) for f in PARSE_PATH).encode()
+    return code_keys.source_keys(root, PROVIDERS, path)
 
 
 class ParseCache:
-    """Parsed records by (fetch id, code version), so a build re-parses only new pages and
-    pages whose parser changed. Disposable, like the build database."""
+    """Parsed records by (fetch id, its source's code version), so a build re-parses only new
+    pages and pages whose parser changed. Disposable, like the build database."""
 
     def __init__(self, path: Path | str | None):
+        if path:
+            Path(path).parent.mkdir(parents=True, exist_ok=True)
         self.conn = sqlite3.connect(str(path)) if path else None
+        self.current: set[str] | None = None
         if self.conn:
             self.conn.execute("CREATE TABLE IF NOT EXISTS parsed (fetch_id TEXT, code TEXT, records TEXT, PRIMARY KEY (fetch_id, code))")
 
@@ -119,9 +118,14 @@ class ParseCache:
             self.conn.execute("INSERT OR REPLACE INTO parsed VALUES (?,?,?)",
                               (fetch_id, code, json.dumps([[r.kind, r.key, r.row] for r in records], ensure_ascii=False)))
 
+    def keep(self, codes: Iterable[str]) -> None:
+        """Every source's current code version: closing drops the rows of every other."""
+        self.current = set(codes)
+
     def close(self) -> None:
         if self.conn:
-            self.conn.execute("DELETE FROM parsed WHERE code <> (SELECT code FROM parsed ORDER BY rowid DESC LIMIT 1)")
+            if self.current:
+                self.conn.execute(f"DELETE FROM parsed WHERE code NOT IN ({','.join('?' * len(self.current))})", sorted(self.current))
             self.conn.commit()
             self.conn.close()
 
@@ -153,6 +157,10 @@ def part_index(entries: list[dict]) -> dict[tuple, list[dict]]:
     for v in out.values():
         v.sort(key=lambda p: (p.get("metadata") or {}).get("part") or 0)
     return out
+
+
+# What of this file the cached records depend on: the versions above hash its source.
+PARSE_PATH = (parse_entry, part_index, ParseCache.get, ParseCache.put)
 
 
 # ---------------------------------------------------------------- the build
@@ -274,7 +282,9 @@ class Build:
                     self._said(d["source"], "offer", d["offer_key"], "", at, prio, "history", fetch, dict(row, observed_at=at))
 
     def raws(self, entries: list[dict]) -> None:
-        code = code_version(self.root)
+        codes = code_versions() if self.cache else {}   # the code that runs, wherever the settings are read from
+        if self.cache:
+            self.cache.keep(codes.values())
         parts = part_index(entries)
         batches: list[tuple[str, int, dict, list[ParsedRecord]]] = []
         for i, e in enumerate(entries):
@@ -285,6 +295,7 @@ class Build:
             if not provider or e["capability"] not in provider.capabilities:
                 self.report.failures.append(f"{e['source']}/{e['capability']} {e['target']}: no such parser")
                 continue
+            code = codes.get(e["source"], "")
             records = self.cache.get(e["id"], code) if self.cache else None
             meta = e.get("metadata") or {}
             at = meta.get("observed_at") or e["fetched_at"]
