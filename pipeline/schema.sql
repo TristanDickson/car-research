@@ -326,3 +326,34 @@ CREATE TABLE IF NOT EXISTS model_map (
   parkers_model TEXT,                 -- <make>/<model> as in Parkers' addresses
   payload       TEXT NOT NULL         -- JSON: the generations, the rule that placed it, why not, the candidates
 );
+
+-- The resolver's master list (services/resolver.py, BOARD.md T3): every derivative Parkers lists and each Carwow
+-- derivative no Parkers entry can be, by an id built from its details. Derived by every build; the app does not
+-- read these cars until the switch.
+CREATE TABLE IF NOT EXISTS resolver_cars (
+  id            TEXT PRIMARY KEY,     -- <make>/<model>/<generation>/<details>
+  source        TEXT NOT NULL,        -- parkers | carwow
+  make          TEXT NOT NULL,
+  model         TEXT NOT NULL,
+  generation    TEXT NOT NULL,        -- '' for a model Parkers does not file
+  version       TEXT NOT NULL,        -- its generation's battery, motor and drive
+  on_sale       INTEGER NOT NULL,
+  payload       TEXT NOT NULL         -- JSON: trim, kW, kWh, doors, seats, drive, packs, dates, prices, names, where it came from
+);
+
+-- Every record's link to the master list, with why, and the comparison with today's lookups: one row per record,
+-- and one per Carwow CAP id ('carwow', 'derivative'), whose car the records printing that id follow.
+CREATE TABLE IF NOT EXISTS resolver_links (
+  source        TEXT NOT NULL,        -- the provider
+  kind          TEXT NOT NULL,        -- offer | used | spec | registry | options | configuration | variant | derivative
+  record_key    TEXT NOT NULL,
+  model         TEXT,                 -- the Carwow catalogue model it was filtered within
+  level         TEXT NOT NULL,        -- car | version | model | none | ignored
+  status        TEXT NOT NULL,        -- placed | tied | new car | listed | contradicts | ignored
+  car_id        TEXT,
+  version       TEXT,
+  outcome       TEXT,                 -- against today's lookups: same | moved | newly placed | lost | unplaced
+  payload       TEXT NOT NULL,        -- JSON: the details read, why, what decided it, today's cars and the resolver's
+  PRIMARY KEY (source, record_key)
+);
+CREATE INDEX IF NOT EXISTS ix_resolver_links_outcome ON resolver_links(outcome, source);

@@ -17,8 +17,10 @@ Steps, each over every record at once, so no answer depends on the order pages w
        text is matched by services/resolve.py against every derivative of its make and model
     4. fold each offer's sightings, in date order, into spans of an unchanged price
     5. the cars: one per derivative
-    6. each Carwow catalogue model's Parkers model and generations (services/model_map.py), which the
-       coming resolver reads; nothing is matched by it yet
+    6. each Carwow catalogue model's Parkers model and generations (services/model_map.py)
+    7. the resolver (services/resolver.py, BOARD.md T3): every record filtered against one master list of
+       cars, Parkers' derivatives and the Carwow ones it lacks, with why, and the comparison of each
+       record's car with today's lookups; until the switch, today's lookups still decide the cars
 
 The database this writes is disposable: delete it and build again.
 """
@@ -40,7 +42,7 @@ from pipeline.providers import PROVIDERS
 from pipeline.providers.parse import combustion
 from pipeline.providers.types import Context, ParsedRecord, Target
 from pipeline.raw import RawStore
-from pipeline.services import autocars, model_map, resolve
+from pipeline.services import autocars, model_map, resolve, resolver
 
 SETTINGS_PROVIDER = "manual_seed"
 # At the same instant a page we hold outranks the committed history's copy of what was read from it.
@@ -73,6 +75,7 @@ class Report:
     record_spans: int = 0
     failures: list[str] = field(default_factory=list)
     seconds: float = 0.0
+    resolver: dict | None = None   # the resolver's summary (services/resolver.py)
 
     def lines(self) -> list[str]:
         out = [f"build: {self.fetches} fetches ({self.parsed} parsed, {self.from_cache} from the parse cache), "
@@ -85,6 +88,8 @@ class Report:
             out += [f"  {f}" for f in self.failures[:20]]
             if len(self.failures) > 20:
                 out.append(f"  ... and {len(self.failures) - 20} more")
+        if self.resolver:
+            out += resolver.report_lines(self.resolver)
         return out
 
 
@@ -626,6 +631,7 @@ class Build:
         self.report.sightings = len(self.sightings)
         self.fold(car_of)
         self.write_records()
+        self.report.resolver = resolver.run(self.conn)   # reads what the steps above wrote; changes none of it
 
 
 def build(db_path: Path | str, store: RawStore | None, root: Path = ROOT, cache_path: Path | str | None = None) -> Report:

@@ -18,8 +18,9 @@ Layout (schema_version 8):
     models.json         the catalogue: every electric model Carwow lists, with what we hold for it
     requirements.json   the default settings (data/seed/requirements.json): the quoting basis and the starting
                         saved searches (the reader edits their own copy in the browser)
-    data.json           providers, source names, recent runs, unmapped trims, offer states, counts, and each
-                        catalogue model's Parkers model and generations (model_map) with its cars on sale
+    data.json           providers, source names, recent runs, unmapped trims, offer states, counts, each
+                        catalogue model's Parkers model and generations (model_map) with its cars on sale, and
+                        the resolver's comparison with today's lookups (resolver_section)
 
 A span's freshness (gone, expired, stale) and every cost are derived in the
 browser from the spans; `latest_offers` here serves the markdown deal table.
@@ -503,6 +504,58 @@ def resolution_methods(conn: sqlite3.Connection) -> dict[str, int]:
     return dict(sorted(out.items(), key=lambda kv: -kv[1]))
 
 
+# Sources whose records are prices: a price the resolver newly places is worth going through one by one; a newly
+# placed used car or spec row is counted by model.
+PRICE_SOURCES = ("carwow_deals", "ncd", "leaseloco", "rrg", "kia_dealers", "cinch_new", "hyundai_offers")
+
+
+def resolver_section(conn: sqlite3.Connection) -> dict | None:
+    """The resolver's comparison with today's lookups (services/resolver.py, BOARD.md T3), for the Data page: per
+    source and per source and model, how many records keep their car, go to the best spec of cars that include
+    today's, move, are newly placed, lose their car or are placed by neither, and how many it lists; and the changes
+    worth going through, one row per record or group of records alike (same text, same cars), with why."""
+    try:
+        rows = conn.execute("SELECT source, kind, record_key, model, level, status, car_id, version, outcome, payload FROM resolver_links "
+                            "ORDER BY source, model, record_key").fetchall()
+        cars = conn.execute("SELECT source, on_sale, COUNT(*) FROM resolver_cars GROUP BY 1, 2").fetchall()
+    except sqlite3.OperationalError:   # a database built before the resolver
+        return None
+    if not rows:
+        return None
+    by_source: dict[str, Counter] = {}
+    by_model: dict[tuple[str, str], Counter] = {}
+    derivatives: Counter = Counter()
+    groups: dict[tuple, dict] = {}
+    for r in rows:
+        p = json.loads(r["payload"])
+        if r["kind"] == "derivative":
+            derivatives[r["status"]] += 1
+            continue
+        listed = r["status"] in ("listed", "contradicts")
+        for t in (by_source.setdefault(r["source"], Counter()), by_model.setdefault((r["source"], r["model"] or ""), Counter())):
+            t[r["outcome"]] += 1
+            t["listed"] += int(listed)
+        if r["outcome"] in ("same", "unplaced") and not listed:
+            continue
+        if r["outcome"] == "newly placed" and not listed and r["source"] not in PRICE_SOURCES:
+            continue
+        k = (r["source"], r["model"] or "", r["outcome"], r["status"], p.get("label"), tuple(p.get("today") or ()), r["car_id"], r["version"])
+        g = groups.setdefault(k, {"source": r["source"], "model": r["model"], "outcome": r["outcome"], "status": r["status"],
+                                  "label": p.get("label"), "today": p.get("today") or [], "today_as": p.get("today_as") or [],
+                                  "car": r["car_id"], "others": p.get("others") or [], "version": r["version"], "why": p.get("why"),
+                                  "decided_by": p.get("decided_by") or [], "records": 0, "keys": []})
+        g["records"] += 1
+        if len(g["keys"]) < 3:
+            g["keys"].append(r["record_key"])
+    return {
+        "cars": {f"{src}{'' if on else ' (no longer on sale)'}": n for src, on, n in cars},
+        "derivatives": dict(sorted(derivatives.items())),
+        "by_source": {s: dict(sorted(t.items())) for s, t in sorted(by_source.items())},
+        "by_model": [{"source": s, "model": m, **dict(sorted(t.items()))} for (s, m), t in sorted(by_model.items())],
+        "changes": sorted(groups.values(), key=lambda g: (g["source"], g["model"] or "", g["outcome"], -g["records"], g["label"] or "")),
+    }
+
+
 def _provider_blurb(name: str) -> str:
     """First line of the provider module's docstring, for the Data page."""
     import importlib
@@ -620,6 +673,7 @@ def export_snapshot(conn: sqlite3.Connection, out_dir: Path | str, generated_at:
         "unmapped_trims": unmapped,
         "resolution_methods": resolution_methods(conn),
         "model_map": mapped,
+        "resolver": resolver_section(conn),
         "offer_states": states,
         "counts": {"cars": len(cars),
                    "offers": len(offers), "observations": len(sightings), "specs": len(specs),

@@ -78,6 +78,7 @@ pipeline/               Python package: raw store, scraper, build, snapshot expo
                         used_match.py (used listings to catalogue models), wayback.py (the backfill)
   services/claims.py    every car field from one claim store: what each source says at its level, one precedence order, provenance
   services/resolve.py   broker derivative text → the derivative it names (rules, evidence, conflicts)
+  services/resolver.py  the next matching (docs/ARCHITECTURE-NEXT.md): every record filtered against Parkers' master list, with why, and compared with today's lookups
   services/match.py     the gates: kW / kWh / trim words must agree
   services/facts.py     EV Database variants filed under models and picked per car by battery
   services/autocars.py  a derivative in the form the matcher and the app read, from a spec row or a registry/deals line
