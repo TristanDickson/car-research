@@ -279,6 +279,104 @@ class Rules(unittest.TestCase):
         link = res.place(c, R.Evidence())
         self.assertEqual((link.level, link.status, link.car), ("model", "model", None))
 
+    def test_a_lease_of_a_car_parkers_has_retired_is_that_car(self):
+        """LeaseLoco's 'N Line S [Lux Pack]' in October 2026; Parkers' Lux Pack page ended in August 2025: run-out stock."""
+        cars = {}
+        trims = ("N Line S", "N Line")
+        car(cars, "hyundai/kona-electric/suv-2023/a", "160kW N Line S 65kWh 5dr Auto", trims, "2023-07")
+        car(cars, "hyundai/kona-electric/suv-2023/b", "160kW N Line S 65kWh 5dr Auto [Lux Pack]", trims, "2023-07", "2025-08")
+        res = resolver_for(cars, "hyundai/kona-electric")
+        lux = next(i for i, x in cars.items() if x.read.packs)
+        lease = R.compound("leaseloco", "offer", "leaseloco:x", "160kW N Line S 65kWh 5dr Auto [Lux Pack]", make="Hyundai",
+                           model="hyundai/kona-electric", date="2026-10-16", date_kind="seen")
+        self.assertEqual(res.place(lease, R.Evidence()).car, lux)
+        # A price list of that name after the car left sale is another car (a derivative relaunched), so dates still count.
+        listed = R.compound("carwow", "offer", "x", "160kW N Line S 65kWh 5dr Auto [Lux Pack]", make="Hyundai",
+                            model="hyundai/kona-electric", date="2026-10-01", date_kind="listed")
+        self.assertNotEqual(res.place(listed, R.Evidence()).car, lux)
+
+    def test_a_record_of_another_carwow_model_on_the_same_parkers_model(self):
+        """cinch files the MG4 XPOWER as an MG4; Parkers files it as a generation of the MG4 that Carwow's MG4 XPOWER holds."""
+        cars = {}
+        car(cars, "mg/mg4/hatchback-2022/a", "150kW SE 64kWh 5dr Auto", ("SE",), "2022-09")
+        car(cars, "mg/mg4/xpower-2023/b", "320kW XPOWER 64kWh 5dr Auto", ("XPOWER",), "2023-09")
+        for x in cars.values():
+            x.version = R.version_of(x)
+        mapping = [{"slug": "mg/mg-4", "parkers": "mg/mg4", "generations": [{"generation": "hatchback-2022"}]},
+                   {"slug": "mg/mg4-xpower", "parkers": "mg/mg4", "generations": [{"generation": "xpower-2023"}]}]
+        res = R.Resolver(cars, *R._model_pools(cars, mapping), R.siblings_of(mapping))
+        c = R.compound("cinch_used", "used", "cinch:x", "XPOWER 320kW 64kWh", make="MG", model="mg/mg-4", date="2024-06", date_kind="registered")
+        link = res.place(c, R.Evidence())
+        self.assertEqual(link.car, next(i for i in cars if "xpower-2023" in i))
+        self.assertIn("its Parkers model", link.decided_by)
+
+    def test_a_trim_parkers_does_not_list_is_still_another_trim(self):
+        """Carwow's Alpine A290 GT+ (£33,995) is not Parkers' GT (£33,500): its own name prints the '+'."""
+        cars = {}
+        car(cars, "alpine/a290/hatchback-2024/a", "160kW GT 52kWh 3dr Auto", ("GT",), "2024-11", None, 33500.0)
+        for x in cars.values():
+            x.version = R.version_of(x)
+        mapping = [{"slug": "alpine/a290", "parkers": "alpine/a290", "generations": [{"generation": "hatchback-2024"}]}]
+        d = R.compound("carwow", "derivative", "111111", "160kW GT+ 52kWh 3dr Auto", make="Alpine", model="alpine/a290",
+                       name="160kW GT+ 52kWh 3dr Auto", trim="GT+", price=33995.0, date="2026-10-01", date_kind="listed")
+        pools, vocab = R._model_pools(cars, mapping)
+        self.assertEqual(R.Resolver(cars, pools, vocab).place(d, R.Evidence()).status, "placed", "Parkers' trims alone do not say '+'")
+        link = R.Resolver(cars, pools, R._with(vocab, R.carwow_vocab({"111111": d}))).place(d, R.Evidence())
+        self.assertEqual(link.status, "listed")
+        self.assertIn("plus", link.why)
+
+    def test_the_on_board_charger_is_a_detail_of_its_own(self):
+        r = R.read("250kW eDrive40 M Sport 84kWh 5dr Auto Tech+/Cmf+/22kW", "bmw")
+        self.assertEqual((r.kw, r.kwh, r.charger), (250, 84.0, 22.0))
+        self.assertEqual(R.read("178kW Advance 87kWh 5dr Auto [22kWCh]", "nissan").charger, 22.0)
+        self.assertIsNone(R.read("250kW eDrive40 M Sport 84kWh 5dr Auto", "bmw").charger)
+        cars = {}
+        car(cars, "bmw/i5/touring-2024/a", "250kW eDrive40 M Sport 84kWh 5dr Auto", ("M Sport",), "2024-03")
+        car(cars, "bmw/i5/touring-2024/b", "250kW eDrive40 M Sport 84kWh 5dr Auto 22kW", ("M Sport",), "2024-03")
+        self.assertEqual(len(cars), 2, "the 22 kW charger's twin is another car")
+        res = resolver_for(cars, "bmw/i5-touring")
+        lease = R.compound("leaseloco", "offer", "leaseloco:x", "250kW eDr40 M Sport 84kWh 5dr Auto Tech+/Cmf+/22kW", make="BMW",
+                           model="bmw/i5-touring", date="2026-10-16", date_kind="seen")
+        self.assertEqual(res.place(lease, R.Evidence()).car, next(i for i, x in cars.items() if x.read.charger))
+
+    def test_an_ev_database_variant_that_fits_several_versions_gives_its_figures_to_none(self):
+        cars = {}
+        car(cars, "porsche/taycan/saloon-2019/a", "300kW 4S 93kWh 4dr Auto", ("4S",), "2019-09")
+        car(cars, "porsche/taycan/saloon-2019/b", "560kW Turbo S 93kWh 4dr Auto", ("Turbo S",), "2019-09")
+        car(cars, "porsche/taycan/sport-turismo-2021/c", "300kW 4S 93kWh 5dr Auto", ("4S",), "2021-10")
+        res = resolver_for(cars, "porsche/taycan")
+        tied = R.compound("evdb", "variant", "evdb:1", "Taycan", make="Porsche", model="porsche/taycan", label="Porsche Taycan",
+                          usable=83.7, describes="version", span=(R._months("2019-09"), None), date_kind="span")
+        link = res.place(tied, R.Evidence())
+        self.assertEqual((link.level, link.status), ("model", "listed"))
+        self.assertIn("go to none", link.why)
+        # Its body: a Sport Turismo variant is not the saloon's.
+        st = R.compound("evdb", "variant", "evdb:2", "Taycan 4S Sport Turismo", make="Porsche", model="porsche/taycan",
+                        label="Porsche Taycan 4S Sport Turismo", kw=300, describes="version", span=(R._months("2021-10"), None), date_kind="span")
+        link = res.place(st, R.Evidence())
+        self.assertEqual((link.level, link.status), ("version", "placed"))
+        self.assertIn("sport-turismo-2021", link.version)
+
+
+class Comparison(unittest.TestCase):
+    def test_two_of_today_s_cars_made_one_and_one_made_two_are_changes(self):
+        cars = {}
+        car(cars, "alpine/a290/hatchback-2024/a", "160kW GT 52kWh 3dr Auto", ("GT",), "2024-11")
+        car(cars, "alpine/a290/hatchback-2024/b", "160kW GTS 52kWh 3dr Auto", ("GTS",), "2024-11")
+        (gt, gts) = sorted(cars)
+        rec = lambda key, today, to: (("leaseloco", key), R.compound("leaseloco", "offer", key, "x", make="Alpine", model="alpine/a290", today=(today,)),
+                                      R.Link("car", "placed", to))
+        rows = [rec("1", "carwow-cap:1", gt), rec("2", "carwow-cap:2", gt), rec("3", "carwow-cap:3", gts), rec("4", "carwow-cap:3", gt),
+                rec("5", "carwow-cap:4", gts)]
+        derivatives = {"1": R.Link("car", "placed", gt), "2": R.Link("car", "placed", gt), "3": R.Link("car", "placed", gts),
+                       "4": R.Link("car", "placed", gts)}
+        res = R.Result(cars, {k: l for k, _, l in rows}, {k: c for k, c, _ in rows}, derivatives, {}, 1, True)
+        got = {k[1]: cm.outcome for k, cm in R.compare(res).items()}
+        self.assertEqual(got["1"], "merged")
+        self.assertEqual(got["2"], "merged")
+        self.assertEqual(got["5"], "merged", "car 4's records share a resolver car with car 3's")
+        self.assertEqual(got["4"], "moved", "today's car 3 is the GTS; this record of it went to the GT")
+
 
 if __name__ == "__main__":
     unittest.main()

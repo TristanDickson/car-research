@@ -36,7 +36,7 @@ import json
 import re
 import sqlite3
 from collections import Counter
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 from pipeline import gold, normalise
 from pipeline.providers.parse import combustion
@@ -68,6 +68,13 @@ BHP_RE = re.compile(r"(\d+)\s*-?bhp\b")
 DOORS_RE = re.compile(r"\b([2-5])\s*-?(?:dr|d|doors?)\b")
 SEATS_RE = re.compile(r"\b([2-9])\s*-?(?:seats?|seater|st)\b")
 YEARS_RE = re.compile(r"\((?:my)?\s*\d\d(?:\s*-\s*\d\d)?\)")   # EV Database's '(MY22-23)'
+# The on-board charger: '22kWCh', '22kW Charger', '11kW on-board', or a second kW figure of a charger's size after the
+# motor's ('Tech+/Cmf+/22kW'). A detail of its own, never the motor and never dropped.
+CHARGER_RE = re.compile(r"(\d+(?:\.\d+)?)\s*-?kw\s*(?:ch\b|chg\b|charger|on[\s-]?board(?:\s+charger)?)")
+CHARGER_SIZES = {6.6, 7.0, 7.2, 7.4, 11.0, 22.0}
+# Body words, by the body they name (a Touring, a Tourer and an SW are estates; Porsche's two Turismos are two bodies).
+BODIES = {"sport turismo": "sport turismo", "cross turismo": "cross turismo", "shooting brake": "shooting brake",
+          "sportback": "sportback", "touring": "estate", "tourer": "estate", "sports tourer": "estate", "estate": "estate", "sw": "estate"}
 # Words that say nothing about which derivative a name is.
 NOISE = {"auto", "automatic", "at", "electric", "battery", "ev", "bev", "e", "motor", "lithium", "ion", "dr", "d", "door", "doors",
          "kw", "kwh", "ps", "bhp", "hp", "with", "and", "the"}
@@ -109,6 +116,7 @@ class Read:
     bracketed: bool = False
     words: frozenset = frozenset()    # every other word
     cap_style: bool = False           # CAP's wording ('150kW Ultimate 64kWh 5dr Auto'): no bracket means no pack
+    charger: float | None = None      # the on-board charger's kW, where the name prints it
 
 
 def _words(text: str | None, make: str | None = None) -> list[str]:
@@ -161,8 +169,21 @@ def drive_field(s: str | None) -> str | None:
     return None
 
 
+def _charger(t: str) -> tuple[str, float | None]:
+    """The text without its charger figure, and the figure."""
+    m = CHARGER_RE.search(t)
+    if m:
+        return t[:m.start()] + " " + t[m.end():], float(m.group(1))
+    kws = list(KW_RE.finditer(BRACKET_RE.sub(lambda b: " " * len(b.group(0)), t)))
+    for m in kws[1:]:
+        if float(m.group(1)) in CHARGER_SIZES and float(m.group(1)) < float(kws[0].group(1)):
+            return t[:m.start()] + " " + t[m.end():], float(m.group(1))
+    return t, None
+
+
 def read(text: str | None, make: str | None = None) -> Read:
     t = YEARS_RE.sub(" ", normalise.fold(text).replace("’", "'"))
+    t, charger = _charger(t)
     seats, packs, bracketed = None, set(), False
     for b in BRACKET_RE.findall(t):
         m = SEATS_RE.fullmatch(b.strip())
@@ -187,7 +208,7 @@ def read(text: str | None, make: str | None = None) -> Read:
     rex = True if re.search(r"range extender|\brex\b", t) else None
     return Read(kw=power, kwh=float(kwh.group(1)) if kwh else None, doors=int(doors.group(1)) if doors else None, seats=seats,
                 drive=drive_of(ws), rex=rex, packs=frozenset(packs), bracketed=bracketed, words=words,
-                cap_style=bool(kw and kwh and doors))
+                cap_style=bool(kw and kwh and doors), charger=charger)
 
 
 def _slug_words(ws) -> str:
@@ -201,7 +222,7 @@ def car_key(make: str, model: str, generation: str, trim: tuple[str, ...], r: Re
     others = sorted(r.words - set(trim))
     parts = ([f"{r.kw}kw"] if r.kw else []) + list(trim) + others + ([f"{r.kwh:g}kwh"] if r.kwh else []) \
         + ([f"{r.doors}dr"] if r.doors else []) + ([f"{r.seats}-seat"] if r.seats else []) + [f"with {p}" for p in sorted(r.packs)] \
-        + ([f"gbp{price:.0f}"] if price else [])
+        + ([f"{r.charger:g}kw-charger"] if r.charger else []) + ([f"gbp{price:.0f}"] if price else [])
     return f"{make}/{model}/{generation or '-'}/{_slug_words(parts) or 'derivative'}"
 
 
@@ -444,9 +465,27 @@ def _date_reason(c: Compound, car: Car) -> str | None:
     return None
 
 
-def rule_out(c: Compound, car: Car, vocab: set[str], trims: bool = True) -> tuple[str, str] | None:
+def names_car(c: Compound, car: Car) -> bool:
+    """Whether a record's text names the car outright: every word and every pack of the car's name, and no other pack."""
+    if not (car.read.words or car.read.packs):
+        return False
+    return set(car.read.words) <= set(c.read.words) and car.read.packs == (c.packs or frozenset()) \
+        and (car.read.charger is None or car.read.charger == c.read.charger)
+
+
+def _bodies(text: str) -> set[str]:
+    t = f" {text} "
+    return {body for words, body in BODIES.items() if f" {words} " in t}
+
+
+def car_bodies(car: Car) -> set[str]:
+    return _bodies(" ".join([normalise.fold(car.generation.replace("-", " "))] + [normalise.fold(n) for n in sorted(car.names)]))
+
+
+def rule_out(c: Compound, car: Car, vocab: set[str], trims: bool = True, dates: bool = True) -> tuple[str, str] | None:
     """(rule, why) when a detail the record gives contradicts the car; None when nothing does. `trims` False leaves
-    the trim and packs out (the price rule: the car whose price a dealer's line copied is of another trim)."""
+    the trim and packs out (the price rule: the car whose price a dealer's line copied is of another trim); `dates`
+    False leaves the dates out (an offer seen now of a car its text names outright: a dealer's run-out stock)."""
     if c.rex is not None and bool(car.read.rex) != c.rex:
         return "fuel", "a range extender" if c.rex else "not a range extender"
     if c.kw is not None and car.kw is not None and abs(c.kw - car.kw) > KW_TOLERANCE:
@@ -464,9 +503,16 @@ def rule_out(c: Compound, car: Car, vocab: set[str], trims: bool = True) -> tupl
         return "seats", f"{c.seats} seats, the car {car.seats}"
     if c.doors is not None and car.doors is not None and c.doors != car.doors:
         return "doors", f"{c.doors} doors, the car {car.doors}"
-    why = _date_reason(c, car)
+    if c.read.charger is not None and car.read.charger is not None and c.read.charger != car.read.charger:
+        return "charger", f"a {c.read.charger:g} kW charger, the car's {car.read.charger:g} kW"
+    why = _date_reason(c, car) if dates else None
     if why:
         return "date", why
+    # EV Database names a body that is not the plain one ('Taycan 4 Cross Turismo', 'i5 Touring'); a car of another body
+    # is not it. A name without one rules nothing out, since a maker's estate is not always called one.
+    mine = _bodies(normalise.fold(c.label)) if c.describes == "version" else set()
+    if mine and mine != car_bodies(car):
+        return "body", f"its body ({', '.join(sorted(mine))}), the car's ({', '.join(sorted(car_bodies(car))) or 'the plain body'})"
     # EV Database's words name its versions ('Long', 'Performance', 'Turbo S'), not trims.
     if not trims or c.describes == "version":
         return None
@@ -529,8 +575,10 @@ def _best_spec(cars: list[Car], ev: Evidence) -> Car:
 class Resolver:
     """Every compound against the cars of its model (pure: the same inputs give the same links in any order)."""
 
-    def __init__(self, cars: dict[str, Car], pools: dict[str, list[str]], vocab: dict[str, set[str]]):
+    def __init__(self, cars: dict[str, Car], pools: dict[str, list[str]], vocab: dict[str, set[str]],
+                 siblings: dict[str, list[str]] | None = None):
         self.cars, self.pools, self.vocab = cars, pools, vocab
+        self.siblings = siblings or {}   # Carwow model → the other Carwow models filed under its Parkers model
         self.versions: dict[str, list[str]] = {}
         for car in sorted(cars.values(), key=lambda c: c.id):
             self.versions.setdefault(car.version, []).append(car.id)
@@ -541,13 +589,21 @@ class Resolver:
     def filter(self, c: Compound, cands: list[Car], ev: Evidence, pool: list[Car] | None = None) -> tuple[list[Car], Counter, dict[str, str]]:
         vocab = self.vocab.get(c.model or "", set())
         left, ruled, ex = [], Counter(), {}
+        seen_now = c.date_kind == "seen"
         for car in cands:
-            r = rule_out(c, car, vocab)
+            r = rule_out(c, car, vocab, dates=not (seen_now and names_car(c, car)))
             if r:
                 ruled[r[0]] += 1
                 ex.setdefault(r[0], r[1])
             else:
                 left.append(car)
+        # A charger the record prints is the car whose name prints it, where one does; a name without one is another car.
+        if c.read.charger is not None and len(left) > 1:
+            fitted = [car for car in left if car.read.charger == c.read.charger]
+            if fitted and len(fitted) < len(left):
+                ruled["charger"] += len(left) - len(fitted)
+                ex.setdefault("charger", f"its {c.read.charger:g} kW charger is in {len(fitted)} of their names")
+                left = fitted
         # A price no car left could have, which is the list price of a car its text rules out by trim alone: a dealer's
         # line copied from another derivative (RRG's EV6 'Air' at the GT-Line's £52,835). Only a current price list's or
         # offer's: a used car's price when new is of its registration. A price fitting none and no such car either is a
@@ -565,6 +621,19 @@ class Resolver:
         return left, ruled, ex
 
     def place(self, c: Compound, ev: Evidence) -> Link:
+        link = self._place(c, ev)
+        if link.status != "listed" or not c.model or c.describes != "car":
+            return link
+        # Nothing of its own Carwow model fits: the Carwow models Parkers files with it (the Enyaq and the Enyaq vRS, the
+        # MG4 and the MG4 XPOWER), if exactly one has a car it can be.
+        fits = [(m, l) for m in self.siblings.get(c.model, []) for l in [self._place(replace(c, model=m), ev)] if l.status in ("placed", "tied")]
+        if len(fits) != 1:
+            return link
+        m, l = fits[0]
+        return replace(l, why=f"nothing of {c.model} fits ({link.why}); of the Carwow models Parkers files with it, only {m} has a car it "
+                              f"can be: {l.why}", decided_by=l.decided_by + ("its Parkers model",))
+
+    def _place(self, c: Compound, ev: Evidence) -> Link:
         if c.ignored:
             return Link("ignored", "ignored", why=c.ignored)
         pool = self.pool(c)
@@ -626,9 +695,10 @@ class Resolver:
         if not c.names_anything():
             return Link("model", "model", others=tuple(vs), decided_by=tuple(decided), ruled=dict(ruled),
                         why=base + f"; they are {len(vs)} versions and it names no battery or motor, so it stays at its model")
-        best = _best_spec(left, ev)
-        return Link("version", "tied", version=best.version, others=tuple(v for v in vs if v != best.version), decided_by=tuple(decided),
-                    ruled=dict(ruled), why=base + f"; still {len(vs)} versions, so on the best spec's with the others named")
+        # Its range and charging figures are facts of one version: never guessed onto the best spec of several (the best
+        # spec rule is for a price).
+        return Link("model", "listed", others=tuple(vs), decided_by=tuple(decided), ruled=dict(ruled),
+                    why=base + f"; still {len(vs)} versions, so its figures go to none of them")
 
     def _none(self, c: Compound, pool: list[Car], ev: Evidence, base: str, ruled: Counter) -> Link:
         """None left: the version or model its battery, motor and dates leave, listed."""
@@ -878,20 +948,52 @@ def _model_pools(cars: dict[str, Car], mapping: list[dict]) -> tuple[dict[str, l
         if car.source == "parkers":
             by_gen.setdefault((f"{car.make}/{car.model}", car.generation), []).append(car.id)
     pools: dict[str, set[str]] = {}
+    of_gen: dict[tuple[str, str], set[str]] = {}   # (Parkers model, generation) → the Carwow models it is filed under
     for r in mapping:
         if r.get("parkers"):
             for g in r.get("generations") or []:
+                of_gen.setdefault((r["parkers"], g["generation"]), set()).add(r["slug"])
                 for cid in by_gen.get((r["parkers"], g["generation"]), []):
                     pools.setdefault(r["slug"], set()).add(cid)
                     cars[cid].carwow_models.add(r["slug"])
+    # A car made from Carwow alone is a car of its Parkers generation, so of every Carwow model filed under it (the
+    # Enyaq vRS's leases name the Enyaq).
     for car in cars.values():
         if car.source == "carwow":
-            for m in car.carwow_models:
+            for m in car.carwow_models | of_gen.get((f"{car.make}/{car.model}", car.generation), set()):
                 pools.setdefault(m, set()).add(car.id)
     # A trim's words count only as its cars' names print them: Carwow calls the iX3's plain trim 'Standard', which no
     # CAP name prints.
     vocab = {m: {w for cid in ids for w in cars[cid].trim if w in cars[cid].words} for m, ids in pools.items()}
     return {m: sorted(ids) for m, ids in pools.items()}, vocab
+
+
+def carwow_vocab(derivs: dict[str, Compound]) -> dict[str, set[str]]:
+    """The trim words Carwow's derivatives print in their own CAP names, per Carwow model: a trim Parkers does not list
+    ('GT+', 'Engage+', 'Premium+') still tells a derivative from the trim without it. Its trim field's words count only
+    where its name prints them (Carwow calls the iX3's plain trim 'Standard', which no name prints)."""
+    out: dict[str, set[str]] = {}
+    for c in derivs.values():
+        if c.model and c.trim and c.name and not c.ignored:
+            out.setdefault(c.model, set()).update(set(c.trim) & set(read(c.name, c.make).words))
+    return out
+
+
+def _with(vocab: dict[str, set[str]], *more: dict[str, set[str]]) -> dict[str, set[str]]:
+    out = {m: set(ws) for m, ws in vocab.items()}
+    for extra in more:
+        for m, ws in extra.items():
+            out.setdefault(m, set()).update(ws)
+    return out
+
+
+def siblings_of(mapping: list[dict]) -> dict[str, list[str]]:
+    """Carwow model → the other Carwow models placed on the same Parkers model."""
+    by: dict[str, list[str]] = {}
+    for r in sorted(mapping, key=lambda r: r["slug"]):
+        if r.get("parkers"):
+            by.setdefault(r["parkers"], []).append(r["slug"])
+    return {s: [o for o in group if o != s] for group in by.values() for s in group if len(group) > 1}
 
 
 def _generation_for(r: dict | None, date: int | None) -> str:
@@ -926,45 +1028,18 @@ def carwow_car(c: Compound, r: dict | None) -> Car:
 
 def resolve(parkers: dict[str, Car], comps: list[Compound], derivs: dict[str, Compound], mapping: list[dict]) -> Result:
     """The links of every compound: CAP ids' derivatives first, round by round, then every record."""
-    cars = {cid: Car(**{**car.__dict__, "names": set(car.names), "words": set(car.words), "prices": set(car.prices),
-                        "keys": set(car.keys), "carwow_models": set()}) for cid, car in parkers.items()}
     by_slug = {r["slug"]: r for r in mapping}
-    pools, vocab = _model_pools(cars, mapping)
-    for car in cars.values():
-        car.version = version_of(car)
-    # Carwow derivatives no Parkers entry can be become cars.
-    first = Resolver(cars, pools, vocab)
-    made: dict[str, Car] = {}
-    made_why: dict[str, str] = {}
-    for cap in sorted(derivs):
-        c = derivs[cap]
-        if c.ignored or not c.model:
-            continue
-        link = first.place(c, Evidence())
-        if link.status != "listed":   # placed on a Parkers car, or its details fit several and tell them apart from none
-            continue
-        if not (c.trim and (c.kw or c.kwh or c.drive)):   # its own trim and motor (a Tesla's names print only its drive)
-            continue
-        made_why[cap] = link.why
-        car = carwow_car(c, by_slug.get(c.model))
-        if car.id in made:
-            m = made[car.id]
-            m.names |= car.names
-            m.prices |= car.prices
-            m.keys |= car.keys
-            m.carwow_models |= car.carwow_models
-            m.words |= car.words
-            m.since = min((x for x in (m.since, car.since) if x is not None), default=None)
-            m.until = max((x for x in (m.until, car.until) if x is not None), default=None)
-        else:
-            made[car.id] = car
-    for cid, car in made.items():
-        if cid in cars:   # the details of a Parkers car its dates ruled it out of (a price list after Parkers' last): its dates tell them apart
-            car = Car(**{**car.__dict__, "id": f"{cid}-from-{_ym(car.since) or 'carwow'}"})
-        car.version = version_of(car)
-        cars[car.id] = car
-    pools, vocab = _model_pools(cars, mapping)
-    res = Resolver(cars, pools, vocab)
+    sib = siblings_of(mapping)
+    extra = carwow_vocab(derivs)
+    # The trim words that decide which derivatives become cars must be those the final pass reads, which those cars add
+    # to: so the passes repeat, with the words found so far, until they are the same (they only grow, so they stop).
+    floor: dict[str, set[str]] = {}
+    for _ in range(MAX_ROUNDS):
+        cars, made_why, pools, vocab, final = _cars_and_vocab(parkers, derivs, mapping, by_slug, sib, _with(extra, floor))
+        if final == vocab:
+            break
+        floor = final
+    res = Resolver(cars, pools, final, sib)
     # Rounds: a CAP id placed on one car gives it Carwow's name and price, which the next round reads.
     ev, used, prev, rounds, converged = Evidence(), Evidence(), None, 0, False
     dlinks: dict[str, Link] = {}
@@ -998,6 +1073,51 @@ def resolve(parkers: dict[str, Car], comps: list[Compound], derivs: dict[str, Co
         comp[k] = c
         links[k] = follow(res, c, dlinks.get(c.cap), derivs.get(c.cap), used) if c.cap else res.place(c, used)   # the state the CAP ids were placed in
     return Result(cars, links, comp, dlinks, derivs, rounds, converged)
+
+
+def _cars_and_vocab(parkers: dict[str, Car], derivs: dict[str, Compound], mapping: list[dict], by_slug: dict[str, dict],
+                    sib: dict[str, list[str]], floor: dict[str, set[str]]):
+    """The master list with the Carwow derivatives no Parkers car can be, read with the trim words `floor` adds: the
+    cars, why each Carwow one was made, and the pools and trim words before and after the Carwow cars join."""
+    cars = {cid: Car(**{**car.__dict__, "names": set(car.names), "words": set(car.words), "prices": set(car.prices),
+                        "keys": set(car.keys), "carwow_models": set()}) for cid, car in parkers.items()}
+    pools, vocab = _model_pools(cars, mapping)
+    vocab = _with(vocab, floor)
+    for car in cars.values():
+        car.version = version_of(car)
+    # Carwow derivatives no Parkers entry can be become cars.
+    first = Resolver(cars, pools, vocab, sib)
+    made: dict[str, Car] = {}
+    made_why: dict[str, str] = {}
+    for cap in sorted(derivs):
+        c = derivs[cap]
+        if c.ignored or not c.model:
+            continue
+        link = first.place(c, Evidence())
+        if link.status != "listed":   # placed on a Parkers car, or its details fit several and tell them apart from none
+            continue
+        if not (c.trim and (c.kw or c.kwh or c.drive)):   # its own trim and motor (a Tesla's names print only its drive)
+            continue
+        made_why[cap] = link.why
+        car = carwow_car(c, by_slug.get(c.model))
+        if car.id in made:
+            m = made[car.id]
+            m.names |= car.names
+            m.prices |= car.prices
+            m.keys |= car.keys
+            m.carwow_models |= car.carwow_models
+            m.words |= car.words
+            m.since = min((x for x in (m.since, car.since) if x is not None), default=None)
+            m.until = max((x for x in (m.until, car.until) if x is not None), default=None)
+        else:
+            made[car.id] = car
+    for cid, car in made.items():
+        if cid in cars:   # the details of a Parkers car its dates ruled it out of (a price list after Parkers' last): its dates tell them apart
+            car = Car(**{**car.__dict__, "id": f"{cid}-from-{_ym(car.since) or 'carwow'}"})
+        car.version = version_of(car)
+        cars[car.id] = car
+    final_pools, final = _model_pools(cars, mapping)
+    return cars, made_why, final_pools, vocab, _with(final, floor)
 
 
 def follow(res: Resolver, c: Compound, dlink: Link | None, d: Compound | None, ev: Evidence) -> Link:
@@ -1088,7 +1208,7 @@ def today_facts(conn: sqlite3.Connection) -> dict[tuple[str, str], tuple[str, ..
     return out
 
 
-OUTCOMES = ("same", "to best spec", "moved", "newly placed", "lost", "unplaced")
+OUTCOMES = ("same", "merged", "split", "to best spec", "moved", "newly placed", "lost", "unplaced")
 
 
 @dataclass
@@ -1133,6 +1253,21 @@ def compare(res: Result) -> dict[tuple[str, str], Compared]:
         else:   # today's car is one the resolver names beside the best spec it chose (BOARD.md, T7), or another
             outcome = "to best spec" if set(today_as) & set(link.others) else "moved"
         out[k] = Compared(outcome, c.today, today_as, mine, link.status in ("listed", "contradicts"))
+    # Reading today's cars through the resolver's own placement hides two of today's cars made one, and one made two: a
+    # record that keeps its car is 'merged' when its resolver car holds records of another of today's cars, and 'split'
+    # when records of its own car of today sit on another resolver car.
+    held: dict[str, set[str]] = {}    # resolver car → today's cars of its records
+    spread: dict[str, set[str]] = {}  # today's car → the resolver cars its records are on
+    for k, cm in out.items():
+        if len(cm.today) == 1 and len(cm.resolver) == 1 and res.compounds[k].describes == "car":
+            held.setdefault(cm.resolver[0], set()).add(cm.today[0])
+            spread.setdefault(cm.today[0], set()).add(cm.resolver[0])
+    for k, cm in out.items():
+        if cm.outcome == "same" and len(cm.today) == 1 and len(cm.resolver) == 1:
+            if len(held.get(cm.resolver[0], ())) > 1:
+                cm.outcome = "merged"
+            elif len(spread.get(cm.today[0], ())) > 1:
+                cm.outcome = "split"
     return out
 
 
